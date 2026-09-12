@@ -35,38 +35,102 @@ function stopStream() {
   if (hls) { hls.destroy(); hls = null; }
 }
 
+/* Xato holati — qayta urinish tugmasi bilan */
+function showError(ch) {
+  const box = document.getElementById('tvPlayer');
+  box.innerHTML = `
+    <div class="player-placeholder">
+      <div class="pp-icon">${ICONS.play}</div>
+      <h3>${t('tv.error')}</h3>
+      <p>${t('tv.errorHint')}</p>
+      <button class="btn btn-ghost" id="tvRetry" style="margin-top:16px">${t('sport.retry')}</button>
+    </div>`;
+  document.getElementById('tvRetry')?.addEventListener('click', () => playChannel(ch));
+}
+
+/* Telefonlarda ovozli avtoijro taqiqlangan. Shuning uchun:
+   1) avval odatdagidek ijro qilamiz;
+   2) brauzer ruxsat bermasa — ovozsiz ijro qilamiz (bunga ruxsat bor)
+      va "ovozni yoqish" tugmasini ko'rsatamiz;
+   3) u ham bo'lmasa — katta "ijro" tugmasini chiqaramiz. */
+async function startPlayback(video) {
+  const overlay = document.getElementById('tvOverlay');
+  const hide = () => overlay && (overlay.hidden = true);
+
+  try {
+    await video.play();
+    hide();
+    return;
+  } catch (e) { /* ovoz bilan ruxsat berilmadi */ }
+
+  try {
+    video.muted = true;
+    await video.play();
+    hide();
+    showUnmute(video);
+    return;
+  } catch (e) { /* umuman ruxsat berilmadi */ }
+
+  if (overlay) {
+    overlay.hidden = false;
+    overlay.onclick = async () => {
+      try { video.muted = false; await video.play(); hide(); }
+      catch { video.muted = true; await video.play().catch(() => {}); hide(); showUnmute(video); }
+    };
+  }
+}
+
+function showUnmute(video) {
+  const bar = document.getElementById('tvUnmute');
+  if (!bar) return;
+  bar.hidden = false;
+  bar.onclick = async () => {
+    video.muted = false;
+    try { await video.play(); } catch {}
+    bar.hidden = true;
+  };
+}
+
 function playChannel(ch) {
   tvCurrent = ch;
   stopStream();
 
   const box = document.getElementById('tvPlayer');
-  box.innerHTML = '<video id="tvVideo" controls autoplay playsinline></video>';
-  const video = document.getElementById('tvVideo');
+  box.innerHTML = `
+    <video id="tvVideo" controls playsinline preload="auto"></video>
+    <button class="tv-overlay" id="tvOverlay" type="button" hidden>
+      <span class="tv-overlay-btn">${ICONS.play}</span>
+    </button>
+    <button class="tv-unmute" id="tvUnmute" type="button" hidden>${t('tv.unmute')}</button>`;
 
-  const fail = () => {
-    box.innerHTML = `
-      <div class="player-placeholder">
-        <div class="pp-icon">${ICONS.play}</div>
-        <h3>${t('tv.error')}</h3>
-        <p>${t('tv.errorHint')}</p>
-      </div>`;
-  };
+  const video = document.getElementById('tvVideo');
+  let recovered = 0;
 
   if (window.Hls && Hls.isSupported()) {
-    hls = new Hls({ maxBufferLength: 20, manifestLoadingTimeOut: 12000 });
+    hls = new Hls({ maxBufferLength: 20, manifestLoadingTimeOut: 15000 });
     hls.loadSource(ch.url);
     hls.attachMedia(video);
-    hls.on(Hls.Events.ERROR, (_, data) => { if (data.fatal) { stopStream(); fail(); } });
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => startPlayback(video));
+
+    hls.on(Hls.Events.ERROR, (_, data) => {
+      if (!data.fatal) return;
+      // Vaqtinchalik uzilishlarni ikki marta tiklashga urinamiz
+      if (recovered < 2 && data.type === Hls.ErrorTypes.NETWORK_ERROR) { recovered++; hls.startLoad(); return; }
+      if (recovered < 2 && data.type === Hls.ErrorTypes.MEDIA_ERROR) { recovered++; hls.recoverMediaError(); return; }
+      stopStream();
+      showError(ch);
+    });
+
   } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    // Safari HLS ni o'zi qo'llab-quvvatlaydi
+    // Safari / iOS HLS ni o'zi qo'llab-quvvatlaydi
     video.src = ch.url;
-    video.addEventListener('error', fail, { once: true });
+    video.addEventListener('loadedmetadata', () => startPlayback(video), { once: true });
+    video.addEventListener('error', () => showError(ch), { once: true });
   } else {
-    fail();
+    showError(ch);
     return;
   }
-
-  video.play().catch(() => { /* avtoijro bloklangan bo'lsa — foydalanuvchi bosadi */ });
 
   renderNow();
   renderGrid();

@@ -1661,3 +1661,48 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
   .m-logo { width: 22px; height: 22px; }
   .plans-head h1 { font-size: 26px; }
 }
+
+/* ---------------- TV pleyer: ijro va ovoz tugmalari ---------------- */
+
+/* Brauzer avtoijroga ruxsat bermasa chiqadigan katta tugma */
+.tv-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 7, 12, .55);
+  backdrop-filter: blur(2px);
+  padding: 0;
+}
+
+.tv-overlay-btn {
+  width: 74px; height: 74px;
+  border-radius: 50%;
+  background: var(--grad);
+  display: grid; place-items: center;
+  box-shadow: 0 10px 34px rgba(255, 46, 76, .5);
+  transition: transform .2s;
+}
+
+.tv-overlay:hover .tv-overlay-btn { transform: scale(1.07); }
+.tv-overlay-btn svg { width: 28px; height: 28px; fill: #fff; margin-left: 4px; }
+
+/* Ovozsiz ijro ketayotganda chiqadigan tugma */
+.tv-unmute {
+  position: absolute;
+  left: 14px; bottom: 62px;
+  z-index: 4;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: rgba(5, 7, 12, .85);
+  border: 1px solid var(--line-strong);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
+  box-shadow: var(--shadow);
+  transition: background .18s;
+}
+
+.tv-unmute:hover { background: var(--accent); border-color: transparent; }

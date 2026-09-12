@@ -46,6 +46,7 @@ const I18N = {
     'tv.channels': 'kanal',
     'tv.error': 'Kanal ochilmadi',
     'tv.errorHint': 'Efir vaqtincha to‘xtagan bo‘lishi mumkin. Boshqa kanalni tanlab ko‘ring.',
+    'tv.unmute': '🔊 Ovozni yoqish',
     'tv.note': 'Kanallar ochiq efirdan olingan, DezoMax serverida saqlanmaydi.',
 
     'plans.title': 'Obuna rejalari',
@@ -190,6 +191,7 @@ const I18N = {
     'tv.channels': 'каналов',
     'tv.error': 'Канал не открылся',
     'tv.errorHint': 'Возможно, вещание временно остановлено. Попробуйте другой канал.',
+    'tv.unmute': '🔊 Включить звук',
     'tv.note': 'Каналы берутся из открытого эфира и не хранятся на сервере DezoMax.',
 
     'plans.title': 'Тарифы подписки',
