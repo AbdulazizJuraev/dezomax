@@ -189,9 +189,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .lang-btn:hover { color: var(--text); }
 .lang-btn.is-active { background: var(--grad); color: #fff; }
 
-.burger { display: none; width: 40px; height: 40px; place-items: center; border-radius: 10px; }
-.burger:hover { background: rgba(255, 255, 255, .07); }
-.burger svg { width: 22px; height: 22px; }
 
 /* ---------------- Hero ---------------- */
 
@@ -997,6 +994,98 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 .to-top.is-in { opacity: 1; transform: none; pointer-events: auto; }
 .to-top svg { width: 18px; height: 18px; }
 
+/* ---------------- Pastki navbar (telefon) ---------------- */
+
+.tabbar { display: none; }
+
+@media (max-width: 900px) {
+  /* Telefonda yuqoridagi menyu o‘rniga pastki panel ishlaydi */
+  .nav { display: none; }
+
+  .tabbar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 95;
+    display: flex;
+    align-items: stretch;
+    background: rgba(10, 12, 18, .92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .tabbar-item {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 9px 4px 8px;
+    color: var(--text-faint);
+    transition: color .18s;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Faol bo'limning tepasidagi chiziq */
+  .tabbar-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 26px;
+    height: 2.5px;
+    border-radius: 0 0 3px 3px;
+    background: var(--grad);
+    transition: transform .25s cubic-bezier(.2, .9, .3, 1);
+  }
+
+  .tabbar-item.is-active { color: #fff; }
+  .tabbar-item.is-active::before { transform: translateX(-50%) scaleX(1); }
+  .tabbar-item:active { color: #fff; }
+
+  .tabbar-icon { position: relative; display: block; line-height: 0; }
+  .tabbar-icon svg { width: 23px; height: 23px; }
+
+  .tabbar-item.is-active .tabbar-icon svg { stroke: var(--accent); }
+
+  .tabbar-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tabbar-badge {
+    position: absolute;
+    top: -5px; right: -9px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    box-shadow: 0 0 0 2px rgba(10, 12, 18, .92);
+  }
+
+  /* Kontent panel ostida qolib ketmasligi uchun */
+  body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
+
+  /* "Yuqoriga" tugmasi panel ustiga ko'chadi */
+  .to-top { bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
+}
+
 /* ---------------- Responsive ---------------- */
 
 @media (max-width: 1080px) {
@@ -1005,25 +1094,8 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 }
 
 @media (max-width: 900px) {
-  .burger { display: grid; order: -1; }
-
-  .nav {
-    position: fixed;
-    inset: var(--header-h) 0 auto 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 2px;
-    padding: 14px clamp(16px, 4vw, 48px) 20px;
-    background: rgba(9, 11, 16, .97);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--line);
-    transform: translateY(-120%);
-    transition: transform .3s cubic-bezier(.3, .9, .3, 1);
-    margin: 0;
-  }
-
-  .nav.is-open { transform: none; }
-  .nav a { padding: 13px 14px; font-size: 15px; }
+  /* Yuqoridagi menyu o'rniga pastki navbar ishlaydi —
+     tegishli qoidalar "Pastki navbar" bo'limida */
 
   .mv-layout { grid-template-columns: 1fr; }
   .mv-poster { width: 190px; }

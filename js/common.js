@@ -13,7 +13,9 @@ const ICONS = {
   left:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
   right:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
   up:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
-  burger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  home:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3.5l9 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.5 20v-6h5v6"/></svg>',
+  tv:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M8 3.5l4 3.5 4-3.5"/></svg>',
+  grid:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>',
   close:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   film:   '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M2.5 12h19M2.5 8h4.5M2.5 16h4.5M17 8h4.5M17 16h4.5"/></svg>',
   empty:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M8.5 11h5"/></svg>'
@@ -163,6 +165,10 @@ function updateFavCount() {
   document.querySelectorAll('[data-fav-count]').forEach(el => {
     el.textContent = n ? ` (${n})` : '';
   });
+  document.querySelectorAll('[data-fav-badge]').forEach(el => {
+    el.textContent = n > 99 ? '99+' : n;
+    el.hidden = !n;
+  });
 }
 
 /* ---------- Reveal animatsiyasi ---------- */
@@ -199,20 +205,6 @@ function initLayout() {
   document.querySelectorAll('.search').forEach(box => {
     if (!box.querySelector('svg')) box.insertAdjacentHTML('beforeend', ICONS.search);
   });
-
-  const burger = document.querySelector('.burger');
-  const nav = document.querySelector('.nav');
-  if (burger && nav) {
-    burger.innerHTML = ICONS.burger;
-    burger.addEventListener('click', () => {
-      const open = nav.classList.toggle('is-open');
-      burger.innerHTML = open ? ICONS.close : ICONS.burger;
-    });
-    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      burger.innerHTML = ICONS.burger;
-    }));
-  }
 
   // Scroll holati
   const header = document.querySelector('.header');
@@ -254,10 +246,60 @@ function initLayout() {
     }
   });
 
+  renderTabbar();
   renderFooterGenres();
   applyI18n();
   updateFavCount();
   observeReveals();
+}
+
+/* ---------- Telefon uchun pastki navbar ----------
+   Beshta asosiy bo'lim. Multfilmlar katalog filtri orqali ochiladi.
+   Markup shu yerda yasaladi — har bir HTML faylga nusxalash shart emas. */
+
+const TABS = [
+  { key: 'home',      href: 'index.html',                 icon: 'home',  label: 'nav.home' },
+  { key: 'films',     href: 'catalog.html?type=film',     icon: 'film',  label: 'nav.films' },
+  { key: 'series',    href: 'catalog.html?type=serial',   icon: 'tv',    label: 'nav.series' },
+  { key: 'catalog',   href: 'catalog.html',               icon: 'grid',  label: 'nav.catalog' },
+  { key: 'favorites', href: 'favorites.html',             icon: 'heart', label: 'nav.favorites' }
+];
+
+/* Qaysi bo'lim ochiq turganini aniqlaymiz */
+function activeTab() {
+  const page = location.pathname.split('/').pop() || 'index.html';
+  const type = new URLSearchParams(location.search).get('type');
+
+  if (page === 'favorites.html') return 'favorites';
+  if (page === 'catalog.html') {
+    if (type === 'film') return 'films';
+    if (type === 'serial') return 'series';
+    return 'catalog';
+  }
+  if (page === 'index.html' || page === '') return 'home';
+  return null;                       // movie.html — hech biri faol emas
+}
+
+function renderTabbar() {
+  let bar = document.querySelector('.tabbar');
+  if (!bar) {
+    bar = document.createElement('nav');
+    bar.className = 'tabbar';
+    bar.setAttribute('aria-label', 'Asosiy menyu');
+    document.body.appendChild(bar);
+  }
+
+  const active = activeTab();
+  bar.innerHTML = TABS.map(tb => `
+    <a class="tabbar-item${tb.key === active ? ' is-active' : ''}" href="${tb.href}">
+      <span class="tabbar-icon">
+        ${ICONS[tb.icon]}
+        ${tb.key === 'favorites' ? '<b class="tabbar-badge" data-fav-badge hidden></b>' : ''}
+      </span>
+      <span class="tabbar-label">${t(tb.label)}</span>
+    </a>`).join('');
+
+  updateFavCount();
 }
 
 function renderFooterGenres() {
@@ -270,6 +312,7 @@ function renderFooterGenres() {
 
 /* Til o'zgarganda sahifani qayta chizish — har bir sahifa o'zi ulanadi */
 document.addEventListener('langchange', () => {
+  renderTabbar();
   renderFooterGenres();
   updateFavCount();
 });
