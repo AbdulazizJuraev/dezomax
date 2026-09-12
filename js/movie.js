@@ -178,6 +178,7 @@ function renderMovie() {
             <a class="btn btn-primary" href="#player">${ICONS.play}<span>${t('movie.watchNow')}</span></a>
             ${movie.trailer ? `<a class="btn btn-ghost" href="#player" id="trailerBtn">${ICONS.play}<span>${t('movie.trailer')}</span></a>` : ''}
             <button class="btn btn-ghost" id="favBtn">${ICONS.heart}<span id="favLabel"></span></button>
+            <button class="btn btn-ghost" id="dlBtn">${ICONS.download}<span id="dlLabel"></span></button>
           </div>
 
           <dl class="mv-info">
@@ -241,6 +242,16 @@ function renderMovie() {
   };
   favBtn.addEventListener('click', () => { toggleFav(movie.id); syncFav(); });
   syncFav();
+
+  // Yuklab olinganlar ro'yxatiga qo'shish
+  const dlBtn = document.getElementById('dlBtn');
+  const syncDl = () => {
+    const on = isDownloaded(movie.id);
+    dlBtn.classList.toggle('is-fav', on);
+    document.getElementById('dlLabel').textContent = on ? t('dl.added') : t('dl.add');
+  };
+  dlBtn.addEventListener('click', () => { toggleDownload(movie.id); syncDl(); });
+  syncDl();
 
   // ?play=1 bo'lsa pleyerga o'tamiz
   if (qp.get('play')) {

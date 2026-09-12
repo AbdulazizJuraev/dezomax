@@ -36,6 +36,10 @@ gh api repos/AbdulazizJuraev/dezomax/pages/builds/latest --jq .status
 
 ```
 index.html        Bosh sahifa (slider + kinolar qatorlari)
+sport.html        Sport: bugungi futbol o‘yinlari va yangiliklar
+tv.html           Telekanallar: jonli efir (HLS)
+plans.html        Obuna rejalari va narxlar
+downloads.html    Yuklab olinganlar
 catalog.html      Katalog: qidiruv, janr/tur filtrlari, saralash
 movie.html        Kino sahifasi: tavsif, pleyer, o'xshash kinolar
 favorites.html    Sevimlilar (brauzer xotirasida saqlanadi)
@@ -43,12 +47,17 @@ favorites.html    Sevimlilar (brauzer xotirasida saqlanadi)
 images/           Kinolar posterlari (61 ta)
 css/style.css     Barcha uslublar
 js/data.js        >>> KINOLAR BAZASI — asosan shu faylni tahrirlaysiz
+js/channels.js    >>> TELEKANALLAR RO‘YXATI
 js/i18n.js        O'zbekcha / ruscha tarjimalar
 js/common.js      Umumiy funksiyalar (kartochka, poster, sevimlilar, header)
 js/app.js         Bosh sahifa logikasi
 js/catalog.js     Katalog logikasi
 js/movie.js       Kino sahifasi logikasi
 js/favorites.js   Sevimlilar logikasi
+js/sport.js       Sport logikasi (ESPN API)
+js/tv.js          Telekanallar pleyeri
+js/plans.js       Obuna rejalari
+js/downloads.js   Yuklab olinganlar
 ```
 
 ## Yangi kino qo'shish
@@ -142,6 +151,56 @@ Uning ustida `video` maydoni qanday ishlashini sinab ko'rishingiz mumkin.
 > to'liq nusxalari mualliflik huquqi bilan himoyalangan. O'zingizdagi yoki litsenziya
 > olgan manbalaringiz havolasini shu maydonga qo'ysangiz, pleyer darhol ishlaydi.
 
+## Telekanallar
+
+`js/channels.js` da 32 ta o'zbek telekanali bor, hammasi jonli HLS efirda ishlaydi.
+Oqimlar iptv-org ning ochiq katalogidan olingan va har biri tekshirilgan.
+
+Yangi kanal qo'shish:
+
+```js
+{ id: 'YangiTV', name: 'Yangi TV', category: 'general',
+  url: 'https://server.uz/live/playlist.m3u8',
+  colors: ['#2a4a6b', '#0a1220'] }
+```
+
+> **Muhim:** havola albatta `https://` bo'lishi kerak. Sayt HTTPS da turgani uchun
+> brauzer `http://` oqimlarni bloklaydi. Bundan tashqari server CORS ruxsatini
+> berishi shart — aks holda pleyer oqimni o'qiy olmaydi.
+
+## Sport
+
+Bugungi futbol o'yinlari va yangiliklar ESPN ning ochiq API sidan olinadi —
+API kaliti kerak emas, so'rov to'g'ridan-to'g'ri brauzerdan ketadi.
+
+O'yinlar uch guruhga bo'linadi: **Hozir jonli**, **Bugun kechqurun** (soat 17:00 dan
+keyin boshlanadiganlar) va qolganlari. 10 ta liga bo'yicha filtr bor.
+
+Yangi liga qo'shish uchun `js/sport.js` dagi `LEAGUES` ro'yxatiga ESPN kodini
+yozing (masalan `por.1`, `ned.1`, `uefa.europa`).
+
+> O'zbekiston Superligasi ESPN da yo'q, shuning uchun ro'yxatda ham yo'q.
+
+## Obunalar
+
+`js/plans.js` da uchta reja: Bepul, Standart (29 000 so'm/oy), Premium (49 000 so'm/oy).
+Yillik to'lovda 2 oy bepul (−17%). Narx va imkoniyatlarni shu faylda o'zgartirasiz.
+
+> **To'lov tizimi ulanmagan.** Tanlangan reja faqat brauzerda saqlanadi, hech qanday
+> pul yechilmaydi. Haqiqiy to'lov (Payme, Click, Stripe) server tomonini talab qiladi —
+> maxfiy kalitni statik saytga qo'yib bo'lmaydi, u hammaga ko'rinib qoladi.
+
+## Yuklab olinganlar
+
+Kino sahifasidagi «Yuklab olish» tugmasi kinoni ro'yxatga qo'shadi.
+
+- Agar kinoning `video` maydonida to'g'ridan-to'g'ri fayl bo'lsa (mp4/webm) —
+  haqiqiy yuklab olish havolasi beriladi;
+- YouTube treyler yoki HLS oqim bo'lsa — «Yuklab bo'lmaydi» deb ko'rsatiladi.
+
+> Ilovalardagi kabi haqiqiy oflayn ko'rish uchun sayt o'z video fayllariga va
+> Service Worker'ga ega bo'lishi kerak. Hozircha bunday fayllar yo'q.
+
 ## Yangi janr qo'shish
 
 `js/data.js` boshidagi `GENRES` ro'yxatiga qo'shing — katalog filtri va futer
@@ -168,6 +227,10 @@ ishlatiladi, til almashtirilganda hammasi avtomatik yangilanadi.
 - Sevimlilar ro'yxati (`localStorage`)
 - O'zbekcha / ruscha til almashtirish (tanlov saqlanadi)
 - To'liq moslashuvchan dizayn (telefon, planshet, kompyuter)
+- 32 ta o'zbek telekanali jonli efirda (HLS)
+- Sport: bugungi futbol o'yinlari, jonli hisob va yangiliklar (ESPN)
+- Obuna rejalari va narxlar sahifasi
+- Telefonda pastki navbar va "Yana" menyusi
 - Kirish animatsiyalari, `prefers-reduced-motion` qo'llab-quvvatlanadi
 
 ## Eslatma
@@ -176,3 +239,5 @@ Posterlar Vikipediyadan olingan va faqat ushbu demo loyiha uchun ishlatilmoqda �
 ular mualliflik huquqi bilan himoyalangan. Saytni ommaga chiqaradigan bo'lsangiz,
 o'z posterlaringizni yoki litsenziya olgan rasmlarni qo'yishingiz kerak.
 Treylerlar YouTube'dan embed qilinadi, ya'ni video DezoMax serverida saqlanmaydi.
+Telekanallar ham ochiq efirdan uzatiladi va saytda saqlanmaydi. Sport ma'lumotlari
+ESPN ning ochiq API sidan olinadi.

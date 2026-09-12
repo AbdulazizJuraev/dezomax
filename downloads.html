@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DezoMax</title>
-<meta name="description" content="Kino haqida ma’lumot, treyler va o‘xshash kinolar.">
+<title>Yuklab olinganlar — DezoMax</title>
+<meta name="description" content="Yuklab olish uchun saqlangan kinolar ro‘yxati.">
 <meta name="theme-color" content="#07080c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DezoMax">
-<meta property="og:title" content="DezoMax — Onlayn kinoteatr">
-<meta property="og:description" content="Kino haqida ma’lumot, treyler va o‘xshash kinolar.">
-<meta property="og:url" content="https://abdulazizjuraev.github.io/dezomax/movie.html">
+<meta property="og:title" content="Yuklab olinganlar — DezoMax">
+<meta property="og:description" content="Yuklab olish uchun saqlangan kinolar ro‘yxati.">
+<meta property="og:url" content="https://abdulazizjuraev.github.io/dezomax/downloads.html">
 <meta property="og:locale" content="uz_UZ">
 <meta property="og:locale:alternate" content="ru_RU">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DezoMax — Onlayn kinoteatr">
-<meta name="twitter:description" content="Kino haqida ma’lumot, treyler va o‘xshash kinolar.">
+<meta name="twitter:title" content="Yuklab olinganlar — DezoMax">
+<meta name="twitter:description" content="Yuklab olish uchun saqlangan kinolar ro‘yxati.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23ff2e4c'/><path d='M38 28l32 22-32 22z' fill='white'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
 </head>
 <body>
 
-<header class="header">
+<header class="header scrolled">
   <div class="wrap">
     <a class="logo" href="index.html">
       <span class="logo-mark"></span>
@@ -52,7 +52,17 @@
   </div>
 </header>
 
-<main id="page"></main>
+<main class="wrap" style="padding-top:calc(var(--header-h) + 28px)">
+
+  <div class="section-head" style="margin-bottom:18px">
+    <i class="bar"></i><h2 data-i18n="dl.title">Yuklab olinganlar</h2>
+    <span class="result-count" id="dlCount"></span>
+  </div>
+
+  <div id="dlList"></div>
+
+  <p class="player-note" style="margin-top:20px" data-i18n="dl.note"></p>
+</main>
 
 <footer class="footer">
   <div class="wrap">
@@ -93,6 +103,6 @@
 <script src="js/data.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/common.js"></script>
-<script src="js/movie.js"></script>
+<script src="js/downloads.js"></script>
 </body>
 </html>

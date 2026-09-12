@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DezoMax</title>
-<meta name="description" content="Kino haqida ma’lumot, treyler va o‘xshash kinolar.">
+<title>Obunalar — DezoMax</title>
+<meta name="description" content="DezoMax obuna rejalari va narxlari.">
 <meta name="theme-color" content="#07080c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DezoMax">
-<meta property="og:title" content="DezoMax — Onlayn kinoteatr">
-<meta property="og:description" content="Kino haqida ma’lumot, treyler va o‘xshash kinolar.">
-<meta property="og:url" content="https://abdulazizjuraev.github.io/dezomax/movie.html">
+<meta property="og:title" content="Obunalar — DezoMax">
+<meta property="og:description" content="DezoMax obuna rejalari va narxlari.">
+<meta property="og:url" content="https://abdulazizjuraev.github.io/dezomax/plans.html">
 <meta property="og:locale" content="uz_UZ">
 <meta property="og:locale:alternate" content="ru_RU">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DezoMax — Onlayn kinoteatr">
-<meta name="twitter:description" content="Kino haqida ma’lumot, treyler va o‘xshash kinolar.">
+<meta name="twitter:title" content="Obunalar — DezoMax">
+<meta name="twitter:description" content="DezoMax obuna rejalari va narxlari.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23ff2e4c'/><path d='M38 28l32 22-32 22z' fill='white'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
 </head>
 <body>
 
-<header class="header">
+<header class="header scrolled">
   <div class="wrap">
     <a class="logo" href="index.html">
       <span class="logo-mark"></span>
@@ -52,7 +52,27 @@
   </div>
 </header>
 
-<main id="page"></main>
+<main class="wrap" style="padding-top:calc(var(--header-h) + 28px)">
+
+  <div class="plans-head">
+    <h1 data-i18n="plans.title">Obuna rejalari</h1>
+    <p data-i18n="plans.subtitle"></p>
+  </div>
+
+  <div class="plans" id="plans"></div>
+
+  <div class="plans-notice">
+    <span class="plans-notice-icon"></span>
+    <p data-i18n="plans.notice"></p>
+  </div>
+
+  <section class="section">
+    <div class="section-head">
+      <i class="bar"></i><h2 data-i18n="plans.compare">Rejalarni solishtirish</h2>
+    </div>
+    <div class="table-scroll"><table class="cmp" id="cmp"></table></div>
+  </section>
+</main>
 
 <footer class="footer">
   <div class="wrap">
@@ -93,6 +113,6 @@
 <script src="js/data.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/common.js"></script>
-<script src="js/movie.js"></script>
+<script src="js/plans.js"></script>
 </body>
 </html>
