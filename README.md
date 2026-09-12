@@ -3,13 +3,34 @@
 Sof HTML / CSS / JavaScript'da yozilgan kino sayti. Hech qanday o'rnatish, server yoki
 `npm install` talab qilinmaydi — `index.html` faylini brauzerda ochsangiz bas.
 
+**Jonli sayt:** https://abdulazizjuraev.github.io/dezomax/
+
 ## Ishga tushirish
 
 1. `index.html` faylini ikki marta bosing (yoki brauzerga sudrab tashlang).
 2. Tayyor.
 
-Agar kelajakda serverga joylamoqchi bo'lsangiz — papkani butunligicha hostingga
-(GitHub Pages, Netlify, Vercel, oddiy hosting) yuklang. Boshqa hech narsa kerak emas.
+## Saytni yangilash
+
+Sayt GitHub Pages'da turadi va `main` tarmog'iga har bir push'dan keyin
+**avtomatik** qayta quriladi. Ya'ni o'zgarish kiritganingizdan so'ng:
+
+```bash
+git add -A
+git commit -m "Nima o'zgargani haqida qisqacha"
+git push
+```
+
+Yangilanish 30–90 soniyada jonli saytda paydo bo'ladi. Hech qanday qo'shimcha
+sozlash, build yoki deploy buyrug'i kerak emas.
+
+Qurilish holatini ko'rish:
+
+```bash
+gh api repos/AbdulazizJuraev/dezomax/pages/builds/latest --jq .status
+```
+
+> Brauzer eski nusxani keshdan ko'rsatishi mumkin — `Ctrl+F5` bilan yangilang.
 
 ## Fayllar tuzilishi
 
