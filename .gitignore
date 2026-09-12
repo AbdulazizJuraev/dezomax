@@ -1,0 +1,13 @@
+# OS fayllari
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Muharrir
+.vscode/
+.idea/
+*.swp
+
+# Vaqtinchalik
+*.log
+.claude/

@@ -1,0 +1,1062 @@
+/* ============================================================
+   DezoMax — asosiy uslublar / основные стили
+   ============================================================ */
+
+:root {
+  --bg:           #07080c;
+  --bg-2:         #0d0f15;
+  --surface:      #141822;
+  --surface-2:    #1c212e;
+  --line:         rgba(255, 255, 255, .08);
+  --line-strong:  rgba(255, 255, 255, .16);
+
+  --text:         #eef1f7;
+  --text-dim:     #99a1b3;
+  --text-faint:   #6b7386;
+
+  --accent:       #ff2e4c;
+  --accent-2:     #7c3aed;
+  --accent-soft:  rgba(255, 46, 76, .14);
+  --gold:         #ffc043;
+
+  --grad:         linear-gradient(135deg, #ff2e4c 0%, #ff5e3a 50%, #7c3aed 100%);
+
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 22px;
+
+  --shadow:    0 10px 40px rgba(0, 0, 0, .5);
+  --shadow-lg: 0 24px 70px rgba(0, 0, 0, .65);
+
+  --header-h: 68px;
+  --maxw: 1360px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body.no-scroll { overflow: hidden; }
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-2); }
+::-webkit-scrollbar-thumb { background: #2a3040; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #3a4255; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 48px);
+}
+
+/* ---------------- Header ---------------- */
+
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-h);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  transition: background .3s, backdrop-filter .3s, border-color .3s;
+  border-bottom: 1px solid transparent;
+  background: linear-gradient(180deg, rgba(7, 8, 12, .92), rgba(7, 8, 12, 0));
+}
+
+.header.scrolled {
+  background: rgba(9, 11, 16, .88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--line);
+}
+
+.header .wrap {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2.5vw, 32px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  font-size: 21px;
+  letter-spacing: -.03em;
+  flex-shrink: 0;
+}
+
+.logo-mark {
+  width: 30px; height: 30px;
+  border-radius: 9px;
+  background: var(--grad);
+  display: grid; place-items: center;
+  box-shadow: 0 4px 16px rgba(255, 46, 76, .4);
+}
+
+.logo-mark svg { width: 17px; height: 17px; }
+
+.logo span { color: #fff; }
+.logo span b { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800; }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: auto;
+}
+
+.nav a {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dim);
+  transition: color .18s, background .18s;
+  white-space: nowrap;
+}
+
+.nav a:hover { color: #fff; background: rgba(255, 255, 255, .06); }
+.nav a.is-active { color: #fff; background: rgba(255, 255, 255, .09); }
+
+.search {
+  position: relative;
+  flex: 0 1 340px;
+  min-width: 0;
+}
+
+.search input {
+  width: 100%;
+  height: 40px;
+  padding: 0 14px 0 40px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .05);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+
+.search input::placeholder { color: var(--text-faint); }
+.search input:focus { border-color: var(--accent); background: rgba(255, 255, 255, .08); }
+
+.search svg {
+  position: absolute;
+  left: 13px; top: 50%;
+  transform: translateY(-50%);
+  width: 16px; height: 16px;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.lang {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--text-faint);
+  transition: .18s;
+}
+
+.lang-btn:hover { color: var(--text); }
+.lang-btn.is-active { background: var(--grad); color: #fff; }
+
+.burger { display: none; width: 40px; height: 40px; place-items: center; border-radius: 10px; }
+.burger:hover { background: rgba(255, 255, 255, .07); }
+.burger svg { width: 22px; height: 22px; }
+
+/* ---------------- Hero ---------------- */
+
+.hero {
+  position: relative;
+  min-height: min(86vh, 760px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .9s ease;
+  pointer-events: none;
+}
+
+.hero-slide.is-active { opacity: 1; pointer-events: auto; }
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.06);
+  transition: transform 8s linear;
+}
+
+.hero-slide.is-active .hero-bg { transform: scale(1); }
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, var(--bg) 2%, rgba(7, 8, 12, .55) 45%, rgba(7, 8, 12, .25) 100%),
+    linear-gradient(to right, rgba(7, 8, 12, .92) 0%, rgba(7, 8, 12, .45) 55%, rgba(7, 8, 12, .1) 100%);
+}
+
+/* Slayderning o'ng tomonidagi poster, foniga yumshoq singib ketadi */
+.hero-art {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: min(48%, 660px);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-art img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+.hero-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, var(--bg) 0%, rgba(7, 8, 12, .72) 28%, rgba(7, 8, 12, .15) 100%),
+    linear-gradient(to top, var(--bg) 1%, transparent 42%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 140px 0 56px;
+}
+
+.hero-content { max-width: 620px; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px 5px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(255, 46, 76, .3);
+  color: #ff8095;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: clamp(34px, 5.6vw, 66px);
+  line-height: 1.03;
+  letter-spacing: -.035em;
+  font-weight: 800;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, .6);
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.hero-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-faint); }
+
+.hero p {
+  margin: 0 0 28px;
+  color: #c3cad8;
+  font-size: clamp(14px, 1.6vw, 16.5px);
+  line-height: 1.65;
+  max-width: 560px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.hero-dots {
+  position: absolute;
+  bottom: 28px;
+  right: clamp(16px, 4vw, 48px);
+  z-index: 3;
+  display: flex;
+  gap: 8px;
+}
+
+.hero-dots button {
+  width: 26px; height: 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, .25);
+  transition: .25s;
+}
+
+.hero-dots button.is-active { background: var(--accent); width: 40px; box-shadow: 0 0 12px rgba(255, 46, 76, .7); }
+
+/* ---------------- Buttons ---------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 46px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 650;
+  letter-spacing: -.01em;
+  transition: transform .18s, box-shadow .2s, background .2s, border-color .2s;
+  white-space: nowrap;
+}
+
+.btn svg { width: 17px; height: 17px; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 8px 26px rgba(255, 46, 76, .35);
+}
+.btn-primary:hover { box-shadow: 0 12px 34px rgba(255, 46, 76, .5); }
+
+.btn-ghost {
+  background: rgba(255, 255, 255, .09);
+  border: 1px solid var(--line-strong);
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, .16); }
+
+.btn-icon { width: 46px; padding: 0; border-radius: 50%; }
+
+.btn.is-fav { background: var(--accent-soft); border-color: var(--accent); color: #ff8095; }
+.btn.is-fav svg { fill: currentColor; }
+
+/* ---------------- Sections & rows ---------------- */
+
+.section { padding: 40px 0 8px; }
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: clamp(19px, 2.4vw, 25px);
+  font-weight: 750;
+  letter-spacing: -.03em;
+}
+
+.section-head .bar {
+  width: 4px;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--grad);
+  flex-shrink: 0;
+}
+
+/* "Hammasi" havolasi sarlavha yonida */
+.row-all {
+  margin-left: auto;
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--text-faint);
+  transition: color .18s;
+  white-space: nowrap;
+}
+
+.row-all:hover { color: var(--accent); }
+.row-all + .row-nav { margin-left: 14px; }
+
+.row-nav { margin-left: auto; display: flex; gap: 8px; }
+
+.row-nav button {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+  color: var(--text-dim);
+  transition: .18s;
+}
+
+.row-nav button:hover { background: var(--accent); color: #fff; border-color: transparent; }
+.row-nav svg { width: 15px; height: 15px; }
+
+.row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.row::-webkit-scrollbar { display: none; }
+
+.row .card { flex: 0 0 clamp(140px, 17vw, 195px); }
+
+/* ---------------- Card ---------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+}
+
+.card { position: relative; }
+
+.card-poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .4);
+  transition: transform .3s cubic-bezier(.2, .8, .3, 1), box-shadow .3s;
+}
+
+.card:hover .card-poster {
+  transform: translateY(-6px) scale(1.025);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-poster img,
+.card-poster .poster-art,
+.mv-poster img,
+.mv-poster .poster-art {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* Haqiqiy poster gradient zaxirasi ustida turadi.
+   poster-art ga z-index: 0 berilgan — shunda uning ichidagi matn
+   o'z qatlamida qolib, rasm ustiga chiqib ketmaydi. */
+.card-poster .poster-art,
+.mv-poster .poster-art { z-index: 0; }
+
+.card-poster .poster-img,
+.mv-poster .poster-img { z-index: 1; }
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(to top, rgba(5, 6, 10, .92) 0%, rgba(5, 6, 10, .25) 45%, transparent 70%);
+  opacity: 0;
+  transition: opacity .28s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:hover .card-overlay { opacity: 1; }
+
+.card-play {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--grad);
+  display: grid; place-items: center;
+  box-shadow: 0 6px 24px rgba(255, 46, 76, .55);
+  transform: scale(.7);
+  transition: transform .28s cubic-bezier(.2, 1.4, .4, 1);
+}
+
+.card:hover .card-play { transform: scale(1); }
+.card-play svg { width: 18px; height: 18px; margin-left: 2px; fill: #fff; }
+
+.badge-rating {
+  position: absolute;
+  top: 9px; left: 9px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: rgba(5, 7, 12, .78);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  border: 1px solid rgba(255, 192, 67, .22);
+}
+
+.badge-rating svg { width: 11px; height: 11px; fill: var(--gold); }
+
+.badge-type {
+  position: absolute;
+  top: 9px; right: 9px;
+  z-index: 3;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: rgba(5, 7, 12, .78);
+  backdrop-filter: blur(8px);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #dfe4ee;
+  border: 1px solid var(--line);
+}
+
+.card-body { padding: 11px 2px 0; }
+
+.card-title {
+  font-size: 14.5px;
+  font-weight: 620;
+  letter-spacing: -.015em;
+  line-height: 1.3;
+  margin: 0 0 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color .18s;
+}
+
+.card:hover .card-title { color: #ff6478; }
+
+.card-meta {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.card-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: .6; }
+
+/* Sevimlilardan o'chirish tugmasi */
+.card-wrap { position: relative; }
+
+.card-remove {
+  position: absolute;
+  top: 9px; right: 9px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(5, 7, 12, .85);
+  border: 1px solid var(--line-strong);
+  backdrop-filter: blur(8px);
+  display: grid; place-items: center;
+  color: #dfe4ee;
+  opacity: 0;
+  transform: scale(.8);
+  transition: .2s;
+  z-index: 4;
+}
+
+.card-wrap:hover .card-remove { opacity: 1; transform: none; }
+.card-remove:hover { background: var(--accent); border-color: transparent; color: #fff; }
+.card-remove svg { width: 14px; height: 14px; }
+.card-wrap .badge-type { display: none; }
+
+/* Procedural poster (rasm bo'lmaganda) */
+.poster-art {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px;
+  overflow: hidden;
+}
+
+.poster-art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 80% 10%, rgba(255, 255, 255, .2), transparent 55%),
+    radial-gradient(90% 60% at 10% 90%, rgba(0, 0, 0, .5), transparent 60%);
+}
+
+.poster-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .22;
+  background-image: repeating-linear-gradient(115deg, rgba(255, 255, 255, .09) 0 1px, transparent 1px 9px);
+}
+
+.poster-art .pa-title {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(14px, 1.4vw, 19px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -.03em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .7);
+}
+
+.poster-art .pa-year {
+  position: relative;
+  z-index: 2;
+  margin-top: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  opacity: .75;
+}
+
+/* ---------------- Filters / catalog ---------------- */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 18px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  margin-bottom: 26px;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.chip {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 550;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid var(--line);
+  transition: .18s;
+  white-space: nowrap;
+}
+
+.chip:hover { color: #fff; border-color: var(--line-strong); }
+.chip.is-active { background: var(--grad); color: #fff; border-color: transparent; box-shadow: 0 4px 14px rgba(255, 46, 76, .3); }
+
+.filter-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  width: 100%;
+  margin-bottom: -2px;
+}
+
+.select {
+  height: 36px;
+  padding: 0 34px 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .05) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2399a1b3' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center / 14px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 13px;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.select:focus { border-color: var(--accent); }
+.select option { background: var(--surface-2); color: var(--text); }
+
+.result-count { font-size: 13.5px; color: var(--text-faint); margin-left: auto; }
+
+/* ---------------- Empty state ---------------- */
+
+.empty {
+  text-align: center;
+  padding: 70px 20px;
+  color: var(--text-faint);
+}
+
+.empty-icon {
+  width: 64px; height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+}
+
+.empty-icon svg { width: 28px; height: 28px; color: var(--text-faint); }
+.empty h3 { margin: 0 0 6px; font-size: 18px; color: var(--text); font-weight: 650; }
+.empty p { margin: 0; font-size: 14px; }
+
+/* ---------------- Movie page ---------------- */
+
+.mv-hero {
+  position: relative;
+  padding: calc(var(--header-h) + 48px) 0 40px;
+  overflow: hidden;
+}
+
+.mv-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.1);
+}
+
+/* Poster rasmi fon sifatida — xiralashtirilgan holda */
+.mv-hero-bg.has-art {
+  background-position: center 30%;
+  filter: blur(34px) saturate(1.25) brightness(.75);
+  transform: scale(1.15);
+}
+
+.mv-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, var(--bg) 0%, rgba(7, 8, 12, .78) 50%, rgba(7, 8, 12, .6) 100%);
+}
+
+.mv-hero .wrap { position: relative; z-index: 2; }
+
+.mv-layout {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: clamp(22px, 4vw, 46px);
+  align-items: start;
+}
+
+.mv-poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--line-strong);
+}
+
+.mv-poster img, .mv-poster .poster-art { width: 100%; height: 100%; object-fit: cover; }
+
+.mv-title {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 4.4vw, 50px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+}
+
+.mv-sub {
+  color: var(--text-faint);
+  font-size: 15px;
+  margin: -6px 0 16px;
+  font-weight: 500;
+}
+
+.mv-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+
+.tag {
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 550;
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid var(--line);
+  color: #cdd4e2;
+  transition: .18s;
+}
+
+a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color: #ff8095; }
+
+.tag-rating { background: rgba(255, 192, 67, .13); border-color: rgba(255, 192, 67, .3); color: var(--gold); font-weight: 700; }
+
+.tag { display: inline-flex; align-items: center; gap: 5px; }
+.tag svg { width: 12px; height: 12px; fill: currentColor; }
+
+.mv-desc {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: #c3cad8;
+  max-width: 760px;
+  margin: 0 0 26px;
+}
+
+.mv-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
+
+.mv-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.mv-info-item { padding: 14px 16px; background: rgba(20, 24, 34, .8); backdrop-filter: blur(10px); }
+
+.mv-info-item dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 5px;
+}
+
+.mv-info-item dd { margin: 0; font-size: 14px; font-weight: 550; }
+
+/* Player */
+
+.player-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.player-wrap iframe, .player-wrap video { width: 100%; height: 100%; border: 0; display: block; background: #000; }
+
+.player-tabs { display: flex; gap: 7px; margin-bottom: 14px; }
+
+.player-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin-top: 12px;
+}
+
+.player-note { margin: 0; font-size: 13.5px; color: var(--text-faint); }
+
+.player-link {
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--text-dim);
+  margin-left: auto;
+  transition: color .18s;
+}
+
+.player-link:hover { color: var(--accent); }
+
+.player-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 24px;
+  background:
+    radial-gradient(70% 70% at 50% 40%, rgba(124, 58, 237, .18), transparent 70%),
+    var(--bg-2);
+}
+
+.player-placeholder .pp-icon {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: var(--grad);
+  display: grid; place-items: center;
+  margin-bottom: 12px;
+  box-shadow: 0 10px 34px rgba(255, 46, 76, .4);
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 10px 34px rgba(255, 46, 76, .4); }
+  50%      { box-shadow: 0 10px 52px rgba(255, 46, 76, .7); }
+}
+
+.player-placeholder .pp-icon svg { width: 26px; height: 26px; fill: #fff; margin-left: 3px; }
+.player-placeholder h3 { margin: 0; font-size: 16.5px; font-weight: 650; }
+.player-placeholder p { margin: 0; font-size: 13.5px; color: var(--text-faint); max-width: 420px; }
+
+.cast-list { display: flex; flex-wrap: wrap; gap: 9px; }
+
+/* ---------------- Footer ---------------- */
+
+.footer {
+  margin-top: 70px;
+  padding: 48px 0 28px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-2);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.4fr;
+  gap: clamp(24px, 5vw, 60px);
+  margin-bottom: 36px;
+}
+
+.footer h4 {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.footer p { margin: 12px 0 0; color: var(--text-dim); font-size: 14px; line-height: 1.65; max-width: 380px; }
+.footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.footer ul a { color: var(--text-dim); font-size: 14px; transition: color .18s; }
+.footer ul a:hover { color: var(--accent); }
+
+.footer-genres { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.footer-bottom {
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+
+/* ---------------- Animations ---------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .3, 1);
+}
+
+.reveal.is-in { opacity: 1; transform: none; }
+
+.to-top {
+  position: fixed;
+  right: 22px; bottom: 22px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--grad);
+  display: grid; place-items: center;
+  box-shadow: 0 8px 26px rgba(255, 46, 76, .45);
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: .28s;
+  z-index: 90;
+}
+
+.to-top.is-in { opacity: 1; transform: none; pointer-events: auto; }
+.to-top svg { width: 18px; height: 18px; }
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 1080px) {
+  .search { flex-basis: 220px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 900px) {
+  .burger { display: grid; order: -1; }
+
+  .nav {
+    position: fixed;
+    inset: var(--header-h) 0 auto 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 14px clamp(16px, 4vw, 48px) 20px;
+    background: rgba(9, 11, 16, .97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+    transform: translateY(-120%);
+    transition: transform .3s cubic-bezier(.3, .9, .3, 1);
+    margin: 0;
+  }
+
+  .nav.is-open { transform: none; }
+  .nav a { padding: 13px 14px; font-size: 15px; }
+
+  .mv-layout { grid-template-columns: 1fr; }
+  .mv-poster { width: 190px; }
+  .hero-inner { padding-top: 120px; }
+  .hero-art { width: 58%; }
+}
+
+@media (max-width: 640px) {
+  .logo span { font-size: 18px; }
+  .search { flex: 1; }
+  .search input { height: 36px; }
+  .hero-art { width: 100%; opacity: .5; }
+  .hero-art::after {
+    background:
+      linear-gradient(to top, var(--bg) 6%, rgba(7, 8, 12, .5) 55%, rgba(7, 8, 12, .3) 100%);
+  }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+  .row .card { flex-basis: 138px; }
+  .hero { min-height: 74vh; }
+  .btn { height: 42px; padding: 0 18px; font-size: 13.5px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .result-count { width: 100%; margin-left: 0; }
+}
+
+/* Juda tor ekranlarda logotip matnini yashiramiz — til tugmalari joy oladi */
+@media (max-width: 460px) {
+  .header .logo span:last-of-type { display: none; }
+  .header .wrap { gap: 10px; }
+  .lang-btn { padding: 5px 9px; font-size: 11.5px; }
+  .search input { padding-left: 36px; font-size: 13.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}
