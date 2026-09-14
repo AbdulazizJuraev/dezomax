@@ -8,6 +8,7 @@ const featured = MOVIES.filter(m => m.featured)
   .slice(0, 10);   // slayder juda uzun bo'lib ketmasin
 let heroIndex = 0;
 let heroTimer = null;
+const HERO_DELAY = 3000;   // slayd har 3 soniyada almashadi (css: heroDotFill ham 3s)
 
 /* ---------- Hero slider ---------- */
 
@@ -18,8 +19,12 @@ function renderHero() {
 
   const slides = featured.map((m, i) => {
     const st = watchStatus(m);
-    // o'zbek filmlarining muqovasi keng (16:9) — butun fonga yoyiladi
-    const wideArt = m.poster && m.poster.startsWith('images/uz/');
+    // o'zbek filmlarining muqovasi keng (16:9) — butun fonga yoyiladi.
+    // Boshqa filmlarda poster kichik (220px) — o'rniga rasmiy treyler muqovasi (1280×720)
+    const ytId = (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
+    const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
+    const wideSrc = uzArt || (ytId ? `https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg` : null);
+    const wideArt = !!wideSrc;
     const statusTag = st === 'uz'
       ? `<span class="tag tag-watch is-uz">${ICONS.play} ${t('watch.statusUz')}</span>`
       : st === 'trailer' ? `<span class="tag tag-watch is-trailer">${t('watch.statusTrailer')}</span>` : '';
@@ -31,7 +36,7 @@ function renderHero() {
     ].filter(x => x && x !== '—');
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
-      <div class="hero-bg${wideArt ? ' is-wide' : ''}" style="background-image:${wideArt ? `url('${esc(m.poster)}')` : backdropCSS(m)}"></div>
+      <div class="hero-bg${wideArt ? ' is-wide' : ''}" style="background-image:${wideArt ? `url('${esc(wideSrc)}'), ${backdropCSS(m)}` : backdropCSS(m)}"${ytId && !uzArt ? ` data-yt="${ytId}"` : ''}></div>
       ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
       <div class="hero-inner">
         <div class="wrap">
@@ -55,6 +60,23 @@ function renderHero() {
   }).join('');
 
   hero.insertAdjacentHTML('afterbegin', slides);
+
+  // maxresdefault bo'lmagan eski treylerlar uchun YouTube 120×90 kulrang rasm qaytaradi —
+  // shunda sd (640×480) yoki hq variantiga tushamiz
+  hero.querySelectorAll('.hero-bg[data-yt]').forEach(bg => {
+    const id = bg.dataset.yt;
+    const tries = ['maxresdefault', 'sddefault', 'hqdefault'];
+    const test = i => {
+      const img = new Image();
+      img.onload = () => {
+        if (img.naturalWidth <= 120 && i < tries.length - 1) return test(i + 1);
+        if (i > 0) bg.style.backgroundImage = bg.style.backgroundImage.replace(/maxresdefault/, tries[i]);
+      };
+      img.onerror = () => { if (i < tries.length - 1) test(i + 1); };
+      img.src = `https://i.ytimg.com/vi/${id}/${tries[i]}.jpg`;
+    };
+    test(0);
+  });
 
   dots.innerHTML = featured.map((_, i) =>
     `<button data-i="${i}" class="${i === heroIndex ? 'is-active' : ''}" aria-label="Slayd ${i + 1}"></button>`
@@ -111,7 +133,7 @@ function goToSlide(i) {
 
 function restartHeroTimer() {
   clearInterval(heroTimer);
-  heroTimer = setInterval(() => goToSlide(heroIndex + 1), 7000);
+  heroTimer = setInterval(() => goToSlide(heroIndex + 1), HERO_DELAY);
   // faol nuqtadagi to'lish chizig'i qaytadan boshlansin
   const dot = document.querySelector('.hero-dots button.is-active');
   if (dot) { dot.classList.remove('is-active'); void dot.offsetWidth; dot.classList.add('is-active'); }

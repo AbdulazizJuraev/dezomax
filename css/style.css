@@ -2883,7 +2883,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   inset: 0;
   background: var(--grad);
   transform-origin: left;
-  animation: heroDotFill 7s linear forwards;
+  animation: heroDotFill 3s linear forwards;
 }
 @keyframes heroDotFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
@@ -3167,13 +3167,15 @@ img, video, iframe { max-width: 100%; }
 
   /* Keng (16:9) o'zbek posterlari: ekran eniga to'liq, header ostidan boshlanadi */
   .hero-bg { background-color: var(--bg); transform: none !important; }
-  .hero-bg.is-wide { background-size: 100% auto; background-position: center var(--header-h); background-repeat: no-repeat; }
+  .hero-bg.is-wide { background-size: 100% auto, cover; background-position: center var(--header-h), center; background-repeat: no-repeat; }
   .hero-bg::after,
   .hero-bg.is-wide::after {
     background: linear-gradient(to bottom,
       var(--bg) 0,
-      rgba(7, 8, 12, .15) calc(var(--header-h) + 4vw),
-      transparent calc(var(--header-h) + 22vw),
+      var(--bg) var(--header-h),
+      rgba(7, 8, 12, .55) calc(var(--header-h) + 7vw),
+      rgba(7, 8, 12, .12) calc(var(--header-h) + 16vw),
+      transparent calc(var(--header-h) + 24vw),
       rgba(7, 8, 12, .75) calc(var(--header-h) + 44vw),
       var(--bg) calc(var(--header-h) + 56.25vw));
   }
