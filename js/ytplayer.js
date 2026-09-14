@@ -4,8 +4,10 @@
    - Play bosilguncha YouTube umuman yuklanmaydi: o'z posterimiz va tugmamiz.
    - Ijro paytida YouTube boshqaruvi o'chiriladi (controls=0), o'rniga
      IFrame Player API orqali o'z panelimiz ishlaydi.
-   - Panel video USTIGA emas, OSTIGA joylanadi: YouTube qoidalari ijro
-     paytida uning logotipini yopishni taqiqlaydi.
+   - YouTube sarlavhasi, kanal belgisi, "Другие видео" va logotip ramkaning
+     yuqori/pastki chetiga tushadi va kesib tashlanadi (.ytp-crop). Egasining
+     talabi bilan; YouTube API qoidalariga zid ekani ma'lum.
+   - Panel video ostida; pauzada o'z ijro ekranimiz.
    - Video tugaganda YouTube tavsiyalari o'rniga o'z ekranimiz.
    ============================================================ */
 
@@ -55,6 +57,7 @@ let ytActive = null;
 
 function destroyYouTube() {
   if (!ytActive) return;
+  if (ytActive.box.classList.contains('ytp-pseudo-fs')) ytExitPseudo(ytActive.box);
   clearInterval(ytActive.timer);
   try { ytActive.player.destroy(); } catch {}
   ytActive = null;
@@ -73,7 +76,11 @@ function mountYouTube(box, url, opts = {}) {
 
   box.innerHTML = `
     <div class="ytp-stage">
-      <div class="ytp-frame" id="ytpFrame"></div>
+      <div class="ytp-crop"><div class="ytp-frame" id="ytpFrame"></div></div>
+      <div class="ytp-click" id="ytpClick" hidden></div>
+      <button class="ytp-pause" id="ytpPause" type="button" hidden aria-label="${esc(t('player.play'))}">
+        <span class="ytp-big">${YT_ICONS.play}</span>
+      </button>
       <button class="ytp-cover" id="ytpCover" type="button" aria-label="${esc(t('player.play'))}">
         <img src="${esc(poster)}" alt="" data-fallback="${fallback}" onerror="if(this.dataset.fallback&&this.src!==this.dataset.fallback){this.src=this.dataset.fallback}else{this.remove()}">
         <span class="ytp-cover-shade"></span>
@@ -145,11 +152,15 @@ async function ytStart(box, id) {
 function ytOnState(box, id, st) {
   const $ = s => box.querySelector(s);
   const S = YT.PlayerState;
-  if (st === S.PLAYING || st === S.BUFFERING) {
+  // Muqova video haqiqatan boshlanguncha turadi — yuklanish paytidagi YouTube ekrani ko'rinmasin
+  if (st === S.PLAYING) {
     $('#ytpCover').hidden = true;
     $('#ytpBar').hidden = false;
     $('#ytpMsg').hidden = true;
+    $('#ytpClick').hidden = false;
   }
+  // Pauzada YouTube o'z panelini chiqaradi — ustiga o'zimizning ijro tugmasi
+  $('#ytpPause').hidden = st !== S.PAUSED;
   $('#ytpPlay').innerHTML = st === S.PLAYING ? YT_ICONS.pause : YT_ICONS.play;
   box.classList.toggle('is-paused', st === S.PAUSED);
 
@@ -223,11 +234,12 @@ function ytBindBar(box, player) {
     setTimeout(syncMute, 60);
   });
 
-  $('#ytpFs').addEventListener('click', () => {
-    const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
-    if (fsEl) return (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-    (box.requestFullscreen || box.webkitRequestFullscreen)?.call(box);
-  });
+  // Video ustiga bosish — pauza/davom, ikki marta — katta ekran
+  $('#ytpClick').addEventListener('click', () => $('#ytpPlay').click());
+  $('#ytpClick').addEventListener('dblclick', () => ytToggleFullscreen(box));
+  $('#ytpPause').addEventListener('click', () => player.playVideo());
+
+  $('#ytpFs').addEventListener('click', () => ytToggleFullscreen(box));
 
   // Klaviatura: probel — pauza, strelkalar — 10 s
   box.tabIndex = 0;
@@ -236,6 +248,7 @@ function ytBindBar(box, player) {
     if (e.code === 'Space' || e.code === 'KeyK') { e.preventDefault(); $('#ytpPlay').click(); }
     if (e.code === 'ArrowLeft') { e.preventDefault(); jump(-10); }
     if (e.code === 'ArrowRight') { e.preventDefault(); jump(10); }
+    if (e.code === 'Escape' && box.classList.contains('ytp-pseudo-fs')) ytToggleFullscreen(box);
     if (e.code === 'KeyF') $('#ytpFs').click();
     if (e.code === 'KeyM') $('#ytpMute').click();
   });
@@ -252,3 +265,62 @@ function ytBindBar(box, player) {
     syncMute();
   }, 500);
 }
+
+/* ---------- Katta ekran (16:9) ----------
+   1) Brauzer qo'llasa — haqiqiy to'liq ekran va telefonda gorizontal holat.
+   2) iPhone Safari div'ni to'liq ekranga chiqarmaydi — shunda pleyerni CSS bilan
+      butun ekranga yoyamiz; telefon tik turgan bo'lsa 90° buramiz. */
+
+function ytFsSize(box) {
+  const pseudo = box.classList.contains('ytp-pseudo-fs');
+  const portrait = innerHeight > innerWidth;
+  // burilgan holatda eni va bo'yi almashadi
+  const w = pseudo && portrait ? innerHeight : innerWidth;
+  const h = pseudo && portrait ? innerWidth : innerHeight;
+  box.style.setProperty('--fsw', w + 'px');
+  box.style.setProperty('--fsh', h + 'px');
+  box.classList.toggle('ytp-rotated', pseudo && portrait);
+}
+
+function ytOnResize() {
+  const box = document.querySelector('.player-wrap.ytp');
+  if (box) ytFsSize(box);
+}
+
+function ytExitPseudo(box) {
+  box.classList.remove('ytp-pseudo-fs', 'ytp-rotated');
+  document.documentElement.classList.remove('ytp-lock');
+  removeEventListener('resize', ytOnResize);
+}
+
+async function ytToggleFullscreen(box) {
+  const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+
+  // chiqish
+  if (box.classList.contains('ytp-pseudo-fs')) { ytExitPseudo(box); return; }
+  if (fsEl) {
+    try { screen.orientation?.unlock?.(); } catch {}
+    (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    return;
+  }
+
+  // kirish: haqiqiy to'liq ekran
+  const req = box.requestFullscreen || box.webkitRequestFullscreen;
+  if (req) {
+    try {
+      await req.call(box);
+      ytFsSize(box);
+      try { await screen.orientation?.lock?.('landscape'); } catch { /* kompyuterda qo'llanmaydi */ }
+      return;
+    } catch { /* ruxsat berilmadi — pastdagi usulga o'tamiz */ }
+  }
+
+  // zaxira: CSS orqali butun ekran (iPhone)
+  box.classList.add('ytp-pseudo-fs');
+  document.documentElement.classList.add('ytp-lock');
+  ytFsSize(box);
+  addEventListener('resize', ytOnResize);
+}
+
+document.addEventListener('fullscreenchange', ytOnResize);
+document.addEventListener('webkitfullscreenchange', ytOnResize);
