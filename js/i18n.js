@@ -16,6 +16,8 @@ const I18N = {
     'nav.plans': 'Obunalar',
     'nav.downloads': 'Yuklab olinganlar',
     'nav.more': 'Yana',
+    'nav.profile': 'Profil',
+    'nav.sections': 'Bo‘limlar',
     'nav.close': 'Yopish',
 
     'sport.title': 'Sport',
@@ -191,6 +193,8 @@ const I18N = {
     'nav.plans': 'Подписки',
     'nav.downloads': 'Загрузки',
     'nav.more': 'Ещё',
+    'nav.profile': 'Профиль',
+    'nav.sections': 'Разделы',
     'nav.close': 'Закрыть',
 
     'sport.title': 'Спорт',

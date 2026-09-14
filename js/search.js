@@ -153,6 +153,6 @@ clearBtn.addEventListener('click', () => { input.value = ''; run(); input.focus(
 
 renderIdle();
 run();
-if (!input.value) setTimeout(() => input.focus(), 100);
+// klaviatura o'zi ochilmaydi — foydalanuvchi qidiruv maydoniga bosgandagina chiqadi
 
 document.addEventListener('langchange', () => { applyI18n(); renderIdle(); run(); });

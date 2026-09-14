@@ -166,7 +166,7 @@ Object.assign(I18N.ru, {
   'acc.promoTx': 'Промокод'
 });
 
-const APP_VERSION = '2.0';
+const APP_VERSION = '2.1';
 
 /* Promokodlar: bonus — balansga so'm, plan — tarif necha kunga */
 const PROMOCODES = {
@@ -270,6 +270,26 @@ function buyPlan(planId, days, price, renew = false) {
 
 /* ================= KIRISH ================= */
 
+/* Oldingi "Yana" menyusidagi bo'limlar — endi akkaunt sahifasida */
+function sectionsHTML() {
+  const links = (typeof MORE_LINKS !== 'undefined' ? MORE_LINKS : []).filter(l => !l.sep && l.href !== 'account.html');
+  const nFav = getFavs().length, nDl = getDownloads().length;
+  return `
+    <nav class="acc-sections" aria-label="${esc(t('nav.sections'))}">
+      <div class="acc-sections-title">${t('nav.sections')}</div>
+      <div class="acc-sections-grid">
+        ${links.map(l => {
+          const n = l.badge === 'fav' ? nFav : l.badge === 'dl' ? nDl : 0;
+          return `<a class="acc-section" href="${l.href}">
+            <span class="acc-section-icon">${ICONS[l.icon] || ''}</span>
+            <span class="acc-section-label">${t(l.label)}</span>
+            ${n ? `<b class="acc-badge">${n}</b>` : ''}
+          </a>`;
+        }).join('')}
+      </div>
+    </nav>`;
+}
+
 function renderLogin() {
   const root = document.getElementById('account');
   const last = Auth.lastAccount();
@@ -288,181 +308,66 @@ function renderLogin() {
       ${last ? `
         <div class="acc-last" id="accLast">
           <span class="acc-last-label">${t('acc.lastAccount')}</span>
-          <button class="acc-last-card" type="button" id="accLastBtn">
-            ${last.method === 'google' ? `<span class="avatar">${AI.google}</span>` : `<span class="avatar">${AI.phone}</span>`}
+          <div class="acc-last-card">
+            ${last.photo ? `<span class="avatar"><img src="${esc(last.photo)}" alt="" referrerpolicy="no-referrer"></span>` : `<span class="avatar">${AI.google}</span>`}
             <span class="acc-last-info">
-              <b>${esc(last.method === 'google' ? (last.name || last.email) : formatPhone(last.phone))}</b>
-              <small>${esc(last.method === 'google' ? last.email : t('acc.byPhone'))}</small>
+              <b>${esc(last.name || last.email)}</b>
+              <small>${esc(last.email)}</small>
             </span>
-            <span class="acc-chev">${AI.chevron}</span>
-          </button>
-          <button class="acc-link" type="button" id="accOther">${t('acc.otherAccount')}</button>
+          </div>
         </div>` : ''}
 
-      <div class="acc-forms" id="accForms"${last ? ' hidden' : ''}>
-        <div class="acc-tabs" role="tablist">
-          <button class="is-active" data-tab="phone" type="button">${t('acc.byPhone')}</button>
-          <button data-tab="google" type="button">${t('acc.byGoogle')}</button>
-        </div>
+      <form class="acc-form" id="googleForm">
+        ${demo ? `
+          <label class="acc-label" for="gEmail">${t('acc.googleEmail')}</label>
+          <input class="acc-input" id="gEmail" type="email" autocomplete="email" placeholder="name@gmail.com" value="${esc(last?.email || '')}">
+          <label class="acc-label" for="gName">${t('acc.googleName')}</label>
+          <input class="acc-input" id="gName" type="text" autocomplete="name" value="${esc(last?.name || '')}">` : ''}
+        <p class="acc-error" id="gErr" hidden></p>
+        <div class="acc-gbtn" id="gsiBtn" hidden></div>
+        <button class="btn acc-google" id="gBtn" type="submit">${AI.google}<span>${t('acc.googleBtn')}</span></button>
+      </form>
 
-        <form class="acc-form" id="phoneForm" autocomplete="on">
-          <label class="acc-label" for="phoneInput">${t('acc.phoneLabel')}</label>
-          <div class="acc-phone">
-            <span>+998</span>
-            <input id="phoneInput" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="90 123 45 67" maxlength="12">
-          </div>
-          <p class="acc-error" id="phoneErr" hidden></p>
-          <button class="btn btn-primary acc-submit" type="submit">${t('acc.sendCode')}</button>
-        </form>
-
-        <form class="acc-form" id="codeForm" hidden>
-          <p class="acc-sent">${t('acc.codeSent')} <b id="codePhone"></b></p>
-          <div class="acc-demo-code" id="demoCode" hidden></div>
-          <label class="acc-label" for="codeInput">${t('acc.codeLabel')}</label>
-          <input class="acc-input acc-code" id="codeInput" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••">
-          <p class="acc-error" id="codeErr" hidden></p>
-          <button class="btn btn-primary acc-submit" type="submit">${t('acc.verify')}</button>
-          <div class="acc-row-links">
-            <button class="acc-link" type="button" id="changePhone">${t('acc.changePhone')}</button>
-            <button class="acc-link" type="button" id="resend">${t('acc.resend')}</button>
-          </div>
-        </form>
-
-        <form class="acc-form" id="googleForm" hidden>
-          ${demo ? `
-            <label class="acc-label" for="gEmail">${t('acc.googleEmail')}</label>
-            <input class="acc-input" id="gEmail" type="email" autocomplete="email" placeholder="name@gmail.com">
-            <label class="acc-label" for="gName">${t('acc.googleName')}</label>
-            <input class="acc-input" id="gName" type="text" autocomplete="name">` : ''}
-          <p class="acc-error" id="gErr" hidden></p>
-          <button class="btn acc-google" type="submit">${AI.google}<span>${t('acc.googleBtn')}</span></button>
-        </form>
-      </div>
-
-      <div id="recaptcha"></div>
       ${demo ? `<p class="acc-note">${ICONS.info}<span>${t('acc.demoNote')}</span></p>` : ''}
       <p class="acc-terms">${t('acc.terms')}</p>
-    </div>`;
+    </div>
+    <div class="acc-auth-sections">${sectionsHTML()}</div>`;
 
   bindLang(root);
   const $ = s => root.querySelector(s);
-  const showErr = (el, msg) => { el.textContent = msg; el.hidden = !msg; };
+  const showErr = msg => { const el = $('#gErr'); el.textContent = msg; el.hidden = !msg; };
 
-  const tabs = root.querySelectorAll('.acc-tabs button');
-  const setTab = name => {
-    tabs.forEach(b => b.classList.toggle('is-active', b.dataset.tab === name));
-    $('#phoneForm').hidden = name !== 'phone';
-    $('#codeForm').hidden = true;
-    $('#googleForm').hidden = name !== 'google';
-  };
-  tabs.forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
-
-  // Telefon raqam maskasi: 90 123 45 67
-  const phoneInput = $('#phoneInput');
-  phoneInput.addEventListener('input', () => {
-    const d = phoneInput.value.replace(/\D/g, '').slice(0, 9);
-    phoneInput.value = [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean).join(' ');
-  });
-
-  let phone = '';
-  const busy = (form, on) => form.querySelector('.acc-submit, .acc-google').disabled = on;
-
-  const sendCode = async () => {
-    const form = $('#phoneForm');
-    busy(form, true);
-    try {
-      const res = await Auth.sendPhoneCode(phone, $('#recaptcha'));
-      $('#phoneForm').hidden = true;
-      $('#codeForm').hidden = false;
-      root.querySelector('.acc-tabs').hidden = true;
-      $('#codePhone').textContent = formatPhone(phone);
-      const dc = $('#demoCode');
-      dc.hidden = !res.demoCode;
-      if (res.demoCode) dc.innerHTML = `${t('acc.demoCode')}: <b>${res.demoCode}</b>`;
-      $('#codeInput').value = '';
-      showErr($('#codeErr'), '');
-      setTimeout(() => $('#codeInput').focus(), 50);
-    } catch (e) {
-      console.warn(e);
-      showErr($('#phoneErr'), t('acc.errGeneric'));
-    } finally { busy(form, false); }
-  };
-
-  $('#phoneForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const d = phoneInput.value.replace(/\D/g, '');
-    if (d.length !== 9) return showErr($('#phoneErr'), t('acc.errPhone'));
-    showErr($('#phoneErr'), '');
-    phone = '+998' + d;
-    sendCode();
-  });
-
-  $('#codeInput').addEventListener('input', e => {
-    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
-    if (e.target.value.length === 6) $('#codeForm').requestSubmit();
-  });
-
-  $('#codeForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    const form = $('#codeForm');
-    busy(form, true);
-    try {
-      await Auth.verifyPhoneCode($('#codeInput').value.trim());
-      onLoggedIn();
-    } catch (err) {
-      showErr($('#codeErr'), err.code === 'bad-code' ? t('acc.errCode') : t('acc.errGeneric'));
-    } finally { busy(form, false); }
-  });
-
-  $('#changePhone').addEventListener('click', () => {
-    root.querySelector('.acc-tabs').hidden = false;
-    setTab('phone');
-    phoneInput.focus();
-  });
-  $('#resend').addEventListener('click', sendCode);
+  // Sayt + haqiqiy Google: Google'ning o'z tugmasi (popup), bizning tugma yashiriladi
+  if (!demo && !Auth.native) {
+    const box = $('#gsiBtn');
+    box.hidden = false;
+    $('#gBtn').hidden = true;
+    Auth.renderGoogleButton(box, () => onLoggedIn(), e => { console.warn(e); showErr(t('acc.errGeneric')); })
+      .catch(() => { box.hidden = true; $('#gBtn').hidden = false; showErr(t('acc.errGoogleLoad')); });
+  }
 
   $('#googleForm').addEventListener('submit', async e => {
     e.preventDefault();
-    const form = $('#googleForm');
     let opts = {};
     if (demo) {
       const email = $('#gEmail').value.trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr($('#gErr'), t('acc.errEmail'));
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr(t('acc.errEmail'));
       opts = { email, name: $('#gName').value.trim() };
     }
-    showErr($('#gErr'), '');
-    busy(form, true);
+    showErr('');
+    const btn = $('#gBtn');
+    btn.disabled = true;
     try {
       await Auth.signInGoogle(opts);
       onLoggedIn();
     } catch (err) {
       console.warn(err);
-      showErr($('#gErr'), /popup/.test(err.code || '') ? t('acc.errPopup') : t('acc.errGeneric'));
-    } finally { busy(form, false); }
+      const msg = String(err?.message || err?.code || '');
+      // foydalanuvchi oynani o'zi yopgan bo'lsa — xato ko'rsatmaymiz
+      if (/cancel/i.test(msg)) return;
+      showErr(err.code === 'plugin' ? t('acc.errGoogleLoad') : t('acc.errGeneric'));
+    } finally { btn.disabled = false; }
   });
-
-  // Oxirgi akkaunt bilan tezkor kirish
-  if (last) {
-    $('#accOther').addEventListener('click', () => {
-      $('#accLast').hidden = true;
-      $('#accForms').hidden = false;
-    });
-    $('#accLastBtn').addEventListener('click', () => {
-      $('#accLast').hidden = true;
-      $('#accForms').hidden = false;
-      if (last.method === 'google') {
-        setTab('google');
-        if (demo) { $('#gEmail').value = last.email; $('#gName').value = last.name || ''; }
-        $('#googleForm').requestSubmit();
-      } else {
-        setTab('phone');
-        const d = last.phone.replace(/\D/g, '').slice(3);
-        phoneInput.value = d;
-        phoneInput.dispatchEvent(new Event('input'));
-        $('#phoneForm').requestSubmit();
-      }
-    });
-  }
 }
 
 async function onLoggedIn() {
@@ -511,9 +416,7 @@ function renderAccount() {
         ${avatarHTML({ ...u, name: profile.name || u.name }, 'avatar avatar-lg')}
         <div class="acc-profile-info">
           <b>${esc(profile.name || accountLabel(u))}</b>
-          <small>${esc(profile.name
-            ? (u.method === 'phone' ? formatPhone(u.phone) : u.email)
-            : (u.method === 'phone' ? t('acc.byPhone') : 'Google · ' + u.email))}</small>
+          <small>${esc(u.email || formatPhone(u.phone))}</small>
         </div>
         ${langSwitchHTML()}
       </div>
@@ -535,8 +438,9 @@ function renderAccount() {
         <a href="#balance"><span>${AI.wallet}</span>${t('acc.q.topup')}</a>
         <a href="plans.html"><span>${ICONS.crown}</span>${t('acc.q.plan')}</a>
         <a href="#promo"><span>${AI.gift}</span>${t('acc.q.promo')}</a>
-        <a href="favorites.html"><span>${ICONS.heart}</span>${t('nav.favorites')}</a>
       </div>
+
+      ${sectionsHTML()}
 
       <nav class="acc-menu">
         ${MENU.map(m => `
@@ -747,7 +651,7 @@ const SECTIONS = {
       <div class="acc-card">
         <div class="acc-setting">
           <b>${t('acc.loginMethod')}</b>
-          <span class="acc-muted">${u.method === 'google' ? 'Google · ' + esc(u.email) : esc(formatPhone(u.phone))}</span>
+          <span class="acc-muted">Google · ${esc(u.email || formatPhone(u.phone))}</span>
         </div>
         <div class="acc-setting">
           <b>${t('acc.memberSince')}</b>

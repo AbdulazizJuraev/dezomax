@@ -118,6 +118,8 @@ function playChannel(ch) {
   if (!ch) return;
   tvCurrent = ch;
   stopStream();
+  // pleyer faqat kanal tanlanganda ko'rinadi
+  document.getElementById('tvStage').hidden = false;
 
   const box = document.getElementById('tvPlayer');
   box.innerHTML = `
@@ -209,7 +211,6 @@ function renderPlaceholder() {
 /* ---------- Ishga tushirish ---------- */
 
 initLayout();
-renderPlaceholder();
 renderGroups();
 
 // tv.html?ch=Sport — Sport bo'limidan "Jonli ko'rish" bosilganda kanal darhol ochiladi
@@ -220,7 +221,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
 document.addEventListener('langchange', () => {
   renderGroups();
   renderNow();
-  if (!tvCurrent) renderPlaceholder();
   const fs = document.getElementById('tvFs');
   if (fs) fs.title = t('tv.fullscreen');
   const um = document.getElementById('tvUnmute');

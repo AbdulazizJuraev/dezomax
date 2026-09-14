@@ -322,7 +322,7 @@ const TABS = [
   { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
   { key: 'sport',   href: 'sport.html',   icon: 'ball', label: 'nav.sport' },
   { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tv' },
-  { key: 'more',    href: null,           icon: 'more', label: 'nav.more' }
+  { key: 'account', href: 'account.html', icon: 'user', label: 'nav.profile' }   // "Yana" bo'limidagilar endi akkaunt sahifasida
 ];
 
 /* "Yana" menyusidagi bo'limlar */
@@ -344,7 +344,7 @@ function activeTab() {
   if (page === 'sport.html') return 'sport';
   if (page === 'tv.html') return 'tv';
   if (page === 'search.html') return 'search';
-  if (['favorites.html', 'downloads.html', 'plans.html', 'catalog.html', 'account.html'].includes(page)) return 'more';
+  if (['favorites.html', 'downloads.html', 'plans.html', 'catalog.html', 'account.html'].includes(page)) return 'account';
   if (page === 'index.html' || page === '') return 'home';
   return null;                       // movie.html — hech biri faol emas
 }
@@ -359,20 +359,22 @@ function renderTabbar() {
   }
 
   const active = activeTab();
+  // Profil tabida — kirgan bo'lsa avatar (rasm yoki harf), aks holda odamcha ikonkasi
+  const user = typeof Auth !== 'undefined' ? Auth.user() : null;
   bar.innerHTML = TABS.map(tb => {
     const cls = `tabbar-item${tb.key === active ? ' is-active' : ''}`;
+    const icon = tb.key === 'account' && user && typeof avatarHTML === 'function'
+      ? avatarHTML(user, 'avatar tabbar-avatar')
+      : ICONS[tb.icon];
     const inner = `
       <span class="tabbar-icon">
-        ${ICONS[tb.icon]}
-        ${tb.key === 'more' ? '<b class="tabbar-badge" data-more-badge hidden></b>' : ''}
+        ${icon}
+        ${tb.key === 'account' ? '<b class="tabbar-badge" data-more-badge hidden></b>' : ''}
       </span>
       <span class="tabbar-label">${t(tb.label)}</span>`;
-    return tb.href
-      ? `<a class="${cls}" href="${tb.href}">${inner}</a>`
-      : `<button class="${cls}" type="button" data-more-btn>${inner}</button>`;
+    return `<a class="${cls}" href="${tb.href}">${inner}</a>`;
   }).join('');
 
-  bar.querySelector('[data-more-btn]')?.addEventListener('click', openMoreSheet);
   updateFavCount();
 }
 

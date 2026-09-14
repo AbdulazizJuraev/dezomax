@@ -1,13 +1,9 @@
 /* ============================================================
-   DezoMax — akkaunt: kirish, profil, header'dagi akkaunt tugmasi
+   DezoMax — akkaunt: Google orqali kirish, profil, header'dagi akkaunt tugmasi
    ------------------------------------------------------------
-   Ikki rejim:
-   - firebase: js/firebase-config.js to'ldirilgan bo'lsa — haqiqiy SMS kod
-     va Google orqali kirish, profil Firestore'da (users/{uid}) saqlanadi.
-   - demo: sozlama yo'q — SMS yuborilmaydi, sinov kodi ekranda chiqadi,
-     profil shu qurilmaning localStorage'ida saqlanadi.
-   Ikkala rejimda ham kirgan akkaunt eslab qolinadi: qayta kirganda
-   telefon raqam yoki Google akkaunt tayyor turadi.
+   Kirish faqat Google orqali (js/firebase-config.js → GOOGLE_WEB_CLIENT_ID).
+   Sozlama bo'sh bo'lsa — demo rejim. Kirgan Google akkaunt eslab qolinadi.
+   Profil (tarif, balans...) shu qurilmada saqlanadi.
    ============================================================ */
 
 const AUTH_USER_KEY = 'dezomax_user';
@@ -20,7 +16,7 @@ Object.assign(I18N.uz, {
   'nav.account': 'Akkaunt',
   'acc.login': 'Kirish',
   'acc.loginTitle': 'Akkauntga kirish',
-  'acc.loginSub': 'Obunangiz, balansingiz va sozlamalaringiz akkauntingizda saqlanadi.',
+  'acc.loginSub': 'Google akkauntingiz bilan bir bosishda kiring. Obuna, balans va sozlamalar akkauntingizga bog‘lanadi.',
   'acc.byPhone': 'Telefon raqam',
   'acc.byGoogle': 'Google',
   'acc.phoneLabel': 'Telefon raqamingiz',
@@ -36,7 +32,8 @@ Object.assign(I18N.uz, {
   'acc.continue': 'Davom etish',
   'acc.lastAccount': 'Avval shu akkaunt bilan kirgansiz',
   'acc.otherAccount': 'Boshqa akkaunt bilan kirish',
-  'acc.demoNote': 'Demo rejim: SMS va Google hali ulanmagan. Sinov kodi shu yerda ko‘rsatiladi, ma’lumotlar shu qurilmada saqlanadi.',
+  'acc.demoNote': 'Demo rejim: Google hali ulanmagan — Gmail manzilingizni yozing. Ma’lumotlar shu qurilmada saqlanadi.',
+  'acc.errGoogleLoad': 'Google bilan bog‘lanib bo‘lmadi. Internetni tekshiring.',
   'acc.demoCode': 'Sinov kodi',
   'acc.errPhone': 'Raqamni to‘liq kiriting',
   'acc.errCode': 'Kod noto‘g‘ri',
@@ -56,7 +53,7 @@ Object.assign(I18N.ru, {
   'nav.account': 'Аккаунт',
   'acc.login': 'Войти',
   'acc.loginTitle': 'Вход в аккаунт',
-  'acc.loginSub': 'Подписка, баланс и настройки сохраняются в вашем аккаунте.',
+  'acc.loginSub': 'Войдите в один клик через аккаунт Google. Подписка, баланс и настройки привязываются к аккаунту.',
   'acc.byPhone': 'Номер телефона',
   'acc.byGoogle': 'Google',
   'acc.phoneLabel': 'Ваш номер телефона',
@@ -72,7 +69,8 @@ Object.assign(I18N.ru, {
   'acc.continue': 'Продолжить',
   'acc.lastAccount': 'Ранее вы входили с этим аккаунтом',
   'acc.otherAccount': 'Войти с другим аккаунтом',
-  'acc.demoNote': 'Демо-режим: SMS и Google пока не подключены. Тестовый код показывается здесь, данные хранятся на этом устройстве.',
+  'acc.demoNote': 'Демо-режим: Google пока не подключён — введите адрес Gmail. Данные хранятся на этом устройстве.',
+  'acc.errGoogleLoad': 'Не удалось связаться с Google. Проверьте интернет.',
   'acc.demoCode': 'Тестовый код',
   'acc.errPhone': 'Введите номер полностью',
   'acc.errCode': 'Неверный код',
@@ -169,103 +167,104 @@ function touchDevice(profile) {
   else list.push({ ...info, addedAt: Date.now(), lastSeen: Date.now() });
 }
 
-/* ---------- Firebase (faqat sozlama bo'lsa yuklanadi) ---------- */
+/* ---------- Google orqali kirish ----------
+   - Sayt: Google Identity Services — Google'ning rasmiy "Sign in with Google" tugmasi
+   - Android ilova: @capgo/capacitor-social-login — telefondagi Google akkaunt tanlash oynasi
+   - Demo (GOOGLE_WEB_CLIENT_ID bo'sh): Gmail manzili qo'lda kiritiladi */
 
-const FB_VERSION = '10.14.1';
-let fbPromise = null;
+const GOOGLE_ID = (typeof GOOGLE_WEB_CLIENT_ID !== 'undefined' && GOOGLE_WEB_CLIENT_ID) || '';
+const IS_NATIVE = !!(window.Capacitor?.isNativePlatform?.());
 
 function loadScript(src) {
   return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) return resolve();
     const s = document.createElement('script');
     s.src = src;
+    s.async = true;
     s.onload = resolve;
     s.onerror = () => reject(new Error('load ' + src));
     document.head.appendChild(s);
   });
 }
 
-function firebaseReady() {
-  if (!fbPromise) {
-    const base = `https://www.gstatic.com/firebasejs/${FB_VERSION}/`;
-    fbPromise = loadScript(base + 'firebase-app-compat.js')
-      .then(() => Promise.all([
-        loadScript(base + 'firebase-auth-compat.js'),
-        loadScript(base + 'firebase-firestore-compat.js')
-      ]))
-      .then(() => {
-        if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
-        firebase.auth().languageCode = LANG === 'ru' ? 'ru' : 'uz';
-        return firebase;
-      });
-  }
-  return fbPromise;
+/* Google ID token (JWT) ichidagi ism, email, rasm */
+function decodeJwt(token) {
+  try {
+    const part = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const json = decodeURIComponent(atob(part).split('').map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''));
+    return JSON.parse(json);
+  } catch { return {}; }
 }
 
-/* ---------- Auth ---------- */
-
 const Auth = {
-  mode: (typeof FIREBASE_CONFIG !== 'undefined' && FIREBASE_CONFIG) ? 'firebase' : 'demo',
-  _pending: null,          // { phone, code | confirmation }
+  mode: GOOGLE_ID ? 'google' : 'demo',
+  native: IS_NATIVE,
 
   user() { return readJSON(AUTH_USER_KEY); },
-  lastAccount() { return readJSON(AUTH_LAST_KEY); },
-  forgetLast() { localStorage.removeItem(AUTH_LAST_KEY); },
-
-  /* Telefon: 1-qadam — kod yuborish */
-  async sendPhoneCode(phone, recaptchaEl) {
-    if (this.mode === 'demo') {
-      const code = String(Math.floor(100000 + Math.random() * 900000));
-      this._pending = { phone, code };
-      return { demoCode: code };
-    }
-    const fb = await firebaseReady();
-    if (!this._verifier) {
-      this._verifier = new fb.auth.RecaptchaVerifier(recaptchaEl, { size: 'invisible' });
-    }
-    const confirmation = await fb.auth().signInWithPhoneNumber(phone, this._verifier);
-    this._pending = { phone, confirmation };
-    return {};
+  lastAccount() {
+    const last = readJSON(AUTH_LAST_KEY);
+    return last && last.method === 'google' ? last : null;     // eski telefon raqamli yozuvlar e'tiborga olinmaydi
   },
 
-  /* Telefon: 2-qadam — kodni tekshirish */
-  async verifyPhoneCode(code) {
-    const p = this._pending;
-    if (!p) throw new Error('no-pending');
-    if (this.mode === 'demo') {
-      if (code !== p.code) throw Object.assign(new Error('bad-code'), { code: 'bad-code' });
-      return this._finish({ uid: 'phone_' + p.phone.replace(/\D/g, ''), method: 'phone', phone: p.phone });
-    }
-    try {
-      const cred = await p.confirmation.confirm(code);
-      return this._finish({ uid: cred.user.uid, method: 'phone', phone: cred.user.phoneNumber || p.phone });
-    } catch (e) {
-      if (e.code === 'auth/invalid-verification-code') e.code = 'bad-code';
-      throw e;
-    }
+  /* Sayt: Google tugmasini chizish. onUser(user) — muvaffaqiyatli kirganda */
+  async renderGoogleButton(el, onUser, onError) {
+    if (!GOOGLE_ID || IS_NATIVE) return false;
+    await loadScript('https://accounts.google.com/gsi/client');
+    google.accounts.id.initialize({
+      client_id: GOOGLE_ID,
+      ux_mode: 'popup',
+      auto_select: false,
+      callback: async resp => {
+        try {
+          const p = decodeJwt(resp.credential);
+          if (!p.email) throw new Error('no email');
+          onUser(await this._finish({ uid: 'google_' + p.sub, method: 'google', email: p.email, name: p.name || '', photo: p.picture || '' }));
+        } catch (e) { onError && onError(e); }
+      }
+    });
+    google.accounts.id.renderButton(el, {
+      theme: 'filled_black', size: 'large', shape: 'pill', text: 'continue_with',
+      width: Math.min(400, Math.max(200, el.clientWidth || 300)),
+      locale: LANG === 'ru' ? 'ru' : 'uz'
+    });
+    return true;
   },
 
-  /* Google. Demo rejimda — email va ism so'raladi (opts) */
+  /* Ilova: telefondagi Google akkauntlardan tanlash. Demo: opts = { email, name } */
   async signInGoogle(opts = {}) {
-    if (this.mode === 'demo') {
+    if (!GOOGLE_ID) {
       const email = String(opts.email || '').trim().toLowerCase();
       return this._finish({ uid: 'google_' + email.replace(/[^a-z0-9]/g, '_'), method: 'google', email, name: opts.name || email.split('@')[0] });
     }
-    const fb = await firebaseReady();
-    const provider = new fb.auth.GoogleAuthProvider();
-    if (opts.email) provider.setCustomParameters({ login_hint: opts.email });
-    const cred = await fb.auth().signInWithPopup(provider);
-    const u = cred.user;
-    return this._finish({ uid: u.uid, method: 'google', email: u.email, name: u.displayName || '', photo: u.photoURL || '' });
+    const SL = window.Capacitor?.Plugins?.SocialLogin;
+    if (!SL) throw Object.assign(new Error('plugin'), { code: 'plugin' });
+    if (!this._slReady) {
+      await SL.initialize({ google: { webClientId: GOOGLE_ID } });
+      this._slReady = true;
+    }
+    const res = await SL.login({ provider: 'google', options: { scopes: ['email', 'profile'] } });
+    const r = res.result || {};
+    const p = r.profile || {};
+    const jwt = r.idToken ? decodeJwt(r.idToken) : {};
+    const email = p.email || jwt.email;
+    if (!email) throw new Error('no email');
+    return this._finish({
+      uid: 'google_' + (p.id || jwt.sub || email),
+      method: 'google', email,
+      name: p.name || jwt.name || '',
+      photo: p.imageUrl || jwt.picture || ''
+    });
   },
 
   async _finish(user) {
     user.at = Date.now();
     writeJSON(AUTH_USER_KEY, user);
-    // Keyingi safar tezkor kirish uchun — telefon yoki Google akkaunt eslab qolinadi
-    writeJSON(AUTH_LAST_KEY, { method: user.method, phone: user.phone || '', email: user.email || '', name: user.name || '', photo: user.photo || '' });
+    // keyingi safar tezkor kirish uchun Google akkaunt eslab qolinadi
+    writeJSON(AUTH_LAST_KEY, { method: 'google', email: user.email, name: user.name || '', photo: user.photo || '' });
 
     const profile = await this.loadProfile(user);
-    ['phone', 'email', 'name'].forEach(k => { if (user[k] && !profile[k]) profile[k] = user[k]; });
+    ['email', 'name', 'photo'].forEach(k => { if (user[k]) profile[k] = user[k]; });
+    profile.method = 'google';
     touchDevice(profile);
     await this.saveProfile(profile);
     renderAccountButtons();
@@ -273,38 +272,22 @@ const Auth = {
   },
 
   async signOut() {
-    if (this.mode === 'firebase') {
-      try { const fb = await firebaseReady(); await fb.auth().signOut(); } catch {}
-    }
+    try {
+      if (IS_NATIVE && GOOGLE_ID) await window.Capacitor.Plugins.SocialLogin?.logout({ provider: 'google' });
+      else if (window.google?.accounts?.id) google.accounts.id.disableAutoSelect();
+    } catch {}
     localStorage.removeItem(AUTH_USER_KEY);
     renderAccountButtons();
   },
 
-  /* Profil: firebase — Firestore, demo — localStorage */
+  /* Profil shu qurilmada saqlanadi (server ulanmagan) */
   async loadProfile(user = this.user()) {
     if (!user) return null;
-    let data = null;
-    if (this.mode === 'firebase') {
-      try {
-        const fb = await firebaseReady();
-        const snap = await fb.firestore().collection('users').doc(user.uid).get();
-        if (snap.exists) data = snap.data();
-      } catch (e) { console.warn('Firestore o‘qilmadi', e); }
-      data = data || readJSON(PROFILE_KEY(user.uid));
-    } else {
-      data = readJSON(PROFILE_KEY(user.uid));
-    }
-    return Object.assign(defaultProfile(user), data || {});
+    return Object.assign(defaultProfile(user), readJSON(PROFILE_KEY(user.uid)) || {});
   },
 
   async saveProfile(profile) {
-    writeJSON(PROFILE_KEY(profile.uid), profile);     // oflayn nusxa
-    if (this.mode === 'firebase') {
-      try {
-        const fb = await firebaseReady();
-        await fb.firestore().collection('users').doc(profile.uid).set(profile);
-      } catch (e) { console.warn('Firestore’ga yozilmadi', e); }
-    }
+    writeJSON(PROFILE_KEY(profile.uid), profile);
     document.dispatchEvent(new CustomEvent('profilechange', { detail: profile }));
   }
 };
@@ -313,7 +296,7 @@ const Auth = {
 
 function accountLabel(u) {
   if (!u) return t('acc.login');
-  return u.name || (u.method === 'phone' ? formatPhone(u.phone) : u.email);
+  return u.name || u.email || formatPhone(u.phone);
 }
 
 function avatarHTML(u, cls = 'avatar') {
@@ -338,10 +321,3 @@ function renderAccountButtons() {
 document.addEventListener('DOMContentLoaded', renderAccountButtons);
 if (document.readyState !== 'loading') renderAccountButtons();
 document.addEventListener('langchange', renderAccountButtons);
-
-/* Firebase rejimida sessiya muddati tugagan bo'lsa — mahalliy yozuvni ham tozalaymiz */
-if (Auth.mode === 'firebase' && Auth.user()) {
-  firebaseReady().then(fb => fb.auth().onAuthStateChanged(u => {
-    if (!u && Auth.user()) { localStorage.removeItem(AUTH_USER_KEY); renderAccountButtons(); }
-  })).catch(() => {});
-}
