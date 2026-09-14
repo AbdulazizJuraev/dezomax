@@ -166,7 +166,7 @@ Object.assign(I18N.ru, {
   'acc.promoTx': 'Промокод'
 });
 
-const APP_VERSION = '1.4';
+const APP_VERSION = '1.5';
 
 /* Promokodlar: bonus — balansga so'm, plan — tarif necha kunga */
 const PROMOCODES = {
