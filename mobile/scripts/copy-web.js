@@ -17,6 +17,8 @@ function copyDir(src, dst) {
   let n = 0;
   for (const e of fs.readdirSync(src, { withFileTypes: true })) {
     if (SKIP.has(e.name) || e.name.startsWith('.')) continue;
+    // hujjatlar (pdf, docx...) va ish fayllari ilovaga tushmasin
+    if (e.isFile() && /\.(pdf|docx?|xlsx?|pptx?|zip|rar|psd|ai|cdr|txt)$/i.test(e.name)) continue;
     const s = path.join(src, e.name), d = path.join(dst, e.name);
     if (e.isDirectory()) n += copyDir(s, d);
     else { fs.copyFileSync(s, d); n++; }
