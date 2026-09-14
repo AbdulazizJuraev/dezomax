@@ -2244,13 +2244,13 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   background: radial-gradient(circle, rgba(10, 147, 220, .35), transparent 65%);
   filter: blur(20px);
   opacity: 0;
-  animation: introGlow 3.5s ease-out forwards;
+  animation: introGlow 4.5s ease-out forwards;
 }
 
 .intro-logo {
   position: relative;
   width: min(78vw, 460px);
-  animation: introLogo 3.5s cubic-bezier(.2, .8, .2, 1) forwards;
+  animation: introLogo 4.5s cubic-bezier(.2, .8, .2, 1) forwards;
 }
 
 /* avval faqat D belgisi, keyin yozuv chapdan o'ngga ochiladi */
@@ -2258,7 +2258,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   width: 100%;
   display: block;
   clip-path: inset(0 81% 0 0 round 18%);
-  animation: introReveal 3.5s cubic-bezier(.65, 0, .25, 1) forwards;
+  animation: introReveal 4.5s cubic-bezier(.65, 0, .25, 1) forwards;
 }
 
 .intro-shine {
@@ -2270,7 +2270,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   mix-blend-mode: overlay;
   -webkit-mask: url(../images/logo/logo.png) center / 100% auto no-repeat;
   mask: url(../images/logo/logo.png) center / 100% auto no-repeat;
-  animation: introShine 3.5s ease-in-out forwards;
+  animation: introShine 4.5s ease-in-out forwards;
 }
 
 .intro-bar {
@@ -2290,7 +2290,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   background: var(--grad);
   transform-origin: left;
   transform: scaleX(0);
-  animation: introBar 3.4s cubic-bezier(.4, 0, .2, 1) forwards;
+  animation: introBar 4.4s cubic-bezier(.4, 0, .2, 1) forwards;
 }
 
 @keyframes introGlow {
@@ -3544,7 +3544,7 @@ img, video, iframe { max-width: 100%; }
 .intro-logo .logo-svg-el {
   width: 100%; height: auto; display: block;
   clip-path: inset(0 81% 0 0 round 18%);
-  animation: introReveal 3.5s cubic-bezier(.65, 0, .25, 1) forwards;
+  animation: introReveal 4.5s cubic-bezier(.65, 0, .25, 1) forwards;
 }
 
 @media (max-width: 380px) { .logo-svg { height: 27px; } }
@@ -3667,7 +3667,6 @@ img, video, iframe { max-width: 100%; }
   .to-top { bottom: calc(96px + var(--sab)); }
 
   /* profil pastki navbarda — headerdagi takroriy tugma kerak emas */
-  .header .account-btn { display: none; }
 }
 
 @media (max-width: 300px) {
@@ -3715,4 +3714,32 @@ img, video, iframe { max-width: 100%; }
   .acc-section-icon { display: none; }
   .acc-section { padding: 8px 6px; font-size: 12px; }
   .acc-section-label { white-space: normal; overflow-wrap: anywhere; }
+}
+
+/* ---------------- Header: profil — ko'k-qizil gradient halqa (qimirlamaydi) ---------------- */
+
+.account-btn {
+  width: 42px; height: 42px;
+  padding: 2.5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0a93dc 0%, #3b82f6 35%, #e11d48 70%, #ff3b5c 100%);
+  box-shadow: 0 4px 16px rgba(10, 147, 220, .25), 0 4px 16px rgba(225, 29, 72, .18);
+}
+
+.account-btn .avatar,
+.account-btn.is-in .avatar {
+  width: 100%; height: 100%;
+  border: 2px solid var(--bg);
+  box-shadow: none;
+}
+
+.account-btn .avatar.is-guest { background: #141822; border-color: var(--bg); color: #e6ebf3; }
+.account-btn:hover { filter: brightness(1.12); }
+
+@media (max-width: 300px) {
+  .account-btn { width: 32px; height: 32px; padding: 2px; }
+  .account-btn .avatar { border-width: 1.5px; }
+}
+@media (max-width: 150px) {
+  .account-btn { width: 26px; height: 26px; padding: 1.5px; }
 }

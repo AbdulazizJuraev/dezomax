@@ -1,5 +1,5 @@
 /* ============================================================
-   DezoMax — kirishdagi 4 soniyalik logo animatsiyasi
+   DezoMax — kirishdagi 5 soniyalik logo animatsiyasi
    <body> ning boshida yuklanadi — sahifa ko'rinishidan oldin ekranni yopadi.
    Bir seansda bir marta ko'rsatiladi (ilovada — har ochilganda).
    ============================================================ */
@@ -12,7 +12,7 @@
   try { sessionStorage.setItem(KEY, '1'); } catch {}
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const DURATION = reduce ? 1200 : 4000;
+  const DURATION = reduce ? 1200 : 5000;
 
   const el = document.createElement('div');
   el.className = 'intro';

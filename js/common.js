@@ -321,8 +321,8 @@ const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
   { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
   { key: 'sport',   href: 'sport.html',   icon: 'ball', label: 'nav.sport' },
-  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tv' },
-  { key: 'account', href: 'account.html', icon: 'user', label: 'nav.profile' }   // "Yana" bo'limidagilar endi akkaunt sahifasida
+  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tv' }
+  // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
 ];
 
 /* "Yana" menyusidagi bo'limlar */
@@ -344,7 +344,6 @@ function activeTab() {
   if (page === 'sport.html') return 'sport';
   if (page === 'tv.html') return 'tv';
   if (page === 'search.html') return 'search';
-  if (['favorites.html', 'downloads.html', 'plans.html', 'catalog.html', 'account.html'].includes(page)) return 'account';
   if (page === 'index.html' || page === '') return 'home';
   return null;                       // movie.html — hech biri faol emas
 }
