@@ -2104,3 +2104,33 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 }
 
 html.ytp-lock, html.ytp-lock body { overflow: hidden; }
+
+/* ---------------- Ko'rish holati belgilari: O'zbekcha / To'liq / Treyler ---------------- */
+
+.badge-watch {
+  position: absolute;
+  left: 9px; bottom: 9px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px 4px 7px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .01em;
+  backdrop-filter: blur(8px);
+  line-height: 1.2;
+}
+
+.badge-watch svg { width: 10px; height: 10px; fill: currentColor; }
+
+.badge-watch.is-uz { background: linear-gradient(135deg, #16a34a, #0e7a38); color: #fff; box-shadow: 0 4px 14px rgba(22, 163, 74, .35); }
+.badge-watch.is-full { background: rgba(22, 163, 74, .85); color: #fff; }
+.badge-watch.is-trailer { background: rgba(5, 7, 12, .78); color: #c7cdd9; border: 1px solid var(--line-strong); padding-left: 9px; }
+
+.tag-watch.is-uz, .tag-watch.is-full { background: rgba(22, 163, 74, .16); border-color: rgba(34, 197, 94, .4); color: #6ee7a0; font-weight: 700; }
+.tag-watch.is-trailer { background: rgba(255, 255, 255, .06); border-color: var(--line-strong); color: var(--text-dim); font-weight: 650; }
+
+/* Slayderda keng muqova butun fon bo'ylab */
+.hero-bg.is-wide { background-size: cover; background-position: center 30%; }

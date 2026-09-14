@@ -173,6 +173,10 @@ function renderMovie() {
     [t('movie.rating'), movie.rating ? movie.rating.toFixed(1) + ' / 10' : '']
   ].filter(([, v]) => v && v !== '—');
 
+  // Faqat treyleri bor kinoda "Hozir ko'rish" emas — "Treylerni ko'rish" (foydalanuvchi aldanmasin)
+  const watchSt = watchStatus(movie);
+  const watchLabel = t(watchSt === 'trailer' ? 'movie.watchTrailer' : 'movie.watchNow');
+
   const subTitle = [LANG === 'uz' ? movie.title.ru : movie.title.uz, movie.year]
     .filter(x => x && x !== title(movie)).join(' · ');
 
@@ -188,6 +192,9 @@ function renderMovie() {
           ${subTitle ? `<div class="mv-sub">${esc(subTitle)}</div>` : ''}
 
           <div class="mv-tags">
+            ${watchSt === 'uz' ? `<span class="tag tag-watch is-uz">${ICONS.play} ${t('watch.statusUz')}</span>` : ''}
+            ${watchSt === 'full' ? `<span class="tag tag-watch is-full">${ICONS.play} ${t('watch.statusFull')}</span>` : ''}
+            ${watchSt === 'trailer' ? `<span class="tag tag-watch is-trailer">${t('watch.statusTrailer')}</span>` : ''}
             ${movie.rating ? `<span class="tag tag-rating">${ICONS.star} ${movie.rating.toFixed(1)}</span>` : ''}
             <span class="tag">${typeName(movie.type)}</span>
             ${movie.genres.map(g => `<a class="tag" href="catalog.html?genre=${g}">${esc(genreName(g))}</a>`).join('')}
@@ -197,8 +204,8 @@ function renderMovie() {
           <p class="mv-desc">${esc(descOf(movie))}</p>
 
           <div class="mv-actions">
-            <a class="btn btn-primary" href="#player">${ICONS.play}<span>${t('movie.watchNow')}</span></a>
-            ${movie.trailer ? `<a class="btn btn-ghost" href="#player" id="trailerBtn">${ICONS.play}<span>${t('movie.trailer')}</span></a>` : ''}
+            <a class="btn btn-primary" href="#player">${ICONS.play}<span>${watchLabel}</span></a>
+            ${movie.trailer && movie.video ? `<a class="btn btn-ghost" href="#player" id="trailerBtn">${ICONS.play}<span>${t('movie.trailer')}</span></a>` : ''}
             <button class="btn btn-ghost" id="favBtn">${ICONS.heart}<span id="favLabel"></span></button>
             <button class="btn btn-ghost" id="dlBtn">${ICONS.download}<span id="dlLabel"></span></button>
           </div>
@@ -214,7 +221,7 @@ function renderMovie() {
 
   <div class="wrap">
     <section class="section" id="player">
-      <div class="section-head"><i class="bar"></i><h2>${t('movie.watchNow')}</h2></div>
+      <div class="section-head"><i class="bar"></i><h2>${watchLabel}</h2></div>
       ${playerSectionHTML(movie)}
     </section>
 

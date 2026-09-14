@@ -35,6 +35,9 @@
                  Bo'sh bo'lsa — pleyerda treyler ko'rsatiladi.
      source    - (ixtiyoriy) { name, url } — video joylangan rasmiy kanal/platforma.
                  Kino sahifasida pleyer ostida "Rasmiy manba" deb ko'rsatiladi
+     audio     - (ixtiyoriy) 'uz' — video o'zbek tilida. Kartochkadagi "O'zbekcha"
+                 belgisi va katalogdagi "O'zbek tilida to'liq" filtri shunga qaraydi
+                 (franchise: 'uzbek' bo'lsa avtomatik o'zbekcha hisoblanadi)
      featured  - bosh sahifadagi katta sliderda ko'rsatilsinmi
 
    year, rating, director — ixtiyoriy: noma'lum bo'lsa yozmang, sayt ularni
@@ -1364,7 +1367,7 @@ const MOVIES = [
     poster: 'images/uz/xoreograf.jpg',
     video: 'https://www.youtube.com/watch?v=PUU02klggno',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
-    featured: false
+    featured: true
   },
   {
     id: 77, slug: "uz-zamonaviy-sovchilar-4", year: 2022, type: 'film', franchise: 'uzbek',
@@ -1381,7 +1384,7 @@ const MOVIES = [
     poster: 'images/uz/zamonaviy-sovchilar-4.jpg',
     video: 'https://www.youtube.com/watch?v=iGWKed8Qdwc',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
-    featured: false
+    featured: true
   },
   {
     id: 78, slug: "uz-oling-quda-bering-quda", type: 'film', franchise: 'uzbek',
@@ -1415,7 +1418,7 @@ const MOVIES = [
     poster: 'images/uz/snayper.jpg',
     video: 'https://www.youtube.com/watch?v=0ycW8BtCZdg',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
-    featured: false
+    featured: true
   },
   {
     id: 80, slug: "uz-sotqin", type: 'film', franchise: 'uzbek',
@@ -1575,7 +1578,7 @@ const MOVIES = [
     poster: 'images/uz/tutqunlik.jpg',
     video: 'https://www.youtube.com/watch?v=Y-mmYdJRvr0',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
-    featured: false
+    featured: true
   },
   {
     id: 90, slug: "uz-101-reys", year: 2021, type: 'film', franchise: 'uzbek',
@@ -1591,7 +1594,7 @@ const MOVIES = [
     poster: 'images/uz/101-reys.jpg',
     video: 'https://www.youtube.com/watch?v=uD2L0CmWwnM',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
-    featured: false
+    featured: true
   },
   {
     id: 91, slug: "uz-oshiqlar", type: 'film', franchise: 'uzbek',

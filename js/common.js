@@ -106,6 +106,24 @@ function backdropCSS(m) {
           linear-gradient(120deg, ${c2} 0%, #07080c 70%)`;
 }
 
+/* ---------- Ko'rish holati ----------
+   'uz'      — o'zbek tilida to'liq film (audio: 'uz' yoki o'zbek kinosi)
+   'full'    — to'liq film, lekin o'zbekcha emas (masalan ovozsiz multfilm)
+   'trailer' — faqat treyler
+   'none'    — hech narsa yo'q */
+function watchStatus(m) {
+  if (m.video) return (m.audio === 'uz' || m.franchise === 'uzbek') ? 'uz' : 'full';
+  return m.trailer ? 'trailer' : 'none';
+}
+
+function watchBadgeHTML(m) {
+  const st = watchStatus(m);
+  if (st === 'uz')      return `<div class="badge-watch is-uz">${ICONS.play}${t('watch.uz')}</div>`;
+  if (st === 'full')    return `<div class="badge-watch is-full">${ICONS.play}${t('watch.full')}</div>`;
+  if (st === 'trailer') return `<div class="badge-watch is-trailer">${t('watch.trailer')}</div>`;
+  return '';
+}
+
 /* ---------- Kartochka ---------- */
 
 function cardHTML(m) {
@@ -120,6 +138,7 @@ function cardHTML(m) {
       <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
       ${m.rating ? `<div class="badge-rating">${ICONS.star}${m.rating.toFixed(1)}</div>` : ''}
       <div class="badge-type">${typeName(m.type)}</div>
+      ${watchBadgeHTML(m)}
     </div>
     <div class="card-body">
       <h3 class="card-title">${esc(title(m))}</h3>

@@ -2,7 +2,10 @@
    DezoMax — bosh sahifa / главная страница
    ============================================================ */
 
-const featured = MOVIES.filter(m => m.featured);
+// O'zbek tilida to'liq ko'riladigan filmlar slayderda birinchi
+const featured = MOVIES.filter(m => m.featured)
+  .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
+  .slice(0, 10);   // slayder juda uzun bo'lib ketmasin
 let heroIndex = 0;
 let heroTimer = null;
 
@@ -14,6 +17,12 @@ function renderHero() {
   if (!hero) return;
 
   const slides = featured.map((m, i) => {
+    const st = watchStatus(m);
+    // o'zbek filmlarining muqovasi keng (16:9) — butun fonga yoyiladi
+    const wideArt = m.poster && m.poster.startsWith('images/uz/');
+    const statusTag = st === 'uz'
+      ? `<span class="tag tag-watch is-uz">${ICONS.play} ${t('watch.statusUz')}</span>`
+      : st === 'trailer' ? `<span class="tag tag-watch is-trailer">${t('watch.statusTrailer')}</span>` : '';
     const meta = [
       m.year,
       typeName(m.type),
@@ -22,20 +31,21 @@ function renderHero() {
     ].filter(x => x && x !== '—');
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
-      <div class="hero-bg" style="background-image:${backdropCSS(m)}"></div>
-      ${m.poster ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
+      <div class="hero-bg${wideArt ? ' is-wide' : ''}" style="background-image:${wideArt ? `url('${esc(m.poster)}')` : backdropCSS(m)}"></div>
+      ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
       <div class="hero-inner">
         <div class="wrap">
           <div class="hero-content">
             <span class="hero-badge">DezoMax ${LANG === 'uz' ? 'tanlovi' : 'выбирает'}</span>
             <h1>${esc(title(m))}</h1>
             <div class="hero-meta">
+              ${statusTag}
               ${m.rating ? `<span class="tag tag-rating">${ICONS.star} ${m.rating.toFixed(1)}</span>` : ''}
               ${meta.map(x => `<span>${esc(x)}</span>`).join('<i class="dot"></i>')}
             </div>
             <p>${esc(descOf(m))}</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="movie.html?id=${m.id}&play=1">${ICONS.play}<span>${t('hero.watch')}</span></a>
+              <a class="btn btn-primary" href="movie.html?id=${m.id}&play=1">${ICONS.play}<span>${t(st === 'trailer' ? 'hero.trailer' : 'hero.watch')}</span></a>
               <a class="btn btn-ghost" href="movie.html?id=${m.id}">${ICONS.info}<span>${t('hero.more')}</span></a>
             </div>
           </div>
