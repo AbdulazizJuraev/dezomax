@@ -16,10 +16,15 @@ Sayt GitHub Pages'da turadi va `main` tarmog'iga har bir push'dan keyin
 **avtomatik** qayta quriladi. Ya'ni o'zgarish kiritganingizdan so'ng:
 
 ```bash
+node tools/bump-version.js
 git add -A
 git commit -m "Nima o'zgargani haqida qisqacha"
 git push
 ```
+
+> `tools/bump-version.js` barcha HTML fayllardagi css/js havolalariga yangi `?v=` versiya
+> qo'yadi. Busiz brauzer yangi sahifani keshdagi eski JavaScript bilan ochib qolishi
+> mumkin (GitHub Pages fayllarni 10 daqiqagacha keshlaydi) va sahifa buziladi.
 
 Yangilanish 30–90 soniyada jonli saytda paydo bo'ladi. Hech qanday qo'shimcha
 sozlash, build yoki deploy buyrug'i kerak emas.
