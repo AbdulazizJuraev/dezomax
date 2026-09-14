@@ -1855,3 +1855,173 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 .f1-session.is-live { border-color: rgba(255, 46, 76, .45); }
 .f1-s-name { font-weight: 650; }
 .f1-s-time { color: var(--text-dim); white-space: nowrap; }
+
+/* ---------------- O'z YouTube pleyerimiz (js/ytplayer.js) ---------------- */
+
+.player-wrap.ytp {
+  aspect-ratio: auto;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  outline: none;
+}
+
+.ytp-stage { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
+.ytp-stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Boshlanishdan oldingi ekran — butunlay bizniki */
+.ytp-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  background: #05060a;
+}
+
+.ytp-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.ytp-cover-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at 50% 50%, rgba(0, 0, 0, .1), rgba(0, 0, 0, .55)),
+    linear-gradient(to top, rgba(5, 6, 10, .85) 0%, transparent 45%);
+}
+
+.ytp-big {
+  position: relative;
+  z-index: 1;
+  width: 82px; height: 82px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(255, 46, 76, .55);
+  transition: transform .2s;
+}
+
+.ytp-big svg { width: 32px; height: 32px; margin-left: 5px; }
+.ytp-cover:hover .ytp-big { transform: scale(1.07); }
+
+.ytp-cover-title {
+  position: absolute;
+  left: 20px; right: 20px; bottom: 18px;
+  z-index: 1;
+  text-align: left;
+  font-size: clamp(16px, 2.4vw, 24px);
+  font-weight: 750;
+  letter-spacing: -.02em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .7);
+}
+
+.ytp-cover.is-loading .ytp-big { animation: ytpPulse 1s ease-in-out infinite; }
+@keyframes ytpPulse { 50% { transform: scale(.9); opacity: .75; } }
+
+/* Tugash / xato ekrani */
+.ytp-msg {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 6, 10, .92);
+  text-align: center;
+  padding: 20px;
+}
+
+.ytp-msg-inner p { margin: 0 0 14px; color: var(--text-dim); font-size: 14px; max-width: 380px; }
+
+.ytp-replay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.ytp-replay svg {
+  width: 64px; height: 64px;
+  padding: 16px;
+  border-radius: 50%;
+  background: var(--grad);
+  box-shadow: 0 10px 34px rgba(255, 46, 76, .45);
+}
+
+/* Boshqaruv paneli — video OSTIDA */
+.ytp-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #0f1219, #0a0c12);
+  border-top: 1px solid var(--line);
+}
+
+.ytp-btn {
+  width: 38px; height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  color: #e9edf5;
+  transition: background .15s, color .15s;
+}
+
+.ytp-btn:hover { background: rgba(255, 255, 255, .08); color: #fff; }
+.ytp-btn svg { width: 21px; height: 21px; }
+#ytpPlay svg { width: 19px; height: 19px; }
+
+.ytp-time {
+  font-size: 12.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dim);
+  min-width: 38px;
+  text-align: center;
+}
+
+.ytp-seek, .ytp-vol {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--accent) 0%, #ff5e3a var(--p, 0%), rgba(255, 255, 255, .16) var(--p, 0%));
+  cursor: pointer;
+  outline: none;
+}
+
+.ytp-seek { flex: 1; min-width: 60px; }
+.ytp-vol { width: 80px; background: rgba(255, 255, 255, .25); }
+
+.ytp-seek::-webkit-slider-thumb, .ytp-vol::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 46, 76, .45);
+}
+
+.ytp-seek::-moz-range-thumb, .ytp-vol::-moz-range-thumb {
+  width: 14px; height: 14px; border: 0;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.ytp.is-muted #ytpMute { color: var(--accent); }
+
+/* Katta ekranda: video qolgan joyni egallaydi, panel pastda */
+.player-wrap.ytp:fullscreen { border-radius: 0; border: 0; width: 100%; height: 100%; }
+.player-wrap.ytp:fullscreen .ytp-stage { aspect-ratio: auto; flex: 1; }
+.player-wrap.ytp:-webkit-full-screen { width: 100%; height: 100%; }
+.player-wrap.ytp:-webkit-full-screen .ytp-stage { aspect-ratio: auto; flex: 1; }
+
+@media (max-width: 640px) {
+  .ytp-hide-sm { display: none; }
+  .ytp-bar { gap: 2px; padding: 6px 8px; }
+  .ytp-time { min-width: 34px; font-size: 11.5px; }
+  .ytp-big { width: 66px; height: 66px; }
+  .ytp-big svg { width: 26px; height: 26px; }
+}

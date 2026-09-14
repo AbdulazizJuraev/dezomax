@@ -76,6 +76,18 @@ function mountPlayer(url) {
   const box = document.getElementById('playerBox');
   const link = document.getElementById('playerExternal');
   const { html, external } = embedFor(url);
+
+  // YouTube — o'z pleyerimiz (js/ytplayer.js): o'z posterimiz, tugmalarimiz
+  if (typeof mountYouTube === 'function' && youTubeId(url)) {
+    // tik poster keng ekranga sig'maydi — faqat keng muqovali (o'zbek filmlari) rasmini beramiz
+    const wide = movie && movie.poster && movie.poster.startsWith('images/uz/') ? movie.poster : null;
+    mountYouTube(box, url, { poster: wide, title: movie ? title(movie) : '' });
+    if (link) { link.href = external; link.hidden = false; }
+    return;
+  }
+
+  if (typeof destroyYouTube === 'function') destroyYouTube();
+  box.classList.remove('ytp');
   box.innerHTML = html;
   const v = box.querySelector('video[data-hls]');
   if (v) initHls(v);

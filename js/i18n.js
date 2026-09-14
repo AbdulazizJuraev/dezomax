@@ -147,6 +147,11 @@ const I18N = {
     'player.trailer': 'Treyler',
     'player.openExternal': 'Yangi oynada ochish ↗',
     'player.source': 'Rasmiy manba',
+    'player.play': 'Ko‘rish',
+    'player.mute': 'Ovoz',
+    'player.replay': 'Qayta ko‘rish',
+    'player.ytError': 'Videoni yuklab bo‘lmadi. Internetni tekshiring yoki yangi oynada oching.',
+    'player.ytBlocked': 'Video egasi uni boshqa saytlarda ko‘rsatishni cheklagan.',
     'player.trailerOnly': 'To‘liq kino havolasi qo‘shilmagan — hozircha treyler ko‘rsatilmoqda.',
 
     'fav.empty': 'Sevimlilar ro‘yxati bo‘sh',
@@ -306,6 +311,11 @@ const I18N = {
     'player.trailer': 'Трейлер',
     'player.openExternal': 'Открыть в новом окне ↗',
     'player.source': 'Официальный источник',
+    'player.play': 'Смотреть',
+    'player.mute': 'Звук',
+    'player.replay': 'Смотреть снова',
+    'player.ytError': 'Не удалось загрузить видео. Проверьте интернет или откройте в новом окне.',
+    'player.ytBlocked': 'Владелец видео запретил показ на других сайтах.',
     'player.trailerOnly': 'Ссылка на полный фильм не добавлена — пока показан трейлер.',
 
     'fav.empty': 'Список избранного пуст',
