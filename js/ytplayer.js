@@ -140,10 +140,41 @@ function mountYouTube(box, url, opts = {}) {
       <button class="ytp-btn ytp-q" id="ytpQ" type="button" aria-label="${esc(t('player.quality'))}">${YT_ICONS.gear}<b class="ytp-q-label" id="ytpQLabel" hidden></b></button>
       <button class="ytp-btn ytp-fit" id="ytpFit" type="button" aria-label="zoom">${YT_ICONS.fill}</button>
       <button class="ytp-btn" id="ytpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
+    </div>
+    <div class="ytp-qrow" role="group" aria-label="${esc(t('player.quality'))}">
+      <span class="ytp-qrow-label">${YT_ICONS.gear}${esc(t('player.quality'))}</span>
+      <div class="ytp-qrow-chips">
+        ${QUALITIES.filter(q => q.id !== '240').map(q => `
+          <button type="button" class="ytp-qchip${q.id === getQuality() ? ' is-active' : ''}" data-qchip="${q.id}">${esc(q.label || t('player.qAuto'))}</button>`).join('')}
+      </div>
+      <span class="ytp-qrow-now" id="ytpQNow"></span>
     </div>`;
 
   const $ = s => box.querySelector(s);
   $('#ytpCover').addEventListener('click', () => ytStart(box, id));
+  // video boshlanmasdan oldin ham tanlash mumkin — boshlanganda shu sifat bilan ochiladi
+  box.querySelectorAll('[data-qchip]').forEach(b =>
+    b.addEventListener('click', () => ytApplyQuality(b.dataset.qchip)));
+}
+
+/* Sifatni tanlash va qo'llash (⚙️ menyu va pleyer ostidagi qator uchun umumiy) */
+function ytApplyQuality(qid) {
+  const q = QUALITIES.find(x => x.id === qid) || QUALITIES[0];
+  localStorage.setItem(QUALITY_KEY, q.id);
+  document.querySelectorAll('[data-qchip]').forEach(b => b.classList.toggle('is-active', b.dataset.qchip === q.id));
+
+  const p = ytActive?.player;
+  if (!p || typeof p.getPlayerState !== 'function') return;
+  try {
+    const st = p.getPlayerState();
+    if (st === -1 || st === 5) { p.setPlaybackQuality(q.yt); return; }   // hali boshlanmagan
+    const at = p.getCurrentTime();
+    const wasPaused = st === YT.PlayerState.PAUSED;
+    // videoni shu joyidan tanlangan sifat bilan qayta yuklaymiz
+    p.loadVideoById({ videoId: ytActive.id, startSeconds: at, suggestedQuality: q.yt });
+    p.setPlaybackQuality(q.yt);
+    if (wasPaused) setTimeout(() => p.pauseVideo(), 700);
+  } catch {}
 }
 
 async function ytStart(box, id) {
@@ -310,17 +341,8 @@ function ytBindBar(box, player) {
     ytWake(box);
     menu.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', ev => {
       ev.stopPropagation();
-      const q = QUALITIES.find(x => x.id === b.dataset.q);
-      localStorage.setItem(QUALITY_KEY, q.id);
       closeQ();
-      // Sifatni qo'llash: videoni shu joyidan tanlangan sifat bilan qayta yuklaymiz
-      const at = safe(() => player.getCurrentTime());
-      const wasPaused = safe(() => player.getPlayerState()) === YT.PlayerState.PAUSED;
-      try {
-        player.loadVideoById({ videoId: ytActive.id, startSeconds: at, suggestedQuality: q.yt });
-        player.setPlaybackQuality(q.yt);
-        if (wasPaused) setTimeout(() => player.pauseVideo(), 700);
-      } catch {}
+      ytApplyQuality(b.dataset.q);
       syncQ();
     }));
   });
@@ -333,6 +355,9 @@ function ytBindBar(box, player) {
     const text = now ? now.replace('p', '') : (sel.label ? sel.label.replace('p', '') : '');
     label.textContent = /^(1080|1440|4K)$/.test(text) ? 'HD+' : /^720$/.test(text) ? 'HD' : text;
     label.hidden = !label.textContent;
+    // pleyer ostidagi qatorda — hozir haqiqatda qaysi sifat o'ynayapti
+    const nowEl = box.querySelector('#ytpQNow');
+    if (nowEl) nowEl.textContent = now ? `${t('player.qNow')}: ${now}` : '';
   };
 
   $('#ytpFit').addEventListener('click', () => {
