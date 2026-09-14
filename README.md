@@ -41,7 +41,7 @@ gh api repos/AbdulazizJuraev/dezomax/pages/builds/latest --jq .status
 
 ```
 index.html        Bosh sahifa (slider + kinolar qatorlari)
-sport.html        Sport: bugungi futbol o‘yinlari va yangiliklar
+sport.html        Sport: 6 ta sport turi, jonli hisob, futbol yangiliklari
 tv.html           Telekanallar: jonli efir (HLS)
 plans.html        Obuna rejalari va narxlar
 downloads.html    Yuklab olinganlar
@@ -158,33 +158,38 @@ Uning ustida `video` maydoni qanday ishlashini sinab ko'rishingiz mumkin.
 
 ## Telekanallar
 
-`js/channels.js` da 32 ta o'zbek telekanali bor, hammasi jonli HLS efirda ishlaydi.
-Oqimlar iptv-org ning ochiq katalogidan olingan va har biri tekshirilgan.
+`js/channels.js` da 66 ta kanal: 32 ta o'zbek va 34 ta rus kanali (Первый канал,
+Карусель, НТВ Мир, ТНТ4, Дом кино, Матч! va boshqalar). Oqimlar iptv-org ochiq
+katalogidan olingan, har biri brauzerdan tekshirilgan. Sahifada ular davlat bo'yicha
+guruhlanadi. 27 ta kanalning logotipi `images/tv/` da.
 
 Yangi kanal qo'shish:
 
 ```js
-{ id: 'YangiTV', name: 'Yangi TV', category: 'general',
+{ id: 'YangiTV', name: 'Yangi TV', country: 'uz', category: 'general',
+  logo: 'images/tv/YangiTV.png',          // yoki null
   url: 'https://server.uz/live/playlist.m3u8',
   colors: ['#2a4a6b', '#0a1220'] }
 ```
 
-> **Muhim:** havola albatta `https://` bo'lishi kerak. Sayt HTTPS da turgani uchun
-> brauzer `http://` oqimlarni bloklaydi. Bundan tashqari server CORS ruxsatini
-> berishi shart — aks holda pleyer oqimni o'qiy olmaydi.
+> **Muhim:** havola albatta `https://` bo'lishi kerak — sayt HTTPS da turgani uchun
+> brauzer `http://` oqimlarni bloklaydi. Server CORS ruxsatini ham berishi shart.
+
+Pleyerda "Katta ekran" tugmasi bor; telefonda ovozli avtoijro taqiqlangan bo'lsa,
+kanal ovozsiz ochiladi va "Ovozni yoqish" tugmasi chiqadi.
 
 ## Sport
 
-Bugungi futbol o'yinlari va yangiliklar ESPN ning ochiq API sidan olinadi —
-API kaliti kerak emas, so'rov to'g'ridan-to'g'ri brauzerdan ketadi.
+Ma'lumot ESPN ning ochiq API sidan (kalit kerak emas). Sahifa sport turlari bo'yicha
+bo'limlarga bo'lingan: **Futbol, Basketbol, Tennis, Xokkey, UFC / MMA, Formula 1**.
+Har bir bo'limda avval jonli o'yinlar, keyin bugungi, yaqinda tugagan va keyingi
+kunlardagilar. Jonli hisob har 60 soniyada yangilanadi.
 
-O'yinlar uch guruhga bo'linadi: **Hozir jonli**, **Bugun kechqurun** (soat 17:00 dan
-keyin boshlanadiganlar) va qolganlari. 10 ta liga bo'yicha filtr bor.
+Yangi sport qo'shish uchun `js/sport.js` dagi `SPORTS` ro'yxatiga yozing va
+`js/i18n.js` ga nomini qo'shing (`sport.<id>`).
 
-Yangi liga qo'shish uchun `js/sport.js` dagi `LEAGUES` ro'yxatiga ESPN kodini
-yozing (masalan `por.1`, `ned.1`, `uefa.europa`).
-
-> O'zbekiston Superligasi ESPN da yo'q, shuning uchun ro'yxatda ham yo'q.
+> O'zbekiston Superligasi ESPN da yo'q. Osiyo Chempionlar ligasidagi o'zbek klublari
+> (masalan Neftchi) esa chiqadi.
 
 ## Obunalar
 
@@ -232,8 +237,8 @@ ishlatiladi, til almashtirilganda hammasi avtomatik yangilanadi.
 - Sevimlilar ro'yxati (`localStorage`)
 - O'zbekcha / ruscha til almashtirish (tanlov saqlanadi)
 - To'liq moslashuvchan dizayn (telefon, planshet, kompyuter)
-- 32 ta o'zbek telekanali jonli efirda (HLS)
-- Sport: bugungi futbol o'yinlari, jonli hisob va yangiliklar (ESPN)
+- 66 ta telekanal jonli efirda (o'zbek va rus), logotiplar va katta ekran
+- Sport: futbol, basketbol, tennis, xokkey, UFC va Formula 1 — jonli hisob (ESPN)
 - Obuna rejalari va narxlar sahifasi
 - Telefonda pastki navbar va "Yana" menyusi
 - Kirish animatsiyalari, `prefers-reduced-motion` qo'llab-quvvatlanadi
