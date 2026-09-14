@@ -2867,3 +2867,295 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .ytp-qmenu button.is-active::after { content: '✓'; font-weight: 800; }
 .ytp-qmenu small { color: var(--text-faint); font-weight: 600; font-size: 11.5px; }
 .ytp-qmenu-note { margin: 4px 10px 6px; font-size: 11.5px; color: var(--text-faint); line-height: 1.4; }
+
+/* ================================================================
+   Slayder va akkaunt: kuchaytirilgan ko'rinish + 100px gacha moslashuv
+   ================================================================ */
+
+/* ---- Slayder ---- */
+
+.hero-badge { color: #7fd0f7; background: rgba(10, 147, 220, .14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+
+.hero-dots button { position: relative; overflow: hidden; }
+.hero-dots button.is-active { background: rgba(255, 255, 255, .22); box-shadow: none; }
+.hero-dots button.is-active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad);
+  transform-origin: left;
+  animation: heroDotFill 7s linear forwards;
+}
+@keyframes heroDotFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.hero-count {
+  position: absolute;
+  z-index: 3;
+  right: max(clamp(16px, 4vw, 48px), var(--sar));
+  bottom: 48px;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+  font-size: 13px;
+  font-weight: 600;
+}
+.hero-count b { color: #fff; font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+
+.hero .tag-watch svg { width: 11px; height: 11px; }
+
+@media (max-width: 640px) {
+  .hero { min-height: max(560px, 82svh); }
+  .hero-slide { display: flex; align-items: flex-end; }
+  .hero-slide .hero-inner { flex: 1; }
+  .hero-inner { padding: 110px 0 64px; }
+  .hero-bg::after {
+    background:
+      linear-gradient(to top, var(--bg) 4%, rgba(7, 8, 12, .82) 38%, rgba(7, 8, 12, .2) 72%, rgba(7, 8, 12, .45) 100%);
+  }
+  .hero-badge { margin-bottom: 12px; font-size: 10.5px; }
+  .hero h1 { font-size: clamp(22px, 9.5vw, 40px); margin-bottom: 12px; }
+  .hero-meta { gap: 6px 8px; font-size: 13px; margin-bottom: 12px; }
+  .hero-meta .tag { font-size: 12px; }
+  .hero p { font-size: 14px; margin-bottom: 20px; -webkit-line-clamp: 3; }
+  .hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .hero-actions .btn { width: 100%; min-width: 0; padding: 0 12px; }
+  .hero-actions .btn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .hero-dots { left: 50%; right: auto; transform: translateX(-50%); bottom: 22px; gap: 6px; }
+  .hero-dots button { width: 16px; height: 4px; }
+  .hero-dots button.is-active { width: 34px; }
+  .hero-count { display: none; }
+}
+
+/* ---- Akkaunt ---- */
+
+.acc-stat { position: relative; overflow: hidden; transition: border-color .2s, transform .2s; }
+.acc-stat:hover { border-color: rgba(10, 147, 220, .45); }
+.acc-stat small { display: flex; align-items: center; gap: 6px; }
+.acc-stat small svg { width: 14px; height: 14px; color: #6cc4f2; flex-shrink: 0; }
+.acc-stat.is-paid { background: linear-gradient(135deg, rgba(10, 147, 220, .2), transparent 70%), var(--surface); border-color: rgba(10, 147, 220, .35); }
+.acc-stat-sub { font-size: 12px; color: var(--text-dim); font-weight: 600; }
+.acc-bar { display: block; height: 4px; margin-top: 6px; border-radius: 4px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+.acc-bar i { display: block; height: 100%; border-radius: inherit; background: var(--grad); }
+
+.acc-profile { position: relative; overflow: hidden; }
+.acc-profile::after {
+  content: '';
+  position: absolute;
+  right: -40px; top: -60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(10, 147, 220, .28), transparent 70%);
+  pointer-events: none;
+}
+.acc-profile > * { position: relative; z-index: 1; }
+
+.acc-quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.acc-quick a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 10px 4px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: 11.5px;
+  font-weight: 650;
+  text-align: center;
+  color: var(--text-dim);
+  transition: border-color .2s, color .2s;
+}
+.acc-quick a:hover { border-color: rgba(10, 147, 220, .45); color: #fff; }
+.acc-quick span { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: rgba(10, 147, 220, .14); color: #6cc4f2; }
+.acc-quick svg { width: 18px; height: 18px; stroke: currentColor; }
+.acc-quick a { overflow-wrap: anywhere; line-height: 1.2; }
+
+/* ================================================================
+   Juda tor ekranlar (100px gacha)
+   ================================================================ */
+
+.wrap {
+  padding-left: max(clamp(6px, 4.2vw, 48px), var(--sal));
+  padding-right: max(clamp(6px, 4.2vw, 48px), var(--sar));
+}
+
+img, video, iframe { max-width: 100%; }
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(min(130px, 100%), 1fr)); }
+  .row .card { flex-basis: min(138px, 72vw); }
+}
+
+@media (max-width: 300px) {
+  h1, h2, h3, p, .acc-menu-label, .acc-item-main b, .acc-profile-info b { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 360px) {
+  .acc-quick { grid-template-columns: repeat(2, 1fr); }
+  .acc-profile { flex-wrap: wrap; }
+  .acc-profile .acc-lang { margin-left: auto; }
+  .acc-menu-item { gap: 10px; padding: 10px 8px; font-size: 14px; }
+  .s-genres { grid-template-columns: 1fr; }
+  .acc-auth { padding: 18px 12px; }
+  .acc-auth h1 { font-size: 20px; }
+  .acc-promo-row { flex-wrap: wrap; }
+  .acc-promo-row .btn { width: 100%; }
+  .section-head h2 { font-size: 18px; }
+}
+
+@media (max-width: 300px) {
+  :root { --header-h: calc(56px + var(--sat)); }
+  /* logotipdan faqat "D" belgisi qoladi */
+  .logo-img { width: 28px; height: 28px; object-fit: cover; object-position: left center; }
+  .account-btn { width: 32px; height: 32px; }
+  .avatar-sm { width: 30px; height: 30px; font-size: 13px; }
+  .tabbar-label { display: none; }
+  .tabbar-item { padding: 12px 2px; }
+  body { padding-bottom: calc(48px + var(--sab)); }
+  .acc-stats { grid-template-columns: 1fr; }
+  .acc-chev { display: none; }
+  .acc-profile .avatar-lg { width: 42px; height: 42px; font-size: 17px; }
+  .acc-profile-info b { font-size: 14px; }
+  .acc-balance-sum { font-size: 22px; }
+  .acc-methods { grid-template-columns: 1fr; }
+  .acc-plan-top { flex-wrap: wrap; }
+  .acc-plan-price { margin-left: 0; text-align: left; }
+  .acc-item { flex-wrap: wrap; padding: 10px; }
+  .hero-actions { grid-template-columns: 1fr; }
+  .hero p { -webkit-line-clamp: 2; }
+  .hero-meta .dot { display: none; }
+  .btn { padding: 0 10px; font-size: 13px; gap: 6px; }
+  .section-head { flex-wrap: wrap; gap: 6px; }
+  .row-nav { display: none; }
+  .s-field { padding: 0 4px 0 10px; gap: 6px; }
+  .s-field input { font-size: 14px; }
+  .footer-grid { gap: 20px; }
+}
+
+@media (max-width: 220px) {
+  html, body { font-size: 12px; }
+  .hero { min-height: 420px; }
+  .hero-inner { padding: 76px 0 48px; }
+  .hero-badge, .hero p { display: none; }
+  .hero h1 { font-size: 18px; }
+  .hero-meta { font-size: 11px; }
+  .hero-meta .tag { font-size: 10px; padding: 3px 6px; }
+  .btn { height: 34px; font-size: 12px; }
+  .btn svg { width: 14px; height: 14px; }
+  .tabbar-icon svg { width: 18px; height: 18px; }
+  .acc-menu-icon { width: 26px; height: 26px; border-radius: 8px; }
+  .acc-menu-icon svg { width: 14px; height: 14px; }
+  .acc-menu-item { font-size: 12.5px; gap: 8px; padding: 9px 6px; }
+  .acc-menu { padding: 4px; border-radius: 14px; }
+  .acc-profile { padding: 10px; gap: 8px; border-radius: 14px; }
+  .acc-profile .avatar-lg { width: 32px; height: 32px; font-size: 14px; }
+  .acc-quick { grid-template-columns: 1fr; }
+  .acc-quick a { flex-direction: row; padding: 6px; font-size: 11px; }
+  .acc-quick span { width: 26px; height: 26px; border-radius: 8px; }
+  .acc-stat { padding: 8px 10px; }
+  .acc-card, .acc-auth { padding: 12px 8px; border-radius: 14px; }
+  .acc-panel-head h2 { font-size: 17px; }
+  .lang-btn { padding: 4px 7px; font-size: 10px; }
+  .hero-dots button { width: 8px; }
+  .hero-dots button.is-active { width: 18px; }
+  .card-title, .card h3 { font-size: 11.5px; }
+  .s-genre { height: 52px; font-size: 12px; padding: 8px; }
+}
+
+@media (max-width: 150px) {
+  .acc-menu-icon, .acc-quick span, .tabbar-item:nth-child(4) { display: none; }
+  .acc-profile .acc-lang { display: none; }
+  .hero-meta, .hero-dots { display: none; }
+  .hero h1 { font-size: 14px; }
+  .btn span { display: none; }
+  .hero-actions .btn { padding: 0; }
+  .account-btn { width: 26px; height: 26px; }
+  .avatar-sm { width: 24px; height: 24px; }
+  .logo-img { width: 22px; height: 22px; }
+  .header .wrap { gap: 4px; }
+  .acc-stat b { font-size: 12px; }
+  .acc-stat small svg { display: none; }
+}
+
+/* ---- Tor ekran: qat'iy kengliklarni bo'shatish ---- */
+
+.plan-grid { grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+
+@media (max-width: 300px) {
+  .acc-stat b, .acc-stat small, .tag, .hero-meta span { white-space: normal; }
+  .acc-stat b { font-size: 14px; }
+  .mv-poster { width: min(190px, 100%) !important; }
+  .mv-title { font-size: clamp(18px, 11vw, 28px); }
+  .mv-desc { font-size: 13px; }
+  .tag { padding: 4px 8px; font-size: 11px; max-width: 100%; }
+  .plan { padding: 18px 10px 14px; min-width: 0; }
+  .plan-amount { font-size: 24px; }
+  .plan-toggle { flex-wrap: wrap; border-radius: 14px; max-width: 100%; }
+  .plan-toggle button { flex: 1 1 auto; min-width: 0; padding: 6px 8px; font-size: 12px; white-space: normal; }
+  .plan-features li { font-size: 12.5px; padding-left: 20px; }
+  .plans-notice { padding: 10px; gap: 8px; font-size: 12px; }
+  .cmp-wrap, .plans-cmp { overflow-x: auto; max-width: 100%; }
+  .filters, .chips { max-width: 100%; }
+  .chip { white-space: normal; }
+  .select { max-width: 100%; }
+  .footer-genres { max-width: 100%; }
+  .result-count { white-space: normal; }
+}
+
+/* ---- Tor ekran: setka ustunlari kontentdan torroq bo'la olsin ---- */
+
+.tv-grid { grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); }
+.news-grid { grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); }
+.f1-sessions { grid-template-columns: repeat(auto-fill, minmax(min(190px, 100%), 1fr)); }
+.s-genres { grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr)); }
+.acc-stats > *, .acc-quick > *, .acc-layout > *, .mv-layout > *, .footer-grid > *, .grid > *, .tv-grid > * { min-width: 0; }
+
+@media (max-width: 640px) {
+  .tv-grid { grid-template-columns: repeat(auto-fill, minmax(min(128px, 100%), 1fr)); }
+  .footer-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .mv-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 899px) {
+  .acc-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 300px) {
+  .acc-stats { grid-template-columns: minmax(0, 1fr); }
+  .acc-quick { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .s-genres { grid-template-columns: minmax(0, 1fr); }
+  .badge-watch { white-space: normal; max-width: calc(100% - 18px); }
+  .tv-card-name { overflow-wrap: anywhere; white-space: normal; }
+}
+
+@media (max-width: 220px) {
+  .badge-watch { display: none; }
+  .acc-quick { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- Tor ekran: kino ma'lumotlari, sport, chiplar ---- */
+
+.mv-info { grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr)); }
+.mv-info-item, .mv-info-item dt, .mv-info-item dd { min-width: 0; overflow-wrap: anywhere; }
+
+@media (max-width: 300px) {
+  .chip { max-width: 100%; overflow-wrap: anywhere; padding-left: 9px; padding-right: 9px; }
+  .match { padding: 10px 8px; }
+  .m-row { grid-template-columns: minmax(0, 1fr); gap: 6px; text-align: center; }
+  .m-team { justify-content: center; }
+  .m-mid, .m-score { min-width: 0; }
+  .m-score { white-space: normal; overflow-wrap: anywhere; font-size: 15px; text-align: center; }
+  .m-logo, .m-logo-empty { width: 18px; height: 18px; }
+  .sport-live-badge, .m-live { white-space: normal; max-width: 100%; }
+  .sport-sec-head { flex-wrap: wrap; gap: 6px; }
+  .f1-podium, .f1-session { flex-wrap: wrap; gap: 4px; }
+  .f1-pos, .f1-s-time { white-space: normal; min-width: 0; overflow-wrap: anywhere; }
+  .tv-thumb-name { font-size: 11px; overflow-wrap: anywhere; }
+  .dl-row { grid-template-columns: minmax(0, 1fr); }
+}

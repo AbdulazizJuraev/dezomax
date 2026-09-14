@@ -78,10 +78,20 @@ Object.assign(I18N.uz, {
   'acc.bonus': 'Bonus',
   'acc.planBuy': 'Tarif',
   'acc.topupTx': 'Balansni to‘ldirish',
-  'acc.promoTx': 'Promokod'
+  'acc.promoTx': 'Promokod',
+  'acc.daysLeft': 'kun qoldi',
+  'acc.topupShort': 'To‘ldirish',
+  'acc.q.topup': 'To‘ldirish',
+  'acc.q.plan': 'Tariflar',
+  'acc.q.promo': 'Promokod'
 });
 
 Object.assign(I18N.ru, {
+  'acc.daysLeft': 'дн. осталось',
+  'acc.topupShort': 'Пополнить',
+  'acc.q.topup': 'Пополнить',
+  'acc.q.plan': 'Тарифы',
+  'acc.q.promo': 'Промокод',
   'acc.m.tariff': 'Управление тарифом',
   'acc.m.balance': 'Баланс',
   'acc.m.subs': 'Подписки',
@@ -156,7 +166,7 @@ Object.assign(I18N.ru, {
   'acc.promoTx': 'Промокод'
 });
 
-const APP_VERSION = '1.3';
+const APP_VERSION = '1.4';
 
 /* Promokodlar: bonus — balansga so'm, plan — tarif necha kunga */
 const PROMOCODES = {
@@ -470,6 +480,20 @@ const section = () => {
   return MENU.some(m => m.id === id) ? id : '';
 };
 
+/* Tarif muddati: qolgan kunlar va chiziq */
+function planProgressHTML() {
+  if (profile.plan === 'free' || !profile.planUntil) return `<span class="acc-stat-sub">${t('acc.freeForever')}</span>`;
+  const sub = (profile.subscriptions || []).find(s => s.plan === profile.plan && s.until === profile.planUntil);
+  const from = sub ? sub.from : profile.planUntil - 30 * DAY;
+  const total = Math.max(DAY, profile.planUntil - from);
+  const left = Math.max(0, profile.planUntil - Date.now());
+  const days = Math.ceil(left / DAY);
+  const pct = Math.round(left / total * 100);
+  return `
+    <span class="acc-stat-sub">${days} ${t('acc.daysLeft')}</span>
+    <span class="acc-bar"><i style="width:${pct}%"></i></span>`;
+}
+
 function unreadCount() { return (profile.notifications || []).filter(n => !n.read).length; }
 
 function renderAccount() {
@@ -495,14 +519,23 @@ function renderAccount() {
       </div>
 
       <div class="acc-stats">
-        <a class="acc-stat" href="#tariff">
-          <small>${t('acc.plan')}</small>
+        <a class="acc-stat${profile.plan !== 'free' ? ' is-paid' : ''}" href="#tariff">
+          <small>${ICONS.crown}${t('acc.plan')}</small>
           <b>${esc(L(plan.name))}</b>
+          ${planProgressHTML()}
         </a>
         <a class="acc-stat" href="#balance">
-          <small>${t('acc.balance')}</small>
+          <small>${AI.wallet}${t('acc.balance')}</small>
           <b>${money(profile.balance)} <span>${sumWord()}</span></b>
+          <span class="acc-stat-sub">${t('acc.topupShort')} →</span>
         </a>
+      </div>
+
+      <div class="acc-quick">
+        <a href="#balance"><span>${AI.wallet}</span>${t('acc.q.topup')}</a>
+        <a href="plans.html"><span>${ICONS.crown}</span>${t('acc.q.plan')}</a>
+        <a href="#promo"><span>${AI.gift}</span>${t('acc.q.promo')}</a>
+        <a href="favorites.html"><span>${ICONS.heart}</span>${t('nav.favorites')}</a>
       </div>
 
       <nav class="acc-menu">

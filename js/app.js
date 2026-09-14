@@ -63,6 +63,41 @@ function renderHero() {
   dots.querySelectorAll('button').forEach(b => {
     b.addEventListener('click', () => { goToSlide(+b.dataset.i); restartHeroTimer(); });
   });
+  updateCounter();
+}
+
+/* "03 / 10" hisoblagichi */
+function updateCounter() {
+  const hero = document.getElementById('hero');
+  let el = hero.querySelector('.hero-count');
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'hero-count';
+    hero.appendChild(el);
+  }
+  const p = n => String(n).padStart(2, '0');
+  el.innerHTML = `<b>${p(heroIndex + 1)}</b><span>/ ${p(featured.length)}</span>`;
+}
+
+/* Telefonda barmoq bilan surib slayd almashtirish */
+function initHeroSwipe() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  let x0 = null, y0 = 0;
+  hero.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  hero.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+      goToSlide(heroIndex + (dx < 0 ? 1 : -1));
+      restartHeroTimer();
+    }
+  }, { passive: true });
+  // sahifa ko'rinmayotganda slayder to'xtaydi
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? clearInterval(heroTimer) : restartHeroTimer();
+  });
 }
 
 function goToSlide(i) {
@@ -71,11 +106,15 @@ function goToSlide(i) {
     s.classList.toggle('is-active', +s.dataset.i === heroIndex));
   document.querySelectorAll('.hero-dots button').forEach(b =>
     b.classList.toggle('is-active', +b.dataset.i === heroIndex));
+  updateCounter();
 }
 
 function restartHeroTimer() {
   clearInterval(heroTimer);
   heroTimer = setInterval(() => goToSlide(heroIndex + 1), 7000);
+  // faol nuqtadagi to'lish chizig'i qaytadan boshlansin
+  const dot = document.querySelector('.hero-dots button.is-active');
+  if (dot) { dot.classList.remove('is-active'); void dot.offsetWidth; dot.classList.add('is-active'); }
 }
 
 /* ---------- Qatorlar ---------- */
@@ -127,6 +166,7 @@ initLayout();
 renderHero();
 renderRows();
 initRowNav();
+initHeroSwipe();
 restartHeroTimer();
 document.getElementById('year').textContent = new Date().getFullYear();
 
