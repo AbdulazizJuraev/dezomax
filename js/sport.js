@@ -70,10 +70,15 @@ function side(c) {
   if (!c) return { name: '?', logo: null, score: '', winner: false };
   const team = c.team || {};
   return {
+    id: c.id || team.id || null,
     name: c.shortDisplayName || c.displayName || c.name || team.shortDisplayName || team.displayName || c.athlete?.displayName || '?',
+    full: c.displayName || team.displayName || c.name || '',
     logo: c.logo || team.logo || c.athlete?.flag?.href || null,
     score: c.score ?? '',
-    winner: !!c.winner
+    winner: !!c.winner,
+    form: c.form || '',
+    record: typeof c.record === 'string' ? c.record : (c.records?.[0]?.summary || ''),
+    color: c.color || team.color || ''
   };
 }
 
@@ -84,12 +89,13 @@ function orderPair(list) {
 }
 
 /* header endpointidagi tadbir */
-function fromHeader(ev, lg) {
+function fromHeader(ev, lg, sport) {
   const [a, b] = orderPair(ev.competitors || []);
   if (!a || !b) return null;
   const st = ev.fullStatus?.type || {};
   return {
     id: ev.id, date: ev.date,
+    path: sport && lg.slug ? `${sport}/${lg.slug}` : null,
     league: lg.shortName || lg.abbreviation || lg.name,
     a: side(a), b: side(b),
     state: st.state || ev.status || 'pre',
@@ -99,14 +105,14 @@ function fromHeader(ev, lg) {
 }
 
 /* liga scoreboard'idagi tadbir */
-function fromLeague(ev, lgName) {
+function fromLeague(ev, lgName, path) {
   const c = ev.competitions?.[0];
   if (!c) return null;
   const [a, b] = orderPair(c.competitors || []);
   if (!a || !b) return null;
   const st = ev.status?.type || {};
   return {
-    id: ev.id, date: ev.date, league: lgName,
+    id: ev.id, date: ev.date, league: lgName, path,
     a: side(a), b: side(b),
     state: st.state || 'pre',
     clock: ev.status?.displayClock || '',
@@ -132,7 +138,7 @@ async function loadSource(src) {
       if (r.status !== 'fulfilled') continue;
       for (const lg of (r.value.sports?.[0]?.leagues || [])) {
         for (const ev of (lg.events || [])) {
-          const e = fromHeader(ev, lg);
+          const e = fromHeader(ev, lg, src.sport);
           if (e) out.push(e);
         }
       }
@@ -143,7 +149,7 @@ async function loadSource(src) {
   if (src.kind === 'league') {
     const j = await getJSON(`${API}/site/v2/sports/${src.path}/scoreboard`);
     const lgName = j.leagues?.[0]?.abbreviation || j.leagues?.[0]?.name || '';
-    return (j.events || []).map(ev => fromLeague(ev, lgName)).filter(Boolean);
+    return (j.events || []).map(ev => fromLeague(ev, lgName, src.path)).filter(Boolean);
   }
 
   if (src.kind === 'f1') {
@@ -237,9 +243,12 @@ function matchHTML(e, sportId) {
 
   const evening = sportId === 'soccer' && e.state === 'pre' && dayDiff(e.date) === 0 && new Date(e.date).getHours() >= 17;
 
+  const key = `${sportId}:${e.id}`;
+  EVENT_INDEX.set(key, { e, sportId });
+
   return `
-  <div class="match${live ? ' is-live' : ''}${evening ? ' is-evening' : ''}">
-    <div class="m-league">${esc(e.league || '')}</div>
+  <div class="match m-click${live ? ' is-live' : ''}${evening ? ' is-evening' : ''}" data-ev="${esc(key)}" role="button" tabindex="0">
+    <div class="m-league">${esc(e.league || '')}${live ? `<span class="m-watch">${ICONS.play}${t('sport.watchLive')}</span>` : `<span class="m-more">${t('sport.details')} ›</span>`}</div>
     <div class="m-row">
       <div class="m-team${e.a.winner ? ' m-win' : ''}">${logoHTML(e.a)}<span>${esc(e.a.name)}</span></div>
       <div class="m-mid">${mid}</div>
@@ -326,6 +335,12 @@ function renderSport(sp) {
   }
 
   el.innerHTML = head + body;
+
+  el.querySelectorAll('[data-ev]').forEach(card => {
+    const open = () => openMatch(EVENT_INDEX.get(card.dataset.ev));
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); open(); } });
+  });
 
   el.querySelector('[data-retry]')?.addEventListener('click', () => loadSport(sp));
   el.querySelector('[data-more]')?.addEventListener('click', () => {

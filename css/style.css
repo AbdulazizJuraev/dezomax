@@ -3296,3 +3296,235 @@ img, video, iframe { max-width: 100%; }
   .s-genre-info b { font-size: 12px; }
   .s-genre-posters img { max-width: 40px; }
 }
+
+/* ---------------- Sport: o'yin kartasi bosiladigan + o'yin oynasi ---------------- */
+
+.m-click { cursor: pointer; transition: border-color .2s, transform .2s, background .2s; -webkit-tap-highlight-color: transparent; }
+.m-click:hover { border-color: rgba(10, 147, 220, .45); transform: translateY(-2px); }
+.m-click:active { transform: scale(.99); }
+.m-click .m-league { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.m-more { font-size: 11px; font-weight: 650; color: var(--text-faint); text-transform: none; letter-spacing: 0; white-space: nowrap; }
+.m-click:hover .m-more { color: #4cb8f0; }
+
+.m-watch {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px 3px 7px;
+  border-radius: 999px;
+  background: #e11d48;
+  color: #fff;
+  font-size: 10.5px; font-weight: 800;
+  text-transform: none; letter-spacing: 0;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, .45);
+  animation: mWatchPulse 1.6s ease-in-out infinite;
+}
+.m-watch svg { width: 10px; height: 10px; fill: currentColor; }
+@keyframes mWatchPulse { 50% { box-shadow: 0 4px 22px rgba(225, 29, 72, .8); } }
+
+/* Oyna */
+.mt-panel {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: min(720px, calc(100vw - 32px));
+  max-height: min(88vh, 900px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #111723, #0b0f17 40%);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-lg);
+  transform: translate(-50%, -46%) scale(.97);
+  opacity: 0;
+  transition: transform .28s cubic-bezier(.2, .9, .3, 1), opacity .2s;
+  overflow: hidden;
+}
+.sheet-wrap.is-open .mt-panel { transform: translate(-50%, -50%); opacity: 1; }
+
+.mt-scroll { overflow-y: auto; overscroll-behavior: contain; padding-bottom: 20px; }
+
+.mt-close {
+  position: absolute; top: 12px; right: 12px; z-index: 3;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(0, 0, 0, .45); color: #fff;
+  backdrop-filter: blur(8px);
+}
+.mt-close svg { width: 18px; height: 18px; }
+
+.mt-head {
+  padding: 22px 20px 16px;
+  background:
+    radial-gradient(60% 90% at 15% 0%, rgba(10, 147, 220, .22), transparent 70%),
+    radial-gradient(60% 90% at 85% 0%, rgba(0, 91, 148, .22), transparent 70%);
+  border-bottom: 1px solid var(--line);
+}
+
+.mt-league { text-align: center; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-dim); margin: 0 40px 14px; }
+
+.mt-teams { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 10px; }
+.mt-team { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; min-width: 0; }
+.mt-team b { font-size: 15px; line-height: 1.2; overflow-wrap: anywhere; }
+
+.mt-logo { width: 72px; height: 72px; object-fit: contain; filter: drop-shadow(0 6px 16px rgba(0, 0, 0, .5)); }
+.mt-logo-empty { display: grid; place-items: center; border-radius: 50%; background: var(--surface-2); font-size: 28px; font-weight: 800; }
+
+.mt-center { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 14px; min-width: 90px; }
+.mt-score { font-size: 38px; font-weight: 800; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.mt-score span { margin: 0 6px; color: var(--text-faint); }
+.mt-score.is-live { color: #fff; text-shadow: 0 0 24px rgba(225, 29, 72, .6); }
+.mt-time { font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
+.mt-status { font-size: 12.5px; color: var(--text-dim); font-weight: 600; }
+.mt-countdown { font-size: 11.5px; color: #4cb8f0; font-weight: 650; text-align: center; }
+
+.mt-form { display: flex; gap: 3px; }
+.mt-form i, .mt-res {
+  width: 18px; height: 18px; border-radius: 5px;
+  display: grid; place-items: center;
+  font-style: normal; font-size: 10px; font-weight: 800;
+  background: rgba(255, 255, 255, .1); color: var(--text-dim);
+}
+.mt-form i.is-w, .mt-res.is-w { background: #16a34a; color: #fff; }
+.mt-form i.is-d, .mt-res.is-d { background: #64748b; color: #fff; }
+.mt-form i.is-l, .mt-res.is-l { background: #dc2626; color: #fff; }
+
+.mt-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; margin-top: 14px; font-size: 12.5px; color: var(--text-dim); }
+.mt-meta:empty { display: none; }
+
+/* Jonli efir bloki */
+.mt-live {
+  margin: 16px 16px 0;
+  padding: 14px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(225, 29, 72, .18), rgba(225, 29, 72, .04) 70%);
+  border: 1px solid rgba(225, 29, 72, .4);
+}
+.mt-live-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.mt-live-dot { width: 9px; height: 9px; border-radius: 50%; background: #e11d48; box-shadow: 0 0 0 0 rgba(225, 29, 72, .7); animation: livePulse 1.4s infinite; }
+@keyframes livePulse { 70% { box-shadow: 0 0 0 9px rgba(225, 29, 72, 0); } 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); } }
+.mt-live-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr)); gap: 8px; }
+
+.mt-ch {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px 8px 8px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .35);
+  border: 1px solid var(--line-strong);
+  transition: border-color .2s, background .2s;
+}
+.mt-ch:hover { border-color: #e11d48; background: rgba(225, 29, 72, .15); }
+.mt-ch-logo { position: relative; width: 38px; height: 38px; border-radius: 9px; overflow: hidden; background: #fff; display: grid; place-items: center; flex-shrink: 0; }
+.mt-ch-logo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.mt-ch-logo em { font-style: normal; font-size: 12px; font-weight: 800; color: #111; }
+.mt-ch-name { flex: 1; min-width: 0; font-weight: 700; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mt-ch-play { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: #e11d48; color: #fff; flex-shrink: 0; }
+.mt-ch-play svg { width: 13px; height: 13px; fill: currentColor; margin-left: 2px; }
+.mt-live-hint { margin: 10px 0 0; font-size: 12px; color: var(--text-dim); line-height: 1.45; }
+
+/* Tablar */
+.mt-body { padding: 16px 16px 0; }
+.mt-tabs { display: flex; gap: 6px; padding: 4px; border-radius: 12px; background: rgba(255, 255, 255, .05); border: 1px solid var(--line); margin-bottom: 14px; }
+.mt-tabs button { flex: 1; min-width: 0; height: 36px; border-radius: 9px; font-size: 13.5px; font-weight: 650; color: var(--text-dim); }
+.mt-tabs button.is-active { background: var(--grad); color: #fff; }
+
+.mt-loading { display: flex; justify-content: center; gap: 6px; padding: 30px 0; }
+.mt-loading i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: mtDot 1s infinite ease-in-out; }
+.mt-loading i:nth-child(2) { animation-delay: .15s; }
+.mt-loading i:nth-child(3) { animation-delay: .3s; }
+@keyframes mtDot { 50% { transform: translateY(-6px); opacity: .5; } }
+.mt-empty { text-align: center; color: var(--text-dim); padding: 24px 10px; margin: 0; font-size: 14px; }
+
+.mt-team-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.mt-team-switch button {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-width: 0; height: 44px; padding: 0 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  font-weight: 700; font-size: 14px; color: var(--text-dim);
+}
+.mt-team-switch button img { width: 24px; height: 24px; object-fit: contain; }
+.mt-team-switch button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mt-team-switch button.is-active { color: #fff; border-color: var(--accent); background: rgba(10, 147, 220, .14); }
+
+.mt-h4 { margin: 4px 0 10px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.mt-h4 small { color: var(--text-faint); font-weight: 600; }
+
+.mt-players { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(120px, 100%), 1fr)); gap: 10px; margin-bottom: 16px; }
+
+.mt-player {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 12px 8px 10px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  text-align: center;
+  min-width: 0;
+}
+.mt-player b { font-size: 13px; line-height: 1.2; overflow-wrap: anywhere; }
+.mt-player small { font-size: 11px; color: var(--text-faint); line-height: 1.3; }
+
+.mt-ph {
+  position: relative;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--tc, #0a93dc) 55%, #1c2230), #10141d);
+  border: 2px solid color-mix(in srgb, var(--tc, #0a93dc) 60%, transparent);
+  margin-bottom: 4px;
+}
+.mt-ph img:not(.mt-flag) { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: top; background: #1c2230; z-index: 1; }
+.mt-ph em { font-style: normal; font-size: 22px; font-weight: 800; color: #fff; text-shadow: 0 2px 8px rgba(0, 0, 0, .5); }
+.mt-flag { position: absolute; right: -2px; bottom: 0; width: 22px; height: 22px; border-radius: 50%; object-fit: cover; border: 2px solid #111723; z-index: 2; background: #111723; }
+
+/* So'nggi o'yinlar */
+.mt-l5 { margin-bottom: 16px; padding: 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.mt-l5-team { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.mt-l5-team img { width: 22px; height: 22px; object-fit: contain; }
+.mt-l5-row { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto auto; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+.mt-l5-opp { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mt-l5-score { font-weight: 750; font-variant-numeric: tabular-nums; }
+.mt-l5-date { color: var(--text-faint); font-size: 12px; min-width: 42px; text-align: right; }
+
+/* Jadval */
+.mt-table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--line); }
+.mt-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.mt-table th { padding: 8px 6px; text-align: center; color: var(--text-faint); font-weight: 650; font-size: 11.5px; background: rgba(255, 255, 255, .03); }
+.mt-table td { padding: 7px 6px; text-align: center; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.mt-table td:first-child { color: var(--text-faint); width: 28px; }
+.mt-t-team { text-align: left !important; }
+.mt-t-team { display: flex; align-items: center; gap: 8px; }
+.mt-t-team img { width: 20px; height: 20px; object-fit: contain; }
+.mt-t-team span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
+.mt-table tr.is-ours td { background: rgba(10, 147, 220, .14); font-weight: 700; }
+
+/* Telefonda — pastdan chiquvchi oyna */
+@media (max-width: 640px) {
+  .mt-panel {
+    left: 0; right: 0; top: auto; bottom: 0;
+    width: auto;
+    max-height: calc(92vh - var(--sat));
+    border-radius: 22px 22px 0 0;
+    transform: translateY(100%);
+    opacity: 1;
+  }
+  .sheet-wrap.is-open .mt-panel { transform: none; }
+  .mt-scroll { padding-bottom: calc(20px + var(--sab)); }
+  .mt-logo { width: 56px; height: 56px; }
+  .mt-score { font-size: 32px; }
+  .mt-time { font-size: 26px; }
+  .mt-team b { font-size: 13.5px; }
+  .mt-center { min-width: 76px; }
+  .mt-ph { width: 60px; height: 60px; }
+  .mt-players { grid-template-columns: repeat(auto-fill, minmax(min(100px, 100%), 1fr)); gap: 8px; }
+}
+
+@media (max-width: 300px) {
+  .mt-teams { grid-template-columns: minmax(0, 1fr); }
+  .mt-center { padding-top: 0; order: -1; }
+  .mt-logo { width: 40px; height: 40px; }
+  .mt-head { padding: 16px 10px 12px; }
+  .mt-body, .mt-live { margin-left: 8px; margin-right: 8px; padding-left: 8px; padding-right: 8px; }
+  .mt-team-switch { grid-template-columns: minmax(0, 1fr); }
+  .mt-l5-row { grid-template-columns: 18px minmax(0, 1fr); }
+  .mt-l5-score, .mt-l5-date { grid-column: 2; text-align: left; }
+  .m-more { display: none; }
+}

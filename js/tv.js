@@ -211,6 +211,10 @@ function renderPlaceholder() {
 initLayout();
 renderPlaceholder();
 renderGroups();
+
+// tv.html?ch=Sport — Sport bo'limidan "Jonli ko'rish" bosilganda kanal darhol ochiladi
+const chParam = new URLSearchParams(location.search).get('ch');
+if (chParam) playChannel(CHANNELS.find(c => c.id === chParam));
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.addEventListener('langchange', () => {
