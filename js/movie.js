@@ -55,7 +55,7 @@ function initHls(video) {
   if (video.canPlayType('application/vnd.apple.mpegurl')) { video.src = src; return; }
   if (window.Hls) { attach(); return; }
   const s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js';
+  s.src = 'js/hls.min.js';
   s.onload = attach;
   document.head.appendChild(s);
   function attach() {

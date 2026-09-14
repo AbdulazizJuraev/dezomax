@@ -41,12 +41,13 @@ const I18N = {
 
     'tv.title': 'Telekanallar',
     'tv.live': 'JONLI EFIR',
-    'tv.select': 'Kanalni tanlang',
-    'tv.selectHint': 'Pastdagi ro‘yxatdan kanal tanlang — efir shu yerda ochiladi.',
+    'tv.select': 'Jonli efirni boshlash',
+    'tv.selectHint': 'Bosing — efir boshlanadi. Yoki pastdagi ro‘yxatdan boshqa kanalni tanlang.',
     'tv.channels': 'kanal',
     'tv.error': 'Kanal ochilmadi',
     'tv.errorHint': 'Efir vaqtincha to‘xtagan bo‘lishi mumkin. Boshqa kanalni tanlab ko‘ring.',
     'tv.unmute': '🔊 Ovozni yoqish',
+    'tv.fullscreen': 'Katta ekran',
     'tv.note': 'Kanallar ochiq efirdan olingan, DezoMax serverida saqlanmaydi.',
 
     'plans.title': 'Obuna rejalari',
@@ -186,12 +187,13 @@ const I18N = {
 
     'tv.title': 'Телеканалы',
     'tv.live': 'ПРЯМОЙ ЭФИР',
-    'tv.select': 'Выберите канал',
-    'tv.selectHint': 'Выберите канал из списка ниже — эфир откроется здесь.',
+    'tv.select': 'Начать прямой эфир',
+    'tv.selectHint': 'Нажмите — начнётся эфир. Или выберите другой канал из списка ниже.',
     'tv.channels': 'каналов',
     'tv.error': 'Канал не открылся',
     'tv.errorHint': 'Возможно, вещание временно остановлено. Попробуйте другой канал.',
     'tv.unmute': '🔊 Включить звук',
+    'tv.fullscreen': 'Во весь экран',
     'tv.note': 'Каналы берутся из открытого эфира и не хранятся на сервере DezoMax.',
 
     'plans.title': 'Тарифы подписки',
