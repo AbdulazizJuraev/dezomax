@@ -20,7 +20,7 @@
   el.innerHTML = `
     <div class="intro-glow"></div>
     <div class="intro-logo">
-      <img src="images/logo/logo.png" alt="">
+      ${window.dezoLogoSVG ? window.dezoLogoSVG() : '<img src="images/logo/logo.png" alt="">'}
       <span class="intro-shine"></span>
     </div>
     <div class="intro-bar"><i></i></div>`;

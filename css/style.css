@@ -1131,7 +1131,6 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 
 /* Juda tor ekranlarda logotip matnini yashiramiz — til tugmalari joy oladi */
 @media (max-width: 460px) {
-  .header .logo span:last-of-type { display: none; }
   .header .wrap { gap: 10px; }
   .lang-btn { padding: 5px 9px; font-size: 11.5px; }
   .search input { padding-left: 36px; font-size: 13.5px; }
@@ -3527,4 +3526,31 @@ img, video, iframe { max-width: 100%; }
   .mt-l5-row { grid-template-columns: 18px minmax(0, 1fr); }
   .mt-l5-score, .mt-l5-date { grid-column: 2; text-align: left; }
   .m-more { display: none; }
+}
+
+/* ---------------- Logotip: ichki SVG (js/logo.js) ---------------- */
+
+.logo-svg { display: block; height: 32px; line-height: 0; flex-shrink: 0; }
+.logo-svg .logo-svg-el { display: block; height: 100%; width: auto; aspect-ratio: 3524.95 / 658.94; }
+.logo-svg { width: max-content; }
+.footer .logo-svg { height: 30px; }
+.acc-about-logo.logo-svg { height: auto; width: min(240px, 70%); }
+.acc-about-logo.logo-svg .logo-svg-el { width: 100%; height: auto; }
+.intro-logo .logo-svg-el { aspect-ratio: 3524.95 / 658.94; }
+
+/* intro: SVG ham rasm kabi chapdan ochiladi */
+.intro-logo .logo-svg-el {
+  width: 100%; height: auto; display: block;
+  clip-path: inset(0 81% 0 0 round 18%);
+  animation: introReveal 3.5s cubic-bezier(.65, 0, .25, 1) forwards;
+}
+
+@media (max-width: 380px) { .logo-svg { height: 27px; } }
+
+/* juda tor ekranda — faqat "D" belgisi */
+@media (max-width: 300px) {
+  .header .logo-svg { height: 28px; width: 28px; overflow: hidden; }
+}
+@media (max-width: 150px) {
+  .header .logo-svg { height: 22px; width: 22px; }
 }
