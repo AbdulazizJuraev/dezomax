@@ -16,4 +16,5 @@
    4) (a) bandidagi Web client ID ni pastga qo'ying (…apps.googleusercontent.com)
    ============================================================ */
 
-const GOOGLE_WEB_CLIENT_ID = '';
+// Web Client ID ochiq ma'lumot (sahifa kodida baribir ko'rinadi). Client SECRET bu yerga HECH QACHON yozilmaydi.
+const GOOGLE_WEB_CLIENT_ID = '908276451743-a2o6sj3n1fgfbm93q0e09ephcrotanvt.apps.googleusercontent.com';
