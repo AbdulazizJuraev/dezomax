@@ -11,10 +11,10 @@
     "allowMixedContent": false
   },
   "plugins": {
-    "StatusBar": {
+    "SystemBars": {
       "style": "DARK",
-      "backgroundColor": "#07080c",
-      "overlaysWebView": false
+      "insetsHandling": "css",
+      "initialViewportFitValueHint": "cover"
     }
   }
 }

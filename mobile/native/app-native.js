@@ -7,7 +7,7 @@
   const cap = window.Capacitor;
   if (!cap || !cap.isNativePlatform || !cap.isNativePlatform()) return;
 
-  const { App, ScreenOrientation, StatusBar } = cap.Plugins;
+  const { App, ScreenOrientation, SystemBars } = cap.Plugins;
   document.documentElement.classList.add('is-native-app');
 
   /* ---- Telefonning "orqaga" tugmasi ---- */
@@ -30,7 +30,8 @@
   /* ---- Video katta ekranda — telefon gorizontal holatga o'tadi, status bar yashirinadi ---- */
   const syncOrientation = () => {
     const fs = document.fullscreenElement || document.webkitFullscreenElement;
-    if (StatusBar) (fs ? StatusBar.hide() : StatusBar.show()).catch?.(() => {});
+    // katta ekranda soat/batareya qatori va pastki panel butunlay yashirinadi
+    if (SystemBars) Promise.resolve(fs ? SystemBars.hide() : SystemBars.show()).catch(() => {});
     if (!ScreenOrientation) return;
     if (fs) ScreenOrientation.lock({ orientation: 'landscape' }).catch(() => {});
     else ScreenOrientation.unlock().catch(() => {});

@@ -28,7 +28,13 @@
   --shadow:    0 10px 40px rgba(0, 0, 0, .5);
   --shadow-lg: 0 24px 70px rgba(0, 0, 0, .65);
 
-  --header-h: 68px;
+  /* Telefon chekinishlari: ilovada status bar, kamera kesigi, pastki panel (saytda 0) */
+  --sat: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px));
+  --sab: max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px));
+  --sal: max(env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px));
+  --sar: max(env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px));
+
+  --header-h: calc(68px + var(--sat));
   --maxw: 1360px;
 }
 
@@ -1015,7 +1021,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-top: 1px solid var(--line);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-bottom: var(--sab);
   }
 
   .tabbar-item {
@@ -1083,10 +1089,10 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
   }
 
   /* Kontent panel ostida qolib ketmasligi uchun */
-  body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  body { padding-bottom: calc(62px + var(--sab)); }
 
   /* "Yuqoriga" tugmasi panel ustiga ko'chadi */
-  .to-top { bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
+  .to-top { bottom: calc(74px + var(--sab)); }
 }
 
 /* ---------------- Responsive ---------------- */
@@ -1159,7 +1165,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
   background: var(--surface);
   border-top: 1px solid var(--line-strong);
   border-radius: var(--r-lg) var(--r-lg) 0 0;
-  padding: 10px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  padding: 10px 16px calc(18px + var(--sab));
   transform: translateY(100%);
   transition: transform .28s cubic-bezier(.2, .9, .3, 1);
   max-height: 85vh;
@@ -2111,7 +2117,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
   left: 0; right: 0; bottom: 0;
   z-index: 6;
   width: auto;
-  padding: 28px max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  padding: 28px max(16px, var(--sar)) max(12px, var(--sab)) max(16px, var(--sal));
   background: linear-gradient(to top, rgba(0, 0, 0, .88), rgba(0, 0, 0, .5) 55%, transparent);
   border-top: 0;
   transition: opacity .3s, transform .3s;
@@ -2800,3 +2806,64 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   .acc-auth { padding: 22px 18px 18px; border-radius: 20px; }
   .acc-balance-sum { font-size: 30px; }
 }
+
+/* ---------------- Butun ekran (Android ilova): chekinishlar ---------------- */
+
+.header { padding-top: var(--sat); }
+.wrap {
+  padding-left: max(clamp(16px, 4vw, 48px), var(--sal));
+  padding-right: max(clamp(16px, 4vw, 48px), var(--sar));
+}
+.tabbar { padding-left: var(--sal); padding-right: var(--sar); }
+.player-wrap.ytp.ytp-pseudo-fs .ytp-bar { padding-top: 28px; }
+
+/* ---------------- Pleyer: sifat tanlash ---------------- */
+
+.ytp-q { position: relative; }
+.ytp-q-label {
+  position: absolute;
+  right: 2px; top: 3px;
+  padding: 0 3px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 8.5px;
+  font-weight: 800;
+  line-height: 13px;
+  pointer-events: none;
+}
+
+.ytp-qmenu {
+  position: absolute;
+  right: 10px;
+  bottom: calc(100% + 8px);
+  z-index: 8;
+  min-width: 190px;
+  padding: 6px;
+  border-radius: 14px;
+  background: rgba(14, 18, 26, .97);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+.ytp-bar { position: relative; }
+.ytp-qmenu-title { padding: 6px 10px 8px; font-size: 12px; font-weight: 700; color: var(--text-faint); text-transform: uppercase; letter-spacing: .06em; }
+
+.ytp-qmenu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.ytp-qmenu button:hover { background: rgba(255, 255, 255, .07); }
+.ytp-qmenu button.is-active { color: #4cb8f0; }
+.ytp-qmenu button.is-active::after { content: '✓'; font-weight: 800; }
+.ytp-qmenu small { color: var(--text-faint); font-weight: 600; font-size: 11.5px; }
+.ytp-qmenu-note { margin: 4px 10px 6px; font-size: 11.5px; color: var(--text-faint); line-height: 1.4; }

@@ -19,11 +19,47 @@ const YT_ICONS = {
   fs:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
   back:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a7 7 0 1 1-6.6 4.7"/><path d="M5 4v5h5"/><text x="12" y="15.5" font-size="6.5" text-anchor="middle" fill="currentColor" stroke="none" font-family="sans-serif" font-weight="700">10</text></svg>',
   fwd:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a7 7 0 1 0 6.6 4.7"/><path d="M19 4v5h-5"/><text x="12" y="15.5" font-size="6.5" text-anchor="middle" fill="currentColor" stroke="none" font-family="sans-serif" font-weight="700">10</text></svg>',
+  gear:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   // katta ekranda: videoni ekran bo'yicha to'ldirish / to'liq sig'dirish
   fill:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 10l-2 2 2 2M16 10l2 2-2 2"/></svg>',
   fit:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M6 10l2 2-2 2M18 10l-2 2 2 2"/></svg>',
   replay:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg>'
 };
+
+/* ---------- Video sifati ----------
+   Tanlov localStorage'da saqlanadi (akkaunt sozlamalaridagi "Video sifati" ham shu kalitni o'zgartiradi).
+   YouTube IFrame API'da sifat faqat "tavsiya" sifatida beriladi — YouTube internet tezligiga
+   qarab boshqa sifatni tanlashi mumkin. Haqiqiy sifat belgida ko'rsatiladi. */
+const QUALITY_KEY = 'dezomax_quality';
+const QUALITIES = [
+  { id: 'auto', yt: 'default', label: null },
+  { id: '1080', yt: 'hd1080', label: '1080p', tag: 'Full HD' },
+  { id: '720',  yt: 'hd720',  label: '720p',  tag: 'HD' },
+  { id: '480',  yt: 'large',  label: '480p' },
+  { id: '360',  yt: 'medium', label: '360p' },
+  { id: '240',  yt: 'small',  label: '240p' }
+];
+const YT_Q_LABEL = { hd2160: '4K', hd1440: '1440p', hd1080: '1080p', hd720: '720p', large: '480p', medium: '360p', small: '240p', tiny: '144p', highres: '4K' };
+
+Object.assign(I18N.uz, {
+  'player.quality': 'Sifat',
+  'player.qAuto': 'Avtomatik',
+  'player.qNow': 'hozir',
+  'player.qNote': 'Internet sekin bo‘lsa, YouTube sifatni o‘zi pasaytirishi mumkin.',
+  'player.qSet': 'Sifat:'
+});
+Object.assign(I18N.ru, {
+  'player.quality': 'Качество',
+  'player.qAuto': 'Авто',
+  'player.qNow': 'сейчас',
+  'player.qNote': 'При медленном интернете YouTube может сам снизить качество.',
+  'player.qSet': 'Качество:'
+});
+
+function getQuality() {
+  const v = localStorage.getItem(QUALITY_KEY) || 'auto';
+  return QUALITIES.some(q => q.id === v) ? v : 'auto';
+}
 
 /* YouTube havolasidan video ID */
 function youTubeId(url) {
@@ -101,6 +137,7 @@ function mountYouTube(box, url, opts = {}) {
       <span class="ytp-time" id="ytpDur">0:00</span>
       <button class="ytp-btn" id="ytpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
       <input class="ytp-vol ytp-hide-sm" id="ytpVol" type="range" min="0" max="100" value="100" aria-label="volume">
+      <button class="ytp-btn ytp-q" id="ytpQ" type="button" aria-label="${esc(t('player.quality'))}">${YT_ICONS.gear}<b class="ytp-q-label" id="ytpQLabel" hidden></b></button>
       <button class="ytp-btn ytp-fit" id="ytpFit" type="button" aria-label="zoom">${YT_ICONS.fill}</button>
       <button class="ytp-btn" id="ytpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
     </div>`;
@@ -130,6 +167,8 @@ async function ytStart(box, id) {
     },
     events: {
       onReady: () => {
+        const q = QUALITIES.find(x => x.id === getQuality());
+        if (q && q.id !== 'auto') try { player.setPlaybackQuality(q.yt); } catch {}
         player.playVideo();
         // Telefonda ovozli avtoijro taqiqlangan bo'lsa — ovozsiz boshlaymiz
         setTimeout(() => {
@@ -250,6 +289,52 @@ function ytBindBar(box, player) {
   $('#ytpPause').addEventListener('click', () => player.playVideo());
 
   $('#ytpFs').addEventListener('click', () => ytToggleFullscreen(box));
+
+  // Sifat menyusi
+  const closeQ = () => box.querySelector('.ytp-qmenu')?.remove();
+  $('#ytpQ').addEventListener('click', e => {
+    e.stopPropagation();
+    if (box.querySelector('.ytp-qmenu')) return closeQ();
+    const cur = getQuality();
+    const now = YT_Q_LABEL[safe(() => player.getPlaybackQuality())];
+    const menu = document.createElement('div');
+    menu.className = 'ytp-qmenu';
+    menu.innerHTML = `
+      <div class="ytp-qmenu-title">${esc(t('player.quality'))}</div>
+      ${QUALITIES.map(q => `
+        <button type="button" data-q="${q.id}" class="${q.id === cur ? 'is-active' : ''}">
+          <span>${esc(q.label || t('player.qAuto'))}${q.id === 'auto' && now ? ` <small>(${t('player.qNow')} ${now})</small>` : q.tag ? ` <small>${q.tag}</small>` : ''}</span>
+        </button>`).join('')}
+      <p class="ytp-qmenu-note">${esc(t('player.qNote'))}</p>`;
+    $('#ytpBar').appendChild(menu);
+    ytWake(box);
+    menu.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', ev => {
+      ev.stopPropagation();
+      const q = QUALITIES.find(x => x.id === b.dataset.q);
+      localStorage.setItem(QUALITY_KEY, q.id);
+      closeQ();
+      // Sifatni qo'llash: videoni shu joyidan tanlangan sifat bilan qayta yuklaymiz
+      const at = safe(() => player.getCurrentTime());
+      const wasPaused = safe(() => player.getPlayerState()) === YT.PlayerState.PAUSED;
+      try {
+        player.loadVideoById({ videoId: ytActive.id, startSeconds: at, suggestedQuality: q.yt });
+        player.setPlaybackQuality(q.yt);
+        if (wasPaused) setTimeout(() => player.pauseVideo(), 700);
+      } catch {}
+      syncQ();
+    }));
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.ytp-qmenu')) closeQ(); });
+
+  const syncQ = () => {
+    const label = $('#ytpQLabel');
+    const now = YT_Q_LABEL[safe(() => player.getPlaybackQuality())];
+    const sel = QUALITIES.find(x => x.id === getQuality());
+    const text = now ? now.replace('p', '') : (sel.label ? sel.label.replace('p', '') : '');
+    label.textContent = /^(1080|1440|4K)$/.test(text) ? 'HD+' : /^720$/.test(text) ? 'HD' : text;
+    label.hidden = !label.textContent;
+  };
+
   $('#ytpFit').addEventListener('click', () => {
     const fill = box.classList.toggle('ytp-fill');
     $('#ytpFit').innerHTML = fill ? YT_ICONS.fit : YT_ICONS.fill;
@@ -282,6 +367,7 @@ function ytBindBar(box, player) {
     }
     $('#ytpDur').textContent = fmtTime(dur);
     syncMute();
+    syncQ();
   }, 500);
 }
 

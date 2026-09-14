@@ -13,6 +13,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- Tizim panellari ortidagi fon — kulrang emas, sayt foni -->
+        <item name="android:windowBackground">@color/dezomaxBg</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 
 

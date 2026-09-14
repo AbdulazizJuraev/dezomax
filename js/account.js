@@ -156,7 +156,7 @@ Object.assign(I18N.ru, {
   'acc.promoTx': 'Промокод'
 });
 
-const APP_VERSION = '1.2';
+const APP_VERSION = '1.3';
 
 /* Promokodlar: bonus — balansga so'm, plan — tarif necha kunga */
 const PROMOCODES = {
@@ -706,8 +706,8 @@ const SECTIONS = {
         <div class="acc-setting">
           <b>${t('acc.quality')}</b>
           <select class="select" id="setQuality">
-            ${[['auto', t('acc.qAuto')], ['480', '480p'], ['720', '720p'], ['1080', '1080p']]
-              .map(([v, l]) => `<option value="${v}"${s.quality === v ? ' selected' : ''}>${l}</option>`).join('')}
+            ${[['auto', t('acc.qAuto')], ['1080', '1080p'], ['720', '720p'], ['480', '480p'], ['360', '360p'], ['240', '240p']]
+              .map(([v, l]) => `<option value="${v}"${(localStorage.getItem('dezomax_quality') || s.quality || 'auto') === v ? ' selected' : ''}>${l}</option>`).join('')}
           </select>
         </div>
       </div>
@@ -845,7 +845,12 @@ const BINDERS = {
       rerender(t('acc.saved'));
     });
     p.querySelector('#setAutoplay').addEventListener('change', e => { profile.settings.autoplay = e.target.checked; save(); });
-    p.querySelector('#setQuality').addEventListener('change', e => { profile.settings.quality = e.target.value; save(); toast(t('acc.saved')); });
+    p.querySelector('#setQuality').addEventListener('change', e => {
+      profile.settings.quality = e.target.value;
+      localStorage.setItem('dezomax_quality', e.target.value);     // pleyer shu kalitni o'qiydi
+      save();
+      toast(t('acc.saved'));
+    });
   },
 
   notify(p) {
