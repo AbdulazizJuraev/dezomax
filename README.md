@@ -49,7 +49,7 @@ catalog.html      Katalog: qidiruv, janr/tur filtrlari, saralash
 movie.html        Kino sahifasi: tavsif, pleyer, o'xshash kinolar
 favorites.html    Sevimlilar (brauzer xotirasida saqlanadi)
 
-images/           Kinolar posterlari (61 ta)
+images/           Kinolar posterlari (61 ta); images/uz — o'zbek filmlari; images/tv — kanal logotiplari
 css/style.css     Barcha uslublar
 js/data.js        >>> KINOLAR BAZASI — asosan shu faylni tahrirlaysiz
 js/channels.js    >>> TELEKANALLAR RO‘YXATI
@@ -156,6 +156,31 @@ Uning ustida `video` maydoni qanday ishlashini sinab ko'rishingiz mumkin.
 > to'liq nusxalari mualliflik huquqi bilan himoyalangan. O'zingizdagi yoki litsenziya
 > olgan manbalaringiz havolasini shu maydonga qo'ysangiz, pleyer darhol ishlaydi.
 
+## O'zbek kinolari
+
+`js/data.js` da `franchise: 'uzbek'` belgili 39 ta to'liq o'zbek filmi bor. Ular faqat
+rasmiy studiya va distribyutor YouTube kanallaridan olingan: Uzbekkino HD va
+UzbekFilmsHD (RizaNova), NevoFilms, O'zbekkino, navo.tv, Fox Music Cinema, Kashtan films.
+Har bir video embed qilishga ruxsat berilgani tekshirilgan. Kino sahifasida pleyer
+ostida "Rasmiy manba" havolasi turadi.
+
+YouTube'da reyting yo'q, shuning uchun bu filmlarda reyting ko'rsatilmaydi. Yil,
+rejissyor va aktyorlar faqat videoning o'z tavsifida yozilgan bo'lsa qo'yilgan.
+
+### Litsenziyali kinolarni qo'shish
+
+Hollywood yoki Marvel filmlariga litsenziya olganingizda, huquq egasi fayl yoki oqim
+havolasini beradi. Uni kinoning `video` maydoniga, manbani esa `source` ga yozing:
+
+```js
+video: 'https://cdn.sizning-domen.uz/avengers-endgame/playlist.m3u8',
+source: { name: 'Litsenziya: Walt Disney Studios', url: 'https://...' },
+```
+
+> Uchinchi tomon saytlaridagi (masalan uztube.org) nusxalarni ulamang: litsenziyangiz
+> ularni qamrab olmaydi va huquq egasi shikoyat qilsa, GitHub repozitoriy va sayt
+> bloklanishi mumkin.
+
 ## Telekanallar
 
 `js/channels.js` da 66 ta kanal: 32 ta o'zbek va 34 ta rus kanali (Первый канал,
@@ -232,7 +257,7 @@ ishlatiladi, til almashtirilganda hammasi avtomatik yangilanadi.
 - Avtomatik aylanuvchi hero-slider
 - Gorizontal kinolar qatorlari (strelkalar bilan)
 - Jonli qidiruv: nom, rejissyor, aktyor, janr, yil, olam va qo‘shimcha kalitlar
-- Marvel va DC uchun alohida bo‘limlar hamda katalog filtri
+- O‘zbek kinolari (39 ta, rasmiy YouTube kanallardan), Marvel va DC uchun alohida bo‘limlar hamda katalog filtri
 - Tur, olam va janr filtrlari, 4 xil saralash
 - Sevimlilar ro'yxati (`localStorage`)
 - O'zbekcha / ruscha til almashtirish (tanlov saqlanadi)

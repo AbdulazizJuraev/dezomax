@@ -101,6 +101,7 @@ const I18N = {
     'row.favorites': 'Sevimlilaringiz',
     'row.marvel': 'Marvel olami',
     'row.dc': 'DC olami',
+    'row.uzbek': 'O‘zbek kinolari',
     'row.seeAll': 'Hammasi',
 
     'catalog.title': 'Katalog',
@@ -116,6 +117,7 @@ const I18N = {
     'catalog.franchise': 'Olam',
     'franchise.marvel': 'Marvel',
     'franchise.dc': 'DC',
+    'franchise.uzbek': 'O‘zbek kino',
 
     'type.film': 'Film',
     'type.serial': 'Serial',
@@ -144,6 +146,7 @@ const I18N = {
     'player.film': 'Kino',
     'player.trailer': 'Treyler',
     'player.openExternal': 'Yangi oynada ochish ↗',
+    'player.source': 'Rasmiy manba',
     'player.trailerOnly': 'To‘liq kino havolasi qo‘shilmagan — hozircha treyler ko‘rsatilmoqda.',
 
     'fav.empty': 'Sevimlilar ro‘yxati bo‘sh',
@@ -257,6 +260,7 @@ const I18N = {
     'row.favorites': 'Ваше избранное',
     'row.marvel': 'Вселенная Marvel',
     'row.dc': 'Вселенная DC',
+    'row.uzbek': 'Узбекские фильмы',
     'row.seeAll': 'Все',
 
     'catalog.title': 'Каталог',
@@ -272,6 +276,7 @@ const I18N = {
     'catalog.franchise': 'Вселенная',
     'franchise.marvel': 'Marvel',
     'franchise.dc': 'DC',
+    'franchise.uzbek': 'Узбекское кино',
 
     'type.film': 'Фильм',
     'type.serial': 'Сериал',
@@ -300,6 +305,7 @@ const I18N = {
     'player.film': 'Фильм',
     'player.trailer': 'Трейлер',
     'player.openExternal': 'Открыть в новом окне ↗',
+    'player.source': 'Официальный источник',
     'player.trailerOnly': 'Ссылка на полный фильм не добавлена — пока показан трейлер.',
 
     'fav.empty': 'Список избранного пуст',

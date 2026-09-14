@@ -14,7 +14,7 @@ const state = {
 };
 
 const TYPES = ['film', 'serial', 'multfilm'];
-const FRANCHISES = ['marvel', 'dc'];
+const FRANCHISES = ['uzbek', 'marvel', 'dc'];
 const SORTS = ['new', 'old', 'rating', 'name'];
 
 /* ---------- Filtrlar ---------- */
@@ -71,7 +71,7 @@ function filtered() {
     if (!q) return true;
 
     const haystack = [
-      m.title.uz, m.title.ru, m.director, String(m.year),
+      m.title.uz, m.title.ru, m.director || '', String(m.year || ''), m.source?.name || '',
       m.franchise || '',
       ...(m.tags || []),
       ...(m.cast || []),
@@ -82,9 +82,9 @@ function filtered() {
   });
 
   const sorters = {
-    new:    (a, b) => b.year - a.year,
-    old:    (a, b) => a.year - b.year,
-    rating: (a, b) => b.rating - a.rating,
+    new:    (a, b) => (b.year || 0) - (a.year || 0),
+    old:    (a, b) => (a.year || 9999) - (b.year || 9999),
+    rating: (a, b) => (b.rating || 0) - (a.rating || 0),
     name:   (a, b) => title(a).localeCompare(title(b), LANG === 'ru' ? 'ru' : 'uz')
   };
 

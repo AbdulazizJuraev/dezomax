@@ -105,11 +105,16 @@ function playerSectionHTML(m) {
     ? `<p class="player-note">${t('player.trailerOnly')}</p>`
     : '';
 
+  // Rasmiy manba (masalan studiyaning YouTube kanali) — kim joylaganini ochiq ko'rsatamiz
+  const source = m.source
+    ? `<p class="player-note">${t('player.source')}: <a href="${esc(m.source.url)}" target="_blank" rel="noopener">${esc(m.source.name)}</a></p>`
+    : '';
+
   return `
     ${tabs}
     <div class="player-wrap" id="playerBox"></div>
     <div class="player-foot">
-      ${note}
+      ${note}${source}
       <a class="player-link" id="playerExternal" target="_blank" rel="noopener" hidden>${t('player.openExternal')}</a>
     </div>`;
 }
@@ -119,9 +124,10 @@ function playerSectionHTML(m) {
 function similarOf(m) {
   return MOVIES
     .filter(x => x.id !== m.id)
-    .map(x => ({ x, score: x.genres.filter(g => m.genres.includes(g)).length }))
+    // bir xil olam (o'zbek kino, Marvel, DC) — janr mosligidan ham muhimroq
+    .map(x => ({ x, score: x.genres.filter(g => m.genres.includes(g)).length + (m.franchise && x.franchise === m.franchise ? 3 : 0) }))
     .filter(o => o.score > 0)
-    .sort((a, b) => b.score - a.score || b.x.rating - a.x.rating)
+    .sort((a, b) => b.score - a.score || (b.x.rating || 0) - (a.x.rating || 0))
     .slice(0, 12)
     .map(o => o.x);
 }
@@ -144,15 +150,19 @@ function renderMovie() {
     return;
   }
 
-  document.title = `${title(movie)} (${movie.year}) — DezoMax`;
+  document.title = `${title(movie)}${movie.year ? ` (${movie.year})` : ''} — DezoMax`;
 
+  // Noma'lum maydonlar (yil, rejissyor, reyting) umuman ko'rsatilmaydi
   const info = [
     [t('movie.year'), movie.year],
     [t('movie.country'), countryOf(movie)],
     [movie.type === 'serial' ? t('movie.seasons') : t('movie.duration'), durationText(movie)],
     [t('movie.director'), movie.director],
-    [t('movie.rating'), movie.rating.toFixed(1) + ' / 10']
-  ];
+    [t('movie.rating'), movie.rating ? movie.rating.toFixed(1) + ' / 10' : '']
+  ].filter(([, v]) => v && v !== '—');
+
+  const subTitle = [LANG === 'uz' ? movie.title.ru : movie.title.uz, movie.year]
+    .filter(x => x && x !== title(movie)).join(' · ');
 
   page.innerHTML = `
   <section class="mv-hero">
@@ -163,10 +173,10 @@ function renderMovie() {
 
         <div>
           <h1 class="mv-title">${esc(title(movie))}</h1>
-          <div class="mv-sub">${esc(LANG === 'uz' ? movie.title.ru : movie.title.uz)} · ${movie.year}</div>
+          ${subTitle ? `<div class="mv-sub">${esc(subTitle)}</div>` : ''}
 
           <div class="mv-tags">
-            <span class="tag tag-rating">${ICONS.star} ${movie.rating.toFixed(1)}</span>
+            ${movie.rating ? `<span class="tag tag-rating">${ICONS.star} ${movie.rating.toFixed(1)}</span>` : ''}
             <span class="tag">${typeName(movie.type)}</span>
             ${movie.genres.map(g => `<a class="tag" href="catalog.html?genre=${g}">${esc(genreName(g))}</a>`).join('')}
             <span class="tag">${esc(durationText(movie))}</span>
@@ -196,12 +206,13 @@ function renderMovie() {
       ${playerSectionHTML(movie)}
     </section>
 
+    ${(movie.cast || []).length ? `
     <section class="section">
       <div class="section-head"><i class="bar"></i><h2>${t('movie.cast')}</h2></div>
       <div class="cast-list">
-        ${(movie.cast || []).map(c => `<span class="tag">${esc(c)}</span>`).join('')}
+        ${movie.cast.map(c => `<span class="tag">${esc(c)}</span>`).join('')}
       </div>
-    </section>
+    </section>` : ''}
 
     <section class="section">
       <div class="section-head"><i class="bar"></i><h2>${t('movie.similar')}</h2></div>

@@ -33,7 +33,12 @@
                    HLS oqim     https://.../playlist.m3u8
                    Boshqa har qanday embed havola ham iframe sifatida ochiladi.
                  Bo'sh bo'lsa — pleyerda treyler ko'rsatiladi.
+     source    - (ixtiyoriy) { name, url } — video joylangan rasmiy kanal/platforma.
+                 Kino sahifasida pleyer ostida "Rasmiy manba" deb ko'rsatiladi
      featured  - bosh sahifadagi katta sliderda ko'rsatilsinmi
+
+   year, rating, director — ixtiyoriy: noma'lum bo'lsa yozmang, sayt ularni
+   ko'rsatmaydi (o'ylab topilgan qiymat qo'ymang).
    ============================================================ */
 
 const GENRES = [
@@ -1108,6 +1113,648 @@ const MOVIES = [
     poster: 'images/blade-runner-2049.png',
     trailer: 'https://www.youtube.com/watch?v=gCcx85zbxz4',
     video: '',
+    featured: false
+  },
+  /* ------------------------------------------------------------
+     O'zbek filmlari — rasmiy studiya va distribyutor YouTube kanallaridan.
+     Reyting ko'rsatilmagan (YouTube'da yo'q); yil va rejissyor faqat
+     videoning o'z tavsifida yozilgan bo'lsa qo'yilgan.
+     ------------------------------------------------------------ */
+  {
+    id: 62, slug: "uz-bir-uyda-sevishganlar", type: 'film', franchise: 'uzbek',
+    title: { uz: "Bir uyda sevishganlar", ru: "Бир уйда севишганлар" },
+    genres: ['drama'], duration: 85,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Bir uyda sevishganlar» — o‘zbek filmi. To‘liq versiyasi rasmiy «Kashtan films» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Бир уйда севишганлар». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/bir-uyda-sevishganlar.jpg',
+    video: 'https://www.youtube.com/watch?v=_fY8NJXI9VQ',
+    source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
+    featured: false
+  },
+  {
+    id: 63, slug: "uz-daxshatli-uy", type: 'film', franchise: 'uzbek',
+    title: { uz: "Daxshatli uy", ru: "Дахшатли уй" },
+    genres: ['drama'], duration: 65,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Daxshatli uy» — o‘zbek filmi. To‘liq versiyasi rasmiy «Kashtan films» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Дахшатли уй». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/daxshatli-uy.jpg',
+    video: 'https://www.youtube.com/watch?v=Xtn0twJzvD0',
+    source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
+    featured: false
+  },
+  {
+    id: 64, slug: "uz-omadli-oshiqlar", type: 'film', franchise: 'uzbek',
+    title: { uz: "Omadli oshiqlar", ru: "Омадли ошиқлар" },
+    genres: ['drama'], duration: 69,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Omadli oshiqlar» — o‘zbek filmi. To‘liq versiyasi rasmiy «Kashtan films» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Омадли ошиқлар». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/omadli-oshiqlar.jpg',
+    video: 'https://www.youtube.com/watch?v=3bcrOfMLHGU',
+    source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
+    featured: false
+  },
+  {
+    id: 65, slug: "uz-qizil-oyna", type: 'film', franchise: 'uzbek',
+    title: { uz: "Qizil oyna", ru: "Қизил ойна" },
+    genres: ['drama'], duration: 74,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Qizil oyna» — o‘zbek filmi. To‘liq versiyasi rasmiy «Kashtan films» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Қизил ойна». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/qizil-oyna.jpg',
+    video: 'https://www.youtube.com/watch?v=YsrXyb6Y_NQ',
+    source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
+    featured: false
+  },
+  {
+    id: 66, slug: "uz-nomussiz", type: 'film', franchise: 'uzbek',
+    title: { uz: "Nomussiz", ru: "Номуссиз" },
+    genres: ['drama'], duration: 75,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Nomussiz» — o‘zbek filmi. To‘liq versiyasi rasmiy «Kashtan films» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Номуссиз». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/nomussiz.jpg',
+    video: 'https://www.youtube.com/watch?v=kWsioSdc-XU',
+    source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
+    featured: false
+  },
+  {
+    id: 67, slug: "uz-kutilmagan-kelin", type: 'film', franchise: 'uzbek',
+    title: { uz: "Kutilmagan kelin", ru: "Кутилмаган келин" },
+    genres: ['drama'], duration: 69,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Kutilmagan kelin» — o‘zbek filmi. To‘liq versiyasi rasmiy «Kashtan films» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Кутилмаган келин». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/kutilmagan-kelin.jpg',
+    video: 'https://www.youtube.com/watch?v=wotfYFZepZM',
+    source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
+    featured: false
+  },
+  {
+    id: 68, slug: "uz-super-kelinchak", year: 2008, type: 'film', franchise: 'uzbek',
+    title: { uz: "Super kelinchak", ru: "Super kelinchak" },
+    genres: ['comedy', 'romance', 'drama'], duration: 103,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Bahrom Yoqubov",
+    cast: ["Diana Yagofarova", "Adiz Rajabov", "Saida Rametova", "Murod Rajabov", "Nozim To'laxo'jayev", "Elizaveta Karali"],
+    desc: {
+      uz: "«Super kelinchak» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Super kelinchak». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/super-kelinchak.jpg',
+    video: 'https://www.youtube.com/watch?v=Be-Ja91Z7Qk',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 69, slug: "uz-notanish-qotil", type: 'film', franchise: 'uzbek',
+    title: { uz: "Notanish qotil", ru: "Нотаниш котил" },
+    genres: ['drama'], duration: 94,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Jamol aka badavlat, obroʼli inson boʼlsa ham, bir jinoyatda ayblanib, qamoqqa olinish arafasida edi. Bu esa, uning obroʼsiga toʼgʼri kelmasdi. Uning oʼgʼli Baxtiyor ham xorijdagi oʼqishini tugatib, uyga qaytayotgan edi.",
+      ru: "Узбекский фильм «Нотаниш котил». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/notanish-qotil.jpg',
+    video: 'https://www.youtube.com/watch?v=HATGTIhNAuA',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 70, slug: "uz-borilar-2-quvgin", year: 2008, type: 'film', franchise: 'uzbek',
+    title: { uz: "Bo'rilar 2 – quvg'in", ru: "Bo'rilar 2 – quvg'in" },
+    genres: ['drama'], duration: 100,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Zebo Navruzova",
+    cast: ["Shohruhxon", "Nilufar Usmonova", "Jalil Mavlonov", "Bekzod Tojiyev", "Ulug'bek Tuganov", "Nasrulloh Nurov"],
+    desc: {
+      uz: "«Bo'rilar 2 – quvg'in» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Bo'rilar 2 – quvg'in». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/borilar-2-quvgin.jpg',
+    video: 'https://www.youtube.com/watch?v=kzTOyuHWEUM',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 71, slug: "uz-borilar", year: 2007, type: 'film', franchise: 'uzbek',
+    title: { uz: "Bo'rilar", ru: "Bo'rilar" },
+    genres: ['drama'], duration: 90,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Zebo Navruzova",
+    cast: ["Shohruhxon", "Bekzod Tojiyev", "Adiz Rajabov", "Nilufar Usmonova", "Jalil Mavlonov", "Jamshid Abduazimov"],
+    desc: {
+      uz: "«Bo'rilar» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Bo'rilar». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/borilar.jpg',
+    video: 'https://www.youtube.com/watch?v=VWNbZRyrqWg',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 72, slug: "uz-qaysarginam", type: 'film', franchise: 'uzbek',
+    title: { uz: "Qaysarginam", ru: "Кайсаргинам" },
+    genres: ['drama'], duration: 88,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Qaysarginam» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Кайсаргинам». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/qaysarginam.jpg',
+    video: 'https://www.youtube.com/watch?v=fNxF0okFGNI',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 73, slug: "uz-tilim-qursin-2", type: 'film', franchise: 'uzbek',
+    title: { uz: "Tilim qursin 2", ru: "Тилим курсин 2" },
+    genres: ['drama'], duration: 79,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Жахонгир Ахмедов",
+    cast: [],
+    desc: {
+      uz: "«Tilim qursin 2» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Тилим курсин 2». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/tilim-qursin-2.jpg',
+    video: 'https://www.youtube.com/watch?v=t8Saf1DG3n8',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 74, slug: "uz-qaysarginam-2", type: 'film', franchise: 'uzbek',
+    title: { uz: "Qaysarginam 2", ru: "Кайсаргинам 2" },
+    genres: ['family'], duration: 97,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Jasur va Jasmin sevishib turmush qurishgan. Lekin, Jasur oilaviy hayotni faqat romantika, oʼyin-kulgidan iborat, deb biladigan oʼta zamonaviy yigit. Xotini Jasminning homilador boʼlishi, uning hayotini ostin-ustun qilib yuboradi.",
+      ru: "Узбекский фильм «Кайсаргинам 2». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/qaysarginam-2.jpg',
+    video: 'https://www.youtube.com/watch?v=8hrUzzOl2uU',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 75, slug: "uz-ichkuyov", year: 2009, type: 'film', franchise: 'uzbek',
+    title: { uz: "Ichkuyov", ru: "Ichkuyov" },
+    genres: ['drama'], duration: 73,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Bahrom Yoqubov",
+    cast: ["Adiz Rajabov", "Diana Yagofarova", "Murod Rajabov", "Ra'no Yarasheva", "Tohir Saidov", "Zuhra Ashurova"],
+    desc: {
+      uz: "«Ichkuyov» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Ichkuyov». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/ichkuyov.jpg',
+    video: 'https://www.youtube.com/watch?v=9F16cxwZSgQ',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 76, slug: "uz-xoreograf", year: 2025, type: 'film', franchise: 'uzbek',
+    title: { uz: "Xoreograf", ru: "Xoreograf" },
+    genres: ['comedy', 'action'], duration: 70,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Otabek Mirzaxolov, Sunnat Namozov",
+    cast: ["G'ayrat Ahmedov", "Dilshod Mirzamurodov", "Otabek Mirzaxolov", "Huvaydo Jumayeva", "Elbek Fayziyev", "Aysanem Yusupova"],
+    desc: {
+      uz: "Film kriminal, jangari va komediya janrida bo'lib, Afg'onistondan O'zbekistonga noqonuniy giyohvand moddalarni olib o'tuvchi guruh hamda narkobaronning ayyorona usulda qo'lga olinishi haqida.",
+      ru: "Узбекский фильм «Xoreograf». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/xoreograf.jpg',
+    video: 'https://www.youtube.com/watch?v=PUU02klggno',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 77, slug: "uz-zamonaviy-sovchilar-4", year: 2022, type: 'film', franchise: 'uzbek',
+    title: { uz: "Zamonaviy sovchilar 4", ru: "Zamonaviy sovchilar 4" },
+    genres: ['comedy'], duration: 103,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Muhammad Iso Abdulhairov",
+    cast: ["Muhammad Iso Abdulhairov", "Suxrob Isomov", "Alisher Uzoqov", "Huvaydo Jumayeva", "Qobil Karimberdiyev", "Alisher Otaboyev"],
+    desc: {
+      uz: "Ushbu film zamonaviy turmush qurish jarayonidagi kulgili va murakkab holatlar haqida hikoya. Sovchilar yana bir yosh juftlikni oila qurishga undashga harakat qiladi, ammo qarindoshlar bosimi, turli qarashlar va kutilmagan vaziyatlar ishni chigallashtirib yuboradi.",
+      ru: "Узбекский фильм «Zamonaviy sovchilar 4». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/zamonaviy-sovchilar-4.jpg',
+    video: 'https://www.youtube.com/watch?v=iGWKed8Qdwc',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 78, slug: "uz-oling-quda-bering-quda", type: 'film', franchise: 'uzbek',
+    title: { uz: "Oling quda-bering quda", ru: "Олинг куда-беринг куда" },
+    genres: ['drama'], duration: 89,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Жахонгир Ахмедов",
+    cast: [],
+    desc: {
+      uz: "«Oling quda-bering quda» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Олинг куда-беринг куда». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/oling-quda-bering-quda.jpg',
+    video: 'https://www.youtube.com/watch?v=4s4AL0Aq-fQ',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 79, slug: "uz-snayper", year: 2019, type: 'film', franchise: 'uzbek',
+    title: { uz: "Snayper", ru: "Snayper" },
+    genres: ['drama'], duration: 103,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Ozod Shams",
+    cast: ["Ulug'bek Qodirov", "Bonu Nur", "Matyoqub Matchonov", "Behzod Muhammadkarimov", "Mansur Mirzo", "Saida Rametova"],
+    desc: {
+      uz: "«Snayper» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Snayper». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/snayper.jpg',
+    video: 'https://www.youtube.com/watch?v=0ycW8BtCZdg',
+    source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
+    featured: false
+  },
+  {
+    id: 80, slug: "uz-sotqin", type: 'film', franchise: 'uzbek',
+    title: { uz: "Sotqin", ru: "Соткин" },
+    genres: ['drama'], duration: 145,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Film bir oilaning fojiasi haqida hikoya qiladi, ular diniy ekstremistlarning qurboniga aylangan. Bir tomonda - doimo hamma narsadan norozi bo'lgan ota va o'zini hammadan ustun qo'ygan, o'ziga hamma narsani ravo ko'rgan to'ng'ich o'g'il.",
+      ru: "Узбекский фильм «Соткин». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/sotqin.jpg',
+    video: 'https://www.youtube.com/watch?v=7XrD7KN1Zpk',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 81, slug: "uz-jasur", type: 'film', franchise: 'uzbek',
+    title: { uz: "Jasur", ru: "Жасур" },
+    genres: ['drama'], duration: 82,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Ushbu film terrorizmga qarshi kurashda yurtimiz tinchligi va osoyishtaligi uchun jon fido qilgan vatan himoyachilariga bag'ishlanadi. Film real voqealarga asoslangan Bahodir Odilov, Najmiddin G'ulomov filmi",
+      ru: "Узбекский фильм «Жасур». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/jasur.jpg',
+    video: 'https://www.youtube.com/watch?v=8EdasvDM6g4',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 82, slug: "uz-novda", year: 2013, type: 'film', franchise: 'uzbek',
+    title: { uz: "Novda", ru: "Новда" },
+    genres: ['drama'], duration: 98,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Novda» — o‘zbek filmi. To‘liq versiyasi rasmiy «Uzbekkino (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Новда». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/novda.jpg',
+    video: 'https://www.youtube.com/watch?v=FVSAtbNsJzI',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 83, slug: "uz-18-kvadrat", type: 'film', franchise: 'uzbek',
+    title: { uz: "18 kvadrat", ru: "18 квадрат" },
+    genres: ['drama'], duration: 93,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«18 kvadrat» — o‘zbek filmi. To‘liq versiyasi rasmiy «Uzbekkino (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «18 квадрат». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/18-kvadrat.jpg',
+    video: 'https://www.youtube.com/watch?v=NwEUY4-XNy8',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 84, slug: "uz-uch-qahramon", type: 'film', franchise: 'uzbek',
+    title: { uz: "Uch qahramon", ru: "Уч кахрамон" },
+    genres: ['drama'], duration: 158,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Uch qahramon» — o‘zbek filmi. To‘liq versiyasi rasmiy «Uzbekkino (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Уч кахрамон». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/uch-qahramon.jpg',
+    video: 'https://www.youtube.com/watch?v=RrOKftK5bjM',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 85, slug: "uz-telba", type: 'film', franchise: 'uzbek',
+    title: { uz: "Telba", ru: "Телба" },
+    genres: ['romance'], duration: 100,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Bu film kambag‘al yigit va boy oilaning qizi o‘rtasidagi muhabbat hikoyasi haqida.Yigit ko‘chada hanum sotib, shu orqali onasi va singlisini boqadi. Qiz esa nufuzli universitet talabasi, o‘z mashinasi bor va hashamatli uyda yashaydi.",
+      ru: "Узбекский фильм «Телба». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/telba.jpg',
+    video: 'https://www.youtube.com/watch?v=oDgbigMiKkU',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 86, slug: "uz-panoh", type: 'film', franchise: 'uzbek',
+    title: { uz: "Panoh", ru: "Панох" },
+    genres: ['drama'], duration: 162,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Muvaffaqiyatli tadbirkorga tahdidli ovozli xabar keladi. Uning yordamchisi rahbarning qizlari uchun tansoqchilar yollashni taklif qiladi. Aytilgan – bajarilgan.",
+      ru: "Узбекский фильм «Панох». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/panoh.jpg',
+    video: 'https://www.youtube.com/watch?v=8dxJb9RVJas',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 87, slug: "uz-puling-bolsa", type: 'film', franchise: 'uzbek',
+    title: { uz: "Puling bo'lsa", ru: "Пулинг булса" },
+    genres: ['drama'], duration: 87,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Puling bo'lsa» — o‘zbek filmi. To‘liq versiyasi rasmiy «Uzbekkino (RizaNova)» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Пулинг булса». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/puling-bolsa.jpg',
+    video: 'https://www.youtube.com/watch?v=9gS6bunZW6I',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 88, slug: "uz-afv", type: 'film', franchise: 'uzbek',
+    title: { uz: "Afv", ru: "Афв" },
+    genres: ['drama'], duration: 84,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Film real voqealarga asoslangan bo‘lib, turli jinoyatlarda ayblangan, shuningdek, afv etilgan shaxslarning hayoti va taqdiri haqida hikoya qiladi.",
+      ru: "Узбекский фильм «Афв». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/afv.jpg',
+    video: 'https://www.youtube.com/watch?v=YPYq4sT7xVg',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 89, slug: "uz-tutqunlik", year: 2020, type: 'film', franchise: 'uzbek',
+    title: { uz: "Tutqunlik", ru: "Туткинлик" },
+    genres: ['drama'], duration: 88,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Yosh feldsher ish topish maqsadida Yaqin Sharqqa yo'l oladi. Mehribon ayol esa turmush o'rtog'i ortidan ketadi. O'qituvchi-dinshunosning oilasi esa haqiqiy e’tiqodni topish umidida urush o'chog'iga yo'l oladi... Ularning barchasi o'z xatolarining garoviga aylanadi.",
+      ru: "Узбекский фильм «Туткинлик». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/tutqunlik.jpg',
+    video: 'https://www.youtube.com/watch?v=Y-mmYdJRvr0',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 90, slug: "uz-101-reys", year: 2021, type: 'film', franchise: 'uzbek',
+    title: { uz: "101 reys", ru: "101 reys" },
+    genres: ['drama', 'history'], duration: 102,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "Uchuvchilar Z. Saidazimov va B. Asatulloyevlarning 2001 yil 11 sentyabrda Nyu-Yorkda sodir bo‘lgan terroristik hujumda oqilona va qat’iy qarorlarini tasvirlaydigan biografiyaga oid film.",
+      ru: "Узбекский фильм «101 reys». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/101-reys.jpg',
+    video: 'https://www.youtube.com/watch?v=uD2L0CmWwnM',
+    source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
+    featured: false
+  },
+  {
+    id: 91, slug: "uz-oshiqlar", type: 'film', franchise: 'uzbek',
+    title: { uz: "Oshiqlar", ru: "Ошиқлар" },
+    genres: ['drama'], duration: 98,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Oshiqlar» — o‘zbek filmi. To‘liq versiyasi rasmiy «O‘zbekkino» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Ошиқлар». Полная версия размещена на официальном YouTube-канале «O‘zbekkino»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/oshiqlar.jpg',
+    video: 'https://www.youtube.com/watch?v=oeKcX6Y2xCA',
+    source: { name: "O‘zbekkino", url: 'https://www.youtube.com/@Uzbekkino_official' },
+    featured: false
+  },
+  {
+    id: 92, slug: "uz-posht-arava", type: 'film', franchise: 'uzbek',
+    title: { uz: "Po‘sht Arava", ru: "Пўшт Арава" },
+    genres: ['drama'], duration: 89,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Po‘sht Arava» — o‘zbek filmi. To‘liq versiyasi rasmiy «O‘zbekkino» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Пўшт Арава». Полная версия размещена на официальном YouTube-канале «O‘zbekkino»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/posht-arava.jpg',
+    video: 'https://www.youtube.com/watch?v=ed9l5fwYu0U',
+    source: { name: "O‘zbekkino", url: 'https://www.youtube.com/@Uzbekkino_official' },
+    featured: false
+  },
+  {
+    id: 93, slug: "uz-ogay-ona", type: 'film', franchise: 'uzbek',
+    title: { uz: "O‘gay Ona", ru: "Ўгай Она" },
+    genres: ['drama'], duration: 105,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«O‘gay Ona» — o‘zbek filmi. To‘liq versiyasi rasmiy «O‘zbekkino» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Ўгай Она». Полная версия размещена на официальном YouTube-канале «O‘zbekkino»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/ogay-ona.jpg',
+    video: 'https://www.youtube.com/watch?v=vjf9h8zyEBk',
+    source: { name: "O‘zbekkino", url: 'https://www.youtube.com/@Uzbekkino_official' },
+    featured: false
+  },
+  {
+    id: 94, slug: "uz-men-talabaman", type: 'film', franchise: 'uzbek',
+    title: { uz: "Men talabaman", ru: "Мен талабаман" },
+    genres: ['drama'], duration: 91,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Фаррух Эгамбердиев",
+    cast: [],
+    desc: {
+      uz: "«Men talabaman» — o‘zbek filmi. To‘liq versiyasi rasmiy «NevoFilms» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Мен талабаман». Полная версия размещена на официальном YouTube-канале «NevoFilms»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/men-talabaman.jpg',
+    video: 'https://www.youtube.com/watch?v=hbpnuFXzOYY',
+    source: { name: "NevoFilms", url: 'https://www.youtube.com/@nevofilms1' },
+    featured: false
+  },
+  {
+    id: 95, slug: "uz-janob-hech-kim", type: 'film', franchise: 'uzbek',
+    title: { uz: "Janob hech kim", ru: "Жаноб хеч ким" },
+    genres: ['drama'], duration: 87,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Mirmaqsud Oxunov",
+    cast: ["Alisher Uzoqov", "Asal Shodiyeva", "Hamid Toshpo'latov", "Iroda Nosirova", "Mahfuza Bobotillayeva", "Shukur Abdurahmonov"],
+    desc: {
+      uz: "«Janob hech kim» — o‘zbek filmi. To‘liq versiyasi rasmiy «NevoFilms» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Жаноб хеч ким». Полная версия размещена на официальном YouTube-канале «NevoFilms»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/janob-hech-kim.jpg',
+    video: 'https://www.youtube.com/watch?v=ouCLHQHEXH0',
+    source: { name: "NevoFilms", url: 'https://www.youtube.com/@nevofilms1' },
+    featured: false
+  },
+  {
+    id: 96, slug: "uz-shabnam", type: 'film', franchise: 'uzbek',
+    title: { uz: "Shabnam", ru: "Шабнам" },
+    genres: ['drama'], duration: 98,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Mirmaqsud Oxunov",
+    cast: ["Ulug'bek Qodirov", "Gulchexra Eshonqulova", "Aziz Rametov", "Oydin Yusupova"],
+    desc: {
+      uz: "«Shabnam» — o‘zbek filmi. To‘liq versiyasi rasmiy «NevoFilms» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Шабнам». Полная версия размещена на официальном YouTube-канале «NevoFilms»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/shabnam.jpg',
+    video: 'https://www.youtube.com/watch?v=DD1ODs30ers',
+    source: { name: "NevoFilms", url: 'https://www.youtube.com/@nevofilms1' },
+    featured: false
+  },
+  {
+    id: 97, slug: "uz-yugurganniki-emas-buyurganniki", type: 'film', franchise: 'uzbek',
+    title: { uz: "Yugurganniki emas buyurganniki", ru: "Югурганники эмас буюрганники" },
+    genres: ['drama'], duration: 70,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    director: "Zafar Asqarov",
+    cast: ["Matyoqub Matchonov", "Hosiyat Xusanova", "Asqar Hikmatov"],
+    desc: {
+      uz: "«Yugurganniki emas buyurganniki» — o‘zbek filmi. To‘liq versiyasi rasmiy «NevoFilms» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Югурганники эмас буюрганники». Полная версия размещена на официальном YouTube-канале «NevoFilms»."
+    },
+    colors: ['#3a4a2a', '#0c1008'],
+    poster: 'images/uz/yugurganniki-emas-buyurganniki.jpg',
+    video: 'https://www.youtube.com/watch?v=EcFgjOgYHFc',
+    source: { name: "NevoFilms", url: 'https://www.youtube.com/@nevofilms1' },
+    featured: false
+  },
+  {
+    id: 98, slug: "uz-qalb-kozi", type: 'film', franchise: 'uzbek',
+    title: { uz: "Qalb Ko'zi", ru: "Қалб Кўзи" },
+    genres: ['drama'], duration: 98,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Qalb Ko'zi» — o‘zbek filmi. To‘liq versiyasi rasmiy «Fox Music Cinema» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Қалб Кўзи». Полная версия размещена на официальном YouTube-канале «Fox Music Cinema»."
+    },
+    colors: ['#5a3a2a', '#140c08'],
+    poster: 'images/uz/qalb-kozi.jpg',
+    video: 'https://www.youtube.com/watch?v=HYqWsnmQYQc',
+    source: { name: "Fox Music Cinema", url: 'https://www.youtube.com/@FoxMusicCinema' },
+    featured: false
+  },
+  {
+    id: 99, slug: "uz-yoqotilgan-jannat", type: 'film', franchise: 'uzbek',
+    title: { uz: "Yo'qotilgan jannat", ru: "Йукотилган жаннат" },
+    genres: ['drama'], duration: 80,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Yo'qotilgan jannat» — o‘zbek filmi. To‘liq versiyasi rasmiy «navo.tv» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Йукотилган жаннат». Полная версия размещена на официальном YouTube-канале «navo.tv»."
+    },
+    colors: ['#2a4a5a', '#081014'],
+    poster: 'images/uz/yoqotilgan-jannat.jpg',
+    video: 'https://www.youtube.com/watch?v=aG5JclI9cx4',
+    source: { name: "navo.tv", url: 'https://www.youtube.com/@navotv' },
+    featured: false
+  },
+  {
+    id: 100, slug: "uz-dadam-bilmasin", type: 'film', franchise: 'uzbek',
+    title: { uz: "Dadam bilmasin", ru: "Дадам билмасин" },
+    genres: ['drama'], duration: 83,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: [],
+    desc: {
+      uz: "«Dadam bilmasin» — o‘zbek filmi. To‘liq versiyasi rasmiy «navo.tv» YouTube kanalida joylangan.",
+      ru: "Узбекский фильм «Дадам билмасин». Полная версия размещена на официальном YouTube-канале «navo.tv»."
+    },
+    colors: ['#4a2a4a', '#100810'],
+    poster: 'images/uz/dadam-bilmasin.jpg',
+    video: 'https://www.youtube.com/watch?v=U_FTs4VHl9U',
+    source: { name: "navo.tv", url: 'https://www.youtube.com/@navotv' },
     featured: false
   }
 ];

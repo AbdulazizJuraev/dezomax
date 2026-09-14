@@ -19,7 +19,7 @@ function renderHero() {
       typeName(m.type),
       m.genres.slice(0, 2).map(genreName).join(', '),
       durationText(m)
-    ];
+    ].filter(x => x && x !== '—');
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
       <div class="hero-bg" style="background-image:${backdropCSS(m)}"></div>
@@ -30,7 +30,7 @@ function renderHero() {
             <span class="hero-badge">DezoMax ${LANG === 'uz' ? 'tanlovi' : 'выбирает'}</span>
             <h1>${esc(title(m))}</h1>
             <div class="hero-meta">
-              <span class="tag tag-rating">${ICONS.star} ${m.rating.toFixed(1)}</span>
+              ${m.rating ? `<span class="tag tag-rating">${ICONS.star} ${m.rating.toFixed(1)}</span>` : ''}
               ${meta.map(x => `<span>${esc(x)}</span>`).join('<i class="dot"></i>')}
             </div>
             <p>${esc(descOf(m))}</p>
@@ -71,13 +71,19 @@ function restartHeroTimer() {
 /* ---------- Qatorlar ---------- */
 
 function renderRows() {
-  const byNew = [...MOVIES].sort((a, b) => b.year - a.year);
-  const byRating = [...MOVIES].sort((a, b) => b.rating - a.rating);
+  const yr = m => m.year || 0;
+  const rt = m => m.rating || 0;
+  const byNew = [...MOVIES].filter(yr).sort((a, b) => yr(b) - yr(a));
+  const byRating = [...MOVIES].filter(rt).sort((a, b) => rt(b) - rt(a));
+  const trendScore = m => rt(m) * (yr(m) >= 2014 ? 1.1 : 1);
 
   renderCards(document.getElementById('rowTrending'),
-    [...MOVIES].sort((a, b) => (b.rating * (b.year >= 2014 ? 1.1 : 1)) - (a.rating * (a.year >= 2014 ? 1.1 : 1))).slice(0, 14));
+    [...MOVIES].filter(rt).sort((a, b) => trendScore(b) - trendScore(a)).slice(0, 14));
 
   renderCards(document.getElementById('rowNew'), byNew.slice(0, 14));
+
+  renderCards(document.getElementById('rowUzbek'),
+    MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)));
 
   renderCards(document.getElementById('rowMarvel'),
     MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => a.year - b.year));

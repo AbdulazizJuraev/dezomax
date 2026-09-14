@@ -23,7 +23,7 @@ function rowHTML(m) {
 
     <div class="dl-info">
       <a class="dl-title" href="movie.html?id=${m.id}">${esc(title(m))}</a>
-      <div class="dl-meta">${m.year} · ${esc(typeName(m.type))} · ${esc(durationText(m))}</div>
+      <div class="dl-meta">${[m.year, typeName(m.type), durationText(m)].filter(x => x && x !== '—').map(esc).join(' · ')}</div>
       ${can
         ? `<div class="dl-file">${esc(file)}</div>`
         : `<div class="dl-warn">${t('dl.unavailableHint')}</div>`}

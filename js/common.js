@@ -89,7 +89,7 @@ function posterHTML(m) {
   const fallback = `
     <div class="poster-art" style="background:linear-gradient(160deg, ${c1} 0%, ${c2} 100%)">
       <div class="pa-title">${esc(title(m))}</div>
-      <div class="pa-year">${m.year}</div>
+      <div class="pa-year">${m.year || ''}</div>
     </div>`;
 
   if (!m.poster) return fallback;
@@ -109,16 +109,16 @@ function backdropCSS(m) {
 /* ---------- Kartochka ---------- */
 
 function cardHTML(m) {
-  const meta = m.type === 'serial' && m.seasons
-    ? `${m.year}<i class="dot"></i>${seasonsText(m.seasons)}`
-    : `${m.year}<i class="dot"></i>${genreName(m.genres[0])}`;
+  // yil yoki reyting noma'lum bo'lishi mumkin (masalan YouTube'dagi o'zbek filmlari)
+  const meta = [m.year, m.type === 'serial' && m.seasons ? seasonsText(m.seasons) : genreName(m.genres[0])]
+    .filter(Boolean).join('<i class="dot"></i>');
 
   return `
   <a class="card reveal" href="movie.html?id=${m.id}">
     <div class="card-poster">
       ${posterHTML(m)}
       <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
-      <div class="badge-rating">${ICONS.star}${m.rating.toFixed(1)}</div>
+      ${m.rating ? `<div class="badge-rating">${ICONS.star}${m.rating.toFixed(1)}</div>` : ''}
       <div class="badge-type">${typeName(m.type)}</div>
     </div>
     <div class="card-body">
