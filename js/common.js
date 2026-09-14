@@ -20,6 +20,7 @@ const ICONS = {
   more:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>',
   download: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11"/><path d="M7.5 10.5l4.5 4.5 4.5-4.5"/><path d="M4.5 19.5h15"/></svg>',
   crown:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 7.5l3.4 3.2L12 4.6l5.4 6.1 3.4-3.2-1.6 11.1H4.8z"/></svg>',
+  user:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20.5c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5"/></svg>',
   close:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   film:   '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M2.5 12h19M2.5 8h4.5M2.5 16h4.5M17 8h4.5M17 16h4.5"/></svg>',
   empty:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M8.5 11h5"/></svg>'
@@ -290,7 +291,7 @@ function initLayout() {
   if (input && !input.dataset.local) {
     input.addEventListener('keydown', e => {
       if (e.key === 'Enter' && input.value.trim()) {
-        location.href = 'catalog.html?q=' + encodeURIComponent(input.value.trim());
+        location.href = 'search.html?q=' + encodeURIComponent(input.value.trim());
       }
     });
   }
@@ -318,7 +319,7 @@ function initLayout() {
 
 const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
-  { key: 'catalog', href: 'catalog.html', icon: 'grid', label: 'nav.catalog' },
+  { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
   { key: 'sport',   href: 'sport.html',   icon: 'ball', label: 'nav.sport' },
   { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tv' },
   { key: 'more',    href: null,           icon: 'more', label: 'nav.more' }
@@ -326,10 +327,12 @@ const TABS = [
 
 /* "Yana" menyusidagi bo'limlar */
 const MORE_LINKS = [
+  { href: 'account.html',   icon: 'user',     label: 'nav.account' },
   { href: 'favorites.html', icon: 'heart',    label: 'nav.favorites', badge: 'fav' },
   { href: 'downloads.html', icon: 'download', label: 'nav.downloads', badge: 'dl' },
   { href: 'plans.html',     icon: 'crown',    label: 'nav.plans' },
   { sep: true },
+  { href: 'catalog.html',               icon: 'grid', label: 'nav.catalog' },
   { href: 'catalog.html?type=film',     icon: 'film', label: 'nav.films' },
   { href: 'catalog.html?type=serial',   icon: 'tv',   label: 'nav.series' },
   { href: 'catalog.html?type=multfilm', icon: 'grid', label: 'nav.cartoons' }
@@ -340,8 +343,8 @@ function activeTab() {
   const page = location.pathname.split('/').pop() || 'index.html';
   if (page === 'sport.html') return 'sport';
   if (page === 'tv.html') return 'tv';
-  if (page === 'catalog.html') return 'catalog';
-  if (['favorites.html', 'downloads.html', 'plans.html'].includes(page)) return 'more';
+  if (page === 'search.html') return 'search';
+  if (['favorites.html', 'downloads.html', 'plans.html', 'catalog.html', 'account.html'].includes(page)) return 'more';
   if (page === 'index.html' || page === '') return 'home';
   return null;                       // movie.html — hech biri faol emas
 }
@@ -393,10 +396,6 @@ function openMoreSheet() {
                ${l.badge ? `<b class="sheet-count" data-${l.badge}-count-sheet></b>` : ''}
              </a>`).join('')}
       </div>
-      <div class="sheet-lang">
-        <button class="lang-btn" data-lang="uz">UZ</button>
-        <button class="lang-btn" data-lang="ru">RU</button>
-      </div>
       <button class="btn btn-ghost sheet-close" data-sheet-close>${t('nav.close')}</button>
     </div>`;
 
@@ -406,8 +405,6 @@ function openMoreSheet() {
 
   wrap.querySelectorAll('[data-sheet-close]').forEach(el =>
     el.addEventListener('click', closeMoreSheet));
-  wrap.querySelectorAll('.lang-btn').forEach(b =>
-    b.addEventListener('click', () => { setLang(b.dataset.lang); closeMoreSheet(); }));
   document.addEventListener('keydown', escCloseSheet);
 
   applyI18n();

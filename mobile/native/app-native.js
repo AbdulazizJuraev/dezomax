@@ -7,7 +7,7 @@
   const cap = window.Capacitor;
   if (!cap || !cap.isNativePlatform || !cap.isNativePlatform()) return;
 
-  const { App, ScreenOrientation } = cap.Plugins;
+  const { App, ScreenOrientation, StatusBar } = cap.Plugins;
   document.documentElement.classList.add('is-native-app');
 
   /* ---- Telefonning "orqaga" tugmasi ---- */
@@ -27,12 +27,15 @@
     else App.exitApp();
   });
 
-  /* ---- Video katta ekranda — telefon gorizontal holatga o'tadi ---- */
+  /* ---- Video katta ekranda — telefon gorizontal holatga o'tadi, status bar yashirinadi ---- */
   const syncOrientation = () => {
-    if (!ScreenOrientation) return;
     const fs = document.fullscreenElement || document.webkitFullscreenElement;
+    if (StatusBar) (fs ? StatusBar.hide() : StatusBar.show()).catch?.(() => {});
+    if (!ScreenOrientation) return;
     if (fs) ScreenOrientation.lock({ orientation: 'landscape' }).catch(() => {});
     else ScreenOrientation.unlock().catch(() => {});
+    // o'lcham burilishdan keyin qayta hisoblansin
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 400);
   };
   document.addEventListener('fullscreenchange', syncOrientation);
   document.addEventListener('webkitfullscreenchange', syncOrientation);

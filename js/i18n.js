@@ -68,7 +68,7 @@ const I18N = {
     'plans.popular': 'Eng ommabop',
     'plans.cancel': 'Rejadan voz kechish',
     'plans.saved': 'Reja tanlandi',
-    'plans.notice': 'To‘lov tizimi hali ulanmagan. Hozircha reja faqat shu brauzerda saqlanadi — haqiqiy pul yechilmaydi.',
+    'plans.notice': 'Tarif akkaunt balansidan yechiladi. To‘lov tizimi hali ulanmagan — balans sinov uchun to‘ldiriladi, haqiqiy pul yechilmaydi.',
     'plans.compare': 'Rejalarni solishtirish',
     'plans.feature': 'Imkoniyat',
 
@@ -243,7 +243,7 @@ const I18N = {
     'plans.popular': 'Самый популярный',
     'plans.cancel': 'Отказаться от тарифа',
     'plans.saved': 'Тариф выбран',
-    'plans.notice': 'Платёжная система пока не подключена. Тариф сохраняется только в этом браузере — реальные деньги не списываются.',
+    'plans.notice': 'Тариф списывается с баланса аккаунта. Платёжная система пока не подключена — баланс пополняется для теста, реальные деньги не списываются.',
     'plans.compare': 'Сравнение тарифов',
     'plans.feature': 'Возможность',
 

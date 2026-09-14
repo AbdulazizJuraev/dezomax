@@ -19,6 +19,9 @@ const YT_ICONS = {
   fs:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
   back:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a7 7 0 1 1-6.6 4.7"/><path d="M5 4v5h5"/><text x="12" y="15.5" font-size="6.5" text-anchor="middle" fill="currentColor" stroke="none" font-family="sans-serif" font-weight="700">10</text></svg>',
   fwd:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a7 7 0 1 0 6.6 4.7"/><path d="M19 4v5h-5"/><text x="12" y="15.5" font-size="6.5" text-anchor="middle" fill="currentColor" stroke="none" font-family="sans-serif" font-weight="700">10</text></svg>',
+  // katta ekranda: videoni ekran bo'yicha to'ldirish / to'liq sig'dirish
+  fill:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 10l-2 2 2 2M16 10l2 2-2 2"/></svg>',
+  fit:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M6 10l2 2-2 2M18 10l-2 2 2 2"/></svg>',
   replay:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg>'
 };
 
@@ -98,6 +101,7 @@ function mountYouTube(box, url, opts = {}) {
       <span class="ytp-time" id="ytpDur">0:00</span>
       <button class="ytp-btn" id="ytpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
       <input class="ytp-vol ytp-hide-sm" id="ytpVol" type="range" min="0" max="100" value="100" aria-label="volume">
+      <button class="ytp-btn ytp-fit" id="ytpFit" type="button" aria-label="zoom">${YT_ICONS.fill}</button>
       <button class="ytp-btn" id="ytpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
     </div>`;
 
@@ -163,6 +167,7 @@ function ytOnState(box, id, st) {
   $('#ytpPause').hidden = st !== S.PAUSED;
   $('#ytpPlay').innerHTML = st === S.PLAYING ? YT_ICONS.pause : YT_ICONS.play;
   box.classList.toggle('is-paused', st === S.PAUSED);
+  ytWake(box);
 
   if (st === S.ENDED) {
     // YouTube tavsiyalari o'rniga o'z ekranimiz: pleyerni yashirib, qayta ko'rish tugmasi
@@ -234,12 +239,26 @@ function ytBindBar(box, player) {
     setTimeout(syncMute, 60);
   });
 
-  // Video ustiga bosish — pauza/davom, ikki marta — katta ekran
-  $('#ytpClick').addEventListener('click', () => $('#ytpPlay').click());
+  // Video ustiga bosish — pauza/davom, ikki marta — katta ekran.
+  // Katta ekranda panel yashiringan bo'lsa, birinchi bosish faqat panelni ko'rsatadi.
+  $('#ytpClick').addEventListener('click', () => {
+    if (ytIsFull(box) && box.classList.contains('ytp-idle')) { ytWake(box); return; }
+    $('#ytpPlay').click();
+    ytWake(box);
+  });
   $('#ytpClick').addEventListener('dblclick', () => ytToggleFullscreen(box));
   $('#ytpPause').addEventListener('click', () => player.playVideo());
 
   $('#ytpFs').addEventListener('click', () => ytToggleFullscreen(box));
+  $('#ytpFit').addEventListener('click', () => {
+    const fill = box.classList.toggle('ytp-fill');
+    $('#ytpFit').innerHTML = fill ? YT_ICONS.fit : YT_ICONS.fill;
+    ytWake(box);
+  });
+
+  // Katta ekranda sichqoncha/barmoq harakati — panel ko'rinadi, 3 s dan keyin yashirinadi
+  ['mousemove', 'touchstart'].forEach(ev => box.addEventListener(ev, () => ytWake(box), { passive: true }));
+  $('#ytpBar').addEventListener('input', () => ytWake(box));
 
   // Klaviatura: probel — pauza, strelkalar — 10 s
   box.tabIndex = 0;
@@ -282,15 +301,38 @@ function ytFsSize(box) {
   box.classList.toggle('ytp-rotated', pseudo && portrait);
 }
 
+/* O'lcham har safar ekran burilganda qayta hisoblanadi. Avval faqat to'liq ekranga
+   kirish paytida o'lchanardi — telefon hali tik turgan bo'lsa, gorizontal holatda
+   video eni tik ekran eniga teng qolib, kichkina chiqardi. */
 function ytOnResize() {
   const box = document.querySelector('.player-wrap.ytp');
-  if (box) ytFsSize(box);
+  if (!box) return;
+  ytFsSize(box);
+  // burilish animatsiyasi tugagach yana bir marta
+  clearTimeout(ytOnResize.t);
+  ytOnResize.t = setTimeout(() => ytFsSize(box), 350);
+  if (!ytIsFull(box)) box.classList.remove('ytp-idle', 'ytp-fill');
+}
+
+function ytIsFull(box) {
+  const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+  return fsEl === box || box.classList.contains('ytp-pseudo-fs');
+}
+
+/* Panelni ko'rsatib, ijro davom etsa 3 s dan keyin yashiramiz */
+function ytWake(box) {
+  box.classList.remove('ytp-idle');
+  clearTimeout(box._idleT);
+  if (!ytIsFull(box)) return;
+  box._idleT = setTimeout(() => {
+    const st = ytActive?.player?.getPlayerState?.();
+    if (ytIsFull(box) && st === 1) box.classList.add('ytp-idle');
+  }, 3000);
 }
 
 function ytExitPseudo(box) {
-  box.classList.remove('ytp-pseudo-fs', 'ytp-rotated');
+  box.classList.remove('ytp-pseudo-fs', 'ytp-rotated', 'ytp-idle', 'ytp-fill');
   document.documentElement.classList.remove('ytp-lock');
-  removeEventListener('resize', ytOnResize);
 }
 
 async function ytToggleFullscreen(box) {
@@ -311,6 +353,8 @@ async function ytToggleFullscreen(box) {
       await req.call(box);
       ytFsSize(box);
       try { await screen.orientation?.lock?.('landscape'); } catch { /* kompyuterda qo'llanmaydi */ }
+      ytOnResize();
+      ytWake(box);
       return;
     } catch { /* ruxsat berilmadi — pastdagi usulga o'tamiz */ }
   }
@@ -319,8 +363,10 @@ async function ytToggleFullscreen(box) {
   box.classList.add('ytp-pseudo-fs');
   document.documentElement.classList.add('ytp-lock');
   ytFsSize(box);
-  addEventListener('resize', ytOnResize);
+  ytWake(box);
 }
 
+addEventListener('resize', ytOnResize);
+addEventListener('orientationchange', ytOnResize);
 document.addEventListener('fullscreenchange', ytOnResize);
 document.addEventListener('webkitfullscreenchange', ytOnResize);

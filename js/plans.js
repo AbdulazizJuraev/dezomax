@@ -62,12 +62,59 @@ let yearly = false;
 const money = n => n.toLocaleString('ru-RU').replace(/,/g, ' ');
 const sum = () => (LANG === 'ru' ? 'сум' : 'so‘m');
 
-function getPlan() { return localStorage.getItem(PLAN_KEY) || 'free'; }
+/* Kirgan foydalanuvchining profili (js/auth.js). Kirmagan bo'lsa — null */
+let accProfile = null;
 
-function setPlan(id) {
+function getPlan() {
+  if (accProfile) return accProfile.plan || 'free';
+  return localStorage.getItem(PLAN_KEY) || 'free';
+}
+
+Object.assign(I18N.uz, {
+  'plans.needLogin': 'Tarif tanlash uchun akkauntga kiring',
+  'plans.noMoney': 'Balansda mablag‘ yetarli emas — balansni to‘ldiring',
+  'plans.bought': 'Tarif faollashtirildi'
+});
+Object.assign(I18N.ru, {
+  'plans.needLogin': 'Войдите в аккаунт, чтобы выбрать тариф',
+  'plans.noMoney': 'Недостаточно средств — пополните баланс',
+  'plans.bought': 'Тариф активирован'
+});
+
+async function setPlan(id) {
+  const user = Auth.user();
+  if (!user) {
+    toast(t('plans.needLogin'));
+    setTimeout(() => { location.href = 'account.html?next=plans.html'; }, 900);
+    return;
+  }
+  const p = accProfile || await Auth.loadProfile(user);
+  const plan = PLANS.find(x => x.id === id);
+  const days = yearly ? 365 : 30;
+  const price = yearly ? plan.price * 10 : plan.price;
+  const now = Date.now();
+
+  if (id === 'free') {
+    p.plan = 'free';
+    p.planUntil = null;
+  } else {
+    if ((p.balance || 0) < price) {
+      toast(t('plans.noMoney'));
+      setTimeout(() => { location.href = 'account.html#balance'; }, 1400);
+      return;
+    }
+    p.balance -= price;
+    p.plan = id;
+    p.planUntil = now + days * 86400000;
+    p.subscriptions.unshift({ id: 's' + now, plan: id, from: now, until: p.planUntil, price });
+    p.payments.unshift({ id: 'p' + now, at: now, amount: -price, kind: 'plan', plan: id, days });
+  }
+
   localStorage.setItem(PLAN_KEY, id);
+  accProfile = p;
+  await Auth.saveProfile(p);
   renderPlans();
-  toast(t('plans.saved'));
+  toast(id === 'free' ? t('plans.saved') : t('plans.bought'));
 }
 
 /* ---------- Chizish ---------- */
@@ -167,6 +214,10 @@ renderPlans();
 renderCmp();
 document.querySelector('.plans-notice-icon').innerHTML = ICONS.info;
 document.getElementById('year').textContent = new Date().getFullYear();
+
+if (Auth.user()) {
+  Auth.loadProfile().then(p => { accProfile = p; renderPlans(); });
+}
 
 document.addEventListener('langchange', () => {
   renderPlans();
