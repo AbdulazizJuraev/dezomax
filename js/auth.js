@@ -242,7 +242,9 @@ const Auth = {
       await SL.initialize({ google: { webClientId: GOOGLE_ID } });
       this._slReady = true;
     }
-    const res = await SL.login({ provider: 'google', options: { scopes: ['email', 'profile'] } });
+    // scopes BERILMAYDI: plagin qo'shimcha scope uchun MainActivity o'zgartirishni talab qiladi,
+    // ism, email va rasm esa Google ID token ichida baribir keladi
+    const res = await SL.login({ provider: 'google', options: {} });
     const r = res.result || {};
     const p = r.profile || {};
     const jwt = r.idToken ? decodeJwt(r.idToken) : {};

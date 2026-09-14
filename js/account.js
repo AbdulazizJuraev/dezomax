@@ -166,7 +166,7 @@ Object.assign(I18N.ru, {
   'acc.promoTx': 'Промокод'
 });
 
-const APP_VERSION = '2.4';
+const APP_VERSION = '2.5';
 
 /* Promokodlar: bonus — balansga so'm, plan — tarif necha kunga */
 const PROMOCODES = {
@@ -342,7 +342,7 @@ function renderLogin() {
     const box = $('#gsiBtn');
     box.hidden = false;
     $('#gBtn').hidden = true;
-    Auth.renderGoogleButton(box, () => onLoggedIn(), e => { console.warn(e); showErr(t('acc.errGeneric')); })
+    Auth.renderGoogleButton(box, () => onLoggedIn(), e => { console.warn(e); showErr(`${t('acc.errGeneric')} (${String(e?.message || e).slice(0, 160)})`); })
       .catch(() => { box.hidden = true; $('#gBtn').hidden = false; showErr(t('acc.errGoogleLoad')); });
   }
 
@@ -365,7 +365,9 @@ function renderLogin() {
       const msg = String(err?.message || err?.code || '');
       // foydalanuvchi oynani o'zi yopgan bo'lsa — xato ko'rsatmaymiz
       if (/cancel/i.test(msg)) return;
-      showErr(err.code === 'plugin' ? t('acc.errGoogleLoad') : t('acc.errGeneric'));
+      // xato sababini ham ko'rsatamiz — muammoni topish oson bo'lsin
+      const detail = msg && msg !== 'plugin' ? ` (${msg.slice(0, 160)})` : '';
+      showErr((err.code === 'plugin' ? t('acc.errGoogleLoad') : t('acc.errGeneric')) + detail);
     } finally { btn.disabled = false; }
   });
 }
