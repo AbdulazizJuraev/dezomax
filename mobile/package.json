@@ -1,0 +1,24 @@
+{
+  "name": "dezomax-mobile",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DezoMax Android ilovasi (Capacitor). Sayt fayllari www/ ga nusxalanadi.",
+  "scripts": {
+    "copy-web": "node scripts/copy-web.js",
+    "sync": "npm run copy-web && npx cap sync android",
+    "open": "npx cap open android",
+    "apk:debug": "npm run sync && node scripts/gradle.js assembleDebug",
+    "apk:release": "npm run sync && node scripts/gradle.js assembleRelease"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/screen-orientation": "^8.0.1",
+    "@capacitor/status-bar": "^8.0.3"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.2"
+  }
+}

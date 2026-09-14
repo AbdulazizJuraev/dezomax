@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DezoMax</string>
+    <string name="title_activity_main">DezoMax</string>
+    <string name="package_name">uz.dezomax.app</string>
+    <string name="custom_url_scheme">uz.dezomax.app</string>
+</resources>

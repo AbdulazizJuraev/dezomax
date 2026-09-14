@@ -11,3 +11,15 @@ desktop.ini
 # Vaqtinchalik
 *.log
 .claude/
+
+# Android ilova (mobile/)
+mobile/node_modules/
+mobile/www/
+mobile/.tmp/
+mobile/build-log.txt
+mobile/dist/
+
+# !!! Imzo kaliti va parollar — hech qachon GitHub'ga yuklanmasin
+*.jks
+*.keystore
+keystore.properties
