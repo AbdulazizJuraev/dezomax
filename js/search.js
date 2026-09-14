@@ -56,6 +56,38 @@ function searchMovies(query) {
     .map(x => x.m);
 }
 
+/* ---------- Janr kartalari: saytdagi shu janr kinolarining posterlari ---------- */
+
+const GENRE_STYLE = {
+  action:    ['#e0522d', '🔥'], drama:     ['#8b5cf6', '🎭'], comedy:    ['#f5b82e', '😂'],
+  scifi:     ['#0ea5e9', '🚀'], thriller:  ['#64748b', '🔪'], crime:     ['#dc2626', '🕵️'],
+  fantasy:   ['#a855f7', '🐉'], horror:    ['#7f1d1d', '👻'], animation: ['#22c55e', '🎨'],
+  adventure: ['#f97316', '🧭'], romance:   ['#ec4899', '❤️'], biography: ['#14b8a6', '📖'],
+  war:       ['#65743a', '🎖️'], detective: ['#6366f1', '🔍'], family:    ['#10b981', '👨‍👩‍👧'],
+  history:   ['#b45309', '🏛️']
+};
+
+function genreTileHTML(g) {
+  const list = MOVIES.filter(m => m.genres.includes(g.id));
+  // posteri bor, avval yuqori reytingli / yangi kinolar; tik (2:3) posterlar yelpig'ichga yaxshi tushadi
+  const posters = list
+    .filter(m => m.poster)
+    .sort((a, b) => (a.poster.startsWith('images/uz/') - b.poster.startsWith('images/uz/')) || (b.rating || 0) - (a.rating || 0) || (b.year || 0) - (a.year || 0))
+    .slice(0, 6);      // zaxira bilan: yotiq posterlar yuklangach olib tashlanadi, CSS birinchi 3 tasini ko'rsatadi
+  const [color, emoji] = GENRE_STYLE[g.id] || ['#0a93dc', '🎬'];
+  return `
+    <a class="s-genre" style="--gc:${color}" href="catalog.html?genre=${g.id}">
+      <span class="s-genre-posters">
+        ${posters.map(m => `<img src="${esc(m.poster)}" alt="" loading="lazy" onload="if(this.naturalWidth>this.naturalHeight)this.remove()" onerror="this.remove()">`).join('')}
+      </span>
+      <span class="s-genre-info">
+        <span class="s-genre-emoji">${emoji}</span>
+        <b>${esc(g[LANG] || g.uz)}</b>
+        <small>${list.length} ${LANG === 'ru' ? 'фильмов' : 'ta kino'}</small>
+      </span>
+    </a>`;
+}
+
 const input = document.getElementById('searchInput');
 const clearBtn = document.getElementById('searchClear');
 
@@ -73,9 +105,7 @@ function renderIdle() {
     </div>
     <div class="s-block">
       <div class="s-head"><h3>${t('search.genres')}</h3><a class="acc-link" href="catalog.html">${t('search.catalog')}</a></div>
-      <div class="s-genres">
-        ${GENRES.map((g, i) => `<a class="s-genre" style="--h:${(i * 37) % 360}" href="catalog.html?genre=${g.id}">${esc(g[LANG] || g.uz)}</a>`).join('')}
-      </div>
+      <div class="s-genres">${GENRES.map(genreTileHTML).join('')}</div>
     </div>`;
 
   document.querySelectorAll('#searchIdle [data-q]').forEach(b => b.addEventListener('click', () => {
