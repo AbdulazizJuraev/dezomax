@@ -38,10 +38,9 @@ for (const f of fs.readdirSync(OUT).filter(x => x.endsWith('.html'))) {
   const p = path.join(OUT, f);
   let html = fs.readFileSync(p, 'utf8');
   if (html.includes('app-native.js')) continue;
-  // Ilova butun ekranni egallaydi: sahifa status bar va chetlar ostigacha chiziladi,
-  // kontent esa CSS'dagi safe-area chekinishlari bilan suriladi
-  html = html.replace(/<meta name="viewport" content="([^"]*)">/, (m, c) =>
-    c.includes('viewport-fit') ? m : `<meta name="viewport" content="${c}, viewport-fit=cover">`);
+  // viewport-fit=cover QO'SHILMAYDI: ba'zi telefonlarning WebView'i pastki chekinishni
+  // sahifaga bermaydi va navbar tizim paneli ostida qolib ketardi. Shuning uchun Capacitor
+  // tizim panellari joyini o'zi qoldiradi, u joy sayt fonida (#07080c) bo'yaladi.
   fs.writeFileSync(p, html.replace('</body>', '<script src="js/app-native.js"></script>\n</body>'));
   patched++;
 }

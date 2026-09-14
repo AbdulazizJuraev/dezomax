@@ -3556,3 +3556,59 @@ img, video, iframe { max-width: 100%; }
 @media (max-width: 150px) {
   .header .logo-svg { height: 22px; width: 22px; }
 }
+
+/* ---------------- Kirish kartasi: ekrandan chiqib ketmasin, 100px gacha moslashuv ---------------- */
+
+/* grid o'rniga oddiy blok — karta hech qachon konteynerdan keng bo'lmaydi (katta shrift sozlamasida ham) */
+.acc-auth-wrap { display: block; }
+.acc-auth { width: auto; max-width: 440px; min-width: 0; margin: 0 auto; }
+.acc-auth * { min-width: 0; }
+.acc-auth h1, .acc-sub, .acc-note span, .acc-terms, .acc-sent, .acc-last-info b, .acc-last-info small { overflow-wrap: anywhere; }
+.acc-auth-top { gap: 10px; }
+.acc-tabs button { padding: 0 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acc-phone input { width: 100%; }
+.acc-auth .btn { max-width: 100%; white-space: normal; line-height: 1.2; }
+
+@media (max-width: 360px) {
+  .acc-page { padding-left: max(8px, var(--sal)); padding-right: max(8px, var(--sar)); }
+  .acc-auth { padding: 18px 14px 16px; border-radius: 18px; }
+  .acc-auth-logo { width: 44px; height: 44px; border-radius: 12px; }
+  .acc-auth h1 { font-size: 21px; }
+  .acc-sub { font-size: 13px; margin-bottom: 16px; }
+  .acc-tabs button { font-size: 13px; height: 36px; }
+  .acc-input, .acc-phone { height: 46px; font-size: 15px; }
+  .acc-phone { padding: 0 10px; gap: 6px; }
+  .acc-phone input { font-size: 15px; letter-spacing: 0; }
+  .acc-code { font-size: 20px; letter-spacing: .3em; }
+}
+
+@media (max-width: 260px) {
+  .acc-auth { padding: 14px 10px; }
+  .acc-auth-top { flex-wrap: wrap; }
+  .acc-tabs { grid-template-columns: minmax(0, 1fr); }
+  .acc-phone { flex-wrap: wrap; height: auto; padding: 6px 8px; }
+  .acc-phone span { font-size: 13px; }
+  .acc-phone input { flex-basis: 100%; height: 32px; }
+  .acc-row-links { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .acc-note { padding: 8px; gap: 6px; font-size: 11.5px; }
+  .acc-google span { font-size: 13px; }
+}
+
+@media (max-width: 180px) {
+  .acc-auth { padding: 10px 6px; border-radius: 12px; }
+  .acc-auth-logo, .acc-note svg { display: none; }
+  .acc-auth h1 { font-size: 16px; }
+  .acc-sub, .acc-terms { font-size: 11px; }
+  .acc-label { font-size: 11px; }
+  .acc-tabs button { font-size: 11px; height: 30px; }
+  .acc-submit, .acc-google { height: auto; min-height: 36px; padding: 6px; font-size: 12px; }
+  .acc-google svg { width: 16px; height: 16px; }
+  .acc-code { font-size: 15px; letter-spacing: .1em; }
+  .acc-input { padding: 0 6px; font-size: 13px; }
+}
+
+@media (max-width: 150px) {
+  .acc-auth .acc-lang { padding: 1px; gap: 0; }
+  .acc-auth .acc-lang .lang-btn { padding: 3px 4px; font-size: 9px; letter-spacing: 0; }
+  .acc-page { padding-left: max(4px, var(--sal)); padding-right: max(4px, var(--sar)); }
+}
