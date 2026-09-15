@@ -11,7 +11,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.webkit.ScriptHandler;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
@@ -40,7 +39,7 @@ public class MainActivity extends BridgeActivity {
 
         // To'liq ekran — barcha telefonlarda (Android 15 dan eskilarida ham):
         // sahifa oyna chetigacha chiziladi, kamera qirqimi (notch) joyiga ham chiqadi,
-        // soat/batareya qatori yashiriladi (tepadan pastga surilsa vaqtincha ko'rinadi).
+        // soat/batareya qatori ko'rinib turadi, sahifa uning ORTIDAN boshlanadi (treyler eng tepagacha chiqadi).
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -49,11 +48,10 @@ public class MainActivity extends BridgeActivity {
                 : WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
             getWindow().setAttributes(lp);
         }
-        hideStatusBar();
 
         // Pastda navbar tizim paneli ostida qolmasligi uchun joy qoldiriladi.
-        // Tepada kamera qirqimi balandligi sahifaga --app-sat CSS o'zgaruvchisi bo'lib beriladi
-        // (logo va profil tugmasi kamera ostiga tushmaydi, video esa eng tepagacha chiqadi).
+        // Tepadagi soat qatori (yoki kamera qirqimi) balandligi sahifaga --app-sat CSS o'zgaruvchisi bo'lib beriladi
+        // (logo va profil tugmasi soat ostiga tushmaydi, video esa eng tepagacha chiqadi).
         View decor = getWindow().getDecorView();
         ViewCompat.setOnApplyWindowInsetsListener(decor, (v, insets) -> {
             int types = WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout();
@@ -63,10 +61,8 @@ public class MainActivity extends BridgeActivity {
 
             v.setPadding(bars.left, 0, bars.right, keyboard ? ime.bottom : bars.bottom);
 
-            // tepada faqat kamera qirqimi hisobga olinadi: soat qatori yashirin, surib ochilganda sahifa sakramasin
-            Insets cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout());
             float density = getResources().getDisplayMetrics().density;
-            applyTopInset(Math.round(cutout.top / density));
+            applyTopInset(Math.round(bars.top / density));
 
             // WebView o'zi yana chekinish qo'shmasin (sahifadagi env() qiymatlari 0 bo'ladi)
             return new WindowInsetsCompat.Builder(insets).setInsets(types, Insets.NONE).build();
@@ -87,27 +83,7 @@ public class MainActivity extends BridgeActivity {
         }
     }
 
-    private void hideStatusBar() {
-        WindowInsetsControllerCompat c = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
-        c.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-        c.hide(WindowInsetsCompat.Type.statusBars());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Capacitor tizim panellarini ishga tushirishda ko'rsatib qo'yishi mumkin — keyin yana yashiramiz
-        getWindow().getDecorView().postDelayed(this::hideStatusBar, 300);
-    }
-
-    // boshqa ilovadan qaytganda yoki bildirishnoma pardasi yopilganda soat qatori yana yashirinsin
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) hideStatusBar();
-    }
-
-    /* Tepadagi chekinish (kamera qirqimi) balandligini sahifaga beramiz:
+    /* Tepadagi chekinish (soat qatori / kamera qirqimi) balandligini sahifaga beramiz:
        - hozir ochiq sahifaga darhol;
        - keyingi har bir sahifaga — u chizilishidan oldin (document start skripti), header sakramasin. */
     private void applyTopInset(int topDp) {

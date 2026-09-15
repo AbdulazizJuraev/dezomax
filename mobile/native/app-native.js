@@ -30,9 +30,8 @@
   /* ---- Video katta ekranda — telefon gorizontal holatga o'tadi, status bar yashirinadi ---- */
   const syncOrientation = () => {
     const fs = document.fullscreenElement || document.webkitFullscreenElement;
-    // katta ekranda pastki panel ham yashirinadi; chiqqanda faqat pastki panel qaytadi
-    // (soat/batareya qatori ilovada doim yashirin — MainActivity.java)
-    if (SystemBars) Promise.resolve(fs ? SystemBars.hide() : SystemBars.show({ bar: 'NavigationBar' })).catch(() => {});
+    // katta ekranda soat/batareya qatori va pastki panel butunlay yashirinadi
+    if (SystemBars) Promise.resolve(fs ? SystemBars.hide() : SystemBars.show()).catch(() => {});
     if (!ScreenOrientation) return;
     if (fs) ScreenOrientation.lock({ orientation: 'landscape' }).catch(() => {});
     else ScreenOrientation.unlock().catch(() => {});
