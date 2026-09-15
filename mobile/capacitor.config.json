@@ -22,10 +22,6 @@
       "repeat": true,
       "interval": 15,
       "autoStart": true
-    },
-    "LocalNotifications": {
-      "smallIcon": "ic_stat_dezomax",
-      "iconColor": "#0A93DC"
     }
   }
 }

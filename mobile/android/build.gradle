@@ -24,6 +24,17 @@ allprojects {
     }
 }
 
+// Kotlin plaginlar (masalan @capacitor/background-runner) Java kodini 21-versiyaga kompilyatsiya qiladi,
+// Android Studio'dagi JDK 25 esa Kotlin'ni 24 ga — «Inconsistent JVM Target» xatosi chiqmasin deb Kotlin ham 21 ga
+subprojects {
+    plugins.withId('org.jetbrains.kotlin.android') {
+        tasks.matching { it.name.startsWith('compile') && it.name.endsWith('Kotlin') }.configureEach { t ->
+            def target = t.compilerOptions.jvmTarget
+            target.set(target.get().class.fromTarget('21'))
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
