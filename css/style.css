@@ -3891,3 +3891,136 @@ img, video, iframe { max-width: 100%; }
 /* Admin sahifa: profil halqasi va pastki navbar kerak emas */
 .page-admin .account-btn, .page-admin .tabbar { display: none !important; }
 .page-admin { padding-bottom: 0 !important; }
+
+/* ================================================================
+   Admin forma: bo'limlar, poster sarlavha, pastda saqlash paneli
+   ================================================================ */
+
+.adm-form { display: flex; flex-direction: column; gap: 12px; padding: 0; background: none; border: 0; }
+
+/* Sarlavha — poster va nom */
+.adm-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  min-height: 150px;
+  padding: 16px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #16202e, #0b0f17);
+  border: 1px solid var(--line);
+  isolation: isolate;
+}
+.adm-hero-bg { position: absolute; inset: -20px; z-index: -2; background-size: cover; background-position: center; filter: blur(22px) saturate(1.2); opacity: .45; transform: scale(1.1); }
+.adm-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(8, 10, 16, .92), rgba(8, 10, 16, .35)); }
+.adm-hero-poster {
+  flex-shrink: 0;
+  width: 86px; aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .15);
+  color: var(--text-faint);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .5);
+}
+.adm-hero-poster img { width: 100%; height: 100%; object-fit: cover; }
+.adm-hero-poster svg { width: 30px; height: 30px; }
+.adm-hero-info { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.adm-hero-kicker { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6cc4f2; }
+.adm-hero-info h2 { margin: 0; font-size: 22px; line-height: 1.15; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.adm-hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.adm-chip-sm { font-size: 11.5px; font-weight: 650; padding: 3px 9px; border-radius: 999px; background: rgba(255, 255, 255, .1); color: #dbe2ec; }
+.adm-hero-close { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, .45); color: #fff; }
+.adm-hero-close svg { width: 17px; height: 17px; }
+
+/* Bo'lim kartalari */
+.adm-sec { padding: 14px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.adm-sec-head { display: flex; align-items: center; gap: 10px; }
+.adm-sec-head h3 { margin: 0; font-size: 15px; font-weight: 750; letter-spacing: -.01em; }
+.adm-sec-head small { margin-left: auto; font-size: 11.5px; color: var(--text-faint); }
+.adm-sec-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgba(10, 147, 220, .14); color: #6cc4f2; flex-shrink: 0; }
+.adm-sec-icon svg { width: 16px; height: 16px; }
+
+.adm-row { display: grid; gap: 10px; }
+.adm-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.adm-row-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.adm-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.adm-label { font-size: 12px; font-weight: 650; color: var(--text-dim); }
+.adm-req { color: #f87171; }
+.adm-form .acc-input { height: 44px; font-size: 14.5px; border-radius: 11px; }
+.adm-form select.acc-input { padding: 0 10px; appearance: auto; }
+.adm-form .adm-text { height: auto; min-height: 90px; padding: 10px 12px; line-height: 1.5; resize: vertical; font-family: inherit; }
+
+.adm-suffix { position: relative; }
+.adm-suffix .acc-input { padding-right: 42px; }
+.adm-suffix span { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-faint); pointer-events: none; }
+
+/* Janrlar */
+.adm-genres { display: flex; flex-wrap: wrap; gap: 7px; }
+.adm-genre input { position: absolute; opacity: 0; pointer-events: none; }
+.adm-genre span {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 12px 7px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  font-size: 13px; font-weight: 600; color: var(--text-dim);
+  cursor: pointer;
+  transition: .15s;
+}
+.adm-genre span svg { width: 0; height: 13px; transition: width .15s; }
+.adm-genre input:checked + span { background: rgba(10, 147, 220, .16); border-color: rgba(10, 147, 220, .6); color: #fff; }
+.adm-genre input:checked + span svg { width: 13px; color: #4cb8f0; }
+
+/* Poster yuklash maydoni */
+.adm-drop {
+  position: relative;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(10, 147, 220, .45);
+  background: rgba(10, 147, 220, .06);
+  cursor: pointer;
+  transition: background .15s;
+}
+.adm-drop:hover { background: rgba(10, 147, 220, .12); }
+.adm-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.adm-drop-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--grad); color: #fff; flex-shrink: 0; }
+.adm-drop-icon svg { width: 20px; height: 20px; }
+.adm-drop-text { display: flex; flex-direction: column; min-width: 0; }
+.adm-drop-text b { font-size: 14px; }
+.adm-drop-text small { font-size: 12px; color: var(--text-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.adm-switches .acc-toggle + .acc-toggle { border-top: 1px solid var(--line); }
+.adm-form .adm-rights { margin-top: 0; }
+
+/* Pastda doim ko'rinadigan saqlash paneli */
+.adm-savebar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  margin: 0 -2px;
+  padding: 10px 2px calc(10px + var(--sab));
+  background: linear-gradient(to top, var(--bg) 70%, rgba(7, 8, 12, 0));
+}
+.adm-savebar .acc-error { margin: 0 0 8px; }
+.adm-savebar-row { display: flex; gap: 8px; }
+.adm-savebar-row .btn { height: 48px; }
+.adm-savebar-row .btn-primary { flex: 1; }
+
+@media (max-width: 640px) {
+  .adm-row-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .adm-hero { min-height: 130px; padding: 12px; }
+  .adm-hero-poster { width: 70px; }
+  .adm-hero-info h2 { font-size: 19px; }
+  .adm-sec { padding: 12px; border-radius: 16px; }
+}
+@media (max-width: 360px) {
+  .adm-row-2 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 260px) {
+  .adm-row-4 { grid-template-columns: minmax(0, 1fr); }
+  .adm-hero { flex-direction: column; align-items: flex-start; }
+}
+.page-admin .to-top { display: none !important; }
