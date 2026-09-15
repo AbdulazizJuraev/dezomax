@@ -12,7 +12,7 @@ const SITE_CONFIG = /*CONFIG*/{
       11,
       51
     ],
-    "delay": 3
+    "delay": 5
   },
   "rows": [
     {
