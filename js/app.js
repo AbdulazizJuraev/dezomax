@@ -126,7 +126,7 @@ function initHeroSwipe() {
   }, { passive: true });
   // sahifa ko'rinmayotganda slayder to'xtaydi
   document.addEventListener('visibilitychange', () => {
-    document.hidden ? clearInterval(heroTimer) : restartHeroTimer();
+    if (document.hidden) { clearTimeout(heroTimer); stopClip(); } else restartHeroTimer();
   });
 }
 
@@ -139,12 +139,95 @@ function goToSlide(i) {
   updateCounter();
 }
 
+/* ---------- Slayd: 3 soniya rasm → 7 soniya rasmiy treylerdan sahna (ovozsiz) ---------- */
+
+const HERO_IMAGE_SEC = 3;
+const HERO_CLIP_SEC = 7;
+const HERO_CLIP_START = 30;     // treyler boshidagi studiya logotiplarini o'tkazib yuboramiz
+const heroClipsOn = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+let clipTimer = null;
+
+const heroYtId = m => (String(m?.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
+
+function slideDuration(i) {
+  return heroClipsOn && heroYtId(featured[i]) ? (HERO_IMAGE_SEC + HERO_CLIP_SEC) * 1000 : HERO_DELAY;
+}
+
+function stopClip() {
+  clearTimeout(clipTimer);
+  document.querySelectorAll('.hero-clip').forEach(c => {
+    c.classList.remove('is-on');
+    setTimeout(() => c.remove(), 600);
+  });
+}
+
+function sizeClip(clip) {
+  // Video blokni to'liq qoplaydi. Ramka video balandligidan tepa-pastga «crop» qadar katta —
+  // YouTube sarlavhasi va pastki belgilari ko'rinmas qismga tushadi (pleyerdagi .ytp-crop kabi)
+  const r = clip.getBoundingClientRect();
+  let w = r.width * 1.08, h = w * 9 / 16;
+  if (h < r.height * 1.08) { h = r.height * 1.08; w = h * 16 / 9; }
+  const crop = Math.max(80, h * 0.2);
+  const f = clip.querySelector('iframe');
+  if (f) { f.style.width = w + 'px'; f.style.height = h + crop * 2 + 'px'; }
+}
+
+/* YouTube ramkasidan holat xabarlari: video haqiqatda o'ynay boshlagandagina sahnani ochamiz
+   (autoplay to'sib qo'yilsa — rasm qolaveradi, pauza belgisi ko'rinmaydi) */
+addEventListener('message', e => {
+  if (!/^https:\/\/(www\.)?youtube(-nocookie)?\.com$/.test(e.origin)) return;
+  let data;
+  try { data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+  const state = data?.info?.playerState ?? (data?.event === 'onStateChange' ? data.info : undefined);
+  if (state !== 1) return;
+  document.querySelectorAll('.hero-clip').forEach(clip => {
+    const f = clip.querySelector('iframe');
+    if (f && f.contentWindow === e.source && !clip.classList.contains('is-on')) {
+      setTimeout(() => { if (clip.isConnected) clip.classList.add('is-on'); }, 350);
+    }
+  });
+});
+
+function startClip(i) {
+  const m = featured[i], id = heroYtId(m);
+  const bg = document.querySelector(`.hero-slide[data-i="${i}"] .hero-bg`);
+  if (!id || !bg || i !== heroIndex || document.hidden) return;
+  const clip = document.createElement('div');
+  clip.className = 'hero-clip';
+  const s = HERO_CLIP_START;
+  const origin = encodeURIComponent(location.origin);
+  clip.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&start=${s}&end=${s + HERO_CLIP_SEC + 2}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&loop=0&enablejsapi=1&origin=${origin}"
+    allow="autoplay; encrypted-media" tabindex="-1" title="" aria-hidden="true"></iframe>`;
+  bg.appendChild(clip);
+  sizeClip(clip);
+  // YouTube holat xabarlarini yuborishi uchun «tinglayapman» deymiz
+  const f = clip.querySelector('iframe');
+  f.addEventListener('load', () => {
+    const ping = () => f.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 'hero' }), '*');
+    ping(); setTimeout(ping, 500); setTimeout(ping, 1500);
+  });
+}
+
+addEventListener('resize', () => document.querySelectorAll('.hero-clip').forEach(sizeClip));
+
 function restartHeroTimer() {
-  clearInterval(heroTimer);
-  heroTimer = setInterval(() => goToSlide(heroIndex + 1), HERO_DELAY);
-  // faol nuqtadagi to'lish chizig'i qaytadan boshlansin
+  clearTimeout(heroTimer);
+  stopClip();
+  if (!featured.length) return;
+  const d = slideDuration(heroIndex);
+
+  // faol nuqtadagi to'lish chizig'i shu slayd vaqtiga moslanadi va qaytadan boshlanadi
   const dot = document.querySelector('.hero-dots button.is-active');
-  if (dot) { dot.classList.remove('is-active'); void dot.offsetWidth; dot.classList.add('is-active'); }
+  if (dot) {
+    dot.style.setProperty('--hero-delay', d / 1000 + 's');
+    dot.classList.remove('is-active'); void dot.offsetWidth; dot.classList.add('is-active');
+  }
+
+  if (d !== HERO_DELAY) {
+    const i = heroIndex;
+    clipTimer = setTimeout(() => startClip(i), HERO_IMAGE_SEC * 1000);
+  }
+  heroTimer = setTimeout(() => { goToSlide(heroIndex + 1); restartHeroTimer(); }, d);
 }
 
 /* ---------- Qatorlar (admin → «Sayt» bo'limidan boshqariladi) ---------- */

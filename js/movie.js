@@ -225,8 +225,8 @@ function renderMovie() {
           </div>
 
           <dl class="mv-info">
-            ${info.map(([k, v]) => `
-              <div class="mv-info-item"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}
+            ${info.map(([k, v], i) => `
+              <div class="mv-info-item${i === info.length - 1 && info.length % 2 ? ' is-wide' : ''}"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}
           </dl>
         </div>
       </div>

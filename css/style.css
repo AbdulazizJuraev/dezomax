@@ -4209,3 +4209,34 @@ img, video, iframe { max-width: 100%; }
 .adm-more-q summary { cursor: pointer; font-size: 13.5px; font-weight: 700; color: #6cc4f2; }
 .adm-more-q[open] summary { margin-bottom: 8px; }
 .adm-more-q-hint { margin: 0 0 8px; font-size: 12.5px; }
+
+/* Kino ma'lumotlari: toq sonli bo'lsa oxirgi katak butun qatorni egallaydi (bo'sh qora katak qolmasin) */
+@media (max-width: 900px) {
+  .mv-info-item.is-wide { grid-column: 1 / -1; }
+}
+
+/* ---------------- Slayder: rasmdan keyin rasmiy treyler sahnasi ---------------- */
+.hero-clip {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .8s ease;
+  pointer-events: none;
+  background: #000;
+}
+.hero-clip.is-on { opacity: 1; }
+.hero-clip iframe {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;
+}
+.hero-bg::after { z-index: 1; }
+
+@media (max-width: 640px) {
+  /* telefonda poster header ostida 16:9 blokda turadi — video ham aynan shu joyda */
+  .hero-clip { top: var(--header-h); bottom: auto; height: 56.25vw; }
+}
