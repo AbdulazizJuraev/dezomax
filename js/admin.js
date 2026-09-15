@@ -181,6 +181,16 @@ function checkVideoUrl(url) {
   return { ok: true };
 }
 
+/* GitHub xatolarini tushunarli o'zbekcha matnga aylantirish */
+function friendlyError(ex) {
+  const s = ex?.status;
+  if (s === 401) return 'Token yaroqsiz yoki muddati tugagan. Yangi token kiriting.';
+  if (s === 403) return 'Tokenga yozish ruxsati yo‘q (403). GitHub → token → Edit → Permissions → Contents: «Read and write».';
+  if (s === 404) return 'Token bu repoga yoza olmaydi (404). GitHub → token → Edit → Repository access → «Only select repositories» → dezomax, Permissions → Contents: «Read and write» → Update.';
+  if (s === 409 || s === 422) return 'Fayl boshqa joyda o‘zgargan. Sahifani yangilab, qayta urinib ko‘ring.';
+  return ex?.message || 'Noma’lum xato';
+}
+
 function toast(msg, isErr) {
   document.querySelector('.toast')?.remove();
   const el = document.createElement('div');
@@ -457,7 +467,7 @@ function bindForm(old) {
       go('home');
     } catch (ex) {
       console.warn(ex);
-      showErr(ex.status === 401 ? 'Token yaroqsiz yoki muddati tugagan' : ex.message);
+      showErr(friendlyError(ex));
       btn.disabled = false;
       btn.textContent = old.id ? 'O‘zgarishlarni saqlash' : 'Kino qo‘shish';
     }
@@ -694,7 +704,7 @@ async function runAction(btn, fn, okMsg) {
     toast(okMsg);
     renderMain();
   } catch (ex) {
-    toast(ex.status === 401 ? 'Token yaroqsiz yoki muddati tugagan' : ex.message, true);
+    toast(friendlyError(ex), true);
     btn.disabled = false;
   }
 }
