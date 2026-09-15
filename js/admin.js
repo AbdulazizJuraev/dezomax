@@ -371,7 +371,8 @@ function readForm(form, old = {}) {
     trailer: s('trailer'),
     video: s('video'),
     featured: f.get('featured') === 'on',
-    addedAt: old.addedAt || Date.now()
+    addedAt: old.addedAt || Date.now(),
+    updatedAt: Date.now()
   };
   // ixtiyoriy maydonlar: bo'sh qoldirilsa o'chiriladi
   ['year', 'duration', 'rating', 'director', 'franchise', 'audio', 'source'].forEach(k => delete m[k]);
@@ -393,7 +394,7 @@ function bindForm(old) {
   const showErr = msg => { err.textContent = msg; err.hidden = !msg; };
 
   const prev = $('#admPosterPrev');
-  const cancel = () => { editingId = null; renderMain(); };
+  const cancel = () => go(editingId !== null ? 'list' : 'home');
   $('#admCancel')?.addEventListener('click', cancel);
   form.querySelector('[data-cancel]')?.addEventListener('click', cancel);
   form.titleUz.addEventListener('input', () => { $('#admHeadTitle').textContent = form.titleUz.value.trim() || 'Nomsiz kino'; });
@@ -452,8 +453,8 @@ function bindForm(old) {
       }, `${old.id ? 'Kino tahrirlandi' : 'Kino qo‘shildi'}: ${movie.title.uz}`);
 
       toast(`Saqlandi. Saytda 1–2 daqiqada ko‘rinadi.`);
-      editingId = null;
-      renderMain();
+      commitsCache = null;
+      go('home');
     } catch (ex) {
       console.warn(ex);
       showErr(ex.status === 401 ? 'Token yaroqsiz yoki muddati tugagan' : ex.message);
@@ -463,115 +464,233 @@ function bindForm(old) {
   });
 }
 
-/* ---------- Ro'yxat ---------- */
+/* ---------- Ko'rinishlar: Bosh sahifa · Kinolar · Qo'shish/Tahrirlash ---------- */
 
-let listTab = 'custom';   // 'custom' — qo'shilganlar, 'all' — saytdagi barcha kinolar
+let view = 'home';          // 'home' | 'list' | 'form'
+let listFilter = 'all';     // 'all' | 'added' | 'edited' | 'hidden'
 let listQuery = '';
+let commitsCache = null;    // oxirgi o'zgarishlar (GitHub commit tarixi)
+
+const NAV_ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3.5l9 7"/><path d="M5.5 9.5V20h13V9.5"/></svg>',
+  list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  film: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M2.5 12h19"/></svg>',
+  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+  eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.3 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/></svg>',
+  uz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
+  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>'
+};
+
+const addedList = () => customList.filter(m => !isBase(m.id));
+const editedList = () => customList.filter(m => isBase(m.id));
+const allMovies = () => [...baseMovies().map(m => currentMovie(m.id)), ...addedList()];
+
+function go(v) {
+  view = v;
+  if (v !== 'form') editingId = null;
+  renderMain();
+  window.scrollTo({ top: 0 });
+}
+
+function timeAgo(iso) {
+  const s = Math.max(0, (Date.now() - new Date(iso)) / 1000);
+  if (s < 60) return 'hozirgina';
+  if (s < 3600) return `${Math.floor(s / 60)} daq. oldin`;
+  if (s < 86400) return `${Math.floor(s / 3600)} soat oldin`;
+  if (s < 86400 * 7) return `${Math.floor(s / 86400)} kun oldin`;
+  const d = new Date(iso), p = n => String(n).padStart(2, '0');
+  return `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()}`;
+}
+
+/* ---------- Umumiy qobiq ---------- */
+
+function renderMain() {
+  $('#admin').innerHTML = `
+    <div class="adm-top">
+      <div>
+        <h1>DezoMax Admin</h1>
+        <span class="acc-muted">Kinolarni boshqarish paneli</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" type="button" id="admLogout">Chiqish</button>
+    </div>
+    <nav class="adm-nav">
+      <button type="button" data-view="home" class="${view === 'home' ? 'is-active' : ''}">${NAV_ICONS.home}<span>Bosh sahifa</span></button>
+      <button type="button" data-view="list" class="${view === 'list' ? 'is-active' : ''}">${NAV_ICONS.list}<span>Kinolar</span></button>
+      <button type="button" data-view="form" class="${view === 'form' && !editingId ? 'is-active' : ''}">${NAV_ICONS.plus}<span>Qo‘shish</span></button>
+    </nav>
+    <div id="admView"></div>`;
+
+  $('#admLogout').addEventListener('click', () => {
+    if (!confirm('Token shu qurilmadan o‘chirilsinmi?')) return;
+    localStorage.removeItem(TOKEN_KEY);
+    renderTokenScreen();
+  });
+  document.querySelectorAll('.adm-nav [data-view]').forEach(b => b.addEventListener('click', () => go(b.dataset.view)));
+
+  if (view === 'home') renderHome();
+  else if (view === 'list') renderListView();
+  else renderFormView();
+}
+
+/* ---------- Bosh sahifa ---------- */
+
+function renderHome() {
+  const all = allMovies();
+  const visible = all.filter(m => !hiddenList.includes(m.id));
+  const stats = [
+    ['film', 'Saytdagi kinolar', visible.length, 'all'],
+    ['plus', 'Qo‘shilgan', addedList().length, 'added'],
+    ['edit', 'Tahrirlangan', editedList().length, 'edited'],
+    ['eyeOff', 'Yashirilgan', hiddenList.length, 'hidden']
+  ];
+  const fullUz = visible.filter(m => m.video && (m.audio === 'uz' || m.franchise === 'uzbek')).length;
+  const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 6);
+
+  $('#admView').innerHTML = `
+    <div class="adm-stats">
+      ${stats.map(([ic, label, n, filter]) => `
+        <button class="adm-stat" type="button" data-stat="${filter}">
+          <span class="adm-stat-icon">${NAV_ICONS[ic]}</span>
+          <b>${n}</b><small>${label}</small>
+        </button>`).join('')}
+    </div>
+
+    <div class="adm-quick">
+      <button class="btn btn-primary" type="button" data-go="form">${NAV_ICONS.plus}<span>Yangi kino qo‘shish</span></button>
+      <a class="btn btn-ghost" href="${SITE_URL}" target="_blank" rel="noopener">${NAV_ICONS.link}<span>Saytni ochish</span></a>
+    </div>
+    <p class="acc-muted adm-note">${NAV_ICONS.uz}<span>O‘zbek tilidagi to‘liq filmlar: <b>${fullUz}</b> ta</span></p>
+
+    <section class="adm-sec">
+      <div class="adm-sec-head">
+        <span class="adm-sec-icon">${NAV_ICONS.list}</span><h3>Kinolar ro‘yxati</h3>
+        <button class="acc-link adm-more" type="button" data-go="list">Hammasi (${all.length}) →</button>
+      </div>
+      ${recent.length
+        ? `<div class="acc-list">${recent.map(itemHTML).join('')}</div>`
+        : `<div class="adm-mini-list">${all.slice(0, 6).map(itemHTML).join('')}</div>`}
+    </section>
+
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.clock}</span><h3>Oxirgi o‘zgarishlar</h3></div>
+      <div id="admCommits"><div class="mt-loading"><i></i><i></i><i></i></div></div>
+    </section>`;
+
+  document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
+  document.querySelectorAll('[data-stat]').forEach(b => b.addEventListener('click', () => { listFilter = b.dataset.stat; listQuery = ''; go('list'); }));
+  bindList();
+  loadCommits();
+}
+
+async function loadCommits(force = false) {
+  const box = document.getElementById('admCommits');
+  if (!box) return;
+  try {
+    if (!commitsCache || force) {
+      commitsCache = await gh(`/commits?path=${encodeURIComponent(DATA_PATH)}&sha=${GH.branch}&per_page=15&t=${Date.now()}`);
+    }
+    const list = commitsCache.filter(c => !/^Admin sahifa|README/i.test(c.commit.message));
+    if (!list.length) { box.innerHTML = '<p class="acc-muted">Hali o‘zgarish yo‘q</p>'; return; }
+    box.innerHTML = `<div class="adm-commits">${list.map(c => {
+      const msg = c.commit.message.split('\n')[0];
+      const kind = /qo‘shildi/i.test(msg) ? 'is-add' : /o‘chirildi/i.test(msg) ? 'is-del' : /yashirildi/i.test(msg) ? 'is-hide' : 'is-edit';
+      return `
+        <a class="adm-commit ${kind}" href="${esc(c.html_url)}" target="_blank" rel="noopener">
+          <i></i>
+          <span class="adm-commit-main"><b>${esc(msg)}</b><small>${esc(c.commit.author?.name || '')} · ${timeAgo(c.commit.author?.date)}</small></span>
+        </a>`;
+    }).join('')}</div>`;
+  } catch (e) {
+    box.innerHTML = `<p class="acc-muted">Tarixni yuklab bo‘lmadi: ${esc(e.message)}</p>`;
+  }
+}
+
+/* ---------- Kinolar ro'yxati ---------- */
 
 function itemHTML(m) {
   const base = isBase(m.id);
   const edited = base && customList.some(x => x.id === m.id);
   const hidden = hiddenList.includes(m.id);
   const tags = [
-    m.year, typeName(m.type), m.video ? 'To‘liq kino' : 'Treyler', `ID ${m.id}`,
-    edited ? '✏️ tahrirlangan' : '', hidden ? '🚫 yashirilgan' : ''
+    m.year, typeName(m.type), m.video ? 'To‘liq kino' : 'Treyler', `ID ${m.id}`
   ].filter(Boolean);
+  const state = hidden ? '<span class="adm-state is-hide">Yashirilgan</span>'
+    : !base ? '<span class="adm-state is-add">Qo‘shilgan</span>'
+    : edited ? '<span class="adm-state is-edit">Tahrirlangan</span>' : '';
   return `
     <div class="acc-item adm-item${hidden ? ' is-hidden' : ''}">
       <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
       <div class="acc-item-main">
-        <b>${esc(m.title?.uz || '')}</b>
+        <b>${esc(m.title?.uz || '')} ${state}</b>
         <small>${tags.map(esc).join(' · ')}</small>
       </div>
       <div class="adm-actions">
-        <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
         <button class="btn btn-ghost btn-sm" type="button" data-edit="${m.id}">Tahrirlash</button>
+        <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
         ${base
           ? `${edited ? `<button class="btn btn-ghost btn-sm" type="button" data-restore="${m.id}">Asliga qaytarish</button>` : ''}
-             <button class="btn btn-ghost btn-sm${hidden ? '' : ' adm-del'}" type="button" data-hide="${m.id}">${hidden ? 'Saytda ko‘rsatish' : 'Yashirish'}</button>`
+             <button class="btn btn-ghost btn-sm${hidden ? '' : ' adm-del'}" type="button" data-hide="${m.id}">${hidden ? 'Ko‘rsatish' : 'Yashirish'}</button>`
           : `<button class="btn btn-ghost btn-sm adm-del" type="button" data-del="${m.id}">O‘chirish</button>`}
       </div>
     </div>`;
 }
 
 function listItems() {
-  let items;
-  if (listTab === 'custom') {
-    items = customList.filter(m => !isBase(m.id));
-  } else {
-    items = [...baseMovies().map(m => currentMovie(m.id)), ...customList.filter(m => !isBase(m.id))];
-  }
+  let items = allMovies();
+  if (listFilter === 'added') items = addedList();
+  if (listFilter === 'edited') items = editedList();
+  if (listFilter === 'hidden') items = items.filter(m => hiddenList.includes(m.id));
   const q = norm(listQuery);
   if (q) items = items.filter(m => norm(`${m.title?.uz} ${m.title?.ru} ${m.year || ''} ${m.id}`).includes(q));
   return items;
 }
 
-function listHTML() {
-  const items = listItems();
-  if (!items.length) {
-    return listTab === 'custom' && !listQuery
-      ? `<div class="acc-empty"><b>Hali kino qo‘shilmagan</b><p>Formani to‘ldirib birinchi kinoni qo‘shing yoki «Saytdagi barcha kinolar» dan mavjudini tahrirlang.</p></div>`
-      : `<div class="acc-empty"><b>Hech narsa topilmadi</b></div>`;
-  }
-  return `<div class="acc-list">${items.map(itemHTML).join('')}</div>`;
-}
-
-function renderList() {
-  const box = document.getElementById('admListBox');
-  if (!box) return;
-  box.innerHTML = listHTML();
-  document.querySelectorAll('.adm-tabs [data-tab]').forEach(b => b.classList.toggle('is-active', b.dataset.tab === listTab));
-  bindList();
-}
-
-function renderMain() {
-  const editing = editingId !== null ? currentMovie(editingId) : null;
-  const ownCount = customList.filter(m => !isBase(m.id)).length;
-  $('#admin').innerHTML = `
-    <div class="adm-top">
-      <h1>Admin — kinolar</h1>
-      <div class="adm-top-actions">
-        <span class="acc-muted">${ownCount} ta qo‘shilgan · ${baseMovies().length} ta asl</span>
-        <button class="btn btn-ghost btn-sm" type="button" id="admLogout">Tokenni o‘chirish</button>
-      </div>
+function renderListView() {
+  const counts = { all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length };
+  $('#admView').innerHTML = `
+    <div class="adm-filters">
+      ${[['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan']].map(([id, l]) =>
+        `<button type="button" data-filter="${id}" class="${listFilter === id ? 'is-active' : ''}">${l} <small>${counts[id]}</small></button>`).join('')}
     </div>
-    <div class="adm-layout">
-      ${formHTML(editing || {})}
-      <section class="adm-list">
-        <div class="mt-tabs adm-tabs">
-          <button type="button" data-tab="custom" class="${listTab === 'custom' ? 'is-active' : ''}">Qo‘shilganlar</button>
-          <button type="button" data-tab="all" class="${listTab === 'all' ? 'is-active' : ''}">Saytdagi barcha kinolar</button>
-        </div>
-        <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
-        <div id="admListBox">${listHTML()}</div>
-      </section>
-    </div>`;
+    <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
+    <div id="admListBox"></div>`;
 
-  bindForm(editing || {});
+  const fill = () => {
+    const items = listItems();
+    $('#admListBox').innerHTML = items.length
+      ? `<p class="acc-muted adm-count">${items.length} ta kino</p><div class="acc-list">${items.map(itemHTML).join('')}</div>`
+      : `<div class="acc-empty"><b>Hech narsa topilmadi</b></div>`;
+    bindList();
+  };
 
-  $('#admLogout').addEventListener('click', () => {
-    if (!confirm('Token shu brauzerdan o‘chirilsinmi?')) return;
-    localStorage.removeItem(TOKEN_KEY);
-    renderTokenScreen();
-  });
-
-  document.querySelectorAll('.adm-tabs [data-tab]').forEach(b => b.addEventListener('click', () => {
-    listTab = b.dataset.tab;
-    renderList();
+  document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => {
+    listFilter = b.dataset.filter;
+    document.querySelectorAll('[data-filter]').forEach(x => x.classList.toggle('is-active', x === b));
+    fill();
   }));
   let t0;
   $('#admSearch').addEventListener('input', e => {
     clearTimeout(t0);
-    t0 = setTimeout(() => { listQuery = e.target.value; renderList(); }, 150);
+    t0 = setTimeout(() => { listQuery = e.target.value; fill(); }, 150);
   });
+  fill();
+}
 
-  bindList();
+/* ---------- Forma ---------- */
+
+function renderFormView() {
+  const editing = editingId !== null ? currentMovie(editingId) : null;
+  $('#admView').innerHTML = formHTML(editing || {});
+  bindForm(editing || {});
 }
 
 async function runAction(btn, fn, okMsg) {
   btn.disabled = true;
   try {
     await fn();
+    commitsCache = null;
     toast(okMsg);
     renderMain();
   } catch (ex) {
@@ -583,8 +702,9 @@ async function runAction(btn, fn, okMsg) {
 function bindList() {
   document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
     editingId = +b.dataset.edit;
+    view = 'form';
     renderMain();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0 });
   }));
 
   // o'zimiz qo'shgan kinoni butunlay o'chirish

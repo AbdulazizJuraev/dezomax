@@ -4024,3 +4024,111 @@ img, video, iframe { max-width: 100%; }
   .adm-hero { flex-direction: column; align-items: flex-start; }
 }
 .page-admin .to-top { display: none !important; }
+
+/* ================================================================
+   Admin: navigatsiya, bosh sahifa (statistika, ro'yxat, o'zgarishlar)
+   ================================================================ */
+
+.adm-top h1 { font-size: 22px; }
+.adm-top .acc-muted { font-size: 13px; }
+
+.adm-nav {
+  position: sticky;
+  top: calc(var(--header-h) + 6px);
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 14px;
+  border-radius: 16px;
+  background: rgba(20, 24, 34, .92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+}
+.adm-nav button {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  height: 42px; min-width: 0;
+  border-radius: 12px;
+  font-size: 13.5px; font-weight: 700; color: var(--text-dim);
+  transition: background .15s, color .15s;
+}
+.adm-nav button svg { width: 18px; height: 18px; flex-shrink: 0; }
+.adm-nav button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-nav button.is-active { background: var(--grad); color: #fff; box-shadow: 0 4px 14px rgba(10, 147, 220, .3); }
+
+#admView { display: flex; flex-direction: column; gap: 12px; }
+
+.adm-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.adm-stat {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  text-align: left;
+  transition: border-color .2s, transform .2s;
+}
+.adm-stat:hover { border-color: rgba(10, 147, 220, .45); transform: translateY(-2px); }
+.adm-stat-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: rgba(10, 147, 220, .14); color: #6cc4f2; margin-bottom: 6px; }
+.adm-stat-icon svg { width: 17px; height: 17px; }
+.adm-stat b { font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.adm-stat small { font-size: 12px; color: var(--text-dim); font-weight: 600; }
+.adm-stat:nth-child(2) .adm-stat-icon { background: rgba(22, 163, 74, .16); color: #6ee7a0; }
+.adm-stat:nth-child(3) .adm-stat-icon { background: rgba(245, 158, 11, .16); color: #fbbf24; }
+.adm-stat:nth-child(4) .adm-stat-icon { background: rgba(248, 113, 113, .14); color: #f87171; }
+
+.adm-quick { display: flex; gap: 8px; flex-wrap: wrap; }
+.adm-quick .btn { gap: 8px; }
+.adm-quick .btn svg { width: 17px; height: 17px; }
+.adm-quick .btn-primary { flex: 1; }
+.adm-note { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 13px; }
+.adm-note svg { width: 14px; height: 14px; color: #6ee7a0; }
+.adm-more { margin-left: auto; font-size: 13px; }
+.adm-mini-list { display: flex; flex-direction: column; gap: 8px; }
+.adm-count { margin: 0 0 8px; font-size: 13px; }
+
+.adm-state { display: inline-block; vertical-align: middle; margin-left: 4px; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+.adm-state.is-add { background: rgba(22, 163, 74, .16); color: #6ee7a0; }
+.adm-state.is-edit { background: rgba(245, 158, 11, .16); color: #fbbf24; }
+.adm-state.is-hide { background: rgba(248, 113, 113, .14); color: #f87171; }
+
+.adm-filters { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.adm-filters::-webkit-scrollbar { display: none; }
+.adm-filters button {
+  flex-shrink: 0;
+  height: 36px; padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  font-size: 13px; font-weight: 650; color: var(--text-dim);
+}
+.adm-filters button small { margin-left: 4px; opacity: .7; }
+.adm-filters button.is-active { background: rgba(10, 147, 220, .16); border-color: rgba(10, 147, 220, .6); color: #fff; }
+#admView .adm-search { margin: 0; }
+#admView .acc-list { max-height: none; overflow: visible; }
+
+.adm-commits { display: flex; flex-direction: column; }
+.adm-commit { position: relative; display: flex; gap: 12px; padding: 9px 4px 9px 0; border-radius: 10px; }
+.adm-commit + .adm-commit { border-top: 1px solid var(--line); }
+.adm-commit:hover { background: rgba(255, 255, 255, .03); }
+.adm-commit i { flex-shrink: 0; width: 10px; height: 10px; margin: 5px 0 0 6px; border-radius: 50%; background: #4cb8f0; box-shadow: 0 0 0 3px rgba(76, 184, 240, .18); }
+.adm-commit.is-add i { background: #22c55e; box-shadow: 0 0 0 3px rgba(34, 197, 94, .18); }
+.adm-commit.is-del i { background: #f87171; box-shadow: 0 0 0 3px rgba(248, 113, 113, .18); }
+.adm-commit.is-hide i { background: #fbbf24; box-shadow: 0 0 0 3px rgba(251, 191, 36, .18); }
+.adm-commit-main { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.adm-commit-main b { font-size: 13.5px; font-weight: 650; overflow-wrap: anywhere; }
+.adm-commit-main small { font-size: 12px; color: var(--text-faint); }
+
+/* eski ikki ustunli joylashuv endi ishlatilmaydi */
+.adm-layout { display: block; }
+
+@media (max-width: 640px) {
+  .adm-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .adm-stat b { font-size: 22px; }
+  .adm-nav button { font-size: 12.5px; gap: 5px; }
+}
+@media (max-width: 300px) {
+  .adm-nav button span { display: none; }
+  .adm-stats { grid-template-columns: minmax(0, 1fr); }
+}
