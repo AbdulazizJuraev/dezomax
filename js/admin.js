@@ -336,6 +336,13 @@ function formHTML(m = {}) {
           ${field('Manba havolasi', `<input class="acc-input" name="sourceUrl" value="${val(m.source?.url)}" placeholder="https://...">`)}
         </div>
         <p class="adm-hint" id="admVideoHint" hidden></p>
+        <details class="adm-more-q"${(m.videos || []).length ? ' open' : ''}>
+          <summary>Qo‘shimcha sifatlar (.mp4 uchun)</summary>
+          <p class="acc-muted adm-more-q-hint">Bir kinoning turli sifatdagi fayllari bo‘lsa, havolalarini kiriting — pleyerda sifat tanlash chiqadi. «.m3u8» oqimda sifatlar avtomatik aniqlanadi.</p>
+          <div class="adm-row adm-row-2">
+            ${['1080p', '720p', '480p', '360p'].map(q => field(q, `<input class="acc-input" name="q_${q}" value="${val((m.videos || []).find(v => v.label === q)?.url)}" placeholder="https://...${q}.mp4">`)).join('')}
+          </div>
+        </details>
       `)}
 
       ${section('gear', 'Ko‘rinish', `
@@ -394,6 +401,9 @@ function readForm(form, old = {}) {
   if (f.get('audioUz') === 'on') m.audio = 'uz';
   if (s('sourceName')) m.source = { name: s('sourceName'), url: s('sourceUrl') };
   if (old.seasons && !m.duration) m.seasons = old.seasons;
+  // qo'shimcha sifatlar (.mp4): pleyerda sifat tanlash uchun
+  const videos = ['1080p', '720p', '480p', '360p'].map(label => ({ label, url: s('q_' + label) })).filter(v => v.url);
+  if (videos.length) m.videos = videos; else delete m.videos;
   if (!m.genres.length) m.genres = ['drama'];
   return m;
 }
@@ -438,7 +448,7 @@ function bindForm(old) {
     showErr('');
     if (!form.titleUz.value.trim()) return showErr('Kino nomini yozing');
     if (!form.rights.checked) return showErr('Ko‘rsatish huquqingizni tasdiqlang');
-    for (const inp of [form.video, form.trailer]) {
+    for (const inp of [form.video, form.trailer, ...['1080p', '720p', '480p', '360p'].map(q => form['q_' + q])]) {
       const r = checkVideoUrl(inp.value.trim());
       if (!r.ok) return showErr(r.msg);
     }
