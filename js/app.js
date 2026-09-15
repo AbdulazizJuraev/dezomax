@@ -31,16 +31,12 @@ function renderHero() {
   if (!featured.length) { hero.hidden = true; return; }
 
   const slides = featured.map((m, i) => {
-    const st = watchStatus(m);
     // o'zbek filmlarining muqovasi keng (16:9) — butun fonga yoyiladi.
     // Boshqa filmlarda poster kichik (220px) — o'rniga rasmiy treyler muqovasi (1280×720)
     const ytId = (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
     const wideSrc = uzArt || (ytId ? `https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg` : null);
     const wideArt = !!wideSrc;
-    const statusTag = st === 'uz'
-      ? `<span class="tag tag-watch is-uz">${ICONS.play} ${t('watch.statusUz')}</span>`
-      : st === 'trailer' ? `<span class="tag tag-watch is-trailer">${t('watch.statusTrailer')}</span>` : '';
     const meta = [
       m.year,
       typeName(m.type),
@@ -57,14 +53,11 @@ function renderHero() {
             <span class="hero-badge">DezoMax ${LANG === 'uz' ? 'tanlovi' : 'выбирает'}</span>
             <h1>${esc(title(m))}</h1>
             <div class="hero-meta">
-              ${statusTag}
               ${m.rating ? `<span class="tag tag-rating">${ICONS.star} ${m.rating.toFixed(1)}</span>` : ''}
               ${meta.map(x => `<span>${esc(x)}</span>`).join('<i class="dot"></i>')}
             </div>
-            <p>${esc(descOf(m))}</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="movie.html?id=${m.id}&play=1">${ICONS.play}<span>${t(st === 'trailer' ? 'hero.trailer' : 'hero.watch')}</span></a>
-              <a class="btn btn-ghost" href="movie.html?id=${m.id}">${ICONS.info}<span>${t('hero.more')}</span></a>
+              <a class="btn btn-primary hero-watch" href="movie.html?id=${m.id}&play=1">${ICONS.play}<span>${LANG === 'uz' ? 'Filmni tomosha qilish' : 'Смотреть фильм'}</span></a>
             </div>
           </div>
         </div>
@@ -230,7 +223,7 @@ addEventListener('message', e => {
         if (!clip.isConnected || !clip._playingSince) return;
         clip._ready = true;
         showClip(clip);   // joriy slayd bo'lsa — darhol; bo'lmasa slayd kelganda ochiladi
-      }, HERO_REVEAL_AFTER_PLAY);
+      }, clip._slide === heroIndex ? 150 : HERO_REVEAL_AFTER_PLAY);   // joriy slayd — darhol, oldindan yuklangani — belgilar yo'qolgach
     } else if (state === 0 || state === 2 || state === 3) {
       clearTimeout(clip._revealT);
       const wasOn = clip.classList.contains('is-on');
@@ -288,7 +281,7 @@ function restartHeroTimer() {
 
   if (!withClip) { heroTimer = setTimeout(nextSlide, d); return; }
   const i = heroIndex;
-  if (ready && ready._ready) { showClip(ready); return; }
+  if (ready && (ready._ready || ready._playingSince)) { showClip(ready); return; }
   if (!ready) clipTimer = setTimeout(() => startClip(i), 50);
   // video boshlanmasa — zaxira rasm ko'rsatib, keyingisiga o'tamiz
   heroTimer = setTimeout(() => {
