@@ -77,7 +77,7 @@ const MOVIES = [
     },
     colors: ['#1b3a5c', '#0a1628'],
     poster: 'images/interstellar.jpg',
-    trailer: 'https://www.youtube.com/watch?v=zSWdZVtXT7E',
+    trailer: 'https://www.youtube.com/watch?v=qcPfI0y7wRU',
     video: '',
     featured: true
   },
@@ -94,7 +94,7 @@ const MOVIES = [
     },
     colors: ['#2b2b3d', '#101018'],
     poster: 'images/inception.jpg',
-    trailer: 'https://www.youtube.com/watch?v=YoHD9XEInc0',
+    trailer: 'https://www.youtube.com/watch?v=85Zz1CCXyDI',
     video: '',
     featured: false
   },
@@ -112,7 +112,7 @@ const MOVIES = [
     tags: ['Batman', 'Betmen', 'Бэтмен', 'Joker'],
     colors: ['#1f2937', '#050607'],
     poster: 'images/the-dark-knight.jpg',
-    trailer: 'https://www.youtube.com/watch?v=EXeTwQWrcwY',
+    trailer: 'https://www.youtube.com/watch?v=KO90kiH6W0U',
     video: '',
     featured: true
   },
@@ -129,7 +129,7 @@ const MOVIES = [
     },
     colors: ['#a0663a', '#2e1a10'],
     poster: 'images/dune.jpg',
-    trailer: 'https://www.youtube.com/watch?v=n9xhJrPXop4',
+    trailer: 'https://www.youtube.com/watch?v=IT5k-v72aGw',
     video: '',
     featured: false
   },
@@ -146,7 +146,7 @@ const MOVIES = [
     },
     colors: ['#6b2f1e', '#1a0d08'],
     poster: 'images/oppenheimer.jpg',
-    trailer: 'https://www.youtube.com/watch?v=uYPbbksJxIg',
+    trailer: 'https://www.youtube.com/watch?v=PFepj-rWbFE',
     video: '',
     featured: true
   },
@@ -164,7 +164,7 @@ const MOVIES = [
     tags: ['Batman', 'Betmen', 'Бэтмен', 'Gotham'],
     colors: ['#3d2a52', '#140d1c'],
     poster: 'images/joker.jpg',
-    trailer: 'https://www.youtube.com/watch?v=zAGVQLHvwOY',
+    trailer: 'https://www.youtube.com/watch?v=iC2RjcuAMx8',
     video: '',
     featured: false
   },
@@ -181,7 +181,7 @@ const MOVIES = [
     },
     colors: ['#4a5a3a', '#141a10'],
     poster: 'images/parasite.png',
-    trailer: 'https://www.youtube.com/watch?v=isOGD_7hNIY',
+    trailer: 'https://www.youtube.com/watch?v=GGnM74uxjlo',
     video: '',
     featured: false
   },
@@ -198,7 +198,7 @@ const MOVIES = [
     },
     colors: ['#4a3620', '#120c06'],
     poster: 'images/the-godfather.jpg',
-    trailer: 'https://www.youtube.com/watch?v=UaVTIH8mujA',
+    trailer: 'https://www.youtube.com/watch?v=oCl5La_eUhI',
     video: '',
     featured: false
   },
@@ -215,7 +215,7 @@ const MOVIES = [
     },
     colors: ['#3f6a4f', '#101a13'],
     poster: 'images/forrest-gump.jpg',
-    trailer: 'https://www.youtube.com/watch?v=bLvqoHBptjg',
+    trailer: 'https://www.youtube.com/watch?v=otmeAaifX04',
     video: '',
     featured: false
   },
@@ -232,7 +232,7 @@ const MOVIES = [
     },
     colors: ['#1d4a30', '#04120a'],
     poster: 'images/the-matrix.png',
-    trailer: 'https://www.youtube.com/watch?v=vKQi3bBA1y8',
+    trailer: 'https://www.youtube.com/watch?v=YihPA42fdQ8',
     video: '',
     featured: false
   },
@@ -249,7 +249,7 @@ const MOVIES = [
     },
     colors: ['#7a5a2e', '#1c1408'],
     poster: 'images/gladiator.png',
-    trailer: 'https://www.youtube.com/watch?v=P5ieIbInFpg',
+    trailer: 'https://www.youtube.com/watch?v=F2Dr7Qb2Zf8',
     video: '',
     featured: false
   },
@@ -266,7 +266,7 @@ const MOVIES = [
     },
     colors: ['#1e4a6b', '#07141f'],
     poster: 'images/titanic.png',
-    trailer: 'https://www.youtube.com/watch?v=kVrqfYjkTdQ',
+    trailer: 'https://www.youtube.com/watch?v=qcU-kWvRcVc',
     video: '',
     featured: false
   },
@@ -283,7 +283,7 @@ const MOVIES = [
     },
     colors: ['#1c5c6e', '#06161c'],
     poster: 'images/avatar.jpg',
-    trailer: 'https://www.youtube.com/watch?v=CM79GTEm2ps',
+    trailer: 'https://www.youtube.com/watch?v=uXC_0wE6k7k',
     video: '',
     featured: false
   },
@@ -300,7 +300,7 @@ const MOVIES = [
     },
     colors: ['#5a1e2e', '#150609'],
     poster: 'images/john-wick.jpg',
-    trailer: 'https://www.youtube.com/watch?v=C0BMx-qxsP4',
+    trailer: 'https://www.youtube.com/watch?v=gLGaBb_EFkg',
     video: '',
     featured: false
   },
@@ -317,7 +317,7 @@ const MOVIES = [
     },
     colors: ['#4a4028', '#12100a'],
     poster: 'images/the-shawshank-redemption.jpg',
-    trailer: 'https://www.youtube.com/watch?v=PLl99DlL6b4',
+    trailer: 'https://www.youtube.com/watch?v=kgAeKpAPOYk',
     video: '',
     featured: false
   },
@@ -334,7 +334,7 @@ const MOVIES = [
     },
     colors: ['#2f6a6a', '#0b1c1c'],
     poster: 'images/spirited-away.png',
-    trailer: 'https://www.youtube.com/watch?v=ByXuk9QqQkk',
+    trailer: 'https://www.youtube.com/watch?v=bgxiTkAlQrw',
     video: '',
     featured: false
   },
@@ -351,7 +351,7 @@ const MOVIES = [
     },
     colors: ['#8a3f7a', '#1c0c19'],
     poster: 'images/coco.jpg',
-    trailer: 'https://www.youtube.com/watch?v=xlnPHQ3TLX8',
+    trailer: 'https://www.youtube.com/watch?v=HMnUSq3dC1g',
     video: '',
     featured: false
   },
@@ -368,7 +368,7 @@ const MOVIES = [
     },
     colors: ['#2b6fb5', '#0a1a2b'],
     poster: 'images/toy-story.jpg',
-    trailer: 'https://www.youtube.com/watch?v=v-PjgYDrg70',
+    trailer: 'https://www.youtube.com/watch?v=A4sqe5q4b3Y',
     video: '',
     featured: false
   },
@@ -385,7 +385,7 @@ const MOVIES = [
     },
     colors: ['#4a7a24', '#111c07'],
     poster: 'images/shrek.jpg',
-    trailer: 'https://www.youtube.com/watch?v=CwXOrWvPBPk',
+    trailer: 'https://www.youtube.com/watch?v=1w1wBO-hlmA',
     video: '',
     featured: false
   },
@@ -402,7 +402,7 @@ const MOVIES = [
     },
     colors: ['#a8541e', '#201004'],
     poster: 'images/mad-max-fury-road.jpg',
-    trailer: 'https://www.youtube.com/watch?v=hEJnMQG9ev8',
+    trailer: 'https://www.youtube.com/watch?v=-3ZoAp6owdk',
     video: '',
     featured: false
   },
@@ -419,7 +419,7 @@ const MOVIES = [
     },
     colors: ['#8a5a10', '#1a1104'],
     poster: 'images/whiplash.jpg',
-    trailer: 'https://www.youtube.com/watch?v=7d_jQycdQGo',
+    trailer: 'https://www.youtube.com/watch?v=Q9PxDPOo1jw',
     video: '',
     featured: false
   },
@@ -436,7 +436,7 @@ const MOVIES = [
     },
     colors: ['#5a3030', '#140808'],
     poster: 'images/fight-club.jpg',
-    trailer: 'https://www.youtube.com/watch?v=qtRKdVHc-cE',
+    trailer: 'https://www.youtube.com/watch?v=C7-7qQ61QHU',
     video: '',
     featured: false
   },
@@ -453,7 +453,7 @@ const MOVIES = [
     },
     colors: ['#2a3236', '#080b0d'],
     poster: 'images/se7en.jpg',
-    trailer: 'https://www.youtube.com/watch?v=znmZoVkCjpI',
+    trailer: 'https://www.youtube.com/watch?v=GiFyoro7u78',
     video: '',
     featured: false
   },
@@ -470,7 +470,7 @@ const MOVIES = [
     },
     colors: ['#9a7a20', '#1c1606'],
     poster: 'images/the-wolf-of-wall-street.png',
-    trailer: 'https://www.youtube.com/watch?v=iszwuX1AK6A',
+    trailer: 'https://www.youtube.com/watch?v=CHivqmutR0I',
     video: '',
     featured: false
   },
@@ -487,7 +487,7 @@ const MOVIES = [
     },
     colors: ['#3a5a2a', '#0c1408'],
     poster: 'images/breaking-bad.png',
-    trailer: 'https://www.youtube.com/watch?v=HhesaQXLuRY',
+    trailer: 'https://www.youtube.com/watch?v=uXPMbmR-V44',
     video: '',
     featured: false
   },
@@ -504,7 +504,7 @@ const MOVIES = [
     },
     colors: ['#4a4a5a', '#0e0e14'],
     poster: 'images/game-of-thrones.jpg',
-    trailer: 'https://www.youtube.com/watch?v=iWyeLZ9oP5c',
+    trailer: 'https://www.youtube.com/watch?v=edBuDu7QE14',
     video: '',
     featured: false
   },
@@ -521,7 +521,7 @@ const MOVIES = [
     },
     colors: ['#7a1520', '#180407'],
     poster: 'images/stranger-things.png',
-    trailer: 'https://www.youtube.com/watch?v=b9EkMc79ZSU',
+    trailer: 'https://www.youtube.com/watch?v=PX6KNzyQfZM',
     video: '',
     featured: true
   },
@@ -538,7 +538,7 @@ const MOVIES = [
     },
     colors: ['#5a6a3a', '#12160c'],
     poster: 'images/chernobyl.jpg',
-    trailer: 'https://www.youtube.com/watch?v=s9APLXM9Ei8',
+    trailer: 'https://www.youtube.com/watch?v=NQEtwLPn5Fw',
     video: '',
     featured: false
   },
@@ -555,7 +555,7 @@ const MOVIES = [
     },
     colors: ['#3a4a5a', '#0c1014'],
     poster: 'images/the-witcher.png',
-    trailer: 'https://www.youtube.com/watch?v=ndl1W4ltcmg',
+    trailer: 'https://www.youtube.com/watch?v=Xtf3c-Y20Lw',
     video: '',
     featured: false
   },
@@ -572,7 +572,7 @@ const MOVIES = [
     },
     colors: ['#2a4a42', '#080f0d'],
     poster: 'images/wednesday.jpg',
-    trailer: 'https://www.youtube.com/watch?v=03u4xyj0TH4',
+    trailer: 'https://www.youtube.com/watch?v=Kf9q_mz0R0s',
     video: '',
     featured: false
   },
@@ -609,7 +609,7 @@ const MOVIES = [
     tags: ['Avengers', 'Qasoskorlar', 'Мстители', 'Tony Stark'],
     colors: ['#8a2a1e', '#1c0a07'],
     poster: 'images/iron-man.jpg',
-    trailer: 'https://www.youtube.com/watch?v=8ugaeA-nMTc',
+    trailer: 'https://www.youtube.com/watch?v=i_IIxuHAClc',
     video: '',
     featured: false
   },
@@ -626,7 +626,7 @@ const MOVIES = [
     },
     colors: ['#1e3a6b', '#070e1c'],
     poster: 'images/the-avengers.jpg',
-    trailer: 'https://www.youtube.com/watch?v=sXT4uBpGxNY',
+    trailer: 'https://www.youtube.com/watch?v=5iw-hJ6xteE',
     video: '',
     featured: false
   },
@@ -643,7 +643,7 @@ const MOVIES = [
     },
     colors: ['#6b2a7a', '#160a1a'],
     poster: 'images/guardians-of-the-galaxy.jpg',
-    trailer: 'https://www.youtube.com/watch?v=d96cjJhvlMA',
+    trailer: 'https://www.youtube.com/watch?v=p7VRUK7ctmU',
     video: '',
     featured: false
   },
@@ -660,7 +660,7 @@ const MOVIES = [
     },
     colors: ['#2a4a6b', '#0a1220'],
     poster: 'images/captain-america-winter-soldier.jpg',
-    trailer: 'https://www.youtube.com/watch?v=7SlILk2WMTI',
+    trailer: 'https://www.youtube.com/watch?v=sxtuHEazdoQ',
     video: '',
     featured: false
   },
@@ -677,7 +677,7 @@ const MOVIES = [
     },
     colors: ['#7a4a1e', '#1a0f06'],
     poster: 'images/doctor-strange.jpg',
-    trailer: 'https://www.youtube.com/watch?v=h7gvFravm4A',
+    trailer: 'https://www.youtube.com/watch?v=o3tqPNSGzfE',
     video: '',
     featured: false
   },
@@ -694,7 +694,7 @@ const MOVIES = [
     },
     colors: ['#8a3a6b', '#1a0a14'],
     poster: 'images/thor-ragnarok.jpg',
-    trailer: 'https://www.youtube.com/watch?v=ue80QwXMRHg',
+    trailer: 'https://www.youtube.com/watch?v=I_y0tFpezQU',
     video: '',
     featured: false
   },
@@ -711,7 +711,7 @@ const MOVIES = [
     },
     colors: ['#3a2a6b', '#0c0818'],
     poster: 'images/black-panther.jpg',
-    trailer: 'https://www.youtube.com/watch?v=xjDjIWPwcPU',
+    trailer: 'https://www.youtube.com/watch?v=qGpejFwCZS0',
     video: '',
     featured: false
   },
@@ -728,7 +728,7 @@ const MOVIES = [
     },
     colors: ['#6b2a4a', '#160810'],
     poster: 'images/avengers-infinity-war.jpg',
-    trailer: 'https://www.youtube.com/watch?v=6ZfuNTqbHE8',
+    trailer: 'https://www.youtube.com/watch?v=FeJKZMFJ7NA',
     video: '',
     featured: false
   },
@@ -745,7 +745,7 @@ const MOVIES = [
     },
     colors: ['#2a4a5a', '#08131a'],
     poster: 'images/avengers-endgame.jpg',
-    trailer: 'https://www.youtube.com/watch?v=TcMBFSGVi1c',
+    trailer: 'https://www.youtube.com/watch?v=QPRtU7EqQy0',
     video: '',
     featured: true
   },
@@ -763,7 +763,7 @@ const MOVIES = [
     tags: ['Spider-Man', 'Человек-паук'],
     colors: ['#7a1e3a', '#18060c'],
     poster: 'images/spider-man-no-way-home.jpg',
-    trailer: 'https://www.youtube.com/watch?v=JfVOs4VSpmA',
+    trailer: 'https://www.youtube.com/watch?v=gEG-EN9L7rA',
     video: '',
     featured: true
   },
@@ -780,7 +780,7 @@ const MOVIES = [
     },
     colors: ['#8a1e1e', '#1a0606'],
     poster: 'images/deadpool.png',
-    trailer: 'https://www.youtube.com/watch?v=Xithigfg7dA',
+    trailer: 'https://www.youtube.com/watch?v=EmH6VNG8QEE',
     video: '',
     featured: false
   },
@@ -798,7 +798,7 @@ const MOVIES = [
     tags: ['Spider-Man', 'O‘rgimchak', 'Человек-паук'],
     colors: ['#7a1e6b', '#160518'],
     poster: 'images/into-the-spider-verse.png',
-    trailer: 'https://www.youtube.com/watch?v=g4Hbz2jLxvQ',
+    trailer: 'https://www.youtube.com/watch?v=LQRvEknx6OU',
     video: '',
     featured: false
   },
@@ -816,7 +816,7 @@ const MOVIES = [
     tags: ['Batman', 'Бэтмен'],
     colors: ['#2a2a3a', '#08080d'],
     poster: 'images/batman-begins.jpg',
-    trailer: 'https://www.youtube.com/watch?v=neY2xVmOfUM',
+    trailer: 'https://www.youtube.com/watch?v=ZjIQbHL0gI8',
     video: '',
     featured: false
   },
@@ -834,7 +834,7 @@ const MOVIES = [
     tags: ['Batman', 'Betmen', 'Бэтмен', 'Bane'],
     colors: ['#3a3a44', '#0a0a0e'],
     poster: 'images/the-dark-knight-rises.jpg',
-    trailer: 'https://www.youtube.com/watch?v=GokKUqLcvD8',
+    trailer: 'https://www.youtube.com/watch?v=MytbeYrN1R8',
     video: '',
     featured: false
   },
@@ -852,7 +852,7 @@ const MOVIES = [
     tags: ['Superman', 'Supermen', 'Супермен'],
     colors: ['#1e4a7a', '#06121e'],
     poster: 'images/man-of-steel.jpg',
-    trailer: 'https://www.youtube.com/watch?v=T6DJcgm3wNY',
+    trailer: 'https://www.youtube.com/watch?v=ZG1E_GCtjHA',
     video: '',
     featured: false
   },
@@ -870,7 +870,7 @@ const MOVIES = [
     tags: ['Batman', 'Superman', 'Бэтмен', 'Супермен'],
     colors: ['#3a3a5a', '#0a0a14'],
     poster: 'images/batman-v-superman.jpg',
-    trailer: 'https://www.youtube.com/watch?v=0WWzgGyAH6Y',
+    trailer: 'https://www.youtube.com/watch?v=BL-b9f7nyx4',
     video: '',
     featured: false
   },
@@ -887,7 +887,7 @@ const MOVIES = [
     },
     colors: ['#8a5a1e', '#1a1006'],
     poster: 'images/wonder-woman.jpg',
-    trailer: 'https://www.youtube.com/watch?v=1Q8fG0TtVAY',
+    trailer: 'https://www.youtube.com/watch?v=GE4GT52MJuM',
     video: '',
     featured: false
   },
@@ -904,7 +904,7 @@ const MOVIES = [
     },
     colors: ['#1e6b7a', '#06161a'],
     poster: 'images/aquaman.jpg',
-    trailer: 'https://www.youtube.com/watch?v=WDkg3h8PCVU',
+    trailer: 'https://www.youtube.com/watch?v=bUq_fbMUYnE',
     video: '',
     featured: false
   },
@@ -921,7 +921,7 @@ const MOVIES = [
     },
     colors: ['#a03a1e', '#1e0a06'],
     poster: 'images/shazam.jpg',
-    trailer: 'https://www.youtube.com/watch?v=go6GEIrcvFY',
+    trailer: 'https://www.youtube.com/watch?v=rvJdxDjn6nI',
     video: '',
     featured: false
   },
@@ -938,7 +938,7 @@ const MOVIES = [
     },
     colors: ['#2a3a4a', '#080c12'],
     poster: 'images/zack-snyders-justice-league.png',
-    trailer: 'https://www.youtube.com/watch?v=ui37YKQ9AC4',
+    trailer: 'https://www.youtube.com/watch?v=yX-ZlmQzFbM',
     video: '',
     featured: false
   },
@@ -956,7 +956,7 @@ const MOVIES = [
     tags: ['Batman', 'Бэтмен'],
     colors: ['#5a2a1e', '#140806'],
     poster: 'images/the-batman.jpg',
-    trailer: 'https://www.youtube.com/watch?v=mqqft2x_Aa4',
+    trailer: 'https://www.youtube.com/watch?v=Sdp6VL_NBnY',
     video: '',
     featured: true
   },
@@ -974,7 +974,7 @@ const MOVIES = [
     tags: ['Star Wars', 'Yulduzli urushlar', 'Звёздные войны', 'Jedi'],
     colors: ['#6b5a1e', '#161206'],
     poster: 'images/star-wars-a-new-hope.jpg',
-    trailer: 'https://www.youtube.com/watch?v=1g3_CFmnU7k',
+    trailer: 'https://www.youtube.com/watch?v=Opxh5AqFByQ',
     video: '',
     featured: true
   },
@@ -991,7 +991,7 @@ const MOVIES = [
     },
     colors: ['#1e2a2a', '#060a0a'],
     poster: 'images/alien.jpg',
-    trailer: 'https://www.youtube.com/watch?v=jQ5lPt9edzQ',
+    trailer: 'https://www.youtube.com/watch?v=xIe98nyo3xI',
     video: '',
     featured: false
   },
@@ -1008,7 +1008,7 @@ const MOVIES = [
     },
     colors: ['#8a5a1e', '#1a1006'],
     poster: 'images/back-to-the-future.jpg',
-    trailer: 'https://www.youtube.com/watch?v=qvsgGtivCgs',
+    trailer: 'https://www.youtube.com/watch?v=6mJWHY2Jl-8',
     video: '',
     featured: false
   },
@@ -1026,7 +1026,7 @@ const MOVIES = [
     tags: ['Terminator', 'Терминатор'],
     colors: ['#2a3a4a', '#080c12'],
     poster: 'images/terminator-2.png',
-    trailer: 'https://www.youtube.com/watch?v=CRRlbK5w8AE',
+    trailer: 'https://www.youtube.com/watch?v=M-SIftG16hU',
     video: '',
     featured: false
   },
@@ -1043,7 +1043,7 @@ const MOVIES = [
     },
     colors: ['#3a5a2a', '#0c1408'],
     poster: 'images/jurassic-park.jpg',
-    trailer: 'https://www.youtube.com/watch?v=QWBKEmWWL38',
+    trailer: 'https://www.youtube.com/watch?v=sqlfsYpUFSQ',
     video: '',
     featured: false
   },
@@ -1061,7 +1061,7 @@ const MOVIES = [
     tags: ['LOTR', 'Lord of the Rings', 'Властелин колец', 'Tolkien'],
     colors: ['#3a4a2a', '#0c1008'],
     poster: 'images/lotr-fellowship.jpg',
-    trailer: 'https://www.youtube.com/watch?v=V75dMMIW2B4',
+    trailer: 'https://www.youtube.com/watch?v=RNksw9VU2BQ',
     video: '',
     featured: true
   },
@@ -1079,7 +1079,7 @@ const MOVIES = [
     tags: ['Harry Potter', 'Гарри Поттер', 'Hogwarts'],
     colors: ['#6b4a1e', '#160f06'],
     poster: 'images/harry-potter-1.jpg',
-    trailer: 'https://www.youtube.com/watch?v=VyHV0BRtdxo',
+    trailer: 'https://www.youtube.com/watch?v=AFwrmkAHEk4',
     video: '',
     featured: false
   },
@@ -1096,7 +1096,7 @@ const MOVIES = [
     },
     colors: ['#3a4a5a', '#0c1014'],
     poster: 'images/arrival.jpg',
-    trailer: 'https://www.youtube.com/watch?v=tFMo3UJ4B4g',
+    trailer: 'https://www.youtube.com/watch?v=7u7xTg0ZlDo',
     video: '',
     featured: false
   },
@@ -1114,7 +1114,7 @@ const MOVIES = [
     tags: ['Blade Runner', 'Бегущий по лезвию'],
     colors: ['#8a4a1e', '#1a0e06'],
     poster: 'images/blade-runner-2049.png',
-    trailer: 'https://www.youtube.com/watch?v=gCcx85zbxz4',
+    trailer: 'https://www.youtube.com/watch?v=3s5zsFm3VgA',
     video: '',
     featured: false
   },
