@@ -184,17 +184,27 @@ function renderTokenScreen(err = '') {
     </div>`;
 
   $('#tokSave').addEventListener('click', async () => {
-    const v = $('#tokInput').value.trim();
+    // nusxalashda qo'shilib qoladigan bo'sh joy, qator, qo'shtirnoq va ko'rinmas belgilarni tozalaymiz
+    const v = $('#tokInput').value.replace(/[\s"'`​-‍﻿]/g, '');
     if (!v) return;
+    if (!/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(v)) {
+      return renderTokenScreen('Bu GitHub token emas. Token «github_pat_» (yoki «ghp_») bilan boshlanadi va juda uzun bo‘ladi — to‘liq nusxalang.');
+    }
     localStorage.setItem(TOKEN_KEY, v);
     $('#tokSave').disabled = true;
     try {
       const repo = await gh('');
-      if (!repo.permissions?.push) throw new Error('Tokenda yozish (Contents: write) ruxsati yo‘q');
+      if (!repo.permissions?.push) throw Object.assign(new Error('perm'), { status: 'perm' });
       await boot();
     } catch (e) {
       localStorage.removeItem(TOKEN_KEY);
-      renderTokenScreen(e.message);
+      const msg = {
+        401: 'GitHub tokenni tanimadi (401). Token noto‘g‘ri/to‘liq emas, o‘chirilgan yoki muddati o‘tgan. Yangi token yaratib, «Generate token» dan keyin chiqqan qiymatni to‘liq nusxalang.',
+        403: 'Tokenga ruxsat yetarli emas (403). Permissions → Contents: «Read and write» bo‘lishi kerak.',
+        404: '«dezomax» repozitoriyasiga ruxsat yo‘q (404). Repository access → Only select repositories → dezomax ni tanlang.',
+        perm: 'Token faqat o‘qiy oladi. Permissions → Contents: «Read and write» ni tanlang.'
+      }[e.status] || e.message;
+      renderTokenScreen(msg);
     }
   });
 }
