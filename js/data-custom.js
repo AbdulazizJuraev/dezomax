@@ -40,11 +40,11 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#08131a"
     ],
     "poster": "images/avengers-endgame.jpg",
-    "trailer": "https://www.youtube.com/watch?v=Io2dwq7B7xM",
+    "trailer": "https://youtu.be/QPRtU7EqQy0?si=gnkfWAZ-M57lBG-y",
     "video": "https://drive.google.com/file/d/16tKacOI7B6ZIV1R7TgrsxBvg8sndFPHD/view?usp=drivesdk",
     "featured": true,
     "addedAt": 1789461867370,
-    "updatedAt": 1789462913078,
+    "updatedAt": 1789482554546,
     "year": 2019,
     "duration": 181,
     "rating": 8.4,
