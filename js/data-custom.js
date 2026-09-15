@@ -44,14 +44,14 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://drive.google.com/file/d/16tKacOI7B6ZIV1R7TgrsxBvg8sndFPHD/view?usp=drivesdk",
     "featured": true,
     "addedAt": 1789461867370,
-    "updatedAt": 1789462903463,
+    "updatedAt": 1789462913078,
     "year": 2019,
     "duration": 181,
     "rating": 8.4,
     "director": "Anthony & Joe Russo",
     "franchise": "marvel",
     "source": {
-      "name": "DezoMaz",
+      "name": "DezoMax",
       "url": ""
     }
   }
