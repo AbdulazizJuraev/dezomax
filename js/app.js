@@ -159,7 +159,11 @@ document.addEventListener('click', e => {
   const btn = e.target.closest('.hero-sound');
   if (!btn) return;
   setHeroSound(!heroSound);
-  applySound(document.querySelector(`.hero-slide[data-i="${heroIndex}"] .hero-clip`));
+  document.querySelectorAll('.hero-clip').forEach(c => {
+    if (c._slide === heroIndex) applySound(c);
+    else if (heroSound) { if (c._playingSince) prepSound(c); }
+    else { ytCmd(c, 'mute'); ytCmd(c, 'setVolume', [100]); c._soundPrepped = false; }
+  });
 });
 
 function setHeroSound(on) {
@@ -175,7 +179,10 @@ function setHeroSound(on) {
 function applySound(clip) {
   if (!clip) return;
   clearTimeout(clip._soundT);
-  if (!heroSound) { ytCmd(clip, 'mute'); return; }
+  if (!heroSound) { ytCmd(clip, 'mute'); ytCmd(clip, 'setVolume', [100]); clip._soundPrepped = false; return; }
+  // oldindan tayyorlangan sahna: ovoz allaqachon yoqilgan (0 balandlikda) — faqat balandlikni qaytaramiz,
+  // shunda video qayta yuklanmaydi va to'xtamaydi
+  if (clip._soundPrepped) { ytCmd(clip, 'setVolume', [100]); return; }
   clip._soundAt = Date.now();
   ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]); ytCmd(clip, 'playVideo');
   clip._soundT = setTimeout(() => {
@@ -183,7 +190,24 @@ function applySound(clip) {
     clip._soundAt = Date.now();
     ytCmd(clip, 'mute'); ytCmd(clip, 'playVideo');
     setHeroSound(false);
-  }, 1500);
+  }, 2500);
+}
+
+/* Keyingi (hali ko'rinmagan) sahnada ovozni oldindan yoqamiz — balandlik 0, eshitilmaydi.
+   Ovoz yoqilganda pleyer bir lahza to'xtab/yuklanib olsa, bu ko'rinmas paytda o'tadi. */
+function prepSound(clip) {
+  if (!clip || !heroSound || clip._soundPrepped || clip._slide === heroIndex) return;
+  clip._soundPrepped = true;
+  clip._soundAt = Date.now();
+  ytCmd(clip, 'setVolume', [0]); ytCmd(clip, 'unMute'); ytCmd(clip, 'playVideo');
+  clearTimeout(clip._soundT);
+  clip._soundT = setTimeout(() => {
+    if (!clip.isConnected || clip._lastState === 1) return;
+    // brauzer ruxsat bermadi — sahna ovozsiz tayyorlanadi, ko'rinishda qayta urinib ko'riladi
+    clip._soundPrepped = false;
+    clip._soundAt = Date.now();
+    ytCmd(clip, 'mute'); ytCmd(clip, 'setVolume', [100]); ytCmd(clip, 'playVideo');
+  }, 2500);
 }
 
 function stopClip(keep) {
@@ -261,6 +285,7 @@ addEventListener('message', e => {
     if (state === 1) {
       if (clip._playingSince) return;
       clip._playingSince = Date.now();
+      prepSound(clip);
       clearTimeout(clip._revealT);
       clip._revealT = setTimeout(() => {
         if (!clip.isConnected || !clip._playingSince) return;
