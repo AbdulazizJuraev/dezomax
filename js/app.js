@@ -158,14 +158,33 @@ function heroSoundIcon() {
 document.addEventListener('click', e => {
   const btn = e.target.closest('.hero-sound');
   if (!btn) return;
-  heroSound = !heroSound;
+  setHeroSound(!heroSound);
+  applySound(document.querySelector(`.hero-slide[data-i="${heroIndex}"] .hero-clip`));
+});
+
+function setHeroSound(on) {
+  heroSound = on;
   document.querySelectorAll('.hero-sound').forEach(b => {
     b.innerHTML = heroSoundIcon();
     b.classList.toggle('is-on', heroSound);
   });
-  const clip = document.querySelector(`.hero-slide[data-i="${heroIndex}"] .hero-clip`);
-  if (heroSound) { ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]); } else ytCmd(clip, 'mute');
-});
+}
+
+/* Ovozni yoqish. Mobil brauzer ba'zan ovoz yoqilganda videoni pauzaga qo'yadi —
+   shunda darhol qayta o'ynatamiz; baribir ruxsat bermasa, ovozsiz davom etamiz (sahna to'xtab qolmaydi). */
+function applySound(clip) {
+  if (!clip) return;
+  clearTimeout(clip._soundT);
+  if (!heroSound) { ytCmd(clip, 'mute'); return; }
+  clip._soundAt = Date.now();
+  ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]); ytCmd(clip, 'playVideo');
+  clip._soundT = setTimeout(() => {
+    if (!clip.isConnected || clip._lastState === 1) return;
+    clip._soundAt = Date.now();
+    ytCmd(clip, 'mute'); ytCmd(clip, 'playVideo');
+    setHeroSound(false);
+  }, 1500);
+}
 
 function stopClip(keep) {
   clearTimeout(clipTimer);
@@ -214,7 +233,7 @@ const nextSlide = () => { goToSlide(heroIndex + 1); restartHeroTimer(); };
 function showClip(clip) {
   if (!clip.isConnected || clip.classList.contains('is-on') || clip._slide !== heroIndex) return;
   clip.classList.add('is-on');
-  if (heroSound) { ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]); }
+  applySound(clip);
   heroEverPlayed = true;
   // sahna ko'rindi — aynan 7 soniya ko'rsatamiz, oxirida keyingi sahnani oldindan yuklaymiz
   clearTimeout(heroTimer);
@@ -233,6 +252,12 @@ addEventListener('message', e => {
   document.querySelectorAll('.hero-clip').forEach(clip => {
     const f = clip.querySelector('iframe');
     if (!f || f.contentWindow !== e.source) return;
+    clip._lastState = state;
+    // ovoz yoqilayotgan paytdagi qisqa pauza/bufer — sahnani yopmaymiz, qayta o'ynatamiz
+    if ((state === 2 || state === 3) && clip._soundAt && Date.now() - clip._soundAt < 3000) {
+      if (state === 2) ytCmd(clip, 'playVideo');
+      return;
+    }
     if (state === 1) {
       if (clip._playingSince) return;
       clip._playingSince = Date.now();

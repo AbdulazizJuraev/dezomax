@@ -12,6 +12,12 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Bosh sahifadagi treyler ovozini yoqqanda video to'xtab qolmasin:
+        // WebView ovozli videoni ham to'g'ridan-to'g'ri o'ynata oladi
+        if (getBridge() != null && getBridge().getWebView() != null) {
+            getBridge().getWebView().getSettings().setMediaPlaybackRequiresUserGesture(false);
+        }
+
         // Ilova yangilanganda WebView keshini tozalaymiz — aks holda yangi APK
         // o'rnatilgandan keyin ham eski sahifalar ko'rinib qolishi mumkin.
         // Sevimlilar, akkaunt va boshqa localStorage ma'lumotlari saqlanib qoladi.
