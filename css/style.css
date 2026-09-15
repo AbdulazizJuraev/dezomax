@@ -4412,3 +4412,45 @@ img, video, iframe { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .intro-type .intro-icon { transform: none; opacity: 1; }
 }
+/* Slayder: kino nomi 50% kichikroq va yupqa */
+.hero h1 {
+  font-weight: 300;
+  letter-spacing: .06em;
+  font-size: clamp(14px, 1.7vw, 23px);
+  margin-bottom: 12px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .7);
+}
+@media (max-width: 640px) {
+  .hero h1 { font-size: clamp(11px, 3.3vw, 15px); margin-bottom: 10px; }
+}
+@media (max-width: 220px) {
+  .hero h1 { font-size: 9px; }
+}
+/* ---------------- Admin «Xabar»: bildirishnomalar ---------------- */
+.adm-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 520px) { .adm-nav button { flex-direction: column; gap: 2px; height: 50px; font-size: 11px; } }
+.adm-textarea { height: auto !important; min-height: 84px; padding-top: 10px; padding-bottom: 10px; resize: vertical; line-height: 1.45; }
+.adm-notify-preview {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--line);
+}
+.adm-notify-preview b { font-size: 14px; }
+.adm-notify-preview span { font-size: 13px; color: var(--text-dim); overflow-wrap: anywhere; }
+.adm-notify-app { font-size: 11px !important; letter-spacing: .02em; }
+.adm-notify-note { font-size: 12.5px; margin: 0; }
+.adm-notify-list { display: flex; flex-direction: column; gap: 8px; }
+.adm-notify-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface-2, rgba(255, 255, 255, .03));
+}
+.adm-notify-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.adm-notify-text b { font-size: 14px; }
+.adm-notify-text span { font-size: 13px; color: var(--text-dim); overflow-wrap: anywhere; }
+.adm-notify-text small { font-size: 11.5px; overflow-wrap: anywhere; }
+.adm-notify-item .adm-del { flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px; }

@@ -501,7 +501,8 @@ const NAV_ICONS = {
   edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.3 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/></svg>',
   uz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
-  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>'
+  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>'
 };
 
 const addedList = () => customList.filter(m => !isBase(m.id));
@@ -541,6 +542,7 @@ function renderMain() {
       <button type="button" data-view="list" class="${view === 'list' ? 'is-active' : ''}">${NAV_ICONS.list}<span>Kinolar</span></button>
       <button type="button" data-view="form" class="${view === 'form' && !editingId ? 'is-active' : ''}">${NAV_ICONS.plus}<span>Qo‘shish</span></button>
       <button type="button" data-view="site" class="${view === 'site' ? 'is-active' : ''}">${NAV_ICONS.gear}<span>Sayt</span></button>
+      <button type="button" data-view="notify" class="${view === 'notify' ? 'is-active' : ''}">${NAV_ICONS.bell}<span>Xabar</span></button>
     </nav>
     <div id="admView"></div>`;
 
@@ -554,6 +556,7 @@ function renderMain() {
   if (view === 'home') renderHome();
   else if (view === 'list') renderListView();
   else if (view === 'site') renderSiteView();
+  else if (view === 'notify') renderNotifyView();
   else renderFormView();
 }
 
@@ -1012,6 +1015,182 @@ async function renderSiteView() {
       btn.disabled = false; btn.textContent = 'Saytga saqlash';
     }
   });
+}
+
+/* ---------- Bildirishnomalar (DezoMax ilovasiga) ----------
+   Xabarlar data/notifications.json fayliga yoziladi. DezoMax ilovasi uni ochilganda va fonda
+   ~15 daqiqada bir tekshiradi va telefon bildirishnomasi sifatida ko'rsatadi (vaqt belgilangan bo'lsa — o'sha vaqtda). */
+
+const NOTIFY_PATH = 'data/notifications.json';
+const NOTIFY_MAX = 30;
+const NOTIFY_TEMPLATES = [
+  { label: 'Yangi kino', title: 'Yangi kino qo‘shildi 🎬', body: '«Kino nomi» endi DezoMax’da. Hoziroq tomosha qiling!' },
+  { label: 'Futbol', title: 'Bugun kechqurun futbol ⚽', body: 'Bugun soat 20:00 da katta o‘yin. Jonli efirni DezoMax’da ko‘ring!' },
+  { label: 'Konsert', title: 'Yangi konsert 🎤', body: 'Yangi konsert dasturi qo‘shildi — kulgu kafolatlanadi!' },
+];
+let notifyDraft = { title: '', body: '', when: 'now', at: '', link: '' };
+
+async function loadNotifications() {
+  const f = await getFile(NOTIFY_PATH);
+  if (!f) return { sha: null, items: [] };
+  try { return { sha: f.sha, items: JSON.parse(b64decode(f.content)).items || [] }; }
+  catch { return { sha: f.sha, items: [] }; }
+}
+
+async function saveNotifications(mutate, message) {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const cur = await loadNotifications();
+    const items = mutate(cur.items.slice()).slice(-NOTIFY_MAX);
+    const text = JSON.stringify({ updated: new Date().toISOString(), items }, null, 2) + '\n';
+    try { await putFile(NOTIFY_PATH, b64encode(text), message, cur.sha); return items; }
+    catch (e) { if (e.status !== 409 || attempt) throw e; }
+  }
+}
+
+function fmtDateTime(iso) {
+  const d = new Date(iso), p = n => String(n).padStart(2, '0');
+  return `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+async function renderNotifyView() {
+  const box = $('#admView');
+  box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  let sent = [];
+  try { sent = (await loadNotifications()).items; }
+  catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
+  if (view !== 'notify') return;
+
+  const d = notifyDraft;
+  const movies = allMovies().filter(m => !hiddenList.includes(m.id)).sort((a, b) => (b.year || 0) - (a.year || 0));
+  const now = Date.now();
+
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.bell}</span><h3>Yangi bildirishnoma</h3><small>DezoMax ilovasiga</small></div>
+      <div class="adm-field">
+        <label class="adm-label">Tayyor shablonlar</label>
+        <div class="adm-seg">${NOTIFY_TEMPLATES.map((tp, i) => `<button type="button" data-tpl="${i}">${esc(tp.label)}</button>`).join('')}</div>
+      </div>
+      <div class="adm-field">
+        <label class="adm-label" for="nTitle">Sarlavha <span class="adm-req">*</span></label>
+        <input class="acc-input" id="nTitle" maxlength="60" value="${esc(d.title)}" placeholder="Masalan: Bugun kechqurun futbol ⚽">
+      </div>
+      <div class="adm-field">
+        <label class="adm-label" for="nBody">Matn <span class="adm-req">*</span></label>
+        <textarea class="acc-input adm-textarea" id="nBody" rows="3" maxlength="240" placeholder="Masalan: Bugun soat 20:00 da Real — Barselona. Jonli efirni ko‘ring!">${esc(d.body)}</textarea>
+      </div>
+      <div class="adm-field">
+        <label class="adm-label">Qachon kelsin</label>
+        <div class="adm-seg" id="nWhen">
+          <button type="button" data-when="now" class="${d.when === 'now' ? 'is-active' : ''}">Hozir</button>
+          <button type="button" data-when="at" class="${d.when === 'at' ? 'is-active' : ''}">Vaqtini belgilash</button>
+        </div>
+        <input class="acc-input" id="nAt" type="datetime-local" value="${esc(d.at)}" ${d.when === 'at' ? '' : 'hidden'}>
+      </div>
+      <div class="adm-field">
+        <label class="adm-label" for="nLink">Bosilganda nima ochilsin</label>
+        <select class="acc-input" id="nLink">
+          <option value="">Bosh sahifa</option>
+          <option value="sport.html"${d.link === 'sport.html' ? ' selected' : ''}>Sport</option>
+          <option value="tv.html"${d.link === 'tv.html' ? ' selected' : ''}>Telekanallar</option>
+          <optgroup label="Kino sahifasi">
+            ${movies.map(m => `<option value="movie.html?id=${m.id}"${d.link === `movie.html?id=${m.id}` ? ' selected' : ''}>${esc(m.title?.uz || '')}${m.year ? ` (${m.year})` : ''}</option>`).join('')}
+          </optgroup>
+        </select>
+      </div>
+      <div class="adm-notify-preview" aria-label="Telefonda ko‘rinishi">
+        <span class="adm-notify-app">DezoMax · hozir</span>
+        <b id="nPrevTitle">${esc(d.title || 'Sarlavha')}</b>
+        <span id="nPrevBody">${esc(d.body || 'Bildirishnoma matni shu yerda ko‘rinadi')}</span>
+      </div>
+      <p class="acc-muted adm-notify-note">Ilova ochiq bo‘lsa — darhol, yopiq bo‘lsa — odatda 15–30 daqiqa ichida keladi. Belgilangan vaqtli xabar o‘sha vaqtda chiqadi (ilova undan oldin kamida bir marta tekshirgan bo‘lishi kerak).</p>
+      <p class="acc-error" id="nErr" hidden></p>
+      <button class="btn btn-primary" type="button" id="nSend">${NAV_ICONS.bell}<span>Yuborish</span></button>
+    </section>
+
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.clock}</span><h3>Yuborilganlar</h3><small>${sent.length} ta</small></div>
+      ${sent.length ? `<div class="adm-notify-list">${sent.slice().reverse().map(n => {
+        const at = n.at ? Date.parse(n.at) : 0;
+        const pending = at && at > now;
+        return `
+        <div class="adm-notify-item">
+          <div class="adm-notify-text">
+            <b>${esc(n.title)}</b>
+            <span>${esc(n.body)}</span>
+            <small class="acc-muted">${pending ? `⏰ ${fmtDateTime(n.at)} da chiqadi` : `Yuborildi: ${timeAgo(n.created)}`}${n.url ? ` · ${esc(n.url)}` : ''}</small>
+          </div>
+          <button type="button" class="adm-del" data-ndel="${esc(n.id)}" aria-label="O‘chirish">✕</button>
+        </div>`;
+      }).join('')}</div>` : '<p class="acc-muted">Hali bildirishnoma yuborilmagan.</p>'}
+    </section>`;
+
+  const title = $('#nTitle'), body = $('#nBody'), at = $('#nAt'), link = $('#nLink'), err = $('#nErr');
+  const syncPreview = () => {
+    d.title = title.value; d.body = body.value; d.at = at.value; d.link = link.value;
+    $('#nPrevTitle').textContent = d.title || 'Sarlavha';
+    $('#nPrevBody').textContent = d.body || 'Bildirishnoma matni shu yerda ko‘rinadi';
+  };
+  [title, body, at].forEach(el => el.addEventListener('input', syncPreview));
+  link.addEventListener('change', syncPreview);
+  box.querySelectorAll('[data-tpl]').forEach(b => b.addEventListener('click', () => {
+    const tp = NOTIFY_TEMPLATES[+b.dataset.tpl];
+    title.value = tp.title; body.value = tp.body; syncPreview();
+  }));
+  box.querySelectorAll('[data-when]').forEach(b => b.addEventListener('click', () => {
+    d.when = b.dataset.when;
+    box.querySelectorAll('[data-when]').forEach(x => x.classList.toggle('is-active', x === b));
+    at.hidden = d.when !== 'at';
+    if (d.when === 'at' && !at.value) {
+      const t0 = new Date(Date.now() + 3600e3), p = n => String(n).padStart(2, '0');
+      at.value = `${t0.getFullYear()}-${p(t0.getMonth() + 1)}-${p(t0.getDate())}T${p(t0.getHours())}:00`;
+      syncPreview();
+    }
+  }));
+
+  $('#nSend').addEventListener('click', async e => {
+    const btn = e.currentTarget;
+    syncPreview();
+    if (!d.title.trim() || !d.body.trim()) { err.textContent = 'Sarlavha va matnni yozing.'; err.hidden = false; return; }
+    let atIso = null;
+    if (d.when === 'at') {
+      const t0 = new Date(d.at);
+      if (!d.at || isNaN(t0)) { err.textContent = 'Vaqtini tanlang.'; err.hidden = false; return; }
+      if (t0.getTime() < Date.now() - 60e3) { err.textContent = 'Belgilangan vaqt o‘tib ketgan — kelajak vaqtni tanlang.'; err.hidden = false; return; }
+      atIso = t0.toISOString();
+    }
+    if (!confirm(`«${d.title}» bildirishnomasi DezoMax ilovasi foydalanuvchilariga yuborilsinmi?`)) return;
+    err.hidden = true;
+    btn.disabled = true;
+    try {
+      const item = {
+        id: 'n' + Date.now().toString(36),
+        title: d.title.trim(),
+        body: d.body.trim(),
+        at: atIso,
+        url: d.link || '',
+        created: new Date().toISOString()
+      };
+      await saveNotifications(items => [...items, item], `Bildirishnoma: ${item.title}`);
+      commitsCache = null;
+      notifyDraft = { title: '', body: '', when: 'now', at: '', link: '' };
+      toast(atIso ? `Rejalashtirildi: ${fmtDateTime(atIso)}` : 'Yuborildi. Ilovalarga tez orada yetib boradi.');
+      renderNotifyView();
+    } catch (ex) {
+      err.textContent = friendlyError(ex); err.hidden = false;
+      btn.disabled = false;
+    }
+  });
+
+  box.querySelectorAll('[data-ndel]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Bu bildirishnoma ro‘yxatdan o‘chirilsinmi?\n(Telefonlarga allaqachon yetib borgan bo‘lsa, u yerda qoladi.)')) return;
+    b.disabled = true;
+    try {
+      await saveNotifications(items => items.filter(n => n.id !== b.dataset.ndel), 'Bildirishnoma o‘chirildi');
+      toast('O‘chirildi');
+      renderNotifyView();
+    } catch (ex) { toast(friendlyError(ex), true); b.disabled = false; }
+  }));
 }
 
 /* ---------- Ishga tushirish ---------- */

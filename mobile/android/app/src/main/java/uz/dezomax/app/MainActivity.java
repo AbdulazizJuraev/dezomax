@@ -35,6 +35,15 @@ public class MainActivity extends BridgeActivity {
         // WebView ovozli videoni ham to'g'ridan-to'g'ri o'ynata oladi
         if (webView != null) {
             webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+
+            // YouTube telefon brauzeriga «mobil» pleyer beradi — u videoning o'rtasida pauza/play
+            // belgisini ko'rsatadi (bosh sahifa karuselida ko'rinib qolardi). Kompyuter brauzeri deb
+            // tanishtiramiz: YouTube belgilarsiz pleyer beradi. Sayt dizayni ekran eniga qaraydi, UA'ga emas.
+            String ua = webView.getSettings().getUserAgentString();
+            java.util.regex.Matcher chrome = java.util.regex.Pattern.compile("Chrome/([\\d.]+)").matcher(ua == null ? "" : ua);
+            String ver = chrome.find() ? chrome.group(1) : "140.0.0.0";
+            webView.getSettings().setUserAgentString(
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/" + ver + " Safari/537.36 DezoMaxApp");
         }
 
         // To'liq ekran — barcha telefonlarda (Android 15 dan eskilarida ham):

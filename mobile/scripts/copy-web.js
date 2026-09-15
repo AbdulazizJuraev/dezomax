@@ -36,6 +36,9 @@ const count = copyDir(ROOT, OUT);
 // Ilovada qo'shimcha skript: orqaga tugmasi, status bar, gorizontal video
 const native = path.join(__dirname, '..', 'native', 'app-native.js');
 fs.copyFileSync(native, path.join(OUT, 'js', 'app-native.js'));
+// fondagi bildirishnoma tekshiruvchisi (capacitor.config.json → BackgroundRunner.src)
+fs.mkdirSync(path.join(OUT, 'runners'), { recursive: true });
+fs.copyFileSync(path.join(__dirname, '..', 'native', 'notify-runner.js'), path.join(OUT, 'runners', 'notify.js'));
 
 let patched = 0;
 for (const f of fs.readdirSync(OUT).filter(x => x.endsWith('.html'))) {

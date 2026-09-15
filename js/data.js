@@ -129,7 +129,7 @@ const MOVIES = [
     },
     colors: ['#a0663a', '#2e1a10'],
     poster: 'images/dune.jpg',
-    trailer: 'https://www.youtube.com/watch?v=IT5k-v72aGw',
+    trailer: 'https://www.youtube.com/watch?v=Ja0zYjiQ8jc',
     video: '',
     featured: false
   },
@@ -504,7 +504,7 @@ const MOVIES = [
     },
     colors: ['#4a4a5a', '#0e0e14'],
     poster: 'images/game-of-thrones.jpg',
-    trailer: 'https://www.youtube.com/watch?v=edBuDu7QE14',
+    trailer: 'https://www.youtube.com/watch?v=EKwB1HAuiZg',
     video: '',
     featured: false
   },
@@ -572,7 +572,7 @@ const MOVIES = [
     },
     colors: ['#2a4a42', '#080f0d'],
     poster: 'images/wednesday.jpg',
-    trailer: 'https://www.youtube.com/watch?v=Kf9q_mz0R0s',
+    trailer: 'https://www.youtube.com/watch?v=zUyGvjsc6zo',
     video: '',
     featured: false
   },
@@ -694,7 +694,7 @@ const MOVIES = [
     },
     colors: ['#8a3a6b', '#1a0a14'],
     poster: 'images/thor-ragnarok.jpg',
-    trailer: 'https://www.youtube.com/watch?v=I_y0tFpezQU',
+    trailer: 'https://www.youtube.com/watch?v=yuXHUmpcwbQ',
     video: '',
     featured: false
   },
@@ -745,7 +745,7 @@ const MOVIES = [
     },
     colors: ['#2a4a5a', '#08131a'],
     poster: 'images/avengers-endgame.jpg',
-    trailer: 'https://www.youtube.com/watch?v=QPRtU7EqQy0',
+    trailer: 'https://www.youtube.com/watch?v=Io2dwq7B7xM',
     video: '',
     featured: true
   },
@@ -938,7 +938,7 @@ const MOVIES = [
     },
     colors: ['#2a3a4a', '#080c12'],
     poster: 'images/zack-snyders-justice-league.png',
-    trailer: 'https://www.youtube.com/watch?v=yX-ZlmQzFbM',
+    trailer: 'https://www.youtube.com/watch?v=m9Jp6ZfBavw',
     video: '',
     featured: false
   },
@@ -956,7 +956,7 @@ const MOVIES = [
     tags: ['Batman', 'Бэтмен'],
     colors: ['#5a2a1e', '#140806'],
     poster: 'images/the-batman.jpg',
-    trailer: 'https://www.youtube.com/watch?v=Sdp6VL_NBnY',
+    trailer: 'https://www.youtube.com/watch?v=GeagFRms_xE',
     video: '',
     featured: true
   },
@@ -2115,6 +2115,528 @@ const MOVIES = [
     poster: "images/uz/konsert-million-2017.jpg",
     video: 'https://www.youtube.com/watch?v=dY8LY6vGV1c',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 122, slug: "the-incredible-hulk", year: 2008, type: 'film', franchise: 'marvel',
+    title: { uz: "Aql bovar qilmas Xalk", ru: "Невероятный Халк" },
+    genres: ["action","scifi","adventure"], rating: 6.6, duration: 112,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Louis Leterrier",
+    cast: ["Edward Norton","Liv Tyler","Tim Roth","William Hurt"],
+    desc: {
+      uz: "Olim Bryus Benner g‘azablanganda ulkan yashil maxluqqa aylanadi. U davosini izlab yashirinadi, harbiylar esa uni qo‘lga olish uchun yangi qurol yaratadi.",
+      ru: "Учёный Брюс Бэннер в гневе превращается в огромного зелёного монстра. Он скрывается в поисках лекарства, а военные создают против него новое оружие."
+    },
+    tags: ["Marvel","the incredible hulk"],
+    colors: ["#2f5a24","#0a1406"],
+    poster: "images/marvel/the-incredible-hulk.jpg",
+    trailer: "https://www.youtube.com/watch?v=_-iXjRm3jG0",
+    video: '',
+    featured: false
+  },
+  {
+    id: 123, slug: "iron-man-2", year: 2010, type: 'film', franchise: 'marvel',
+    title: { uz: "Temir odam 2", ru: "Железный человек 2" },
+    genres: ["action","scifi","adventure"], rating: 6.9, duration: 124,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Jon Favreau",
+    cast: ["Robert Downey Jr.","Gwyneth Paltrow","Don Cheadle","Scarlett Johansson","Mickey Rourke"],
+    desc: {
+      uz: "Toni Stark o‘zining Temir odam ekanini dunyoga ochiqladi. Endi hukumat texnologiyasini talab qilmoqda, raqiblar esa unga qarshi o‘z qurollarini tayyorlamoqda.",
+      ru: "Тони Старк раскрыл миру, что он Железный человек. Теперь правительство требует его технологии, а соперники готовят собственное оружие."
+    },
+    tags: ["Marvel","iron man 2"],
+    colors: ["#7a1414","#1a0404"],
+    poster: "images/marvel/iron-man-2.jpg",
+    trailer: "https://www.youtube.com/watch?v=cHw0JLSPYmE",
+    video: '',
+    featured: false
+  },
+  {
+    id: 124, slug: "thor", year: 2011, type: 'film', franchise: 'marvel',
+    title: { uz: "Tor", ru: "Тор" },
+    genres: ["action","fantasy","adventure"], rating: 7, duration: 115,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Kenneth Branagh",
+    cast: ["Chris Hemsworth","Natalie Portman","Tom Hiddleston","Anthony Hopkins"],
+    desc: {
+      uz: "Takabbur jangchi Tor otasi Odin tomonidan Yerga surgun qilinadi. U bolg‘asini qaytarib olish uchun haqiqiy qahramon bo‘lishni o‘rganishi kerak.",
+      ru: "Высокомерного воина Тора отец Один изгоняет на Землю. Чтобы вернуть свой молот, ему предстоит научиться быть настоящим героем."
+    },
+    tags: ["Marvel","thor"],
+    colors: ["#1f3a6b","#060c1a"],
+    poster: "images/marvel/thor.jpg",
+    trailer: "https://www.youtube.com/watch?v=KN0FHCErJjo",
+    video: '',
+    featured: false
+  },
+  {
+    id: 125, slug: "captain-america-the-first-avenger", year: 2011, type: 'film', franchise: 'marvel',
+    title: { uz: "Kapitan Amerika: Birinchi qasoskor", ru: "Первый мститель" },
+    genres: ["action","scifi","war"], rating: 6.9, duration: 124,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Joe Johnston",
+    cast: ["Chris Evans","Hayley Atwell","Hugo Weaving","Tommy Lee Jones"],
+    desc: {
+      uz: "Ikkinchi jahon urushi yillari. Zaif yigit Stiv Rodjers maxfiy tajriba natijasida super askarga aylanadi va Qizil Kalla boshchiligidagi GIDRAga qarshi chiqadi.",
+      ru: "Вторая мировая война. Хилый Стив Роджерс после секретного эксперимента становится суперсолдатом и выступает против ГИДРЫ Красного Черепа."
+    },
+    tags: ["Marvel","captain america the first avenger"],
+    colors: ["#1d3565","#6b1a1a"],
+    poster: "images/marvel/captain-america-the-first-avenger.jpg",
+    trailer: "https://www.youtube.com/watch?v=FxTlOl03x9c",
+    video: '',
+    featured: false
+  },
+  {
+    id: 126, slug: "iron-man-3", year: 2013, type: 'film', franchise: 'marvel',
+    title: { uz: "Temir odam 3", ru: "Железный человек 3" },
+    genres: ["action","scifi","adventure"], rating: 7.1, duration: 130,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Shane Black",
+    cast: ["Robert Downey Jr.","Gwyneth Paltrow","Guy Pearce","Ben Kingsley"],
+    desc: {
+      uz: "Nyu-Yorkdagi jangdan keyin Toni Stark tinchlik topolmaydi. Mandarin ismli sirli terrorchi uning butun hayotini vayron qilganda, Toni zirhisiz kurashishga majbur bo‘ladi.",
+      ru: "После битвы за Нью-Йорк Тони Старк не находит покоя. Когда таинственный террорист Мандарин разрушает его жизнь, Тони приходится сражаться без брони."
+    },
+    tags: ["Marvel","iron man 3"],
+    colors: ["#8a3a10","#1a0a04"],
+    poster: "images/marvel/iron-man-3.jpg",
+    trailer: "https://www.youtube.com/watch?v=-P_cWZPceKc",
+    video: '',
+    featured: false
+  },
+  {
+    id: 127, slug: "thor-the-dark-world", year: 2013, type: 'film', franchise: 'marvel',
+    title: { uz: "Tor 2: Zulmat saltanati", ru: "Тор 2: Царство тьмы" },
+    genres: ["action","fantasy","adventure"], rating: 6.7, duration: 112,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Alan Taylor",
+    cast: ["Chris Hemsworth","Natalie Portman","Tom Hiddleston","Christopher Eccleston"],
+    desc: {
+      uz: "Qadimiy qorong‘u elflar koinotni zulmatga cho‘ktirmoqchi. Tor Jeyn va xoin akasi Loki bilan birga ularni to‘xtatishga urinadi.",
+      ru: "Древние тёмные эльфы хотят погрузить вселенную во тьму. Тор объединяется с Джейн и коварным братом Локи, чтобы остановить их."
+    },
+    tags: ["Marvel","thor the dark world"],
+    colors: ["#3a2a4a","#0c0810"],
+    poster: "images/marvel/thor-the-dark-world.jpg",
+    trailer: "https://www.youtube.com/watch?v=wccked4BA9Q",
+    video: '',
+    featured: false
+  },
+  {
+    id: 128, slug: "avengers-age-of-ultron", year: 2015, type: 'film', franchise: 'marvel',
+    title: { uz: "Qasoskorlar: Altron asri", ru: "Мстители: Эра Альтрона" },
+    genres: ["action","scifi","adventure"], rating: 7.3, duration: 141,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Joss Whedon",
+    cast: ["Robert Downey Jr.","Chris Evans","Chris Hemsworth","Scarlett Johansson","James Spader"],
+    desc: {
+      uz: "Toni Stark tinchlikni saqlash uchun sun’iy intellekt Altronni yaratadi. Ammo Altron insoniyatni yo‘q qilishga qaror qiladi va Qasoskorlar yana birlashadi.",
+      ru: "Тони Старк создаёт искусственный интеллект Альтрона для защиты мира. Но Альтрон решает уничтожить человечество, и Мстители снова объединяются."
+    },
+    tags: ["Marvel","avengers age of ultron"],
+    colors: ["#3a3f4a","#0a0c10"],
+    poster: "images/marvel/avengers-age-of-ultron.jpg",
+    trailer: "https://www.youtube.com/watch?v=FwW149BS9n4",
+    video: '',
+    featured: false
+  },
+  {
+    id: 129, slug: "ant-man", year: 2015, type: 'film', franchise: 'marvel',
+    title: { uz: "Chumoli-odam", ru: "Человек-муравей" },
+    genres: ["action","comedy","scifi"], rating: 7.3, duration: 117,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Peyton Reed",
+    cast: ["Paul Rudd","Michael Douglas","Evangeline Lilly","Corey Stoll"],
+    desc: {
+      uz: "Sobiq o‘g‘ri Skott Lang kichrayish qobiliyatini beradigan kostyumni qo‘lga kiritadi. Olim Xenk Pim unga xavfli texnologiyani yovuzlardan saqlashda yordam berishni topshiradi.",
+      ru: "Бывший вор Скотт Лэнг получает костюм, позволяющий уменьшаться. Учёный Хэнк Пим поручает ему защитить опасную технологию от злодеев."
+    },
+    tags: ["Marvel","ant man"],
+    colors: ["#6b1a1a","#120404"],
+    poster: "images/marvel/ant-man.jpg",
+    trailer: "https://www.youtube.com/watch?v=Vc0GhqtIteo",
+    video: '',
+    featured: false
+  },
+  {
+    id: 130, slug: "captain-america-civil-war", year: 2016, type: 'film', franchise: 'marvel',
+    title: { uz: "Kapitan Amerika: Fuqarolar urushi", ru: "Первый мститель: Противостояние" },
+    genres: ["action","scifi","adventure"], rating: 7.8, duration: 147,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Anthony Russo, Joe Russo",
+    cast: ["Chris Evans","Robert Downey Jr.","Scarlett Johansson","Sebastian Stan","Tom Holland"],
+    desc: {
+      uz: "Hukumat qahramonlarni nazorat ostiga olmoqchi. Bu masala Qasoskorlarni ikkiga bo‘ladi: bir tomonda Kapitan Amerika, boshqa tomonda Temir odam.",
+      ru: "Правительство хочет взять супергероев под контроль. Этот вопрос раскалывает Мстителей на два лагеря: Капитана Америку и Железного человека."
+    },
+    tags: ["Marvel","captain america civil war"],
+    colors: ["#1d3565","#5a1414"],
+    poster: "images/marvel/captain-america-civil-war.jpg",
+    trailer: "https://www.youtube.com/watch?v=3DGRiomCPTM",
+    video: '',
+    featured: false
+  },
+  {
+    id: 131, slug: "guardians-of-the-galaxy-vol-2", year: 2017, type: 'film', franchise: 'marvel',
+    title: { uz: "Galaktika qo‘riqchilari 2", ru: "Стражи Галактики. Часть 2" },
+    genres: ["action","comedy","scifi","adventure"], rating: 7.6, duration: 136,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "James Gunn",
+    cast: ["Chris Pratt","Zoe Saldaña","Dave Bautista","Kurt Russell"],
+    desc: {
+      uz: "Qo‘riqchilar koinot bo‘ylab sarguzashtda davom etadi. Piter Kvill nihoyat otasi bilan uchrashadi, ammo bu uchrashuv katta sirlarni ochadi.",
+      ru: "Стражи продолжают странствовать по космосу. Питер Квилл наконец встречает своего отца, но эта встреча раскрывает опасные тайны."
+    },
+    tags: ["Marvel","guardians of the galaxy vol 2"],
+    colors: ["#6a2a7a","#12061a"],
+    poster: "images/marvel/guardians-of-the-galaxy-vol-2.jpg",
+    trailer: "https://www.youtube.com/watch?v=ItV1Rrex-7k",
+    video: '',
+    featured: false
+  },
+  {
+    id: 132, slug: "spider-man-homecoming", year: 2017, type: 'film', franchise: 'marvel',
+    title: { uz: "O‘rgimchak-odam: Uyga qaytish", ru: "Человек-паук: Возвращение домой" },
+    genres: ["action","comedy","adventure"], rating: 7.4, duration: 133,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Jon Watts",
+    cast: ["Tom Holland","Michael Keaton","Robert Downey Jr.","Zendaya"],
+    desc: {
+      uz: "Yosh Piter Parker maktab hayoti va qahramonlik orasida qolib ketadi. U Toni Starkka o‘zini isbotlash uchun xavfli Kalxatga qarshi chiqadi.",
+      ru: "Юный Питер Паркер разрывается между школой и геройством. Чтобы доказать себя Тони Старку, он выходит против опасного Стервятника."
+    },
+    tags: ["Marvel","spider man homecoming"],
+    colors: ["#8a1a24","#140408"],
+    poster: "images/marvel/spider-man-homecoming.jpg",
+    trailer: "https://www.youtube.com/watch?v=9ibCwrDbp-8",
+    video: '',
+    featured: false
+  },
+  {
+    id: 133, slug: "ant-man-and-the-wasp", year: 2018, type: 'film', franchise: 'marvel',
+    title: { uz: "Chumoli-odam va Ari", ru: "Человек-муравей и Оса" },
+    genres: ["action","comedy","scifi"], rating: 7, duration: 118,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Peyton Reed",
+    cast: ["Paul Rudd","Evangeline Lilly","Michael Douglas","Michelle Pfeiffer"],
+    desc: {
+      uz: "Skott Lang uy qamog‘ida, ammo Xoup va Xenk Pim unga yana muhtoj. Ular kvant olamida adashib qolgan Janet van Daynni qutqarishga harakat qiladi.",
+      ru: "Скотт Лэнг под домашним арестом, но Хоуп и Хэнк Пим снова нуждаются в нём. Вместе они пытаются спасти Джанет ван Дайн из квантового мира."
+    },
+    tags: ["Marvel","ant man and the wasp"],
+    colors: ["#7a1a1a","#5a4a10"],
+    poster: "images/marvel/ant-man-and-the-wasp.jpg",
+    trailer: "https://www.youtube.com/watch?v=azquga_3_ss",
+    video: '',
+    featured: false
+  },
+  {
+    id: 134, slug: "captain-marvel", year: 2019, type: 'film', franchise: 'marvel',
+    title: { uz: "Kapitan Marvel", ru: "Капитан Марвел" },
+    genres: ["action","scifi","adventure"], rating: 6.8, duration: 123,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Anna Boden, Ryan Fleck",
+    cast: ["Brie Larson","Samuel L. Jackson","Jude Law","Ben Mendelsohn"],
+    desc: {
+      uz: "1990-yillar. Kosmik jangchi Kerol Denvers Yerga tushib qoladi va o‘tmishi haqidagi haqiqatni izlaydi. Yosh Nik Fyuri bilan birga u galaktik urushga aralashadi.",
+      ru: "1990-е. Космическая воительница Кэрол Дэнверс попадает на Землю и ищет правду о своём прошлом. Вместе с молодым Ником Фьюри она вмешивается в галактическую войну."
+    },
+    tags: ["Marvel","captain marvel"],
+    colors: ["#1d3a6b","#6b1a2a"],
+    poster: "images/marvel/captain-marvel.jpg",
+    trailer: "https://www.youtube.com/watch?v=2eaZUwBWJLM",
+    video: '',
+    featured: false
+  },
+  {
+    id: 135, slug: "spider-man-far-from-home", year: 2019, type: 'film', franchise: 'marvel',
+    title: { uz: "O‘rgimchak-odam: Uydan uzoqda", ru: "Человек-паук: Вдали от дома" },
+    genres: ["action","comedy","adventure"], rating: 7.4, duration: 129,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Jon Watts",
+    cast: ["Tom Holland","Jake Gyllenhaal","Zendaya","Samuel L. Jackson"],
+    desc: {
+      uz: "Piter sinfdoshlari bilan Yevropaga sayohatga chiqadi. Ammo Nik Fyuri uni sirli qahramon Misterio bilan birga yangi tahdidga qarshi kurashga chaqiradi.",
+      ru: "Питер едет с одноклассниками в Европу. Но Ник Фьюри призывает его вместе с таинственным Мистерио сразиться с новой угрозой."
+    },
+    tags: ["Marvel","spider man far from home"],
+    colors: ["#2a2a6b","#8a1a24"],
+    poster: "images/marvel/spider-man-far-from-home.jpg",
+    trailer: "https://www.youtube.com/watch?v=zx9vpIzH1u4",
+    video: '',
+    featured: false
+  },
+  {
+    id: 136, slug: "black-widow", year: 2021, type: 'film', franchise: 'marvel',
+    title: { uz: "Qora beva", ru: "Чёрная вдова" },
+    genres: ["action","thriller","adventure"], rating: 6.7, duration: 134,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Cate Shortland",
+    cast: ["Scarlett Johansson","Florence Pugh","David Harbour","Rachel Weisz"],
+    desc: {
+      uz: "Natasha Romanoff o‘tmishiga duch keladi. U «Qizil xona» dasturini yo‘q qilish uchun uzoq yillar ko‘rmagan «oilasi» bilan qayta birlashadi.",
+      ru: "Наташа Романофф сталкивается со своим прошлым. Чтобы уничтожить программу «Красная комната», она воссоединяется с давно утраченной «семьёй»."
+    },
+    tags: ["Marvel","black widow"],
+    colors: ["#3a0a14","#0a0204"],
+    poster: "images/marvel/black-widow.jpg",
+    trailer: "https://www.youtube.com/watch?v=prwHu2MbMEE",
+    video: '',
+    featured: false
+  },
+  {
+    id: 137, slug: "shang-chi", year: 2021, type: 'film', franchise: 'marvel',
+    title: { uz: "Shan-Chi va o‘n uzuk afsonasi", ru: "Шан-Чи и легенда десяти колец" },
+    genres: ["action","fantasy","adventure"], rating: 7.4, duration: 132,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Destin Daniel Cretton",
+    cast: ["Simu Liu","Awkwafina","Tony Leung","Michelle Yeoh"],
+    desc: {
+      uz: "Oddiy hayot kechirayotgan Shan-Chi otasi boshqaradigan «O‘n uzuk» tashkilotiga qaytishga majbur bo‘ladi va o‘z o‘tmishiga yuzma-yuz keladi.",
+      ru: "Живущий обычной жизнью Шан-Чи вынужден вернуться в организацию «Десять колец», которой управляет его отец, и встретиться со своим прошлым."
+    },
+    tags: ["Marvel","shang chi"],
+    colors: ["#8a5a14","#1a1004"],
+    poster: "images/marvel/shang-chi.jpg",
+    trailer: "https://www.youtube.com/watch?v=7IQUxblP30g",
+    video: '',
+    featured: false
+  },
+  {
+    id: 138, slug: "eternals", year: 2021, type: 'film', franchise: 'marvel',
+    title: { uz: "Abadiylar", ru: "Вечные" },
+    genres: ["action","fantasy","adventure"], rating: 6.3, duration: 156,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Chloé Zhao",
+    cast: ["Gemma Chan","Richard Madden","Angelina Jolie","Salma Hayek"],
+    desc: {
+      uz: "Minglab yillar davomida odamlar orasida yashirin yashagan o‘lmas mavjudotlar — Abadiylar — insoniyatning qadimiy dushmanlariga qarshi yana birlashadi.",
+      ru: "Бессмертные существа, тысячи лет тайно жившие среди людей, снова объединяются против древних врагов человечества."
+    },
+    tags: ["Marvel","eternals"],
+    colors: ["#8a6a24","#140f06"],
+    poster: "images/marvel/eternals.jpg",
+    trailer: "https://www.youtube.com/watch?v=NocQ13xC7gE",
+    video: '',
+    featured: false
+  },
+  {
+    id: 139, slug: "doctor-strange-multiverse-of-madness", year: 2022, type: 'film', franchise: 'marvel',
+    title: { uz: "Doktor Streyndj: Jinnilik multiolamida", ru: "Доктор Стрэндж: В мультивселенной безумия" },
+    genres: ["action","fantasy","horror"], rating: 6.9, duration: 126,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Sam Raimi",
+    cast: ["Benedict Cumberbatch","Elizabeth Olsen","Xochitl Gomez","Benedict Wong"],
+    desc: {
+      uz: "Doktor Streyndj olamlar orasida sayohat qila oladigan qiz Amerika Chavesni himoya qiladi. Ular multiolamning xavfli va g‘aroyib burchaklariga tushib qoladi.",
+      ru: "Доктор Стрэндж защищает Америку Чавес — девушку, способную путешествовать между вселенными. Они попадают в опасные и странные уголки мультивселенной."
+    },
+    tags: ["Marvel","doctor strange multiverse of madness"],
+    colors: ["#4a1a6b","#0e0414"],
+    poster: "images/marvel/doctor-strange-multiverse-of-madness.jpg",
+    trailer: "https://www.youtube.com/watch?v=0_r_V5TOuEI",
+    video: '',
+    featured: false
+  },
+  {
+    id: 140, slug: "thor-love-and-thunder", year: 2022, type: 'film', franchise: 'marvel',
+    title: { uz: "Tor: Muhabbat va momaqaldiroq", ru: "Тор: Любовь и гром" },
+    genres: ["action","comedy","fantasy"], rating: 6.2, duration: 119,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Taika Waititi",
+    cast: ["Chris Hemsworth","Natalie Portman","Christian Bale","Tessa Thompson"],
+    desc: {
+      uz: "Tor o‘zini izlab yurgan paytda xudolarni o‘ldiruvchi Gorr paydo bo‘ladi. Unga qarshi kurashda Tor kutilmaganda qudratli Jeyn Foster bilan uchrashadi.",
+      ru: "Пока Тор ищет себя, появляется Горр — убийца богов. В борьбе с ним Тор неожиданно встречает обретшую силу Джейн Фостер."
+    },
+    tags: ["Marvel","thor love and thunder"],
+    colors: ["#6a2a8a","#140418"],
+    poster: "images/marvel/thor-love-and-thunder.jpg",
+    trailer: "https://www.youtube.com/watch?v=WQfLxSqxicE",
+    video: '',
+    featured: false
+  },
+  {
+    id: 141, slug: "black-panther-wakanda-forever", year: 2022, type: 'film', franchise: 'marvel',
+    title: { uz: "Qora pantera: Vakanda abadiy", ru: "Чёрная Пантера: Ваканда навеки" },
+    genres: ["action","drama","adventure"], rating: 6.7, duration: 161,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Ryan Coogler",
+    cast: ["Letitia Wright","Angela Bassett","Tenoch Huerta","Lupita Nyong’o"],
+    desc: {
+      uz: "Qirol T’Challa vafotidan keyin Vakanda motamda. Suv osti qirolligi Talokan paydo bo‘lganda, mamlakat yangi himoyachisini topishi kerak.",
+      ru: "После гибели короля Т’Чаллы Ваканда в трауре. Когда появляется подводное королевство Талокан, стране нужно найти нового защитника."
+    },
+    tags: ["Marvel","black panther wakanda forever"],
+    colors: ["#3a1a5a","#0a0414"],
+    poster: "images/marvel/black-panther-wakanda-forever.jpg",
+    trailer: "https://www.youtube.com/watch?v=fazUjELn0rg",
+    video: '',
+    featured: false
+  },
+  {
+    id: 142, slug: "ant-man-and-the-wasp-quantumania", year: 2023, type: 'film', franchise: 'marvel',
+    title: { uz: "Chumoli-odam va Ari: Kvantomaniya", ru: "Человек-муравей и Оса: Квантомания" },
+    genres: ["action","scifi","adventure"], rating: 6.1, duration: 125,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Peyton Reed",
+    cast: ["Paul Rudd","Evangeline Lilly","Jonathan Majors","Kathryn Newton"],
+    desc: {
+      uz: "Skott Lang va uning oilasi kvant olamiga tortib ketiladi. U yerda ular vaqt ustidan hukmron bo‘lishni istagan Kang Zabt etuvchi bilan to‘qnashadi.",
+      ru: "Скотта Лэнга и его семью затягивает в квантовый мир. Там они сталкиваются с Кангом Завоевателем, мечтающим властвовать над временем."
+    },
+    tags: ["Marvel","ant man and the wasp quantumania"],
+    colors: ["#5a1a6b","#1a4a6b"],
+    poster: "images/marvel/ant-man-and-the-wasp-quantumania.jpg",
+    trailer: "https://www.youtube.com/watch?v=V6tE_-ZHDSg",
+    video: '',
+    featured: false
+  },
+  {
+    id: 143, slug: "guardians-of-the-galaxy-vol-3", year: 2023, type: 'film', franchise: 'marvel',
+    title: { uz: "Galaktika qo‘riqchilari 3", ru: "Стражи Галактики. Часть 3" },
+    genres: ["action","comedy","scifi","adventure"], rating: 7.9, duration: 150,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "James Gunn",
+    cast: ["Chris Pratt","Bradley Cooper","Zoe Saldaña","Chukwudi Iwuji"],
+    desc: {
+      uz: "Raketa hayoti xavf ostida qoladi. Qo‘riqchilar uni qutqarish va uning qayg‘uli o‘tmishi siriga yetish uchun so‘nggi xavfli safarga otlanadi.",
+      ru: "Жизнь Ракеты под угрозой. Стражи отправляются в последнее опасное путешествие, чтобы спасти его и раскрыть тайну его прошлого."
+    },
+    tags: ["Marvel","guardians of the galaxy vol 3"],
+    colors: ["#1a5a6b","#04121a"],
+    poster: "images/marvel/guardians-of-the-galaxy-vol-3.jpg",
+    trailer: "https://www.youtube.com/watch?v=AsypwbMvSW8",
+    video: '',
+    featured: false
+  },
+  {
+    id: 144, slug: "the-marvels", year: 2023, type: 'film', franchise: 'marvel',
+    title: { uz: "Marvellar", ru: "Марвелы" },
+    genres: ["action","scifi","adventure"], rating: 5.5, duration: 105,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Nia DaCosta",
+    cast: ["Brie Larson","Teyonah Parris","Iman Vellani","Samuel L. Jackson"],
+    desc: {
+      uz: "Kerol Denvers, Monika Rambo va Kamala Xon kuchlari chalkashib, har safar joy almashib qoladi. Ular koinotni qutqarish uchun jamoa bo‘lib ishlashni o‘rganadi.",
+      ru: "Силы Кэрол Дэнверс, Моники Рамбо и Камалы Хан переплетаются, и героини меняются местами. Чтобы спасти вселенную, им придётся стать командой."
+    },
+    tags: ["Marvel","the marvels"],
+    colors: ["#2a3a8a","#8a2a3a"],
+    poster: "images/marvel/the-marvels.jpg",
+    trailer: "https://www.youtube.com/watch?v=-JW8LzqUymc",
+    video: '',
+    featured: false
+  },
+  {
+    id: 145, slug: "deadpool-and-wolverine", year: 2024, type: 'film', franchise: 'marvel',
+    title: { uz: "Dedpul va Rosomaxa", ru: "Дэдпул и Росомаха" },
+    genres: ["action","comedy","adventure"], rating: 7.5, duration: 128,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Shawn Levy",
+    cast: ["Ryan Reynolds","Hugh Jackman","Emma Corrin","Matthew Macfadyen"],
+    desc: {
+      uz: "Dedpulning olami yo‘q bo‘lish arafasida. Uni qutqarish uchun u boshqa olamdagi eng qaysar Rosomaxa bilan birga ishlashga majbur bo‘ladi.",
+      ru: "Вселенной Дэдпула грозит исчезновение. Чтобы спасти её, ему приходится объединиться с самым упрямым Росомахой из другой вселенной."
+    },
+    tags: ["Marvel","deadpool and wolverine"],
+    colors: ["#8a1414","#8a6a10"],
+    poster: "images/marvel/deadpool-and-wolverine.jpg",
+    trailer: "https://www.youtube.com/watch?v=_HzQ_i0dr5k",
+    video: '',
+    featured: false
+  },
+  {
+    id: 146, slug: "captain-america-brave-new-world", year: 2025, type: 'film', franchise: 'marvel',
+    title: { uz: "Kapitan Amerika: Yangi dunyo", ru: "Капитан Америка: Новый мир" },
+    genres: ["action","thriller","scifi"], duration: 118,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Julius Onah",
+    cast: ["Anthony Mackie","Harrison Ford","Danny Ramirez","Tim Blake Nelson"],
+    desc: {
+      uz: "Sem Uilson yangi Kapitan Amerika sifatida xalqaro mojaro markaziga tushib qoladi. U dunyoni urushga olib kelayotgan yashirin fitnani fosh etishi kerak.",
+      ru: "Сэм Уилсон в роли нового Капитана Америки оказывается в центре международного конфликта. Ему нужно раскрыть заговор, ведущий мир к войне."
+    },
+    tags: ["Marvel","captain america brave new world"],
+    colors: ["#1d3565","#6b1414"],
+    poster: "images/marvel/captain-america-brave-new-world.jpg",
+    trailer: "https://www.youtube.com/watch?v=w3o3Z7julXo",
+    video: '',
+    featured: false
+  },
+  {
+    id: 147, slug: "thunderbolts", year: 2025, type: 'film', franchise: 'marvel',
+    title: { uz: "Momaqaldiroqlar*", ru: "Громовержцы*" },
+    genres: ["action","thriller","adventure"], duration: 127,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Jake Schreier",
+    cast: ["Florence Pugh","Sebastian Stan","David Harbour","Julia Louis-Dreyfus"],
+    desc: {
+      uz: "Yelena Belova va boshqa sobiq yollanma qotillar tuzoqqa tushib qoladi. Ular o‘tmishlariga qaramay, bir jamoa bo‘lib ishlashga majbur bo‘ladi.",
+      ru: "Елена Белова и другие бывшие наёмники попадают в ловушку. Несмотря на своё прошлое, им приходится действовать как команда."
+    },
+    tags: ["Marvel","thunderbolts"],
+    colors: ["#3a3a3a","#0a0a0a"],
+    poster: "images/marvel/thunderbolts.jpg",
+    trailer: "https://www.youtube.com/watch?v=wpQIWG4PPmQ",
+    video: '',
+    featured: false
+  },
+  {
+    id: 148, slug: "the-fantastic-four-first-steps", year: 2025, type: 'film', franchise: 'marvel',
+    title: { uz: "Fantastik to‘rtlik: Ilk qadamlar", ru: "Фантастическая четвёрка: Первые шаги" },
+    genres: ["action","scifi","adventure","family"], duration: 115,
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Matt Shakman",
+    cast: ["Pedro Pascal","Vanessa Kirby","Joseph Quinn","Ebon Moss-Bachrach"],
+    desc: {
+      uz: "1960-yillar ruhidagi retro-futuristik dunyo. Fantastik to‘rtlik sayyoralarni yutib yuboruvchi Galaktus va uning xabarchisi Kumush serfingchiga qarshi turadi.",
+      ru: "Ретрофутуристичный мир в духе 1960-х. Фантастическая четвёрка противостоит пожирателю планет Галактусу и его вестнице Серебряной Сёрфер."
+    },
+    tags: ["Marvel","the fantastic four first steps"],
+    colors: ["#1a4a8a","#04101e"],
+    poster: "images/marvel/the-fantastic-four-first-steps.jpg",
+    trailer: "https://www.youtube.com/watch?v=-ZjL-r6dW8c",
+    video: '',
+    featured: false
+  },
+  {
+    id: 149, slug: "spider-man-brand-new-day", year: 2026, type: 'film', franchise: 'marvel',
+    title: { uz: "O‘rgimchak-odam: Butunlay yangi kun", ru: "Человек-паук: Совершенно новый день" },
+    genres: ["action","adventure","scifi"],
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Destin Daniel Cretton",
+    cast: ["Tom Holland","Zendaya","Sadie Sink","Jon Bernthal","Mark Ruffalo"],
+    desc: {
+      uz: "Hamma uni unutgach, Piter Parker yolg‘iz qolib Nyu-Yorkni himoya qiladi. Charchoq tufayli kuchlari o‘zgara boshlaydi, shahar esa yangi telepatik tahdidga duch keladi.",
+      ru: "После того как все забыли о нём, Питер Паркер в одиночку защищает Нью-Йорк. Из-за переутомления его силы начинают меняться, а городу угрожает новый телепат."
+    },
+    tags: ["Marvel","spider man brand new day"],
+    colors: ["#8a1a24","#0a1a3a"],
+    poster: "images/marvel/spider-man-brand-new-day.jpg",
+    trailer: "https://www.youtube.com/watch?v=lnODSdqErm0",
+    video: '',
+    featured: false
+  },
+  {
+    id: 150, slug: "avengers-doomsday", year: 2026, type: 'film', franchise: 'marvel',
+    title: { uz: "Qasoskorlar: Qiyomat kuni", ru: "Мстители: Судный день" },
+    genres: ["action","scifi","adventure"],
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Anthony Russo, Joe Russo",
+    cast: ["Robert Downey Jr.","Chris Hemsworth","Anthony Mackie","Pedro Pascal","Florence Pugh"],
+    desc: {
+      uz: "«Qasoskorlar: Final»ning davomi. Qasoskorlar, Vakanda, Fantastik to‘rtlik va X-odamlar turli olamlardan birlashib, Doktor Dumga qarshi chiqadi. Chiqish sanasi — 2026-yil dekabr (kutilmoqda). Hozircha faqat treyler.",
+      ru: "Продолжение «Мстителей: Финал». Мстители, Ваканда, Фантастическая четвёрка и Люди Икс из разных вселенных объединяются против Доктора Дума. Выход — декабрь 2026 года (ожидается). Пока доступен только трейлер."
+    },
+    tags: ["Marvel","avengers doomsday","Tez orada","Скоро"],
+    colors: ["#2a4a2a","#050a05"],
+    poster: "images/marvel/avengers-doomsday.jpg",
+    trailer: "https://www.youtube.com/watch?v=O7DjtgMfNKw",
+    video: '',
     featured: false
   }
 ];

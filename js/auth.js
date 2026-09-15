@@ -112,6 +112,8 @@ function deviceId() {
 
 function deviceInfo() {
   const ua = navigator.userAgent;
+  // Android ilovasi YouTube uchun o'zini kompyuter brauzeri deb tanishtiradi (DezoMaxApp belgisi bilan)
+  if (/DezoMaxApp/.test(ua)) return { id: deviceId(), os: 'Android', app: 'DezoMax App', type: 'phone' };
   const os = /Android/i.test(ua) ? 'Android'
     : /iPhone|iPad|iPod/i.test(ua) ? 'iOS'
     : /Windows/i.test(ua) ? 'Windows'

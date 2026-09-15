@@ -41,6 +41,38 @@
   document.addEventListener('fullscreenchange', syncOrientation);
   document.addEventListener('webkitfullscreenchange', syncOrientation);
 
+  /* ---- Bildirishnomalar (admin ilovasi yuboradi) ----
+     Tekshiruvni fondagi runner bajaradi (mobile/native/notify-runner.js). Bu yerda:
+     ruxsat so'raymiz, ilova ochilganda/qaytganda darhol tekshirtiramiz, bosilganda kerakli sahifani ochamiz. */
+  const Runner = cap.Plugins.BackgroundRunner;
+  const isAdminApp = document.documentElement.classList.contains('is-admin-app') || document.body.classList.contains('is-admin-app');
+  if (Runner && !isAdminApp) {
+    const NOTIFY_URL = 'https://raw.githubusercontent.com/AbdulazizJuraev/dezomax/main/data/notifications.json';
+    const numId = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (Math.abs(h) % 2000000000) + 1; };
+    const check = () => Promise.resolve(Runner.dispatchEvent({ label: 'uz.dezomax.app.notify', event: 'checkNotifications', details: {} })).catch(() => {});
+
+    // ruxsatni kirish animatsiyasidan keyin so'raymiz (Android 13+ oynasi chiqadi)
+    setTimeout(async () => {
+      try {
+        const asked = localStorage.getItem('dzxNotifyAsked');
+        if (!asked) {
+          localStorage.setItem('dzxNotifyAsked', '1');
+          await Runner.requestPermissions({ apis: ['notifications'] });
+        }
+      } catch {}
+      check();
+    }, 6500);
+    App && App.addListener('resume', check);
+
+    Runner.addListener && Runner.addListener('backgroundRunnerNotificationReceived', async ev => {
+      try {
+        const data = await (await fetch(NOTIFY_URL + '?t=' + Date.now())).json();
+        const item = (data.items || []).find(n => numId(n.id) === ev.notificationId);
+        if (item && item.url) location.href = item.url;
+      } catch {}
+    });
+  }
+
   /* ---- Tashqi havolalar (YouTube, ESPN yangiliklari) ----
      WebView'da window.open yangi oyna ochmaydi. Oddiy o'tish esa Capacitor tomonidan
      ushlanadi va boshqa domen bo'lgani uchun tizim brauzeri yoki ilovasida ochiladi. */
