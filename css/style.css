@@ -4240,3 +4240,32 @@ img, video, iframe { max-width: 100%; }
   /* telefonda poster header ostida 16:9 blokda turadi — video ham aynan shu joyda */
   .hero-clip { top: var(--header-h); bottom: auto; height: 56.25vw; }
 }
+/* ================================================================
+   Slayder rasmi va treyler sahnasi ekran tepasigacha (logo orqasigacha)
+   ================================================================ */
+
+/* Bosh sahifa tepasida header shaffof — orqasidagi kino ko'rinib turadi */
+.header:not(.scrolled) {
+  background: linear-gradient(180deg, rgba(7, 8, 12, .5) 0%, rgba(7, 8, 12, .18) 60%, rgba(7, 8, 12, 0) 100%);
+}
+.header:not(.scrolled) .logo-svg-el { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .55)); }
+
+@media (max-width: 640px) {
+  .hero { min-height: calc(56.25vw + 300px); }
+  .hero-inner { padding-top: 0; }
+
+  /* rasm eng tepadan boshlanadi, header uning ustida */
+  .hero-bg.is-wide { background-position: center top, center; }
+  .hero-bg::after,
+  .hero-bg.is-wide::after {
+    background: linear-gradient(to bottom,
+      rgba(7, 8, 12, .35) 0,
+      rgba(7, 8, 12, 0) 20vw,
+      rgba(7, 8, 12, 0) 30vw,
+      rgba(7, 8, 12, .7) 46vw,
+      var(--bg) 56.25vw);
+  }
+
+  /* treyler sahnasi ham aynan shu joyda, tepadan */
+  .hero-clip { top: 0; height: 56.25vw; }
+}
