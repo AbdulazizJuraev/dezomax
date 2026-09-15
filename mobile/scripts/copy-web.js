@@ -56,3 +56,29 @@ for (const f of fs.readdirSync(OUT).filter(x => x.endsWith('.html'))) {
 }
 
 console.log(`www/ tayyor: ${count} ta fayl, ${patched} ta sahifaga app-native.js ulandi`);
+
+/* APK hajmi kichik bo'lsin (Telegram/Claude orqali yuborish chegarasi ~30 MB): ilova ichidagi rasmlar siqiladi.
+   Kartochkalar telefonda ~140–200px — 640px eni yetarli; keng (16:9) muqovalar 960px. Saytdagi asl rasmlarga tegilmaydi. */
+(async () => {
+  let sharp;
+  try { sharp = require('sharp'); } catch { console.log('sharp topilmadi — rasmlar siqilmadi'); return; }
+  sharp.cache(false);
+  const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e =>
+    e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]);
+  let before = 0, after = 0;
+  for (const f of walk(path.join(OUT, 'images')).filter(p => /\.(jpe?g|png|webp)$/i.test(p))) {
+    const size = fs.statSync(f).size;
+    if (size < 60 * 1024 || /[\\/]logo[\\/]/.test(f)) continue;   // logotiplar (shaffof PNG) o'z holicha
+    const wide = /[\\/]uz[\\/]/.test(f);
+    try {
+      // Windows'da sharp faylni ochiq ushlab qolmasin — xotiradagi nusxadan o'qiymiz
+      const buf = await sharp(fs.readFileSync(f)).rotate()
+        .resize({ width: wide ? 960 : 640, withoutEnlargement: true })
+        .flatten({ background: '#07080c' })
+        .jpeg({ quality: 78, mozjpeg: true })
+        .toBuffer();
+      if (buf.length < size) { fs.writeFileSync(f, buf); before += size; after += buf.length; }
+    } catch (e) { console.log('siqib bo‘lmadi:', path.relative(OUT, f), e.message); }
+  }
+  console.log(`rasmlar siqildi: ${(before / 1048576).toFixed(1)} MB → ${(after / 1048576).toFixed(1)} MB`);
+})();
