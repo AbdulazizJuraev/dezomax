@@ -46,8 +46,8 @@ for (const f of fs.readdirSync(OUT).filter(x => x.endsWith('.html'))) {
   // bosh sahifa sozlamalari (slayder, qatorlar) ham jonli saytdan
   html = html.replace(`src="js/site-config.js?t=`, `src="${LIVE_CUSTOM.replace('data-custom.js', 'site-config.js')}?t=`);
   // viewport-fit=cover QO'SHILMAYDI: ba'zi telefonlarning WebView'i pastki chekinishni
-  // sahifaga bermaydi va navbar tizim paneli ostida qolib ketardi. Shuning uchun Capacitor
-  // tizim panellari joyini o'zi qoldiradi, u joy sayt fonida (#07080c) bo'yaladi.
+  // sahifaga bermaydi va navbar tizim paneli ostida qolib ketardi. Chekinishlarni
+  // MainActivity.java o'zi boshqaradi: pastda joy qoldiradi, tepadagi balandlikni --app-sat bilan beradi.
   fs.writeFileSync(p, html.replace('</body>', '<script src="js/app-native.js"></script>\n</body>'));
   patched++;
 }

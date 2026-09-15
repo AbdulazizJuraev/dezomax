@@ -29,7 +29,8 @@
   --shadow-lg: 0 24px 70px rgba(0, 0, 0, .65);
 
   /* Telefon chekinishlari: ilovada status bar, kamera kesigi, pastki panel (saytda 0) */
-  --sat: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px));
+  /* --app-sat — Android ilova beradi: sahifa soat qatori ortidan boshlanadi (MainActivity.java) */
+  --sat: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px), var(--app-sat, 0px));
   --sab: max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px));
   --sal: max(env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px));
   --sar: max(env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px));
