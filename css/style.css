@@ -4391,3 +4391,9 @@ img, video, iframe { max-width: 100%; }
 /* Ovozli umumiy pleyer: slaydlar ustida, matn ostida; slayd almashganda matn darhol almashadi */
 .hero-clip-shared { z-index: 1; }
 .hero.has-shared .hero-slide { transition: none; }
+/* Konsert kartochkalari: keng (16:9) muqova */
+.card.is-wide .card-poster { aspect-ratio: 16 / 9; }
+.row .card.is-wide { flex: 0 0 clamp(250px, 30vw, 360px); }
+@media (max-width: 640px) {
+  .row .card.is-wide { flex-basis: min(260px, 76vw); }
+}

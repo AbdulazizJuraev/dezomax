@@ -133,7 +133,7 @@ function cardHTML(m) {
     .filter(Boolean).join('<i class="dot"></i>');
 
   return `
-  <a class="card reveal" href="movie.html?id=${m.id}">
+  <a class="card reveal${m.franchise === 'konsert' ? ' is-wide' : ''}" href="movie.html?id=${m.id}">
     <div class="card-poster">
       ${posterHTML(m)}
       <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
