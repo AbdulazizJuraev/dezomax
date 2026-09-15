@@ -2,13 +2,20 @@
    DezoMax — bosh sahifa / главная страница
    ============================================================ */
 
-// O'zbek tilida to'liq ko'riladigan filmlar slayderda birinchi
-const featured = MOVIES.filter(m => m.featured)
-  .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
-  .slice(0, 10);   // slayder juda uzun bo'lib ketmasin
+// Admin → «Sayt» bo'limidagi sozlamalar (js/site-config.js). null bo'lsa — standart holat
+const SITE_CFG = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) || {};
+
+// Slayder: admin tanlagan kinolar, aks holda «featured» belgilanganlar (o'zbekcha to'liq filmlar birinchi)
+const adminHeroIds = SITE_CFG.hero && Array.isArray(SITE_CFG.hero.ids) ? SITE_CFG.hero.ids : null;
+const featured = adminHeroIds && adminHeroIds.length
+  ? adminHeroIds.map(id => MOVIES.find(m => m.id === id)).filter(Boolean).slice(0, 15)
+  : MOVIES.filter(m => m.featured)
+      .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
+      .slice(0, 10);   // standart slayder juda uzun bo'lib ketmasin
 let heroIndex = 0;
 let heroTimer = null;
-const HERO_DELAY = 3000;   // slayd har 3 soniyada almashadi (css: heroDotFill ham 3s)
+const HERO_DELAY = Math.min(15, Math.max(2, Number(SITE_CFG.hero && SITE_CFG.hero.delay) || 3)) * 1000;
+document.documentElement.style.setProperty('--hero-delay', HERO_DELAY / 1000 + 's');
 
 /* ---------- Hero slider ---------- */
 
@@ -16,6 +23,7 @@ function renderHero() {
   const hero = document.getElementById('hero');
   const dots = document.getElementById('heroDots');
   if (!hero) return;
+  if (!featured.length) { hero.hidden = true; return; }
 
   const slides = featured.map((m, i) => {
     const st = watchStatus(m);
@@ -139,31 +147,50 @@ function restartHeroTimer() {
   if (dot) { dot.classList.remove('is-active'); void dot.offsetWidth; dot.classList.add('is-active'); }
 }
 
-/* ---------- Qatorlar ---------- */
+/* ---------- Qatorlar (admin → «Sayt» bo'limidan boshqariladi) ---------- */
+
+/* Qator manbalari: nomi (i18n kaliti), «Hammasi» havolasi va kinolar ro'yxati */
+const yr = m => m.year || 0;
+const rt = m => m.rating || 0;
+const ROW_SOURCES = {
+  uzbek:    { title: 'row.uzbek',    all: 'catalog.html?watch=uz',        list: () => MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)) },
+  trending: { title: 'row.trending', all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) * (yr(b) >= 2014 ? 1.1 : 1) - rt(a) * (yr(a) >= 2014 ? 1.1 : 1)).slice(0, 14) },
+  new:      { title: 'row.new',      all: null,                           list: () => [...MOVIES].filter(yr).sort((a, b) => yr(b) - yr(a)).slice(0, 14) },
+  marvel:   { title: 'row.marvel',   all: 'catalog.html?franchise=marvel', list: () => MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => yr(a) - yr(b)) },
+  dc:       { title: 'row.dc',       all: 'catalog.html?franchise=dc',     list: () => MOVIES.filter(m => m.franchise === 'dc').sort((a, b) => yr(a) - yr(b)) },
+  top:      { title: 'row.top',      all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) - rt(a)).slice(0, 14) },
+  series:   { title: 'row.series',   all: 'catalog.html?type=serial',     list: () => MOVIES.filter(m => m.type === 'serial') },
+  cartoons: { title: 'row.cartoons', all: 'catalog.html?type=multfilm',   list: () => MOVIES.filter(m => m.type === 'multfilm') },
+  custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
+};
+
+const DEFAULT_ROWS = ['uzbek', 'trending', 'new', 'marvel', 'dc', 'top', 'series', 'cartoons']
+  .map(source => ({ source, visible: true }));
 
 function renderRows() {
-  const yr = m => m.year || 0;
-  const rt = m => m.rating || 0;
-  const byNew = [...MOVIES].filter(yr).sort((a, b) => yr(b) - yr(a));
-  const byRating = [...MOVIES].filter(rt).sort((a, b) => rt(b) - rt(a));
-  const trendScore = m => rt(m) * (yr(m) >= 2014 ? 1.1 : 1);
+  const box = document.getElementById('homeRows');
+  if (!box) return;
+  const rows = (SITE_CFG.rows && SITE_CFG.rows.length) ? SITE_CFG.rows : DEFAULT_ROWS;
 
-  renderCards(document.getElementById('rowTrending'),
-    [...MOVIES].filter(rt).sort((a, b) => trendScore(b) - trendScore(a)).slice(0, 14));
+  box.innerHTML = rows.map((row, i) => {
+    const src = ROW_SOURCES[row.source] || ROW_SOURCES.custom;
+    if (row.visible === false) return '';
+    const list = src.list(row);
+    if (!list.length) return '';
+    const title = (row.title && (row.title[LANG] || row.title.uz)) || (src.title ? t(src.title) : '');
+    return `
+      <section class="section">
+        <div class="section-head">
+          <i class="bar"></i><h2>${esc(title)}</h2>
+          ${src.all ? `<a class="row-all" href="${src.all}">${t('row.seeAll')}</a>` : ''}
+          <div class="row-nav" data-for="homeRow${i}"></div>
+        </div>
+        <div class="row" id="homeRow${i}">${list.map(cardHTML).join('')}</div>
+      </section>`;
+  }).join('');
 
-  renderCards(document.getElementById('rowNew'), byNew.slice(0, 14));
-
-  renderCards(document.getElementById('rowUzbek'),
-    MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)));
-
-  renderCards(document.getElementById('rowMarvel'),
-    MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => a.year - b.year));
-  renderCards(document.getElementById('rowDC'),
-    MOVIES.filter(m => m.franchise === 'dc').sort((a, b) => a.year - b.year));
-
-  renderCards(document.getElementById('rowTop'), byRating.slice(0, 14));
-  renderCards(document.getElementById('rowSeries'), MOVIES.filter(m => m.type === 'serial'));
-  renderCards(document.getElementById('rowCartoons'), MOVIES.filter(m => m.type === 'multfilm'));
+  observeReveals(box);
+  initRowNav();
 }
 
 /* ---------- Qator strelkalari ---------- */
@@ -187,7 +214,6 @@ function initRowNav() {
 initLayout();
 renderHero();
 renderRows();
-initRowNav();
 initHeroSwipe();
 restartHeroTimer();
 document.getElementById('year').textContent = new Date().getFullYear();

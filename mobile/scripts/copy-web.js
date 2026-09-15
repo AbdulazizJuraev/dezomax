@@ -43,6 +43,8 @@ for (const f of fs.readdirSync(OUT).filter(x => x.endsWith('.html'))) {
   let html = fs.readFileSync(p, 'utf8');
   if (html.includes('app-native.js')) continue;
   html = html.replace(`src="js/data-custom.js?t=`, `src="${LIVE_CUSTOM}?t=`);
+  // bosh sahifa sozlamalari (slayder, qatorlar) ham jonli saytdan
+  html = html.replace(`src="js/site-config.js?t=`, `src="${LIVE_CUSTOM.replace('data-custom.js', 'site-config.js')}?t=`);
   // viewport-fit=cover QO'SHILMAYDI: ba'zi telefonlarning WebView'i pastki chekinishni
   // sahifaga bermaydi va navbar tizim paneli ostida qolib ketardi. Shuning uchun Capacitor
   // tizim panellari joyini o'zi qoldiradi, u joy sayt fonida (#07080c) bo'yaladi.

@@ -482,6 +482,7 @@ let listQuery = '';
 let commitsCache = null;    // oxirgi o'zgarishlar (GitHub commit tarixi)
 
 const NAV_ICONS = {
+  gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>',
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3.5l9 7"/><path d="M5.5 9.5V20h13V9.5"/></svg>',
   list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
   plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
@@ -529,6 +530,7 @@ function renderMain() {
       <button type="button" data-view="home" class="${view === 'home' ? 'is-active' : ''}">${NAV_ICONS.home}<span>Bosh sahifa</span></button>
       <button type="button" data-view="list" class="${view === 'list' ? 'is-active' : ''}">${NAV_ICONS.list}<span>Kinolar</span></button>
       <button type="button" data-view="form" class="${view === 'form' && !editingId ? 'is-active' : ''}">${NAV_ICONS.plus}<span>Qo‘shish</span></button>
+      <button type="button" data-view="site" class="${view === 'site' ? 'is-active' : ''}">${NAV_ICONS.gear}<span>Sayt</span></button>
     </nav>
     <div id="admView"></div>`;
 
@@ -541,6 +543,7 @@ function renderMain() {
 
   if (view === 'home') renderHome();
   else if (view === 'list') renderListView();
+  else if (view === 'site') renderSiteView();
   else renderFormView();
 }
 
@@ -599,7 +602,11 @@ async function loadCommits(force = false) {
   if (!box) return;
   try {
     if (!commitsCache || force) {
-      commitsCache = await gh(`/commits?path=${encodeURIComponent(DATA_PATH)}&sha=${GH.branch}&per_page=15&t=${Date.now()}`);
+      const [a1, a2] = await Promise.all([
+        gh(`/commits?path=${encodeURIComponent(DATA_PATH)}&sha=${GH.branch}&per_page=15&t=${Date.now()}`),
+        gh(`/commits?path=${encodeURIComponent('js/site-config.js')}&sha=${GH.branch}&per_page=10&t=${Date.now()}`).catch(() => [])
+      ]);
+      commitsCache = [...a1, ...a2].sort((x, y) => new Date(y.commit.author.date) - new Date(x.commit.author.date)).slice(0, 15);
     }
     const list = commitsCache.filter(c => !/^Admin sahifa|README/i.test(c.commit.message));
     if (!list.length) { box.innerHTML = '<p class="acc-muted">Hali o‘zgarish yo‘q</p>'; return; }
@@ -753,6 +760,248 @@ function bindList() {
     if (!confirm(`«${m.title.uz}» asl holatiga qaytarilsinmi? Qilingan o‘zgarishlar o‘chadi.`)) return;
     runAction(b, () => saveCustom(list => list.filter(x => x.id !== id), `Asliga qaytarildi: ${m.title.uz}`), 'Asl holatiga qaytarildi');
   }));
+}
+
+/* ---------- «Sayt» bo'limi: bosh sahifa slayderi va qatorlari ---------- */
+
+const CONFIG_PATH = 'js/site-config.js';
+const ROW_SOURCE_NAMES = {
+  uzbek: 'O‘zbek kinolari (avtomatik)', trending: 'Trendda (avtomatik)', new: 'Yangi qo‘shilganlar (avtomatik)',
+  marvel: 'Marvel (avtomatik)', dc: 'DC (avtomatik)', top: 'Eng yuqori reyting (avtomatik)',
+  series: 'Seriallar (avtomatik)', cartoons: 'Multfilmlar (avtomatik)', custom: 'Qo‘lda tanlangan kinolar'
+};
+const ROW_DEFAULT_TITLES = {
+  uzbek: 'row.uzbek', trending: 'row.trending', new: 'row.new', marvel: 'row.marvel', dc: 'row.dc',
+  top: 'row.top', series: 'row.series', cartoons: 'row.cartoons'
+};
+
+let siteDraft = null;     // tahrirlanayotgan sozlama
+let configSha = null;
+
+function defaultConfig() {
+  const heroIds = MOVIES.filter(m => m.featured)
+    .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
+    .slice(0, 10).map(m => m.id);
+  return {
+    hero: { ids: heroIds, delay: 3 },
+    rows: Object.keys(ROW_DEFAULT_TITLES).map(source => ({ source, visible: true, title: { uz: '', ru: '' } }))
+  };
+}
+
+async function loadConfig() {
+  const f = await getFile(CONFIG_PATH);
+  configSha = f?.sha || null;
+  let cfg = null;
+  if (f) {
+    const m = b64decode(f.content).match(/\/\*CONFIG\*\/([\s\S]*?)\/\*ENDCONFIG\*\//);
+    cfg = m ? JSON.parse(m[1]) : null;
+  }
+  const def = defaultConfig();
+  siteDraft = {
+    hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, delay: cfg?.hero?.delay || 3 },
+    rows: cfg?.rows?.length ? cfg.rows.map(r => ({ title: { uz: '', ru: '' }, visible: true, ...r })) : def.rows
+  };
+}
+
+function buildConfigFile(cfg) {
+  return `/* ============================================================
+   DezoMax — bosh sahifa sozlamalari (admin → «Sayt» bo'limi yozadi)
+   null — standart holat (js/app.js dagi DEFAULT_ROWS va featured kinolar)
+   ============================================================ */
+
+const SITE_CONFIG = /*CONFIG*/${cfg ? JSON.stringify(cfg, null, 2) : 'null'}/*ENDCONFIG*/;
+`;
+}
+
+async function saveConfig(cfg, message) {
+  const existing = await getFile(CONFIG_PATH);
+  const res = await putFile(CONFIG_PATH, b64encode(buildConfigFile(cfg)), message, existing?.sha);
+  configSha = res.content.sha;
+}
+
+const movieById = id => allMovies().find(m => m.id === id);
+
+/* Kino tanlagich: tanlanganlar (tartiblash, o'chirish) + qidirib qo'shish */
+function pickerHTML(key, ids, max) {
+  return `
+    <div class="adm-picker" data-picker="${key}">
+      <div class="adm-picked">
+        ${ids.length ? ids.map((id, i) => {
+          const m = movieById(id);
+          if (!m) return '';
+          return `
+            <div class="adm-pick">
+              <span class="adm-pick-n">${i + 1}</span>
+              <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+              <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}</small></span>
+              <span class="adm-pick-btns">
+                <button type="button" data-move="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
+                <button type="button" data-move="1" data-i="${i}" ${i === ids.length - 1 ? 'disabled' : ''} aria-label="Pastga">↓</button>
+                <button type="button" data-remove="${i}" class="adm-del" aria-label="Olib tashlash">✕</button>
+              </span>
+            </div>`;
+        }).join('') : '<p class="acc-muted adm-empty-pick">Kino tanlanmagan</p>'}
+      </div>
+      ${ids.length < max ? `
+        <div class="adm-pick-search">
+          <input class="acc-input" type="search" placeholder="Kino qo‘shish — nomini yozing" data-search>
+          <div class="adm-pick-results" data-results hidden></div>
+        </div>` : `<p class="acc-muted">Eng ko‘pi ${max} ta</p>`}
+    </div>`;
+}
+
+function bindPicker(root, getIds, setIds, rerender) {
+  root.querySelectorAll('[data-move]').forEach(b => b.addEventListener('click', () => {
+    const ids = [...getIds()], i = +b.dataset.i, j = i + +b.dataset.move;
+    [ids[i], ids[j]] = [ids[j], ids[i]];
+    setIds(ids); rerender();
+  }));
+  root.querySelectorAll('[data-remove]').forEach(b => b.addEventListener('click', () => {
+    const ids = [...getIds()]; ids.splice(+b.dataset.remove, 1);
+    setIds(ids); rerender();
+  }));
+  const input = root.querySelector('[data-search]');
+  const results = root.querySelector('[data-results]');
+  if (!input) return;
+  input.addEventListener('input', () => {
+    const q = norm(input.value);
+    if (!q) { results.hidden = true; return; }
+    const found = allMovies().filter(m => !getIds().includes(m.id) && norm(`${m.title.uz} ${m.title.ru} ${m.year || ''}`).includes(q)).slice(0, 8);
+    results.hidden = false;
+    results.innerHTML = found.length ? found.map(m => `
+      <button type="button" data-add="${m.id}">
+        <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+        <span><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}</small></span>
+        <em>+</em>
+      </button>`).join('') : '<p class="acc-muted">Topilmadi</p>';
+    results.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
+      setIds([...getIds(), +b.dataset.add]); rerender();
+    }));
+  });
+}
+
+async function renderSiteView() {
+  const box = $('#admView');
+  if (!siteDraft) {
+    box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+    try { await loadConfig(); } catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
+  }
+  const d = siteDraft;
+
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Katta slayder (karusel)</h3><small>${d.hero.ids.length} ta kino</small></div>
+      <div class="adm-field">
+        <label class="adm-label">Slayd almashish vaqti</label>
+        <div class="adm-seg" data-delay>
+          ${[3, 5, 7, 10].map(s => `<button type="button" data-sec="${s}" class="${+d.hero.delay === s ? 'is-active' : ''}">${s} soniya</button>`).join('')}
+        </div>
+      </div>
+      <label class="adm-label">Slayderdagi kinolar (tartib bo‘yicha)</label>
+      <div id="admHeroPicker">${pickerHTML('hero', d.hero.ids, 15)}</div>
+    </section>
+
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.list}</span><h3>Bosh sahifa qatorlari</h3><small>${d.rows.filter(r => r.visible !== false).length} ta ko‘rinadi</small></div>
+      <div class="adm-rows">
+        ${d.rows.map((r, i) => `
+          <div class="adm-rowcard${r.visible === false ? ' is-off' : ''}" data-row="${i}">
+            <div class="adm-rowcard-head">
+              <span class="adm-pick-n">${i + 1}</span>
+              <b>${esc(r.title?.uz || (ROW_DEFAULT_TITLES[r.source] ? t(ROW_DEFAULT_TITLES[r.source]) : 'Yangi qator'))}</b>
+              <span class="adm-pick-btns">
+                <button type="button" data-row-move="-1" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
+                <button type="button" data-row-move="1" ${i === d.rows.length - 1 ? 'disabled' : ''} aria-label="Pastga">↓</button>
+                ${r.source === 'custom' ? '<button type="button" data-row-del class="adm-del" aria-label="O‘chirish">✕</button>' : ''}
+              </span>
+            </div>
+            <small class="acc-muted">${ROW_SOURCE_NAMES[r.source] || r.source}</small>
+            <div class="adm-row adm-row-2">
+              <div class="adm-field"><label class="adm-label">Nomi (o‘zbekcha)</label><input class="acc-input" data-row-title="uz" value="${esc(r.title?.uz || '')}" placeholder="${esc(ROW_DEFAULT_TITLES[r.source] ? I18N.uz[ROW_DEFAULT_TITLES[r.source]] : 'Masalan: Tavsiya etamiz')}"></div>
+              <div class="adm-field"><label class="adm-label">Nomi (ruscha)</label><input class="acc-input" data-row-title="ru" value="${esc(r.title?.ru || '')}" placeholder="${esc(ROW_DEFAULT_TITLES[r.source] ? I18N.ru[ROW_DEFAULT_TITLES[r.source]] : 'Рекомендуем')}"></div>
+            </div>
+            <label class="acc-toggle"><span><b>Saytda ko‘rsatish</b></span><input type="checkbox" data-row-visible${r.visible !== false ? ' checked' : ''}><i></i></label>
+            ${r.source === 'custom' ? `<div data-row-picker>${pickerHTML('row' + i, r.ids || [], 30)}</div>` : ''}
+          </div>`).join('')}
+      </div>
+      <button class="btn btn-ghost adm-addrow" type="button" id="admAddRow">${NAV_ICONS.plus}<span>Yangi qator qo‘shish</span></button>
+    </section>
+
+    <div class="adm-savebar">
+      <p class="acc-error" id="siteErr" hidden></p>
+      <div class="adm-savebar-row">
+        <button class="btn btn-ghost" type="button" id="siteReset">Standart holat</button>
+        <button class="btn btn-primary" type="button" id="siteSave">Saytga saqlash</button>
+      </div>
+    </div>`;
+
+  const rerender = () => { const y = window.scrollY; renderSiteView().then(() => window.scrollTo(0, y)); };
+
+  // slayder
+  box.querySelectorAll('[data-sec]').forEach(b => b.addEventListener('click', () => { d.hero.delay = +b.dataset.sec; rerender(); }));
+  bindPicker($('#admHeroPicker'), () => d.hero.ids, ids => { d.hero.ids = ids; }, rerender);
+
+  // qatorlar
+  box.querySelectorAll('[data-row]').forEach(card => {
+    const i = +card.dataset.row, r = d.rows[i];
+    card.querySelectorAll('[data-row-title]').forEach(inp => inp.addEventListener('input', () => {
+      r.title = { ...(r.title || {}), [inp.dataset.rowTitle]: inp.value };
+    }));
+    card.querySelector('[data-row-visible]').addEventListener('change', e => { r.visible = e.target.checked; card.classList.toggle('is-off', !r.visible); });
+    card.querySelectorAll('[data-row-move]').forEach(b => b.addEventListener('click', () => {
+      const j = i + +b.dataset.rowMove;
+      [d.rows[i], d.rows[j]] = [d.rows[j], d.rows[i]];
+      rerender();
+    }));
+    card.querySelector('[data-row-del]')?.addEventListener('click', () => {
+      if (!confirm('Bu qator o‘chirilsinmi?')) return;
+      d.rows.splice(i, 1); rerender();
+    });
+    const picker = card.querySelector('[data-row-picker]');
+    if (picker) bindPicker(picker, () => r.ids || [], ids => { r.ids = ids; }, rerender);
+  });
+  $('#admAddRow').addEventListener('click', () => {
+    d.rows.unshift({ source: 'custom', visible: true, title: { uz: '', ru: '' }, ids: [] });
+    rerender();
+  });
+
+  // saqlash
+  const err = $('#siteErr');
+  $('#siteReset').addEventListener('click', async () => {
+    if (!confirm('Bosh sahifa standart holatga qaytarilsinmi? (slayder va qatorlar)')) return;
+    try {
+      await saveConfig(null, 'Sayt sozlamalari standart holatga qaytarildi');
+      siteDraft = null; commitsCache = null;
+      toast('Standart holat tiklandi. Saytda 1–2 daqiqada ko‘rinadi.');
+      renderSiteView();
+    } catch (e) { err.textContent = friendlyError(e); err.hidden = false; }
+  });
+  $('#siteSave').addEventListener('click', async e => {
+    const btn = e.currentTarget;
+    const custom = d.rows.find(r => r.source === 'custom' && r.visible !== false && !(r.ids || []).length);
+    if (custom) { err.textContent = 'Qo‘lda tanlanadigan qatorga kamida bitta kino qo‘shing yoki uni o‘chiring.'; err.hidden = false; return; }
+    if (!d.hero.ids.length) { err.textContent = 'Slayderga kamida bitta kino qo‘shing.'; err.hidden = false; return; }
+    err.hidden = true;
+    btn.disabled = true; btn.textContent = 'Saqlanmoqda...';
+    try {
+      const clean = {
+        hero: { ids: d.hero.ids, delay: d.hero.delay },
+        rows: d.rows.map(r => {
+          const o = { source: r.source, visible: r.visible !== false };
+          if (r.title?.uz || r.title?.ru) o.title = { uz: r.title.uz || '', ru: r.title.ru || '' };
+          if (r.source === 'custom') o.ids = r.ids || [];
+          return o;
+        })
+      };
+      await saveConfig(clean, 'Sayt sozlamalari o‘zgartirildi: slayder va qatorlar');
+      commitsCache = null;
+      toast('Saqlandi. Saytda 1–2 daqiqada ko‘rinadi.');
+    } catch (ex) {
+      err.textContent = friendlyError(ex); err.hidden = false;
+    } finally {
+      btn.disabled = false; btn.textContent = 'Saytga saqlash';
+    }
+  });
 }
 
 /* ---------- Ishga tushirish ---------- */

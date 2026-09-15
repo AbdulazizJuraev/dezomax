@@ -20,11 +20,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=202609150722">
+<link rel="stylesheet" href="css/style.css?v=202609150803">
 </head>
 <body>
-<script src="js/logo.js?v=202609150722"></script>
-<script src="js/intro.js?v=202609150722"></script>
+<script src="js/logo.js?v=202609150803"></script>
+<script src="js/intro.js?v=202609150803"></script>
 
 <header class="header">
   <div class="wrap">
@@ -57,77 +57,8 @@
     <div class="hero-dots" id="heroDots"></div>
   </section>
 
-  <!-- ---------- QATORLAR ---------- -->
-  <div class="wrap">
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2 data-i18n="row.uzbek">O‘zbek kinolari</h2>
-        <a class="row-all" href="catalog.html?watch=uz" data-i18n="row.seeAll">Hammasi</a>
-        <div class="row-nav" data-for="rowUzbek"></div>
-      </div>
-      <div class="row" id="rowUzbek"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2 data-i18n="row.trending">Trendda</h2>
-        <div class="row-nav" data-for="rowTrending"></div>
-      </div>
-      <div class="row" id="rowTrending"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2 data-i18n="row.new">Yangi qo‘shilganlar</h2>
-        <div class="row-nav" data-for="rowNew"></div>
-      </div>
-      <div class="row" id="rowNew"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2 data-i18n="row.marvel">Marvel olami</h2>
-        <a class="row-all" href="catalog.html?franchise=marvel" data-i18n="row.seeAll">Hammasi</a>
-        <div class="row-nav" data-for="rowMarvel"></div>
-      </div>
-      <div class="row" id="rowMarvel"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2 data-i18n="row.dc">DC olami</h2>
-        <a class="row-all" href="catalog.html?franchise=dc" data-i18n="row.seeAll">Hammasi</a>
-        <div class="row-nav" data-for="rowDC"></div>
-      </div>
-      <div class="row" id="rowDC"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2 data-i18n="row.top">Eng yuqori reyting</h2>
-        <div class="row-nav" data-for="rowTop"></div>
-      </div>
-      <div class="row" id="rowTop"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2 data-i18n="row.series">Seriallar</h2>
-        <div class="row-nav" data-for="rowSeries"></div>
-      </div>
-      <div class="row" id="rowSeries"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2 data-i18n="row.cartoons">Multfilmlar</h2>
-        <div class="row-nav" data-for="rowCartoons"></div>
-      </div>
-      <div class="row" id="rowCartoons"></div>
-    </section>
-
-  </div>
+  <!-- ---------- QATORLAR (admin → «Sayt» bo'limidan boshqariladi, js/app.js chizadi) ---------- -->
+  <div class="wrap" id="homeRows"></div>
 </main>
 
 <footer class="footer">
@@ -165,12 +96,13 @@
 
 <button class="to-top" aria-label="Yuqoriga"></button>
 
-<script src="js/data.js?v=202609150722"></script>
+<script src="js/data.js?v=202609150803"></script>
 <script>document.write('<script src="js/data-custom.js?t=' + Math.floor(Date.now() / 60000) + '"><\/script>')</script>
-<script src="js/i18n.js?v=202609150722"></script>
-<script src="js/common.js?v=202609150722"></script>
-<script src="js/firebase-config.js?v=202609150722"></script>
-<script src="js/auth.js?v=202609150722"></script>
-<script src="js/app.js?v=202609150722"></script>
+<script>document.write('<script src="js/site-config.js?t=' + Math.floor(Date.now() / 60000) + '"><\/script>')</script>
+<script src="js/i18n.js?v=202609150803"></script>
+<script src="js/common.js?v=202609150803"></script>
+<script src="js/firebase-config.js?v=202609150803"></script>
+<script src="js/auth.js?v=202609150803"></script>
+<script src="js/app.js?v=202609150803"></script>
 </body>
 </html>
