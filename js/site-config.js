@@ -14,11 +14,11 @@ const SITE_CONFIG = /*CONFIG*/{
   },
   "rows": [
     {
-      "source": "uzbek",
+      "source": "trending",
       "visible": true
     },
     {
-      "source": "trending",
+      "source": "uzbek",
       "visible": true
     },
     {
