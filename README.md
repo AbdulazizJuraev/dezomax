@@ -65,7 +65,26 @@ js/plans.js       Obuna rejalari
 js/downloads.js   Yuklab olinganlar
 ```
 
-## Yangi kino qo'shish
+## Kino qo'shish — admin sahifa (tavsiya)
+
+Kod yozmasdan kino qo'shish, tahrirlash va o'chirish: **https://abdulazizjuraev.github.io/dezomax/admin.html**
+(sahifa menyuda yo'q, qidiruv tizimlariga ko'rinmaydi).
+
+1. **GitHub token** oling: github.com → Settings → Developer settings → Fine-grained tokens → *Generate new token*
+   - Repository access: *Only select repositories* → `dezomax`
+   - Permissions → *Contents*: **Read and write**
+2. Admin sahifada tokenni kiriting. U faqat shu brauzerda saqlanadi, repoga yozilmaydi.
+3. Formani to'ldiring: nom, janr, tavsif, poster (fayl yoki havola), **video havolasi**
+   (YouTube yoki o'z hostingingizdagi `.mp4` / `.webm` / `.m3u8`).
+4. Saqlang — kino `js/data-custom.js` ga yoziladi, sayt 1–2 daqiqada yangilanadi.
+   Android ilova yangi kinolarni internetdan oladi, APK'ni qayta yig'ish shart emas.
+
+- Video fayllar GitHub'ga yuklanmaydi (100 MB cheklov) — ularni o'z hosting/CDN'ingizda saqlang.
+- Faqat ko'rsatish huquqi bor kontent: litsenziya, huquq egasining ruxsati yoki rasmiy manba.
+  Ruxsatsiz tarqatuvchi xostlar (asilmedia, terabox va h.k.) forma tomonidan qabul qilinmaydi.
+- Token o'g'irlansa: GitHub → Fine-grained tokens → *Revoke*.
+
+## Yangi kino qo'shish (kod orqali)
 
 `js/data.js` faylidagi `MOVIES` ro'yxatiga yangi obyekt qo'shing:
 

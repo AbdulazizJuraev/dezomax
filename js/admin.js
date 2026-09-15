@@ -1,0 +1,465 @@
+/* ============================================================
+   DezoMax — admin: kinolarni qo'lda qo'shish / tahrirlash / o'chirish
+   ------------------------------------------------------------
+   Server yo'q: o'zgarishlar GitHub API orqali to'g'ridan-to'g'ri repoga yoziladi
+   (js/data-custom.js va images/custom/*.jpg), GitHub Pages ~1 daqiqada saytni yangilaydi.
+
+   Token: GitHub fine-grained token (faqat shu repo, Contents: Read and write).
+   Faqat shu brauzerning localStorage'ida saqlanadi — repoga HECH QACHON yozilmaydi.
+
+   Faqat huquqi bor kontent (litsenziyali fayllar, rasmiy YouTube videolari).
+   ============================================================ */
+
+const GH = { owner: 'AbdulazizJuraev', repo: 'dezomax', branch: 'main' };
+const SITE_URL = 'https://abdulazizjuraev.github.io/dezomax/';
+const DATA_PATH = 'js/data-custom.js';
+const TOKEN_KEY = 'dezomax_admin_token';
+
+// Ruxsatsiz kontent tarqatuvchi xostlar — bunday havolalar qabul qilinmaydi
+const BLOCKED_HOSTS = /(asilmedia|terabox|1024tera|teraboxapp|uzmovi|uztube|kinogo|hdrezka|rezka\.ag|filmix|lordfilm)/i;
+
+const $ = s => document.querySelector(s);
+const token = () => localStorage.getItem(TOKEN_KEY) || '';
+
+let customList = [];      // hozirgi data-custom.js dagi kinolar
+let dataSha = null;       // fayl versiyasi (to'qnashuvni oldini olish uchun)
+let editingId = null;
+
+/* ---------- GitHub API ---------- */
+
+async function gh(path, opts = {}) {
+  const r = await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}${path}`, {
+    ...opts,
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${token()}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(opts.body ? { 'Content-Type': 'application/json' } : {})
+    }
+  });
+  if (!r.ok) {
+    let msg = `GitHub ${r.status}`;
+    try { msg += ': ' + (await r.json()).message; } catch {}
+    throw Object.assign(new Error(msg), { status: r.status });
+  }
+  return r.status === 204 ? null : r.json();
+}
+
+const b64encode = str => btoa(unescape(encodeURIComponent(str)));
+const b64decode = b64 => decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
+
+async function getFile(path) {
+  try {
+    return await gh(`/contents/${path}?ref=${GH.branch}&t=${Date.now()}`);
+  } catch (e) {
+    if (e.status === 404) return null;
+    throw e;
+  }
+}
+
+async function putFile(path, contentB64, message, sha) {
+  return gh(`/contents/${path}`, {
+    method: 'PUT',
+    body: JSON.stringify({ message, content: contentB64, branch: GH.branch, ...(sha ? { sha } : {}) })
+  });
+}
+
+/* ---------- data-custom.js o'qish / yozish ---------- */
+
+async function loadCustom() {
+  const f = await getFile(DATA_PATH);
+  if (!f) { customList = []; dataSha = null; return; }
+  dataSha = f.sha;
+  const text = b64decode(f.content);
+  const m = text.match(/\/\*DATA\*\/([\s\S]*?)\/\*END\*\//);
+  customList = m ? JSON.parse(m[1]) : [];
+}
+
+function buildDataFile(list) {
+  return `/* ============================================================
+   DezoMax — admin.html orqali qo'shilgan kinolar
+   Bu faylni admin sahifa avtomatik yozadi. Qo'lda tahrirlash shart emas.
+   ============================================================ */
+
+const CUSTOM_MOVIES = /*DATA*/${JSON.stringify(list, null, 2)}/*END*/;
+
+if (typeof MOVIES !== 'undefined') MOVIES.push(...CUSTOM_MOVIES);
+`;
+}
+
+/* ro'yxatni yozish; boshqa joyda o'zgargan bo'lsa (409) — qayta o'qib, o'zgarishni qayta qo'llaymiz */
+async function saveCustom(mutate, message) {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    await loadCustom();
+    const next = mutate(structuredClone(customList));
+    try {
+      const res = await putFile(DATA_PATH, b64encode(buildDataFile(next)), message, dataSha);
+      dataSha = res.content.sha;
+      customList = next;
+      return;
+    } catch (e) {
+      if (e.status !== 409 || attempt) throw e;
+    }
+  }
+}
+
+/* ---------- Poster: siqish va yuklash ---------- */
+
+function compressImage(file, maxW = 600) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxW / img.naturalWidth);
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * scale);
+      c.height = Math.round(img.naturalHeight * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      resolve(c.toDataURL('image/jpeg', 0.86).split(',')[1]);
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = () => reject(new Error('Rasmni o‘qib bo‘lmadi'));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+async function uploadPoster(file, slug) {
+  const b64 = await compressImage(file);
+  const path = `images/custom/${slug}.jpg`;
+  const existing = await getFile(path);
+  await putFile(path, b64, `Poster: ${slug}`, existing?.sha);
+  // APK ham ko'rsata olishi uchun to'liq manzil
+  return SITE_URL + path;
+}
+
+/* ---------- Yordamchilar ---------- */
+
+const slugify = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'kino';
+
+function nextId() {
+  const ids = [...MOVIES.map(m => m.id), ...customList.map(m => m.id)];
+  return Math.max(999, ...ids) + 1;
+}
+
+function checkVideoUrl(url) {
+  if (!url) return { ok: true };
+  let u;
+  try { u = new URL(url); } catch { return { ok: false, msg: 'Havola noto‘g‘ri' }; }
+  if (BLOCKED_HOSTS.test(u.hostname)) {
+    return { ok: false, msg: 'Bu xostdagi kontent ruxsatsiz tarqatiladi — qabul qilinmaydi.' };
+  }
+  const yt = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)[\w-]{11}/.test(url);
+  const file = /\.(mp4|webm|m3u8)(\?|$)/i.test(u.pathname + u.search);
+  if (!yt && !file) return { ok: true, warn: 'Havola YouTube yoki .mp4/.webm/.m3u8 emas — pleyerda ochilmasligi mumkin.' };
+  return { ok: true };
+}
+
+function toast(msg, isErr) {
+  document.querySelector('.toast')?.remove();
+  const el = document.createElement('div');
+  el.className = 'toast' + (isErr ? ' is-error' : '');
+  el.textContent = msg;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('is-in'));
+  setTimeout(() => { el.classList.remove('is-in'); setTimeout(() => el.remove(), 300); }, 3500);
+}
+
+/* ---------- Token ekrani ---------- */
+
+function renderTokenScreen(err = '') {
+  $('#admin').innerHTML = `
+    <div class="acc-card adm-token">
+      <h1>Admin — kino qo‘shish</h1>
+      <p class="acc-muted">Kinolar GitHub'dagi saytingizga to‘g‘ridan-to‘g‘ri yoziladi. Buning uchun GitHub token kerak.</p>
+      <ol class="adm-steps">
+        <li><a class="acc-link" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Fine-grained token</a> sahifasini oching</li>
+        <li><b>Repository access:</b> Only select repositories → <code>dezomax</code></li>
+        <li><b>Permissions → Contents:</b> Read and write</li>
+        <li>Tokenni nusxalab, pastga qo‘ying</li>
+      </ol>
+      <label class="acc-label" for="tokInput">GitHub token</label>
+      <input class="acc-input" id="tokInput" type="password" autocomplete="off" placeholder="github_pat_...">
+      <p class="acc-error" ${err ? '' : 'hidden'}>${esc(err)}</p>
+      <button class="btn btn-primary acc-submit" id="tokSave" type="button">Kirish</button>
+      <p class="acc-note">${ICONS.info}<span>Token faqat shu brauzerda saqlanadi va saytga yozilmaydi. Begona kompyuterda ishlatmang.</span></p>
+    </div>`;
+
+  $('#tokSave').addEventListener('click', async () => {
+    const v = $('#tokInput').value.trim();
+    if (!v) return;
+    localStorage.setItem(TOKEN_KEY, v);
+    $('#tokSave').disabled = true;
+    try {
+      const repo = await gh('');
+      if (!repo.permissions?.push) throw new Error('Tokenda yozish (Contents: write) ruxsati yo‘q');
+      await boot();
+    } catch (e) {
+      localStorage.removeItem(TOKEN_KEY);
+      renderTokenScreen(e.message);
+    }
+  });
+}
+
+/* ---------- Forma ---------- */
+
+function formHTML(m = {}) {
+  const val = v => esc(v ?? '');
+  return `
+    <form class="acc-card adm-form" id="admForm" novalidate>
+      <div class="adm-form-head">
+        <h2>${m.id ? `Tahrirlash: ${esc(m.title?.uz || '')}` : 'Yangi kino qo‘shish'}</h2>
+        ${m.id ? '<button class="btn btn-ghost btn-sm" type="button" id="admCancel">Bekor qilish</button>' : ''}
+      </div>
+
+      <div class="adm-grid">
+        <div><label class="acc-label">Nomi (o‘zbekcha) *</label><input class="acc-input" name="titleUz" required value="${val(m.title?.uz)}"></div>
+        <div><label class="acc-label">Nomi (ruscha)</label><input class="acc-input" name="titleRu" value="${val(m.title?.ru)}"></div>
+        <div><label class="acc-label">Turi</label>
+          <select class="acc-input" name="type">
+            ${['film', 'serial', 'multfilm'].map(x => `<option value="${x}"${m.type === x ? ' selected' : ''}>${typeName(x)}</option>`).join('')}
+          </select></div>
+        <div><label class="acc-label">Yili</label><input class="acc-input" name="year" type="number" min="1900" max="2100" value="${val(m.year)}"></div>
+        <div><label class="acc-label">Davomiyligi (daqiqa)</label><input class="acc-input" name="duration" type="number" min="1" max="1000" value="${val(m.duration)}"></div>
+        <div><label class="acc-label">Reyting (0–10)</label><input class="acc-input" name="rating" type="number" step="0.1" min="0" max="10" value="${val(m.rating)}"></div>
+        <div><label class="acc-label">Davlat (o‘zbekcha)</label><input class="acc-input" name="countryUz" value="${val(m.country?.uz)}" placeholder="O‘zbekiston"></div>
+        <div><label class="acc-label">Davlat (ruscha)</label><input class="acc-input" name="countryRu" value="${val(m.country?.ru)}" placeholder="Узбекистан"></div>
+        <div><label class="acc-label">Rejissyor</label><input class="acc-input" name="director" value="${val(m.director)}"></div>
+        <div><label class="acc-label">Rollarda (vergul bilan)</label><input class="acc-input" name="cast" value="${val((m.cast || []).join(', '))}"></div>
+        <div><label class="acc-label">Bo‘lim</label>
+          <select class="acc-input" name="franchise">
+            ${[['', '—'], ['uzbek', 'O‘zbek kino'], ['marvel', 'Marvel'], ['dc', 'DC']]
+              .map(([v, l]) => `<option value="${v}"${(m.franchise || '') === v ? ' selected' : ''}>${l}</option>`).join('')}
+          </select></div>
+      </div>
+
+      <label class="acc-label">Janrlar</label>
+      <div class="chips adm-genres">
+        ${GENRES.map(g => `<label class="chip adm-chip"><input type="checkbox" name="genres" value="${g.id}"${(m.genres || []).includes(g.id) ? ' checked' : ''}><span>${esc(g.uz)}</span></label>`).join('')}
+      </div>
+
+      <label class="acc-label">Tavsif (o‘zbekcha)</label>
+      <textarea class="acc-input adm-text" name="descUz" rows="3">${val(m.desc?.uz)}</textarea>
+      <label class="acc-label">Tavsif (ruscha)</label>
+      <textarea class="acc-input adm-text" name="descRu" rows="3">${val(m.desc?.ru)}</textarea>
+
+      <div class="adm-grid">
+        <div>
+          <label class="acc-label">Poster (rasm fayli)</label>
+          <input class="acc-input adm-file" name="posterFile" type="file" accept="image/*">
+          <label class="acc-label">yoki poster havolasi</label>
+          <input class="acc-input" name="posterUrl" value="${val(m.poster)}" placeholder="https://...jpg">
+        </div>
+        <div class="adm-poster-prev" id="admPosterPrev">${m.poster ? `<img src="${esc(m.poster)}" alt="">` : '<span>Poster</span>'}</div>
+      </div>
+
+      <div class="adm-grid">
+        <div><label class="acc-label">To‘liq kino havolasi</label><input class="acc-input" name="video" value="${val(m.video)}" placeholder="YouTube yoki https://...mp4 / .m3u8"></div>
+        <div><label class="acc-label">Treyler havolasi</label><input class="acc-input" name="trailer" value="${val(m.trailer)}" placeholder="https://youtube.com/watch?v=..."></div>
+        <div><label class="acc-label">Manba nomi</label><input class="acc-input" name="sourceName" value="${val(m.source?.name)}" placeholder="Masalan: rasmiy kanal nomi"></div>
+        <div><label class="acc-label">Manba havolasi</label><input class="acc-input" name="sourceUrl" value="${val(m.source?.url)}"></div>
+      </div>
+      <p class="adm-hint" id="admVideoHint" hidden></p>
+
+      <div class="adm-checks">
+        <label class="acc-toggle"><span><b>O‘zbek tilida</b><small>Kartada «O‘zbekcha» belgisi chiqadi</small></span><input type="checkbox" name="audioUz"${m.audio === 'uz' ? ' checked' : ''}><i></i></label>
+        <label class="acc-toggle"><span><b>Bosh sahifa slayderida</b><small>Katta slayderda ko‘rsatiladi</small></span><input type="checkbox" name="featured"${m.featured ? ' checked' : ''}><i></i></label>
+      </div>
+
+      <label class="adm-rights">
+        <input type="checkbox" name="rights" required${m.id ? ' checked' : ''}>
+        <span>Men ushbu kinoni saytda ko‘rsatish huquqiga egaman (litsenziya, huquq egasining ruxsati yoki rasmiy manba). Ruxsatsiz tarqatilgan kontent qo‘shilmaydi.</span>
+      </label>
+
+      <p class="acc-error" id="admErr" hidden></p>
+      <button class="btn btn-primary acc-submit" id="admSubmit" type="submit">${m.id ? 'Saqlash' : 'Kino qo‘shish'}</button>
+    </form>`;
+}
+
+function readForm(form, old = {}) {
+  const f = new FormData(form);
+  const s = k => String(f.get(k) || '').trim();
+  const num = k => { const v = parseFloat(s(k)); return Number.isFinite(v) ? v : undefined; };
+  const m = {
+    id: old.id || nextId(),
+    slug: old.slug || slugify(s('titleUz')),
+    type: s('type') || 'film',
+    title: { uz: s('titleUz'), ru: s('titleRu') || s('titleUz') },
+    genres: f.getAll('genres'),
+    country: { uz: s('countryUz') || '—', ru: s('countryRu') || s('countryUz') || '—' },
+    cast: s('cast') ? s('cast').split(',').map(x => x.trim()).filter(Boolean) : [],
+    desc: { uz: s('descUz'), ru: s('descRu') || s('descUz') },
+    colors: old.colors || ['#2a3142', '#0d1018'],
+    poster: s('posterUrl'),
+    trailer: s('trailer'),
+    video: s('video'),
+    featured: f.get('featured') === 'on',
+    addedAt: old.addedAt || Date.now()
+  };
+  if (num('year')) m.year = Math.round(num('year'));
+  if (num('duration')) m.duration = Math.round(num('duration'));
+  if (num('rating') !== undefined && s('rating')) m.rating = num('rating');
+  if (s('director')) m.director = s('director');
+  if (s('franchise')) m.franchise = s('franchise');
+  if (f.get('audioUz') === 'on') m.audio = 'uz';
+  if (s('sourceName')) m.source = { name: s('sourceName'), url: s('sourceUrl') };
+  if (!m.genres.length) m.genres = ['drama'];
+  return m;
+}
+
+function bindForm(old) {
+  const form = $('#admForm');
+  const err = $('#admErr');
+  const showErr = msg => { err.textContent = msg; err.hidden = !msg; };
+
+  $('#admCancel')?.addEventListener('click', () => { editingId = null; renderMain(); });
+
+  // poster oldindan ko'rish
+  const prev = $('#admPosterPrev');
+  form.posterFile.addEventListener('change', () => {
+    const file = form.posterFile.files[0];
+    if (file) prev.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="">`;
+  });
+  form.posterUrl.addEventListener('change', () => {
+    if (form.posterUrl.value.trim()) prev.innerHTML = `<img src="${esc(form.posterUrl.value.trim())}" alt="" onerror="this.remove()">`;
+  });
+
+  // havolani tekshirish
+  const hint = $('#admVideoHint');
+  [form.video, form.trailer].forEach(inp => inp.addEventListener('input', () => {
+    const res = [checkVideoUrl(form.video.value.trim()), checkVideoUrl(form.trailer.value.trim())].find(r => !r.ok || r.warn);
+    hint.hidden = !res;
+    if (res) { hint.textContent = res.msg || res.warn; hint.classList.toggle('is-error', !res.ok); }
+  }));
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    showErr('');
+    if (!form.titleUz.value.trim()) return showErr('Kino nomini yozing');
+    if (!form.rights.checked) return showErr('Ko‘rsatish huquqingizni tasdiqlang');
+    for (const inp of [form.video, form.trailer]) {
+      const r = checkVideoUrl(inp.value.trim());
+      if (!r.ok) return showErr(r.msg);
+    }
+    // poster va manba: nisbiy yo'l ham bo'lishi mumkin, faqat taqiqlangan xostlar tekshiriladi
+    for (const inp of [form.posterUrl, form.sourceUrl]) {
+      if (BLOCKED_HOSTS.test(inp.value)) return showErr('Bu xostdagi kontent ruxsatsiz tarqatiladi — qabul qilinmaydi.');
+    }
+    if (!form.video.value.trim() && !form.trailer.value.trim()) return showErr('Kino yoki treyler havolasini kiriting');
+
+    const btn = $('#admSubmit');
+    btn.disabled = true;
+    btn.textContent = 'Saqlanmoqda...';
+    try {
+      const movie = readForm(form, old);
+      const file = form.posterFile.files[0];
+      if (file) movie.poster = await uploadPoster(file, `${movie.slug}-${movie.id}`);
+
+      await saveCustom(list => {
+        const i = list.findIndex(x => x.id === movie.id);
+        if (i > -1) list[i] = movie; else list.unshift(movie);
+        return list;
+      }, `${old.id ? 'Kino tahrirlandi' : 'Kino qo‘shildi'}: ${movie.title.uz}`);
+
+      toast(`Saqlandi. Saytda 1–2 daqiqada ko‘rinadi.`);
+      editingId = null;
+      renderMain();
+    } catch (ex) {
+      console.warn(ex);
+      showErr(ex.status === 401 ? 'Token yaroqsiz yoki muddati tugagan' : ex.message);
+      btn.disabled = false;
+      btn.textContent = old.id ? 'Saqlash' : 'Kino qo‘shish';
+    }
+  });
+}
+
+/* ---------- Ro'yxat ---------- */
+
+function listHTML() {
+  if (!customList.length) return `<div class="acc-empty"><b>Hali kino qo‘shilmagan</b><p>Formani to‘ldirib birinchi kinoni qo‘shing.</p></div>`;
+  return `<div class="acc-list">${customList.map(m => `
+    <div class="acc-item adm-item">
+      <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+      <div class="acc-item-main">
+        <b>${esc(m.title.uz)}</b>
+        <small>${[m.year, typeName(m.type), m.video ? 'To‘liq kino' : 'Treyler', `ID ${m.id}`].filter(Boolean).map(esc).join(' · ')}</small>
+      </div>
+      <div class="adm-actions">
+        <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
+        <button class="btn btn-ghost btn-sm" type="button" data-edit="${m.id}">Tahrirlash</button>
+        <button class="btn btn-ghost btn-sm adm-del" type="button" data-del="${m.id}">O‘chirish</button>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function renderMain() {
+  const editing = customList.find(m => m.id === editingId);
+  $('#admin').innerHTML = `
+    <div class="adm-top">
+      <h1>Admin — kinolar</h1>
+      <div class="adm-top-actions">
+        <span class="acc-muted">${customList.length} ta qo‘shilgan</span>
+        <button class="btn btn-ghost btn-sm" type="button" id="admLogout">Tokenni o‘chirish</button>
+      </div>
+    </div>
+    <div class="adm-layout">
+      ${formHTML(editing || {})}
+      <section class="adm-list">
+        <h2 class="acc-h3">Qo‘shilgan kinolar</h2>
+        ${listHTML()}
+      </section>
+    </div>`;
+
+  bindForm(editing || {});
+
+  $('#admLogout').addEventListener('click', () => {
+    if (!confirm('Token shu brauzerdan o‘chirilsinmi?')) return;
+    localStorage.removeItem(TOKEN_KEY);
+    renderTokenScreen();
+  });
+
+  document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
+    editingId = +b.dataset.edit;
+    renderMain();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+
+  document.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+    const id = +b.dataset.del;
+    const m = customList.find(x => x.id === id);
+    if (!m || !confirm(`«${m.title.uz}» o‘chirilsinmi?`)) return;
+    b.disabled = true;
+    try {
+      await saveCustom(list => list.filter(x => x.id !== id), `Kino o‘chirildi: ${m.title.uz}`);
+      // o'zimiz yuklagan posterni ham o'chiramiz
+      if (m.poster && m.poster.startsWith(SITE_URL + 'images/custom/')) {
+        const path = m.poster.slice(SITE_URL.length);
+        const f = await getFile(path);
+        if (f) await gh(`/contents/${path}`, { method: 'DELETE', body: JSON.stringify({ message: `Poster o‘chirildi: ${m.slug}`, sha: f.sha, branch: GH.branch }) });
+      }
+      toast('O‘chirildi');
+      renderMain();
+    } catch (ex) {
+      toast(ex.message, true);
+      b.disabled = false;
+    }
+  }));
+}
+
+/* ---------- Ishga tushirish ---------- */
+
+async function boot() {
+  if (!token()) return renderTokenScreen();
+  $('#admin').innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  try {
+    await loadCustom();
+    renderMain();
+  } catch (e) {
+    if (e.status === 401 || e.status === 403) {
+      localStorage.removeItem(TOKEN_KEY);
+      return renderTokenScreen('Token yaroqsiz yoki ruxsati yetarli emas');
+    }
+    $('#admin').innerHTML = `<p class="acc-error">Yuklab bo‘lmadi: ${esc(e.message)}</p>`;
+  }
+}
+
+initLayout();
+boot();

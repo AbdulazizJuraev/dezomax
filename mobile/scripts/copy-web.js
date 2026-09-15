@@ -10,7 +10,11 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const OUT = path.resolve(__dirname, '..', 'www');
 
 // Ilovaga kerak bo'lmaganlar
-const SKIP = new Set(['mobile', 'tools', '.git', '.github', '.claude', 'node_modules', 'README.md', '.gitignore', '404.html']);
+const SKIP = new Set(['mobile', 'tools', '.git', '.github', '.claude', 'node_modules', 'README.md', '.gitignore', '404.html',
+  'admin.html', 'admin.js']);   // admin sahifa ilovaga kerak emas
+
+// Admin orqali qo'shilgan kinolar ilovada jonli saytdan olinadi — APK'ni qayta yig'ish shart emas
+const LIVE_CUSTOM = 'https://abdulazizjuraev.github.io/dezomax/js/data-custom.js';
 
 function copyDir(src, dst) {
   fs.mkdirSync(dst, { recursive: true });
@@ -38,6 +42,7 @@ for (const f of fs.readdirSync(OUT).filter(x => x.endsWith('.html'))) {
   const p = path.join(OUT, f);
   let html = fs.readFileSync(p, 'utf8');
   if (html.includes('app-native.js')) continue;
+  html = html.replace(`src="js/data-custom.js?t=`, `src="${LIVE_CUSTOM}?t=`);
   // viewport-fit=cover QO'SHILMAYDI: ba'zi telefonlarning WebView'i pastki chekinishni
   // sahifaga bermaydi va navbar tizim paneli ostida qolib ketardi. Shuning uchun Capacitor
   // tizim panellari joyini o'zi qoldiradi, u joy sayt fonida (#07080c) bo'yaladi.
