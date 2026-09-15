@@ -168,11 +168,15 @@ function sizeClip(clip) {
   const r = clip.getBoundingClientRect();
   // treylerlar ko'pincha kinoteatr formatida (2.39:1) — videoning o'zida tepa-pastda qora hoshiya bor.
   // 1.5 marta kattalashtirilganda qora hoshiyalar ko'rinmas qismga tushadi (chetlari kesiladi, soya bilan qo'shiladi)
-  const Z = 1.5;
+  // Joylashuv transform bilan emas, aniq px bilan — Android WebView'da video siljib, tepada qora joy qolmasin
+  const Z = 1.75;
   let w = r.width * Z, h = w * 9 / 16;
   if (h < r.height * Z) { h = r.height * Z; w = h * 16 / 9; }
   const f = clip.querySelector('iframe');
-  if (f) { f.style.width = w + 'px'; f.style.height = h + 'px'; }
+  if (f) {
+    f.style.width = w + 'px'; f.style.height = h + 'px';
+    f.style.left = (r.width - w) / 2 + 'px'; f.style.top = (r.height - h) / 2 + 'px';
+  }
 }
 
 /* YouTube ramkasidan holat xabarlari.
