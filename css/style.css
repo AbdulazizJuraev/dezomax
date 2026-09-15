@@ -4388,3 +4388,6 @@ img, video, iframe { max-width: 100%; }
 @media (max-width: 220px) {
   .hero h1 { font-size: 14px; }
 }
+/* Ovozli umumiy pleyer: slaydlar ustida, matn ostida; slayd almashganda matn darhol almashadi */
+.hero-clip-shared { z-index: 1; }
+.hero.has-shared .hero-slide { transition: none; }

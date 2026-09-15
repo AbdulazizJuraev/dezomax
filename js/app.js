@@ -116,7 +116,11 @@ function initHeroSwipe() {
   }, { passive: true });
   // sahifa ko'rinmayotganda slayder to'xtaydi
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { clearTimeout(heroTimer); stopClip(); } else restartHeroTimer();
+    if (document.hidden) {
+      clearTimeout(heroTimer); stopClip();
+      // umumiy ovozli pleyer ham to'xtasin (ilova fonga o'tganda ovoz eshitilmasin)
+      if (heroShared) { ytCmd(heroShared, 'pauseVideo'); heroShared.classList.remove('is-on'); heroShared._slide = -1; }
+    } else restartHeroTimer();
   });
 }
 
@@ -143,7 +147,13 @@ function slideDuration(i) {
   return heroClipsOn && heroYtId(featured[i]) ? (HERO_IMAGE_SEC + HERO_CLIP_SEC) * 1000 : HERO_DELAY;
 }
 
-/* ---------- Treyler ovozi: sahnalar ovozsiz boshlanadi (brauzer talabi), tugma bilan yoqiladi ---------- */
+/* ---------- Treyler ovozi ----------
+   Ovozsiz holatda har bir slayd o'z pleyerida, keyingisi oldindan yuklanadi (silliq almashadi).
+   Ovoz yoqilganda esa telefonda bir vaqtda ikkita pleyer ishlasa ovozli video to'xtab qoladi —
+   shuning uchun bitta UMUMIY pleyerga o'tamiz: u slaydlar videosini loadVideoById bilan o'zi almashtiradi,
+   ovoz yo'qolmaydi. */
+
+let heroShared = null;   // umumiy pleyer (ovoz yoqilgach paydo bo'ladi)
 
 function ytCmd(clip, func, args = []) {
   clip?.querySelector('iframe')?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
@@ -159,11 +169,10 @@ document.addEventListener('click', e => {
   const btn = e.target.closest('.hero-sound');
   if (!btn) return;
   setHeroSound(!heroSound);
-  document.querySelectorAll('.hero-clip').forEach(c => {
-    if (c._slide === heroIndex) applySound(c);
-    else if (heroSound) { if (c._playingSince) prepSound(c); }
-    else { ytCmd(c, 'mute'); ytCmd(c, 'setVolume', [100]); c._soundPrepped = false; }
-  });
+  if (heroShared) { applySound(heroShared); return; }
+  const cur = document.querySelector(`.hero-slide[data-i="${heroIndex}"] .hero-clip`);
+  if (heroSound && heroClipsOn && heroYtId(featured[heroIndex])) createShared(cur);
+  else applySound(cur);
 });
 
 function setHeroSound(on) {
@@ -174,61 +183,94 @@ function setHeroSound(on) {
   });
 }
 
-/* Ovozni yoqish. Mobil brauzer ba'zan ovoz yoqilganda videoni pauzaga qo'yadi —
-   shunda darhol qayta o'ynatamiz; baribir ruxsat bermasa, ovozsiz davom etamiz (sahna to'xtab qolmaydi). */
 function applySound(clip) {
   if (!clip) return;
-  clearTimeout(clip._soundT);
-  if (!heroSound) { ytCmd(clip, 'mute'); ytCmd(clip, 'setVolume', [100]); clip._soundPrepped = false; return; }
-  // oldindan tayyorlangan sahna: ovoz allaqachon yoqilgan (0 balandlikda) — faqat balandlikni qaytaramiz,
-  // shunda video qayta yuklanmaydi va to'xtamaydi
-  if (clip._soundPrepped) { ytCmd(clip, 'setVolume', [100]); return; }
-  clip._soundAt = Date.now();
-  ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]); ytCmd(clip, 'playVideo');
-  clip._soundT = setTimeout(() => {
-    if (!clip.isConnected || clip._lastState === 1) return;
-    clip._soundAt = Date.now();
-    ytCmd(clip, 'mute'); ytCmd(clip, 'playVideo');
-    setHeroSound(false);
-  }, 2500);
+  if (!heroSound) { ytCmd(clip, 'mute'); return; }
+  ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]);
+  verifySound(clip);
 }
 
-/* Keyingi (hali ko'rinmagan) sahnada ovozni oldindan yoqamiz — balandlik 0, eshitilmaydi.
-   Ovoz yoqilganda pleyer bir lahza to'xtab/yuklanib olsa, bu ko'rinmas paytda o'tadi. */
-function prepSound(clip) {
-  if (!clip || !heroSound || clip._soundPrepped || clip._slide === heroIndex) return;
-  clip._soundPrepped = true;
-  clip._soundAt = Date.now();
-  ytCmd(clip, 'setVolume', [0]); ytCmd(clip, 'unMute'); ytCmd(clip, 'playVideo');
-  clearTimeout(clip._soundT);
-  clip._soundT = setTimeout(() => {
-    if (!clip.isConnected || clip._lastState === 1) return;
-    // brauzer ruxsat bermadi — sahna ovozsiz tayyorlanadi, ko'rinishda qayta urinib ko'riladi
-    clip._soundPrepped = false;
-    clip._soundAt = Date.now();
-    ytCmd(clip, 'mute'); ytCmd(clip, 'setVolume', [100]); ytCmd(clip, 'playVideo');
-  }, 2500);
+/* Ovoz haqiqatda yoqilganini pleyer xabarlaridan (muted/volume) tekshiramiz — bo'lmasa qayta yuboramiz */
+function verifySound(clip, tries = 4) {
+  clearTimeout(clip._verifyT);
+  clip._verifyT = setTimeout(() => {
+    if (!clip.isConnected || !heroSound) return;
+    if (clip._muted === false && clip._volume > 0) return;
+    ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]);
+    if (tries > 1) verifySound(clip, tries - 1);
+  }, 700);
+}
+
+function clipIframe(id, { mute, start }) {
+  const origin = encodeURIComponent(location.origin);
+  // «end» berilmaydi — tugash ekrani chiqmasin, sahnani o'zimiz yopamiz
+  return `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=${mute ? 1 : 0}&controls=0&start=${start}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin=${origin}"
+    allow="autoplay; encrypted-media" tabindex="-1" title="" aria-hidden="true"></iframe>
+    <span class="hero-clip-shade" aria-hidden="true"></span>`;
+}
+
+function listenClip(clip) {
+  const f = clip.querySelector('iframe');
+  f.addEventListener('load', () => {
+    // YouTube holat xabarlarini yuborishi uchun «tinglayapman» deymiz
+    const ping = () => f.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 'hero' }), '*');
+    ping(); setTimeout(ping, 500); setTimeout(ping, 1500);
+  });
+}
+
+/* Umumiy ovozli pleyer: joriy sahna ko'rinib turgan joyidan (vaqtidan) davom etadi.
+   U o'ynay boshlaguncha eski (ovozsiz) sahna ko'rinib turadi, keyin ustiga silliq chiqadi. */
+function createShared(cur) {
+  const hero = document.getElementById('hero');
+  const id = heroYtId(featured[heroIndex]);
+  if (!hero || !id) return;
+  const sp = document.createElement('div');
+  sp.className = 'hero-clip hero-clip-shared';
+  sp._shared = true;
+  sp._slide = heroIndex;
+  const start = Math.max(HERO_CLIP_START, Math.floor((cur && cur._time) || HERO_CLIP_START) + 1);
+  sp.innerHTML = clipIframe(id, { mute: false, start });
+  hero.appendChild(sp);
+  hero.classList.add('has-shared');
+  heroShared = sp;
+  listenClip(sp);
+  verifySound(sp, 8);
+  // brauzer ovozli ijroga ruxsat bermasa — umumiy pleyerni olib tashlab, eski sahnada ovozni yoqib ko'ramiz
+  sp._failT = setTimeout(() => {
+    if (sp._playingSince) return;
+    sp.remove();
+    heroShared = null;
+    hero.classList.remove('has-shared');
+    applySound(cur);
+  }, 6000);
+}
+
+function sharedLoad(i) {
+  const sp = heroShared, id = heroYtId(featured[i]);
+  if (!sp || !id) return;
+  clearTimeout(sp._revealT);
+  sp._slide = i;
+  sp._playingSince = 0;
+  sp._loadAt = Date.now();
+  sp.classList.remove('is-on');   // yuklanish belgisi ko'rinmasin — video o'ynaguncha yashirin
+  ytCmd(sp, 'loadVideoById', [{ videoId: id, startSeconds: HERO_CLIP_START }]);
+  applySound(sp);
 }
 
 function stopClip(keep) {
   clearTimeout(clipTimer);
   document.querySelectorAll('.hero-clip').forEach(c => {
-    if (c === keep) return;
-    ytCmd(c, 'mute');   // yopilayotgan sahna ovozi eshitilib qolmasin
+    if (c === keep || c === heroShared) return;
+    ytCmd(c, 'mute'); ytCmd(c, 'pauseVideo');   // yopilayotgan sahna ovozi eshitilib qolmasin
     c.classList.remove('is-on');
     setTimeout(() => c.remove(), 600);
   });
 }
 
 function sizeClip(clip) {
-  // Video blokni to'liq qoplaydi. Tepa-pastdan qo'shimcha kesish YO'Q:
-  // mobil YouTube pleyerida u tepada qora yo'lak qoldirardi. Pleyer belgilari esa sahnani
-  // kechiktirib ochish orqali yashiriladi (pastda).
   if (window.CSS && CSS.supports('width: 1cqw')) return;   // o'lcham CSS'da (container units) — o'lchash shart emas
+  // eski brauzerlar uchun: video blokni to'liq qoplaydi, qora hoshiyalar ko'rinmas qismga tushadi
   const r = clip.getBoundingClientRect();
-  // treylerlar ko'pincha kinoteatr formatida (2.39:1) — videoning o'zida tepa-pastda qora hoshiya bor.
-  // 1.5 marta kattalashtirilganda qora hoshiyalar ko'rinmas qismga tushadi (chetlari kesiladi, soya bilan qo'shiladi)
-  // Joylashuv transform bilan emas, aniq px bilan — Android WebView'da video siljib, tepada qora joy qolmasin
   const Z = 1.75;
   let w = r.width * Z, h = w * 9 / 16;
   if (h < r.height * Z) { h = r.height * Z; w = h * 16 / 9; }
@@ -259,12 +301,17 @@ function showClip(clip) {
   clip.classList.add('is-on');
   applySound(clip);
   heroEverPlayed = true;
-  // sahna ko'rindi — aynan 7 soniya ko'rsatamiz, oxirida keyingi sahnani oldindan yuklaymiz
+  if (clip === heroShared) {
+    clearTimeout(clip._failT);
+    stopClip(heroShared);   // eski ovozsiz sahnalar kerak emas (ular o'chirilgach ham o'ynamaydi)
+  }
+  // sahna ko'rindi — aynan 7 soniya ko'rsatamiz
   clearTimeout(heroTimer);
   clearTimeout(clipTimer);
   heroTimer = setTimeout(nextSlide, HERO_CLIP_SEC * 1000);
+  // ovozsiz rejimda keyingi sahnani oldindan yuklaymiz (umumiy pleyerda — kerak emas)
   const next = (heroIndex + 1) % featured.length;
-  if (next !== heroIndex) clipTimer = setTimeout(() => startClip(next), Math.max(0, HERO_CLIP_SEC * 1000 - HERO_PRELOAD_MS));
+  if (!heroShared && next !== heroIndex) clipTimer = setTimeout(() => startClip(next), Math.max(0, HERO_CLIP_SEC * 1000 - HERO_PRELOAD_MS));
 }
 
 addEventListener('message', e => {
@@ -272,34 +319,41 @@ addEventListener('message', e => {
   let data;
   try { data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
   const state = data?.info?.playerState ?? (data?.event === 'onStateChange' ? data.info : undefined);
-  if (state === undefined) return;
   document.querySelectorAll('.hero-clip').forEach(clip => {
     const f = clip.querySelector('iframe');
     if (!f || f.contentWindow !== e.source) return;
-    clip._lastState = state;
-    // ovoz yoqilayotgan paytdagi qisqa pauza/bufer — sahnani yopmaymiz, qayta o'ynatamiz
-    if ((state === 2 || state === 3) && clip._soundAt && Date.now() - clip._soundAt < 3000) {
-      if (state === 2) ytCmd(clip, 'playVideo');
-      return;
+    const info = data?.info && typeof data.info === 'object' ? data.info : null;
+    if (info) {
+      if (typeof info.muted === 'boolean') clip._muted = info.muted;
+      if (typeof info.volume === 'number') clip._volume = info.volume;
+      if (typeof info.currentTime === 'number') clip._time = info.currentTime;
     }
+    if (state === undefined) return;
+    clip._lastState = state;
+    // umumiy pleyerda yangi video yuklanayotganda eski videodan kelgan kechikkan holatlarni e'tiborsiz qoldiramiz
+    if (clip._shared && clip._loadAt && Date.now() - clip._loadAt < 400) return;
     if (state === 1) {
       if (clip._playingSince) return;
       clip._playingSince = Date.now();
-      prepSound(clip);
       clearTimeout(clip._revealT);
+      // joriy slayd — darhol (umumiy pleyerda biroz kutib — yuklanish belgisi yo'qolsin); oldindan yuklangani — belgilar yo'qolgach
+      const wait = clip._slide !== heroIndex ? HERO_REVEAL_AFTER_PLAY : clip._shared ? 500 : 150;
       clip._revealT = setTimeout(() => {
         if (!clip.isConnected || !clip._playingSince) return;
         clip._ready = true;
-        showClip(clip);   // joriy slayd bo'lsa — darhol; bo'lmasa slayd kelganda ochiladi
-      }, clip._slide === heroIndex ? 150 : HERO_REVEAL_AFTER_PLAY);   // joriy slayd — darhol, oldindan yuklangani — belgilar yo'qolgach
+        showClip(clip);
+      }, wait);
+    } else if (state === 3 && clip._shared && clip.classList.contains('is-on')) {
+      // ovozli pleyerda qisqa bufer — sahnani yopib almashtirmaymiz, davom etishini kutamiz
     } else if (state === 0 || state === 2 || state === 3) {
       clearTimeout(clip._revealT);
       const wasOn = clip.classList.contains('is-on');
       clip._playingSince = 0;
       clip._ready = false;
       clip.classList.remove('is-on');
+      if (clip._shared && state === 2) ytCmd(clip, 'playVideo');
       // ko'rinib turgan sahna to'xtasa — YouTube belgisini ko'rsatmay, keyingi slaydga
-      if (wasOn && clip._slide === heroIndex) {
+      if (wasOn && clip._slide === heroIndex && (state !== 2 || !clip._shared)) {
         clearTimeout(heroTimer);
         heroTimer = setTimeout(nextSlide, 600);
       }
@@ -310,24 +364,14 @@ addEventListener('message', e => {
 function startClip(i) {
   const m = featured[i], id = heroYtId(m);
   const bg = document.querySelector(`.hero-slide[data-i="${i}"] .hero-bg`);
-  if (!id || !bg || document.hidden || bg.querySelector('.hero-clip')) return;
+  if (!id || !bg || document.hidden || heroShared || bg.querySelector('.hero-clip')) return;
   const clip = document.createElement('div');
   clip.className = 'hero-clip';
   clip._slide = i;
-  const s = HERO_CLIP_START;
-  const origin = encodeURIComponent(location.origin);
-  // «end» berilmaydi — tugash ekrani chiqmasin, sahnani o'zimiz yopamiz
-  clip.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&start=${s}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin=${origin}"
-    allow="autoplay; encrypted-media" tabindex="-1" title="" aria-hidden="true"></iframe>
-    <span class="hero-clip-shade" aria-hidden="true"></span>`;
+  clip.innerHTML = clipIframe(id, { mute: true, start: HERO_CLIP_START });
   bg.appendChild(clip);
   sizeClip(clip);
-  // YouTube holat xabarlarini yuborishi uchun «tinglayapman» deymiz
-  const f = clip.querySelector('iframe');
-  f.addEventListener('load', () => {
-    const ping = () => f.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 'hero' }), '*');
-    ping(); setTimeout(ping, 500); setTimeout(ping, 1500);
-  });
+  listenClip(clip);
 }
 
 addEventListener('resize', () => document.querySelectorAll('.hero-clip').forEach(sizeClip));
@@ -337,7 +381,7 @@ function restartHeroTimer() {
   if (!featured.length) return;
   const withClip = heroClipsOn && !!heroYtId(featured[heroIndex]);
   // oldindan yuklangan (joriy slaydga tegishli) sahnani saqlaymiz, qolganlarini yopamiz
-  const ready = withClip ? document.querySelector(`.hero-slide[data-i="${heroIndex}"] .hero-clip`) : null;
+  const ready = withClip && !heroShared ? document.querySelector(`.hero-slide[data-i="${heroIndex}"] .hero-clip`) : null;
   stopClip(ready);
   const d = withClip ? HERO_CLIP_SEC * 1000 : HERO_DELAY;
 
@@ -347,11 +391,20 @@ function restartHeroTimer() {
     dot.classList.remove('is-active'); void dot.offsetWidth; dot.classList.add('is-active');
   }
 
-  if (!withClip) { heroTimer = setTimeout(nextSlide, d); return; }
+  if (!withClip) {
+    if (heroShared) { heroShared.classList.remove('is-on'); ytCmd(heroShared, 'pauseVideo'); heroShared._slide = -1; }
+    heroTimer = setTimeout(nextSlide, d);
+    return;
+  }
   const i = heroIndex;
-  if (ready && (ready._ready || ready._playingSince)) { showClip(ready); return; }
-  if (!ready) clipTimer = setTimeout(() => startClip(i), 50);
-  // video boshlanmasa — zaxira rasm ko'rsatib, keyingisiga o'tamiz
+  if (heroShared) {
+    if (heroShared._slide !== i) sharedLoad(i);
+    else if (heroShared._playingSince) { showClip(heroShared); return; }
+  } else {
+    if (ready && (ready._ready || ready._playingSince)) { showClip(ready); return; }
+    if (!ready) clipTimer = setTimeout(() => startClip(i), 50);
+  }
+  // video boshlanmasa — keyingisiga o'tamiz
   heroTimer = setTimeout(() => {
     // avtoijro umuman ishlamasa (masalan, quvvat tejash rejimi) — slayderda rasmlar ko'rinadi
     if (!heroEverPlayed) document.querySelectorAll('.hero-bg.video-only').forEach(b => b.classList.add('no-video'));
