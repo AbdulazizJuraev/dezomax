@@ -4299,6 +4299,8 @@ img, video, iframe { max-width: 100%; }
 }
 /* tepada qora fon qolmasin: video tayyor bo'lguncha orqada rasm ko'rinadi, iframe aniq px bilan joylashadi */
 .hero-clip { background: transparent; }
+/* Slayderda faqat video: rasm yashiriladi (avtoijro ishlamasa .no-video bilan qaytadi) */
+.hero-bg.video-only:not(.no-video) { background: var(--bg) !important; }
 .hero-clip iframe { transform: none; }
 @media (min-width: 641px) {
   .hero-clip-shade {

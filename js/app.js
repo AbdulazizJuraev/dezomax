@@ -12,6 +12,11 @@ const featured = adminHeroIds && adminHeroIds.length
   : MOVIES.filter(m => m.featured)
       .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
       .slice(0, 10);   // standart slayder juda uzun bo'lib ketmasin
+// Slayderda faqat video: treyleri (YouTube) bor kinolar qoladi. Bittasi ham bo'lmasa — hammasi
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const withVideo = featured.filter(m => /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]{11}/.test(String(m.trailer || '')));
+  if (withVideo.length) featured.splice(0, featured.length, ...withVideo);
+}
 let heroIndex = 0;
 let heroTimer = null;
 const HERO_DELAY = Math.min(15, Math.max(2, Number(SITE_CFG.hero && SITE_CFG.hero.delay) || 3)) * 1000;
@@ -44,7 +49,7 @@ function renderHero() {
     ].filter(x => x && x !== '—');
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
-      <div class="hero-bg${wideArt ? ' is-wide' : ''}" style="background-image:${wideArt ? `url('${esc(wideSrc)}'), ${backdropCSS(m)}` : backdropCSS(m)}"${ytId && !uzArt ? ` data-yt="${ytId}"` : ''}></div>
+      <div class="hero-bg${wideArt ? ' is-wide' : ''}${ytId && !matchMedia('(prefers-reduced-motion: reduce)').matches ? ' video-only' : ''}" style="background-image:${wideArt ? `url('${esc(wideSrc)}'), ${backdropCSS(m)}` : backdropCSS(m)}"${ytId && !uzArt ? ` data-yt="${ytId}"` : ''}></div>
       ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
       <div class="hero-inner">
         <div class="wrap">
@@ -139,7 +144,7 @@ function goToSlide(i) {
   updateCounter();
 }
 
-/* ---------- Slayd: 3 soniya rasm → 7 soniya rasmiy treylerdan sahna (ovozsiz) ---------- */
+/* ---------- Slayd: faqat rasmiy treylerdan 7 soniyalik sahna (ovozsiz), rasm yo'q ---------- */
 
 const HERO_IMAGE_SEC = 3;
 const HERO_CLIP_SEC = 7;
@@ -153,9 +158,10 @@ function slideDuration(i) {
   return heroClipsOn && heroYtId(featured[i]) ? (HERO_IMAGE_SEC + HERO_CLIP_SEC) * 1000 : HERO_DELAY;
 }
 
-function stopClip() {
+function stopClip(keep) {
   clearTimeout(clipTimer);
   document.querySelectorAll('.hero-clip').forEach(c => {
+    if (c === keep) return;
     c.classList.remove('is-on');
     setTimeout(() => c.remove(), 600);
   });
@@ -180,16 +186,31 @@ function sizeClip(clip) {
 }
 
 /* YouTube ramkasidan holat xabarlari.
-   Mobil YouTube video boshlanganda ~3–4 s pauza belgisi va ingichka chiziq ko'rsatadi,
-   tugaganda — «qayta ko'rish» belgisi. Shuning uchun:
-   - treyler rasm ORTIDA oldindan boshlanadi;
-   - sahna video barqaror o'ynay boshlagach (belgilar yo'qolgach) ochiladi va to'liq 7 s ko'rinadi;
+   Slayderda faqat video turadi (rasm yo'q). Mobil YouTube video boshlanganda ~3–4 s pauza belgisi
+   ko'rsatadi, tugaganda — «qayta ko'rish» belgisi. Shuning uchun:
+   - har bir sahna ko'rinmas holda OLDINDAN o'ynay boshlaydi (keyingi slaydniki — joriy sahna tugashidan oldin);
+   - belgilar yo'qolgach «tayyor» bo'ladi va slayd kelishi bilan darhol ochilib, 7 s ko'rinadi;
    - pauza/tugash/buferda sahna yopiladi va keyingi slaydga o'tiladi — belgilar ko'rinmaydi;
-   - video umuman boshlanmasa (avtoijro taqiqlangan) — rasm HERO_CLIP_FALLBACK dan keyin almashadi. */
+   - video umuman boshlanmasa (avtoijro taqiqlangan) — zaxira sifatida rasm ko'rsatiladi. */
 const HERO_REVEAL_AFTER_PLAY = 4500;
 const HERO_CLIP_FALLBACK = 9000;
+const HERO_PRELOAD_MS = HERO_REVEAL_AFTER_PLAY + 1200;   // keyingi sahna shuncha oldin yuklana boshlaydi
+
+let heroEverPlayed = false;
 
 const nextSlide = () => { goToSlide(heroIndex + 1); restartHeroTimer(); };
+
+function showClip(clip) {
+  if (!clip.isConnected || clip.classList.contains('is-on') || clip._slide !== heroIndex) return;
+  clip.classList.add('is-on');
+  heroEverPlayed = true;
+  // sahna ko'rindi — aynan 7 soniya ko'rsatamiz, oxirida keyingi sahnani oldindan yuklaymiz
+  clearTimeout(heroTimer);
+  clearTimeout(clipTimer);
+  heroTimer = setTimeout(nextSlide, HERO_CLIP_SEC * 1000);
+  const next = (heroIndex + 1) % featured.length;
+  if (next !== heroIndex) clipTimer = setTimeout(() => startClip(next), Math.max(0, HERO_CLIP_SEC * 1000 - HERO_PRELOAD_MS));
+}
 
 addEventListener('message', e => {
   if (!/^https:\/\/(www\.)?youtube(-nocookie)?\.com$/.test(e.origin)) return;
@@ -203,26 +224,22 @@ addEventListener('message', e => {
     if (state === 1) {
       if (clip._playingSince) return;
       clip._playingSince = Date.now();
-      const wait = Math.max(clip._revealAt - Date.now(), HERO_REVEAL_AFTER_PLAY);
       clearTimeout(clip._revealT);
       clip._revealT = setTimeout(() => {
-        if (!clip.isConnected || !clip._playingSince || clip.classList.contains('is-on')) return;
-        clip.classList.add('is-on');
-        // sahna ko'rindi — endi aynan 7 soniya ko'rsatib, keyingi slaydga o'tamiz
-        if (clip._slide === heroIndex) {
-          clearTimeout(heroTimer);
-          heroTimer = setTimeout(nextSlide, HERO_CLIP_SEC * 1000);
-        }
-      }, wait);
+        if (!clip.isConnected || !clip._playingSince) return;
+        clip._ready = true;
+        showClip(clip);   // joriy slayd bo'lsa — darhol; bo'lmasa slayd kelganda ochiladi
+      }, HERO_REVEAL_AFTER_PLAY);
     } else if (state === 0 || state === 2 || state === 3) {
       clearTimeout(clip._revealT);
       const wasOn = clip.classList.contains('is-on');
       clip._playingSince = 0;
+      clip._ready = false;
       clip.classList.remove('is-on');
       // ko'rinib turgan sahna to'xtasa — YouTube belgisini ko'rsatmay, keyingi slaydga
       if (wasOn && clip._slide === heroIndex) {
         clearTimeout(heroTimer);
-        heroTimer = setTimeout(nextSlide, 900);
+        heroTimer = setTimeout(nextSlide, 600);
       }
     }
   });
@@ -231,11 +248,10 @@ addEventListener('message', e => {
 function startClip(i) {
   const m = featured[i], id = heroYtId(m);
   const bg = document.querySelector(`.hero-slide[data-i="${i}"] .hero-bg`);
-  if (!id || !bg || i !== heroIndex || document.hidden) return;
+  if (!id || !bg || document.hidden || bg.querySelector('.hero-clip')) return;
   const clip = document.createElement('div');
   clip.className = 'hero-clip';
   clip._slide = i;
-  clip._revealAt = Date.now() + HERO_IMAGE_SEC * 1000 - 300;   // rasm kamida 3 s turadi
   const s = HERO_CLIP_START;
   const origin = encodeURIComponent(location.origin);
   // «end» berilmaydi — tugash ekrani chiqmasin, sahnani o'zimiz yopamiz
@@ -256,11 +272,12 @@ addEventListener('resize', () => document.querySelectorAll('.hero-clip').forEach
 
 function restartHeroTimer() {
   clearTimeout(heroTimer);
-  stopClip();
   if (!featured.length) return;
-  const withClip = slideDuration(heroIndex) !== HERO_DELAY;
-  // treyli slayd: rasm (~3–5 s, video tayyor bo'lguncha) + 7 s sahna. Chiziq taxminiy vaqt bo'yicha to'ladi
-  const d = withClip ? HERO_REVEAL_AFTER_PLAY + 1500 + HERO_CLIP_SEC * 1000 : HERO_DELAY;
+  const withClip = heroClipsOn && !!heroYtId(featured[heroIndex]);
+  // oldindan yuklangan (joriy slaydga tegishli) sahnani saqlaymiz, qolganlarini yopamiz
+  const ready = withClip ? document.querySelector(`.hero-slide[data-i="${heroIndex}"] .hero-clip`) : null;
+  stopClip(ready);
+  const d = withClip ? HERO_CLIP_SEC * 1000 : HERO_DELAY;
 
   const dot = document.querySelector('.hero-dots button.is-active');
   if (dot) {
@@ -268,13 +285,16 @@ function restartHeroTimer() {
     dot.classList.remove('is-active'); void dot.offsetWidth; dot.classList.add('is-active');
   }
 
-  if (withClip) {
-    const i = heroIndex;
-    clipTimer = setTimeout(() => startClip(i), 150);
-    heroTimer = setTimeout(nextSlide, HERO_CLIP_FALLBACK);   // video boshlanmasa — rasm bilan davom
-  } else {
-    heroTimer = setTimeout(nextSlide, d);
-  }
+  if (!withClip) { heroTimer = setTimeout(nextSlide, d); return; }
+  const i = heroIndex;
+  if (ready && ready._ready) { showClip(ready); return; }
+  if (!ready) clipTimer = setTimeout(() => startClip(i), 50);
+  // video boshlanmasa — zaxira rasm ko'rsatib, keyingisiga o'tamiz
+  heroTimer = setTimeout(() => {
+    // avtoijro umuman ishlamasa (masalan, quvvat tejash rejimi) — slayderda rasmlar ko'rinadi
+    if (!heroEverPlayed) document.querySelectorAll('.hero-bg.video-only').forEach(b => b.classList.add('no-video'));
+    nextSlide();
+  }, HERO_CLIP_FALLBACK);
 }
 
 /* ---------- Qatorlar (admin → «Sayt» bo'limidan boshqariladi) ---------- */
