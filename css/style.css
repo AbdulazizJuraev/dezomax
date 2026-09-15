@@ -3867,3 +3867,24 @@ img, video, iframe { max-width: 100%; }
 /* DezoMax Admin ilovasi: sayt menyulari yashirin */
 .is-admin-app .nav, .is-admin-app .header .search, .is-admin-app .account-btn, .is-admin-app .tabbar { display: none !important; }
 .is-admin-app { padding-bottom: 0 !important; }
+
+/* ---------------- Kinolar qatori: telefonda pastga surishda qotib qolmasin ---------------- */
+
+.row {
+  overflow-y: hidden;                 /* overflow-x:auto vertikal aylantirishni ham yoqib yubormasin */
+  overscroll-behavior-x: contain;     /* qator oxirida sahifa "orqaga" o'tib ketmasin */
+  touch-action: pan-x pan-y;          /* gorizontal — qator, vertikal — sahifa */
+  -webkit-overflow-scrolling: touch;
+  padding-top: 8px;                   /* ko'tarilish effekti kesilmasin (kompyuterda) */
+  margin-top: -8px;
+}
+
+/* Sensorli ekranlarda hover yo'q: bosilgandan keyin karta ko'tarilib qolmasin */
+@media (hover: none) {
+  .card:hover .card-poster { transform: none; box-shadow: none; }
+  .card:hover .card-overlay { opacity: 0; }
+  .card:hover .card-play { transform: scale(.8); }
+  .card:hover .card-title { color: inherit; }
+  .card:active .card-poster { transform: scale(.97); transition-duration: .1s; }
+  .row .reveal { transition: none; }
+}
