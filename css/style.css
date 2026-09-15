@@ -4269,3 +4269,21 @@ img, video, iframe { max-width: 100%; }
   /* treyler sahnasi ham aynan shu joyda, tepadan */
   .hero-clip { top: 0; height: 56.25vw; }
 }
+/* Bosh sahifa tepasida header chegarasi yo'q — kino sahnasi ustida ingichka chiziq chiqmasin */
+.header:not(.scrolled) { border-bottom: 0; }
+
+/* Tepadagi soya — keskin chegarasiz, faqat logo o'qilishi uchun */
+.header:not(.scrolled) {
+  background: linear-gradient(180deg, rgba(7, 8, 12, .38) 0%, rgba(7, 8, 12, .16) 50%, rgba(7, 8, 12, .04) 85%, rgba(7, 8, 12, 0) 100%);
+}
+@media (max-width: 640px) {
+  .hero-bg::after,
+  .hero-bg.is-wide::after {
+    background: linear-gradient(to bottom,
+      rgba(7, 8, 12, .12) 0,
+      rgba(7, 8, 12, 0) 16vw,
+      rgba(7, 8, 12, 0) 30vw,
+      rgba(7, 8, 12, .7) 46vw,
+      var(--bg) 56.25vw);
+  }
+}

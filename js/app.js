@@ -162,28 +162,47 @@ function stopClip() {
 }
 
 function sizeClip(clip) {
-  // Video blokni to'liq qoplaydi. Ramka video balandligidan tepa-pastga «crop» qadar katta —
-  // YouTube sarlavhasi va pastki belgilari ko'rinmas qismga tushadi (pleyerdagi .ytp-crop kabi)
+  // Video blokni to'liq qoplaydi. Tepa-pastdan qo'shimcha kesish YO'Q:
+  // mobil YouTube pleyerida u tepada qora yo'lak qoldirardi. Pleyer belgilari esa sahnani
+  // kechiktirib ochish orqali yashiriladi (pastda).
   const r = clip.getBoundingClientRect();
-  let w = r.width * 1.08, h = w * 9 / 16;
-  if (h < r.height * 1.08) { h = r.height * 1.08; w = h * 16 / 9; }
-  const crop = Math.max(80, h * 0.2);
+  // treylerlar ko'pincha kinoteatr formatida (2.39:1) — videoning o'zida tepa-pastda qora hoshiya bor.
+  // 1.34 marta kattalashtirilganda hoshiyalar ko'rinmas qismga tushadi (yon chetlari biroz kesiladi)
+  const Z = 1.34;
+  let w = r.width * Z, h = w * 9 / 16;
+  if (h < r.height * Z) { h = r.height * Z; w = h * 16 / 9; }
   const f = clip.querySelector('iframe');
-  if (f) { f.style.width = w + 'px'; f.style.height = h + crop * 2 + 'px'; }
+  if (f) { f.style.width = w + 'px'; f.style.height = h + 'px'; }
 }
 
-/* YouTube ramkasidan holat xabarlari: video haqiqatda o'ynay boshlagandagina sahnani ochamiz
-   (autoplay to'sib qo'yilsa — rasm qolaveradi, pauza belgisi ko'rinmaydi) */
+/* YouTube ramkasidan holat xabarlari.
+   Mobil YouTube video boshlanganda ~2–3 s pauza belgisi va ingichka chiziq ko'rsatadi,
+   tugaganda — «qayta ko'rish» belgisi. Shuning uchun:
+   - treyler rasm ORTIDA oldindan boshlanadi;
+   - sahna o'ynay boshlagandan kamida 3 s o'tib (va rasm 3 s turgandan keyin) ochiladi;
+   - pauza/tugash/buferda sahna darhol yopiladi — o'sha belgilar hech qachon ko'rinmaydi. */
+const HERO_REVEAL_AFTER_PLAY = 3000;
+
 addEventListener('message', e => {
   if (!/^https:\/\/(www\.)?youtube(-nocookie)?\.com$/.test(e.origin)) return;
   let data;
   try { data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
   const state = data?.info?.playerState ?? (data?.event === 'onStateChange' ? data.info : undefined);
-  if (state !== 1) return;
+  if (state === undefined) return;
   document.querySelectorAll('.hero-clip').forEach(clip => {
     const f = clip.querySelector('iframe');
-    if (f && f.contentWindow === e.source && !clip.classList.contains('is-on')) {
-      setTimeout(() => { if (clip.isConnected) clip.classList.add('is-on'); }, 350);
+    if (!f || f.contentWindow !== e.source) return;
+    if (state === 1) {
+      if (clip._playingSince) return;
+      clip._playingSince = Date.now();
+      const wait = Math.max(clip._revealAt - Date.now(), HERO_REVEAL_AFTER_PLAY);
+      clearTimeout(clip._revealT);
+      clip._revealT = setTimeout(() => { if (clip.isConnected && clip._playingSince) clip.classList.add('is-on'); }, wait);
+    } else if (state === 0 || state === 2 || state === 3) {
+      // tugadi / pauza / bufer — YouTube belgilari chiqmasin, rasmga qaytamiz
+      clip._playingSince = 0;
+      clearTimeout(clip._revealT);
+      clip.classList.remove('is-on');
     }
   });
 });
@@ -194,9 +213,11 @@ function startClip(i) {
   if (!id || !bg || i !== heroIndex || document.hidden) return;
   const clip = document.createElement('div');
   clip.className = 'hero-clip';
+  clip._revealAt = Date.now() + HERO_IMAGE_SEC * 1000 - 400;   // rasm kamida 3 s turadi
   const s = HERO_CLIP_START;
   const origin = encodeURIComponent(location.origin);
-  clip.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&start=${s}&end=${s + HERO_CLIP_SEC + 2}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&loop=0&enablejsapi=1&origin=${origin}"
+  // «end» berilmaydi — tugash ekrani chiqmasin, sahnani slayd vaqtida o'zimiz yopamiz
+  clip.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&start=${s}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin=${origin}"
     allow="autoplay; encrypted-media" tabindex="-1" title="" aria-hidden="true"></iframe>`;
   bg.appendChild(clip);
   sizeClip(clip);
@@ -225,7 +246,7 @@ function restartHeroTimer() {
 
   if (d !== HERO_DELAY) {
     const i = heroIndex;
-    clipTimer = setTimeout(() => startClip(i), HERO_IMAGE_SEC * 1000);
+    clipTimer = setTimeout(() => startClip(i), 300);
   }
   heroTimer = setTimeout(() => { goToSlide(heroIndex + 1); restartHeroTimer(); }, d);
 }
