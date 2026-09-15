@@ -171,6 +171,7 @@ function sizeClip(clip) {
   // Video blokni to'liq qoplaydi. Tepa-pastdan qo'shimcha kesish YO'Q:
   // mobil YouTube pleyerida u tepada qora yo'lak qoldirardi. Pleyer belgilari esa sahnani
   // kechiktirib ochish orqali yashiriladi (pastda).
+  if (window.CSS && CSS.supports('width: 1cqw')) return;   // o'lcham CSS'da (container units) — o'lchash shart emas
   const r = clip.getBoundingClientRect();
   // treylerlar ko'pincha kinoteatr formatida (2.39:1) — videoning o'zida tepa-pastda qora hoshiya bor.
   // 1.5 marta kattalashtirilganda qora hoshiyalar ko'rinmas qismga tushadi (chetlari kesiladi, soya bilan qo'shiladi)

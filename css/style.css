@@ -4301,7 +4301,27 @@ img, video, iframe { max-width: 100%; }
 .hero-clip { background: transparent; }
 /* Slayderda faqat video: rasm yashiriladi (avtoijro ishlamasa .no-video bilan qaytadi) */
 .hero-bg.video-only:not(.no-video) { background: var(--bg) !important; }
-.hero-clip iframe { transform: none; }
+/* Video o'lchami faqat CSS bilan: blok qanday o'lchamda bo'lsa ham to'liq qoplaydi (1.75× — qora hoshiyalar ko'rinmas qismda) */
+.hero-clip { container-type: size; }
+.hero-clip iframe {
+  width: max(175cqw, 311.12cqh) !important;
+  height: max(98.44cqw, 175cqh) !important;
+  max-width: none !important; max-height: none !important;   /* umumiy iframe{max-width:100%} videoni kichraytirib qo'yardi */
+}
+/* Telefonda video butun slayder balandligini (sarlavha ortigacha) to'ldiradi */
+@media (max-width: 640px) {
+  .hero-clip { top: 0; bottom: 0; height: auto; }
+  .hero-clip iframe {
+    width: max(175cqw, 237cqh) !important;
+    height: max(98.44cqw, 133.4cqh) !important;
+  }
+  .hero-clip-shade {
+    background: linear-gradient(180deg, rgba(7, 8, 12, 0) 0%, rgba(7, 8, 12, 0) 45%, rgba(7, 8, 12, .55) 70%, var(--bg) 100%);
+  }
+  .hero-bg.video-only::after { background: linear-gradient(to bottom, rgba(7, 8, 12, .12) 0, rgba(7, 8, 12, 0) 16vw) !important; }
+  left: 50% !important; top: 50% !important;
+  transform: translate(-50%, -50%);
+}
 @media (min-width: 641px) {
   .hero-clip-shade {
     background:
