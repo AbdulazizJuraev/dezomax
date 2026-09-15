@@ -20,7 +20,8 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 let heroIndex = 0;
 let heroTimer = null;
 let heroSound = false;   // treyler ovozi (foydalanuvchi tugmani bosguncha o'chiq)
-const HERO_DELAY = Math.min(15, Math.max(2, Number(SITE_CFG.hero && SITE_CFG.hero.delay) || 3)) * 1000;
+// har bir slayd (treyler sahnasi) davomiyligi — admin → «Sayt»da 3 soniyadan 1 daqiqagacha
+const HERO_DELAY = Math.min(60, Math.max(3, Number(SITE_CFG.hero && SITE_CFG.hero.delay) || 7)) * 1000;
 document.documentElement.style.setProperty('--hero-delay', HERO_DELAY / 1000 + 's');
 
 /* ---------- Hero slider ---------- */
@@ -136,7 +137,7 @@ function goToSlide(i) {
 /* ---------- Slayd: faqat rasmiy treylerdan 7 soniyalik sahna (ovozsiz), rasm yo'q ---------- */
 
 const HERO_IMAGE_SEC = 3;
-const HERO_CLIP_SEC = 7;
+const HERO_CLIP_SEC = HERO_DELAY / 1000;   // treyler sahnasi qancha ko'rinadi (admin sozlaydi)
 const HERO_CLIP_START = 30;     // treyler boshidagi studiya logotiplarini o'tkazib yuboramiz
 const heroClipsOn = !matchMedia('(prefers-reduced-motion: reduce)').matches;
 let clipTimer = null;

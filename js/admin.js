@@ -796,7 +796,7 @@ function defaultConfig() {
     .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
     .slice(0, 10).map(m => m.id);
   return {
-    hero: { ids: heroIds, delay: 3 },
+    hero: { ids: heroIds, delay: 7 },
     rows: Object.keys(ROW_DEFAULT_TITLES).map(source => ({ source, visible: true, title: { uz: '', ru: '' } }))
   };
 }
@@ -811,7 +811,7 @@ async function loadConfig() {
   }
   const def = defaultConfig();
   siteDraft = {
-    hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, delay: cfg?.hero?.delay || 3 },
+    hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, delay: Math.min(60, Math.max(3, +cfg?.hero?.delay || 7)) },
     rows: cfg?.rows?.length ? cfg.rows.map(r => ({ title: { uz: '', ru: '' }, visible: true, ...r })) : def.rows
   };
 }
@@ -893,6 +893,8 @@ function bindPicker(root, getIds, setIds, rerender) {
   });
 }
 
+const delayText = s => +s >= 60 ? '1 daqiqa' : `${+s} soniya`;
+
 async function renderSiteView() {
   const box = $('#admView');
   if (!siteDraft) {
@@ -905,10 +907,12 @@ async function renderSiteView() {
     <section class="adm-sec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Katta slayder (karusel)</h3><small>${d.hero.ids.length} ta kino</small></div>
       <div class="adm-field">
-        <label class="adm-label">Slayd almashish vaqti</label>
+        <label class="adm-label">Har bir treyler necha soniya ko‘rinsin: <b id="admDelayVal">${delayText(d.hero.delay)}</b></label>
         <div class="adm-seg" data-delay>
-          ${[3, 5, 7, 10].map(s => `<button type="button" data-sec="${s}" class="${+d.hero.delay === s ? 'is-active' : ''}">${s} soniya</button>`).join('')}
+          ${[5, 7, 10, 15, 20, 30, 45, 60].map(s => `<button type="button" data-sec="${s}" class="${+d.hero.delay === s ? 'is-active' : ''}">${delayText(s)}</button>`).join('')}
         </div>
+        <input class="adm-range" type="range" id="admDelay" min="3" max="60" step="1" value="${+d.hero.delay}" aria-label="Treyler davomiyligi (soniya)">
+        <small class="acc-muted">3 soniyadan 1 daqiqagacha. Treyler undan qisqa bo‘lsa, tugashi bilan keyingi slaydga o‘tadi.</small>
       </div>
       <label class="adm-label">Slayderdagi kinolar (tartib bo‘yicha)</label>
       <div id="admHeroPicker">${pickerHTML('hero', d.hero.ids, 15)}</div>
@@ -952,6 +956,11 @@ async function renderSiteView() {
 
   // slayder
   box.querySelectorAll('[data-sec]').forEach(b => b.addEventListener('click', () => { d.hero.delay = +b.dataset.sec; rerender(); }));
+  $('#admDelay').addEventListener('input', e => {
+    d.hero.delay = +e.target.value;
+    $('#admDelayVal').textContent = delayText(d.hero.delay);
+    box.querySelectorAll('[data-sec]').forEach(b => b.classList.toggle('is-active', +b.dataset.sec === d.hero.delay));
+  });
   bindPicker($('#admHeroPicker'), () => d.hero.ids, ids => { d.hero.ids = ids; }, rerender);
 
   // qatorlar

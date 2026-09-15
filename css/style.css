@@ -4454,3 +4454,5 @@ img, video, iframe { max-width: 100%; }
 .adm-notify-text span { font-size: 13px; color: var(--text-dim); overflow-wrap: anywhere; }
 .adm-notify-text small { font-size: 11.5px; overflow-wrap: anywhere; }
 .adm-notify-item .adm-del { flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px; }
+/* Admin «Sayt»: treyler davomiyligi surgichi */
+.adm-range { width: 100%; margin: 10px 0 4px; accent-color: #0a93dc; height: 28px; }
