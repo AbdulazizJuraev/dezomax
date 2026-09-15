@@ -248,12 +248,23 @@ function renderMovie() {
     </section>` : ''}
 
     <section class="section">
-      <div class="section-head"><i class="bar"></i><h2>${t('movie.similar')}</h2></div>
-      <div class="grid" id="similar"></div>
+      <div class="section-head">
+        <i class="bar"></i><h2>${t('movie.similar')}</h2>
+        <div class="row-nav" id="similarNav">
+          <button data-dir="-1" aria-label="Chapga">${ICONS.left}</button>
+          <button data-dir="1" aria-label="O‘ngga">${ICONS.right}</button>
+        </div>
+      </div>
+      <!-- bosh sahifadagi kabi bitta qatorli karusel -->
+      <div class="row" id="similar"></div>
     </section>
   </div>`;
 
-  renderCards(document.getElementById('similar'), similarOf(movie));
+  const similarRow = document.getElementById('similar');
+  renderCards(similarRow, similarOf(movie));
+  document.querySelectorAll('#similarNav button').forEach(b => b.addEventListener('click', () => {
+    similarRow.scrollBy({ left: +b.dataset.dir * Math.max(similarRow.clientWidth * .8, 240), behavior: 'smooth' });
+  }));
 
   // Pleyer: birinchi manbani yuklaymiz, tablar orqali almashtiriladi
   const sources = sourcesOf(movie);
