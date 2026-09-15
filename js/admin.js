@@ -175,9 +175,9 @@ function checkVideoUrl(url) {
   if (BLOCKED_HOSTS.test(u.hostname)) {
     return { ok: false, msg: 'Bu xostdagi kontent ruxsatsiz tarqatiladi — qabul qilinmaydi.' };
   }
-  const yt = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)[\w-]{11}/.test(url);
-  const file = /\.(mp4|webm|m3u8)(\?|$)/i.test(u.pathname + u.search);
-  if (!yt && !file) return { ok: true, warn: 'Havola YouTube yoki .mp4/.webm/.m3u8 emas — pleyerda ochilmasligi mumkin.' };
+  // Istalgan sayt qabul qilinadi: YouTube, Vimeo, Google Drive, .mp4/.m3u8 — o'z pleyerida,
+  // qolgan havolalar sayt ichida iframe sifatida ochiladi (js/movie.js → embedFor)
+  if (u.protocol === 'http:') return { ok: true, warn: 'Havola «http://» — sayt HTTPS bo‘lgani uchun brauzer uni to‘sib qo‘yishi mumkin. Imkon bo‘lsa «https://» ishlating.' };
   return { ok: true };
 }
 
@@ -290,8 +290,8 @@ function formHTML(m = {}) {
       </div>
 
       <div class="adm-grid">
-        <div><label class="acc-label">To‘liq kino havolasi</label><input class="acc-input" name="video" value="${val(m.video)}" placeholder="YouTube yoki https://...mp4 / .m3u8"></div>
-        <div><label class="acc-label">Treyler havolasi</label><input class="acc-input" name="trailer" value="${val(m.trailer)}" placeholder="https://youtube.com/watch?v=..."></div>
+        <div><label class="acc-label">To‘liq kino havolasi</label><input class="acc-input" name="video" value="${val(m.video)}" placeholder="Istalgan sayt: YouTube, Vimeo, embed, .mp4, .m3u8..."></div>
+        <div><label class="acc-label">Treyler havolasi</label><input class="acc-input" name="trailer" value="${val(m.trailer)}" placeholder="Istalgan saytdagi treyler havolasi"></div>
         <div><label class="acc-label">Manba nomi</label><input class="acc-input" name="sourceName" value="${val(m.source?.name)}" placeholder="Masalan: rasmiy kanal nomi"></div>
         <div><label class="acc-label">Manba havolasi</label><input class="acc-input" name="sourceUrl" value="${val(m.source?.url)}"></div>
       </div>
