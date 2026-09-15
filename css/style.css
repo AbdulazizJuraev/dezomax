@@ -4337,3 +4337,42 @@ img, video, iframe { max-width: 100%; }
   .hero-actions { grid-template-columns: 1fr; }
   .hero-actions .hero-watch { width: 100%; padding-inline: 12px; }
 }
+/* Slayder: faqat kino nomi — kinoteatr uslubidagi baland, siqiq shrift (Oswald: lotin + kirill) */
+.hero h1 {
+  font-family: 'Oswald', 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  line-height: 1.02;
+  font-size: clamp(34px, 6vw, 76px);
+  margin-bottom: 18px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, .35), 0 6px 34px rgba(0, 0, 0, .65);
+}
+.hero-actions { align-items: center; }
+.hero-sound {
+  flex: 0 0 auto;
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .28);
+  background: rgba(7, 8, 12, .45);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background .2s, border-color .2s, transform .15s;
+}
+.hero-sound svg { width: 22px; height: 22px; }
+.hero-sound:hover { background: rgba(255, 255, 255, .14); }
+.hero-sound:active { transform: scale(.94); }
+.hero-sound.is-on { border-color: rgba(10, 147, 220, .8); background: rgba(10, 147, 220, .25); }
+@media (max-width: 640px) {
+  .hero h1 { font-size: clamp(26px, 10vw, 44px); margin-bottom: 14px; }
+  .hero-actions { grid-template-columns: 1fr auto; }
+  .hero-sound { width: 44px; height: 44px; }
+}
+@media (max-width: 220px) {
+  .hero h1 { font-size: 16px; }
+  .hero-sound { width: 30px; height: 30px; }
+  .hero-sound svg { width: 15px; height: 15px; }
+}

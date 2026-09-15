@@ -19,6 +19,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 let heroIndex = 0;
 let heroTimer = null;
+let heroSound = false;   // treyler ovozi (foydalanuvchi tugmani bosguncha o'chiq)
 const HERO_DELAY = Math.min(15, Math.max(2, Number(SITE_CFG.hero && SITE_CFG.hero.delay) || 3)) * 1000;
 document.documentElement.style.setProperty('--hero-delay', HERO_DELAY / 1000 + 's');
 
@@ -37,12 +38,6 @@ function renderHero() {
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
     const wideSrc = uzArt || (ytId ? `https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg` : null);
     const wideArt = !!wideSrc;
-    const meta = [
-      m.year,
-      typeName(m.type),
-      m.genres.slice(0, 2).map(genreName).join(', '),
-      durationText(m)
-    ].filter(x => x && x !== '—');
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
       <div class="hero-bg${wideArt ? ' is-wide' : ''}${ytId && !matchMedia('(prefers-reduced-motion: reduce)').matches ? ' video-only' : ''}" style="background-image:${wideArt ? `url('${esc(wideSrc)}'), ${backdropCSS(m)}` : backdropCSS(m)}"${ytId && !uzArt ? ` data-yt="${ytId}"` : ''}></div>
@@ -52,12 +47,9 @@ function renderHero() {
           <div class="hero-content">
             <span class="hero-badge">DezoMax ${LANG === 'uz' ? 'tanlovi' : 'выбирает'}</span>
             <h1>${esc(title(m))}</h1>
-            <div class="hero-meta">
-              ${m.rating ? `<span class="tag tag-rating">${ICONS.star} ${m.rating.toFixed(1)}</span>` : ''}
-              ${meta.map(x => `<span>${esc(x)}</span>`).join('<i class="dot"></i>')}
-            </div>
             <div class="hero-actions">
               <a class="btn btn-primary hero-watch" href="movie.html?id=${m.id}&play=1">${ICONS.play}<span>${LANG === 'uz' ? 'Filmni tomosha qilish' : 'Смотреть фильм'}</span></a>
+              ${ytId ? `<button class="hero-sound${heroSound ? ' is-on' : ''}" type="button" aria-label="${LANG === 'uz' ? 'Ovoz' : 'Звук'}">${heroSoundIcon()}</button>` : ''}
             </div>
           </div>
         </div>
@@ -151,10 +143,35 @@ function slideDuration(i) {
   return heroClipsOn && heroYtId(featured[i]) ? (HERO_IMAGE_SEC + HERO_CLIP_SEC) * 1000 : HERO_DELAY;
 }
 
+/* ---------- Treyler ovozi: sahnalar ovozsiz boshlanadi (brauzer talabi), tugma bilan yoqiladi ---------- */
+
+function ytCmd(clip, func, args = []) {
+  clip?.querySelector('iframe')?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
+}
+
+function heroSoundIcon() {
+  return heroSound
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>';
+}
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.hero-sound');
+  if (!btn) return;
+  heroSound = !heroSound;
+  document.querySelectorAll('.hero-sound').forEach(b => {
+    b.innerHTML = heroSoundIcon();
+    b.classList.toggle('is-on', heroSound);
+  });
+  const clip = document.querySelector(`.hero-slide[data-i="${heroIndex}"] .hero-clip`);
+  if (heroSound) { ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]); } else ytCmd(clip, 'mute');
+});
+
 function stopClip(keep) {
   clearTimeout(clipTimer);
   document.querySelectorAll('.hero-clip').forEach(c => {
     if (c === keep) return;
+    ytCmd(c, 'mute');   // yopilayotgan sahna ovozi eshitilib qolmasin
     c.classList.remove('is-on');
     setTimeout(() => c.remove(), 600);
   });
@@ -197,6 +214,7 @@ const nextSlide = () => { goToSlide(heroIndex + 1); restartHeroTimer(); };
 function showClip(clip) {
   if (!clip.isConnected || clip.classList.contains('is-on') || clip._slide !== heroIndex) return;
   clip.classList.add('is-on');
+  if (heroSound) { ytCmd(clip, 'unMute'); ytCmd(clip, 'setVolume', [100]); }
   heroEverPlayed = true;
   // sahna ko'rindi — aynan 7 soniya ko'rsatamiz, oxirida keyingi sahnani oldindan yuklaymiz
   clearTimeout(heroTimer);
