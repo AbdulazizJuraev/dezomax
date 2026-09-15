@@ -306,7 +306,7 @@ function formHTML(m = {}) {
           ${field('Davlat (o‘zbekcha)', `<input class="acc-input" name="countryUz" value="${val(m.country?.uz)}" placeholder="O‘zbekiston">`)}
           ${field('Davlat (ruscha)', `<input class="acc-input" name="countryRu" value="${val(m.country?.ru)}" placeholder="Узбекистан">`)}
           ${field('Rejissyor', `<input class="acc-input" name="director" value="${val(m.director)}">`)}
-          ${field('Bo‘lim', `<select class="acc-input" name="franchise">${[['', 'Yo‘q'], ['uzbek', 'O‘zbek kino'], ['marvel', 'Marvel'], ['dc', 'DC']].map(([v, l]) => `<option value="${v}"${(m.franchise || '') === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`)}
+          ${field('Bo‘lim', `<select class="acc-input" name="franchise">${[['', 'Yo‘q'], ['uzbek', 'O‘zbek kino'], ['konsert', 'Konsert'], ['marvel', 'Marvel'], ['dc', 'DC']].map(([v, l]) => `<option value="${v}"${(m.franchise || '') === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`)}
         </div>
         ${field('Rollarda', `<input class="acc-input" name="cast" value="${val((m.cast || []).join(', '))}" placeholder="Aktyorlarni vergul bilan ajrating">`)}
       `)}
@@ -776,12 +776,12 @@ function bindList() {
 
 const CONFIG_PATH = 'js/site-config.js';
 const ROW_SOURCE_NAMES = {
-  uzbek: 'O‘zbek kinolari (avtomatik)', trending: 'Trendda (avtomatik)', new: 'Yangi qo‘shilganlar (avtomatik)',
+  uzbek: 'O‘zbek kinolari (avtomatik)', konsert: 'Konsertlar (avtomatik)', trending: 'Trendda (avtomatik)', new: 'Yangi qo‘shilganlar (avtomatik)',
   marvel: 'Marvel (avtomatik)', dc: 'DC (avtomatik)', top: 'Eng yuqori reyting (avtomatik)',
   series: 'Seriallar (avtomatik)', cartoons: 'Multfilmlar (avtomatik)', custom: 'Qo‘lda tanlangan kinolar'
 };
 const ROW_DEFAULT_TITLES = {
-  uzbek: 'row.uzbek', trending: 'row.trending', new: 'row.new', marvel: 'row.marvel', dc: 'row.dc',
+  uzbek: 'row.uzbek', konsert: 'row.konsert', trending: 'row.trending', new: 'row.new', marvel: 'row.marvel', dc: 'row.dc',
   top: 'row.top', series: 'row.series', cartoons: 'row.cartoons'
 };
 

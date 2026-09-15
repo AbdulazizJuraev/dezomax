@@ -26,6 +26,10 @@ const SITE_CONFIG = /*CONFIG*/{
       "visible": true
     },
     {
+      "source": "konsert",
+      "visible": true
+    },
+    {
       "source": "cartoons",
       "visible": true
     },

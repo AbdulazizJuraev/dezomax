@@ -16,7 +16,7 @@ const state = {
 
 const WATCH = [['uz', 'watch.filterUz'], ['trailer', 'watch.filterTrailer']];
 const TYPES = ['film', 'serial', 'multfilm'];
-const FRANCHISES = ['uzbek', 'marvel', 'dc'];
+const FRANCHISES = ['uzbek', 'konsert', 'marvel', 'dc'];
 const SORTS = ['new', 'old', 'rating', 'name'];
 
 /* ---------- Filtrlar ---------- */

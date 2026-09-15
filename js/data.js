@@ -1759,5 +1759,362 @@ const MOVIES = [
     video: 'https://www.youtube.com/watch?v=U_FTs4VHl9U',
     source: { name: "navo.tv", url: 'https://www.youtube.com/@navotv' },
     featured: false
+  },
+  {
+    id: 101, slug: "konsert-avaz-2025-kulib-yashaylik", year: 2025, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — «Kulib yashaylik» konserti 2025", ru: "Аваз Охун — концерт «Kulib yashaylik» 2025" },
+    genres: ['comedy'], duration: 169,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2025-yilgi to‘liq konsert dasturi. Rasmiy «YangiKulgu Official» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2025 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2025-kulib-yashaylik.jpg",
+    video: 'https://www.youtube.com/watch?v=mjLbvt7wIq8',
+    source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
+    featured: false
+  },
+  {
+    id: 102, slug: "konsert-avaz-2024-toydagi-tomosha", year: 2024, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — «To‘ydagi tomosha» konserti 2024", ru: "Аваз Охун — концерт «To‘ydagi tomosha» 2024" },
+    genres: ['comedy'], duration: 150,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2024-yilgi to‘liq konsert dasturi. Rasmiy «Avaz Oxun» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2024 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2024-toydagi-tomosha.jpg",
+    video: 'https://www.youtube.com/watch?v=jY98EwB1IJQ',
+    source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
+    featured: false
+  },
+  {
+    id: 103, slug: "konsert-avaz-2023-10-yillik-yubiley", year: 2023, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — «10 yillik yubiley» konserti 2023", ru: "Аваз Охун — концерт «10 yillik yubiley» 2023" },
+    genres: ['comedy'], duration: 173,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2023-yilgi to‘liq konsert dasturi. Rasmiy «YangiKulgu Official» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2023 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2023-10-yillik-yubiley.jpg",
+    video: 'https://www.youtube.com/watch?v=UHT1ArsrJlc',
+    source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
+    featured: false
+  },
+  {
+    id: 104, slug: "konsert-avaz-2022-kulgiterapiya", year: 2022, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — «Kulgiterapiya» konserti 2022", ru: "Аваз Охун — концерт «Kulgiterapiya» 2022" },
+    genres: ['comedy'], duration: 182,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2022-yilgi to‘liq konsert dasturi. Rasmiy «YangiKulgu Official» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2022 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2022-kulgiterapiya.jpg",
+    video: 'https://www.youtube.com/watch?v=_nhXnUn7A-M',
+    source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
+    featured: false
+  },
+  {
+    id: 105, slug: "konsert-avaz-2021-kulgularingizni-sogindim", year: 2021, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — «Kulgularingizni sog‘indim» konserti 2021", ru: "Аваз Охун — концерт «Kulgularingizni sog‘indim» 2021" },
+    genres: ['comedy'], duration: 154,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2021-yilgi to‘liq konsert dasturi. Rasmiy «YangiKulgu Official» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2021 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2021-kulgularingizni-sogindim.jpg",
+    video: 'https://www.youtube.com/watch?v=pac0a59ZsHw',
+    source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
+    featured: false
+  },
+  {
+    id: 106, slug: "konsert-avaz-2019", year: 2019, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — konsert dasturi 2019", ru: "Аваз Охун — концертная программа 2019" },
+    genres: ['comedy'], duration: 166,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2019-yilgi to‘liq konsert dasturi. Rasmiy «YangiKulgu Official» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2019 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2019.jpg",
+    video: 'https://www.youtube.com/watch?v=HXoU8KqMd2o',
+    source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
+    featured: false
+  },
+  {
+    id: 107, slug: "konsert-avaz-2018", year: 2018, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — konsert dasturi 2018", ru: "Аваз Охун — концертная программа 2018" },
+    genres: ['comedy'], duration: 142,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2018-yilgi to‘liq konsert dasturi. Rasmiy «Avaz Oxun» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2018 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2018.jpg",
+    video: 'https://www.youtube.com/watch?v=CWgoDzE3cZM',
+    source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
+    featured: false
+  },
+  {
+    id: 108, slug: "konsert-avaz-2017", year: 2017, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — konsert dasturi 2017", ru: "Аваз Охун — концертная программа 2017" },
+    genres: ['comedy'], duration: 162,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2017-yilgi to‘liq konsert dasturi. Rasmiy «YangiKulgu Official» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2017 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2017.jpg",
+    video: 'https://www.youtube.com/watch?v=Oy4PQvke7Rc',
+    source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
+    featured: false
+  },
+  {
+    id: 109, slug: "konsert-avaz-2016", year: 2016, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — konsert dasturi 2016", ru: "Аваз Охун — концертная программа 2016" },
+    genres: ['comedy'], duration: 162,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2016-yilgi to‘liq konsert dasturi. Rasmiy «Avaz Oxun» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2016 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2016.jpg",
+    video: 'https://www.youtube.com/watch?v=2NiTIEp5Ugk',
+    source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
+    featured: false
+  },
+  {
+    id: 110, slug: "konsert-avaz-2015", year: 2015, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — konsert dasturi 2015", ru: "Аваз Охун — концертная программа 2015" },
+    genres: ['comedy'], duration: 119,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2015-yilgi to‘liq konsert dasturi. Rasmiy «Avaz Oxun» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2015 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2015.jpg",
+    video: 'https://www.youtube.com/watch?v=LuDFFGkpyE4',
+    source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
+    featured: false
+  },
+  {
+    id: 111, slug: "konsert-avaz-2014", year: 2014, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Avaz Oxun — konsert dasturi 2014", ru: "Аваз Охун — концертная программа 2014" },
+    genres: ['comedy'], duration: 154,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Avaz Oxun"],
+    tags: ["konsert","kulgu","Avaz Ohun","Аваз Охун","концерт"],
+    desc: {
+      uz: "Avaz Oxunning 2014-yilgi to‘liq konsert dasturi. Rasmiy «Avaz Oxun» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Аваз Охун» 2014 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
+    },
+    colors: ["#5a3a12","#140c04"],
+    poster: "images/uz/konsert-avaz-2014.jpg",
+    video: 'https://www.youtube.com/watch?v=2aZ6pZ3qWt4',
+    source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
+    featured: false
+  },
+  {
+    id: 112, slug: "konsert-million-2025-kuz", year: 2025, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — «Kuz» konserti 2025", ru: "Миллион жамоаси — концерт «Kuz» 2025" },
+    genres: ['comedy'], duration: 121,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2025-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2025 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2025-kuz.jpg",
+    video: 'https://www.youtube.com/watch?v=qZ9ZpSn3eOs',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 113, slug: "konsert-million-2025", year: 2025, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — konsert dasturi 2025", ru: "Миллион жамоаси — концертная программа 2025" },
+    genres: ['comedy'], duration: 168,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2025-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2025 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2025.jpg",
+    video: 'https://www.youtube.com/watch?v=YZddDdYi7h4',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 114, slug: "konsert-million-2024-kuz", year: 2024, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — «Kuz» konserti 2024", ru: "Миллион жамоаси — концерт «Kuz» 2024" },
+    genres: ['comedy'], duration: 141,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2024-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2024 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2024-kuz.jpg",
+    video: 'https://www.youtube.com/watch?v=q6u7FuT3vWo',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 115, slug: "konsert-million-2024", year: 2024, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — konsert dasturi 2024", ru: "Миллион жамоаси — концертная программа 2024" },
+    genres: ['comedy'], duration: 138,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2024-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2024 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2024.jpg",
+    video: 'https://www.youtube.com/watch?v=FNjWoKRKe6s',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 116, slug: "konsert-million-2023-10-yillik-yubiley", year: 2023, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — «10 yillik yubiley» konserti 2023", ru: "Миллион жамоаси — концерт «10 yillik yubiley» 2023" },
+    genres: ['comedy'], duration: 180,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2023-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2023 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2023-10-yillik-yubiley.jpg",
+    video: 'https://www.youtube.com/watch?v=D1LVulqHw4s',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 117, slug: "konsert-million-2022", year: 2022, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — konsert dasturi 2022", ru: "Миллион жамоаси — концертная программа 2022" },
+    genres: ['comedy'], duration: 123,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2022-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2022 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2022.jpg",
+    video: 'https://www.youtube.com/watch?v=sxWszokjdzg',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 118, slug: "konsert-million-2021-kuz", year: 2021, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — «Kuz» konserti 2021", ru: "Миллион жамоаси — концерт «Kuz» 2021" },
+    genres: ['comedy'], duration: 111,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2021-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2021 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2021-kuz.jpg",
+    video: 'https://www.youtube.com/watch?v=tPg6FNt-NYg',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 119, slug: "konsert-million-2019", year: 2019, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — konsert dasturi 2019", ru: "Миллион жамоаси — концертная программа 2019" },
+    genres: ['comedy'], duration: 149,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2019-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2019 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2019.jpg",
+    video: 'https://www.youtube.com/watch?v=jo3aLcacRow',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 120, slug: "konsert-million-2018", year: 2018, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — konsert dasturi 2018", ru: "Миллион жамоаси — концертная программа 2018" },
+    genres: ['comedy'], duration: 123,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2018-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2018 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2018.jpg",
+    video: 'https://www.youtube.com/watch?v=At8bxuzGm2Q',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
+  },
+  {
+    id: 121, slug: "konsert-million-2017", year: 2017, type: 'film', franchise: 'konsert', audio: 'uz',
+    title: { uz: "Million jamoasi — konsert dasturi 2017", ru: "Миллион жамоаси — концертная программа 2017" },
+    genres: ['comedy'], duration: 119,
+    country: { uz: 'O‘zbekiston', ru: 'Узбекистан' },
+    cast: ["Million jamoasi"],
+    tags: ["konsert","kulgu","Million","Миллион","концерт"],
+    desc: {
+      uz: "Million jamoasining 2017-yilgi to‘liq konsert dasturi. Rasmiy «Million Jamoasi ™» YouTube kanalida joylangan.",
+      ru: "Полная концертная программа «Миллион жамоаси» 2017 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
+    },
+    colors: ["#12325a","#040c14"],
+    poster: "images/uz/konsert-million-2017.jpg",
+    video: 'https://www.youtube.com/watch?v=dY8LY6vGV1c',
+    source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
+    featured: false
   }
 ];

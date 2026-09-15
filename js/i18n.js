@@ -117,6 +117,7 @@ const I18N = {
     'row.marvel': 'Marvel olami',
     'row.dc': 'DC olami',
     'row.uzbek': 'O‘zbek kinolari',
+    'row.konsert': 'Konsertlar',
     'row.seeAll': 'Hammasi',
 
     'catalog.title': 'Katalog',
@@ -133,6 +134,7 @@ const I18N = {
     'franchise.marvel': 'Marvel',
     'franchise.dc': 'DC',
     'franchise.uzbek': 'O‘zbek kino',
+    'franchise.konsert': 'Konsertlar',
 
     'type.film': 'Film',
     'type.serial': 'Serial',
@@ -296,6 +298,7 @@ const I18N = {
     'row.marvel': 'Вселенная Marvel',
     'row.dc': 'Вселенная DC',
     'row.uzbek': 'Узбекские фильмы',
+    'row.konsert': 'Концерты',
     'row.seeAll': 'Все',
 
     'catalog.title': 'Каталог',
@@ -312,6 +315,7 @@ const I18N = {
     'franchise.marvel': 'Marvel',
     'franchise.dc': 'DC',
     'franchise.uzbek': 'Узбекское кино',
+    'franchise.konsert': 'Концерты',
 
     'type.film': 'Фильм',
     'type.serial': 'Сериал',

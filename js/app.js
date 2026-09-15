@@ -419,8 +419,9 @@ const yr = m => m.year || 0;
 const rt = m => m.rating || 0;
 const ROW_SOURCES = {
   uzbek:    { title: 'row.uzbek',    all: 'catalog.html?watch=uz',        list: () => MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)) },
+  konsert:  { title: 'row.konsert',  all: 'catalog.html?franchise=konsert', list: () => MOVIES.filter(m => m.franchise === 'konsert').sort((a, b) => yr(b) - yr(a)) },
   trending: { title: 'row.trending', all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) * (yr(b) >= 2014 ? 1.1 : 1) - rt(a) * (yr(a) >= 2014 ? 1.1 : 1)).slice(0, 14) },
-  new:      { title: 'row.new',      all: null,                           list: () => [...MOVIES].filter(yr).sort((a, b) => yr(b) - yr(a)).slice(0, 14) },
+  new:      { title: 'row.new',      all: null,                           list: () => [...MOVIES].filter(m => yr(m) && m.franchise !== 'konsert').sort((a, b) => yr(b) - yr(a)).slice(0, 14) },
   marvel:   { title: 'row.marvel',   all: 'catalog.html?franchise=marvel', list: () => MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => yr(a) - yr(b)) },
   dc:       { title: 'row.dc',       all: 'catalog.html?franchise=dc',     list: () => MOVIES.filter(m => m.franchise === 'dc').sort((a, b) => yr(a) - yr(b)) },
   top:      { title: 'row.top',      all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) - rt(a)).slice(0, 14) },
@@ -429,7 +430,7 @@ const ROW_SOURCES = {
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
-const DEFAULT_ROWS = ['uzbek', 'trending', 'new', 'marvel', 'dc', 'top', 'series', 'cartoons']
+const DEFAULT_ROWS = ['uzbek', 'konsert', 'trending', 'new', 'marvel', 'dc', 'top', 'series', 'cartoons']
   .map(source => ({ source, visible: true }));
 
 function renderRows() {
