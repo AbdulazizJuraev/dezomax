@@ -66,36 +66,55 @@ async function putFile(path, contentB64, message, sha) {
 
 /* ---------- data-custom.js o'qish / yozish ---------- */
 
+let hiddenList = [];      // saytdan yashirilgan kinolar id'lari
+
 async function loadCustom() {
   const f = await getFile(DATA_PATH);
-  if (!f) { customList = []; dataSha = null; return; }
+  if (!f) { customList = []; hiddenList = []; dataSha = null; return; }
   dataSha = f.sha;
   const text = b64decode(f.content);
   const m = text.match(/\/\*DATA\*\/([\s\S]*?)\/\*END\*\//);
+  const h = text.match(/\/\*HIDDEN\*\/([\s\S]*?)\/\*ENDHIDDEN\*\//);
   customList = m ? JSON.parse(m[1]) : [];
+  hiddenList = h ? JSON.parse(h[1]) : [];
 }
 
-function buildDataFile(list) {
+function buildDataFile(list, hidden) {
   return `/* ============================================================
-   DezoMax — admin.html orqali qo'shilgan kinolar
+   DezoMax — admin.html orqali qo'shilgan / tahrirlangan kinolar
    Bu faylni admin sahifa avtomatik yozadi. Qo'lda tahrirlash shart emas.
+   - CUSTOM_MOVIES: yangi kinolar va tahrirlangan mavjud kinolar (id bo'yicha almashtiriladi)
+   - HIDDEN_MOVIES: saytdan yashirilgan kinolar id'lari
    ============================================================ */
 
 const CUSTOM_MOVIES = /*DATA*/${JSON.stringify(list, null, 2)}/*END*/;
+const HIDDEN_MOVIES = /*HIDDEN*/${JSON.stringify(hidden)}/*ENDHIDDEN*/;
 
-if (typeof MOVIES !== 'undefined') MOVIES.push(...CUSTOM_MOVIES);
+if (typeof MOVIES !== 'undefined') {
+  window.BASE_MOVIES = MOVIES.slice();        // admin sahifa asl ro'yxatni ko'rishi uchun
+  for (const m of CUSTOM_MOVIES) {
+    const i = MOVIES.findIndex(x => x.id === m.id);
+    if (i > -1) MOVIES[i] = m; else MOVIES.push(m);
+  }
+  for (let i = MOVIES.length - 1; i >= 0; i--) {
+    if (HIDDEN_MOVIES.includes(MOVIES[i].id)) MOVIES.splice(i, 1);
+  }
+}
 `;
 }
 
-/* ro'yxatni yozish; boshqa joyda o'zgargan bo'lsa (409) — qayta o'qib, o'zgarishni qayta qo'llaymiz */
+/* Yozish; boshqa joyda o'zgargan bo'lsa (409) — qayta o'qib, o'zgarishni qayta qo'llaymiz.
+   mutate(list, hidden) — ro'yxatni qaytaradi, hidden massivini joyida o'zgartiradi */
 async function saveCustom(mutate, message) {
   for (let attempt = 0; attempt < 2; attempt++) {
     await loadCustom();
-    const next = mutate(structuredClone(customList));
+    const hidden = [...hiddenList];
+    const next = mutate(structuredClone(customList), hidden);
     try {
-      const res = await putFile(DATA_PATH, b64encode(buildDataFile(next)), message, dataSha);
+      const res = await putFile(DATA_PATH, b64encode(buildDataFile(next, hidden)), message, dataSha);
       dataSha = res.content.sha;
       customList = next;
+      hiddenList = hidden;
       return;
     } catch (e) {
       if (e.status !== 409 || attempt) throw e;
@@ -135,9 +154,18 @@ async function uploadPoster(file, slug) {
 
 const slugify = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'kino';
 
+/* data.js dagi asl kinolar (data-custom.js qo'shimchalarisiz) */
+const baseMovies = () => window.BASE_MOVIES || MOVIES;
+const isBase = id => baseMovies().some(m => m.id === id);
+
 function nextId() {
-  const ids = [...MOVIES.map(m => m.id), ...customList.map(m => m.id)];
+  const ids = [...baseMovies().map(m => m.id), ...customList.map(m => m.id)];
   return Math.max(999, ...ids) + 1;
+}
+
+/* Hozirgi holat: asl kino + tahrir (bo'lsa) */
+function currentMovie(id) {
+  return customList.find(m => m.id === id) || baseMovies().find(m => m.id === id) || null;
 }
 
 function checkVideoUrl(url) {
@@ -216,7 +244,7 @@ function formHTML(m = {}) {
   return `
     <form class="acc-card adm-form" id="admForm" novalidate>
       <div class="adm-form-head">
-        <h2>${m.id ? `Tahrirlash: ${esc(m.title?.uz || '')}` : 'Yangi kino qo‘shish'}</h2>
+        <h2>${m.id ? `Tahrirlash: ${esc(m.title?.uz || '')}` : 'Yangi kino qo‘shish'}</h2>${m.id && isBase(m.id) ? '<span class="adm-badge">Saytdagi asl kino</span>' : ''}
         ${m.id ? '<button class="btn btn-ghost btn-sm" type="button" id="admCancel">Bekor qilish</button>' : ''}
       </div>
 
@@ -288,7 +316,9 @@ function readForm(form, old = {}) {
   const f = new FormData(form);
   const s = k => String(f.get(k) || '').trim();
   const num = k => { const v = parseFloat(s(k)); return Number.isFinite(v) ? v : undefined; };
+  // formada bo'lmagan maydonlar (tags, audio va h.k.) saqlanib qoladi
   const m = {
+    ...old,
     id: old.id || nextId(),
     slug: old.slug || slugify(s('titleUz')),
     type: s('type') || 'film',
@@ -304,6 +334,8 @@ function readForm(form, old = {}) {
     featured: f.get('featured') === 'on',
     addedAt: old.addedAt || Date.now()
   };
+  // ixtiyoriy maydonlar: bo'sh qoldirilsa o'chiriladi
+  ['year', 'duration', 'rating', 'director', 'franchise', 'audio', 'source'].forEach(k => delete m[k]);
   if (num('year')) m.year = Math.round(num('year'));
   if (num('duration')) m.duration = Math.round(num('duration'));
   if (num('rating') !== undefined && s('rating')) m.rating = num('rating');
@@ -311,6 +343,7 @@ function readForm(form, old = {}) {
   if (s('franchise')) m.franchise = s('franchise');
   if (f.get('audioUz') === 'on') m.audio = 'uz';
   if (s('sourceName')) m.source = { name: s('sourceName'), url: s('sourceUrl') };
+  if (old.seasons && !m.duration) m.seasons = old.seasons;
   if (!m.genres.length) m.genres = ['drama'];
   return m;
 }
@@ -383,38 +416,85 @@ function bindForm(old) {
 
 /* ---------- Ro'yxat ---------- */
 
-function listHTML() {
-  if (!customList.length) return `<div class="acc-empty"><b>Hali kino qo‘shilmagan</b><p>Formani to‘ldirib birinchi kinoni qo‘shing.</p></div>`;
-  return `<div class="acc-list">${customList.map(m => `
-    <div class="acc-item adm-item">
+let listTab = 'custom';   // 'custom' — qo'shilganlar, 'all' — saytdagi barcha kinolar
+let listQuery = '';
+
+function itemHTML(m) {
+  const base = isBase(m.id);
+  const edited = base && customList.some(x => x.id === m.id);
+  const hidden = hiddenList.includes(m.id);
+  const tags = [
+    m.year, typeName(m.type), m.video ? 'To‘liq kino' : 'Treyler', `ID ${m.id}`,
+    edited ? '✏️ tahrirlangan' : '', hidden ? '🚫 yashirilgan' : ''
+  ].filter(Boolean);
+  return `
+    <div class="acc-item adm-item${hidden ? ' is-hidden' : ''}">
       <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
       <div class="acc-item-main">
-        <b>${esc(m.title.uz)}</b>
-        <small>${[m.year, typeName(m.type), m.video ? 'To‘liq kino' : 'Treyler', `ID ${m.id}`].filter(Boolean).map(esc).join(' · ')}</small>
+        <b>${esc(m.title?.uz || '')}</b>
+        <small>${tags.map(esc).join(' · ')}</small>
       </div>
       <div class="adm-actions">
         <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
         <button class="btn btn-ghost btn-sm" type="button" data-edit="${m.id}">Tahrirlash</button>
-        <button class="btn btn-ghost btn-sm adm-del" type="button" data-del="${m.id}">O‘chirish</button>
+        ${base
+          ? `${edited ? `<button class="btn btn-ghost btn-sm" type="button" data-restore="${m.id}">Asliga qaytarish</button>` : ''}
+             <button class="btn btn-ghost btn-sm${hidden ? '' : ' adm-del'}" type="button" data-hide="${m.id}">${hidden ? 'Saytda ko‘rsatish' : 'Yashirish'}</button>`
+          : `<button class="btn btn-ghost btn-sm adm-del" type="button" data-del="${m.id}">O‘chirish</button>`}
       </div>
-    </div>`).join('')}</div>`;
+    </div>`;
+}
+
+function listItems() {
+  let items;
+  if (listTab === 'custom') {
+    items = customList.filter(m => !isBase(m.id));
+  } else {
+    items = [...baseMovies().map(m => currentMovie(m.id)), ...customList.filter(m => !isBase(m.id))];
+  }
+  const q = norm(listQuery);
+  if (q) items = items.filter(m => norm(`${m.title?.uz} ${m.title?.ru} ${m.year || ''} ${m.id}`).includes(q));
+  return items;
+}
+
+function listHTML() {
+  const items = listItems();
+  if (!items.length) {
+    return listTab === 'custom' && !listQuery
+      ? `<div class="acc-empty"><b>Hali kino qo‘shilmagan</b><p>Formani to‘ldirib birinchi kinoni qo‘shing yoki «Saytdagi barcha kinolar» dan mavjudini tahrirlang.</p></div>`
+      : `<div class="acc-empty"><b>Hech narsa topilmadi</b></div>`;
+  }
+  return `<div class="acc-list">${items.map(itemHTML).join('')}</div>`;
+}
+
+function renderList() {
+  const box = document.getElementById('admListBox');
+  if (!box) return;
+  box.innerHTML = listHTML();
+  document.querySelectorAll('.adm-tabs [data-tab]').forEach(b => b.classList.toggle('is-active', b.dataset.tab === listTab));
+  bindList();
 }
 
 function renderMain() {
-  const editing = customList.find(m => m.id === editingId);
+  const editing = editingId !== null ? currentMovie(editingId) : null;
+  const ownCount = customList.filter(m => !isBase(m.id)).length;
   $('#admin').innerHTML = `
     <div class="adm-top">
       <h1>Admin — kinolar</h1>
       <div class="adm-top-actions">
-        <span class="acc-muted">${customList.length} ta qo‘shilgan</span>
+        <span class="acc-muted">${ownCount} ta qo‘shilgan · ${baseMovies().length} ta asl</span>
         <button class="btn btn-ghost btn-sm" type="button" id="admLogout">Tokenni o‘chirish</button>
       </div>
     </div>
     <div class="adm-layout">
       ${formHTML(editing || {})}
       <section class="adm-list">
-        <h2 class="acc-h3">Qo‘shilgan kinolar</h2>
-        ${listHTML()}
+        <div class="mt-tabs adm-tabs">
+          <button type="button" data-tab="custom" class="${listTab === 'custom' ? 'is-active' : ''}">Qo‘shilganlar</button>
+          <button type="button" data-tab="all" class="${listTab === 'all' ? 'is-active' : ''}">Saytdagi barcha kinolar</button>
+        </div>
+        <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
+        <div id="admListBox">${listHTML()}</div>
       </section>
     </div>`;
 
@@ -426,31 +506,73 @@ function renderMain() {
     renderTokenScreen();
   });
 
+  document.querySelectorAll('.adm-tabs [data-tab]').forEach(b => b.addEventListener('click', () => {
+    listTab = b.dataset.tab;
+    renderList();
+  }));
+  let t0;
+  $('#admSearch').addEventListener('input', e => {
+    clearTimeout(t0);
+    t0 = setTimeout(() => { listQuery = e.target.value; renderList(); }, 150);
+  });
+
+  bindList();
+}
+
+async function runAction(btn, fn, okMsg) {
+  btn.disabled = true;
+  try {
+    await fn();
+    toast(okMsg);
+    renderMain();
+  } catch (ex) {
+    toast(ex.status === 401 ? 'Token yaroqsiz yoki muddati tugagan' : ex.message, true);
+    btn.disabled = false;
+  }
+}
+
+function bindList() {
   document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
     editingId = +b.dataset.edit;
     renderMain();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }));
 
-  document.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+  // o'zimiz qo'shgan kinoni butunlay o'chirish
+  document.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => {
     const id = +b.dataset.del;
     const m = customList.find(x => x.id === id);
     if (!m || !confirm(`«${m.title.uz}» o‘chirilsinmi?`)) return;
-    b.disabled = true;
-    try {
+    runAction(b, async () => {
       await saveCustom(list => list.filter(x => x.id !== id), `Kino o‘chirildi: ${m.title.uz}`);
-      // o'zimiz yuklagan posterni ham o'chiramiz
       if (m.poster && m.poster.startsWith(SITE_URL + 'images/custom/')) {
         const path = m.poster.slice(SITE_URL.length);
         const f = await getFile(path);
         if (f) await gh(`/contents/${path}`, { method: 'DELETE', body: JSON.stringify({ message: `Poster o‘chirildi: ${m.slug}`, sha: f.sha, branch: GH.branch }) });
       }
-      toast('O‘chirildi');
-      renderMain();
-    } catch (ex) {
-      toast(ex.message, true);
-      b.disabled = false;
-    }
+    }, 'O‘chirildi');
+  }));
+
+  // saytdagi asl kinoni yashirish / qayta ko'rsatish
+  document.querySelectorAll('[data-hide]').forEach(b => b.addEventListener('click', () => {
+    const id = +b.dataset.hide;
+    const m = currentMovie(id);
+    const hide = !hiddenList.includes(id);
+    if (hide && !confirm(`«${m.title.uz}» saytdan yashirilsinmi? (Keyin qayta ko‘rsatish mumkin)`)) return;
+    runAction(b, () => saveCustom((list, hidden) => {
+      const i = hidden.indexOf(id);
+      if (hide && i === -1) hidden.push(id);
+      if (!hide && i > -1) hidden.splice(i, 1);
+      return list;
+    }, `${hide ? 'Yashirildi' : 'Qayta ko‘rsatildi'}: ${m.title.uz}`), hide ? 'Saytdan yashirildi' : 'Saytda qayta ko‘rsatiladi');
+  }));
+
+  // tahrirlangan asl kinoni data.js dagi holatiga qaytarish
+  document.querySelectorAll('[data-restore]').forEach(b => b.addEventListener('click', () => {
+    const id = +b.dataset.restore;
+    const m = currentMovie(id);
+    if (!confirm(`«${m.title.uz}» asl holatiga qaytarilsinmi? Qilingan o‘zgarishlar o‘chadi.`)) return;
+    runAction(b, () => saveCustom(list => list.filter(x => x.id !== id), `Asliga qaytarildi: ${m.title.uz}`), 'Asl holatiga qaytarildi');
   }));
 }
 

@@ -5,7 +5,7 @@
   "description": "DezoMax Android ilovasi (Capacitor). Sayt fayllari www/ ga nusxalanadi.",
   "scripts": {
     "copy-web": "node scripts/copy-web.js",
-    "sync": "npm run copy-web && npx cap sync android",
+    "sync": "npm run copy-web && npx cap sync android && node scripts/copy-admin.js",
     "open": "npx cap open android",
     "apk:debug": "npm run sync && node scripts/gradle.js assembleDebug",
     "apk:release": "npm run sync && node scripts/gradle.js assembleRelease"

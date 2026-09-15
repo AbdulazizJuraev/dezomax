@@ -49,11 +49,12 @@ const r = spawnSync(gradlew, [task, '--no-daemon', '--console=plain'], {
 });
 
 if (r.status === 0) {
+  // flavor'lar bilan APK'lar apk/<flavor>/<release|debug>/ ichida
   const kind = task.includes('Release') ? 'release' : 'debug';
-  const out = path.join(androidDir, 'app', 'build', 'outputs', 'apk', kind);
-  const apks = fs.existsSync(out) ? fs.readdirSync(out).filter(f => f.endsWith('.apk')) : [];
-  apks.forEach(a => {
-    const p = path.join(out, a);
+  const root = path.join(androidDir, 'app', 'build', 'outputs', 'apk');
+  const walk = dir => fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true }).flatMap(e =>
+    e.isDirectory() ? walk(path.join(dir, e.name)) : e.name.endsWith('.apk') ? [path.join(dir, e.name)] : []) : [];
+  walk(root).filter(p => p.includes(path.sep + kind + path.sep)).forEach(p => {
     console.log('\nAPK:', p, '—', (fs.statSync(p).size / 1048576).toFixed(1), 'MB');
   });
 }
