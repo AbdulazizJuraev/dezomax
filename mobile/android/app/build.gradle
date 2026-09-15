@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-// Imzo kaliti ma'lumotlari вЂ” keystore.properties (GitHub'ga YUKLANMAYDI)
+// Imzo kaliti ma'lumotlari РІР‚вЂќ keystore.properties (GitHub'ga YUKLANMAYDI)
 def keystorePropsFile = rootProject.file('keystore.properties')
 def keystoreProps = new Properties()
 if (keystorePropsFile.exists()) {
@@ -14,8 +14,8 @@ android {
         applicationId "uz.dezomax.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 26
-        versionName "3.5"
+        versionCode 27
+        versionName "3.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -24,8 +24,8 @@ android {
         }
     }
     // Ikki ilova bitta loyihadan:
-    //  site  — DezoMax (uz.dezomax.app)
-    //  admin — DezoMax Admin (uz.dezomax.app.admin): ochilganda admin sahifa (src/admin/assets)
+    //  site  вЂ” DezoMax (uz.dezomax.app)
+    //  admin вЂ” DezoMax Admin (uz.dezomax.app.admin): ochilganda admin sahifa (src/admin/assets)
     flavorDimensions = ["app"]
     productFlavors {
         site {

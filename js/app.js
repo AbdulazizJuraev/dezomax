@@ -167,8 +167,8 @@ function sizeClip(clip) {
   // kechiktirib ochish orqali yashiriladi (pastda).
   const r = clip.getBoundingClientRect();
   // treylerlar ko'pincha kinoteatr formatida (2.39:1) — videoning o'zida tepa-pastda qora hoshiya bor.
-  // 1.34 marta kattalashtirilganda hoshiyalar ko'rinmas qismga tushadi (yon chetlari biroz kesiladi)
-  const Z = 1.34;
+  // 1.5 marta kattalashtirilganda qora hoshiyalar ko'rinmas qismga tushadi (chetlari kesiladi, soya bilan qo'shiladi)
+  const Z = 1.5;
   let w = r.width * Z, h = w * 9 / 16;
   if (h < r.height * Z) { h = r.height * Z; w = h * 16 / 9; }
   const f = clip.querySelector('iframe');
@@ -176,12 +176,16 @@ function sizeClip(clip) {
 }
 
 /* YouTube ramkasidan holat xabarlari.
-   Mobil YouTube video boshlanganda ~2–3 s pauza belgisi va ingichka chiziq ko'rsatadi,
+   Mobil YouTube video boshlanganda ~3–4 s pauza belgisi va ingichka chiziq ko'rsatadi,
    tugaganda — «qayta ko'rish» belgisi. Shuning uchun:
    - treyler rasm ORTIDA oldindan boshlanadi;
-   - sahna o'ynay boshlagandan kamida 3 s o'tib (va rasm 3 s turgandan keyin) ochiladi;
-   - pauza/tugash/buferda sahna darhol yopiladi — o'sha belgilar hech qachon ko'rinmaydi. */
-const HERO_REVEAL_AFTER_PLAY = 3000;
+   - sahna video barqaror o'ynay boshlagach (belgilar yo'qolgach) ochiladi va to'liq 7 s ko'rinadi;
+   - pauza/tugash/buferda sahna yopiladi va keyingi slaydga o'tiladi — belgilar ko'rinmaydi;
+   - video umuman boshlanmasa (avtoijro taqiqlangan) — rasm HERO_CLIP_FALLBACK dan keyin almashadi. */
+const HERO_REVEAL_AFTER_PLAY = 4500;
+const HERO_CLIP_FALLBACK = 9000;
+
+const nextSlide = () => { goToSlide(heroIndex + 1); restartHeroTimer(); };
 
 addEventListener('message', e => {
   if (!/^https:\/\/(www\.)?youtube(-nocookie)?\.com$/.test(e.origin)) return;
@@ -197,12 +201,25 @@ addEventListener('message', e => {
       clip._playingSince = Date.now();
       const wait = Math.max(clip._revealAt - Date.now(), HERO_REVEAL_AFTER_PLAY);
       clearTimeout(clip._revealT);
-      clip._revealT = setTimeout(() => { if (clip.isConnected && clip._playingSince) clip.classList.add('is-on'); }, wait);
+      clip._revealT = setTimeout(() => {
+        if (!clip.isConnected || !clip._playingSince || clip.classList.contains('is-on')) return;
+        clip.classList.add('is-on');
+        // sahna ko'rindi — endi aynan 7 soniya ko'rsatib, keyingi slaydga o'tamiz
+        if (clip._slide === heroIndex) {
+          clearTimeout(heroTimer);
+          heroTimer = setTimeout(nextSlide, HERO_CLIP_SEC * 1000);
+        }
+      }, wait);
     } else if (state === 0 || state === 2 || state === 3) {
-      // tugadi / pauza / bufer — YouTube belgilari chiqmasin, rasmga qaytamiz
-      clip._playingSince = 0;
       clearTimeout(clip._revealT);
+      const wasOn = clip.classList.contains('is-on');
+      clip._playingSince = 0;
       clip.classList.remove('is-on');
+      // ko'rinib turgan sahna to'xtasa — YouTube belgisini ko'rsatmay, keyingi slaydga
+      if (wasOn && clip._slide === heroIndex) {
+        clearTimeout(heroTimer);
+        heroTimer = setTimeout(nextSlide, 900);
+      }
     }
   });
 });
@@ -213,12 +230,14 @@ function startClip(i) {
   if (!id || !bg || i !== heroIndex || document.hidden) return;
   const clip = document.createElement('div');
   clip.className = 'hero-clip';
-  clip._revealAt = Date.now() + HERO_IMAGE_SEC * 1000 - 400;   // rasm kamida 3 s turadi
+  clip._slide = i;
+  clip._revealAt = Date.now() + HERO_IMAGE_SEC * 1000 - 300;   // rasm kamida 3 s turadi
   const s = HERO_CLIP_START;
   const origin = encodeURIComponent(location.origin);
-  // «end» berilmaydi — tugash ekrani chiqmasin, sahnani slayd vaqtida o'zimiz yopamiz
+  // «end» berilmaydi — tugash ekrani chiqmasin, sahnani o'zimiz yopamiz
   clip.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&start=${s}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin=${origin}"
-    allow="autoplay; encrypted-media" tabindex="-1" title="" aria-hidden="true"></iframe>`;
+    allow="autoplay; encrypted-media" tabindex="-1" title="" aria-hidden="true"></iframe>
+    <span class="hero-clip-shade" aria-hidden="true"></span>`;
   bg.appendChild(clip);
   sizeClip(clip);
   // YouTube holat xabarlarini yuborishi uchun «tinglayapman» deymiz
@@ -235,20 +254,23 @@ function restartHeroTimer() {
   clearTimeout(heroTimer);
   stopClip();
   if (!featured.length) return;
-  const d = slideDuration(heroIndex);
+  const withClip = slideDuration(heroIndex) !== HERO_DELAY;
+  // treyli slayd: rasm (~3–5 s, video tayyor bo'lguncha) + 7 s sahna. Chiziq taxminiy vaqt bo'yicha to'ladi
+  const d = withClip ? HERO_REVEAL_AFTER_PLAY + 1500 + HERO_CLIP_SEC * 1000 : HERO_DELAY;
 
-  // faol nuqtadagi to'lish chizig'i shu slayd vaqtiga moslanadi va qaytadan boshlanadi
   const dot = document.querySelector('.hero-dots button.is-active');
   if (dot) {
     dot.style.setProperty('--hero-delay', d / 1000 + 's');
     dot.classList.remove('is-active'); void dot.offsetWidth; dot.classList.add('is-active');
   }
 
-  if (d !== HERO_DELAY) {
+  if (withClip) {
     const i = heroIndex;
-    clipTimer = setTimeout(() => startClip(i), 300);
+    clipTimer = setTimeout(() => startClip(i), 150);
+    heroTimer = setTimeout(nextSlide, HERO_CLIP_FALLBACK);   // video boshlanmasa — rasm bilan davom
+  } else {
+    heroTimer = setTimeout(nextSlide, d);
   }
-  heroTimer = setTimeout(() => { goToSlide(heroIndex + 1); restartHeroTimer(); }, d);
 }
 
 /* ---------- Qatorlar (admin → «Sayt» bo'limidan boshqariladi) ---------- */

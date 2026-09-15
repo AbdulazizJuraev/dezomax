@@ -1,9 +1,9 @@
 /* ============================================================
-   DezoMax — akkaunt sahifasi
+   DezoMax вЂ” akkaunt sahifasi
    Kirmagan bo'lsa: telefon raqam yoki Google bilan kirish.
    Kirgan bo'lsa: 9 bo'lim (#tariff, #balance, #subs, #devices, #promo,
    #payments, #settings, #notify, #about).
-   DIQQAT: to'lov tizimi ulanmagan — balans to'ldirish sinov uchun.
+   DIQQAT: to'lov tizimi ulanmagan вЂ” balans to'ldirish sinov uchun.
    ============================================================ */
 
 Object.assign(I18N.uz, {
@@ -12,7 +12,7 @@ Object.assign(I18N.uz, {
   'acc.m.subs': 'Obunalar',
   'acc.m.devices': 'Qurilmalar',
   'acc.m.promo': 'Promokodlar',
-  'acc.m.payments': 'To‘lov tarixi',
+  'acc.m.payments': 'ToвЂlov tarixi',
   'acc.m.settings': 'Sozlamalar',
   'acc.m.notify': 'Bildirishnomalar',
   'acc.m.about': 'Biz haqimizda',
@@ -24,35 +24,35 @@ Object.assign(I18N.uz, {
   'acc.freeForever': 'Muddatsiz',
   'acc.autoRenew': 'Avtomatik uzaytirish',
   'acc.autoRenewHint': 'Muddat tugaganda tarif balansdan uzaytiriladi',
-  'acc.changePlan': 'Tarifni o‘zgartirish',
-  'acc.cancelPlan': 'Bepul tarifga o‘tish',
-  'acc.cancelConfirm': 'Tarifni bekor qilib, bepul tarifga o‘tasizmi?',
-  'acc.planCanceled': 'Bepul tarifga o‘tdingiz',
-  'acc.topup': 'Balansni to‘ldirish',
+  'acc.changePlan': 'Tarifni oвЂzgartirish',
+  'acc.cancelPlan': 'Bepul tarifga oвЂtish',
+  'acc.cancelConfirm': 'Tarifni bekor qilib, bepul tarifga oвЂtasizmi?',
+  'acc.planCanceled': 'Bepul tarifga oвЂtdingiz',
+  'acc.topup': 'Balansni toвЂldirish',
   'acc.amount': 'Summa',
-  'acc.method': 'To‘lov usuli',
-  'acc.pay': 'To‘ldirish',
-  'acc.topupDone': 'Balans to‘ldirildi',
-  'acc.minAmount': 'Eng kam summa — 1 000 so‘m',
-  'acc.payNote': 'To‘lov tizimi hali ulanmagan: balans sinov uchun to‘ldiriladi, haqiqiy pul yechilmaydi.',
-  'acc.subsEmpty': 'Hali obuna yo‘q',
-  'acc.subsEmptyHint': 'Tarif tanlang — reklamasiz va yuqori sifatda ko‘ring.',
+  'acc.method': 'ToвЂlov usuli',
+  'acc.pay': 'ToвЂldirish',
+  'acc.topupDone': 'Balans toвЂldirildi',
+  'acc.minAmount': 'Eng kam summa вЂ” 1 000 soвЂm',
+  'acc.payNote': 'ToвЂlov tizimi hali ulanmagan: balans sinov uchun toвЂldiriladi, haqiqiy pul yechilmaydi.',
+  'acc.subsEmpty': 'Hali obuna yoвЂq',
+  'acc.subsEmptyHint': 'Tarif tanlang вЂ” reklamasiz va yuqori sifatda koвЂring.',
   'acc.active': 'Faol',
   'acc.expired': 'Tugagan',
   'acc.choosePlan': 'Tarif tanlash',
   'acc.thisDevice': 'Shu qurilma',
   'acc.lastSeen': 'Oxirgi faollik:',
   'acc.removeDevice': 'Chiqarish',
-  'acc.deviceRemoved': 'Qurilma o‘chirildi',
-  'acc.devicesLimit': 'Tarifingiz bo‘yicha bir vaqtda qurilmalar:',
+  'acc.deviceRemoved': 'Qurilma oвЂchirildi',
+  'acc.devicesLimit': 'Tarifingiz boвЂyicha bir vaqtda qurilmalar:',
   'acc.promoPh': 'Promokodni kiriting',
   'acc.activate': 'Faollashtirish',
-  'acc.promoBad': 'Bunday promokod yo‘q',
+  'acc.promoBad': 'Bunday promokod yoвЂq',
   'acc.promoUsed': 'Bu promokod allaqachon ishlatilgan',
   'acc.promoOk': 'Promokod faollashtirildi',
   'acc.promoList': 'Faollashtirilgan promokodlar',
   'acc.promoEmpty': 'Hali promokod ishlatilmagan',
-  'acc.payEmpty': 'To‘lovlar yo‘q',
+  'acc.payEmpty': 'ToвЂlovlar yoвЂq',
   'acc.setName': 'Ismingiz',
   'acc.save': 'Saqlash',
   'acc.saved': 'Saqlandi',
@@ -61,125 +61,125 @@ Object.assign(I18N.uz, {
   'acc.qAuto': 'Avtomatik',
   'acc.loginMethod': 'Kirish usuli',
   'acc.notifyNew': 'Yangi kinolar',
-  'acc.notifySport': 'Sport va jonli o‘yinlar',
+  'acc.notifySport': 'Sport va jonli oвЂyinlar',
   'acc.notifyPromo': 'Aksiya va promokodlar',
   'acc.notifyTypes': 'Qaysi xabarlar kelsin',
   'acc.notifyList': 'Xabarlar',
-  'acc.notifyEmpty': 'Xabarlar yo‘q',
-  'acc.readAll': 'Hammasini o‘qilgan qilish',
-  'acc.aboutText': 'DezoMax — O‘zbekistondagi onlayn kinoteatr. O‘zbek kinolari rasmiy manbalardan, Marvel, DC va boshqa filmlar treylerlari, o‘zbek va rus telekanallari jonli efiri hamda sport natijalari — hammasi bitta ilovada.',
-  'acc.aboutFeat1': 'O‘zbek tilidagi to‘liq filmlar',
+  'acc.notifyEmpty': 'Xabarlar yoвЂq',
+  'acc.readAll': 'Hammasini oвЂqilgan qilish',
+  'acc.aboutText': 'DezoMax вЂ” OвЂzbekistondagi onlayn kinoteatr. OвЂzbek kinolari rasmiy manbalardan, Marvel, DC va boshqa filmlar treylerlari, oвЂzbek va rus telekanallari jonli efiri hamda sport natijalari вЂ” hammasi bitta ilovada.',
+  'acc.aboutFeat1': 'OвЂzbek tilidagi toвЂliq filmlar',
   'acc.aboutFeat2': '60 dan ortiq telekanal',
   'acc.aboutFeat3': 'Futbol, basketbol, tennis, UFC, F1',
   'acc.aboutFeat4': 'Telefon, kompyuter va Android ilova',
   'acc.version': 'Versiya',
   'acc.website': 'Veb-sayt',
-  'acc.memberSince': 'A’zo bo‘lgan sana:',
+  'acc.memberSince': 'AвЂ™zo boвЂlgan sana:',
   'acc.bonus': 'Bonus',
   'acc.planBuy': 'Tarif',
-  'acc.topupTx': 'Balansni to‘ldirish',
+  'acc.topupTx': 'Balansni toвЂldirish',
   'acc.promoTx': 'Promokod',
   'acc.daysLeft': 'kun qoldi',
-  'acc.topupShort': 'To‘ldirish',
-  'acc.q.topup': 'To‘ldirish',
+  'acc.topupShort': 'ToвЂldirish',
+  'acc.q.topup': 'ToвЂldirish',
   'acc.q.plan': 'Tariflar',
   'acc.q.promo': 'Promokod'
 });
 
 Object.assign(I18N.ru, {
-  'acc.daysLeft': 'дн. осталось',
-  'acc.topupShort': 'Пополнить',
-  'acc.q.topup': 'Пополнить',
-  'acc.q.plan': 'Тарифы',
-  'acc.q.promo': 'Промокод',
-  'acc.m.tariff': 'Управление тарифом',
-  'acc.m.balance': 'Баланс',
-  'acc.m.subs': 'Подписки',
-  'acc.m.devices': 'Устройства',
-  'acc.m.promo': 'Промокоды',
-  'acc.m.payments': 'История платежей',
-  'acc.m.settings': 'Настройки',
-  'acc.m.notify': 'Уведомления',
-  'acc.m.about': 'О нас',
-  'acc.back': 'Назад',
-  'acc.language': 'Язык',
-  'acc.plan': 'Тариф',
-  'acc.balance': 'Баланс',
-  'acc.until': 'действует до:',
-  'acc.freeForever': 'Бессрочно',
-  'acc.autoRenew': 'Автопродление',
-  'acc.autoRenewHint': 'По окончании срока тариф продлевается с баланса',
-  'acc.changePlan': 'Сменить тариф',
-  'acc.cancelPlan': 'Перейти на бесплатный',
-  'acc.cancelConfirm': 'Отменить тариф и перейти на бесплатный?',
-  'acc.planCanceled': 'Вы перешли на бесплатный тариф',
-  'acc.topup': 'Пополнить баланс',
-  'acc.amount': 'Сумма',
-  'acc.method': 'Способ оплаты',
-  'acc.pay': 'Пополнить',
-  'acc.topupDone': 'Баланс пополнен',
-  'acc.minAmount': 'Минимальная сумма — 1 000 сум',
-  'acc.payNote': 'Платёжная система пока не подключена: баланс пополняется для теста, реальные деньги не списываются.',
-  'acc.subsEmpty': 'Подписок пока нет',
-  'acc.subsEmptyHint': 'Выберите тариф — смотрите без рекламы и в высоком качестве.',
-  'acc.active': 'Активна',
-  'acc.expired': 'Истекла',
-  'acc.choosePlan': 'Выбрать тариф',
-  'acc.thisDevice': 'Это устройство',
-  'acc.lastSeen': 'Последняя активность:',
-  'acc.removeDevice': 'Отключить',
-  'acc.deviceRemoved': 'Устройство удалено',
-  'acc.devicesLimit': 'Устройств одновременно по вашему тарифу:',
-  'acc.promoPh': 'Введите промокод',
-  'acc.activate': 'Активировать',
-  'acc.promoBad': 'Такого промокода нет',
-  'acc.promoUsed': 'Этот промокод уже использован',
-  'acc.promoOk': 'Промокод активирован',
-  'acc.promoList': 'Активированные промокоды',
-  'acc.promoEmpty': 'Промокоды ещё не использовались',
-  'acc.payEmpty': 'Платежей нет',
-  'acc.setName': 'Ваше имя',
-  'acc.save': 'Сохранить',
-  'acc.saved': 'Сохранено',
-  'acc.autoplay': 'Автозапуск следующего видео',
-  'acc.quality': 'Качество видео',
-  'acc.qAuto': 'Авто',
-  'acc.loginMethod': 'Способ входа',
-  'acc.notifyNew': 'Новые фильмы',
-  'acc.notifySport': 'Спорт и прямые матчи',
-  'acc.notifyPromo': 'Акции и промокоды',
-  'acc.notifyTypes': 'Какие уведомления получать',
-  'acc.notifyList': 'Сообщения',
-  'acc.notifyEmpty': 'Уведомлений нет',
-  'acc.readAll': 'Отметить все прочитанными',
-  'acc.aboutText': 'DezoMax — онлайн-кинотеатр в Узбекистане. Узбекские фильмы из официальных источников, трейлеры Marvel, DC и других фильмов, прямой эфир узбекских и российских телеканалов и спортивные результаты — всё в одном приложении.',
-  'acc.aboutFeat1': 'Полные фильмы на узбекском',
-  'acc.aboutFeat2': 'Более 60 телеканалов',
-  'acc.aboutFeat3': 'Футбол, баскетбол, теннис, UFC, F1',
-  'acc.aboutFeat4': 'Телефон, компьютер и Android-приложение',
-  'acc.version': 'Версия',
-  'acc.website': 'Веб-сайт',
-  'acc.memberSince': 'С нами с',
-  'acc.bonus': 'Бонус',
-  'acc.planBuy': 'Тариф',
-  'acc.topupTx': 'Пополнение баланса',
-  'acc.promoTx': 'Промокод'
+  'acc.daysLeft': 'РґРЅ. РѕСЃС‚Р°Р»РѕСЃСЊ',
+  'acc.topupShort': 'РџРѕРїРѕР»РЅРёС‚СЊ',
+  'acc.q.topup': 'РџРѕРїРѕР»РЅРёС‚СЊ',
+  'acc.q.plan': 'РўР°СЂРёС„С‹',
+  'acc.q.promo': 'РџСЂРѕРјРѕРєРѕРґ',
+  'acc.m.tariff': 'РЈРїСЂР°РІР»РµРЅРёРµ С‚Р°СЂРёС„РѕРј',
+  'acc.m.balance': 'Р‘Р°Р»Р°РЅСЃ',
+  'acc.m.subs': 'РџРѕРґРїРёСЃРєРё',
+  'acc.m.devices': 'РЈСЃС‚СЂРѕР№СЃС‚РІР°',
+  'acc.m.promo': 'РџСЂРѕРјРѕРєРѕРґС‹',
+  'acc.m.payments': 'РСЃС‚РѕСЂРёСЏ РїР»Р°С‚РµР¶РµР№',
+  'acc.m.settings': 'РќР°СЃС‚СЂРѕР№РєРё',
+  'acc.m.notify': 'РЈРІРµРґРѕРјР»РµРЅРёСЏ',
+  'acc.m.about': 'Рћ РЅР°СЃ',
+  'acc.back': 'РќР°Р·Р°Рґ',
+  'acc.language': 'РЇР·С‹Рє',
+  'acc.plan': 'РўР°СЂРёС„',
+  'acc.balance': 'Р‘Р°Р»Р°РЅСЃ',
+  'acc.until': 'РґРµР№СЃС‚РІСѓРµС‚ РґРѕ:',
+  'acc.freeForever': 'Р‘РµСЃСЃСЂРѕС‡РЅРѕ',
+  'acc.autoRenew': 'РђРІС‚РѕРїСЂРѕРґР»РµРЅРёРµ',
+  'acc.autoRenewHint': 'РџРѕ РѕРєРѕРЅС‡Р°РЅРёРё СЃСЂРѕРєР° С‚Р°СЂРёС„ РїСЂРѕРґР»РµРІР°РµС‚СЃСЏ СЃ Р±Р°Р»Р°РЅСЃР°',
+  'acc.changePlan': 'РЎРјРµРЅРёС‚СЊ С‚Р°СЂРёС„',
+  'acc.cancelPlan': 'РџРµСЂРµР№С‚Рё РЅР° Р±РµСЃРїР»Р°С‚РЅС‹Р№',
+  'acc.cancelConfirm': 'РћС‚РјРµРЅРёС‚СЊ С‚Р°СЂРёС„ Рё РїРµСЂРµР№С‚Рё РЅР° Р±РµСЃРїР»Р°С‚РЅС‹Р№?',
+  'acc.planCanceled': 'Р’С‹ РїРµСЂРµС€Р»Рё РЅР° Р±РµСЃРїР»Р°С‚РЅС‹Р№ С‚Р°СЂРёС„',
+  'acc.topup': 'РџРѕРїРѕР»РЅРёС‚СЊ Р±Р°Р»Р°РЅСЃ',
+  'acc.amount': 'РЎСѓРјРјР°',
+  'acc.method': 'РЎРїРѕСЃРѕР± РѕРїР»Р°С‚С‹',
+  'acc.pay': 'РџРѕРїРѕР»РЅРёС‚СЊ',
+  'acc.topupDone': 'Р‘Р°Р»Р°РЅСЃ РїРѕРїРѕР»РЅРµРЅ',
+  'acc.minAmount': 'РњРёРЅРёРјР°Р»СЊРЅР°СЏ СЃСѓРјРјР° вЂ” 1 000 СЃСѓРј',
+  'acc.payNote': 'РџР»Р°С‚С‘Р¶РЅР°СЏ СЃРёСЃС‚РµРјР° РїРѕРєР° РЅРµ РїРѕРґРєР»СЋС‡РµРЅР°: Р±Р°Р»Р°РЅСЃ РїРѕРїРѕР»РЅСЏРµС‚СЃСЏ РґР»СЏ С‚РµСЃС‚Р°, СЂРµР°Р»СЊРЅС‹Рµ РґРµРЅСЊРіРё РЅРµ СЃРїРёСЃС‹РІР°СЋС‚СЃСЏ.',
+  'acc.subsEmpty': 'РџРѕРґРїРёСЃРѕРє РїРѕРєР° РЅРµС‚',
+  'acc.subsEmptyHint': 'Р’С‹Р±РµСЂРёС‚Рµ С‚Р°СЂРёС„ вЂ” СЃРјРѕС‚СЂРёС‚Рµ Р±РµР· СЂРµРєР»Р°РјС‹ Рё РІ РІС‹СЃРѕРєРѕРј РєР°С‡РµСЃС‚РІРµ.',
+  'acc.active': 'РђРєС‚РёРІРЅР°',
+  'acc.expired': 'РСЃС‚РµРєР»Р°',
+  'acc.choosePlan': 'Р’С‹Р±СЂР°С‚СЊ С‚Р°СЂРёС„',
+  'acc.thisDevice': 'Р­С‚Рѕ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ',
+  'acc.lastSeen': 'РџРѕСЃР»РµРґРЅСЏСЏ Р°РєС‚РёРІРЅРѕСЃС‚СЊ:',
+  'acc.removeDevice': 'РћС‚РєР»СЋС‡РёС‚СЊ',
+  'acc.deviceRemoved': 'РЈСЃС‚СЂРѕР№СЃС‚РІРѕ СѓРґР°Р»РµРЅРѕ',
+  'acc.devicesLimit': 'РЈСЃС‚СЂРѕР№СЃС‚РІ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ РїРѕ РІР°С€РµРјСѓ С‚Р°СЂРёС„Сѓ:',
+  'acc.promoPh': 'Р’РІРµРґРёС‚Рµ РїСЂРѕРјРѕРєРѕРґ',
+  'acc.activate': 'РђРєС‚РёРІРёСЂРѕРІР°С‚СЊ',
+  'acc.promoBad': 'РўР°РєРѕРіРѕ РїСЂРѕРјРѕРєРѕРґР° РЅРµС‚',
+  'acc.promoUsed': 'Р­С‚РѕС‚ РїСЂРѕРјРѕРєРѕРґ СѓР¶Рµ РёСЃРїРѕР»СЊР·РѕРІР°РЅ',
+  'acc.promoOk': 'РџСЂРѕРјРѕРєРѕРґ Р°РєС‚РёРІРёСЂРѕРІР°РЅ',
+  'acc.promoList': 'РђРєС‚РёРІРёСЂРѕРІР°РЅРЅС‹Рµ РїСЂРѕРјРѕРєРѕРґС‹',
+  'acc.promoEmpty': 'РџСЂРѕРјРѕРєРѕРґС‹ РµС‰С‘ РЅРµ РёСЃРїРѕР»СЊР·РѕРІР°Р»РёСЃСЊ',
+  'acc.payEmpty': 'РџР»Р°С‚РµР¶РµР№ РЅРµС‚',
+  'acc.setName': 'Р’Р°С€Рµ РёРјСЏ',
+  'acc.save': 'РЎРѕС…СЂР°РЅРёС‚СЊ',
+  'acc.saved': 'РЎРѕС…СЂР°РЅРµРЅРѕ',
+  'acc.autoplay': 'РђРІС‚РѕР·Р°РїСѓСЃРє СЃР»РµРґСѓСЋС‰РµРіРѕ РІРёРґРµРѕ',
+  'acc.quality': 'РљР°С‡РµСЃС‚РІРѕ РІРёРґРµРѕ',
+  'acc.qAuto': 'РђРІС‚Рѕ',
+  'acc.loginMethod': 'РЎРїРѕСЃРѕР± РІС…РѕРґР°',
+  'acc.notifyNew': 'РќРѕРІС‹Рµ С„РёР»СЊРјС‹',
+  'acc.notifySport': 'РЎРїРѕСЂС‚ Рё РїСЂСЏРјС‹Рµ РјР°С‚С‡Рё',
+  'acc.notifyPromo': 'РђРєС†РёРё Рё РїСЂРѕРјРѕРєРѕРґС‹',
+  'acc.notifyTypes': 'РљР°РєРёРµ СѓРІРµРґРѕРјР»РµРЅРёСЏ РїРѕР»СѓС‡Р°С‚СЊ',
+  'acc.notifyList': 'РЎРѕРѕР±С‰РµРЅРёСЏ',
+  'acc.notifyEmpty': 'РЈРІРµРґРѕРјР»РµРЅРёР№ РЅРµС‚',
+  'acc.readAll': 'РћС‚РјРµС‚РёС‚СЊ РІСЃРµ РїСЂРѕС‡РёС‚Р°РЅРЅС‹РјРё',
+  'acc.aboutText': 'DezoMax вЂ” РѕРЅР»Р°Р№РЅ-РєРёРЅРѕС‚РµР°С‚СЂ РІ РЈР·Р±РµРєРёСЃС‚Р°РЅРµ. РЈР·Р±РµРєСЃРєРёРµ С„РёР»СЊРјС‹ РёР· РѕС„РёС†РёР°Р»СЊРЅС‹С… РёСЃС‚РѕС‡РЅРёРєРѕРІ, С‚СЂРµР№Р»РµСЂС‹ Marvel, DC Рё РґСЂСѓРіРёС… С„РёР»СЊРјРѕРІ, РїСЂСЏРјРѕР№ СЌС„РёСЂ СѓР·Р±РµРєСЃРєРёС… Рё СЂРѕСЃСЃРёР№СЃРєРёС… С‚РµР»РµРєР°РЅР°Р»РѕРІ Рё СЃРїРѕСЂС‚РёРІРЅС‹Рµ СЂРµР·СѓР»СЊС‚Р°С‚С‹ вЂ” РІСЃС‘ РІ РѕРґРЅРѕРј РїСЂРёР»РѕР¶РµРЅРёРё.',
+  'acc.aboutFeat1': 'РџРѕР»РЅС‹Рµ С„РёР»СЊРјС‹ РЅР° СѓР·Р±РµРєСЃРєРѕРј',
+  'acc.aboutFeat2': 'Р‘РѕР»РµРµ 60 С‚РµР»РµРєР°РЅР°Р»РѕРІ',
+  'acc.aboutFeat3': 'Р¤СѓС‚Р±РѕР», Р±Р°СЃРєРµС‚Р±РѕР», С‚РµРЅРЅРёСЃ, UFC, F1',
+  'acc.aboutFeat4': 'РўРµР»РµС„РѕРЅ, РєРѕРјРїСЊСЋС‚РµСЂ Рё Android-РїСЂРёР»РѕР¶РµРЅРёРµ',
+  'acc.version': 'Р’РµСЂСЃРёСЏ',
+  'acc.website': 'Р’РµР±-СЃР°Р№С‚',
+  'acc.memberSince': 'РЎ РЅР°РјРё СЃ',
+  'acc.bonus': 'Р‘РѕРЅСѓСЃ',
+  'acc.planBuy': 'РўР°СЂРёС„',
+  'acc.topupTx': 'РџРѕРїРѕР»РЅРµРЅРёРµ Р±Р°Р»Р°РЅСЃР°',
+  'acc.promoTx': 'РџСЂРѕРјРѕРєРѕРґ'
 });
 
-const APP_VERSION = '3.5';
+const APP_VERSION = '3.6';
 
-/* Promokodlar: bonus — balansga so'm, plan — tarif necha kunga */
+/* Promokodlar: bonus вЂ” balansga so'm, plan вЂ” tarif necha kunga */
 const PROMOCODES = {
-  DEZOMAX:  { bonus: 10000, text: { uz: 'Balansga 10 000 so‘m', ru: '10 000 сум на баланс' } },
-  KINO2026: { plan: 'standard', days: 7, text: { uz: 'Standart tarif 7 kunga bepul', ru: 'Тариф Стандарт на 7 дней бесплатно' } },
-  PREMIUM3: { plan: 'premium', days: 3, text: { uz: 'Premium tarif 3 kunga bepul', ru: 'Тариф Премиум на 3 дня бесплатно' } }
+  DEZOMAX:  { bonus: 10000, text: { uz: 'Balansga 10 000 soвЂm', ru: '10 000 СЃСѓРј РЅР° Р±Р°Р»Р°РЅСЃ' } },
+  KINO2026: { plan: 'standard', days: 7, text: { uz: 'Standart tarif 7 kunga bepul', ru: 'РўР°СЂРёС„ РЎС‚Р°РЅРґР°СЂС‚ РЅР° 7 РґРЅРµР№ Р±РµСЃРїР»Р°С‚РЅРѕ' } },
+  PREMIUM3: { plan: 'premium', days: 3, text: { uz: 'Premium tarif 3 kunga bepul', ru: 'РўР°СЂРёС„ РџСЂРµРјРёСѓРј РЅР° 3 РґРЅСЏ Р±РµСЃРїР»Р°С‚РЅРѕ' } }
 };
 
 /* Tariflar (plans.js bilan bir xil narxlar) */
 const ACC_PLANS = {
-  free:     { price: 0,     devices: 1, name: { uz: 'Bepul', ru: 'Бесплатно' } },
-  standard: { price: 29000, devices: 2, name: { uz: 'Standart', ru: 'Стандарт' } },
-  premium:  { price: 49000, devices: 4, name: { uz: 'Premium', ru: 'Премиум' } }
+  free:     { price: 0,     devices: 1, name: { uz: 'Bepul', ru: 'Р‘РµСЃРїР»Р°С‚РЅРѕ' } },
+  standard: { price: 29000, devices: 2, name: { uz: 'Standart', ru: 'РЎС‚Р°РЅРґР°СЂС‚' } },
+  premium:  { price: 49000, devices: 4, name: { uz: 'Premium', ru: 'РџСЂРµРјРёСѓРј' } }
 };
 
 const MENU = [
@@ -212,10 +212,10 @@ const icon = name => AI[name] || ICONS[name] || '';
 
 let profile = null;
 const L = obj => (obj && (obj[LANG] || obj.uz)) || '';
-const money = n => Math.round(n || 0).toLocaleString('ru-RU').replace(/ |,/g, ' ');
-const sumWord = () => (LANG === 'ru' ? 'сум' : 'so‘m');
+const money = n => Math.round(n || 0).toLocaleString('ru-RU').replace(/В |,/g, ' ');
+const sumWord = () => (LANG === 'ru' ? 'СЃСѓРј' : 'soвЂm');
 const fmtDate = (ts, withTime) => {
-  if (!ts) return '—';
+  if (!ts) return 'вЂ”';
   const d = new Date(ts), p = n => String(n).padStart(2, '0');
   return `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()}` + (withTime ? ` ${p(d.getHours())}:${p(d.getMinutes())}` : '');
 };
@@ -270,7 +270,7 @@ function buyPlan(planId, days, price, renew = false) {
 
 /* ================= KIRISH ================= */
 
-/* Oldingi "Yana" menyusidagi bo'limlar — endi akkaunt sahifasida */
+/* Oldingi "Yana" menyusidagi bo'limlar вЂ” endi akkaunt sahifasida */
 function sectionsHTML() {
   const links = (typeof MORE_LINKS !== 'undefined' ? MORE_LINKS : []).filter(l => !l.sep && l.href !== 'account.html');
   const nFav = getFavs().length, nDl = getDownloads().length;
@@ -363,9 +363,9 @@ function renderLogin() {
     } catch (err) {
       console.warn(err);
       const msg = String(err?.message || err?.code || '');
-      // foydalanuvchi oynani o'zi yopgan bo'lsa — xato ko'rsatmaymiz
+      // foydalanuvchi oynani o'zi yopgan bo'lsa вЂ” xato ko'rsatmaymiz
       if (/cancel/i.test(msg)) return;
-      // xato sababini ham ko'rsatamiz — muammoni topish oson bo'lsin
+      // xato sababini ham ko'rsatamiz вЂ” muammoni topish oson bo'lsin
       const detail = msg && msg !== 'plugin' ? ` (${msg.slice(0, 160)})` : '';
       showErr((err.code === 'plugin' ? t('acc.errGoogleLoad') : t('acc.errGeneric')) + detail);
     } finally { btn.disabled = false; }
@@ -432,7 +432,7 @@ function renderAccount() {
         <a class="acc-stat" href="#balance">
           <small>${AI.wallet}${t('acc.balance')}</small>
           <b>${money(profile.balance)} <span>${sumWord()}</span></b>
-          <span class="acc-stat-sub">${t('acc.topupShort')} →</span>
+          <span class="acc-stat-sub">${t('acc.topupShort')} в†’</span>
         </a>
       </div>
 
@@ -554,8 +554,8 @@ const SECTIONS = {
         <div class="acc-item">
           <span class="acc-item-icon">${ICONS.crown}</span>
           <div class="acc-item-main">
-            <b>${esc(L(ACC_PLANS[s.plan]?.name))}${s.promo ? ` · ${esc(s.promo)}` : ''}</b>
-            <small>${fmtDate(s.from)} — ${fmtDate(s.until)}</small>
+            <b>${esc(L(ACC_PLANS[s.plan]?.name))}${s.promo ? ` В· ${esc(s.promo)}` : ''}</b>
+            <small>${fmtDate(s.from)} вЂ” ${fmtDate(s.until)}</small>
           </div>
           <span class="acc-pill${on ? ' is-on' : ''}">${on ? t('acc.active') : t('acc.expired')}</span>
         </div>`;
@@ -572,7 +572,7 @@ const SECTIONS = {
         <div class="acc-item">
           <span class="acc-item-icon">${d.type === 'desktop' ? AI.desktop : AI.phone}</span>
           <div class="acc-item-main">
-            <b>${esc(d.os)} · ${esc(d.app)}</b>
+            <b>${esc(d.os)} В· ${esc(d.app)}</b>
             <small>${d.id === me ? t('acc.thisDevice') : `${t('acc.lastSeen')} ${fmtDate(d.lastSeen, true)}`}</small>
           </div>
           ${d.id === me
@@ -598,7 +598,7 @@ const SECTIONS = {
           <span class="acc-item-icon">${AI.gift}</span>
           <div class="acc-item-main">
             <b>${esc(p.code)}</b>
-            <small>${esc(L(PROMOCODES[p.code]?.text))} · ${fmtDate(p.at)}</small>
+            <small>${esc(L(PROMOCODES[p.code]?.text))} В· ${fmtDate(p.at)}</small>
           </div>
           <span class="acc-pill is-on">${AI.check}</span>
         </div>`).join('')}</div>` : `<p class="acc-muted">${t('acc.promoEmpty')}</p>`}`;
@@ -608,8 +608,8 @@ const SECTIONS = {
     const list = profile.payments || [];
     if (!list.length) return emptyBox(t('acc.payEmpty'), '');
     return `<div class="acc-list">${list.map(p => {
-      const title = p.kind === 'plan' ? `${t('acc.planBuy')}: ${L(ACC_PLANS[p.plan]?.name)} · ${p.days} ${LANG === 'ru' ? 'дн.' : 'kun'}`
-        : p.kind === 'topup' ? `${t('acc.topupTx')} · ${p.method}`
+      const title = p.kind === 'plan' ? `${t('acc.planBuy')}: ${L(ACC_PLANS[p.plan]?.name)} В· ${p.days} ${LANG === 'ru' ? 'РґРЅ.' : 'kun'}`
+        : p.kind === 'topup' ? `${t('acc.topupTx')} В· ${p.method}`
         : `${t('acc.promoTx')}: ${p.code}`;
       return `
         <div class="acc-item">
@@ -618,7 +618,7 @@ const SECTIONS = {
             <b>${esc(title)}</b>
             <small>${fmtDate(p.at, true)}</small>
           </div>
-          <span class="acc-amount${p.amount > 0 ? ' is-plus' : ''}">${p.amount > 0 ? '+' : '−'}${money(Math.abs(p.amount))} ${sumWord()}</span>
+          <span class="acc-amount${p.amount > 0 ? ' is-plus' : ''}">${p.amount > 0 ? '+' : 'в€’'}${money(Math.abs(p.amount))} ${sumWord()}</span>
         </div>`;
     }).join('')}</div>`;
   },
@@ -653,7 +653,7 @@ const SECTIONS = {
       <div class="acc-card">
         <div class="acc-setting">
           <b>${t('acc.loginMethod')}</b>
-          <span class="acc-muted">Google · ${esc(u.email || formatPhone(u.phone))}</span>
+          <span class="acc-muted">Google В· ${esc(u.email || formatPhone(u.phone))}</span>
         </div>
         <div class="acc-setting">
           <b>${t('acc.memberSince')}</b>
@@ -702,7 +702,7 @@ const SECTIONS = {
         <div class="acc-setting"><b>${t('acc.website')}</b>
           <a class="acc-link" href="https://abdulazizjuraev.github.io/dezomax/" target="_blank" rel="noopener">abdulazizjuraev.github.io/dezomax</a></div>
       </div>
-      <p class="acc-muted acc-copy">© ${new Date().getFullYear()} DezoMax. ${t('footer.rights')}</p>`;
+      <p class="acc-muted acc-copy">В© ${new Date().getFullYear()} DezoMax. ${t('footer.rights')}</p>`;
   }
 };
 
@@ -768,7 +768,7 @@ const BINDERS = {
       }
       profile.promos.unshift({ code, at: now });
       profile.notifications.unshift({ id: 'n' + now, at: now, read: false,
-        title: { uz: `Promokod ${code} faollashtirildi`, ru: `Промокод ${code} активирован` },
+        title: { uz: `Promokod ${code} faollashtirildi`, ru: `РџСЂРѕРјРѕРєРѕРґ ${code} Р°РєС‚РёРІРёСЂРѕРІР°РЅ` },
         text: promo.text });
       rerender(t('acc.promoOk'));
     });
