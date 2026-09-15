@@ -3888,3 +3888,6 @@ img, video, iframe { max-width: 100%; }
   .card:active .card-poster { transform: scale(.97); transition-duration: .1s; }
   .row .reveal { transition: none; }
 }
+/* Admin sahifa: profil halqasi va pastki navbar kerak emas */
+.page-admin .account-btn, .page-admin .tabbar { display: none !important; }
+.page-admin { padding-bottom: 0 !important; }

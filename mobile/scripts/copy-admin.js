@@ -19,7 +19,7 @@ html = html
   // eng so'nggi kinolar ro'yxati jonli saytdan
   .replace('src="js/data-custom.js?t=', `src="${LIVE_CUSTOM}?t=`)
   // ilovada sayt menyulari kerak emas
-  .replace('<body>', '<body class="is-admin-app">')
+  .replace('<body class="page-admin">', '<body class="page-admin is-admin-app">')
   .replace('</body>', '<script src="js/app-native.js"></script>\n</body>');
 
 fs.writeFileSync(path.join(OUT, 'index.html'), html);

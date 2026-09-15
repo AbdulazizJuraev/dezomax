@@ -17,6 +17,8 @@ const I18N = {
     'nav.downloads': 'Yuklab olinganlar',
     'nav.more': 'Yana',
     'nav.profile': 'Profil',
+    'nav.search': 'Qidiruv',
+    'nav.account': 'Akkaunt',
     'nav.sections': 'Bo‘limlar',
     'nav.close': 'Yopish',
 
@@ -194,6 +196,8 @@ const I18N = {
     'nav.downloads': 'Загрузки',
     'nav.more': 'Ещё',
     'nav.profile': 'Профиль',
+    'nav.search': 'Поиск',
+    'nav.account': 'Аккаунт',
     'nav.sections': 'Разделы',
     'nav.close': 'Закрыть',
 
