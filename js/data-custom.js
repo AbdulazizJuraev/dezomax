@@ -5,7 +5,57 @@
    - HIDDEN_MOVIES: saytdan yashirilgan kinolar id'lari
    ============================================================ */
 
-const CUSTOM_MOVIES = /*DATA*/[]/*END*/;
+const CUSTOM_MOVIES = /*DATA*/[
+  {
+    "id": 40,
+    "slug": "avengers-endgame",
+    "type": "film",
+    "title": {
+      "uz": "Qasoskorlar: Final",
+      "ru": "Мстители: Финал"
+    },
+    "genres": [
+      "action",
+      "drama",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Evans",
+      "Scarlett Johansson",
+      "Mark Ruffalo",
+      "Josh Brolin"
+    ],
+    "desc": {
+      "uz": "Tanosning qirg‘inidan omon qolgan qahramonlar yo‘qotilgan hamma narsani qaytarish uchun so‘nggi umidsiz rejani amalga oshiradi.",
+      "ru": "Выжившие после щелчка Таноса герои идут на отчаянный шаг, чтобы вернуть всё потерянное."
+    },
+    "colors": [
+      "#2a4a5a",
+      "#08131a"
+    ],
+    "poster": "images/avengers-endgame.jpg",
+    "trailer": "https://www.youtube.com/watch?v=TcMBFSGVi1c",
+    "video": "https://drive.google.com/file/d/16tKacOI7B6ZIV1R7TgrsxBvg8sndFPHD/view?usp=drivesdk",
+    "featured": true,
+    "addedAt": 1789460349218,
+    "updatedAt": 1789460349218,
+    "year": 2019,
+    "duration": 181,
+    "rating": 8.4,
+    "director": "Anthony & Joe Russo",
+    "franchise": "marvel",
+    "source": {
+      "name": "Google Drive",
+      "url": "https://drive.google.com/file/d/16tKacOI7B6ZIV1R7TgrsxBvg8sndFPHD/view?usp=drivesdk"
+    }
+  }
+]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[]/*ENDHIDDEN*/;
 
 if (typeof MOVIES !== 'undefined') {
