@@ -7,6 +7,40 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1000,
+    "slug": "ralf-internetga-qarshi",
+    "type": "multfilm",
+    "title": {
+      "uz": "Ralf Internetga qarshi",
+      "ru": "Ральф против интернета"
+    },
+    "genres": [
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "",
+      "ru": ""
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/ralf-internetga-qarshi-1000.jpg",
+    "trailer": "",
+    "video": "https://uzbeklar.biz/3710-ralf-internetga-qarshi.html",
+    "featured": false,
+    "addedAt": 1789489966997,
+    "updatedAt": 1789489966997,
+    "year": 2019,
+    "audio": "uz"
+  },
+  {
     "id": 40,
     "slug": "avengers-endgame",
     "type": "film",
