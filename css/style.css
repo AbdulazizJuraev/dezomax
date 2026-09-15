@@ -864,13 +864,13 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 /* Player */
 
 .player-wrap {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  background: #000;
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: #000;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
 }
 
 .player-wrap iframe, .player-wrap video { width: 100%; height: 100%; border: 0; display: block; background: #000; }
@@ -4396,4 +4396,18 @@ img, video, iframe { max-width: 100%; }
 .row .card.is-wide { flex: 0 0 clamp(250px, 30vw, 360px); }
 @media (max-width: 640px) {
   .row .card.is-wide { flex-basis: min(260px, 76vw); }
+}
+/* ---------------- Intro: harfma-harf yozilish («Shamol» tovushi bilan) ---------------- */
+.intro-type .intro-logo { animation: none; width: min(84vw, 500px); }
+.intro-type .intro-logo .logo-svg-el { clip-path: none; animation: none; overflow: visible; }
+.intro-type .intro-icon { transform-box: fill-box; transform-origin: center; transform: scale(0); opacity: 0; }
+.intro-type.is-icon .intro-icon { animation: introIconPop .5s cubic-bezier(.2, 1.4, .4, 1) forwards; }
+.intro-type .intro-cursor { fill: #0a93dc; opacity: 0; }
+.intro-type.is-typing .intro-cursor { animation: introBlink .5s steps(1) infinite; }
+.intro-type .intro-glow { animation: none; opacity: 0; transform: scale(.8); transition: opacity .8s ease, transform 1.2s ease; }
+.intro-type.is-done .intro-glow { opacity: .9; transform: scale(1.1); }
+@keyframes introIconPop { to { transform: scale(1); opacity: 1; } }
+@keyframes introBlink { 0% { opacity: 1; } 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .intro-type .intro-icon { transform: none; opacity: 1; }
 }
