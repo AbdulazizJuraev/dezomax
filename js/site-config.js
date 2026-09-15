@@ -24,6 +24,10 @@ const SITE_CONFIG = /*CONFIG*/{
       "visible": true
     },
     {
+      "source": "cartoons",
+      "visible": true
+    },
+    {
       "source": "new",
       "visible": true
     },
@@ -41,10 +45,6 @@ const SITE_CONFIG = /*CONFIG*/{
     },
     {
       "source": "series",
-      "visible": true
-    },
-    {
-      "source": "cartoons",
       "visible": true
     }
   ]
