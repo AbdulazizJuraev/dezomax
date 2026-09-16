@@ -75,19 +75,15 @@ const CUSTOM_MOVIES = /*DATA*/[
     ],
     "poster": "images/avengers-endgame.jpg",
     "trailer": "https://youtu.be/QPRtU7EqQy0?si=gnkfWAZ-M57lBG-y",
-    "video": "https://localhost:3000/s/11LPo7fTSx56WiNSaRhkyD9E",
+    "video": "https://extending-halo-still-northwest.trycloudflare.com/s/Hsu3zyFAnlVTRrIyb48o7xGB",
     "featured": true,
     "addedAt": 1789461867370,
-    "updatedAt": 1789545229935,
+    "updatedAt": 1789554817623,
     "year": 2019,
     "duration": 181,
     "rating": 8.4,
     "director": "Anthony & Joe Russo",
-    "franchise": "marvel",
-    "source": {
-      "name": "DezoMax",
-      "url": "http://localhost:3000/s/11LPo7fTSx56WiNSaRhkyD9E"
-    }
+    "franchise": "marvel"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[]/*ENDHIDDEN*/;
