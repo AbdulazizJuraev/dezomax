@@ -21,44 +21,9 @@ const SORTS = ['new', 'old', 'rating', 'name'];
 
 /* ---------- Filtrlar ---------- */
 
-function renderFilters() {
-  const watchBox = document.getElementById('watchChips');
-  watchBox.innerHTML =
-    `<button class="chip${state.watch === 'all' ? ' is-active' : ''}" data-watch="all">${t('catalog.all')}</button>` +
-    WATCH.map(([id, key]) => `<button class="chip${state.watch === id ? ' is-active' : ''}" data-watch="${id}">${t(key)}</button>`).join('');
-  watchBox.querySelectorAll('button').forEach(b =>
-    b.addEventListener('click', () => { state.watch = b.dataset.watch; update(); }));
-
-  const typeBox = document.getElementById('typeChips');
-  typeBox.innerHTML =
-    `<button class="chip${state.type === 'all' ? ' is-active' : ''}" data-type="all">${t('catalog.all')}</button>` +
-    TYPES.map(x => `<button class="chip${state.type === x ? ' is-active' : ''}" data-type="${x}">${typeName(x)}</button>`).join('');
-
-  const franchiseBox = document.getElementById('franchiseChips');
-  franchiseBox.innerHTML =
-    `<button class="chip${state.franchise === 'all' ? ' is-active' : ''}" data-franchise="all">${t('catalog.all')}</button>` +
-    FRANCHISES.map(f => `<button class="chip${state.franchise === f ? ' is-active' : ''}" data-franchise="${f}">${t('franchise.' + f)}</button>`).join('');
-
-  const genreBox = document.getElementById('genreChips');
-  genreBox.innerHTML =
-    `<button class="chip${state.genre === 'all' ? ' is-active' : ''}" data-genre="all">${t('catalog.all')}</button>` +
-    GENRES.map(g => `<button class="chip${state.genre === g.id ? ' is-active' : ''}" data-genre="${g.id}">${esc(g[LANG] || g.uz)}</button>`).join('');
-
-  const sort = document.getElementById('sort');
-  sort.innerHTML = SORTS.map(s =>
-    `<option value="${s}"${state.sort === s ? ' selected' : ''}>${t('catalog.sort.' + s)}</option>`).join('');
-
-  typeBox.querySelectorAll('button').forEach(b =>
-    b.addEventListener('click', () => { state.type = b.dataset.type; update(); }));
-
-  franchiseBox.querySelectorAll('button').forEach(b =>
-    b.addEventListener('click', () => { state.franchise = b.dataset.franchise; update(); }));
-
-  genreBox.querySelectorAll('button').forEach(b =>
-    b.addEventListener('click', () => { state.genre = b.dataset.genre; update(); }));
-
-  sort.addEventListener('change', () => { state.sort = sort.value; update(); });
-}
+/* Filtr chiplari sahifadan olib tashlangan — faqat qidiruv qatori qoldi.
+   Turi/janr/olam filtrlari URL orqali ishlayveradi (bosh sahifadagi «Hammasi» havolalari). */
+function renderFilters() {}
 
 /* ---------- Filtrlash + saralash ---------- */
 
@@ -126,16 +91,6 @@ function update(pushUrl = true) {
   else if (state.genre !== 'all')   h.textContent = genreName(state.genre);
   else                              h.textContent = t('catalog.title');
 
-  // Faol chiplarni yangilash
-  document.querySelectorAll('#watchChips .chip').forEach(b =>
-    b.classList.toggle('is-active', b.dataset.watch === state.watch));
-  document.querySelectorAll('#typeChips .chip').forEach(b =>
-    b.classList.toggle('is-active', b.dataset.type === state.type));
-  document.querySelectorAll('#franchiseChips .chip').forEach(b =>
-    b.classList.toggle('is-active', b.dataset.franchise === state.franchise));
-  document.querySelectorAll('#genreChips .chip').forEach(b =>
-    b.classList.toggle('is-active', b.dataset.genre === state.genre));
-
   if (pushUrl) {
     const p = new URLSearchParams();
     if (state.q) p.set('q', state.q);
@@ -158,16 +113,10 @@ const input = document.getElementById('q');
 input.value = state.q;
 
 let debounce;
+input.addEventListener('keydown', e => { if (e.key === 'Enter') input.blur(); });
 input.addEventListener('input', () => {
   clearTimeout(debounce);
   debounce = setTimeout(() => { state.q = input.value.trim(); update(); }, 180);
-});
-
-document.getElementById('reset').addEventListener('click', () => {
-  state.q = ''; state.type = 'all'; state.genre = 'all'; state.franchise = 'all'; state.watch = 'all'; state.sort = 'new';
-  input.value = '';
-  document.getElementById('sort').value = 'new';
-  update();
 });
 
 update(false);

@@ -78,6 +78,13 @@ public class MainActivity extends BridgeActivity {
         });
         ViewCompat.requestApplyInsets(decor);
 
+        // 5.5 gacha bildirishnomalar o'rtacha muhimlikdagi «Default» kanalida edi (tepadan tushmasdi).
+        // Endi «dezomax_news» (yuqori muhimlik) ishlatiladi — eskisini sozlamalardan olib tashlaymiz.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            android.app.NotificationManager nm = getSystemService(android.app.NotificationManager.class);
+            if (nm != null && nm.getNotificationChannel("default") != null) nm.deleteNotificationChannel("default");
+        }
+
         // Ilova yangilanganda WebView keshini tozalaymiz — aks holda yangi APK
         // o'rnatilgandan keyin ham eski sahifalar ko'rinib qolishi mumkin.
         // Sevimlilar, akkaunt va boshqa localStorage ma'lumotlari saqlanib qoladi.

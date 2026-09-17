@@ -4460,3 +4460,48 @@ img, video, iframe { max-width: 100%; }
 .cards-more { display: flex; justify-content: center; margin: 22px 0 8px; }
 .cards-more .btn span { color: var(--text-dim); font-weight: 500; }
 .adm-more { width: 100%; margin-top: 10px; }
+/* ---------------- Slayder (treyler) 20% balandroq ---------------- */
+.hero { min-height: min(100vh, 912px); }
+@media (max-width: 640px) {
+  .hero { min-height: calc(67.5vw + 228px); }
+}
+/* ---------------- Ortga tugmasi (barcha sahifalarda, logotip oldida) ---------------- */
+.back-btn {
+  flex: 0 0 auto;
+  display: inline-grid; place-items: center;
+  width: 38px; height: 38px;
+  margin-right: 4px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .06);
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .18s, transform .15s;
+}
+.back-btn svg { width: 20px; height: 20px; margin-left: -2px; }
+.back-btn:hover { background: rgba(255, 255, 255, .12); }
+.back-btn:active { transform: scale(.92); }
+@media (max-width: 380px) { .back-btn { width: 32px; height: 32px; } .back-btn svg { width: 17px; height: 17px; } }
+/* ---------------- Katalog: faqat qidiruv qatori ---------------- */
+.cat-search { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+.cat-search .search { flex: none; width: 100%; max-width: 560px; display: block; }
+.cat-search .search input { height: 48px; font-size: 15px; padding-left: 46px; }
+.cat-search .search svg { left: 16px; width: 19px; height: 19px; }
+/* ---------------- Sport: o'yinlar 2 ustunda ---------------- */
+.sport-sec .m-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sport-sec .m-list > .f1-card { grid-column: 1 / -1; }
+@media (max-width: 760px) {
+  .sport-sec .match { padding: 10px; min-width: 0; }
+  .sport-sec .m-click .m-league { flex-wrap: wrap; gap: 4px 6px; font-size: 9.5px; margin-bottom: 8px; }
+  .sport-sec .m-row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .sport-sec .m-team, .sport-sec .m-team-away { justify-content: flex-start; text-align: left; font-size: 12.5px; gap: 7px; }
+  .sport-sec .m-team-away { flex-direction: row-reverse; justify-content: flex-end; }
+  .sport-sec .m-logo, .sport-sec .m-logo-empty { width: 20px; height: 20px; }
+  .sport-sec .m-mid { flex-direction: row; justify-content: flex-start; flex-wrap: wrap; gap: 2px 8px; min-width: 0; padding-left: 27px; }
+  .sport-sec .m-score { font-size: 16px; }
+  .sport-sec .m-watch { font-size: 9.5px; padding: 2px 7px 2px 5px; }
+}
+@media (max-width: 300px) {
+  .sport-sec .m-list { grid-template-columns: minmax(0, 1fr); }
+}

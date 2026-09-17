@@ -8,6 +8,7 @@ const ICONS = {
   play:   '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
   star:   '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 5.9 6.6.95-4.8 4.65 1.14 6.5L12 17.4l-5.84 3.1L7.3 14 2.5 9.35l6.6-.95L12 2.5z"/></svg>',
   heart:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21.2l7.7-7.7 1.1-1a5.5 5.5 0 0 0 0-7.9z"/></svg>',
+  back:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
   search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
   info:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5M12 7.5v.01"/></svg>',
   left:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
@@ -333,6 +334,19 @@ function initLayout() {
       a.classList.add('is-active');
     }
   });
+
+  // Ortga tugmasi — bosh sahifadan boshqa barcha sahifalarda, logotip oldida
+  const headWrap = header && (header.querySelector('.wrap') || header);
+  if (headWrap && page !== 'index.html' && !headWrap.querySelector('.back-btn')) {
+    headWrap.insertAdjacentHTML('afterbegin',
+      `<button class="back-btn" type="button" aria-label="${LANG === 'ru' ? 'Назад' : 'Orqaga'}">${ICONS.back}</button>`);
+    headWrap.querySelector('.back-btn').addEventListener('click', () => {
+      let same = false;
+      try { same = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+      if (same && history.length > 1) history.back();
+      else location.href = 'index.html';
+    });
+  }
 
   renderTabbar();
   renderFooterGenres();
