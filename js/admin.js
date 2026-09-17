@@ -687,23 +687,28 @@ function renderListView() {
     <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
     <div id="admListBox"></div>`;
 
+  // kinolar 1000+ — ro'yxat 60 tadan chiziladi
+  let limit = 60;
   const fill = () => {
     const items = listItems();
+    const shown = items.slice(0, limit);
     $('#admListBox').innerHTML = items.length
-      ? `<p class="acc-muted adm-count">${items.length} ta kino</p><div class="acc-list">${items.map(itemHTML).join('')}</div>`
+      ? `<p class="acc-muted adm-count">${items.length} ta kino</p><div class="acc-list">${shown.map(itemHTML).join('')}</div>
+         ${items.length > limit ? `<button class="btn btn-ghost adm-more" type="button" id="admMore">Yana ko‘rsatish (${items.length - limit})</button>` : ''}`
       : `<div class="acc-empty"><b>Hech narsa topilmadi</b></div>`;
+    $('#admMore')?.addEventListener('click', () => { limit += 60; const y = window.scrollY; fill(); window.scrollTo(0, y); });
     bindList();
   };
 
   document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => {
-    listFilter = b.dataset.filter;
+    listFilter = b.dataset.filter; limit = 60;
     document.querySelectorAll('[data-filter]').forEach(x => x.classList.toggle('is-active', x === b));
     fill();
   }));
   let t0;
   $('#admSearch').addEventListener('input', e => {
     clearTimeout(t0);
-    t0 = setTimeout(() => { listQuery = e.target.value; fill(); }, 150);
+    t0 = setTimeout(() => { listQuery = e.target.value; limit = 60; fill(); }, 150);
   });
   fill();
 }

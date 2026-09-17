@@ -148,10 +148,38 @@ function cardHTML(m) {
   </a>`;
 }
 
+/* Kartochkalar to'plami. Kinolar ko'p (1000+) — birdaniga 48 tasi chiziladi,
+   qolgani pastga surilganda (yoki «Yana ko'rsatish» bosilganda) qo'shiladi */
+const CARDS_PAGE = 48;
 function renderCards(container, list) {
   if (!container) return;
-  container.innerHTML = list.map(cardHTML).join('');
+  container._more?.remove();
+  container._io?.disconnect();
+  let shown = Math.min(CARDS_PAGE, list.length);
+  container.innerHTML = list.slice(0, shown).map(cardHTML).join('');
   observeReveals(container);
+  if (shown >= list.length) return;
+
+  const more = document.createElement('div');
+  more.className = 'cards-more';
+  more.innerHTML = `<button class="btn btn-ghost" type="button">${LANG === 'ru' ? 'Показать ещё' : 'Yana ko‘rsatish'} <span></span></button>`;
+  container.after(more);
+  container._more = more;
+  const left = more.querySelector('span');
+  const step = () => {
+    const next = list.slice(shown, shown + CARDS_PAGE);
+    container.insertAdjacentHTML('beforeend', next.map(cardHTML).join(''));
+    shown += next.length;
+    observeReveals(container);
+    if (shown >= list.length) { container._io?.disconnect(); more.remove(); container._more = null; }
+    else left.textContent = `(${list.length - shown})`;
+  };
+  left.textContent = `(${list.length - shown})`;
+  more.querySelector('button').addEventListener('click', step);
+  if ('IntersectionObserver' in window) {
+    container._io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) step(); }, { rootMargin: '600px 0px' });
+    container._io.observe(more);
+  }
 }
 
 function emptyHTML(titleKey, hintKey) {
