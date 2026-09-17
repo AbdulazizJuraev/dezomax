@@ -46,6 +46,8 @@ for (const f of fs.readdirSync(OUT).filter(x => x.endsWith('.html'))) {
   let html = fs.readFileSync(p, 'utf8');
   if (html.includes('app-native.js')) continue;
   html = html.replace(`src="js/data-custom.js?t=`, `src="${LIVE_CUSTOM}?t=`);
+  // kino kutubxonasi ham jonli saytdan — yangi kinolar uchun APK'ni qayta yig'ish shart emas
+  html = html.replace(/src="js\/data-lib\.js\?v=([^"]*)"/, `src="${LIVE_CUSTOM.replace('data-custom.js', 'data-lib.js')}?v=$1"`);
   // bosh sahifa sozlamalari (slayder, qatorlar) ham jonli saytdan
   html = html.replace(`src="js/site-config.js?t=`, `src="${LIVE_CUSTOM.replace('data-custom.js', 'site-config.js')}?t=`);
   // viewport-fit=cover QO'SHILMAYDI: ba'zi telefonlarning WebView'i pastki chekinishni
