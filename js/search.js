@@ -34,25 +34,45 @@ const addRecent = q => {
 /* Qisqa so'rov faqat butun so'z bo'yicha (katalogdagi kabi) */
 function matchesQ(hay, q) {
   if (q.length > 3) return hay.includes(q);
-  const e = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return new RegExp('(^|[^a-z0-9])' + e + '([^a-z0-9]|$)').test(hay);
+  // RegExp bitta so'rov uchun bir marta yasaladi (har kino uchun emas)
+  if (matchesQ.q !== q) {
+    const e = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    matchesQ.q = q;
+    matchesQ.re = new RegExp('(^|[^a-z0-9])' + e + '([^a-z0-9]|$)');
+  }
+  return matchesQ.re.test(hay);
+}
+
+/* Qidiruv matni har kino uchun bir marta tayyorlanadi (20 000+ kinoda har harfda qayta hisoblash sekin) */
+const SEARCH_TEXT = new WeakMap();
+function searchTextOf(m) {
+  let s = SEARCH_TEXT.get(m);
+  if (!s) {
+    s = {
+      titles: norm([m.title.uz, m.title.ru, ...(m.tags || [])].join(' ')),
+      rest: norm([
+        m.director || '', String(m.year || ''), m.franchise || '', m.source?.name || '',
+        ...(m.cast || []),
+        ...m.genres.map(g => { const x = GENRES.find(y => y.id === g); return x ? x.uz + ' ' + x.ru : g; }),
+        m.franchise === 'uzbek' ? 'ozbek kino uzbek' : '',
+        m.franchise === 'dorama' ? 'dorama koreys korea' : '',
+        m.franchise === 'hind' ? 'hind hindiston india bollywood' : ''
+      ].join(' '))
+    };
+    SEARCH_TEXT.set(m, s);
+  }
+  return s;
 }
 
 function searchMovies(query) {
   const q = norm(query);
   if (!q) return [];
   return MOVIES.map(m => {
-    const titles = norm([m.title.uz, m.title.ru, ...(m.tags || [])].join(' '));
-    const rest = norm([
-      m.director || '', String(m.year || ''), m.franchise || '', m.source?.name || '',
-      ...(m.cast || []),
-      ...m.genres.map(g => { const x = GENRES.find(y => y.id === g); return x ? x.uz + ' ' + x.ru : g; }),
-      m.franchise === 'uzbek' ? 'ozbek kino uzbek' : ''
-    ].join(' '));
+    const { titles, rest } = searchTextOf(m);
     const score = matchesQ(titles, q) ? (titles.startsWith(q) ? 3 : 2) : matchesQ(rest, q) ? 1 : 0;
     return { m, score };
   }).filter(x => x.score)
-    .sort((a, b) => b.score - a.score || (b.m.year || 0) - (a.m.year || 0))
+    .sort((a, b) => b.score - a.score || (!!b.m.poster - !!a.m.poster) || (b.m.year || 0) - (a.m.year || 0))
     .map(x => x.m);
 }
 

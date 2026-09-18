@@ -159,7 +159,8 @@ const baseMovies = () => window.BASE_MOVIES || MOVIES;
 const isBase = id => baseMovies().some(m => m.id === id);
 
 function nextId() {
-  const ids = [...baseMovies().map(m => m.id), ...customList.map(m => m.id)];
+  // 100000 dan yuqori id'lar — kutubxona (js/data-lib2.js); qo'lda qo'shilganlar ular bilan to'qnashmasin
+  const ids = [...baseMovies().map(m => m.id), ...customList.map(m => m.id)].filter(id => id < 100000);
   return Math.max(999, ...ids) + 1;
 }
 
@@ -306,7 +307,7 @@ function formHTML(m = {}) {
           ${field('Davlat (o‘zbekcha)', `<input class="acc-input" name="countryUz" value="${val(m.country?.uz)}" placeholder="O‘zbekiston">`)}
           ${field('Davlat (ruscha)', `<input class="acc-input" name="countryRu" value="${val(m.country?.ru)}" placeholder="Узбекистан">`)}
           ${field('Rejissyor', `<input class="acc-input" name="director" value="${val(m.director)}">`)}
-          ${field('Bo‘lim', `<select class="acc-input" name="franchise">${[['', 'Yo‘q'], ['uzbek', 'O‘zbek kino'], ['konsert', 'Konsert'], ['marvel', 'Marvel'], ['dc', 'DC']].map(([v, l]) => `<option value="${v}"${(m.franchise || '') === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`)}
+          ${field('Bo‘lim', `<select class="acc-input" name="franchise">${[['', 'Yo‘q'], ['uzbek', 'O‘zbek kino'], ['konsert', 'Konsert'], ['dorama', 'Koreys doramasi'], ['anime', 'Anime'], ['hind', 'Hind kino'], ['marvel', 'Marvel'], ['dc', 'DC']].map(([v, l]) => `<option value="${v}"${(m.franchise || '') === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`)}
         </div>
         ${field('Rollarda', `<input class="acc-input" name="cast" value="${val((m.cast || []).join(', '))}" placeholder="Aktyorlarni vergul bilan ajrating">`)}
       `)}
@@ -785,11 +786,12 @@ function bindList() {
 const CONFIG_PATH = 'js/site-config.js';
 const ROW_SOURCE_NAMES = {
   uzbek: 'O‘zbek kinolari (avtomatik)', konsert: 'Konsertlar (avtomatik)', trending: 'Trendda (avtomatik)', new: 'Yangi qo‘shilganlar (avtomatik)',
+  dorama: 'Koreys doramalari (avtomatik)', anime: 'Anime (avtomatik)', hind: 'Hind kinolari (avtomatik)',
   marvel: 'Marvel (avtomatik)', dc: 'DC (avtomatik)', top: 'Eng yuqori reyting (avtomatik)',
   series: 'Seriallar (avtomatik)', cartoons: 'Multfilmlar (avtomatik)', custom: 'Qo‘lda tanlangan kinolar'
 };
 const ROW_DEFAULT_TITLES = {
-  uzbek: 'row.uzbek', konsert: 'row.konsert', trending: 'row.trending', new: 'row.new', marvel: 'row.marvel', dc: 'row.dc',
+  uzbek: 'row.uzbek', konsert: 'row.konsert', trending: 'row.trending', new: 'row.new', dorama: 'row.dorama', anime: 'row.anime', hind: 'row.hind', marvel: 'row.marvel', dc: 'row.dc',
   top: 'row.top', series: 'row.series', cartoons: 'row.cartoons'
 };
 

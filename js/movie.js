@@ -333,13 +333,34 @@ function renderMovie() {
   }
 }
 
+/* ---------- Kutubxona kinolari: ruscha tavsif Wikipedia'dan (sahifa ochilganda) ----------
+   js/data-lib2.js dagi kinolarning tavsifi faylga yozilmagan (hajmni kichik tutish uchun) —
+   rus tilida ko'rilganda maqolaning birinchi jumlalari to'g'ridan-to'g'ri ru.wikipedia'dan olinadi. */
+let wikiText = null;
+async function wikiDesc() {
+  if (!movie || !movie.wiki || LANG !== 'ru') return;
+  try {
+    if (wikiText === null) {
+      const r = await fetch('https://ru.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&redirects=1' +
+        '&prop=extracts&exintro=1&explaintext=1&titles=' + encodeURIComponent(movie.wiki));
+      const p = (await r.json()).query?.pages?.[0];
+      const para = String(p?.extract || '').split('\n')[0].replace(/́/g, '').replace(/\s*\([^()]*\)/g, '').replace(/\s+/g, ' ').trim();
+      wikiText = (para.match(/[^.!?]+[.!?]+/g) || [para]).slice(0, 3).join('').trim();
+    }
+    const box = document.querySelector('.mv-desc');
+    if (box && wikiText && LANG === 'ru') box.textContent = wikiText;
+  } catch (e) { wikiText = ''; }
+}
+
 /* ---------- Ishga tushirish ---------- */
 
 initLayout();
 renderMovie();
+wikiDesc();
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.addEventListener('langchange', () => {
   renderMovie();
+  wikiDesc();
   applyI18n();
 });

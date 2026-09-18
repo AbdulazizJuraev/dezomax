@@ -46,6 +46,18 @@ const SITE_CONFIG = /*CONFIG*/{
       "visible": true
     },
     {
+      "source": "dorama",
+      "visible": true
+    },
+    {
+      "source": "anime",
+      "visible": true
+    },
+    {
+      "source": "hind",
+      "visible": true
+    },
+    {
       "source": "marvel",
       "visible": true
     },

@@ -118,6 +118,9 @@ const I18N = {
     'row.dc': 'DC olami',
     'row.uzbek': 'O‘zbek kinolari',
     'row.konsert': 'Konsertlar',
+    'row.dorama': 'Koreys doramalari',
+    'row.anime': 'Anime',
+    'row.hind': 'Hind kinolari',
     'row.seeAll': 'Hammasi',
 
     'catalog.title': 'Katalog',
@@ -135,6 +138,9 @@ const I18N = {
     'franchise.dc': 'DC',
     'franchise.uzbek': 'O‘zbek kino',
     'franchise.konsert': 'Konsertlar',
+    'franchise.dorama': 'Doramalar',
+    'franchise.anime': 'Anime',
+    'franchise.hind': 'Hind kino',
 
     'type.film': 'Film',
     'type.serial': 'Serial',
@@ -299,6 +305,9 @@ const I18N = {
     'row.dc': 'Вселенная DC',
     'row.uzbek': 'Узбекские фильмы',
     'row.konsert': 'Концерты',
+    'row.dorama': 'Корейские дорамы',
+    'row.anime': 'Аниме',
+    'row.hind': 'Индийское кино',
     'row.seeAll': 'Все',
 
     'catalog.title': 'Каталог',
@@ -316,6 +325,9 @@ const I18N = {
     'franchise.dc': 'DC',
     'franchise.uzbek': 'Узбекское кино',
     'franchise.konsert': 'Концерты',
+    'franchise.dorama': 'Дорамы',
+    'franchise.anime': 'Аниме',
+    'franchise.hind': 'Индийское кино',
 
     'type.film': 'Фильм',
     'type.serial': 'Сериал',

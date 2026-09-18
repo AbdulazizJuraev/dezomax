@@ -11,7 +11,8 @@ const OUT = path.resolve(__dirname, '..', 'www');
 
 // Ilovaga kerak bo'lmaganlar
 const SKIP = new Set(['mobile', 'tools', '.git', '.github', '.claude', 'node_modules', 'README.md', '.gitignore', '404.html',
-  'admin.html', 'admin.js']);   // admin sahifa ilovaga kerak emas
+  'admin.html', 'admin.js',     // admin sahifa ilovaga kerak emas
+  'data-lib2.js']);             // 20 000+ kinolik kutubxona ilovada jonli saytdan olinadi (js/data-lib.js oxiridagi yuklagich)
 
 // Admin orqali qo'shilgan kinolar ilovada jonli saytdan olinadi — APK'ni qayta yig'ish shart emas
 const LIVE_CUSTOM = 'https://abdulazizjuraev.github.io/dezomax/js/data-custom.js';

@@ -16,7 +16,7 @@ const state = {
 
 const WATCH = [['uz', 'watch.filterUz'], ['trailer', 'watch.filterTrailer']];
 const TYPES = ['film', 'serial', 'multfilm'];
-const FRANCHISES = ['uzbek', 'konsert', 'marvel', 'dc'];
+const FRANCHISES = ['uzbek', 'konsert', 'dorama', 'anime', 'hind', 'marvel', 'dc'];
 const SORTS = ['new', 'old', 'rating', 'name'];
 
 /* ---------- Filtrlar ---------- */
@@ -29,31 +29,40 @@ function renderFilters() {}
 
 /* Uzun so'rov — oddiy substring. Qisqa so'rov ("dc", "bak") esa faqat
    butun so'z sifatida qidiriladi, aks holda "Radcliffe" ham "dc" ga mos kelib qoladi. */
-function matches(hay, q) {
-  if (q.length > 3) return hay.includes(q);
+function matcher(q) {
+  if (q.length > 3) return hay => hay.includes(q);
   const esc = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return new RegExp('(^|[^a-z0-9])' + esc + '([^a-z0-9]|$)').test(hay);
+  const re = new RegExp('(^|[^a-z0-9])' + esc + '([^a-z0-9]|$)');
+  return hay => re.test(hay);
+}
+
+/* Qidiruv matni har kino uchun bir marta tayyorlanadi (20 000+ kinoda har harfda qayta hisoblash sekin) */
+const HAY = new WeakMap();
+function hayOf(m) {
+  let h = HAY.get(m);
+  if (h === undefined) {
+    h = norm([
+      m.title.uz, m.title.ru, m.director || '', String(m.year || ''), m.source?.name || '',
+      m.franchise || '',
+      ...(m.tags || []),
+      ...(m.cast || []),
+      ...m.genres.map(g => { const x = GENRES.find(y => y.id === g); return x ? x.uz + ' ' + x.ru : g; })
+    ].join(' '));
+    HAY.set(m, h);
+  }
+  return h;
 }
 
 function filtered() {
   const q = norm(state.q);
+  const hit = q ? matcher(q) : null;
 
   let list = MOVIES.filter(m => {
     if (state.type !== 'all' && m.type !== state.type) return false;
     if (state.genre !== 'all' && !m.genres.includes(state.genre)) return false;
     if (state.franchise !== 'all' && m.franchise !== state.franchise) return false;
     if (state.watch !== 'all' && watchStatus(m) !== state.watch) return false;
-    if (!q) return true;
-
-    const haystack = [
-      m.title.uz, m.title.ru, m.director || '', String(m.year || ''), m.source?.name || '',
-      m.franchise || '',
-      ...(m.tags || []),
-      ...(m.cast || []),
-      ...m.genres.map(g => { const x = GENRES.find(y => y.id === g); return x ? x.uz + ' ' + x.ru : g; })
-    ].join(' ');
-
-    return matches(norm(haystack), q);
+    return !hit || hit(hayOf(m));
   });
 
   const sorters = {
@@ -63,7 +72,9 @@ function filtered() {
     name:   (a, b) => title(a).localeCompare(title(b), LANG === 'ru' ? 'ru' : 'uz')
   };
 
-  return list.sort(sorters[state.sort] || sorters.new);
+  // posteri borlar oldinda (kutubxonadagi ba'zi kinolarda muqova yo'q)
+  const by = sorters[state.sort] || sorters.new;
+  return list.sort((a, b) => (!!b.poster - !!a.poster) || by(a, b));
 }
 
 /* ---------- Chizish ---------- */
