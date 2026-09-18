@@ -79,6 +79,25 @@ function mountPlayer(url) {
 
   if (typeof destroyVideo === 'function') destroyVideo();
 
+  // «http://» havola (YouTube/Vimeo/Drive emas — ular https'ga o'giriladi): HTTPS saytda brauzer
+  // uni sahifa ichida to'sadi (aralash kontent). Ilovada sahifa ichida o'ynaydi (allowMixedContent),
+  // brauzerda esa video alohida oynada ochiladi.
+  const inApp = !!(window.Capacitor?.isNativePlatform?.()) || /DezoMaxApp/.test(navigator.userAgent);
+  if (/^http:\/\//i.test(url) && location.protocol === 'https:' && !inApp &&
+      !(typeof youTubeId === 'function' && youTubeId(url)) && !/youtu.?be|vimeo\.com|drive\.google\.com/i.test(url)) {
+    if (typeof destroyYouTube === 'function') destroyYouTube();
+    box.classList.remove('ytp');
+    box.innerHTML = `
+      <div class="player-placeholder">
+        <div class="pp-icon">${ICONS.play}</div>
+        <h3>${LANG === 'ru' ? 'Видео откроется в новом окне' : 'Video yangi oynada ochiladi'}</h3>
+        <p>${LANG === 'ru' ? 'Источник работает по http:// — браузер не даёт встроить его в страницу.' : 'Manba http:// orqali ishlaydi — brauzer uni sahifa ichida ko‘rsatishga ruxsat bermaydi.'}</p>
+        <a class="btn btn-primary" href="${esc(url)}" target="_blank" rel="noopener" style="margin-top:14px">${ICONS.play}<span>${LANG === 'ru' ? 'Смотреть' : 'Tomosha qilish'}</span></a>
+      </div>`;
+    if (link) { link.href = url; link.hidden = false; }
+    return;
+  }
+
   // .mp4 / .webm / .m3u8 — o'z pleyerimiz (js/vplayer.js): sifat, tezlik, ±10 s, katta ekran
   if (typeof mountVideo === 'function' && /\.(mp4|webm|ogv|m4v|mov|m3u8)(\?|$)/i.test(url)) {
     const isFilm = movie && url === movie.video;

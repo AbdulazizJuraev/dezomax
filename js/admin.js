@@ -177,7 +177,7 @@ function checkVideoUrl(url) {
   }
   // Istalgan sayt qabul qilinadi: YouTube, Vimeo, Google Drive, .mp4/.m3u8 — o'z pleyerida,
   // qolgan havolalar sayt ichida iframe sifatida ochiladi (js/movie.js → embedFor)
-  if (u.protocol === 'http:') return { ok: true, warn: 'Havola «http://» — sayt HTTPS bo‘lgani uchun brauzer uni to‘sib qo‘yishi mumkin. Imkon bo‘lsa «https://» ishlating.' };
+  if (!/^https?:$/.test(u.protocol)) return { ok: false, msg: 'Havola http:// yoki https:// bilan boshlanishi kerak' };
   return { ok: true };
 }
 

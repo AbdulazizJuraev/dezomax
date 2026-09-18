@@ -4,11 +4,12 @@
   "webDir": "www",
   "server": {
     "androidScheme": "https",
-    "hostname": "dezomax.app"
+    "hostname": "dezomax.app",
+    "cleartext": true
   },
   "android": {
     "backgroundColor": "#07080c",
-    "allowMixedContent": false
+    "allowMixedContent": true
   },
   "plugins": {
     "SystemBars": {
