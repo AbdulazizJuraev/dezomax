@@ -39,51 +39,6 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1789489966997,
     "year": 2019,
     "audio": "uz"
-  },
-  {
-    "id": 40,
-    "slug": "avengers-endgame",
-    "type": "film",
-    "title": {
-      "uz": "Qasoskorlar: Final",
-      "ru": "Мстители: Финал"
-    },
-    "genres": [
-      "action",
-      "drama",
-      "scifi",
-      "adventure"
-    ],
-    "country": {
-      "uz": "AQSh",
-      "ru": "США"
-    },
-    "cast": [
-      "Robert Downey Jr.",
-      "Chris Evans",
-      "Scarlett Johansson",
-      "Mark Ruffalo",
-      "Josh Brolin"
-    ],
-    "desc": {
-      "uz": "Tanosning qirg‘inidan omon qolgan qahramonlar yo‘qotilgan hamma narsani qaytarish uchun so‘nggi umidsiz rejani amalga oshiradi.",
-      "ru": "Выжившие после щелчка Таноса герои идут на отчаянный шаг, чтобы вернуть всё потерянное."
-    },
-    "colors": [
-      "#2a4a5a",
-      "#08131a"
-    ],
-    "poster": "images/avengers-endgame.jpg",
-    "trailer": "https://youtu.be/QPRtU7EqQy0?si=gnkfWAZ-M57lBG-y",
-    "video": "http://2.29.52.42/s/ZtKA-GdHEolSWUGnSf_qHuYw",
-    "featured": true,
-    "addedAt": 1789461867370,
-    "updatedAt": 1789716054310,
-    "year": 2019,
-    "duration": 181,
-    "rating": 8.4,
-    "director": "Anthony & Joe Russo",
-    "franchise": "marvel"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[]/*ENDHIDDEN*/;
