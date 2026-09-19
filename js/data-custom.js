@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2,
+    "slug": "inception",
+    "type": "film",
+    "title": {
+      "uz": "Boshlanish",
+      "ru": "Начало"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "thriller"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Leonardo DiCaprio",
+      "Joseph Gordon-Levitt",
+      "Elliot Page",
+      "Tom Hardy"
+    ],
+    "desc": {
+      "uz": "Tushga kirib sir o‘g‘irlaydigan usta o‘g‘ri oxirgi ish sifatida mutlaqo teskari vazifani oladi — odam ongiga g‘oya joylashtirish.",
+      "ru": "Мастер проникновения в сны получает последнее задание — не украсть идею, а внедрить её в чужой разум."
+    },
+    "colors": [
+      "#2b2b3d",
+      "#101018"
+    ],
+    "poster": "images/inception.jpg",
+    "trailer": "https://www.youtube.com/watch?v=85Zz1CCXyDI",
+    "video": "https://s8.faylmovi.ru/tarjima_kinolar/Muqaddima_720.mp4",
+    "featured": false,
+    "addedAt": 1789811668187,
+    "updatedAt": 1789811668187,
+    "year": 2010,
+    "duration": 148,
+    "rating": 8.8,
+    "director": "Christopher Nolan"
+  },
+  {
     "id": 2981,
     "slug": "sirli-orol-2",
     "type": "film",
