@@ -163,10 +163,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     ],
     "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/ralf-internetga-qarshi-1000.jpg",
     "trailer": "",
-    "video": "https://uzbeklar.biz/3710-ralf-internetga-qarshi.html",
+    "video": "https://files.uzbeklar.biz/film3/ralf-internetga-qarshi.mp4",
     "featured": false,
     "addedAt": 1789489966997,
-    "updatedAt": 1789489966997,
+    "updatedAt": 1789811566262,
     "year": 2019,
     "audio": "uz"
   }
