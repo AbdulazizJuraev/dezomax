@@ -133,8 +133,14 @@ function deviceInfo() {
 
 /* ---------- Profil ---------- */
 
+/* Yangi ro'yxatdan o'tgan foydalanuvchiga 1 oy bepul Standart tarif. Muddat tugagach (js/account.js →
+   checkPlanExpiry): balans yetsa oylik obuna avtomatik uzayadi, yetmasa — Bepul tarifga qaytadi.
+   DIQQAT: to'lov tizimi ulanmagan va profil shu qurilmada saqlanadi — sinov muddati serverda nazorat qilinmaydi. */
+const TRIAL = { plan: 'standard', days: 30, price: 29000 };
+
 function defaultProfile(user) {
   const now = Date.now();
+  const trialUntil = now + TRIAL.days * 86400000;
   return {
     uid: user.uid,
     method: user.method,
@@ -143,14 +149,19 @@ function defaultProfile(user) {
     name: user.name || '',
     createdAt: now,
     balance: 0,
-    plan: 'free',
-    planUntil: null,
+    plan: TRIAL.plan,
+    planUntil: trialUntil,
+    trial: true,
     autoRenew: true,
-    subscriptions: [],
+    subscriptions: [{ id: 's' + now, plan: TRIAL.plan, from: now, until: trialUntil, price: 0, trial: true }],
     devices: [],
     promos: [],
     payments: [],
     notifications: [
+      { id: 'trial', at: now + 1, read: false,
+        title: { uz: '1 oy bepul boshlandi 🎁', ru: 'Бесплатный месяц начался 🎁' },
+        text: { uz: 'Standart tarifdan 1 oy bepul foydalaning. Keyin oyiga 29 000 so‘m — obunani istalgan vaqtda bekor qilish mumkin.',
+                ru: 'Пользуйтесь тарифом Стандарт 1 месяц бесплатно. Затем 29 000 сум в месяц — подписку можно отменить в любой момент.' } },
       { id: 'welcome', at: now, read: false,
         title: { uz: 'DezoMax’ga xush kelibsiz!', ru: 'Добро пожаловать в DezoMax!' },
         text: { uz: 'O‘zbek kinolari, telekanallar va sport — hammasi bir joyda. DEZOMAX promokodi bilan balansingizga bonus oling.',

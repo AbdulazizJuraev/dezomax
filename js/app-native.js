@@ -17,6 +17,9 @@
 
   /* ---- Telefonning "orqaga" tugmasi ---- */
   App && App.addListener('backButton', ({ canGoBack }) => {
+    // 0) birinchi kirish oynasi ochiq bo'lsa — avvalgi qadamga (js/welcome.js)
+    if (document.querySelector('.wc:not(.is-out)')) { document.dispatchEvent(new Event('wc-back')); return; }
+
     // 1) "Yana" menyusi ochiq bo'lsa — yopamiz
     const sheet = document.querySelector('.sheet-wrap');
     if (sheet && typeof closeMoreSheet === 'function') { closeMoreSheet(); return; }
