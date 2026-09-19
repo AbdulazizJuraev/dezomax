@@ -6,72 +6,62 @@
 const SITE_CONFIG = /*CONFIG*/{
   "hero": {
     "ids": [
-      150,
-      40,
-      39,
-      48,
-      11,
-      51,
       1,
+      2981,
+      28,
       4,
-      3,
-      6,
-      17,
-      12,
-      13,
-      149,
-      41
+      5
     ],
     "delay": 60
   },
   "rows": [
     {
       "source": "trending",
-      "visible": true
+      "visible": false
     },
     {
       "source": "uzbek",
-      "visible": true
+      "visible": false
     },
     {
       "source": "konsert",
-      "visible": true
+      "visible": false
     },
     {
       "source": "cartoons",
-      "visible": true
+      "visible": false
     },
     {
       "source": "new",
-      "visible": true
+      "visible": false
     },
     {
       "source": "dorama",
-      "visible": true
+      "visible": false
     },
     {
       "source": "anime",
-      "visible": true
+      "visible": false
     },
     {
       "source": "hind",
-      "visible": true
+      "visible": false
     },
     {
       "source": "marvel",
-      "visible": true
+      "visible": false
     },
     {
       "source": "dc",
-      "visible": true
+      "visible": false
     },
     {
       "source": "top",
-      "visible": true
+      "visible": false
     },
     {
       "source": "series",
-      "visible": true
+      "visible": false
     }
   ]
 }/*ENDCONFIG*/;
