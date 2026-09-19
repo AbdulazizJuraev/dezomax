@@ -1,0 +1,45 @@
+{
+  "name": "dezomax-admin",
+  "productName": "DezoMax Admin",
+  "version": "1.0.0",
+  "description": "DezoMax Admin — kinolar, bosh sahifa va bildirishnomalarni boshqarish (kompyuter uchun)",
+  "author": "DezoMax",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis --x64"
+  },
+  "build": {
+    "appId": "uz.dezomax.admin.desktop",
+    "productName": "DezoMax Admin",
+    "artifactName": "DezoMax-Admin-Setup-${version}.${ext}",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "offline.html",
+      "build/icon.png"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "DezoMax Admin",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "runAfterFinish": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3"
+  }
+}

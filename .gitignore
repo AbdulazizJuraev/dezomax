@@ -24,3 +24,7 @@ mobile/dist/
 *.keystore
 keystore.properties
 mobile/android/app/src/admin/assets/
+
+# Kompyuter dasturi (desktop/)
+desktop/node_modules/
+desktop/dist/

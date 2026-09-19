@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DezoMax</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #07080c; color: #e8ecf3; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .box { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; box-sizing: border-box; }
+  img { width: 84px; height: 84px; border-radius: 22px; margin-bottom: 22px; }
+  h1 { font-size: 20px; margin: 0 0 8px; }
+  p { margin: 0 0 22px; color: #9aa4b5; font-size: 14.5px; line-height: 1.5; max-width: 300px; }
+  button { border: 0; border-radius: 999px; padding: 13px 28px; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #0a93dc, #0668a8); box-shadow: 0 8px 24px rgba(10, 147, 220, .35); }
+  button:active { transform: scale(.96); }
+</style>
+</head>
+<body>
+<div class="box">
+  <img src="build/icon.png" alt="">
+  <h1>Internet yo‘q</h1>
+  <p>DezoMax Admin ishlashi uchun internet kerak. Internetni tekshirib, qayta urinib ko‘ring.</p>
+  <button type="button" id="retry">Qayta urinish</button>
+</div>
+<script>
+  // ilova sozlamasidagi manzil (sayt yoki admin) — capacitor.config.json → server.url
+  var START = 'https://abdulazizjuraev.github.io/dezomax/admin.html';
+  function go() { location.href = START; }
+  document.getElementById('retry').addEventListener('click', go);
+  window.addEventListener('online', go);
+</script>
+</body>
+</html>
