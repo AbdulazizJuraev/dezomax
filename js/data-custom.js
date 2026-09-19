@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 28,
+    "slug": "chernobyl",
+    "type": "serial",
+    "title": {
+      "uz": "Chernobil",
+      "ru": "Чернобыль"
+    },
+    "genres": [
+      "drama",
+      "thriller",
+      "history"
+    ],
+    "seasons": 1,
+    "country": {
+      "uz": "AQSh, Buyuk Britaniya",
+      "ru": "США, Великобритания"
+    },
+    "cast": [
+      "Jared Harris",
+      "Stellan Skarsgård",
+      "Emily Watson"
+    ],
+    "desc": {
+      "uz": "1986-yilgi Chernobil halokati va uning ko‘lamini yashirishga urinishlar haqidagi haqiqiy voqealarga asoslangan mini-serial.",
+      "ru": "Мини-сериал о катастрофе 1986 года и попытках скрыть её масштабы."
+    },
+    "colors": [
+      "#5a6a3a",
+      "#12160c"
+    ],
+    "poster": "images/chernobyl.jpg",
+    "trailer": "https://www.youtube.com/watch?v=NQEtwLPn5Fw",
+    "video": "https://dezocloud.uz/s/cxIr23e5LiweGS0RzjB0myD1",
+    "featured": false,
+    "addedAt": 1789811864389,
+    "updatedAt": 1789811864389,
+    "year": 2019,
+    "rating": 9.3,
+    "director": "Johan Renck"
+  },
+  {
     "id": 2928,
     "slug": "sonic-the-hedgehog-3",
     "type": "film",
