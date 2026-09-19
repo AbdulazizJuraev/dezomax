@@ -677,7 +677,7 @@ function itemHTML(m) {
     : edited ? '<span class="adm-state is-edit">Tahrirlangan</span>' : '';
   return `
     <div class="acc-item adm-item${hidden ? ' is-hidden' : ''}">
-      <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+      <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
       <div class="acc-item-main">
         <b>${esc(m.title?.uz || '')} ${state}</b>
         <small>${tags.map(esc).join(' · ')}</small>
@@ -877,7 +877,7 @@ function pickerHTML(key, ids, max) {
           return `
             <div class="adm-pick">
               <span class="adm-pick-n">${i + 1}</span>
-              <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+              <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
               <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}</small></span>
               <span class="adm-pick-btns">
                 <button type="button" data-move="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
@@ -920,7 +920,7 @@ function bindPicker(root, getIds, setIds, rerender) {
     results.hidden = false;
     results.innerHTML = found.length ? found.map(m => `
       <button type="button" data-add="${m.id}">
-        <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+        <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
         <span><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}</small></span>
         <em>+</em>
       </button>`).join('') : '<p class="acc-muted">Topilmadi</p>';

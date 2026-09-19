@@ -4567,3 +4567,22 @@ img, video, iframe { max-width: 100%; }
 @media (max-width: 640px) {
   .mv-hero-clip.is-on { opacity: .18; }
 }
+/* ---------------- Admin: yengil ko'rinish (siljitganda qotmasin) ----------------
+   Xira qilish (backdrop-filter) har kadrda tagidagi 60 ta rasmli ro'yxatni qayta hisoblaydi — Mac va
+   kuchsiz telefonlarda qotib-qotib ishlashning asosiy sababi. Admin sahifada u umuman kerak emas. */
+.page-admin *, .page-admin *::before, .page-admin *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.page-admin .header, .page-admin .header.scrolled { background: rgba(9, 11, 16, .97); }
+.page-admin .adm-nav { background: rgba(20, 24, 34, .98); }
+.page-admin .adm-savebar { background: rgba(9, 11, 16, .98); }
+/* ekrandan tashqaridagi ro'yxat qatorlari chizilmaydi — uzun ro'yxat tez siljiydi */
+.page-admin .adm-item, .page-admin .adm-commit, .page-admin .adm-pick {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 84px;
+}
+/* xira poster fon: kichikroq xiralik — GPU'ga yengil */
+.page-admin .adm-hero-bg { filter: blur(10px) saturate(1.2); }
+/* cheksiz animatsiyalar admin'da o'chiq */
+.page-admin .mt-loading i { animation-duration: 1.4s; }
