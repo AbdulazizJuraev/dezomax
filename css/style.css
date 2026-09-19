@@ -4531,3 +4531,39 @@ img, video, iframe { max-width: 100%; }
 @media (max-width: 300px) {
   .mv-poster { width: 100% !important; }
 }
+/* ---------------- Kino sahifasi: fonda xira treyler ---------------- */
+.mv-hero-clip {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+  container-type: size;
+}
+.mv-hero-clip.is-on { opacity: .22; }
+.mv-hero-clip iframe {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  /* 1.5× — YouTube nomi va belgilari (chetlarda) ko'rinadigan joydan tashqarida qoladi */
+  width: max(150cqw, 266.67cqh) !important;
+  height: max(84.38cqw, 150cqh) !important;
+  max-width: none !important;
+  border: 0;
+  pointer-events: none;
+  filter: saturate(.9);
+}
+/* matn o'qilishi uchun: pastga va chetlarga qarab sayt foniga singib ketadi */
+.mv-hero-clip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, var(--bg) 0%, rgba(7, 8, 12, .55) 45%, rgba(7, 8, 12, .25) 100%),
+    linear-gradient(90deg, rgba(7, 8, 12, .35), transparent 30%, transparent 70%, rgba(7, 8, 12, .35));
+}
+@media (max-width: 640px) {
+  .mv-hero-clip.is-on { opacity: .18; }
+}

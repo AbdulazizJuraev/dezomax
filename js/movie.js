@@ -352,15 +352,68 @@ async function wikiDesc() {
   } catch (e) { wikiText = ''; }
 }
 
+/* ---------- Sahifa tepasida fon treyler ----------
+   Ovozsiz, xira, takrorlanib turadi — matn va tugmalarga xalaqit bermaydi (sichqoncha/barmoq unga tegmaydi).
+   Pastdagi pleyer ishga tushirilganda to'xtatiladi. Harakat kamaytirilgan yoki trafik tejash rejimida — yo'q. */
+function mountBgTrailer() {
+  const hero = document.querySelector('.mv-hero');
+  const id = movie && typeof youTubeId === 'function' ? youTubeId(movie.trailer) : null;
+  if (!hero || !id || hero.querySelector('.mv-hero-clip')) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData) return;
+
+  const clip = document.createElement('div');
+  clip.className = 'mv-hero-clip';
+  clip.setAttribute('aria-hidden', 'true');
+  const params = 'autoplay=1&mute=1&controls=0&loop=1&playlist=' + id + '&start=15&playsinline=1&rel=0' +
+    '&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin=' + encodeURIComponent(location.origin);
+  clip.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?${params}" tabindex="-1"
+    allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title=""></iframe>`;
+  hero.querySelector('.mv-hero-bg').after(clip);
+  // faqat video haqiqatan o'ynay boshlaganda sekin paydo bo'ladi (avtoijro to'silsa — YouTube'ning
+  // qizil tugmasi ko'rinib qolmasin, fon umuman chiqmaydi)
+  const frame = clip.querySelector('iframe');
+  let heard = false;          // YouTube'dan birorta holat xabari keldimi
+  const onMsg = e => {
+    if (e.source !== frame.contentWindow) return;
+    let d; try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+    if (!/infoDelivery|initialDelivery|onStateChange/.test(d?.event || '')) return;
+    heard = true;
+    const st = d?.info?.playerState ?? (d?.event === 'onStateChange' ? d.info : undefined);
+    if (st === 1 && !clip.classList.contains('is-on')) setTimeout(() => clip.classList.add('is-on'), 600);
+  };
+  window.addEventListener('message', onMsg);
+  frame.addEventListener('load', () => {
+    // YouTube holat xabarlarini yuborishi uchun «tinglayapman» deymiz (bir necha marta — iframe ichi kech tayyor bo'lishi mumkin)
+    const ping = () => frame.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 'mvbg' }), '*');
+    ping(); setTimeout(ping, 500); setTimeout(ping, 1500); setTimeout(ping, 3000);
+    // xabar almashinuvi umuman ishlamaydigan muhitda — kutib, baribir sekin ko'rsatamiz
+    setTimeout(() => { if (!heard) clip.classList.add('is-on'); }, 5000);
+    setTimeout(() => { if (heard && !clip.classList.contains('is-on')) { clip.remove(); window.removeEventListener('message', onMsg); } }, 12000);
+  });
+
+  // asosiy pleyer bosilsa — fon treyler to'xtaydi va yo'qoladi
+  const stop = () => {
+    const f = clip.querySelector('iframe');
+    f?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
+    clip.classList.remove('is-on');
+    setTimeout(() => clip.remove(), 900);
+    document.removeEventListener('pointerdown', onDown, true);
+  };
+  const onDown = e => { if (e.target.closest('#playerBox, .player-tabs, .mv-actions a[href="#player"]')) stop(); };
+  document.addEventListener('pointerdown', onDown, true);
+}
+
 /* ---------- Ishga tushirish ---------- */
 
 initLayout();
 renderMovie();
 wikiDesc();
+mountBgTrailer();
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.addEventListener('langchange', () => {
   renderMovie();
   wikiDesc();
+  mountBgTrailer();
   applyI18n();
 });
