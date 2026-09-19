@@ -4713,3 +4713,41 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
   .wc-col:nth-child(n+4) .wc-p:nth-child(odd) { opacity: .92; }
 }
 @media (prefers-reduced-motion: reduce) { .wc-col { animation: none; } .wc-hl, .wc-text, .wc-auth { transition: none; animation: none; } }
+/* ---------------- Juda tor ekranlar (100 px gacha): sarlavha, sport va pastki navbar ---------------- */
+@media (max-width: 200px) {
+  /* logotip faqat belgi (D) — so'zi kesiladi; 160 px enli logotip butun sahifani yonga cho'zib yuborardi */
+  .header .logo, .header .logo-svg { width: 30px; max-width: 30px; overflow: hidden; flex: 0 0 30px; }
+  .header .logo-svg { height: 30px; }
+  .header .wrap { gap: 6px; }
+  .back-btn { width: 30px; height: 30px; margin-right: 0; }
+  .back-btn svg { width: 15px; height: 15px; }
+  .header .account-btn .avatar, .header .account-btn .avatar-sm { width: 30px; height: 30px; }
+}
+@media (max-width: 130px) {
+  .header .logo, .header .logo-svg { display: none; }   /* faqat orqaga va akkaunt tugmalari */
+}
+@media (max-width: 160px) {
+  .tabbar { left: 2px; right: 2px; padding: 3px; gap: 0; }
+  .tabbar-item { padding: 5px 0; min-width: 0; }
+  .tabbar-item span, .tabbar-item small, .tabbar-item b { display: none; }   /* faqat belgilar */
+  .tabbar-item svg { width: 18px; height: 18px; }
+  .sport-head h1 { font-size: 22px; }
+  .sport-head p { font-size: 12px; }
+  .sport-sec-head { gap: 4px; }
+  .sport-ico { width: 30px; height: 30px; }
+  .sport-live-badge { font-size: 11px; padding: 4px 8px; }
+  .match { padding: 8px 5px; }
+  .m-league { font-size: 9px; }
+}
+@media (max-width: 200px) {
+  /* pastdagi logotip ekran eniga moslashadi */
+  .footer .logo, .footer .logo-svg { width: 100%; max-width: 100%; height: auto; }
+  .footer .logo-svg .logo-svg-el { width: 100%; height: auto; }
+  .footer-grid, .footer-grid > * { min-width: 0; }
+}
+@media (max-width: 140px) {
+  .m-watch { max-width: 100%; box-sizing: border-box; padding: 2px 6px 2px 4px; font-size: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .m-watch svg { width: 8px; height: 8px; flex: 0 0 auto; }
+  .m-click .m-league, .m-league { min-width: 0; overflow-wrap: anywhere; }
+  .m-team span, .m-status, .m-time, .m-day, .m-live { min-width: 0; overflow-wrap: anywhere; }
+}
