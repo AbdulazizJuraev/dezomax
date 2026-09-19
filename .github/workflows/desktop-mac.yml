@@ -1,0 +1,37 @@
+# DezoMax Admin — MacBook dasturi (.dmg). Mac dasturini faqat macOS'da yig'ish mumkin,
+# shuning uchun GitHub'ning Mac serverida yig'iladi va «Releases» bo'limiga qo'yiladi.
+# Ishga tushadi: desktop/ papkasi o'zgarganda yoki Actions → «DezoMax Admin (Mac)» → Run workflow.
+name: DezoMax Admin (Mac)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['desktop/**', '.github/workflows/desktop-mac.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Yig'ish (.dmg, Intel va Apple Silicon uchun bitta fayl)
+        working-directory: desktop
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: |
+          npm ci
+          npx electron-builder --mac dmg --universal --publish never
+      - name: Releases'ga qo'yish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VER=$(node -p "require('./desktop/package.json').version")
+          TAG="admin-desktop-v$VER"
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "DezoMax Admin $VER (kompyuter)" --notes "DezoMax Admin kompyuter dasturi. Mac: .dmg faylini yuklab oling. Windows: .exe faylini yuklab oling."
+          gh release upload "$TAG" desktop/dist/*.dmg --clobber

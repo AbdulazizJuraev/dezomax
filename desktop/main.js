@@ -84,8 +84,15 @@ app.on('second-instance', () => {
 });
 
 app.whenReady().then(() => {
-  Menu.setApplicationMenu(null);
+  // Windows'da menyu kerak emas. Mac'da esa menyusiz Cmd+C / Cmd+V (token qo'yish) ishlamaydi —
+  // standart Mac menyusi: dastur, tahrirlash, ko'rinish, oyna
+  Menu.setApplicationMenu(process.platform === 'darwin'
+    ? Menu.buildFromTemplate([{ role: 'appMenu' }, { role: 'editMenu' }, { role: 'viewMenu' }, { role: 'windowMenu' }])
+    : null);
   createWindow();
 });
+
+// Mac: Dock'dagi belgi bosilganda oyna yopilgan bo'lsa — qayta ochiladi
+app.on('activate', () => { if (!BrowserWindow.getAllWindows().length) createWindow(); });
 
 app.on('window-all-closed', () => app.quit());

@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win nsis --x64"
+    "dist": "electron-builder --win nsis --x64",
+    "dist:mac": "electron-builder --mac dmg --universal"
   },
   "build": {
     "appId": "uz.dezomax.admin.desktop",
@@ -36,6 +37,17 @@
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
       "runAfterFinish": true
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.png",
+      "category": "public.app-category.productivity",
+      "identity": "-",
+      "artifactName": "DezoMax-Admin-${version}-mac.${ext}"
+    },
+    "dmg": {
+      "title": "DezoMax Admin",
+      "artifactName": "DezoMax-Admin-${version}-mac.${ext}"
     }
   },
   "devDependencies": {
