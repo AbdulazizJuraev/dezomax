@@ -156,17 +156,24 @@ const slugify = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').s
 
 /* data.js dagi asl kinolar (data-custom.js qo'shimchalarisiz) */
 const baseMovies = () => window.BASE_MOVIES || MOVIES;
-const isBase = id => baseMovies().some(m => m.id === id);
+
+/* Kinolar 28 000+ — id bo'yicha qidiruv Map orqali. Oldin har tekshiruv butun ro'yxatni aylanib chiqardi
+   (ro'yxat × ro'yxat) va admin ilovasi qotib qolardi. */
+let baseMap = null;
+const baseById = () => baseMap || (baseMap = new Map(baseMovies().map(m => [m.id, m])));
+const isBase = id => baseById().has(id);
 
 function nextId() {
   // 100000 dan yuqori id'lar — kutubxona (js/data-lib2.js); qo'lda qo'shilganlar ular bilan to'qnashmasin
-  const ids = [...baseMovies().map(m => m.id), ...customList.map(m => m.id)].filter(id => id < 100000);
-  return Math.max(999, ...ids) + 1;
+  let max = 999;
+  for (const m of baseMovies()) if (m.id < 100000 && m.id > max) max = m.id;
+  for (const m of customList) if (m.id < 100000 && m.id > max) max = m.id;
+  return max + 1;
 }
 
 /* Hozirgi holat: asl kino + tahrir (bo'lsa) */
 function currentMovie(id) {
-  return customList.find(m => m.id === id) || baseMovies().find(m => m.id === id) || null;
+  return customList.find(m => m.id === id) || baseById().get(id) || null;
 }
 
 function checkVideoUrl(url) {
@@ -508,7 +515,25 @@ const NAV_ICONS = {
 
 const addedList = () => customList.filter(m => !isBase(m.id));
 const editedList = () => customList.filter(m => isBase(m.id));
-const allMovies = () => [...baseMovies().map(m => currentMovie(m.id)), ...addedList()];
+/* Asl + tahrirlangan + qo'shilgan kinolar. customList o'zgarmaguncha bir marta hisoblanadi (u faqat qayta tayinlanadi). */
+let allCache = null, allById = null, allFor = null;
+function allMovies() {
+  if (allFor !== customList || !allCache) {
+    const edits = new Map(customList.map(m => [m.id, m]));
+    allCache = [...baseMovies().map(m => edits.get(m.id) || m), ...addedList()];
+    allById = new Map(allCache.map(m => [m.id, m]));
+    allFor = customList;
+  }
+  return allCache;
+}
+
+/* Qidiruv matni har kino uchun bir marta tayyorlanadi */
+const ADM_HAY = new WeakMap();
+const hayOf = m => {
+  let h = ADM_HAY.get(m);
+  if (h === undefined) { h = norm(`${m.title?.uz} ${m.title?.ru} ${m.year || ''} ${m.id}`); ADM_HAY.set(m, h); }
+  return h;
+};
 
 function go(v) {
   view = v;
@@ -645,7 +670,7 @@ function itemHTML(m) {
   const edited = base && customList.some(x => x.id === m.id);
   const hidden = hiddenList.includes(m.id);
   const tags = [
-    m.year, typeName(m.type), m.video ? 'To‘liq kino' : 'Treyler', `ID ${m.id}`
+    m.year, typeName(m.type), m.video ? 'To‘liq kino' : m.trailer ? 'Treyler' : 'Faqat ma’lumot', `ID ${m.id}`
   ].filter(Boolean);
   const state = hidden ? '<span class="adm-state is-hide">Yashirilgan</span>'
     : !base ? '<span class="adm-state is-add">Qo‘shilgan</span>'
@@ -674,7 +699,7 @@ function listItems() {
   if (listFilter === 'edited') items = editedList();
   if (listFilter === 'hidden') items = items.filter(m => hiddenList.includes(m.id));
   const q = norm(listQuery);
-  if (q) items = items.filter(m => norm(`${m.title?.uz} ${m.title?.ru} ${m.year || ''} ${m.id}`).includes(q));
+  if (q) items = items.filter(m => hayOf(m).includes(q));
   return items;
 }
 
@@ -839,7 +864,7 @@ async function saveConfig(cfg, message) {
   configSha = res.content.sha;
 }
 
-const movieById = id => allMovies().find(m => m.id === id);
+const movieById = id => (allMovies(), allById.get(id));
 
 /* Kino tanlagich: tanlanganlar (tartiblash, o'chirish) + qidirib qo'shish */
 function pickerHTML(key, ids, max) {
@@ -883,10 +908,15 @@ function bindPicker(root, getIds, setIds, rerender) {
   const input = root.querySelector('[data-search]');
   const results = root.querySelector('[data-results]');
   if (!input) return;
-  input.addEventListener('input', () => {
+  let t0;
+  input.addEventListener('input', () => { clearTimeout(t0); t0 = setTimeout(search, 150); });
+  function search() {
     const q = norm(input.value);
     if (!q) { results.hidden = true; return; }
-    const found = allMovies().filter(m => !getIds().includes(m.id) && norm(`${m.title.uz} ${m.title.ru} ${m.year || ''}`).includes(q)).slice(0, 8);
+    const picked = new Set(getIds()), found = [];
+    for (const m of allMovies()) {
+      if (!picked.has(m.id) && hayOf(m).includes(q)) { found.push(m); if (found.length === 8) break; }
+    }
     results.hidden = false;
     results.innerHTML = found.length ? found.map(m => `
       <button type="button" data-add="${m.id}">
@@ -897,7 +927,7 @@ function bindPicker(root, getIds, setIds, rerender) {
     results.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
       setIds([...getIds(), +b.dataset.add]); rerender();
     }));
-  });
+  }
 }
 
 const delayText = s => +s >= 60 ? '1 daqiqa' : `${+s} soniya`;
@@ -1077,7 +1107,11 @@ async function renderNotifyView() {
   if (view !== 'notify') return;
 
   const d = notifyDraft;
-  const movies = allMovies().filter(m => !hiddenList.includes(m.id)).sort((a, b) => (b.year || 0) - (a.year || 0));
+  // ro'yxatda faqat asosiy kinolar (id 2000 gacha) va qo'lda qo'shilganlar — 28 000 lik kutubxona
+  // <select> ga sig'maydi (telefonda ilova qotib qolardi)
+  const hidden = new Set(hiddenList);
+  const movies = allMovies().filter(m => !hidden.has(m.id) && (m.id < 2000 || !isBase(m.id) || d.link === `movie.html?id=${m.id}`))
+    .sort((a, b) => (b.year || 0) - (a.year || 0));
   const now = Date.now();
 
   box.innerHTML = `
