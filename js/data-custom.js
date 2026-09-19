@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 7,
+    "slug": "parasite",
+    "type": "film",
+    "title": {
+      "uz": "Parazitlar",
+      "ru": "Паразиты"
+    },
+    "genres": [
+      "drama",
+      "comedy",
+      "thriller"
+    ],
+    "country": {
+      "uz": "Janubiy Koreya",
+      "ru": "Южная Корея"
+    },
+    "cast": [
+      "Song Kang-ho",
+      "Lee Sun-kyun",
+      "Cho Yeo-jeong"
+    ],
+    "desc": {
+      "uz": "Kambag‘al oila a’zolari birin-ketin boy oilaning uyiga ishga joylashadi. Ammo bu uy o‘zining dahshatli sirini yashirmoqda.",
+      "ru": "Члены бедной семьи один за другим устраиваются на работу в богатый дом. Но дом хранит страшную тайну."
+    },
+    "colors": [
+      "#4a5a3a",
+      "#141a10"
+    ],
+    "poster": "images/parasite.png",
+    "trailer": "https://www.youtube.com/watch?v=GGnM74uxjlo",
+    "video": "https://dezocloud.uz/s/lhtc61qD9oAoCSLDOAjsFt8I",
+    "featured": false,
+    "addedAt": 1789811917969,
+    "updatedAt": 1789811917969,
+    "year": 2019,
+    "duration": 132,
+    "rating": 8.5,
+    "director": "Bong Joon-ho"
+  },
+  {
     "id": 147,
     "slug": "thunderbolts",
     "type": "film",
