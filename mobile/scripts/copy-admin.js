@@ -1,34 +1,31 @@
 /* ============================================================
-   "DezoMax Admin" ilovasi uchun sahifa: android/app/src/admin/assets/public
-   Bu papkadagi fayllar asosiy ilova fayllari ustidan yoziladi (flavor assets),
-   shuning uchun admin ilovasi ochilganda index.html = admin sahifa.
+   "DezoMax Admin" ilovasi: android/app/src/admin/assets/public va capacitor.config.json
+   Bu papkadagi fayllar asosiy ilova fayllari ustidan yoziladi (flavor assets).
+   6.0 dan boshlab admin ilovasi admin panelini internetdan ochadi
+   (server.url = .../admin.html) — admin o'zgarishlari APK'siz yetib boradi.
    ============================================================ */
 
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.resolve(__dirname, '..', '..');
-const OUT = path.resolve(__dirname, '..', 'android', 'app', 'src', 'admin', 'assets', 'public');
-const LIVE_CUSTOM = 'https://abdulazizjuraev.github.io/dezomax/js/data-custom.js';
+const ASSETS = path.resolve(__dirname, '..', 'android', 'app', 'src', 'admin', 'assets');
+const OUT = path.join(ASSETS, 'public');
+const ADMIN_URL = 'https://abdulazizjuraev.github.io/dezomax/admin.html';
 
 fs.rmSync(OUT, { recursive: true, force: true });
-fs.mkdirSync(path.join(OUT, 'js'), { recursive: true });
+fs.mkdirSync(OUT, { recursive: true });
 
-let html = fs.readFileSync(path.join(ROOT, 'admin.html'), 'utf8');
-html = html
-  // eng so'nggi kinolar ro'yxati jonli saytdan
-  .replace('src="js/data-custom.js?t=', `src="${LIVE_CUSTOM}?t=`)
-  // kino kutubxonasi (va uning oxiridagi 2-kutubxona yuklagichi) ham jonli saytdan
-  .replace(/src="js\/data-lib\.js\?v=([^"]*)"/, `src="${LIVE_CUSTOM.replace('data-custom.js', 'data-lib.js')}?v=$1"`)
-  // admin paneli kodi jonli saytdan (10 daqiqalik kesh) — admin tuzatishlari APK'ni qayta yig'masdan yetib boradi.
-  // Internet bo'lmasa yoki yuklanmasa — ilova ichidagi nusxa ishlaydi.
-  .replace(/<script src="js\/admin\.js\?v=[^"]*"><\/script>/,
-    `<script>document.write('<script src="${LIVE_CUSTOM.replace('data-custom.js', 'admin.js')}?t=' + Math.floor(Date.now() / 600000) + '" onerror="var s=document.createElement(\\'script\\');s.src=\\'js/admin.js\\';document.body.appendChild(s)"><\\/script>')</script>`)
-  // ilovada sayt menyulari kerak emas
-  .replace('<body class="page-admin">', '<body class="page-admin is-admin-app">')
-  .replace('</body>', '<script src="js/app-native.js"></script>\n</body>');
+// internet bo'lmaganda: «Qayta urinish» admin sahifasiga qaytaradi
+const offline = fs.readFileSync(path.join(__dirname, '..', 'native', 'offline.html'), 'utf8')
+  .replace('<script>', `<script>window.DZX_START = '${ADMIN_URL}';`);
+fs.writeFileSync(path.join(OUT, 'offline.html'), offline);
+fs.writeFileSync(path.join(OUT, 'index.html'), offline);
 
-fs.writeFileSync(path.join(OUT, 'index.html'), html);
-fs.copyFileSync(path.join(ROOT, 'js', 'admin.js'), path.join(OUT, 'js', 'admin.js'));
+// cap sync yozgan sozlama asosida — faqat ochiladigan manzil boshqa
+const mainCfg = path.resolve(__dirname, '..', 'android', 'app', 'src', 'main', 'assets', 'capacitor.config.json');
+const cfg = JSON.parse(fs.readFileSync(mainCfg, 'utf8'));
+cfg.appName = 'DezoMax Admin';
+cfg.server = { ...(cfg.server || {}), url: ADMIN_URL };
+fs.writeFileSync(path.join(ASSETS, 'capacitor.config.json'), JSON.stringify(cfg, null, 2));
 
-console.log('admin ilova sahifasi tayyor:', path.relative(ROOT, OUT));
+console.log('admin ilova: server.url =', ADMIN_URL);

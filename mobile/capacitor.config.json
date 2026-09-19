@@ -3,8 +3,9 @@
   "appName": "DezoMax",
   "webDir": "www",
   "server": {
+    "url": "https://abdulazizjuraev.github.io/dezomax/",
+    "errorPath": "offline.html",
     "androidScheme": "https",
-    "hostname": "dezomax.app",
     "cleartext": true
   },
   "android": {

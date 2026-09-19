@@ -1,14 +1,19 @@
 /* ============================================================
    DezoMax — faqat Android ilovasida ishlaydigan qo'shimchalar
-   (saytda bu fayl yuklanmaydi; mobile/scripts/copy-web.js ulaydi)
+   Ilova saytni internetdan ochadi (mobile/capacitor.config.json → server.url), shuning uchun
+   bu faylni js/common.js faqat ilova ichida (window.Capacitor bor bo'lsa) yuklaydi.
    ============================================================ */
 
 (function () {
   const cap = window.Capacitor;
   if (!cap || !cap.isNativePlatform || !cap.isNativePlatform()) return;
+  if (window.__dzxNative) return;          // ikki marta ulanmasin
+  window.__dzxNative = true;
 
   const { App, ScreenOrientation, SystemBars } = cap.Plugins;
   document.documentElement.classList.add('is-native-app');
+  // «DezoMax Admin» ilovasi: sayt menyulari yashiriladi (css: .is-admin-app)
+  if (document.body && document.body.classList.contains('page-admin')) document.body.classList.add('is-admin-app');
 
   /* ---- Telefonning "orqaga" tugmasi ---- */
   App && App.addListener('backButton', ({ canGoBack }) => {
