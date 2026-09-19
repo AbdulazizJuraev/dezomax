@@ -17,51 +17,51 @@ const SITE_CONFIG = /*CONFIG*/{
   "rows": [
     {
       "source": "trending",
-      "visible": false
+      "visible": true
     },
     {
       "source": "uzbek",
-      "visible": false
+      "visible": true
     },
     {
       "source": "konsert",
-      "visible": false
+      "visible": true
     },
     {
       "source": "cartoons",
-      "visible": false
+      "visible": true
     },
     {
       "source": "new",
-      "visible": false
+      "visible": true
     },
     {
       "source": "dorama",
-      "visible": false
+      "visible": true
     },
     {
       "source": "anime",
-      "visible": false
+      "visible": true
     },
     {
       "source": "hind",
-      "visible": false
+      "visible": true
     },
     {
       "source": "marvel",
-      "visible": false
+      "visible": true
     },
     {
       "source": "dc",
-      "visible": false
+      "visible": true
     },
     {
       "source": "top",
-      "visible": false
+      "visible": true
     },
     {
       "source": "series",
-      "visible": false
+      "visible": true
     }
   ]
 }/*ENDCONFIG*/;
