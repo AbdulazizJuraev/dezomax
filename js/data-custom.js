@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 5,
+    "slug": "oppenheimer",
+    "type": "film",
+    "title": {
+      "uz": "Oppengeymer",
+      "ru": "Оппенгеймер"
+    },
+    "genres": [
+      "drama",
+      "biography",
+      "history"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Cillian Murphy",
+      "Emily Blunt",
+      "Robert Downey Jr.",
+      "Matt Damon"
+    ],
+    "desc": {
+      "uz": "Atom bombasini yaratgan olim Robert Oppengeymerning hayoti va o‘z kashfiyoti oldidagi ma’naviy iztiroblari haqida.",
+      "ru": "История Роберта Оппенгеймера — учёного, создавшего атомную бомбу, и его мучительного противостояния с собственным творением."
+    },
+    "colors": [
+      "#6b2f1e",
+      "#1a0d08"
+    ],
+    "poster": "images/oppenheimer.jpg",
+    "trailer": "https://www.youtube.com/watch?v=PFepj-rWbFE",
+    "video": "https://dezocloud.uz/s/PlooAUF232-t4wVxnTNQS04I",
+    "featured": true,
+    "addedAt": 1789812012361,
+    "updatedAt": 1789812012361,
+    "year": 2023,
+    "duration": 180,
+    "rating": 8.3,
+    "director": "Christopher Nolan"
+  },
+  {
     "id": 52,
     "slug": "the-batman",
     "type": "film",
