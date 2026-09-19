@@ -7,6 +7,55 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 3,
+    "slug": "the-dark-knight",
+    "type": "film",
+    "title": {
+      "uz": "Qorong‘u ritsar",
+      "ru": "Тёмный рыцарь"
+    },
+    "genres": [
+      "action",
+      "drama",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Christian Bale",
+      "Heath Ledger",
+      "Aaron Eckhart",
+      "Gary Oldman"
+    ],
+    "desc": {
+      "uz": "Gotham shahri tinchlanayotgan bir paytda Joker ismli tartibsizlik ustasi paydo bo‘ladi va Betmenning barcha tamoyillarini sinovga qo‘yadi.",
+      "ru": "В Готэме появляется Джокер — гений хаоса, который ставит под сомнение все принципы Бэтмена."
+    },
+    "tags": [
+      "Batman",
+      "Betmen",
+      "Бэтмен",
+      "Joker"
+    ],
+    "colors": [
+      "#1f2937",
+      "#050607"
+    ],
+    "poster": "images/the-dark-knight.jpg",
+    "trailer": "https://www.youtube.com/watch?v=KO90kiH6W0U",
+    "video": "https://s11.faylmovi.ru/tarjima_kinolar/betmen_qora_ritsar_1080.mp4",
+    "featured": true,
+    "addedAt": 1789811740797,
+    "updatedAt": 1789811740797,
+    "year": 2008,
+    "duration": 152,
+    "rating": 9,
+    "director": "Christopher Nolan",
+    "franchise": "dc"
+  },
+  {
     "id": 2,
     "slug": "inception",
     "type": "film",
