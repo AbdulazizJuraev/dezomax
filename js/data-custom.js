@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2928,
+    "slug": "sonic-the-hedgehog-3",
+    "type": "film",
+    "title": {
+      "uz": "Sonic 3",
+      "ru": "Соник 3 в кино"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh, Yaponiya",
+      "ru": "США, Япония"
+    },
+    "cast": [
+      "Jim Carrey",
+      "James Marsden",
+      "Tika Sumpter",
+      "Krysten Ritter"
+    ],
+    "desc": {
+      "uz": "«Sonic 3» — 2024-yilgi AQSh va Yaponiya filmi. Rejissyor: Jeff Fowler. Rollarda: Jim Carrey, James Marsden, Tika Sumpter. Saytda rasmiy treyleri bor.",
+      "ru": "«Соник 3 в кино» — полнометражный приключенческий комедийный экшен-фильм, основанный на серии компьютерных игр Sonic the Hedgehog."
+    },
+    "tags": [
+      "Sonic the Hedgehog 3"
+    ],
+    "colors": [
+      "hsl(350 45% 28%)",
+      "hsl(10 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/f/f2/Sonic_the_Hedgehog_3_film_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=Mdsn1TSTHGY",
+    "video": "https://dezocloud.uz/s/n-0DaY_5jkClM3cxxvCXrmmY",
+    "featured": false,
+    "addedAt": 1789811835087,
+    "updatedAt": 1789811835087,
+    "year": 2024,
+    "duration": 110,
+    "director": "Jeff Fowler"
+  },
+  {
     "id": 3,
     "slug": "the-dark-knight",
     "type": "film",
