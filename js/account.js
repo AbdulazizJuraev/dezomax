@@ -34,7 +34,12 @@ Object.assign(I18N.uz, {
   'acc.pay': 'To‘ldirish',
   'acc.topupDone': 'Balans to‘ldirildi',
   'acc.minAmount': 'Eng kam summa — 1 000 so‘m',
-  'acc.payNote': 'To‘lov tizimi hali ulanmagan: balans sinov uchun to‘ldiriladi, haqiqiy pul yechilmaydi.',
+  'acc.payNote': 'To‘lov Click orqali amalga oshadi. Pul tushgach balans avtomatik to‘ldiriladi.',
+  'acc.clickPay': 'Click orqali to‘lash',
+  'acc.payOff': 'To‘lov tizimi ulanmoqda — tez orada ishga tushadi.',
+  'acc.reLogin': 'Balansdan foydalanish uchun akkauntdan chiqib, qayta kiring.',
+  'acc.payErr': 'To‘lov sahifasini ochib bo‘lmadi. Keyinroq urinib ko‘ring.',
+  'acc.payReceived': 'To‘lov qabul qilindi, balans yangilandi',
   'acc.subsEmpty': 'Hali obuna yo‘q',
   'acc.subsEmptyHint': 'Tarif tanlang — reklamasiz va yuqori sifatda ko‘ring.',
   'acc.active': 'Faol',
@@ -119,7 +124,12 @@ Object.assign(I18N.ru, {
   'acc.pay': 'Пополнить',
   'acc.topupDone': 'Баланс пополнен',
   'acc.minAmount': 'Минимальная сумма — 1 000 сум',
-  'acc.payNote': 'Платёжная система пока не подключена: баланс пополняется для теста, реальные деньги не списываются.',
+  'acc.payNote': 'Оплата проходит через Click. После поступления средств баланс пополнится автоматически.',
+  'acc.clickPay': 'Оплатить через Click',
+  'acc.payOff': 'Платёжная система подключается — скоро заработает.',
+  'acc.reLogin': 'Чтобы пользоваться балансом, выйдите из аккаунта и войдите снова.',
+  'acc.payErr': 'Не удалось открыть страницу оплаты. Попробуйте позже.',
+  'acc.payReceived': 'Оплата получена, баланс обновлён',
   'acc.subsEmpty': 'Подписок пока нет',
   'acc.subsEmptyHint': 'Выберите тариф — смотрите без рекламы и в высоком качестве.',
   'acc.active': 'Активна',
@@ -170,7 +180,6 @@ const APP_VERSION = '6.0';
 
 /* Promokodlar: bonus — balansga so'm, plan — tarif necha kunga */
 const PROMOCODES = {
-  DEZOMAX:  { bonus: 10000, text: { uz: 'Balansga 10 000 so‘m', ru: '10 000 сум на баланс' } },
   KINO2026: { plan: 'standard', days: 7, text: { uz: 'Standart tarif 7 kunga bepul', ru: 'Тариф Стандарт на 7 дней бесплатно' } },
   PREMIUM3: { plan: 'premium', days: 3, text: { uz: 'Premium tarif 3 kunga bepul', ru: 'Тариф Премиум на 3 дня бесплатно' } }
 };
@@ -243,11 +252,49 @@ function bindLang(root) {
 
 async function save() { await Auth.saveProfile(profile); }
 
+/* Balans va to'lovlar tarixi serverdan (server/server.js) — haqiqiy pul serverda saqlanadi */
+async function syncServer() {
+  if (!Pay.hasSession()) return false;
+  try {
+    const me = await Pay.me();
+    const before = profile.balance;
+    profile.balance = me.balance;
+    const local = (profile.payments || []).filter(p => p.kind === 'promo');
+    profile.payments = [...me.payments.map(p => ({ id: 's' + p.id, at: p.at, amount: p.amount, kind: p.kind === 'topup' ? 'topup' : 'plan', method: p.method, plan: p.plan, days: p.days })), ...local]
+      .sort((a, b) => b.at - a.at);
+    return before !== me.balance;
+  } catch { return false; }          // server javob bermasa — oxirgi ma'lum balans qoladi
+}
+
+/* Click'dan qaytgach: pul serverga bir necha soniyada tushadi — balans oshguncha tekshirib turamiz */
+async function waitPayment() {
+  let w = null;
+  try { w = JSON.parse(sessionStorage.getItem('dzxPayWait') || 'null'); } catch {}
+  if (!w || Date.now() - w.at > 10 * 60000 || !Pay.hasSession()) return;
+  for (let i = 0; i < 20; i++) {
+    if (await syncServer() && profile.balance > w.balance) {
+      try { sessionStorage.removeItem('dzxPayWait'); } catch {}
+      await save(); renderAccount(); toast(t('acc.payReceived'));
+      return;
+    }
+    await new Promise(r => setTimeout(r, 3000));
+  }
+}
+
+/* Tarif uchun pul yechish: server yoqilgan bo'lsa — serverdan (haqiqiy balans), aks holda mahalliy (demo) */
+async function charge(price, planId, days) {
+  if (price <= 0) return true;
+  if (!Pay.enabled()) return profile.balance >= price;         // demo: buyPlan o'zi yechadi
+  if (!Pay.hasSession()) return false;
+  try { const r = await Pay.spend(price, planId, days); profile.balance = r.balance + price; return true; }   // buyPlan yana price ayiradi
+  catch { return false; }
+}
+
 /* Tarif muddati o'tgan bo'lsa: avtomatik uzaytirish yoki bepulga qaytish */
-function checkPlanExpiry() {
+async function checkPlanExpiry() {
   if (!profile || profile.plan === 'free' || !profile.planUntil || profile.planUntil > Date.now()) return false;
   const plan = ACC_PLANS[profile.plan];
-  if (profile.autoRenew && plan && profile.balance >= plan.price) {
+  if (profile.autoRenew && plan && profile.balance >= plan.price && await charge(plan.price, profile.plan, 30)) {
     buyPlan(profile.plan, 30, plan.price, true);
   } else {
     profile.plan = 'free';
@@ -531,13 +578,8 @@ const SECTIONS = {
         </div>
         <label class="acc-label" for="topupAmount">${t('acc.amount')}</label>
         <div class="acc-phone"><input id="topupAmount" type="text" inputmode="numeric" placeholder="50 000"><span>${sumWord()}</span></div>
-        <span class="acc-label">${t('acc.method')}</span>
-        <div class="acc-methods">
-          ${['Payme', 'Click', 'Uzcard', 'Humo'].map((m, i) => `
-            <label class="acc-method"><input type="radio" name="method" value="${m}"${i ? '' : ' checked'}><span>${m}</span></label>`).join('')}
-        </div>
-        <p class="acc-error" id="topupErr" hidden></p>
-        <button class="btn btn-primary acc-submit" type="submit">${t('acc.pay')}</button>
+        <p class="acc-error" id="topupErr"${Pay.enabled() && Pay.hasSession() ? ' hidden' : ''}>${!Pay.enabled() ? t('acc.payOff') : !Pay.hasSession() ? t('acc.reLogin') : ''}</p>
+        <button class="btn btn-primary acc-submit" type="submit"${Pay.enabled() ? '' : ' disabled'}>${t('acc.clickPay')}</button>
         <p class="acc-note">${ICONS.info}<span>${t('acc.payNote')}</span></p>
       </form>`;
   },
@@ -727,15 +769,24 @@ const BINDERS = {
     const fmt = () => { const d = input.value.replace(/\D/g, '').slice(0, 8); input.value = d ? money(+d) : ''; };
     input.addEventListener('input', fmt);
     p.querySelectorAll('[data-amount]').forEach(b => b.addEventListener('click', () => { input.value = money(+b.dataset.amount); }));
-    p.querySelector('#topupForm').addEventListener('submit', e => {
+    p.querySelector('#topupForm').addEventListener('submit', async e => {
       e.preventDefault();
       const amount = +input.value.replace(/\D/g, '');
       const err = p.querySelector('#topupErr');
-      if (amount < 1000) { err.textContent = t('acc.minAmount'); err.hidden = false; return; }
-      const method = p.querySelector('input[name="method"]:checked').value;
-      profile.balance += amount;
-      profile.payments.unshift({ id: 'p' + Date.now(), at: Date.now(), amount, kind: 'topup', method });
-      rerender(t('acc.topupDone'));
+      const fail = m => { err.textContent = m; err.hidden = false; };
+      if (!Pay.enabled()) return fail(t('acc.payOff'));
+      if (!Pay.hasSession()) return fail(t('acc.reLogin'));
+      if (amount < 1000) return fail(t('acc.minAmount'));
+      const btn = p.querySelector('.acc-submit');
+      btn.disabled = true; err.hidden = true;
+      try {
+        const o = await Pay.order(amount);
+        try { sessionStorage.setItem('dzxPayWait', JSON.stringify({ at: Date.now(), balance: profile.balance })); } catch {}
+        location.href = o.url;                     // Click to'lov sahifasi (ilovada tizim brauzeri / Click ilovasi ochiladi)
+      } catch (ex) {
+        btn.disabled = false;
+        fail(ex.code === 'auth' ? t('acc.reLogin') : (ex.code === 'server' && ex.message ? ex.message : t('acc.payErr')));
+      }
     });
   },
 
@@ -808,10 +859,12 @@ async function boot() {
   const user = Auth.user();
   if (!user) { renderLogin(); return; }
   profile = await Auth.loadProfile(user);
-  const expired = checkPlanExpiry();
+  await syncServer();
+  const expired = await checkPlanExpiry();
   touchDevice(profile);
   if (expired) await save(); else Auth.saveProfile(profile);
   renderAccount();
+  waitPayment();
 }
 
 initLayout();

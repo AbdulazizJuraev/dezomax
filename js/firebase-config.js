@@ -18,3 +18,8 @@
 
 // Web Client ID ochiq ma'lumot (sahifa kodida baribir ko'rinadi). Client SECRET bu yerga HECH QACHON yozilmaydi.
 const GOOGLE_WEB_CLIENT_ID = '908276451743-a2o6sj3n1fgfbm93q0e09ephcrotanvt.apps.googleusercontent.com';
+
+/* To'lov serveri (Click) manzili — server/ papkasidagi dastur ishga tushirilgach shu yerga yoziladi:
+   masalan 'https://12-34-56-78.sslip.io'. Bo'sh bo'lsa to'lov o'chiq (balans to'ldirilmaydi).
+   Bu ochiq manzil; maxfiy Click kaliti FAQAT serverda turadi, bu yerga yozilmaydi. */
+const PAY_API = '';

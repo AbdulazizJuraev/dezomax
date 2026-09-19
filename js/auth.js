@@ -164,8 +164,8 @@ function defaultProfile(user) {
                 ru: 'Пользуйтесь тарифом Стандарт 1 месяц бесплатно. Затем 29 000 сум в месяц — подписку можно отменить в любой момент.' } },
       { id: 'welcome', at: now, read: false,
         title: { uz: 'DezoMax’ga xush kelibsiz!', ru: 'Добро пожаловать в DezoMax!' },
-        text: { uz: 'O‘zbek kinolari, telekanallar va sport — hammasi bir joyda. DEZOMAX promokodi bilan balansingizga bonus oling.',
-                ru: 'Узбекское кино, телеканалы и спорт — всё в одном месте. Получите бонус на баланс по промокоду DEZOMAX.' } }
+        text: { uz: 'O‘zbek kinolari, telekanallar va sport — hammasi bir joyda.',
+                ru: 'Узбекское кино, телеканалы и спорт — всё в одном месте.' } }
     ],
     settings: { notifyNew: true, notifySport: true, notifyPromo: true, autoplay: true, quality: 'auto' }
   };
@@ -209,6 +209,38 @@ function decodeJwt(token) {
   } catch { return {}; }
 }
 
+/* ---------- To'lov serveri (server/server.js): balans va Click to'lovlari ---------- */
+
+const PAY_TOKEN_KEY = 'dezomax_pay_token';
+const Pay = {
+  enabled: () => typeof PAY_API !== 'undefined' && !!PAY_API,
+  token: () => { try { return localStorage.getItem(PAY_TOKEN_KEY) || ''; } catch { return ''; } },
+  hasSession() { return this.enabled() && !!this.token(); },
+  clear() { try { localStorage.removeItem(PAY_TOKEN_KEY); } catch {} },
+
+  async _req(method, path, body) {
+    const headers = { 'Content-Type': 'application/json' };
+    const tk = this.token();
+    if (tk) headers.Authorization = 'Bearer ' + tk;
+    let r;
+    try { r = await fetch(String(PAY_API).replace(/\/+$/, '') + path, { method, headers, body: body ? JSON.stringify(body) : undefined }); }
+    catch { throw Object.assign(new Error('network'), { code: 'network' }); }
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 401) { this.clear(); throw Object.assign(new Error('auth'), { code: 'auth' }); }
+    if (!r.ok) throw Object.assign(new Error(j.error || 'xato'), { code: r.status === 402 ? 'funds' : 'server', data: j });
+    return j;
+  },
+  /* Google ID token → server sessiya tokeni (kirishda bir marta) */
+  async login(idToken) {
+    const j = await this._req('POST', '/api/login', { idToken });
+    try { localStorage.setItem(PAY_TOKEN_KEY, j.token); } catch {}
+    return j;
+  },
+  me() { return this._req('GET', '/api/me'); },
+  order(amount) { return this._req('POST', '/api/order', { amount }); },
+  spend(amount, plan, days) { return this._req('POST', '/api/spend', { amount, kind: 'plan', plan, days }); }
+};
+
 const Auth = {
   mode: GOOGLE_ID ? 'google' : 'demo',
   native: IS_NATIVE,
@@ -231,7 +263,7 @@ const Auth = {
         try {
           const p = decodeJwt(resp.credential);
           if (!p.email) throw new Error('no email');
-          onUser(await this._finish({ uid: 'google_' + p.sub, method: 'google', email: p.email, name: p.name || '', photo: p.picture || '' }));
+          onUser(await this._finish({ uid: 'google_' + p.sub, method: 'google', email: p.email, name: p.name || '', photo: p.picture || '' }, resp.credential));
         } catch (e) { onError && onError(e); }
       }
     });
@@ -268,11 +300,13 @@ const Auth = {
       method: 'google', email,
       name: p.name || jwt.name || '',
       photo: p.imageUrl || jwt.picture || ''
-    });
+    }, r.idToken);
   },
 
-  async _finish(user) {
+  async _finish(user, idToken) {
     user.at = Date.now();
+    // to'lov serveriga kirish (balans, Click). Server o'chiq/yo'q bo'lsa — sayt baribir ishlayveradi
+    if (Pay.enabled() && idToken) { try { await Pay.login(idToken); } catch (e) { console.warn('pay login', e.message); } }
     writeJSON(AUTH_USER_KEY, user);
     // keyingi safar tezkor kirish uchun Google akkaunt eslab qolinadi
     writeJSON(AUTH_LAST_KEY, { method: 'google', email: user.email, name: user.name || '', photo: user.photo || '' });
@@ -292,6 +326,7 @@ const Auth = {
       else if (window.google?.accounts?.id) google.accounts.id.disableAutoSelect();
     } catch {}
     localStorage.removeItem(AUTH_USER_KEY);
+    Pay.clear();
     renderAccountButtons();
   },
 

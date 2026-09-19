@@ -72,11 +72,17 @@ function getPlan() {
 
 Object.assign(I18N.uz, {
   'plans.needLogin': 'Tarif tanlash uchun akkauntga kiring',
+  'plans.needRelogin': 'Balansdan foydalanish uchun akkauntdan chiqib, qayta kiring',
+  'plans.payOff': 'To‘lov tizimi ulanmoqda — tez orada ishga tushadi',
+  'plans.error': 'Xatolik yuz berdi, qayta urinib ko‘ring',
   'plans.noMoney': 'Balansda mablag‘ yetarli emas — balansni to‘ldiring',
   'plans.bought': 'Tarif faollashtirildi'
 });
 Object.assign(I18N.ru, {
   'plans.needLogin': 'Войдите в аккаунт, чтобы выбрать тариф',
+  'plans.needRelogin': 'Чтобы пользоваться балансом, выйдите из аккаунта и войдите снова',
+  'plans.payOff': 'Платёжная система подключается — скоро заработает',
+  'plans.error': 'Произошла ошибка, попробуйте ещё раз',
   'plans.noMoney': 'Недостаточно средств — пополните баланс',
   'plans.bought': 'Тариф активирован'
 });
@@ -98,16 +104,26 @@ async function setPlan(id) {
     p.plan = 'free';
     p.planUntil = null;
   } else {
-    if ((p.balance || 0) < price) {
-      toast(t('plans.noMoney'));
-      setTimeout(() => { location.href = 'account.html#balance'; }, 1400);
+    // Balans serverda (Click orqali to'ldirilgan haqiqiy pul): yechish ham serverda, u ikki marta yechmaydi
+    if (Pay.enabled()) {
+      if (!Pay.hasSession()) { toast(t('plans.needRelogin')); return; }
+      try {
+        const r = await Pay.spend(price, id, days);
+        p.balance = r.balance;
+      } catch (ex) {
+        if (ex.code === 'funds') {
+          toast(t('plans.noMoney'));
+          setTimeout(() => { location.href = 'account.html#balance'; }, 1400);
+        } else toast(ex.code === 'auth' ? t('plans.needRelogin') : t('plans.error'));
+        return;
+      }
+    } else {
+      toast(t('plans.payOff'));           // to'lov tizimi ulanmaguncha pullik tarif sotib olinmaydi
       return;
     }
-    p.balance -= price;
     p.plan = id;
     p.planUntil = now + days * 86400000;
     p.subscriptions.unshift({ id: 's' + now, plan: id, from: now, until: p.planUntil, price });
-    p.payments.unshift({ id: 'p' + now, at: now, amount: -price, kind: 'plan', plan: id, days });
   }
 
   localStorage.setItem(PLAN_KEY, id);

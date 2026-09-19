@@ -28,3 +28,9 @@ mobile/android/app/src/admin/assets/
 # Kompyuter dasturi (desktop/)
 desktop/node_modules/
 desktop/dist/
+
+# To'lov serveri: maxfiy sozlamalar va baza GitHub'ga yuklanmasin
+server/.env
+server/*.db
+server/*.db-wal
+server/*.db-shm

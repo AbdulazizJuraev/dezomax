@@ -1,0 +1,17 @@
+[Unit]
+Description=DezoMax to'lov serveri (Click)
+After=network.target
+
+[Service]
+User=dezomax
+WorkingDirectory=/opt/dezomax/server
+EnvironmentFile=/etc/dezomax-pay.env
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning server.js
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/dezomax-data
+
+[Install]
+WantedBy=multi-user.target
