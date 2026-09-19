@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 52,
+    "slug": "the-batman",
+    "type": "film",
+    "title": {
+      "uz": "Betmen",
+      "ru": "Бэтмен"
+    },
+    "genres": [
+      "action",
+      "thriller",
+      "crime",
+      "detective"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Robert Pattinson",
+      "Zoë Kravitz",
+      "Paul Dano",
+      "Colin Farrell"
+    ],
+    "desc": {
+      "uz": "Ikkinchi yilini o‘tayotgan Betmen Gotem elitasini nishonga olgan Topishmoqchi ismli qotilning izidan boradi.",
+      "ru": "На втором году борьбы Бэтмен идёт по следу Загадочника, убивающего элиту Готэма."
+    },
+    "tags": [
+      "Batman",
+      "Бэтмен"
+    ],
+    "colors": [
+      "#5a2a1e",
+      "#140806"
+    ],
+    "poster": "images/the-batman.jpg",
+    "trailer": "https://www.youtube.com/watch?v=GeagFRms_xE",
+    "video": "https://dezocloud.uz/s/FycksdYvl40J3t_IN4tG3If3",
+    "featured": true,
+    "addedAt": 1789811984881,
+    "updatedAt": 1789811984881,
+    "year": 2022,
+    "duration": 176,
+    "rating": 7.8,
+    "director": "Matt Reeves",
+    "franchise": "dc"
+  },
+  {
     "id": 4,
     "slug": "dune",
     "type": "film",
