@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1,
+    "slug": "interstellar",
+    "type": "film",
+    "title": {
+      "uz": "Yulduzlararo",
+      "ru": "Интерстеллар"
+    },
+    "genres": [
+      "drama",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Matthew McConaughey",
+      "Anne Hathaway",
+      "Jessica Chastain",
+      "Michael Caine"
+    ],
+    "desc": {
+      "uz": "Yer sayyorasi yashash uchun yaroqsiz holga kelmoqda. Bir guruh tadqiqotchi insoniyatga yangi uy topish uchun qurt teshigi orqali boshqa galaktikaga yo‘l oladi.",
+      "ru": "Земля становится непригодной для жизни. Группа исследователей отправляется через червоточину в другую галактику, чтобы найти новый дом для человечества."
+    },
+    "colors": [
+      "#1b3a5c",
+      "#0a1628"
+    ],
+    "poster": "images/interstellar.jpg",
+    "trailer": "https://www.youtube.com/watch?v=qcPfI0y7wRU",
+    "video": "https://dezocloud.uz/s/fMA6pMT44vELITVWAxd61YYk",
+    "featured": true,
+    "addedAt": 1789808327008,
+    "updatedAt": 1789808327008,
+    "year": 2014,
+    "duration": 169,
+    "rating": 8.7,
+    "director": "Christopher Nolan"
+  },
+  {
     "id": 40,
     "slug": "avengers-endgame",
     "type": "film",
