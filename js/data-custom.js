@@ -7,6 +7,52 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 147,
+    "slug": "thunderbolts",
+    "type": "film",
+    "title": {
+      "uz": "Momaqaldiroqlar*",
+      "ru": "Громовержцы*"
+    },
+    "genres": [
+      "action",
+      "thriller",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Florence Pugh",
+      "Sebastian Stan",
+      "David Harbour",
+      "Julia Louis-Dreyfus"
+    ],
+    "desc": {
+      "uz": "Yelena Belova va boshqa sobiq yollanma qotillar tuzoqqa tushib qoladi. Ular o‘tmishlariga qaramay, bir jamoa bo‘lib ishlashga majbur bo‘ladi.",
+      "ru": "Елена Белова и другие бывшие наёмники попадают в ловушку. Несмотря на своё прошлое, им приходится действовать как команда."
+    },
+    "tags": [
+      "Marvel",
+      "thunderbolts"
+    ],
+    "colors": [
+      "#3a3a3a",
+      "#0a0a0a"
+    ],
+    "poster": "images/marvel/thunderbolts.jpg",
+    "trailer": "https://www.youtube.com/watch?v=wpQIWG4PPmQ",
+    "video": "https://dezocloud.uz/s/Wcdf5zKwCYfaAX1_NriNLTLd",
+    "featured": false,
+    "addedAt": 1789811892281,
+    "updatedAt": 1789811892281,
+    "year": 2025,
+    "duration": 127,
+    "director": "Jake Schreier",
+    "franchise": "marvel"
+  },
+  {
     "id": 28,
     "slug": "chernobyl",
     "type": "serial",
