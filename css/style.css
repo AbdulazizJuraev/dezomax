@@ -4522,3 +4522,12 @@ img, video, iframe { max-width: 100%; }
 }
 .hero-actions .hero-watch span,
 .hero-actions .hero-watch svg { filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .35)); }
+/* ---------------- Kino sahifasi: katta poster ---------------- */
+.mv-layout { grid-template-columns: clamp(300px, 30vw, 380px) 1fr; }
+@media (max-width: 900px) {
+  .mv-layout { grid-template-columns: minmax(0, 1fr); }
+  .mv-poster { width: min(340px, 78vw) !important; margin-inline: auto; }
+}
+@media (max-width: 300px) {
+  .mv-poster { width: 100% !important; }
+}
