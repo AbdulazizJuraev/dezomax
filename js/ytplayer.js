@@ -262,7 +262,6 @@ function ytShowMsg(box, id, text) {
   msg.innerHTML = `
     <div class="ytp-msg-inner">
       <p>${esc(text)}</p>
-      <a class="btn btn-ghost btn-sm" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">${esc(t('player.openExternal'))}</a>
     </div>`;
 }
 

@@ -160,7 +160,6 @@ function playerSectionHTML(m) {
     <div class="player-wrap" id="playerBox"></div>
     <div class="player-foot">
       ${note}${source}
-      <a class="player-link" id="playerExternal" target="_blank" rel="noopener" hidden>${t('player.openExternal')}</a>
     </div>`;
 }
 

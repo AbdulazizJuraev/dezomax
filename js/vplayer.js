@@ -135,8 +135,7 @@ function mountVideo(box, url, opts = {}) {
     $('#vpCover').hidden = true;
     const msg = $('#vpMsg');
     msg.hidden = false;
-    msg.innerHTML = `<div class="ytp-msg-inner"><p>${esc(t('player.ytError'))}</p>
-      <a class="btn btn-ghost btn-sm" href="${esc(url)}" target="_blank" rel="noopener">${esc(t('player.openExternal'))}</a></div>`;
+    msg.innerHTML = `<div class="ytp-msg-inner"><p>${esc(t('player.ytError'))}</p></div>`;
   };
 
   const bindChips = () => {
