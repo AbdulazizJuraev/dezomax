@@ -7,6 +7,43 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2981,
+    "slug": "sirli-orol-2",
+    "type": "film",
+    "title": {
+      "uz": "Sirli orol 2",
+      "ru": "Таинственный остров 2"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "O'zbek tilida",
+      "ru": "На узбекском языке"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Sirli sayohat / Sirli Orol / Orol 2 — sarguzasht, fantastika, jangari va komediya janridagi film. Shon Anderson sirli oroldan yordam so‘rab yuborilgan kodlangan signalni qabul qiladi. U o‘gay otasi bilan birgalikda noma’lum orolni izlashga yo‘l oladi. U yerda g‘ayrioddiy jonzotlar, oltin tog‘lari, xavfli vulqonlar va ko‘plab sirlar yashiringan. Ammo orolni kuchli zilzila suv ostida qoldirishidan oldin ular uning sirlarini ochib, u yerdagi odamni qutqarib, qochib chiqishlari kerak.",
+      "ru": "«Путешествие 2: Таинственный остров» — приключенческий фантастический фильм 2012 года. Шон Андерсон получает закодированный сигнал о помощи с таинственного острова, существование которого практически невозможно. Вместе с отчимом, пилотом вертолёта и его дочерью Шон отправляется на поиски острова. Там их ждут необычные существа, золотые горы, опасные вулканы и множество загадок. Героям предстоит найти остров, спасти его единственного жителя и выбраться оттуда до того, как мощное землетрясение скроет остров под водой."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/sirli-orol-2-2981.jpg",
+    "trailer": "https://youtu.be/7G8xGLbToFs?si=c0X3tO1K2GdDfDax",
+    "video": "https://dezocloud.uz/s/jVAJyqBBFysYLb2rxoy4puWr",
+    "featured": true,
+    "addedAt": 1789810249059,
+    "updatedAt": 1789810249059,
+    "year": 2016,
+    "duration": 1,
+    "audio": "uz"
+  },
+  {
     "id": 1,
     "slug": "interstellar",
     "type": "film",
