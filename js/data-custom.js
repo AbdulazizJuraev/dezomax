@@ -7,48 +7,6 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
-    "id": 4,
-    "slug": "dune",
-    "type": "film",
-    "title": {
-      "uz": "Dyuna 1",
-      "ru": "Дюна"
-    },
-    "genres": [
-      "drama",
-      "scifi",
-      "adventure"
-    ],
-    "country": {
-      "uz": "AQSh",
-      "ru": "США"
-    },
-    "cast": [
-      "Timothée Chalamet",
-      "Rebecca Ferguson",
-      "Oscar Isaac",
-      "Zendaya"
-    ],
-    "desc": {
-      "uz": "Yosh Pol Atreydes oilasi bilan koinotdagi eng qimmat resurs manbai bo‘lgan xavfli sahro sayyorasiga ko‘chib o‘tadi.",
-      "ru": "Юный Пол Атрейдес вместе с семьёй перебирается на опасную пустынную планету — источник самого ценного ресурса во Вселенной."
-    },
-    "colors": [
-      "#a0663a",
-      "#2e1a10"
-    ],
-    "poster": "images/dune.jpg",
-    "trailer": "https://www.youtube.com/watch?v=Ja0zYjiQ8jc",
-    "video": "",
-    "featured": false,
-    "addedAt": 1789720281818,
-    "updatedAt": 1789720281818,
-    "year": 2021,
-    "duration": 155,
-    "rating": 8,
-    "director": "Denis Villeneuve"
-  },
-  {
     "id": 1,
     "slug": "interstellar",
     "type": "film",
