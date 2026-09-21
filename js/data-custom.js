@@ -7,6 +7,42 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2982,
+    "slug": "oyning-qulashi",
+    "type": "film",
+    "title": {
+      "uz": "Oyning qulashi",
+      "ru": "Падение Луны"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "thriller",
+      "war",
+      "family",
+      "history"
+    ],
+    "country": {
+      "uz": "Amerika Qo'shma Shtatlari",
+      "ru": "Соединенные Штаты Америки"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "",
+      "ru": ""
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/oyning-qulashi-2982.jpg",
+    "trailer": "https://www.youtube.com/watch?v=hNXzk74FcxM",
+    "video": "https://dezocloud.uz/s/klEU7eqI_v2u-AHL0U0p1vnm",
+    "featured": false,
+    "addedAt": 1789967245094,
+    "updatedAt": 1789967245094
+  },
+  {
     "id": 128,
     "slug": "avengers-age-of-ultron",
     "type": "film",
