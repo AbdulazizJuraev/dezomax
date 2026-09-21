@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 128,
+    "slug": "avengers-age-of-ultron",
+    "type": "film",
+    "title": {
+      "uz": "Qasoskorlar: Altron asri",
+      "ru": "Мстители: Эра Альтрона"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Evans",
+      "Chris Hemsworth",
+      "Scarlett Johansson",
+      "James Spader"
+    ],
+    "desc": {
+      "uz": "Toni Stark tinchlikni saqlash uchun sun’iy intellekt Altronni yaratadi. Ammo Altron insoniyatni yo‘q qilishga qaror qiladi va Qasoskorlar yana birlashadi.",
+      "ru": "Тони Старк создаёт искусственный интеллект Альтрона для защиты мира. Но Альтрон решает уничтожить человечество, и Мстители снова объединяются."
+    },
+    "tags": [
+      "Marvel",
+      "avengers age of ultron"
+    ],
+    "colors": [
+      "#3a3f4a",
+      "#0a0c10"
+    ],
+    "poster": "images/marvel/avengers-age-of-ultron.jpg",
+    "trailer": "https://www.youtube.com/watch?v=FwW149BS9n4",
+    "video": "https://dezocloud.uz/s/EdK5fVbN9voo-WuTIPkE2WNA",
+    "featured": false,
+    "addedAt": 1789967015915,
+    "updatedAt": 1789967015915,
+    "year": 2015,
+    "duration": 141,
+    "rating": 7.3,
+    "director": "Joss Whedon",
+    "franchise": "marvel"
+  },
+  {
     "id": 5,
     "slug": "oppenheimer",
     "type": "film",
