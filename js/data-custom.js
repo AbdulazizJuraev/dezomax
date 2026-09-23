@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2200,
+    "slug": "avatar-the-way-of-water",
+    "type": "film",
+    "title": {
+      "uz": "Avatar: Suv yo'li",
+      "ru": "Аватар: Путь воды"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Zoe Saldaña",
+      "Sigourney Weaver",
+      "Joel David Moore"
+    ],
+    "desc": {
+      "uz": "«Avatar: Suv yo'li» — 2022-yilgi AQSh filmi. Rollarda: Zoe Saldaña, Sigourney Weaver, Joel David Moore. Saytda rasmiy treyleri bor.",
+      "ru": "«Аватар: Путь воды» — американский эпический научно-фантастический фильм режиссёра и сценариста Джеймса Кэмерона, созданный студиями Lightstorm Entertainment и выпущенный студией 20th Century Studios."
+    },
+    "tags": [
+      "Avatar: The Way of Water"
+    ],
+    "colors": [
+      "hsl(311 45% 28%)",
+      "hsl(331 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/5/54/Avatar_The_Way_of_Water_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=o6o2I6Innf0",
+    "video": "https://kinolar.tv/6eabf0c3-7f18-4df5-af8f-40f46af1fff3",
+    "featured": false,
+    "addedAt": 1790166355514,
+    "updatedAt": 1790166355514,
+    "year": 2022,
+    "duration": 192
+  },
+  {
     "id": 13,
     "slug": "avatar",
     "type": "film",
