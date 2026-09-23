@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2436,
+    "slug": "transformers-revenge-of-the-fallen",
+    "type": "film",
+    "title": {
+      "uz": "Transformers 2 Folening Qasosi",
+      "ru": "Трансформеры: Месть падших"
+    },
+    "genres": [
+      "action",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Shia LaBeouf",
+      "Megan Fox",
+      "Josh Duhamel",
+      "John Turturro"
+    ],
+    "desc": {
+      "uz": "«Transformers: Revenge of the Fallen» — 2009-yilgi AQSh filmi. Rejissyor: Michael Bay. Rollarda: Shia LaBeouf, Megan Fox, Josh Duhamel. Saytda rasmiy treyleri bor.",
+      "ru": "«Трансформеры: Месть падших» — американский научно-фантастический боевик режиссёра Майкла Бэя, продолжение фильма «Трансформеры»."
+    },
+    "colors": [
+      "hsl(352 45% 28%)",
+      "hsl(12 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/c/cb/TF2SteelPoster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=fnXzKwUgDhg",
+    "video": "https://dezocloud.uz/s/N64VGK7dLeAyBIKgvOBAeytT",
+    "featured": false,
+    "addedAt": 1790156928307,
+    "updatedAt": 1790156928307,
+    "year": 2009,
+    "duration": 150,
+    "director": "Michael Bay"
+  },
+  {
     "id": 2343,
     "slug": "transformers-dark-of-the-moon",
     "type": "film",
