@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2205,
+    "slug": "transformers",
+    "type": "film",
+    "title": {
+      "uz": "Transformerlar",
+      "ru": "Трансформеры"
+    },
+    "genres": [
+      "action",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Shia LaBeouf",
+      "Tyrese Gibson",
+      "Josh Duhamel",
+      "Anthony Anderson"
+    ],
+    "desc": {
+      "uz": "«Transformerlar» — 2007-yilgi AQSh filmi. Rejissyor: Michael Bay. Rollarda: Shia LaBeouf, Tyrese Gibson, Josh Duhamel. Saytda rasmiy treyleri bor.",
+      "ru": "«Трансформеры» — американский научно-фантастический боевик 2007 года режиссёра Майкла Бэя, снятый по мотивам серии игрушек компании Hasbro и одноимённого мультсериала."
+    },
+    "tags": [
+      "Transformers"
+    ],
+    "colors": [
+      "hsl(66 45% 28%)",
+      "hsl(86 50% 7%)"
+    ],
+    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/6/66/Transformers07.jpg/500px-Transformers07.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "trailer": "https://www.youtube.com/watch?v=p6X1eUzzFv4",
+    "video": "https://dezocloud.uz/s/bUES5uhEFXyE-sJe7yTBIl19",
+    "featured": false,
+    "addedAt": 1790156851510,
+    "updatedAt": 1790156851510,
+    "year": 2007,
+    "duration": 143,
+    "director": "Michael Bay"
+  },
+  {
     "id": 2982,
     "slug": "oyning-qulashi",
     "type": "film",
