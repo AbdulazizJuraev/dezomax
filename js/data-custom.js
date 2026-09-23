@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 6,
+    "slug": "joker",
+    "type": "film",
+    "title": {
+      "uz": "Joker",
+      "ru": "Джокер"
+    },
+    "genres": [
+      "drama",
+      "thriller",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Joaquin Phoenix",
+      "Robert De Niro",
+      "Zazie Beetz"
+    ],
+    "desc": {
+      "uz": "Jamiyat tomonidan rad etilgan yolg‘iz komediyachi Artur Flek asta-sekin shaharni larzaga soladigan shafqatsiz jinoyatchiga aylanadi.",
+      "ru": "Отвергнутый обществом комик Артур Флек постепенно превращается в безжалостного преступника, потрясшего город."
+    },
+    "tags": [
+      "Batman",
+      "Betmen",
+      "Бэтмен",
+      "Gotham"
+    ],
+    "colors": [
+      "#3d2a52",
+      "#140d1c"
+    ],
+    "poster": "images/joker.jpg",
+    "trailer": "https://www.youtube.com/watch?v=iC2RjcuAMx8",
+    "video": "http://files.uzmedia.tv/tarjima/joker 2019 hd (uzmedia.tv).mp4",
+    "featured": false,
+    "addedAt": 1790163867588,
+    "updatedAt": 1790163867588,
+    "year": 2019,
+    "duration": 122,
+    "rating": 8.4,
+    "director": "Todd Phillips",
+    "franchise": "dc"
+  },
+  {
     "id": 126,
     "slug": "iron-man-3",
     "type": "film",
