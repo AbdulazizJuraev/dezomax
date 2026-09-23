@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 41,
+    "slug": "spider-man-no-way-home",
+    "type": "film",
+    "title": {
+      "uz": "O‘rgimchak-odam: Uyga yo‘l yo‘q",
+      "ru": "Человек-паук: Нет пути домой"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tom Holland",
+      "Zendaya",
+      "Benedict Cumberbatch",
+      "Willem Dafoe"
+    ],
+    "desc": {
+      "uz": "Piter Parkerning shaxsi oshkor bo‘lgach, u Doktor Streyndjdan yordam so‘raydi — va bu qadam olamlar orasidagi devorni ochib yuboradi.",
+      "ru": "После раскрытия личности Питер Паркер просит помощи у Доктора Стрэнджа — и это открывает двери между вселенными."
+    },
+    "tags": [
+      "Spider-Man",
+      "Человек-паук"
+    ],
+    "colors": [
+      "#7a1e3a",
+      "#18060c"
+    ],
+    "poster": "images/spider-man-no-way-home.jpg",
+    "trailer": "https://www.youtube.com/watch?v=gEG-EN9L7rA",
+    "video": "https://a.uzbeklar.biz/film/orgimchakuy.mp4",
+    "featured": true,
+    "addedAt": 1790172265277,
+    "updatedAt": 1790172265277,
+    "year": 2021,
+    "duration": 148,
+    "rating": 8.2,
+    "director": "Jon Watts",
+    "franchise": "marvel"
+  },
+  {
     "id": 141,
     "slug": "black-panther-wakanda-forever",
     "type": "film",
