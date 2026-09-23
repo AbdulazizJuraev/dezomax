@@ -251,7 +251,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "avengers-age-of-ultron",
     "type": "film",
     "title": {
-      "uz": "Qasoskorlar: Altron asri",
+      "uz": "Qasoskorlar: Altron davri",
       "ru": "Мстители: Эра Альтрона"
     },
     "genres": [
@@ -287,7 +287,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/EdK5fVbN9voo-WuTIPkE2WNA",
     "featured": false,
     "addedAt": 1789967015915,
-    "updatedAt": 1789967015915,
+    "updatedAt": 1790157117196,
     "year": 2015,
     "duration": 141,
     "rating": 7.3,
