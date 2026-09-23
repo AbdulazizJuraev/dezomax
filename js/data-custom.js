@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 35,
+    "slug": "captain-america-winter-soldier",
+    "type": "film",
+    "title": {
+      "uz": "Kapitan Amerika: Qish askari",
+      "ru": "Первый мститель: Другая война"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "thriller"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Evans",
+      "Scarlett Johansson",
+      "Sebastian Stan",
+      "Robert Redford"
+    ],
+    "desc": {
+      "uz": "Stiv Rojers S.H.I.E.L.D. ichidagi xiyonatni fosh qiladi va o‘tmishdan qaytgan sirli qotil bilan to‘qnashadi.",
+      "ru": "Стив Роджерс раскрывает заговор внутри Щ.И.Т. и сталкивается с загадочным убийцей из прошлого."
+    },
+    "colors": [
+      "#2a4a6b",
+      "#0a1220"
+    ],
+    "poster": "images/captain-america-winter-soldier.jpg",
+    "trailer": "https://www.youtube.com/watch?v=sxtuHEazdoQ",
+    "video": "https://files.uzmax.net/films/Kapitan.Amerika.Qish.askari.2014.HDRip.uzmax.net.mp4",
+    "featured": false,
+    "addedAt": 1790170923782,
+    "updatedAt": 1790170923782,
+    "year": 2014,
+    "duration": 136,
+    "rating": 7.7,
+    "director": "Anthony & Joe Russo",
+    "franchise": "marvel"
+  },
+  {
     "id": 143,
     "slug": "guardians-of-the-galaxy-vol-3",
     "type": "film",
