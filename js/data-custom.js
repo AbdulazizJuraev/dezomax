@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2343,
+    "slug": "transformers-dark-of-the-moon",
+    "type": "film",
+    "title": {
+      "uz": "Transformers 3 Oyning qora tomoni",
+      "ru": "Трансформеры 3: Тёмная сторона Луны"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "thriller"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Shia LaBeouf",
+      "Josh Duhamel",
+      "John Turturro"
+    ],
+    "desc": {
+      "uz": "«Transformers: Dark of the Moon» — 2011-yilgi AQSh filmi. Rejissyor: Michael Bay. Rollarda: Shia LaBeouf, Josh Duhamel, John Turturro. Saytda rasmiy treyleri bor.",
+      "ru": "«Трансформеры 3: Тёмная сторона Луны» — американский научно-фантастический боевик, снятый режиссёром Майклом Бэем и являющийся продолжением фильмов «Трансформеры» и «Трансформеры: Месть падших»."
+    },
+    "colors": [
+      "hsl(351 45% 28%)",
+      "hsl(11 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/b/bf/Transformers_dark_of_the_moon_ver5.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=R7fRAbA_0Xg",
+    "video": "https://dezocloud.uz/s/iuDTBB37qUVb9WD_j_1zwQEk",
+    "featured": false,
+    "addedAt": 1790156892050,
+    "updatedAt": 1790156892050,
+    "year": 2011,
+    "duration": 154,
+    "director": "Michael Bay"
+  },
+  {
     "id": 2205,
     "slug": "transformers",
     "type": "film",
