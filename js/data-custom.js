@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 33,
+    "slug": "the-avengers",
+    "type": "film",
+    "title": {
+      "uz": "Qasoskorlar",
+      "ru": "Мстители"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Evans",
+      "Scarlett Johansson",
+      "Mark Ruffalo",
+      "Chris Hemsworth"
+    ],
+    "desc": {
+      "uz": "Loki Yerga bostirib kirganda, Nik Fyuri sayyorani qutqarish uchun dunyodagi eng kuchli qahramonlarni bir jamoaga to‘playdi.",
+      "ru": "Когда Локи вторгается на Землю, Ник Фьюри собирает величайших героев планеты в одну команду."
+    },
+    "colors": [
+      "#1e3a6b",
+      "#070e1c"
+    ],
+    "poster": "images/the-avengers.jpg",
+    "trailer": "https://www.youtube.com/watch?v=5iw-hJ6xteE",
+    "video": "https://kinolar.tv/07e12638-85b0-4ea8-aff0-b412402b0d04",
+    "featured": false,
+    "addedAt": 1790170530090,
+    "updatedAt": 1790170530090,
+    "year": 2012,
+    "duration": 143,
+    "rating": 8,
+    "director": "Joss Whedon",
+    "franchise": "marvel"
+  },
+  {
     "id": 15,
     "slug": "the-shawshank-redemption",
     "type": "film",
