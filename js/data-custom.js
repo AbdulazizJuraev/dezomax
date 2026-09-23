@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 14,
+    "slug": "john-wick",
+    "type": "film",
+    "title": {
+      "uz": "Jon Uik",
+      "ru": "Джон Уик"
+    },
+    "genres": [
+      "action",
+      "thriller",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Keanu Reeves",
+      "Michael Nyqvist",
+      "Willem Dafoe"
+    ],
+    "desc": {
+      "uz": "Nafaqaga chiqqan afsonaviy qotil banditlar uning itini o‘ldirgach, qonli o‘ch olish yo‘liga qaytadi.",
+      "ru": "Легендарный киллер возвращается к делам ради кровавой мести."
+    },
+    "colors": [
+      "#5a1e2e",
+      "#150609"
+    ],
+    "poster": "images/john-wick.jpg",
+    "trailer": "https://www.youtube.com/watch?v=gLGaBb_EFkg",
+    "video": "https://12.fayllar1.ru/12/Jon%20Uik%201%20480p%20O%27zbek%20tilida%20%28asilmedia.net%29.mp4?token=iic7kgGAGFbMCYsW3rkuLA&expires=1790253095&px=0",
+    "featured": false,
+    "addedAt": 1790166840673,
+    "updatedAt": 1790166840673,
+    "year": 2014,
+    "duration": 101,
+    "rating": 7.4,
+    "director": "Chad Stahelski"
+  },
+  {
     "id": 2664,
     "slug": "avatar-fire-and-ash",
     "type": "film",
