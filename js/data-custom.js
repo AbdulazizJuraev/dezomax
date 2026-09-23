@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 12,
+    "slug": "titanic",
+    "type": "film",
+    "title": {
+      "uz": "Titanik",
+      "ru": "Титаник"
+    },
+    "genres": [
+      "drama",
+      "romance",
+      "history"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Leonardo DiCaprio",
+      "Kate Winslet",
+      "Billy Zane"
+    ],
+    "desc": {
+      "uz": "Turli tabaqadan bo‘lgan ikki yosh dunyodagi eng mashhur kemada bir-birini sevib qoladi — halokat arafasida.",
+      "ru": "Двое молодых людей из разных сословий влюбляются на борту самого известного корабля — накануне катастрофы."
+    },
+    "colors": [
+      "#1e4a6b",
+      "#07141f"
+    ],
+    "poster": "images/titanic.png",
+    "trailer": "https://www.youtube.com/watch?v=qcU-kWvRcVc",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/Titanik_1080.mp4",
+    "featured": false,
+    "addedAt": 1790166163230,
+    "updatedAt": 1790166163230,
+    "year": 1997,
+    "duration": 194,
+    "rating": 7.9,
+    "director": "James Cameron"
+  },
+  {
     "id": 11,
     "slug": "gladiator",
     "type": "film",
