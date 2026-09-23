@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 143,
+    "slug": "guardians-of-the-galaxy-vol-3",
+    "type": "film",
+    "title": {
+      "uz": "Galaktika qo‘riqchilari 3",
+      "ru": "Стражи Галактики. Часть 3"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Pratt",
+      "Bradley Cooper",
+      "Zoe Saldaña",
+      "Chukwudi Iwuji"
+    ],
+    "desc": {
+      "uz": "Raketa hayoti xavf ostida qoladi. Qo‘riqchilar uni qutqarish va uning qayg‘uli o‘tmishi siriga yetish uchun so‘nggi xavfli safarga otlanadi.",
+      "ru": "Жизнь Ракеты под угрозой. Стражи отправляются в последнее опасное путешествие, чтобы спасти его и раскрыть тайну его прошлого."
+    },
+    "tags": [
+      "Marvel",
+      "guardians of the galaxy vol 3"
+    ],
+    "colors": [
+      "#1a5a6b",
+      "#04121a"
+    ],
+    "poster": "images/marvel/guardians-of-the-galaxy-vol-3.jpg",
+    "trailer": "https://www.youtube.com/watch?v=AsypwbMvSW8",
+    "video": "https://faylmovi.ru/tarjima_kinolar/gallaktika_qoriqchilari_3_720.mp4",
+    "featured": false,
+    "addedAt": 1790170791824,
+    "updatedAt": 1790170791824,
+    "year": 2023,
+    "duration": 150,
+    "rating": 7.9,
+    "director": "James Gunn",
+    "franchise": "marvel"
+  },
+  {
     "id": 131,
     "slug": "guardians-of-the-galaxy-vol-2",
     "type": "film",
