@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 136,
+    "slug": "black-widow",
+    "type": "film",
+    "title": {
+      "uz": "Qora beva",
+      "ru": "Чёрная вдова"
+    },
+    "genres": [
+      "action",
+      "thriller",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Scarlett Johansson",
+      "Florence Pugh",
+      "David Harbour",
+      "Rachel Weisz"
+    ],
+    "desc": {
+      "uz": "Natasha Romanoff o‘tmishiga duch keladi. U «Qizil xona» dasturini yo‘q qilish uchun uzoq yillar ko‘rmagan «oilasi» bilan qayta birlashadi.",
+      "ru": "Наташа Романофф сталкивается со своим прошлым. Чтобы уничтожить программу «Красная комната», она воссоединяется с давно утраченной «семьёй»."
+    },
+    "tags": [
+      "Marvel",
+      "black widow"
+    ],
+    "colors": [
+      "#3a0a14",
+      "#0a0204"
+    ],
+    "poster": "images/marvel/black-widow.jpg",
+    "trailer": "https://www.youtube.com/watch?v=prwHu2MbMEE",
+    "video": "https://s7.faylmovi.ru/tarjima_kinolar/Qora_beva_1080.mp4",
+    "featured": false,
+    "addedAt": 1790171497625,
+    "updatedAt": 1790171497625,
+    "year": 2021,
+    "duration": 134,
+    "rating": 6.7,
+    "director": "Cate Shortland",
+    "franchise": "marvel"
+  },
+  {
     "id": 38,
     "slug": "black-panther",
     "type": "film",
