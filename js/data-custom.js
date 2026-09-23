@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 125,
+    "slug": "captain-america-the-first-avenger",
+    "type": "film",
+    "title": {
+      "uz": "Kapitan Amerika: Birinchi qasoskor",
+      "ru": "Первый мститель"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "war"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Evans",
+      "Hayley Atwell",
+      "Hugo Weaving",
+      "Tommy Lee Jones"
+    ],
+    "desc": {
+      "uz": "Ikkinchi jahon urushi yillari. Zaif yigit Stiv Rodjers maxfiy tajriba natijasida super askarga aylanadi va Qizil Kalla boshchiligidagi GIDRAga qarshi chiqadi.",
+      "ru": "Вторая мировая война. Хилый Стив Роджерс после секретного эксперимента становится суперсолдатом и выступает против ГИДРЫ Красного Черепа."
+    },
+    "tags": [
+      "Marvel",
+      "captain america the first avenger"
+    ],
+    "colors": [
+      "#1d3565",
+      "#6b1a1a"
+    ],
+    "poster": "images/marvel/captain-america-the-first-avenger.jpg",
+    "trailer": "https://www.youtube.com/watch?v=FxTlOl03x9c",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Birinchi_qasoskor_1080.mp4",
+    "featured": false,
+    "addedAt": 1790170976850,
+    "updatedAt": 1790170976850,
+    "year": 2011,
+    "duration": 124,
+    "rating": 6.9,
+    "director": "Joe Johnston",
+    "franchise": "marvel"
+  },
+  {
     "id": 35,
     "slug": "captain-america-winter-soldier",
     "type": "film",
