@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2613,
+    "slug": "transformers-age-of-extinction",
+    "type": "film",
+    "title": {
+      "uz": "Transformerlar 4 Yo‘q bo‘lish davri",
+      "ru": "Трансформеры 4 Эпоха истребления"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Mark Wahlberg",
+      "Nicola Peltz",
+      "Jack Reynor",
+      "Kelsey Grammer"
+    ],
+    "desc": {
+      "uz": "«Transformers: Age of Extinction» — 2014-yilgi AQSh filmi. Rejissyor: Michael Bay. Rollarda: Mark Wahlberg, Nicola Peltz, Jack Reynor. Saytda rasmiy treyleri bor.",
+      "ru": "«Трансформеры: Эпоха истребления» — американский научно-фантастический боевик режиссёра Майкла Бэя, четвёртый фильм из серии о Трансформерах."
+    },
+    "colors": [
+      "hsl(102 45% 28%)",
+      "hsl(122 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/0/0f/Transformers_Age_of_Extinction_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=NZK13CCGzMY",
+    "video": "https://dezocloud.uz/s/nE1fPQj4ATzncH-KZp-AUjwo",
+    "featured": false,
+    "addedAt": 1790157062563,
+    "updatedAt": 1790157062563,
+    "year": 2014,
+    "duration": 165,
+    "director": "Michael Bay"
+  },
+  {
     "id": 2924,
     "slug": "transformers-the-last-knight",
     "type": "film",
