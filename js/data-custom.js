@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 8,
+    "slug": "the-godfather",
+    "type": "film",
+    "title": {
+      "uz": "Cho‘qintirgan ota",
+      "ru": "Крёстный отец"
+    },
+    "genres": [
+      "drama",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Marlon Brando",
+      "Al Pacino",
+      "James Caan",
+      "Robert Duvall"
+    ],
+    "desc": {
+      "uz": "Qudratli mafiya klani boshlig‘i o‘z hokimiyatini kenja o‘g‘liga topshiradi. Bu qaror butun oila taqdirini o‘zgartiradi.",
+      "ru": "Глава могущественного мафиозного клана передаёт власть младшему сыну — и это меняет судьбу всей семьи."
+    },
+    "colors": [
+      "#4a3620",
+      "#120c06"
+    ],
+    "poster": "images/the-godfather.jpg",
+    "trailer": "https://www.youtube.com/watch?v=oCl5La_eUhI",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/Choqintirgan_Ota_1_1080.mp4",
+    "featured": false,
+    "addedAt": 1790164036499,
+    "updatedAt": 1790164036499,
+    "year": 1972,
+    "duration": 175,
+    "rating": 9.2,
+    "director": "Francis Ford Coppola"
+  },
+  {
     "id": 6,
     "slug": "joker",
     "type": "film",
