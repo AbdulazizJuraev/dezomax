@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 130,
+    "slug": "captain-america-civil-war",
+    "type": "film",
+    "title": {
+      "uz": "Kapitan Amerika: Fuqarolar urushi",
+      "ru": "Первый мститель: Противостояние"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Evans",
+      "Robert Downey Jr.",
+      "Scarlett Johansson",
+      "Sebastian Stan",
+      "Tom Holland"
+    ],
+    "desc": {
+      "uz": "Hukumat qahramonlarni nazorat ostiga olmoqchi. Bu masala Qasoskorlarni ikkiga bo‘ladi: bir tomonda Kapitan Amerika, boshqa tomonda Temir odam.",
+      "ru": "Правительство хочет взять супергероев под контроль. Этот вопрос раскалывает Мстителей на два лагеря: Капитана Америку и Железного человека."
+    },
+    "tags": [
+      "Marvel",
+      "captain america civil war"
+    ],
+    "colors": [
+      "#1d3565",
+      "#5a1414"
+    ],
+    "poster": "images/marvel/captain-america-civil-war.jpg",
+    "trailer": "https://www.youtube.com/watch?v=3DGRiomCPTM",
+    "video": "https://files.uzmax.net/films/Kapitan.Amerika.Fuqarolar.urushi.2016.HDRip.uzmax.net.mp4",
+    "featured": false,
+    "addedAt": 1790171041261,
+    "updatedAt": 1790171041261,
+    "year": 2016,
+    "duration": 147,
+    "rating": 7.8,
+    "director": "Anthony Russo, Joe Russo",
+    "franchise": "marvel"
+  },
+  {
     "id": 125,
     "slug": "captain-america-the-first-avenger",
     "type": "film",
