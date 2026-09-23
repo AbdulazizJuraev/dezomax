@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2926,
+    "slug": "john-wick-chapter-4",
+    "type": "film",
+    "title": {
+      "uz": "Jon Uik 4",
+      "ru": "Джон Уик 4"
+    },
+    "genres": [
+      "action",
+      "thriller",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Keanu Reeves",
+      "Laurence Fishburne",
+      "Ian McShane",
+      "Lance Reddick"
+    ],
+    "desc": {
+      "uz": "«Jon Uik 4» — 2023-yilgi AQSh filmi. Rejissyor: Chad Stahelski. Rollarda: Keanu Reeves, Laurence Fishburne, Ian McShane. Saytda rasmiy treyleri bor.",
+      "ru": "«Джон Уик 4» — американский художественный фильм в жанре неонуарного остросюжетного боевика, поставленный режиссёром Чадом Стахелски по сценарию Шэя Хаттена и Майкла Финча как продолжение фильма «Джон Уик 3» из серии о бывшем наёмном убийце в исполнении Киану Ривза наряду с Донни Йеном, Биллом Скарсгардом, Риной…"
+    },
+    "tags": [
+      "John Wick: Chapter 4"
+    ],
+    "colors": [
+      "hsl(187 45% 28%)",
+      "hsl(207 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/d/d0/John_Wick_-_Chapter_4_promotional_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=04dwrLbAaTE",
+    "video": "https://faylmovi.ru/tarjima_kinolar/Jon_Uik_4_1080.mp4",
+    "featured": false,
+    "addedAt": 1790169637085,
+    "updatedAt": 1790169637085,
+    "year": 2023,
+    "duration": 169,
+    "director": "Chad Stahelski"
+  },
+  {
     "id": 1052951815,
     "slug": "john-wick-chapter-3-parabellum",
     "type": "film",
