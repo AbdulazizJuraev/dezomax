@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 15,
+    "slug": "the-shawshank-redemption",
+    "type": "film",
+    "title": {
+      "uz": "Sho‘shenkdan qochish",
+      "ru": "Побег из Шоушенка"
+    },
+    "genres": [
+      "drama",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tim Robbins",
+      "Morgan Freeman",
+      "Bob Gunton"
+    ],
+    "desc": {
+      "uz": "Qilmagan jinoyati uchun umrbod qamoqqa hukm qilingan bankir yillar davomida umidini yo‘qotmaydi.",
+      "ru": "Банкир, осуждённый пожизненно за преступление, которого не совершал, годами не теряет надежды."
+    },
+    "colors": [
+      "#4a4028",
+      "#12100a"
+    ],
+    "poster": "images/the-shawshank-redemption.jpg",
+    "trailer": "https://www.youtube.com/watch?v=kgAeKpAPOYk",
+    "video": "https://v.mover.uz/uvPAUMi_m.mp4",
+    "featured": false,
+    "addedAt": 1790169937219,
+    "updatedAt": 1790169937219,
+    "year": 1994,
+    "duration": 142,
+    "rating": 9.3,
+    "director": "Frank Darabont"
+  },
+  {
     "id": 2926,
     "slug": "john-wick-chapter-4",
     "type": "film",
