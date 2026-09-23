@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 11,
+    "slug": "gladiator",
+    "type": "film",
+    "title": {
+      "uz": "Gladiator",
+      "ru": "Гладиатор"
+    },
+    "genres": [
+      "action",
+      "drama",
+      "history"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Russell Crowe",
+      "Joaquin Phoenix",
+      "Connie Nielsen"
+    ],
+    "desc": {
+      "uz": "Xiyonatga uchragan Rim sarkardasi qul qilinadi va arenada gladiator sifatida o‘ch olish yo‘lini izlaydi.",
+      "ru": "Преданный римский полководец становится рабом и ищет мести на арене гладиаторов."
+    },
+    "colors": [
+      "#7a5a2e",
+      "#1c1408"
+    ],
+    "poster": "images/gladiator.png",
+    "trailer": "https://www.youtube.com/watch?v=F2Dr7Qb2Zf8",
+    "video": "https://kinochilar.com/79007677-1eb7-4a44-b6de-d7dce769fc4f",
+    "featured": false,
+    "addedAt": 1790164520904,
+    "updatedAt": 1790164520904,
+    "year": 2000,
+    "duration": 155,
+    "rating": 8.5,
+    "director": "Ridley Scott"
+  },
+  {
     "id": 10,
     "slug": "the-matrix",
     "type": "film",
