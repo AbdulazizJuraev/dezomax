@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 131,
+    "slug": "guardians-of-the-galaxy-vol-2",
+    "type": "film",
+    "title": {
+      "uz": "Galaktika qo‘riqchilari 2",
+      "ru": "Стражи Галактики. Часть 2"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Pratt",
+      "Zoe Saldaña",
+      "Dave Bautista",
+      "Kurt Russell"
+    ],
+    "desc": {
+      "uz": "Qo‘riqchilar koinot bo‘ylab sarguzashtda davom etadi. Piter Kvill nihoyat otasi bilan uchrashadi, ammo bu uchrashuv katta sirlarni ochadi.",
+      "ru": "Стражи продолжают странствовать по космосу. Питер Квилл наконец встречает своего отца, но эта встреча раскрывает опасные тайны."
+    },
+    "tags": [
+      "Marvel",
+      "guardians of the galaxy vol 2"
+    ],
+    "colors": [
+      "#6a2a7a",
+      "#12061a"
+    ],
+    "poster": "images/marvel/guardians-of-the-galaxy-vol-2.jpg",
+    "trailer": "https://www.youtube.com/watch?v=ItV1Rrex-7k",
+    "video": "http://83.69.136.9/2/tarjima-film/GALLAKTIKA_QO'RIQCHILARI_2_720.mp4",
+    "featured": false,
+    "addedAt": 1790170752160,
+    "updatedAt": 1790170752160,
+    "year": 2017,
+    "duration": 136,
+    "rating": 7.6,
+    "director": "James Gunn",
+    "franchise": "marvel"
+  },
+  {
     "id": 34,
     "slug": "guardians-of-the-galaxy",
     "type": "film",
