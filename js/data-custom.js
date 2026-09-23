@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 13,
+    "slug": "avatar",
+    "type": "film",
+    "title": {
+      "uz": "Avatar",
+      "ru": "Аватар"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Sam Worthington",
+      "Zoe Saldana",
+      "Sigourney Weaver"
+    ],
+    "desc": {
+      "uz": "Nogiron harbiy Pandora sayyorasida avatar tanasiga ko‘chiriladi va mahalliy xalqni himoya qilish uchun kurashadi.",
+      "ru": "Парализованный морпех попадает на Пандору в теле аватара и встаёт на защиту местного народа."
+    },
+    "colors": [
+      "#1c5c6e",
+      "#06161c"
+    ],
+    "poster": "images/avatar.jpg",
+    "trailer": "https://www.youtube.com/watch?v=uXC_0wE6k7k",
+    "video": "https://d.uzbeklar.biz/film/avatar1.mp4",
+    "featured": false,
+    "addedAt": 1790166238215,
+    "updatedAt": 1790166238215,
+    "year": 2009,
+    "duration": 162,
+    "rating": 7.9,
+    "director": "James Cameron"
+  },
+  {
     "id": 12,
     "slug": "titanic",
     "type": "film",
