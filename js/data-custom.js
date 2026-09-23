@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 132,
+    "slug": "spider-man-homecoming",
+    "type": "film",
+    "title": {
+      "uz": "O‘rgimchak-odam: Uyga qaytish",
+      "ru": "Человек-паук: Возвращение домой"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tom Holland",
+      "Michael Keaton",
+      "Robert Downey Jr.",
+      "Zendaya"
+    ],
+    "desc": {
+      "uz": "Yosh Piter Parker maktab hayoti va qahramonlik orasida qolib ketadi. U Toni Starkka o‘zini isbotlash uchun xavfli Kalxatga qarshi chiqadi.",
+      "ru": "Юный Питер Паркер разрывается между школой и геройством. Чтобы доказать себя Тони Старку, он выходит против опасного Стервятника."
+    },
+    "tags": [
+      "Marvel",
+      "spider man homecoming"
+    ],
+    "colors": [
+      "#8a1a24",
+      "#140408"
+    ],
+    "poster": "images/marvel/spider-man-homecoming.jpg",
+    "trailer": "https://www.youtube.com/watch?v=9ibCwrDbp-8",
+    "video": "http://topfilm.info/3/tarjima_kinolar/O'RGIMCHAK_ODAM_UYGA_QAYTISH_720.mp4",
+    "featured": false,
+    "addedAt": 1790172315804,
+    "updatedAt": 1790172315804,
+    "year": 2017,
+    "duration": 133,
+    "rating": 7.4,
+    "director": "Jon Watts",
+    "franchise": "marvel"
+  },
+  {
     "id": 41,
     "slug": "spider-man-no-way-home",
     "type": "film",
