@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 123,
+    "slug": "iron-man-2",
+    "type": "film",
+    "title": {
+      "uz": "Temir odam 2",
+      "ru": "Железный человек 2"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Robert Downey Jr.",
+      "Gwyneth Paltrow",
+      "Don Cheadle",
+      "Scarlett Johansson",
+      "Mickey Rourke"
+    ],
+    "desc": {
+      "uz": "Toni Stark o‘zining Temir odam ekanini dunyoga ochiqladi. Endi hukumat texnologiyasini talab qilmoqda, raqiblar esa unga qarshi o‘z qurollarini tayyorlamoqda.",
+      "ru": "Тони Старк раскрыл миру, что он Железный человек. Теперь правительство требует его технологии, а соперники готовят собственное оружие."
+    },
+    "tags": [
+      "Marvel",
+      "iron man 2"
+    ],
+    "colors": [
+      "#7a1414",
+      "#1a0404"
+    ],
+    "poster": "images/marvel/iron-man-2.jpg",
+    "trailer": "https://www.youtube.com/watch?v=cHw0JLSPYmE",
+    "video": "https://v.mover.uz/kveDTuTC_m.mp4",
+    "featured": false,
+    "addedAt": 1790162662969,
+    "updatedAt": 1790162662970,
+    "year": 2010,
+    "duration": 124,
+    "rating": 6.9,
+    "director": "Jon Favreau",
+    "franchise": "marvel"
+  },
+  {
     "id": 32,
     "slug": "iron-man",
     "type": "film",
