@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 126,
+    "slug": "iron-man-3",
+    "type": "film",
+    "title": {
+      "uz": "Temir odam 3",
+      "ru": "Железный человек 3"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Robert Downey Jr.",
+      "Gwyneth Paltrow",
+      "Guy Pearce",
+      "Ben Kingsley"
+    ],
+    "desc": {
+      "uz": "Nyu-Yorkdagi jangdan keyin Toni Stark tinchlik topolmaydi. Mandarin ismli sirli terrorchi uning butun hayotini vayron qilganda, Toni zirhisiz kurashishga majbur bo‘ladi.",
+      "ru": "После битвы за Нью-Йорк Тони Старк не находит покоя. Когда таинственный террорист Мандарин разрушает его жизнь, Тони приходится сражаться без брони."
+    },
+    "tags": [
+      "Marvel",
+      "iron man 3"
+    ],
+    "colors": [
+      "#8a3a10",
+      "#1a0a04"
+    ],
+    "poster": "images/marvel/iron-man-3.jpg",
+    "trailer": "https://www.youtube.com/watch?v=-P_cWZPceKc",
+    "video": "https://v.mover.uz/QqPJK22_h.mp4",
+    "featured": false,
+    "addedAt": 1790162713357,
+    "updatedAt": 1790162713357,
+    "year": 2013,
+    "duration": 130,
+    "rating": 7.1,
+    "director": "Shane Black",
+    "franchise": "marvel"
+  },
+  {
     "id": 123,
     "slug": "iron-man-2",
     "type": "film",
