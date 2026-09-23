@@ -7,6 +7,55 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 32,
+    "slug": "iron-man",
+    "type": "film",
+    "title": {
+      "uz": "Temir odam",
+      "ru": "Железный человек"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Robert Downey Jr.",
+      "Gwyneth Paltrow",
+      "Jeff Bridges",
+      "Terrence Howard"
+    ],
+    "desc": {
+      "uz": "Qurol ishlab chiqaruvchi milliarder Toni Stark asirlikda o‘zi uchun zirh yaratadi va uydan chiqib, qahramonga aylanishga qaror qiladi.",
+      "ru": "Миллиардер-оружейник Тони Старк создаёт в плену боевой костюм и решает стать героем."
+    },
+    "tags": [
+      "Avengers",
+      "Qasoskorlar",
+      "Мстители",
+      "Tony Stark"
+    ],
+    "colors": [
+      "#8a2a1e",
+      "#1c0a07"
+    ],
+    "poster": "images/iron-man.jpg",
+    "trailer": "https://www.youtube.com/watch?v=i_IIxuHAClc",
+    "video": "http://topfilm.info/3/tarjima_kinolar/Temir_Odam_360.mp4",
+    "featured": false,
+    "addedAt": 1790162448269,
+    "updatedAt": 1790162448269,
+    "year": 2008,
+    "duration": 126,
+    "rating": 7.9,
+    "director": "Jon Favreau",
+    "franchise": "marvel"
+  },
+  {
     "id": 2613,
     "slug": "transformers-age-of-extinction",
     "type": "film",
