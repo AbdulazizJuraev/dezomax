@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 9,
+    "slug": "forrest-gump",
+    "type": "film",
+    "title": {
+      "uz": "Forrest Gamp",
+      "ru": "Форрест Гамп"
+    },
+    "genres": [
+      "drama",
+      "comedy",
+      "romance"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tom Hanks",
+      "Robin Wright",
+      "Gary Sinise"
+    ],
+    "desc": {
+      "uz": "Oddiy qalbli Forrest bilmagan holda Amerika tarixining eng muhim voqealarida ishtirok etadi — va bir umr yagona sevgisini kutadi.",
+      "ru": "Простодушный Форрест невольно становится участником главных событий американской истории — и всю жизнь ждёт свою любовь."
+    },
+    "colors": [
+      "#3f6a4f",
+      "#101a13"
+    ],
+    "poster": "images/forrest-gump.jpg",
+    "trailer": "https://www.youtube.com/watch?v=otmeAaifX04",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/Forrest_Gamp_1080.mp4",
+    "featured": false,
+    "addedAt": 1790164146004,
+    "updatedAt": 1790164146004,
+    "year": 1994,
+    "duration": 142,
+    "rating": 8.8,
+    "director": "Robert Zemeckis"
+  },
+  {
     "id": 8,
     "slug": "the-godfather",
     "type": "film",
