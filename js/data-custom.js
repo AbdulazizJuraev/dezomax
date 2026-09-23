@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 36,
+    "slug": "doctor-strange",
+    "type": "film",
+    "title": {
+      "uz": "Doktor Streyndj",
+      "ru": "Доктор Стрэндж"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Benedict Cumberbatch",
+      "Chiwetel Ejiofor",
+      "Rachel McAdams",
+      "Tilda Swinton"
+    ],
+    "desc": {
+      "uz": "Halokatdan so‘ng qo‘llarini yo‘qotgan mag‘rur jarroh sehr sirlarini o‘rganib, olamlar himoyachisiga aylanadi.",
+      "ru": "Потерявший руки после аварии хирург постигает тайны магии и становится защитником миров."
+    },
+    "colors": [
+      "#7a4a1e",
+      "#1a0f06"
+    ],
+    "poster": "images/doctor-strange.jpg",
+    "trailer": "https://www.youtube.com/watch?v=o3tqPNSGzfE",
+    "video": "http://topfilm.info/tarjima_kinolar/DOKTOR_STRENJ_720.mp4",
+    "featured": false,
+    "addedAt": 1790171315687,
+    "updatedAt": 1790171315687,
+    "year": 2016,
+    "duration": 115,
+    "rating": 7.5,
+    "director": "Scott Derrickson",
+    "franchise": "marvel"
+  },
+  {
     "id": 146,
     "slug": "captain-america-brave-new-world",
     "type": "film",
