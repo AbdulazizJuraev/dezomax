@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 141,
+    "slug": "black-panther-wakanda-forever",
+    "type": "film",
+    "title": {
+      "uz": "Qora pantera: Vakanda abadiy",
+      "ru": "Чёрная Пантера: Ваканда навеки"
+    },
+    "genres": [
+      "action",
+      "drama",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Letitia Wright",
+      "Angela Bassett",
+      "Tenoch Huerta",
+      "Lupita Nyong’o"
+    ],
+    "desc": {
+      "uz": "Qirol T’Challa vafotidan keyin Vakanda motamda. Suv osti qirolligi Talokan paydo bo‘lganda, mamlakat yangi himoyachisini topishi kerak.",
+      "ru": "После гибели короля Т’Чаллы Ваканда в трауре. Когда появляется подводное королевство Талокан, стране нужно найти нового защитника."
+    },
+    "tags": [
+      "Marvel",
+      "black panther wakanda forever"
+    ],
+    "colors": [
+      "#3a1a5a",
+      "#0a0414"
+    ],
+    "poster": "images/marvel/black-panther-wakanda-forever.jpg",
+    "trailer": "https://www.youtube.com/watch?v=fazUjELn0rg",
+    "video": "https://topfilm.info/3/tarjima_kinolar/QORA_PANTERA_2_720.mp4",
+    "featured": false,
+    "addedAt": 1790171679630,
+    "updatedAt": 1790171679630,
+    "year": 2022,
+    "duration": 161,
+    "rating": 6.7,
+    "director": "Ryan Coogler",
+    "franchise": "marvel"
+  },
+  {
     "id": 136,
     "slug": "black-widow",
     "type": "film",
