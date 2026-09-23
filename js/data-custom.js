@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 10,
+    "slug": "the-matrix",
+    "type": "film",
+    "title": {
+      "uz": "Matritsa",
+      "ru": "Матрица"
+    },
+    "genres": [
+      "action",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Keanu Reeves",
+      "Laurence Fishburne",
+      "Carrie-Anne Moss"
+    ],
+    "desc": {
+      "uz": "Dasturchi Neo o‘zi yashab kelgan dunyo aslida mashinalar yaratgan ulkan simulyatsiya ekanini bilib qoladi.",
+      "ru": "Программист Нео узнаёт, что мир вокруг него — гигантская симуляция, созданная машинами."
+    },
+    "colors": [
+      "#1d4a30",
+      "#04120a"
+    ],
+    "poster": "images/the-matrix.png",
+    "trailer": "https://www.youtube.com/watch?v=YihPA42fdQ8",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Matritsa_1080.mp4",
+    "featured": false,
+    "addedAt": 1790164220499,
+    "updatedAt": 1790164220499,
+    "year": 1999,
+    "duration": 136,
+    "rating": 8.7,
+    "director": "Lana & Lilly Wachowski"
+  },
+  {
     "id": 9,
     "slug": "forrest-gump",
     "type": "film",
