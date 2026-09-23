@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2664,
+    "slug": "avatar-fire-and-ash",
+    "type": "film",
+    "title": {
+      "uz": "Avatar 3",
+      "ru": "Аватар: Пламя и пепел"
+    },
+    "genres": [
+      "action",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Zoe Saldaña",
+      "Stephen Lang",
+      "Sigourney Weaver"
+    ],
+    "desc": {
+      "uz": "«Avatar 3» — 2025-yilgi AQSh filmi. Rollarda: Zoe Saldaña, Stephen Lang, Sigourney Weaver. Saytda rasmiy treyleri bor.",
+      "ru": "«Аватар: Пламя и пепел» — американский эпический научно-фантастический фильм режиссёра, продюсера, сценариста и монтажёра Джеймса Кэмерона."
+    },
+    "tags": [
+      "Avatar: Fire and Ash"
+    ],
+    "colors": [
+      "hsl(269 45% 28%)",
+      "hsl(289 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/9/95/Avatar_Fire_and_Ash_poster.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=Txj8rCvAyrI",
+    "video": "https://video.uzbek-tilida.net/films/avatar-3-2025-720p.mp4",
+    "featured": false,
+    "addedAt": 1790166649957,
+    "updatedAt": 1790166649957,
+    "year": 2025,
+    "duration": 197
+  },
+  {
     "id": 2200,
     "slug": "avatar-the-way-of-water",
     "type": "film",
