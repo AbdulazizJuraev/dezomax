@@ -7,6 +7,52 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 146,
+    "slug": "captain-america-brave-new-world",
+    "type": "film",
+    "title": {
+      "uz": "Kapitan Amerika: Yangi dunyo",
+      "ru": "Капитан Америка: Новый мир"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "thriller"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Anthony Mackie",
+      "Harrison Ford",
+      "Danny Ramirez",
+      "Tim Blake Nelson"
+    ],
+    "desc": {
+      "uz": "Sem Uilson yangi Kapitan Amerika sifatida xalqaro mojaro markaziga tushib qoladi. U dunyoni urushga olib kelayotgan yashirin fitnani fosh etishi kerak.",
+      "ru": "Сэм Уилсон в роли нового Капитана Америки оказывается в центре международного конфликта. Ему нужно раскрыть заговор, ведущий мир к войне."
+    },
+    "tags": [
+      "Marvel",
+      "captain america brave new world"
+    ],
+    "colors": [
+      "#1d3565",
+      "#6b1414"
+    ],
+    "poster": "images/marvel/captain-america-brave-new-world.jpg",
+    "trailer": "https://www.youtube.com/watch?v=w3o3Z7julXo",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Kapitan_Amerika_Yangi_Dunyo_480.mp4",
+    "featured": false,
+    "addedAt": 1790171171644,
+    "updatedAt": 1790171171644,
+    "year": 2025,
+    "duration": 118,
+    "director": "Julius Onah",
+    "franchise": "marvel"
+  },
+  {
     "id": 130,
     "slug": "captain-america-civil-war",
     "type": "film",
