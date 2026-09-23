@@ -7,6 +7,51 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 34,
+    "slug": "guardians-of-the-galaxy",
+    "type": "film",
+    "title": {
+      "uz": "Galaktika qo‘riqchilari",
+      "ru": "Стражи Галактики"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Pratt",
+      "Zoe Saldana",
+      "Dave Bautista",
+      "Bradley Cooper",
+      "Vin Diesel"
+    ],
+    "desc": {
+      "uz": "Koinot bo‘ylab sarson beshta jinoyatchi kutilmaganda galaktikani halokatdan qutqaruvchi jamoaga aylanadi.",
+      "ru": "Пятеро космических изгоев неожиданно становятся командой, спасающей галактику от уничтожения."
+    },
+    "colors": [
+      "#6b2a7a",
+      "#160a1a"
+    ],
+    "poster": "images/guardians-of-the-galaxy.jpg",
+    "trailer": "https://www.youtube.com/watch?v=p7VRUK7ctmU",
+    "video": "http://topfilm.info/2/tarjima_kinolar/Gallaktika_qo'riqchilari_720.mp4",
+    "featured": false,
+    "addedAt": 1790170685398,
+    "updatedAt": 1790170685398,
+    "year": 2014,
+    "duration": 121,
+    "rating": 8,
+    "director": "James Gunn",
+    "franchise": "marvel"
+  },
+  {
     "id": 39,
     "slug": "avengers-infinity-war",
     "type": "film",
