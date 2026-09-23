@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2665,
+    "slug": "john-wick-chapter-2",
+    "type": "film",
+    "title": {
+      "uz": "John Wick 2",
+      "ru": "Джон Уик 2"
+    },
+    "genres": [
+      "action",
+      "thriller",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Keanu Reeves",
+      "Common",
+      "Laurence Fishburne",
+      "Riccardo Scamarcio"
+    ],
+    "desc": {
+      "uz": "«John Wick 2» — 2017-yilgi AQSh filmi. Rejissyor: Chad Stahelski. Rollarda: Keanu Reeves, Common, Laurence Fishburne. Saytda rasmiy treyleri bor.",
+      "ru": "«Джон Уик 2» — американский неонуарный остросюжетный боевик режиссёра Чада Стахелски по сценарию Дерека Колстада, с Киану Ривзом в главной роли наряду с Common, Лоренсом Фишберном, Риккардо Скамарчо, Руби Роуз, Лэнсом Реддиком, Петером Стормаре, Бриджит Мойнахан, Франко Неро, Джоном Легуизамо и Иэном Макшейном."
+    },
+    "tags": [
+      "John Wick: Chapter 2"
+    ],
+    "colors": [
+      "hsl(185 45% 28%)",
+      "hsl(205 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/3/31/John_Wick_Chapter_Two.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=0DkJa_aGTP8",
+    "video": "https://kinolar.tv/60244cde-30f0-4d59-8503-234360844466",
+    "featured": false,
+    "addedAt": 1790167379581,
+    "updatedAt": 1790167379581,
+    "year": 2017,
+    "duration": 122,
+    "director": "Chad Stahelski"
+  },
+  {
     "id": 14,
     "slug": "john-wick",
     "type": "film",
