@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2924,
+    "slug": "transformers-the-last-knight",
+    "type": "film",
+    "title": {
+      "uz": "Transformers 5 So'ngi Ritsar",
+      "ru": "Трансформеры 5: Последний Рыцарь"
+    },
+    "genres": [
+      "action",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Mark Wahlberg",
+      "Stanley Tucci",
+      "Isabela Merced",
+      "Josh Duhamel"
+    ],
+    "desc": {
+      "uz": "«Transformers: The Last Knight» — 2017-yilgi AQSh filmi. Rejissyor: Michael Bay. Rollarda: Mark Wahlberg, Stanley Tucci, Isabela Merced. Saytda rasmiy treyleri bor.",
+      "ru": "«Трансформеры: Последний рыцарь» — американский научно-фантастический боевик режиссёра Майкла Бэя."
+    },
+    "colors": [
+      "hsl(61 45% 28%)",
+      "hsl(81 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/26/Transformers_The_Last_Knight_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=6p59kWrfaX0",
+    "video": "https://dezocloud.uz/s/CqIYnfhGoqvM-CHT3bHF9swX",
+    "featured": false,
+    "addedAt": 1790156969639,
+    "updatedAt": 1790156969639,
+    "year": 2017,
+    "duration": 154,
+    "director": "Michael Bay"
+  },
+  {
     "id": 2436,
     "slug": "transformers-revenge-of-the-fallen",
     "type": "film",
