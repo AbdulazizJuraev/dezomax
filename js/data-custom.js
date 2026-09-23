@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 39,
+    "slug": "avengers-infinity-war",
+    "type": "film",
+    "title": {
+      "uz": "Qasoskorlar: Cheksizlik urushi",
+      "ru": "Мстители: Война бесконечности"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Hemsworth",
+      "Josh Brolin",
+      "Chris Evans",
+      "Scarlett Johansson"
+    ],
+    "desc": {
+      "uz": "Tanos oltita Cheksizlik toshini yig‘ib, koinot aholisining yarmini yo‘q qilmoqchi. Qasoskorlar uni to‘xtatishga urinadi.",
+      "ru": "Танос собирает шесть Камней Бесконечности, чтобы уничтожить половину Вселенной. Мстители пытаются его остановить."
+    },
+    "colors": [
+      "#6b2a4a",
+      "#160810"
+    ],
+    "poster": "images/avengers-infinity-war.jpg",
+    "trailer": "https://www.youtube.com/watch?v=FeJKZMFJ7NA",
+    "video": "https://kinolar.tv/75bdf9e4-e916-4088-9f80-d2df64f7fc4d",
+    "featured": false,
+    "addedAt": 1790170603056,
+    "updatedAt": 1790170603056,
+    "year": 2018,
+    "duration": 149,
+    "rating": 8.4,
+    "director": "Anthony & Joe Russo",
+    "franchise": "marvel"
+  },
+  {
     "id": 33,
     "slug": "the-avengers",
     "type": "film",
