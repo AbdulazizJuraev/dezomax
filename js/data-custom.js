@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 38,
+    "slug": "black-panther",
+    "type": "film",
+    "title": {
+      "uz": "Qora pantera",
+      "ru": "Чёрная пантера"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chadwick Boseman",
+      "Michael B. Jordan",
+      "Lupita Nyong'o",
+      "Danai Gurira"
+    ],
+    "desc": {
+      "uz": "Vakanda taxtiga o‘tirgan T‘Challa mamlakat siri ochilib ketish xavfi va o‘z qarindoshi tomonidan sinovga qo‘yiladi.",
+      "ru": "Взошедший на трон Ваканды Т’Чалла сталкивается с угрозой раскрытия тайны страны и с собственным родственником."
+    },
+    "colors": [
+      "#3a2a6b",
+      "#0c0818"
+    ],
+    "poster": "images/black-panther.jpg",
+    "trailer": "https://www.youtube.com/watch?v=qGpejFwCZS0",
+    "video": "https://s11.faylmovi.ru/tarjima_kinolar/Qora_pantera_1080.mp4",
+    "featured": false,
+    "addedAt": 1790171443483,
+    "updatedAt": 1790171443483,
+    "year": 2018,
+    "duration": 134,
+    "rating": 7.3,
+    "director": "Ryan Coogler",
+    "franchise": "marvel"
+  },
+  {
     "id": 139,
     "slug": "doctor-strange-multiverse-of-madness",
     "type": "film",
