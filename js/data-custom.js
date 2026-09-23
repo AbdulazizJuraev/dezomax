@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 139,
+    "slug": "doctor-strange-multiverse-of-madness",
+    "type": "film",
+    "title": {
+      "uz": "Doktor Streyndj: Jinnilik multiolamida",
+      "ru": "Доктор Стрэндж: В мультивселенной безумия"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "horror"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Benedict Cumberbatch",
+      "Elizabeth Olsen",
+      "Xochitl Gomez",
+      "Benedict Wong"
+    ],
+    "desc": {
+      "uz": "Doktor Streyndj olamlar orasida sayohat qila oladigan qiz Amerika Chavesni himoya qiladi. Ular multiolamning xavfli va g‘aroyib burchaklariga tushib qoladi.",
+      "ru": "Доктор Стрэндж защищает Америку Чавес — девушку, способную путешествовать между вселенными. Они попадают в опасные и странные уголки мультивселенной."
+    },
+    "tags": [
+      "Marvel",
+      "doctor strange multiverse of madness"
+    ],
+    "colors": [
+      "#4a1a6b",
+      "#0e0414"
+    ],
+    "poster": "images/marvel/doctor-strange-multiverse-of-madness.jpg",
+    "trailer": "https://www.youtube.com/watch?v=0_r_V5TOuEI",
+    "video": "http://topfilm.info/4/tarjima_kinolar/DOKTOR_STRENJ_AQLSIZ_MULTIOLAM_1080.mp4",
+    "featured": false,
+    "addedAt": 1790171374583,
+    "updatedAt": 1790171374583,
+    "year": 2022,
+    "duration": 126,
+    "rating": 6.9,
+    "director": "Sam Raimi",
+    "franchise": "marvel"
+  },
+  {
     "id": 36,
     "slug": "doctor-strange",
     "type": "film",
