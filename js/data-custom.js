@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1052951815,
+    "slug": "john-wick-chapter-3-parabellum",
+    "type": "film",
+    "title": {
+      "uz": "John Wick 3: Parabellum",
+      "ru": "Джон Уик 3"
+    },
+    "genres": [
+      "action",
+      "thriller",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Keanu Reeves",
+      "Halle Berry",
+      "Ian McShane"
+    ],
+    "desc": {
+      "uz": "«John Wick 3: Parabellum» — 2019-yilgi AQSh filmi. Rejissyor: Chad Stahelski. Rollarda: Keanu Reeves, Halle Berry, Ian McShane.",
+      "ru": "«Джон Уик 3» — фильм 2019 года (США). Режиссёр: Chad Stahelski. В ролях: Keanu Reeves, Halle Berry, Ian McShane."
+    },
+    "colors": [
+      "hsl(301 45% 28%)",
+      "hsl(321 50% 7%)"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=rx-gQVUeSR8",
+    "video": "http://topfilm.info/2/tarjima_kinolar/JON_UIK_3_720.mp4",
+    "tags": [
+      "John Wick: Chapter 3 – Parabellum"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/9/94/John_Wick_Chapter_3_Parabellum.png",
+    "wiki": "Джон Уик 3",
+    "featured": false,
+    "addedAt": 1790169578079,
+    "updatedAt": 1790169578079,
+    "year": 2019,
+    "duration": 131,
+    "director": "Chad Stahelski"
+  },
+  {
     "id": 2665,
     "slug": "john-wick-chapter-2",
     "type": "film",
