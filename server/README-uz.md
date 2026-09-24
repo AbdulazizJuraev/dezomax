@@ -57,11 +57,34 @@ curl https://12-34-56-78.sslip.io/health      # {"ok":true} chiqishi kerak
 3. **Fiskalizatsiya (IKPU)** kodini xizmat sozlamasida kiriting (tasnif.soliq.uz dan mos kodni tanlaysiz, buxgalter bilan maslahatlashing). Bitta IKPU bo'lsa qo'shimcha metod kerak emas.
 4. Click'ga xabar bering: **domen, IP manzil va port (443)** — ular xavfsizlik devoriga qo'shadi (server TAS-IX tarmog'ida bo'lmasa) va servisni yoqadi. **IP o'zgarsa — oldin Click'ga xabar bering.**
 
+## Telegram orqali tasdiqlash (ixtiyoriy)
+
+1. Telegramda **@BotFather** ga yozing: `/newbot` → bot nomi va foydalanuvchi nomini tanlaysiz (masalan `DezoOnlinebot`).
+2. BotFather bergan **tokenni** `/etc/dezomax-pay.env` ga qo'shing:
+
+```
+TG_BOT_TOKEN=BotFather_bergan_token
+TG_BOT_NAME=DezoOnlinebot
+TG_WEBHOOK_SECRET=uzun_tasodifiy_matn
+```
+
+3. Xizmatni qayta ishga tushiring: `sudo systemctl restart dezomax-pay`
+4. Telegramga webhook manzilini ayting (bir marta, o'z tokeningiz bilan):
+
+```bash
+curl -F "url=https://SIZNING-DOMEN/tg/webhook" -F "secret_token=uzun_tasodifiy_matn"   https://api.telegram.org/botTOKEN/setWebhook
+```
+
+5. Saytda `js/firebase-config.js` dagi `TG_BOT` ga bot nomini yozing (`DezoOnlinebot`), commit va push.
+
+Qanday ishlaydi: foydalanuvchi «Telegram orqali tasdiqlash» ni bosadi → bot ochiladi → bot 6 xonali kod yuboradi →
+kod saytdagi oynaga yoziladi. Kod 10 daqiqa amal qiladi, bazada faqat xeshi saqlanadi, 5 marta xato kiritilsa bloklanadi.
+
 ## Saytni ulash
 Server ishlagach, `js/firebase-config.js` dagi `PAY_API` ga domenni yozing (`https://12-34-56-78.sslip.io`), commit va push. Shundan keyin "Balansni to'ldirish" ishlaydi.
 
 ## Ishlashini tekshirish
-- Sinov (Click kaliti va internetsiz): `cd server && node --disable-warning=ExperimentalWarning test.js` — 29 ta tekshiruv.
+- Sinov (Click kaliti va internetsiz): `cd server && node --disable-warning=ExperimentalWarning test.js` — 38 ta tekshiruv (Click va Telegram).
 - Loglar: `sudo journalctl -u dezomax-pay -f` (maxfiy kalit yozilmaydi).
 - Zaxira: `sudo cp /opt/dezomax-data/pay.db /somewhere/pay-$(date +%F).db` (har kuni cron bilan).
 

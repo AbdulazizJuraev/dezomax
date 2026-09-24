@@ -294,8 +294,10 @@ async function charge(price, planId, days) {
 async function checkPlanExpiry() {
   if (!profile || profile.plan === 'free' || !profile.planUntil || profile.planUntil > Date.now()) return false;
   const plan = ACC_PLANS[profile.plan];
-  if (profile.autoRenew && plan && profile.balance >= plan.price && await charge(plan.price, profile.plan, 30)) {
-    buyPlan(profile.plan, 30, plan.price, true);
+  // uzaytirish shartlari: sinovdan kelganlarda 7 kun / 5 000 so'm, qolganlarda tarif narxi / 30 kun
+  const bill = profile.billing && profile.billing.price ? profile.billing : { days: 30, price: plan ? plan.price : 0 };
+  if (profile.autoRenew && plan && profile.balance >= bill.price && await charge(bill.price, profile.plan, bill.days)) {
+    buyPlan(profile.plan, bill.days, bill.price, true);
   } else {
     profile.plan = 'free';
     profile.planUntil = null;

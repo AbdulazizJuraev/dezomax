@@ -133,10 +133,10 @@ function deviceInfo() {
 
 /* ---------- Profil ---------- */
 
-/* Yangi ro'yxatdan o'tgan foydalanuvchiga 1 oy bepul Standart tarif. Muddat tugagach (js/account.js →
-   checkPlanExpiry): balans yetsa oylik obuna avtomatik uzayadi, yetmasa — Bepul tarifga qaytadi.
-   DIQQAT: to'lov tizimi ulanmagan va profil shu qurilmada saqlanadi — sinov muddati serverda nazorat qilinmaydi. */
-const TRIAL = { plan: 'standard', days: 30, price: 29000 };
+/* Yangi ro'yxatdan o'tgan foydalanuvchiga 7 kun bepul Standart tarif. Muddat tugagach (js/account.js →
+   checkPlanExpiry): balans yetsa obuna yana 7 kunga uzayadi (5 000 so'm), yetmasa — Bepul tarifga qaytadi.
+   DIQQAT: profil shu qurilmada saqlanadi — sinov muddati hozircha serverda nazorat qilinmaydi. */
+const TRIAL = { plan: 'standard', days: 7, price: 5000 };
 
 function defaultProfile(user) {
   const now = Date.now();
@@ -152,6 +152,7 @@ function defaultProfile(user) {
     plan: TRIAL.plan,
     planUntil: trialUntil,
     trial: true,
+    billing: { days: TRIAL.days, price: TRIAL.price },     // keyingi to'lov: har 7 kunda 5 000 so'm
     autoRenew: true,
     subscriptions: [{ id: 's' + now, plan: TRIAL.plan, from: now, until: trialUntil, price: 0, trial: true }],
     devices: [],
@@ -159,9 +160,9 @@ function defaultProfile(user) {
     payments: [],
     notifications: [
       { id: 'trial', at: now + 1, read: false,
-        title: { uz: '1 oy bepul boshlandi 🎁', ru: 'Бесплатный месяц начался 🎁' },
-        text: { uz: 'Standart tarifdan 1 oy bepul foydalaning. Keyin oyiga 29 000 so‘m — obunani istalgan vaqtda bekor qilish mumkin.',
-                ru: 'Пользуйтесь тарифом Стандарт 1 месяц бесплатно. Затем 29 000 сум в месяц — подписку можно отменить в любой момент.' } },
+        title: { uz: '7 kun bepul boshlandi 🎁', ru: '7 дней бесплатно начались 🎁' },
+        text: { uz: 'Standart tarifdan 7 kun bepul foydalaning. Keyin har 7 kun uchun 5 000 so‘m — obunani istalgan vaqtda bekor qilish mumkin.',
+                ru: 'Пользуйтесь тарифом Стандарт 7 дней бесплатно. Затем 5 000 сум за каждые 7 дней — подписку можно отменить в любой момент.' } },
       { id: 'welcome', at: now, read: false,
         title: { uz: 'DezoMax’ga xush kelibsiz!', ru: 'Добро пожаловать в DezoMax!' },
         text: { uz: 'O‘zbek kinolari, telekanallar va sport — hammasi bir joyda.',

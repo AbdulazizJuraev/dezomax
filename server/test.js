@@ -5,8 +5,10 @@ const http = require('node:http');
 const assert = require('node:assert/strict');
 const { createApp, md5 } = require('./server.js');
 
-const cfg = { serviceId: '1', merchantId: '2', secretKey: 'TEST_SECRET_NOT_REAL', googleClientId: 'x', origins: ['http://localhost:5577'], returnUrl: 'https://example.test/back' };
-const app = createApp(cfg, { verifyGoogle: async t => { if (!t.startsWith('ok:')) throw new Error('bad'); return { sub: t.slice(3), email: t.slice(3) + '@x.test', name: 'T' }; } });
+const sent = [];   // botdan yuborilgan xabarlar (sinovda haqiqiy Telegram chaqirilmaydi)
+const cfg = { serviceId: '1', merchantId: '2', secretKey: 'TEST_SECRET_NOT_REAL', googleClientId: 'x', origins: ['http://localhost:5577'],
+  returnUrl: 'https://example.test/back', tgBotToken: 'TEST_BOT_TOKEN', tgBotName: 'DezoTestBot', tgWebhookSecret: 'shh' };
+const app = createApp(cfg, { tgSend: async (chatId, text) => { sent.push({ chatId, text }); }, verifyGoogle: async t => { if (!t.startsWith('ok:')) throw new Error('bad'); return { sub: t.slice(3), email: t.slice(3) + '@x.test', name: 'T' }; } });
 const server = http.createServer(app.handler);
 
 let base;
@@ -100,6 +102,27 @@ const comp = (o, prepId, amount, extra = {}) => {
   assert.equal(c.headers.get('access-control-allow-origin'), 'http://localhost:5577'); ok('CORS: ruxsat etilgan manzil');
   const c2 = await call('GET', '/health', { origin: 'https://evil.test' });
   assert.equal(c2.headers.get('access-control-allow-origin'), null); ok('CORS: begona manzil rad etildi');
+
+  // --- Telegram orqali tasdiqlash ---
+  const st = (await call('POST', '/api/tg/start')).json;
+  assert.ok(st.ticket && st.link === 'https://t.me/DezoTestBot?start=' + st.ticket); ok('Telegram: chipta va bot havolasi');
+  assert.equal((await call('POST', '/tg/webhook', { body: { message: { chat: { id: 55 }, text: '/start ' + st.ticket } } })).status, 401); ok('webhook: maxfiy kalitsiz rad etildi');
+
+  const hook = body => fetch(base + '/tg/webhook', { method: 'POST', headers: { 'content-type': 'application/json', 'x-telegram-bot-api-secret-token': 'shh' }, body: JSON.stringify(body) }).then(r => r.json());
+  await hook({ message: { chat: { id: 55 }, from: { first_name: 'Ali' }, text: '/start ' + st.ticket } });
+  const code = (sent.at(-1).text.match(/(\d{6})/) || [])[1];
+  assert.ok(code && code.length === 6); ok('bot 6 xonali kod yubordi');
+  assert.equal((await call('POST', '/api/tg/verify', { body: { ticket: st.ticket, code: code === '000000' ? '111111' : '000000' } })).status, 400); ok('notogri kod rad etildi');
+  const v = (await call('POST', '/api/tg/verify', { body: { ticket: st.ticket, code } })).json;
+  assert.ok(v.token && v.uid === 'tg_55' && v.balance === 0); ok('togri kod -> sessiya ochildi');
+  assert.equal((await call('POST', '/api/tg/verify', { body: { ticket: st.ticket, code } })).status, 400); ok('kod ikkinchi marta ishlamaydi');
+  assert.equal((await call('GET', '/api/me', { token: v.token })).json.uid, 'tg_55'); ok('Telegram sessiyasi bilan /api/me ishlaydi');
+  const st2 = (await call('POST', '/api/tg/start')).json;
+  await hook({ message: { chat: { id: 77 }, from: { first_name: 'B' }, text: '/start ' + st2.ticket } });
+  const code2 = (sent.at(-1).text.match(/(\d{6})/) || [])[1];
+  for (let i = 0; i < 5; i++) await call('POST', '/api/tg/verify', { body: { ticket: st2.ticket, code: code2 === '999999' ? '888888' : '999999' } });
+  assert.equal((await call('POST', '/api/tg/verify', { body: { ticket: st2.ticket, code: code2 } })).status, 400); ok('5 marta xato -> chipta bloklandi');
+  assert.ok(!sent.some(m => /TEST_BOT_TOKEN/.test(m.text))); ok('bot xabarida token yoq');
 
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();

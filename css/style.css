@@ -4751,3 +4751,63 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
   .m-click .m-league, .m-league { min-width: 0; overflow-wrap: anywhere; }
   .m-team span, .m-status, .m-time, .m-day, .m-live { min-width: 0; overflow-wrap: anywhere; }
 }
+/* ---------------- Kirish oynasi: chiroyli Google tugmasi, Telegram tasdiqlash, kod maydonchalari ---------------- */
+/* 3-slayddagi futbol surati (kartochka ichida) */
+.wc-hl-3 img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wc-hl-3 .wc-ball { width: 74px; height: 74px; background: rgba(7, 8, 12, .55); box-shadow: 0 0 0 3px rgba(255, 255, 255, .85); color: #fff; }
+
+/* Google tugmasi: ikonka + ikki qatorli matn */
+.wc-auth .wc-google {
+  height: auto; padding: 12px 18px; gap: 14px; justify-content: flex-start;
+  border-radius: 18px; text-align: left;
+  background: linear-gradient(180deg, #fff, #eef2f7);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .5), inset 0 1px 0 #fff;
+  transition: transform .15s, box-shadow .2s;
+}
+.wc-auth .wc-google:hover { transform: translateY(-1px); box-shadow: 0 16px 40px rgba(0, 0, 0, .55), inset 0 1px 0 #fff; }
+.wc-auth .wc-google:active { transform: scale(.985); }
+.wc-g-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .18); flex: 0 0 auto; }
+.wc-g-icon svg { width: 22px; height: 22px; }
+.wc-g-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.wc-g-text b { font-size: 16px; font-weight: 750; color: #171b24; letter-spacing: -.01em; }
+.wc-g-text small { font-size: 12px; color: #5b6472; font-weight: 500; }
+
+/* ajratuvchi: — yoki — */
+.wc-or { display: flex; align-items: center; gap: 10px; width: 100%; margin: 2px 0; color: rgba(255, 255, 255, .45); font-size: 12.5px; }
+.wc-or::before, .wc-or::after { content: ''; flex: 1; height: 1px; background: rgba(255, 255, 255, .16); }
+
+/* Telegram tugmasi */
+.wc-tg {
+  width: 100%; height: 50px; border: 1px solid rgba(45, 160, 224, .55); border-radius: 999px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg, rgba(45, 160, 224, .22), rgba(45, 160, 224, .08));
+  color: #cfeaff; font: 700 15px/1 inherit;
+}
+.wc-tg:hover { background: linear-gradient(135deg, rgba(45, 160, 224, .32), rgba(45, 160, 224, .14)); }
+.wc-tg:active { transform: scale(.97); }
+.wc-tg:disabled { opacity: .6; }
+.wc-tg svg { width: 20px; height: 20px; color: #2da0e0; }
+
+/* 6 xonali kod */
+.wc-code { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.wc-code > p { margin: 0; color: rgba(255, 255, 255, .72); font-size: 13.5px; line-height: 1.45; }
+.wc-code-inputs { display: flex; gap: 7px; justify-content: center; width: 100%; }
+.wc-code-inputs input {
+  width: 100%; max-width: 46px; height: 54px; text-align: center;
+  border-radius: 13px; border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .07);
+  color: #fff; font: 700 21px/1 inherit; outline: none; min-width: 0;
+  transition: border-color .15s, background .15s;
+}
+.wc-code-inputs input:focus { border-color: #2da0e0; background: rgba(45, 160, 224, .14); }
+.wc-code-inputs input:disabled { opacity: .55; }
+.wc-code-again { border: 0; background: transparent; color: rgba(255, 255, 255, .6); font: 600 13px/1 inherit; padding: 6px; cursor: pointer; text-decoration: underline; }
+
+@media (max-width: 360px) {
+  .wc-code-inputs { gap: 5px; }
+  .wc-code-inputs input { height: 48px; font-size: 18px; border-radius: 11px; }
+  .wc-g-text b { font-size: 15px; }
+}
+/* Google'ning o'z tugmasi (saytda majburiy) — ko'rinishi chiroyli ramkada */
+.wc-gsi { width: 100%; padding: 6px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06)); box-shadow: 0 12px 34px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.22); }
+.wc-gsi > div, .wc-gsi iframe { margin: 0 auto !important; }
+.wc-gsi-note { color: rgba(255,255,255,.5) !important; font-size: 12px; margin-top: -4px; }
