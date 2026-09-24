@@ -7,6 +7,52 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 56,
+    "slug": "terminator-2",
+    "type": "film",
+    "title": {
+      "uz": "Terminator 2: Qiyomat kuni",
+      "ru": "Терминатор 2: Судный день"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "thriller"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Arnold Schwarzenegger",
+      "Linda Hamilton",
+      "Edward Furlong",
+      "Robert Patrick"
+    ],
+    "desc": {
+      "uz": "Kelajakdan yuborilgan kiborg endi bolani himoya qilishi kerak — uni ovlayotgan yanada mukammal mashinadan.",
+      "ru": "Присланный из будущего киборг теперь должен защитить мальчика от куда более совершенной машины."
+    },
+    "tags": [
+      "Terminator",
+      "Терминатор"
+    ],
+    "colors": [
+      "#2a3a4a",
+      "#080c12"
+    ],
+    "poster": "images/terminator-2.png",
+    "trailer": "https://www.youtube.com/watch?v=M-SIftG16hU",
+    "video": "http://topfilm.info/2/tarjima_kinolar/Terminator_2_720.mp4",
+    "featured": false,
+    "addedAt": 1790255080904,
+    "updatedAt": 1790255080904,
+    "year": 1991,
+    "duration": 137,
+    "rating": 8.6,
+    "director": "James Cameron"
+  },
+  {
     "id": 55,
     "slug": "back-to-the-future",
     "type": "film",
