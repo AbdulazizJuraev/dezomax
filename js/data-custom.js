@@ -7,6 +7,55 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 47,
+    "slug": "batman-v-superman",
+    "type": "film",
+    "title": {
+      "uz": "Betmen Supermenga qarshi: Adolat tongi",
+      "ru": "Бэтмен против Супермена: На заре справедливости"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Ben Affleck",
+      "Henry Cavill",
+      "Gal Gadot",
+      "Jesse Eisenberg"
+    ],
+    "desc": {
+      "uz": "Gotem himoyachisi Metropolis qahramonini insoniyat uchun xavf deb biladi — ikki afsona bir-biriga qarshi chiqadi.",
+      "ru": "Защитник Готэма видит в герое Метрополиса угрозу человечеству — и две легенды сходятся в бою."
+    },
+    "tags": [
+      "Batman",
+      "Superman",
+      "Бэтмен",
+      "Супермен"
+    ],
+    "colors": [
+      "#3a3a5a",
+      "#0a0a14"
+    ],
+    "poster": "images/batman-v-superman.jpg",
+    "trailer": "https://www.youtube.com/watch?v=BL-b9f7nyx4",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/BETMEN_SUPERMENGA_QARSHI_1080.mp4",
+    "featured": false,
+    "addedAt": 1790254227687,
+    "updatedAt": 1790254227687,
+    "year": 2016,
+    "duration": 151,
+    "rating": 6.5,
+    "director": "Zack Snyder",
+    "franchise": "dc"
+  },
+  {
     "id": 44,
     "slug": "batman-begins",
     "type": "film",
