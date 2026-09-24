@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 59,
+    "slug": "harry-potter-1",
+    "type": "film",
+    "title": {
+      "uz": "Garri Potter va falsafiy tosh",
+      "ru": "Гарри Поттер и философский камень"
+    },
+    "genres": [
+      "fantasy",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "Buyuk Britaniya, AQSh",
+      "ru": "Великобритания, США"
+    },
+    "cast": [
+      "Daniel Radcliffe",
+      "Rupert Grint",
+      "Emma Watson",
+      "Richard Harris"
+    ],
+    "desc": {
+      "uz": "Yetim bola o‘zining sehrgar ekanini bilib qoladi va Xogvarts maktabida birinchi yilini boshlaydi.",
+      "ru": "Мальчик-сирота узнаёт, что он волшебник, и начинает первый год в школе Хогвартс."
+    },
+    "tags": [
+      "Harry Potter",
+      "Гарри Поттер",
+      "Hogwarts"
+    ],
+    "colors": [
+      "#6b4a1e",
+      "#160f06"
+    ],
+    "poster": "images/harry-potter-1.jpg",
+    "trailer": "https://www.youtube.com/watch?v=AFwrmkAHEk4",
+    "video": "https://kinolar.tv/2e2b2135-8d85-4687-bd2e-b52f237af409",
+    "featured": false,
+    "addedAt": 1790255327492,
+    "updatedAt": 1790255327492,
+    "year": 2001,
+    "duration": 152,
+    "rating": 7.7,
+    "director": "Chris Columbus"
+  },
+  {
     "id": 57,
     "slug": "jurassic-park",
     "type": "film",
