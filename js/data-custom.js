@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2029,
+    "slug": "harry-potter-and-the-chamber-of-secrets",
+    "type": "film",
+    "title": {
+      "uz": "Harry Potter va maxfiy hujra",
+      "ru": "Гарри Поттер и тайная комната"
+    },
+    "genres": [
+      "fantasy",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "Buyuk Britaniya, AQSh",
+      "ru": "Великобритания, США"
+    },
+    "cast": [
+      "Warwick Davis",
+      "Rupert Grint"
+    ],
+    "desc": {
+      "uz": "«Harry Potter va maxfiy hujra» — 2002-yilgi Buyuk Britaniya va AQSh filmi. Rejissyor: Chris Columbus. Rollarda: Warwick Davis, Rupert Grint. Saytda rasmiy treyleri bor.",
+      "ru": "«Гарри Поттер и Тайная комната» — британско-американский фэнтезийный фильм 2002 года режиссёра Криса Коламбуса по сценарию Стива Кловиса."
+    },
+    "tags": [
+      "Harry Potter and the Chamber of Secrets"
+    ],
+    "colors": [
+      "hsl(210 45% 28%)",
+      "hsl(230 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/c/c0/Harry_Potter_and_the_Chamber_of_Secrets_movie.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=5NqcCpw7PKA",
+    "video": "https://kxcdn.ru/Garri_Potter_2_Maxfiy_Hujra_2002_HD_Daxshat.Net.mp4",
+    "featured": false,
+    "addedAt": 1790255384517,
+    "updatedAt": 1790255384517,
+    "year": 2002,
+    "duration": 161,
+    "director": "Chris Columbus"
+  },
+  {
     "id": 59,
     "slug": "harry-potter-1",
     "type": "film",
