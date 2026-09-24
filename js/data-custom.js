@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 23,
+    "slug": "se7en",
+    "type": "film",
+    "title": {
+      "uz": "Yetti",
+      "ru": "Семь"
+    },
+    "genres": [
+      "thriller",
+      "crime",
+      "detective"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Brad Pitt",
+      "Morgan Freeman",
+      "Kevin Spacey"
+    ],
+    "desc": {
+      "uz": "Ikki detektiv yetti gunoh asosida qotilliklar sodir etayotgan manyakni qidiradi.",
+      "ru": "Два детектива ищут маньяка, совершающего убийства по мотивам семи смертных грехов."
+    },
+    "colors": [
+      "#2a3236",
+      "#080b0d"
+    ],
+    "poster": "images/se7en.jpg",
+    "trailer": "https://www.youtube.com/watch?v=GiFyoro7u78",
+    "video": "http://files.uzmedia.tv/tarjima/yetti 1995 hd (uzmedia.tv).mp4",
+    "featured": false,
+    "addedAt": 1790252959190,
+    "updatedAt": 1790252959190,
+    "year": 1995,
+    "duration": 127,
+    "rating": 8.6,
+    "director": "David Fincher"
+  },
+  {
     "id": 20,
     "slug": "mad-max-fury-road",
     "type": "film",
