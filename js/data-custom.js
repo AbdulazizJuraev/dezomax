@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 25,
+    "slug": "breaking-bad",
+    "type": "serial",
+    "title": {
+      "uz": "Breaking Bad",
+      "ru": "Во все тяжкие"
+    },
+    "genres": [
+      "drama",
+      "thriller",
+      "crime"
+    ],
+    "seasons": 5,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Bryan Cranston",
+      "Aaron Paul",
+      "Anna Gunn"
+    ],
+    "desc": {
+      "uz": "Saraton tashxisini olgan kimyo o‘qituvchisi oilasini ta’minlash uchun narkotik ishlab chiqarishni boshlaydi.",
+      "ru": "Учитель химии с диагнозом рак начинает варить метамфетамин, чтобы обеспечить семью."
+    },
+    "colors": [
+      "#3a5a2a",
+      "#0c1408"
+    ],
+    "poster": "images/breaking-bad.png",
+    "trailer": "https://www.youtube.com/watch?v=uXPMbmR-V44",
+    "video": "https://e.uzbeklar.biz/breaking/1qism.mp4",
+    "featured": false,
+    "addedAt": 1790253250945,
+    "updatedAt": 1790253250945,
+    "year": 2008,
+    "rating": 9.5,
+    "director": "Vince Gilligan"
+  },
+  {
     "id": 24,
     "slug": "the-wolf-of-wall-street",
     "type": "film",
