@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2224,
+    "slug": "the-amazing-spider-man",
+    "type": "film",
+    "title": {
+      "uz": "Yangi Oʻrgimchak-odam",
+      "ru": "Новый Человек-паук"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "thriller"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Rhys Ifans",
+      "Denis Leary"
+    ],
+    "desc": {
+      "uz": "«Yangi Oʻrgimchak-odam» — 2012-yilgi AQSh filmi. Rejissyor: Marc Webb. Rollarda: Rhys Ifans, Denis Leary. Saytda rasmiy treyleri bor.",
+      "ru": "«Новый Человек-паук» — американский супергеройский фильм 2012 года, основанный на персонаже Marvel Comics Человеке-пауке."
+    },
+    "tags": [
+      "The Amazing Spider-Man"
+    ],
+    "colors": [
+      "hsl(246 45% 28%)",
+      "hsl(266 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/e/e0/The_Amazing_Spider-Man_%28film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=PxflbeTxW_k",
+    "video": "https://kxcdn.ru/Yangi_Orgimchak_Odam_1_2012_HD_Daxshat.Net.mp4",
+    "featured": false,
+    "addedAt": 1790252344767,
+    "updatedAt": 1790252344767,
+    "year": 2012,
+    "duration": 136,
+    "director": "Marc Webb"
+  },
+  {
     "id": 2209,
     "slug": "spider-man-3",
     "type": "film",
