@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 50,
+    "slug": "shazam",
+    "type": "film",
+    "title": {
+      "uz": "Shazam!",
+      "ru": "Шазам!"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "fantasy",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Zachary Levi",
+      "Asher Angel",
+      "Mark Strong",
+      "Jack Dylan Grazer"
+    ],
+    "desc": {
+      "uz": "O‘n to‘rt yoshli Billi bitta so‘zni aytishi bilan kattalar qiyofasidagi super qahramonga aylanadi.",
+      "ru": "Четырнадцатилетний Билли одним словом превращается во взрослого супергероя."
+    },
+    "colors": [
+      "#a03a1e",
+      "#1e0a06"
+    ],
+    "poster": "images/shazam.jpg",
+    "trailer": "https://www.youtube.com/watch?v=rvJdxDjn6nI",
+    "video": "http://topfilm.info/2/tarjima_kinolar/SHAZAM_720.mp4",
+    "featured": false,
+    "addedAt": 1790254721154,
+    "updatedAt": 1790254721154,
+    "year": 2019,
+    "duration": 132,
+    "rating": 7,
+    "director": "David F. Sandberg",
+    "franchise": "dc"
+  },
+  {
     "id": 1091226161,
     "slug": "aquaman-and-the-lost-kingdom",
     "type": "film",
