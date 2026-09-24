@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2047,
+    "slug": "harry-potter-and-the-order-of-the-phoenix",
+    "type": "film",
+    "title": {
+      "uz": "Harry Potter va Feniks jamiyati",
+      "ru": "Гарри Поттер и Орден Феникса"
+    },
+    "genres": [
+      "fantasy",
+      "family"
+    ],
+    "country": {
+      "uz": "Buyuk Britaniya, AQSh",
+      "ru": "Великобритания, США"
+    },
+    "cast": [
+      "Rupert Grint",
+      "Helena Bonham Carter"
+    ],
+    "desc": {
+      "uz": "«Harry Potter va Feniks jamiyati» — 2007-yilgi Buyuk Britaniya va AQSh filmi. Rejissyor: David Yates. Rollarda: Rupert Grint, Helena Bonham Carter. Saytda rasmiy treyleri bor.",
+      "ru": "«Гарри Поттер и Орден Феникса» — фэнтезийно-приключенческий фильм 2007 года режиссёра Дэвида Йейтса, пятый из серии фильмов о Гарри Поттере."
+    },
+    "tags": [
+      "Harry Potter and the Order of the Phoenix"
+    ],
+    "colors": [
+      "hsl(90 45% 28%)",
+      "hsl(110 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/e/e7/Harry_Potter_and_the_Order_of_the_Phoenix_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=Q3P10wkGDBQ",
+    "video": "https://kinolar.tv/9a8dce1f-d1d0-4566-8615-dd19ca6227f6",
+    "featured": false,
+    "addedAt": 1790255593124,
+    "updatedAt": 1790255593124,
+    "year": 2007,
+    "duration": 133,
+    "director": "David Yates"
+  },
+  {
     "id": 2044,
     "slug": "harry-potter-and-the-half-blood-prince",
     "type": "film",
