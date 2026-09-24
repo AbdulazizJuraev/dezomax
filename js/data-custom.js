@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 24,
+    "slug": "the-wolf-of-wall-street",
+    "type": "film",
+    "title": {
+      "uz": "Uoll-strit bo‘risi",
+      "ru": "Волк с Уолл-стрит"
+    },
+    "genres": [
+      "comedy",
+      "crime",
+      "biography"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Leonardo DiCaprio",
+      "Jonah Hill",
+      "Margot Robbie"
+    ],
+    "desc": {
+      "uz": "Jordan Belfortning yo‘qdan sanoqsiz boylik yaratgan va keyin hammasini yo‘qotgan haqiqiy hikoyasi.",
+      "ru": "Реальная история Джордана Белфорта, сделавшего состояние из ничего — и потерявшего всё."
+    },
+    "colors": [
+      "#9a7a20",
+      "#1c1606"
+    ],
+    "poster": "images/the-wolf-of-wall-street.png",
+    "trailer": "https://www.youtube.com/watch?v=CHivqmutR0I",
+    "video": "https://v.mover.uz/IF4n4Sph_m.mp4",
+    "featured": false,
+    "addedAt": 1790253109619,
+    "updatedAt": 1790253109619,
+    "year": 2013,
+    "duration": 180,
+    "rating": 8.2,
+    "director": "Martin Scorsese"
+  },
+  {
     "id": 23,
     "slug": "se7en",
     "type": "film",
