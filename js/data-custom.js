@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2036,
+    "slug": "tangled",
+    "type": "multfilm",
+    "title": {
+      "uz": "Rapunsel",
+      "ru": "Рапунцель: Запутанная история"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Rapunsel» — 2010-yilgi AQSh multfilmi. Rejissyor: Byron Howard, Nathan Greno. Saytda rasmiy treyleri bor.",
+      "ru": "«Рапунцель: Запутанная история» — американский компьютерно-анимационный музыкальный фэнтезийный комедийно-приключенческий фильм 2010 года в формате 3D, снятый студией Walt Disney Animation Studios и выпущенный студией Walt Disney Pictures и основанный на сказке братьев Гримм «Рапунцель»."
+    },
+    "tags": [
+      "Tangled"
+    ],
+    "colors": [
+      "hsl(261 45% 28%)",
+      "hsl(281 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/a/a8/Tangled_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=J60jgkOHt5w",
+    "video": "http://topfilm.info/3/MULTIFILM/RAPUNSEL_720.mp4",
+    "featured": false,
+    "addedAt": 1790256616751,
+    "updatedAt": 1790256616751,
+    "year": 2010,
+    "duration": 100,
+    "director": "Byron Howard, Nathan Greno"
+  },
+  {
     "id": 140,
     "slug": "thor-love-and-thunder",
     "type": "film",
