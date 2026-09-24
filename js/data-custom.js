@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 53,
+    "slug": "star-wars-a-new-hope",
+    "type": "film",
+    "title": {
+      "uz": "Yulduzli urushlar: Yangi umid",
+      "ru": "Звёздные войны: Новая надежда"
+    },
+    "genres": [
+      "scifi",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Mark Hamill",
+      "Harrison Ford",
+      "Carrie Fisher",
+      "Alec Guinness"
+    ],
+    "desc": {
+      "uz": "Sahro sayyorasidagi yosh Lyuk Skayvoker qo‘zg‘olonchilarga qo‘shilib, Imperiyaning halokatli qurolini yo‘q qilishga kirishadi.",
+      "ru": "Юный Люк Скайуокер с пустынной планеты присоединяется к повстанцам, чтобы уничтожить смертоносное оружие Империи."
+    },
+    "tags": [
+      "Star Wars",
+      "Yulduzli urushlar",
+      "Звёздные войны",
+      "Jedi"
+    ],
+    "colors": [
+      "#6b5a1e",
+      "#161206"
+    ],
+    "poster": "images/star-wars-a-new-hope.jpg",
+    "trailer": "https://www.youtube.com/watch?v=Opxh5AqFByQ",
+    "video": "https://files.uzmax.net/films/Yulduzlar.jangi.4.Yangi.umid.1977.HDRip.uzmax.net.mp4",
+    "featured": true,
+    "addedAt": 1790254933988,
+    "updatedAt": 1790254933988,
+    "year": 1977,
+    "duration": 121,
+    "rating": 8.6,
+    "director": "George Lucas"
+  },
+  {
     "id": 51,
     "slug": "zack-snyders-justice-league",
     "type": "film",
