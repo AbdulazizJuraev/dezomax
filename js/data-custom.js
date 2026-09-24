@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 57,
+    "slug": "jurassic-park",
+    "type": "film",
+    "title": {
+      "uz": "Yura davri parki",
+      "ru": "Парк Юрского периода"
+    },
+    "genres": [
+      "scifi",
+      "thriller",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Sam Neill",
+      "Laura Dern",
+      "Jeff Goldblum",
+      "Richard Attenborough"
+    ],
+    "desc": {
+      "uz": "Tiriltirilgan dinozavrlar parkida himoya tizimi ishdan chiqadi va mehmonlar orolda yirtqichlar bilan yolg‘iz qoladi.",
+      "ru": "В парке с воскрешёнными динозаврами отключается защита, и гости остаются на острове наедине с хищниками."
+    },
+    "colors": [
+      "#3a5a2a",
+      "#0c1408"
+    ],
+    "poster": "images/jurassic-park.jpg",
+    "trailer": "https://www.youtube.com/watch?v=sqlfsYpUFSQ",
+    "video": "https://kxcdn.ru/Yura_Davri_Dunyosi_1_1993_HD_Daxshat.Tv.mp4",
+    "featured": false,
+    "addedAt": 1790255184345,
+    "updatedAt": 1790255184345,
+    "year": 1993,
+    "duration": 127,
+    "rating": 8.2,
+    "director": "Steven Spielberg"
+  },
+  {
     "id": 56,
     "slug": "terminator-2",
     "type": "film",
