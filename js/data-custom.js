@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2082,
+    "slug": "harry-potter-and-the-deathly-hallows-part-2",
+    "type": "film",
+    "title": {
+      "uz": "Harry Potter va Ajal tuhfasi: 2-qism",
+      "ru": "Гарри Поттер и Дары Смерти. Часть 2"
+    },
+    "genres": [
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "Buyuk Britaniya, AQSh",
+      "ru": "Великобритания, США"
+    },
+    "cast": [
+      "Rupert Grint",
+      "Ralph Fiennes"
+    ],
+    "desc": {
+      "uz": "«Harry Potter va Ajal tuhfasi: 2-qism» — 2011-yilgi Buyuk Britaniya va AQSh filmi. Rejissyor: David Yates. Rollarda: Rupert Grint, Ralph Fiennes. Saytda rasmiy treyleri bor.",
+      "ru": "«Гарри Поттер и Дары Смерти. Часть 2» (англ."
+    },
+    "tags": [
+      "Harry Potter and the Deathly Hallows – Part 2"
+    ],
+    "colors": [
+      "hsl(189 45% 28%)",
+      "hsl(209 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/d/df/Harry_Potter_and_the_Deathly_Hallows_%E2%80%93_Part_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=O5aCY_MPmzc",
+    "video": "https://kinolar.tv/53f5ac2c-52a4-4c05-83e4-9246b2b4b36f",
+    "featured": false,
+    "addedAt": 1790255699738,
+    "updatedAt": 1790255699738,
+    "year": 2011,
+    "duration": 130,
+    "director": "David Yates"
+  },
+  {
     "id": 2072,
     "slug": "harry-potter-and-the-deathly-hallows-part-1",
     "type": "film",
