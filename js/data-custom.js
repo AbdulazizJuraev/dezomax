@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2040,
+    "slug": "harry-potter-and-the-prisoner-of-azkaban",
+    "type": "film",
+    "title": {
+      "uz": "Harry Potter va Askaban mahbusi",
+      "ru": "Гарри Поттер и узник Азкабана"
+    },
+    "genres": [
+      "fantasy",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh, Buyuk Britaniya",
+      "ru": "США, Великобритания"
+    },
+    "cast": [
+      "Rupert Grint",
+      "Robbie Coltrane"
+    ],
+    "desc": {
+      "uz": "«Harry Potter va Askaban mahbusi» — 2004-yilgi AQSh va Buyuk Britaniya filmi. Rejissyor: Alfonso Cuarón. Rollarda: Rupert Grint, Robbie Coltrane. Saytda rasmiy treyleri bor.",
+      "ru": "«Гарри Поттер и узник Азкабана» — фэнтезийно-приключенческий фильм 2004 года, третий из серии фильмов о Гарри Поттере."
+    },
+    "tags": [
+      "Harry Potter and the Prisoner of Azkaban"
+    ],
+    "colors": [
+      "hsl(145 45% 28%)",
+      "hsl(165 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/1/18/Harry_Potter_and_the_Prisoner_of_Azkaban_film_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=IB7OXZ6WkzQ",
+    "video": "https://kinolar.tv/8c221152-b19a-4cef-be65-42660b56c19a",
+    "featured": false,
+    "addedAt": 1790255477336,
+    "updatedAt": 1790255477336,
+    "year": 2004,
+    "duration": 141,
+    "director": "Alfonso Cuarón"
+  },
+  {
     "id": 2039,
     "slug": "harry-potter-and-the-goblet-of-fire",
     "type": "film",
