@@ -7,6 +7,55 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 43,
+    "slug": "into-the-spider-verse",
+    "type": "multfilm",
+    "title": {
+      "uz": "O‘rgimchak-odam: Olamlar uzra",
+      "ru": "Человек-паук: Через вселенные"
+    },
+    "genres": [
+      "action",
+      "animation",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Shameik Moore",
+      "Jake Johnson",
+      "Hailee Steinfeld",
+      "Mahershala Ali"
+    ],
+    "desc": {
+      "uz": "O‘smir Mayls Morales boshqa olamlardan kelgan O‘rgimchak-odamlar bilan uchrashadi va o‘z qahramonligini topishi kerak.",
+      "ru": "Подросток Майлз Моралес встречает Людей-пауков из других вселенных и должен найти собственного героя внутри себя."
+    },
+    "tags": [
+      "Spider-Man",
+      "O‘rgimchak",
+      "Человек-паук"
+    ],
+    "colors": [
+      "#7a1e6b",
+      "#160518"
+    ],
+    "poster": "images/into-the-spider-verse.png",
+    "trailer": "https://www.youtube.com/watch?v=LQRvEknx6OU",
+    "video": "https://d.uzbeklar.biz/film/yondosholamlar.mp4",
+    "featured": false,
+    "addedAt": 1790251517879,
+    "updatedAt": 1790251517879,
+    "year": 2018,
+    "duration": 117,
+    "rating": 8.4,
+    "director": "Bob Persichetti, Peter Ramsey, Rodney Rothman",
+    "franchise": "marvel"
+  },
+  {
     "id": 132,
     "slug": "spider-man-homecoming",
     "type": "film",
