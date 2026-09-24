@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 18,
+    "slug": "toy-story",
+    "type": "multfilm",
+    "title": {
+      "uz": "O‘yinchoqlar hikoyasi",
+      "ru": "История игрушек"
+    },
+    "genres": [
+      "comedy",
+      "animation",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tom Hanks",
+      "Tim Allen",
+      "Don Rickles"
+    ],
+    "desc": {
+      "uz": "Kovboy o‘yinchoq Vudi uyga yangi kelgan kosmonavt Bazzni raqib deb biladi — ammo ular do‘st bo‘lishga majbur.",
+      "ru": "Ковбой Вуди видит в новом игрушечном астронавте Баззе соперника — но им придётся стать друзьями."
+    },
+    "colors": [
+      "#2b6fb5",
+      "#0a1a2b"
+    ],
+    "poster": "images/toy-story.jpg",
+    "trailer": "https://www.youtube.com/watch?v=A4sqe5q4b3Y",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Oyinchoqlar_olami_1080.mp4",
+    "featured": false,
+    "addedAt": 1790252564013,
+    "updatedAt": 1790252564013,
+    "year": 1995,
+    "duration": 81,
+    "rating": 8.3,
+    "director": "John Lasseter"
+  },
+  {
     "id": 17,
     "slug": "coco",
     "type": "multfilm",
