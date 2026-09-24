@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 133,
+    "slug": "ant-man-and-the-wasp",
+    "type": "film",
+    "title": {
+      "uz": "Chumoli-odam va Ari",
+      "ru": "Человек-муравей и Оса"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Paul Rudd",
+      "Evangeline Lilly",
+      "Michael Douglas",
+      "Michelle Pfeiffer"
+    ],
+    "desc": {
+      "uz": "Skott Lang uy qamog‘ida, ammo Xoup va Xenk Pim unga yana muhtoj. Ular kvant olamida adashib qolgan Janet van Daynni qutqarishga harakat qiladi.",
+      "ru": "Скотт Лэнг под домашним арестом, но Хоуп и Хэнк Пим снова нуждаются в нём. Вместе они пытаются спасти Джанет ван Дайн из квантового мира."
+    },
+    "tags": [
+      "Marvel",
+      "ant man and the wasp"
+    ],
+    "colors": [
+      "#7a1a1a",
+      "#5a4a10"
+    ],
+    "poster": "images/marvel/ant-man-and-the-wasp.jpg",
+    "trailer": "https://www.youtube.com/watch?v=azquga_3_ss",
+    "video": "https://s7.faylmovi.ru/tarjima_kinolar/Chumoli_odam_va_Ari_1080.mp4",
+    "featured": false,
+    "addedAt": 1790256218094,
+    "updatedAt": 1790256218094,
+    "year": 2018,
+    "duration": 118,
+    "rating": 7,
+    "director": "Peyton Reed",
+    "franchise": "marvel"
+  },
+  {
     "id": 61,
     "slug": "blade-runner-2049",
     "type": "film",
