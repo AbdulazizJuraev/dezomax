@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 17,
+    "slug": "coco",
+    "type": "multfilm",
+    "title": {
+      "uz": "Koko",
+      "ru": "Тайна Коко"
+    },
+    "genres": [
+      "animation",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Anthony Gonzalez",
+      "Gael García Bernal",
+      "Benjamin Bratt"
+    ],
+    "desc": {
+      "uz": "Musiqani sevuvchi bola Migel o‘liklar olamiga tushib qoladi va oilasining unutilgan sirini ochadi.",
+      "ru": "Мальчик Мигель, мечтающий о музыке, попадает в Мир Мёртвых и раскрывает тайну своей семьи."
+    },
+    "colors": [
+      "#8a3f7a",
+      "#1c0c19"
+    ],
+    "poster": "images/coco.jpg",
+    "trailer": "https://www.youtube.com/watch?v=HMnUSq3dC1g",
+    "video": "http://topfilm.info/2/MULTIFILM/KOKO_siri_720.mp4",
+    "featured": false,
+    "addedAt": 1790252507999,
+    "updatedAt": 1790252508000,
+    "year": 2017,
+    "duration": 105,
+    "rating": 8.4,
+    "director": "Lee Unkrich"
+  },
+  {
     "id": 2241,
     "slug": "the-amazing-spider-man-2",
     "type": "film",
