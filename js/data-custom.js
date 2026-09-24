@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1091226161,
+    "slug": "aquaman-and-the-lost-kingdom",
+    "type": "film",
+    "title": {
+      "uz": "Aquaman and the Lost Kingdom",
+      "ru": "Аквамен и потерянное царство"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "fantasy"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Jason Momoa",
+      "Amber Heard",
+      "Patrick Wilson"
+    ],
+    "desc": {
+      "uz": "«Aquaman and the Lost Kingdom» — 2022-yilgi AQSh filmi. Rejissyor: James Wan. Rollarda: Jason Momoa, Amber Heard, Patrick Wilson.",
+      "ru": "«Аквамен и потерянное царство» — фильм 2022 года (США). Режиссёр: James Wan. В ролях: Jason Momoa, Amber Heard, Patrick Wilson."
+    },
+    "colors": [
+      "hsl(33 45% 28%)",
+      "hsl(53 50% 7%)"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=WuGIT7e-Vas",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/AKVAMEN_2_1080.mp4",
+    "tags": [
+      "Aquaman and the Lost Kingdom"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/4/4a/Aquaman_and_the_Lost_Kingdom_poster.jpg",
+    "wiki": "Аквамен и потерянное царство",
+    "featured": false,
+    "addedAt": 1790254669001,
+    "updatedAt": 1790254669001,
+    "year": 2022,
+    "duration": 124,
+    "director": "James Wan"
+  },
+  {
     "id": 49,
     "slug": "aquaman",
     "type": "film",
