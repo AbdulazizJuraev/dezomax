@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2072,
+    "slug": "harry-potter-and-the-deathly-hallows-part-1",
+    "type": "film",
+    "title": {
+      "uz": "Harry Potter va Ajal tuhfasi: 1-qism",
+      "ru": "Гарри Поттер и Дары Смерти. Часть 1"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh, Buyuk Britaniya",
+      "ru": "США, Великобритания"
+    },
+    "cast": [
+      "Ralph Fiennes",
+      "Helena Bonham Carter",
+      "Tom Felton"
+    ],
+    "desc": {
+      "uz": "«Harry Potter va Ajal tuhfasi: 1-qism» — 2010-yilgi AQSh va Buyuk Britaniya filmi. Rejissyor: David Yates. Rollarda: Ralph Fiennes, Helena Bonham Carter, Tom Felton. Saytda rasmiy treyleri bor.",
+      "ru": "«Гарри Поттер и Дары Смерти. Часть 1» (англ."
+    },
+    "tags": [
+      "Harry Potter and the Deathly Hallows – Part 1"
+    ],
+    "colors": [
+      "hsl(188 45% 28%)",
+      "hsl(208 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/2d/Harry_Potter_and_the_Deathly_Hallows_%E2%80%93_Part_1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=oBTJEwG2NOM",
+    "video": "https://kinochilar.com/8aa7c77a-4f39-4e1e-b603-c2ed5645ba6b",
+    "featured": false,
+    "addedAt": 1790255640647,
+    "updatedAt": 1790255640647,
+    "year": 2010,
+    "duration": 147,
+    "director": "David Yates"
+  },
+  {
     "id": 2047,
     "slug": "harry-potter-and-the-order-of-the-phoenix",
     "type": "film",
