@@ -7,6 +7,54 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 46,
+    "slug": "man-of-steel",
+    "type": "film",
+    "title": {
+      "uz": "Po‘lat odam",
+      "ru": "Человек из стали"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Henry Cavill",
+      "Amy Adams",
+      "Michael Shannon",
+      "Russell Crowe"
+    ],
+    "desc": {
+      "uz": "Boshqa sayyorada tug‘ilgan Klark Kent o‘z kelib chiqishini bilib oladi va Yerni general Zoddan himoya qilishi kerak.",
+      "ru": "Рождённый на другой планете Кларк Кент узнаёт своё происхождение и должен защитить Землю от генерала Зода."
+    },
+    "tags": [
+      "Superman",
+      "Supermen",
+      "Супермен"
+    ],
+    "colors": [
+      "#1e4a7a",
+      "#06121e"
+    ],
+    "poster": "images/man-of-steel.jpg",
+    "trailer": "https://www.youtube.com/watch?v=ZG1E_GCtjHA",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/POLAT_ODAM_1080.mp4",
+    "featured": false,
+    "addedAt": 1790254486994,
+    "updatedAt": 1790254486994,
+    "year": 2013,
+    "duration": 143,
+    "rating": 7.1,
+    "director": "Zack Snyder",
+    "franchise": "dc"
+  },
+  {
     "id": 2473,
     "slug": "batman-returns",
     "type": "film",
