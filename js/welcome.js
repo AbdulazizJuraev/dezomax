@@ -38,6 +38,7 @@
     'wc.tgAgain': 'Kod kelmadimi? Botni qayta ochish',
     'wc.tgBad': 'Kod noto‘g‘ri yoki eskirgan',
     'wc.tgErr': 'Telegram bilan bog‘lanib bo‘lmadi. Keyinroq urinib ko‘ring.',
+    'wc.tgSoon': 'Telegram orqali tasdiqlash tez orada ishga tushadi. Hozircha Google orqali kiring.',
     'wc.welcome': 'Xush kelibsiz! 7 kun bepul boshlandi 🎁'
   });
   Object.assign(I18N.ru, {
@@ -63,6 +64,7 @@
     'wc.tgAgain': 'Код не пришёл? Открыть бота снова',
     'wc.tgBad': 'Код неверный или устарел',
     'wc.tgErr': 'Не удалось связаться с Telegram. Попробуйте позже.',
+    'wc.tgSoon': 'Подтверждение через Telegram скоро заработает. Пока войдите через Google.',
     'wc.welcome': 'Добро пожаловать! 7 дней бесплатно начались 🎁'
   });
 
@@ -98,7 +100,8 @@
   /* Telegram orqali tasdiqlash: bot 6 xonali kod yuboradi (server/server.js → /api/tg/*).
      TG_BOT (js/firebase-config.js) va to'lov serveri sozlanmagan bo'lsa — bu bo'lim ko'rinmaydi. */
   const Tg = {
-    enabled: () => typeof TG_BOT !== 'undefined' && !!TG_BOT && typeof Pay !== 'undefined' && Pay.enabled(),
+    enabled: () => true,                     // tugma doim ko'rinadi
+    ready: () => typeof TG_BOT !== 'undefined' && !!TG_BOT && typeof Pay !== 'undefined' && Pay.enabled(),   // bot va server sozlanganmi
     async start() {
       const r = await fetch(String(PAY_API).replace(/\/+$/, '') + '/api/tg/start', { method: 'POST' });
       if (!r.ok) throw new Error('start');
@@ -242,6 +245,7 @@
       let ticket = null;
       const open = async () => {
         showErr('');
+        if (!Tg.ready()) return showErr(t('wc.tgSoon'));     // bot/server hali ulanmagan
         tgBtn.disabled = true;
         try {
           const r = await Tg.start();
