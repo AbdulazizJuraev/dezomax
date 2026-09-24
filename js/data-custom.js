@@ -7,6 +7,52 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 61,
+    "slug": "blade-runner-2049",
+    "type": "film",
+    "title": {
+      "uz": "Bleyd Ranner 2049",
+      "ru": "Бегущий по лезвию 2049"
+    },
+    "genres": [
+      "drama",
+      "scifi",
+      "thriller"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Ryan Gosling",
+      "Harrison Ford",
+      "Ana de Armas",
+      "Jared Leto"
+    ],
+    "desc": {
+      "uz": "Yosh blade runner K uzoq yillar yashirilgan sirni ochadi va yo‘qolgan Rik Dekkardni izlashga tushadi.",
+      "ru": "Молодой блейдраннер К раскрывает давно скрываемую тайну и отправляется на поиски исчезнувшего Рика Декарда."
+    },
+    "tags": [
+      "Blade Runner",
+      "Бегущий по лезвию"
+    ],
+    "colors": [
+      "#8a4a1e",
+      "#1a0e06"
+    ],
+    "poster": "images/blade-runner-2049.png",
+    "trailer": "https://www.youtube.com/watch?v=3s5zsFm3VgA",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/TIG_USTIDA_YUGURUVCHILAR_1080.mp4",
+    "featured": false,
+    "addedAt": 1790255844532,
+    "updatedAt": 1790255844532,
+    "year": 2017,
+    "duration": 164,
+    "rating": 8.1,
+    "director": "Denis Villeneuve"
+  },
+  {
     "id": 2082,
     "slug": "harry-potter-and-the-deathly-hallows-part-2",
     "type": "film",
