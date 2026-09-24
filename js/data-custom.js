@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 29,
+    "slug": "the-witcher",
+    "type": "serial",
+    "title": {
+      "uz": "Vedmak",
+      "ru": "Ведьмак"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "seasons": 3,
+    "country": {
+      "uz": "AQSh, Polsha",
+      "ru": "США, Польша"
+    },
+    "cast": [
+      "Henry Cavill",
+      "Anya Chalotra",
+      "Freya Allan"
+    ],
+    "desc": {
+      "uz": "Maxluqlarga qarshi kurashuvchi mutant Geralt taqdiri bilan bog‘langan malika Sirini himoya qiladi.",
+      "ru": "Охотник на чудовищ Геральт защищает принцессу Цири, связанную с ним судьбой."
+    },
+    "colors": [
+      "#3a4a5a",
+      "#0c1014"
+    ],
+    "poster": "images/the-witcher.png",
+    "trailer": "https://www.youtube.com/watch?v=Xtf3c-Y20Lw",
+    "video": "https://c.uzbeklar.biz/film9/vedmakhd/1qism.mp4",
+    "featured": false,
+    "addedAt": 1790253505867,
+    "updatedAt": 1790253505867,
+    "year": 2019,
+    "rating": 8,
+    "director": "Lauren Schmidt Hissrich"
+  },
+  {
     "id": 27,
     "slug": "stranger-things",
     "type": "serial",
