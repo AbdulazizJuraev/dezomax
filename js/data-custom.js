@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 142,
+    "slug": "ant-man-and-the-wasp-quantumania",
+    "type": "film",
+    "title": {
+      "uz": "Chumoli-odam va Ari: Kvantomaniya",
+      "ru": "Человек-муравей и Оса: Квантомания"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Paul Rudd",
+      "Evangeline Lilly",
+      "Jonathan Majors",
+      "Kathryn Newton"
+    ],
+    "desc": {
+      "uz": "Skott Lang va uning oilasi kvant olamiga tortib ketiladi. U yerda ular vaqt ustidan hukmron bo‘lishni istagan Kang Zabt etuvchi bilan to‘qnashadi.",
+      "ru": "Скотта Лэнга и его семью затягивает в квантовый мир. Там они сталкиваются с Кангом Завоевателем, мечтающим властвовать над временем."
+    },
+    "tags": [
+      "Marvel",
+      "ant man and the wasp quantumania"
+    ],
+    "colors": [
+      "#5a1a6b",
+      "#1a4a6b"
+    ],
+    "poster": "images/marvel/ant-man-and-the-wasp-quantumania.jpg",
+    "trailer": "https://www.youtube.com/watch?v=V6tE_-ZHDSg",
+    "video": "https://faylmovi.ru/tarjima_kinolar/chumoli_odam_3_720.mp4",
+    "featured": false,
+    "addedAt": 1790256357041,
+    "updatedAt": 1790256357041,
+    "year": 2023,
+    "duration": 125,
+    "rating": 6.1,
+    "director": "Peyton Reed",
+    "franchise": "marvel"
+  },
+  {
     "id": 133,
     "slug": "ant-man-and-the-wasp",
     "type": "film",
