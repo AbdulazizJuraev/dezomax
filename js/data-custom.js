@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 135,
+    "slug": "spider-man-far-from-home",
+    "type": "film",
+    "title": {
+      "uz": "O‘rgimchak-odam: Uydan uzoqda",
+      "ru": "Человек-паук: Вдали от дома"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tom Holland",
+      "Jake Gyllenhaal",
+      "Zendaya",
+      "Samuel L. Jackson"
+    ],
+    "desc": {
+      "uz": "Piter sinfdoshlari bilan Yevropaga sayohatga chiqadi. Ammo Nik Fyuri uni sirli qahramon Misterio bilan birga yangi tahdidga qarshi kurashga chaqiradi.",
+      "ru": "Питер едет с одноклассниками в Европу. Но Ник Фьюри призывает его вместе с таинственным Мистерио сразиться с новой угрозой."
+    },
+    "tags": [
+      "Marvel",
+      "spider man far from home"
+    ],
+    "colors": [
+      "#2a2a6b",
+      "#8a1a24"
+    ],
+    "poster": "images/marvel/spider-man-far-from-home.jpg",
+    "trailer": "https://www.youtube.com/watch?v=zx9vpIzH1u4",
+    "video": "https://d.uzbeklar.biz/film/orgimchakuydan.mp4",
+    "featured": false,
+    "addedAt": 1790251595154,
+    "updatedAt": 1790251595154,
+    "year": 2019,
+    "duration": 129,
+    "rating": 7.4,
+    "director": "Jon Watts",
+    "franchise": "marvel"
+  },
+  {
     "id": 43,
     "slug": "into-the-spider-verse",
     "type": "multfilm",
