@@ -104,6 +104,7 @@
     ready: () => typeof TG_BOT !== 'undefined' && !!TG_BOT && typeof Pay !== 'undefined' && Pay.enabled(),   // bot va server sozlanganmi
     async start() {
       const r = await fetch(String(PAY_API).replace(/\/+$/, '') + '/api/tg/start', { method: 'POST' });
+      if (r.status === 503) throw Object.assign(new Error('off'), { soon: true });   // serverda bot tokeni yo'q
       if (!r.ok) throw new Error('start');
       return r.json();                       // { link, ticket }
     },
@@ -254,7 +255,7 @@
           inputs.forEach(i => (i.value = ''));
           inputs[0].focus();
           window.open(r.link, '_blank', 'noopener');
-        } catch { showErr(t('wc.tgErr')); }
+        } catch (ex) { showErr(t(ex && ex.soon ? 'wc.tgSoon' : 'wc.tgErr')); }
         finally { tgBtn.disabled = false; }
       };
       tgBtn.addEventListener('click', open);
