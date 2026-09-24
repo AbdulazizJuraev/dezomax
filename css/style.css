@@ -4815,3 +4815,29 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
 /* Kirish oynasidagi logotip — sahifadagi bilan bir xil ichki SVG (rangli gradient) */
 .wc-logo.logo-svg { height: 30px; width: auto; display: block; filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .6)); }
 .wc-logo.logo-svg .logo-svg-el { height: 100%; width: auto; }
+/* ---------------- Kirish animatsiyasi v2 (tovushsiz, tez, GPU-silliq) ---------------- */
+/* eski clip-path/reveal animatsiyalarini o'chiramiz — katta SVG'da qotardi */
+.intro-v2 .intro-logo { width: min(74vw, 440px); animation: none; opacity: 0; transform: translateY(10px) scale(.92); will-change: transform, opacity; overflow: hidden; border-radius: 10px; }
+.intro-v2.is-in .intro-logo { opacity: 1; transform: none; transition: opacity .45s ease, transform .55s cubic-bezier(.2, .9, .3, 1); }
+.intro-v2 .intro-logo .logo-svg-el, .intro-v2 .intro-logo img {
+  width: 100%; height: auto; display: block; clip-path: none !important; animation: none !important; aspect-ratio: auto !important;
+}
+/* yorug'lik yugurishi (transform bilan — silliq) */
+.intro-v2 .intro-shine {
+  position: absolute; top: -25%; height: 150%; width: 32%; left: 0;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, .55) 50%, transparent);
+  -webkit-mask: none; mask: none; mix-blend-mode: screen;
+  transform: skewX(-12deg) translateX(-220%); opacity: 0; pointer-events: none;
+}
+.intro-v2.is-in .intro-shine { animation: introSheen 1s cubic-bezier(.4, 0, .2, 1) .35s both; }
+@keyframes introSheen {
+  0% { transform: skewX(-12deg) translateX(-220%); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: skewX(-12deg) translateX(430%); opacity: 0; }
+}
+/* fon nuri */
+.intro-v2 .intro-glow { animation: none; opacity: 0; transform: scale(.85); }
+.intro-v2.is-in .intro-glow { opacity: .8; transform: scale(1.1); transition: opacity .6s ease, transform 1s ease; }
+/* pastdagi yuklash chizig'i */
+.intro-v2 .intro-bar i { animation: introBar cubic-bezier(.35, 0, .25, 1) forwards; }
