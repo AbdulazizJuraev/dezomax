@@ -59,12 +59,12 @@ curl https://12-34-56-78.sslip.io/health      # {"ok":true} chiqishi kerak
 
 ## Telegram orqali tasdiqlash (ixtiyoriy)
 
-1. Telegramda **@BotFather** ga yozing: `/newbot` → bot nomi va foydalanuvchi nomini tanlaysiz (masalan `DezoOnlinebot`).
+1. Telegramda **@BotFather** ga yozing: `/newbot` → bot nomi va foydalanuvchi nomini tanlaysiz (masalan `dezomaxuserbot`).
 2. BotFather bergan **tokenni** `/etc/dezomax-pay.env` ga qo'shing:
 
 ```
 TG_BOT_TOKEN=BotFather_bergan_token
-TG_BOT_NAME=DezoOnlinebot
+TG_BOT_NAME=dezomaxuserbot
 TG_WEBHOOK_SECRET=uzun_tasodifiy_matn
 ```
 
@@ -75,7 +75,7 @@ TG_WEBHOOK_SECRET=uzun_tasodifiy_matn
 curl -F "url=https://SIZNING-DOMEN/tg/webhook" -F "secret_token=uzun_tasodifiy_matn"   https://api.telegram.org/botTOKEN/setWebhook
 ```
 
-5. Saytda `js/firebase-config.js` dagi `TG_BOT` ga bot nomini yozing (`DezoOnlinebot`), commit va push.
+5. Saytda `js/firebase-config.js` dagi `TG_BOT` ga bot nomini yozing (`dezomaxuserbot`), commit va push.
 
 Qanday ishlaydi: foydalanuvchi «Telegram orqali tasdiqlash» ni bosadi → bot ochiladi → bot 6 xonali kod yuboradi →
 kod saytdagi oynaga yoziladi. Kod 10 daqiqa amal qiladi, bazada faqat xeshi saqlanadi, 5 marta xato kiritilsa bloklanadi.

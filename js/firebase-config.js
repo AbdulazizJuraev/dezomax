@@ -27,4 +27,4 @@ const PAY_API = '';
 /* Telegram orqali tasdiqlash uchun bot foydalanuvchi nomi (@siz), masalan 'DezoOnlinebot'.
    Bo'sh bo'lsa — kirish oynasida Telegram bo'limi ko'rinmaydi.
    Bot TOKENI faqat serverda (server/.env) turadi, bu yerga HECH QACHON yozilmaydi. */
-const TG_BOT = '';
+const TG_BOT = 'dezomaxuserbot';
