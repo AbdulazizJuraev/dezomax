@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 127,
+    "slug": "thor-the-dark-world",
+    "type": "film",
+    "title": {
+      "uz": "Tor 2: Zulmat saltanati",
+      "ru": "Тор 2: Царство тьмы"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Hemsworth",
+      "Natalie Portman",
+      "Tom Hiddleston",
+      "Christopher Eccleston"
+    ],
+    "desc": {
+      "uz": "Qadimiy qorong‘u elflar koinotni zulmatga cho‘ktirmoqchi. Tor Jeyn va xoin akasi Loki bilan birga ularni to‘xtatishga urinadi.",
+      "ru": "Древние тёмные эльфы хотят погрузить вселенную во тьму. Тор объединяется с Джейн и коварным братом Локи, чтобы остановить их."
+    },
+    "tags": [
+      "Marvel",
+      "thor the dark world"
+    ],
+    "colors": [
+      "#3a2a4a",
+      "#0c0810"
+    ],
+    "poster": "images/marvel/thor-the-dark-world.jpg",
+    "trailer": "https://www.youtube.com/watch?v=wccked4BA9Q",
+    "video": "http://topfilm.info/2/tarjima_kinolar/Tor_2_720.mp4",
+    "featured": false,
+    "addedAt": 1790256481628,
+    "updatedAt": 1790256481628,
+    "year": 2013,
+    "duration": 112,
+    "rating": 6.7,
+    "director": "Alan Taylor",
+    "franchise": "marvel"
+  },
+  {
     "id": 124,
     "slug": "thor",
     "type": "film",
