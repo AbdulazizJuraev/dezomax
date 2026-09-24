@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2473,
+    "slug": "batman-returns",
+    "type": "film",
+    "title": {
+      "uz": "Batman Returns",
+      "ru": "Бэтмен возвращается"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "fantasy"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Michael Keaton",
+      "Danny DeVito",
+      "Michelle Pfeiffer",
+      "Christopher Walken"
+    ],
+    "desc": {
+      "uz": "«Batman Returns» — 1992-yilgi AQSh filmi. Rejissyor: Tim Burton. Rollarda: Michael Keaton, Danny DeVito, Michelle Pfeiffer. Saytda rasmiy treyleri bor.",
+      "ru": "«Бэтмен возвращается» — американский супергеройский фильм 1992 года, срежиссированный и спродюсированный Тимом Бёртоном по сценарию Дэниела Уотерса."
+    },
+    "colors": [
+      "hsl(275 45% 28%)",
+      "hsl(295 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/8/83/Batman_returns_poster2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=u4Zufh_KykQ",
+    "video": "https://topfilm.info/6/tarjima_kinolar/BETMENNING_QAYTISHI_1080.mp4",
+    "featured": false,
+    "addedAt": 1790254280371,
+    "updatedAt": 1790254280371,
+    "year": 1992,
+    "duration": 126,
+    "director": "Tim Burton"
+  },
+  {
     "id": 47,
     "slug": "batman-v-superman",
     "type": "film",
