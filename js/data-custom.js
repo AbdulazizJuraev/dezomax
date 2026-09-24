@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2039,
+    "slug": "harry-potter-and-the-goblet-of-fire",
+    "type": "film",
+    "title": {
+      "uz": "Harry Potter va Alanga kubogi",
+      "ru": "Гарри Поттер и Кубок огня"
+    },
+    "genres": [
+      "fantasy",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "Buyuk Britaniya, AQSh",
+      "ru": "Великобритания, США"
+    },
+    "cast": [
+      "Rupert Grint",
+      "Robbie Coltrane"
+    ],
+    "desc": {
+      "uz": "«Harry Potter va Alanga kubogi» — 2005-yilgi Buyuk Britaniya va AQSh filmi. Rejissyor: Mike Newell. Rollarda: Rupert Grint, Robbie Coltrane. Saytda rasmiy treyleri bor.",
+      "ru": "«Гарри Поттер и Кубок огня» — фэнтезийно-приключенческий фильм 2005 года режиссёра Майка Ньюэлла, четвёртый из серии фильмов о Гарри Поттере."
+    },
+    "tags": [
+      "Harry Potter and the Goblet of Fire"
+    ],
+    "colors": [
+      "hsl(278 45% 28%)",
+      "hsl(298 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/c/c9/Harry_Potter_and_the_Goblet_of_Fire_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=4a1g4YisNbQ",
+    "video": "https://kinolar.tv/eff94cfc-2b5f-44b7-8366-1120c13fe5e0",
+    "featured": false,
+    "addedAt": 1790255429413,
+    "updatedAt": 1790255429413,
+    "year": 2005,
+    "duration": 151,
+    "director": "Mike Newell"
+  },
+  {
     "id": 2029,
     "slug": "harry-potter-and-the-chamber-of-secrets",
     "type": "film",
