@@ -7,6 +7,47 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 20,
+    "slug": "mad-max-fury-road",
+    "type": "film",
+    "title": {
+      "uz": "Mad Maks: G‘azab yo‘li",
+      "ru": "Безумный Макс: Дорога ярости"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "Avstraliya",
+      "ru": "Австралия"
+    },
+    "cast": [
+      "Tom Hardy",
+      "Charlize Theron",
+      "Nicholas Hoult"
+    ],
+    "desc": {
+      "uz": "Post-apokaliptik sahroda Maks va Furiosa zolim hukmdordan qochib, cheksiz quvg‘inga tushadi.",
+      "ru": "В постапокалиптической пустыне Макс и Фуриоса бегут от тирана сквозь бесконечную погоню."
+    },
+    "colors": [
+      "#a8541e",
+      "#201004"
+    ],
+    "poster": "images/mad-max-fury-road.jpg",
+    "trailer": "https://www.youtube.com/watch?v=-3ZoAp6owdk",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/TELBA_MAKS_GAZAB_YOLIDA_1080.mp4",
+    "featured": false,
+    "addedAt": 1790252677867,
+    "updatedAt": 1790252677867,
+    "year": 2015,
+    "duration": 120,
+    "rating": 8.1,
+    "director": "George Miller"
+  },
+  {
     "id": 19,
     "slug": "shrek",
     "type": "multfilm",
