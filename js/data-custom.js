@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 31,
+    "slug": "big-buck-bunny",
+    "type": "multfilm",
+    "title": {
+      "uz": "Katta quyon Bak",
+      "ru": "Большой кролик Бак"
+    },
+    "genres": [
+      "comedy",
+      "animation",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "Niderlandiya",
+      "ru": "Нидерланды"
+    },
+    "cast": [
+      "Blender Institute"
+    ],
+    "desc": {
+      "uz": "Yuvosh bahaybat quyon uch shumtaka kemiruvchidan o‘ch oladi. Blender Foundation yaratgan, CC BY litsenziyasidagi erkin qisqa metrajli film — saytda to‘liq ko‘rish mumkin.",
+      "ru": "Добродушный великан-кролик мстит трём хулиганам-грызунам. Свободный короткометражный фильм Blender Foundation под лицензией CC BY — доступен для полного просмотра на сайте."
+    },
+    "colors": [
+      "#4a7a3a",
+      "#0f1a0c"
+    ],
+    "poster": "images/big-buck-bunny.jpg",
+    "trailer": "https://www.youtube.com/watch?v=5xAgp6i9lUQ",
+    "video": "https://s11.faylmovi.ru/tarjima_kinolar/BigBuckBunny_480.mp4",
+    "featured": false,
+    "addedAt": 1790253635183,
+    "updatedAt": 1790253635183,
+    "year": 2008,
+    "duration": 10,
+    "rating": 6.4,
+    "director": "Sacha Goedegebuure"
+  },
+  {
     "id": 29,
     "slug": "the-witcher",
     "type": "serial",
