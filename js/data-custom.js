@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2069,
+    "slug": "spider-man",
+    "type": "film",
+    "title": {
+      "uz": "Oʻrgimchak-odam",
+      "ru": "Человек-паук"
+    },
+    "genres": [
+      "action",
+      "drama",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Willem Dafoe",
+      "Kirsten Dunst",
+      "James Franco"
+    ],
+    "desc": {
+      "uz": "«Oʻrgimchak-odam» — 2002-yilgi AQSh filmi. Rejissyor: Sam Raimi. Rollarda: Willem Dafoe, Kirsten Dunst, James Franco. Saytda rasmiy treyleri bor.",
+      "ru": "«Человек-паук» — американский супергеройский фильм 2002 года режиссёра Сэма Рэйми, снятый по сценарию Дэвида Кеппа и основанный на комиксах издательства Marvel Comics об одноимённом супергерое."
+    },
+    "tags": [
+      "Spider-Man"
+    ],
+    "colors": [
+      "hsl(354 45% 28%)",
+      "hsl(14 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/6/6c/Spider-Man_%282002_film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=KLLhImjJ1NI",
+    "video": "http://topfilm.info/3/tarjima_kinolar/O'RGIMCHAK_ODAM_720.mp4",
+    "featured": false,
+    "addedAt": 1790252060003,
+    "updatedAt": 1790252060003,
+    "year": 2002,
+    "duration": 121,
+    "director": "Sam Raimi"
+  },
+  {
     "id": 149,
     "slug": "spider-man-brand-new-day",
     "type": "film",
