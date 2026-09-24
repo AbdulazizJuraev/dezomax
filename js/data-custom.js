@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 19,
+    "slug": "shrek",
+    "type": "multfilm",
+    "title": {
+      "uz": "Shrek",
+      "ru": "Шрек"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Mike Myers",
+      "Eddie Murphy",
+      "Cameron Diaz"
+    ],
+    "desc": {
+      "uz": "Yolg‘izlikni sevuvchi ogr Shrek gapiruvchi eshak bilan malikani qutqarish safariga chiqadi.",
+      "ru": "Огр Шрек вместе с говорящим Ослом отправляется спасать принцессу."
+    },
+    "colors": [
+      "#4a7a24",
+      "#111c07"
+    ],
+    "poster": "images/shrek.jpg",
+    "trailer": "https://www.youtube.com/watch?v=1w1wBO-hlmA",
+    "video": "http://topfilm.info/3/MULTIFILM/SHREK_1_720.mp4",
+    "featured": false,
+    "addedAt": 1790252613783,
+    "updatedAt": 1790252613783,
+    "year": 2001,
+    "duration": 90,
+    "rating": 7.9,
+    "director": "Andrew Adamson"
+  },
+  {
     "id": 18,
     "slug": "toy-story",
     "type": "multfilm",
