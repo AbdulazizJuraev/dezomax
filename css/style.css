@@ -4811,3 +4811,6 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
 .wc-gsi { width: 100%; padding: 6px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06)); box-shadow: 0 12px 34px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.22); }
 .wc-gsi > div, .wc-gsi iframe { margin: 0 auto !important; }
 .wc-gsi-note { color: rgba(255,255,255,.5) !important; font-size: 12px; margin-top: -4px; }
+/* Kirish oynasidagi logotip — sahifadagi bilan bir xil ichki SVG (rangli gradient) */
+.wc-logo.logo-svg { height: 30px; width: auto; display: block; filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .6)); }
+.wc-logo.logo-svg .logo-svg-el { height: 100%; width: auto; }

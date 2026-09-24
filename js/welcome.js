@@ -143,7 +143,7 @@
       </div>
       <div class="wc-shade"></div>
       <header class="wc-top">
-        <img class="wc-logo" src="images/logo/logo.png" alt="DezoMax" width="150" height="29">
+        <span class="wc-logo logo-svg" role="img" aria-label="DezoMax">${window.dezoLogoSVG ? window.dezoLogoSVG() : ''}</span>
         <div class="wc-lang" role="group" aria-label="Language">
           <button type="button" data-lang="uz">UZ</button>
           <button type="button" data-lang="ru">RU</button>

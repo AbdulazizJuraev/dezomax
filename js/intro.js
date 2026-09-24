@@ -18,10 +18,11 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const DURATION = reduce ? 1200 : 5000;
 
-  // Harflar chegaralari (logotip koordinatalarida): D e z o M a x
-  const STOPS = [1285, 1625, 1945, 2312, 2828, 3180, 3525];
+  // Harflar o'ng chegaralari (yangi logotip koordinatalarida): D E Z O M A X + plyonka dumi
+  const STOPS = [963, 2136, 3310, 4695, 6218, 7475, 8452, 9373];
+  const VB_W = 9373.44, VB_H = 1867.28;
   const LETTER_START = 700;   // ms — belgi paydo bo'lgach
-  const LETTER_MS = 240;
+  const LETTER_MS = 210;
   const SVGNS = 'http://www.w3.org/2000/svg';
 
   const el = document.createElement('div');
@@ -44,7 +45,8 @@
     const clip = document.createElementNS(SVGNS, 'clipPath');
     clip.id = 'introReveal';
     rect = document.createElementNS(SVGNS, 'rect');
-    Object.entries({ x: 700, y: -20, width: 0, height: 700 }).forEach(([k, v]) => rect.setAttribute(k, v));
+    // «D» dan keyingi hamma narsa shu to'rtburchak ostida ochiladi
+    Object.entries({ x: STOPS[0], y: -60, width: 0, height: VB_H + 120 }).forEach(([k, v]) => rect.setAttribute(k, v));
     clip.appendChild(rect);
     defs.appendChild(clip);
 
@@ -52,18 +54,17 @@
     letters.setAttribute('clip-path', 'url(#introReveal)');
     const icon = document.createElementNS(SVGNS, 'g');
     icon.setAttribute('class', 'intro-icon');
-    [...svg.children].forEach(ch => {
-      if (ch === defs) return;
-      // harflar: oq «Dezo» guruhi va gradientli «Max»; qolgani — kvadrat belgi
-      const isLetters = ch.matches('g[fill="#FEFEFE"]') || ch.matches('path.logo-max');
-      (isLetters ? letters : icon).appendChild(ch);
-    });
+    // Yangi logotipda barcha shakllar bitta <g> ichida: «D» (birinchi shakl) — belgi,
+    // qolgani harflar sifatida kesish ostida ochiladi.
+    const shapes = [...svg.querySelectorAll('g > path, g > polygon')];
+    shapes.forEach((sh, i) => (i === 0 ? icon : letters).appendChild(sh));
+    [...svg.querySelectorAll('g')].forEach(g => { if (!g.children.length && g !== icon && g !== letters) g.remove(); });
     svg.append(icon, letters);
 
     cursor = document.createElementNS(SVGNS, 'rect');
-    Object.entries({ class: 'intro-cursor', x: 740, y: 130, width: 34, height: 410, rx: 8 }).forEach(([k, v]) => cursor.setAttribute(k, v));
+    Object.entries({ class: 'intro-cursor', x: STOPS[0] + 60, y: 380, width: 90, height: 1120, rx: 24 }).forEach(([k, v]) => cursor.setAttribute(k, v));
     svg.appendChild(cursor);
-    svg.setAttribute('viewBox', '-20 -20 3565 700');
+    svg.setAttribute('viewBox', '-60 -60 ' + (VB_W + 120) + ' ' + (VB_H + 120));
     svg.style.overflow = 'visible';
   }
 
@@ -122,8 +123,8 @@
     later(120, () => el.classList.add('is-icon'));
     later(LETTER_START - 250, () => el.classList.add('is-typing'));
     STOPS.forEach((x, i) => later(LETTER_START + i * LETTER_MS, () => {
-      rect.setAttribute('width', x - 700 + 10);
-      cursor.setAttribute('x', x + 30);
+      rect.setAttribute('width', x - STOPS[0] + 40);
+      cursor.setAttribute('x', x + 60);
       whoosh(i);
     }));
     const endAt = LETTER_START + STOPS.length * LETTER_MS + 120;
@@ -133,7 +134,7 @@
 
   const done = () => {
     timers.forEach(clearTimeout);
-    if (rect) { rect.setAttribute('width', 2900); el.classList.add('is-icon', 'is-done'); el.classList.remove('is-typing'); }
+    if (rect) { rect.setAttribute('width', VB_W); el.classList.add('is-icon', 'is-done'); el.classList.remove('is-typing'); }
     el.classList.add('is-out');
     document.documentElement.classList.remove('intro-lock');
     setTimeout(() => { el.remove(); try { ctx && ctx.close(); } catch {} }, 600);
