@@ -7,6 +7,52 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 149,
+    "slug": "spider-man-brand-new-day",
+    "type": "film",
+    "title": {
+      "uz": "O‘rgimchak-odam: Butunlay yangi kun",
+      "ru": "Человек-паук: Совершенно новый день"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tom Holland",
+      "Zendaya",
+      "Sadie Sink",
+      "Jon Bernthal",
+      "Mark Ruffalo"
+    ],
+    "desc": {
+      "uz": "Hamma uni unutgach, Piter Parker yolg‘iz qolib Nyu-Yorkni himoya qiladi. Charchoq tufayli kuchlari o‘zgara boshlaydi, shahar esa yangi telepatik tahdidga duch keladi.",
+      "ru": "После того как все забыли о нём, Питер Паркер в одиночку защищает Нью-Йорк. Из-за переутомления его силы начинают меняться, а городу угрожает новый телепат."
+    },
+    "tags": [
+      "Marvel",
+      "spider man brand new day"
+    ],
+    "colors": [
+      "#8a1a24",
+      "#0a1a3a"
+    ],
+    "poster": "images/marvel/spider-man-brand-new-day.jpg",
+    "trailer": "https://www.youtube.com/watch?v=lnODSdqErm0",
+    "video": "https://s2.faylmovi.ru/tarjima_kinolar/Orgimchak_odam_Yangi_kun_480.mp4",
+    "featured": false,
+    "addedAt": 1790251977109,
+    "updatedAt": 1790251977109,
+    "year": 2026,
+    "director": "Destin Daniel Cretton",
+    "franchise": "marvel"
+  },
+  {
     "id": 135,
     "slug": "spider-man-far-from-home",
     "type": "film",
