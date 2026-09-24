@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 140,
+    "slug": "thor-love-and-thunder",
+    "type": "film",
+    "title": {
+      "uz": "Tor: Muhabbat va momaqaldiroq",
+      "ru": "Тор: Любовь и гром"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "fantasy"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Hemsworth",
+      "Natalie Portman",
+      "Christian Bale",
+      "Tessa Thompson"
+    ],
+    "desc": {
+      "uz": "Tor o‘zini izlab yurgan paytda xudolarni o‘ldiruvchi Gorr paydo bo‘ladi. Unga qarshi kurashda Tor kutilmaganda qudratli Jeyn Foster bilan uchrashadi.",
+      "ru": "Пока Тор ищет себя, появляется Горр — убийца богов. В борьбе с ним Тор неожиданно встречает обретшую силу Джейн Фостер."
+    },
+    "tags": [
+      "Marvel",
+      "thor love and thunder"
+    ],
+    "colors": [
+      "#6a2a8a",
+      "#140418"
+    ],
+    "poster": "images/marvel/thor-love-and-thunder.jpg",
+    "trailer": "https://www.youtube.com/watch?v=WQfLxSqxicE",
+    "video": "https://faylmovi.ru/tarjima_kinolar/tor_4_720.mp4",
+    "featured": false,
+    "addedAt": 1790256558458,
+    "updatedAt": 1790256558458,
+    "year": 2022,
+    "duration": 119,
+    "rating": 6.2,
+    "director": "Taika Waititi",
+    "franchise": "marvel"
+  },
+  {
     "id": 127,
     "slug": "thor-the-dark-world",
     "type": "film",
