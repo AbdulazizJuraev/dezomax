@@ -167,7 +167,8 @@ function playerSectionHTML(m) {
 
 function similarOf(m) {
   return MOVIES
-    .filter(x => x.id !== m.id)
+    // faqat to'liq film qo'shilganlar (movie.html'da MOVIES to'liq — o'xshashlar orasidan filtrlaymiz)
+    .filter(x => x.id !== m.id && (typeof hasFilm !== 'function' || hasFilm(x)))
     // bir xil olam (o'zbek kino, Marvel, DC) — janr mosligidan ham muhimroq
     .map(x => ({ x, score: x.genres.filter(g => m.genres.includes(g)).length + (m.franchise && x.franchise === m.franchise ? 3 : 0) }))
     .filter(o => o.score > 0)

@@ -15,6 +15,21 @@ if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.is
   });
 }
 
+/* ---------- Faqat to'liq film qo'shilgan kinolar ko'rinadi ----------
+   Treyler turgan (film qo'shilmagan) kinolar saytda yashiriladi. Admin orqali kinoga video
+   qo'shilsa, u avtomatik paydo bo'ladi. Ma'lumot o'chmaydi — faqat ro'yxatlardan chiqariladi.
+   Admin sahifasida hammasi ko'rinadi (video qo'shish uchun); movie.html — to'g'ridan-to'g'ri havola. */
+function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
+(function () {
+  try {
+    if (typeof MOVIES === 'undefined') return;
+    const page = location.pathname.split('/').pop() || 'index.html';
+    const admin = page === 'admin.html' || (document.body && document.body.classList.contains('page-admin'));
+    if (admin || page === 'movie.html') return;
+    for (let i = MOVIES.length - 1; i >= 0; i--) if (!hasFilm(MOVIES[i])) MOVIES.splice(i, 1);
+  } catch (e) {}
+})();
+
 /* ---------- Ikonkalar ---------- */
 const ICONS = {
   play:   '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
