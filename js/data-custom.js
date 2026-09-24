@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 37,
+    "slug": "thor-ragnarok",
+    "type": "film",
+    "title": {
+      "uz": "Tor: Ragnarok",
+      "ru": "Тор: Рагнарёк"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Hemsworth",
+      "Tom Hiddleston",
+      "Cate Blanchett",
+      "Mark Ruffalo"
+    ],
+    "desc": {
+      "uz": "Bolg‘asidan ayrilgan Tor uzoq sayyorada gladiator jangiga tushadi va Asgardni Xeladan qutqarishga shoshiladi.",
+      "ru": "Лишившийся молота Тор попадает на гладиаторскую арену и спешит спасти Асгард от Хелы."
+    },
+    "colors": [
+      "#8a3a6b",
+      "#1a0a14"
+    ],
+    "poster": "images/thor-ragnarok.jpg",
+    "trailer": "https://www.youtube.com/watch?v=yuXHUmpcwbQ",
+    "video": "https://video.uzbek-tilida.net/films/tor-ragnarok-720p.mp4",
+    "featured": false,
+    "addedAt": 1790253759653,
+    "updatedAt": 1790253759653,
+    "year": 2017,
+    "duration": 130,
+    "rating": 7.9,
+    "director": "Taika Waititi",
+    "franchise": "marvel"
+  },
+  {
     "id": 31,
     "slug": "big-buck-bunny",
     "type": "multfilm",
