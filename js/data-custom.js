@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 49,
+    "slug": "aquaman",
+    "type": "film",
+    "title": {
+      "uz": "Akvamen",
+      "ru": "Аквамен"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Jason Momoa",
+      "Amber Heard",
+      "Patrick Wilson",
+      "Nicole Kidman"
+    ],
+    "desc": {
+      "uz": "Yarim odam, yarim atlantlik Artur Karri suv osti shohligining qonuniy taxtini talashib, urushning oldini olishga harakat qiladi.",
+      "ru": "Полукровка Артур Карри заявляет права на трон подводного королевства, чтобы предотвратить войну."
+    },
+    "colors": [
+      "#1e6b7a",
+      "#06161a"
+    ],
+    "poster": "images/aquaman.jpg",
+    "trailer": "https://www.youtube.com/watch?v=bUq_fbMUYnE",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/akvamen_1080.mp4",
+    "featured": false,
+    "addedAt": 1790254616863,
+    "updatedAt": 1790254616863,
+    "year": 2018,
+    "duration": 143,
+    "rating": 6.8,
+    "director": "James Wan",
+    "franchise": "dc"
+  },
+  {
     "id": 48,
     "slug": "wonder-woman",
     "type": "film",
