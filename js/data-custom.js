@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 55,
+    "slug": "back-to-the-future",
+    "type": "film",
+    "title": {
+      "uz": "Kelajakka qaytish",
+      "ru": "Назад в будущее"
+    },
+    "genres": [
+      "comedy",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Michael J. Fox",
+      "Christopher Lloyd",
+      "Lea Thompson",
+      "Crispin Glover"
+    ],
+    "desc": {
+      "uz": "O‘smir Marti Makflay do‘sti yasagan vaqt mashinasida 1955-yilga tushib qoladi va o‘z tug‘ilishini xavf ostiga qo‘yadi.",
+      "ru": "Подросток Марти Макфлай попадает в 1955 год на машине времени друга и рискует собственным появлением на свет."
+    },
+    "colors": [
+      "#8a5a1e",
+      "#1a1006"
+    ],
+    "poster": "images/back-to-the-future.jpg",
+    "trailer": "https://www.youtube.com/watch?v=6mJWHY2Jl-8",
+    "video": "https://s7.faylmovi.ru/tarjima_kinolar/kelajakka_qaytib_1_kinochilar_480.mp4",
+    "featured": false,
+    "addedAt": 1790255018301,
+    "updatedAt": 1790255018301,
+    "year": 1985,
+    "duration": 116,
+    "rating": 8.5,
+    "director": "Robert Zemeckis"
+  },
+  {
     "id": 53,
     "slug": "star-wars-a-new-hope",
     "type": "film",
