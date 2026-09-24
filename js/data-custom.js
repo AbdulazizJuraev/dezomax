@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 48,
+    "slug": "wonder-woman",
+    "type": "film",
+    "title": {
+      "uz": "Mo‘jizakor ayol",
+      "ru": "Чудо-женщина"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure",
+      "war"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Gal Gadot",
+      "Chris Pine",
+      "Robin Wright",
+      "Danny Huston"
+    ],
+    "desc": {
+      "uz": "Amazonkalar orolida o‘sgan Diana Birinchi jahon urushini to‘xtatish uchun odamlar dunyosiga chiqadi.",
+      "ru": "Выросшая на острове амазонок Диана отправляется в мир людей, чтобы остановить Первую мировую войну."
+    },
+    "colors": [
+      "#8a5a1e",
+      "#1a1006"
+    ],
+    "poster": "images/wonder-woman.jpg",
+    "trailer": "https://www.youtube.com/watch?v=GE4GT52MJuM",
+    "video": "https://s7.faylmovi.ru/tarjima_kinolar/MOJIZAKOR_AYOL_1080.mp4",
+    "featured": false,
+    "addedAt": 1790254561655,
+    "updatedAt": 1790254561655,
+    "year": 2017,
+    "duration": 141,
+    "rating": 7.3,
+    "director": "Patty Jenkins",
+    "franchise": "dc"
+  },
+  {
     "id": 46,
     "slug": "man-of-steel",
     "type": "film",
