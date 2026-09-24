@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2522,
+    "slug": "deadpool-2",
+    "type": "film",
+    "title": {
+      "uz": "Dedpul 2",
+      "ru": "Дэдпул 2"
+    },
+    "genres": [
+      "action",
+      "comedy"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Ryan Reynolds",
+      "T. J. Miller",
+      "Leslie Uggams",
+      "Brianna Hildebrand"
+    ],
+    "desc": {
+      "uz": "«Dedpul 2» — 2018-yilgi AQSh filmi. Rejissyor: David Leitch. Rollarda: Ryan Reynolds, T. J. Miller, Leslie Uggams. Saytda rasmiy treyleri bor.",
+      "ru": "«Дэдпул 2» — американский супергеройский фильм, основанный на комиксах Marvel Comics о персонаже Дэдпуле."
+    },
+    "tags": [
+      "Deadpool 2"
+    ],
+    "colors": [
+      "hsl(341 45% 28%)",
+      "hsl(1 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/c/cf/Deadpool_2_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=YR7txR7-D6k",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Dedpul_2_1080.mp4",
+    "featured": false,
+    "addedAt": 1790253863232,
+    "updatedAt": 1790253863232,
+    "year": 2018,
+    "duration": 119,
+    "director": "David Leitch"
+  },
+  {
     "id": 37,
     "slug": "thor-ragnarok",
     "type": "film",
