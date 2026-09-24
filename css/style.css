@@ -4808,7 +4808,8 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
   .wc-g-text b { font-size: 15px; }
 }
 /* Google'ning o'z tugmasi (saytda majburiy) — ko'rinishi chiroyli ramkada */
-.wc-gsi { width: 100%; padding: 6px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06)); box-shadow: 0 12px 34px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.22); }
+/* Google o'z tugmasini o'zi chizadi — ortida qo'shimcha ramka ko'rinib qolmasin */
+.wc-gsi { width: 100%; background: none; box-shadow: none; padding: 0; border-radius: 0; }
 .wc-gsi > div, .wc-gsi iframe { margin: 0 auto !important; }
 .wc-gsi-note { color: rgba(255,255,255,.5) !important; font-size: 12px; margin-top: -4px; }
 /* Kirish oynasidagi logotip — sahifadagi bilan bir xil ichki SVG (rangli gradient) */
