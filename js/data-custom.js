@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 145,
+    "slug": "deadpool-and-wolverine",
+    "type": "film",
+    "title": {
+      "uz": "Dedpul va Rosomaxa",
+      "ru": "Дэдпул и Росомаха"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Ryan Reynolds",
+      "Hugh Jackman",
+      "Emma Corrin",
+      "Matthew Macfadyen"
+    ],
+    "desc": {
+      "uz": "Dedpulning olami yo‘q bo‘lish arafasida. Uni qutqarish uchun u boshqa olamdagi eng qaysar Rosomaxa bilan birga ishlashga majbur bo‘ladi.",
+      "ru": "Вселенной Дэдпула грозит исчезновение. Чтобы спасти её, ему приходится объединиться с самым упрямым Росомахой из другой вселенной."
+    },
+    "tags": [
+      "Marvel",
+      "deadpool and wolverine"
+    ],
+    "colors": [
+      "#8a1414",
+      "#8a6a10"
+    ],
+    "poster": "images/marvel/deadpool-and-wolverine.jpg",
+    "trailer": "https://www.youtube.com/watch?v=_HzQ_i0dr5k",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/dedpul_rosamaxa_treyler.mp4",
+    "featured": false,
+    "addedAt": 1790253960513,
+    "updatedAt": 1790253960513,
+    "year": 2024,
+    "duration": 128,
+    "rating": 7.5,
+    "director": "Shawn Levy",
+    "franchise": "marvel"
+  },
+  {
     "id": 2522,
     "slug": "deadpool-2",
     "type": "film",
