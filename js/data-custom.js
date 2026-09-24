@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2184,
+    "slug": "spider-man-2",
+    "type": "film",
+    "title": {
+      "uz": "Oʻrgimchak-odam 2",
+      "ru": "Человек-паук 2"
+    },
+    "genres": [
+      "action",
+      "drama",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Kirsten Dunst",
+      "James Franco",
+      "Alfred Molina"
+    ],
+    "desc": {
+      "uz": "«Oʻrgimchak-odam 2» — 2004-yilgi AQSh filmi. Rejissyor: Sam Raimi. Rollarda: Kirsten Dunst, James Franco, Alfred Molina. Saytda rasmiy treyleri bor.",
+      "ru": "«Человек-паук 2» — американский супергеройский фильм 2004 года режиссёра Сэма Рэйми, снятый по сценарию Элвина Сарджента, написанному по сюжету Альфреда Гофа, Майлза Миллара и Майкла Шейбона, и основанный на комиксах издательства Marvel Comics о супергерое Человеке-пауке."
+    },
+    "tags": [
+      "Spider-Man 2"
+    ],
+    "colors": [
+      "hsl(63 45% 28%)",
+      "hsl(83 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/4/4e/Spider-Man_2_USA_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=k-aOAUBeViI",
+    "video": "http://topfilm.info/3/tarjima_kinolar/O'RGIMCHAK_ODAM_2_720.mp4",
+    "featured": false,
+    "addedAt": 1790252098683,
+    "updatedAt": 1790252098683,
+    "year": 2004,
+    "duration": 122,
+    "director": "Sam Raimi"
+  },
+  {
     "id": 2069,
     "slug": "spider-man",
     "type": "film",
