@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 44,
+    "slug": "batman-begins",
+    "type": "film",
+    "title": {
+      "uz": "Betmen boshlanishi",
+      "ru": "Бэтмен: Начало"
+    },
+    "genres": [
+      "action",
+      "drama",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Christian Bale",
+      "Michael Caine",
+      "Liam Neeson",
+      "Cillian Murphy"
+    ],
+    "desc": {
+      "uz": "Ota-onasidan ayrilgan Bryus Ueyn dunyo kezib o‘z qo‘rquvini yengadi va Gotemning himoyachisi Betmenga aylanadi.",
+      "ru": "Потерявший родителей Брюс Уэйн побеждает свой страх и становится защитником Готэма — Бэтменом."
+    },
+    "tags": [
+      "Batman",
+      "Бэтмен"
+    ],
+    "colors": [
+      "#2a2a3a",
+      "#08080d"
+    ],
+    "poster": "images/batman-begins.jpg",
+    "trailer": "https://www.youtube.com/watch?v=ZjIQbHL0gI8",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Betmen_muqaddima_1080.mp4",
+    "featured": false,
+    "addedAt": 1790254148828,
+    "updatedAt": 1790254148828,
+    "year": 2005,
+    "duration": 140,
+    "rating": 8.2,
+    "director": "Christopher Nolan",
+    "franchise": "dc"
+  },
+  {
     "id": 145,
     "slug": "deadpool-and-wolverine",
     "type": "film",
