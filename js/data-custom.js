@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 26,
+    "slug": "game-of-thrones",
+    "type": "serial",
+    "title": {
+      "uz": "Taxtlar o‘yini",
+      "ru": "Игра престолов"
+    },
+    "genres": [
+      "drama",
+      "fantasy",
+      "adventure"
+    ],
+    "seasons": 8,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Emilia Clarke",
+      "Kit Harington",
+      "Peter Dinklage",
+      "Lena Headey"
+    ],
+    "desc": {
+      "uz": "To‘qqizta olijanob oila Temir Taxt uchun kurashadi, shimolda esa qadimiy dahshat uyg‘onmoqda.",
+      "ru": "Девять благородных домов борются за Железный трон, а на Севере просыпается древнее зло."
+    },
+    "colors": [
+      "#4a4a5a",
+      "#0e0e14"
+    ],
+    "poster": "images/game-of-thrones.jpg",
+    "trailer": "https://www.youtube.com/watch?v=EKwB1HAuiZg",
+    "video": "https://c.uzbeklar.biz/film8/taxtlar/taxtlar_oyini_1.mp4",
+    "featured": false,
+    "addedAt": 1790253332010,
+    "updatedAt": 1790253332010,
+    "year": 2011,
+    "rating": 9.2,
+    "director": "David Benioff, D. B. Weiss"
+  },
+  {
     "id": 25,
     "slug": "breaking-bad",
     "type": "serial",
