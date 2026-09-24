@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 51,
+    "slug": "zack-snyders-justice-league",
+    "type": "film",
+    "title": {
+      "uz": "Zak Snayderning Adolat ligasi",
+      "ru": "Лига справедливости Зака Снайдера"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Ben Affleck",
+      "Henry Cavill",
+      "Gal Gadot",
+      "Ezra Miller",
+      "Ray Fisher"
+    ],
+    "desc": {
+      "uz": "Supermen halok bo‘lgach, Betmen va Diana Yerni yangi tahdiddan qutqarish uchun qahramonlar jamoasini yig‘adi.",
+      "ru": "После гибели Супермена Бэтмен и Диана собирают команду героев, чтобы спасти Землю от новой угрозы."
+    },
+    "colors": [
+      "#2a3a4a",
+      "#080c12"
+    ],
+    "poster": "images/zack-snyders-justice-league.png",
+    "trailer": "https://www.youtube.com/watch?v=m9Jp6ZfBavw",
+    "video": "https://files.uzbeklar.biz/film2/zakkk.mp4",
+    "featured": false,
+    "addedAt": 1790254844662,
+    "updatedAt": 1790254844662,
+    "year": 2021,
+    "duration": 242,
+    "rating": 7.9,
+    "director": "Zack Snyder",
+    "franchise": "dc"
+  },
+  {
     "id": 50,
     "slug": "shazam",
     "type": "film",
