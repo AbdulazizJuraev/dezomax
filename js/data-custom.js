@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2241,
+    "slug": "the-amazing-spider-man-2",
+    "type": "film",
+    "title": {
+      "uz": "Yangi Oʻrgimchak-odam 2",
+      "ru": "Новый Человек-паук. Высокое напряжение"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "thriller"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Jamie Foxx",
+      "Dane DeHaan"
+    ],
+    "desc": {
+      "uz": "«Yangi Oʻrgimchak-odam 2» — 2014-yilgi AQSh filmi. Rejissyor: Marc Webb. Rollarda: Jamie Foxx, Dane DeHaan. Saytda rasmiy treyleri bor.",
+      "ru": "«Новый Человек-паук: Высокое напряжение» — американский супергеройский фильм 2014 года по мотивам комиксов издательства Marvel Comics об одноимённом супергерое."
+    },
+    "tags": [
+      "The Amazing Spider-Man 2"
+    ],
+    "colors": [
+      "hsl(195 45% 28%)",
+      "hsl(215 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/24/The_Amazing_Spider-Man_2_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=LeasTthmHgo",
+    "video": "https://s7.faylmovi.ru/tarjima_kinolar/Yangi_orgimchak_odam_2014_Uzbek_1080.mp4",
+    "featured": false,
+    "addedAt": 1790252387149,
+    "updatedAt": 1790252387149,
+    "year": 2014,
+    "duration": 142,
+    "director": "Marc Webb"
+  },
+  {
     "id": 2224,
     "slug": "the-amazing-spider-man",
     "type": "film",
