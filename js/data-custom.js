@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 27,
+    "slug": "stranger-things",
+    "type": "serial",
+    "title": {
+      "uz": "Stranger Things",
+      "ru": "Очень странные дела"
+    },
+    "genres": [
+      "drama",
+      "scifi",
+      "horror"
+    ],
+    "seasons": 4,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Millie Bobby Brown",
+      "Finn Wolfhard",
+      "Winona Ryder",
+      "David Harbour"
+    ],
+    "desc": {
+      "uz": "Kichik shaharchada bola g‘oyib bo‘ladi va do‘stlari sirli kuchlarga ega qiz bilan boshqa o‘lchamni kashf etadi.",
+      "ru": "В маленьком городке пропадает мальчик, а его друзья вместе с девочкой со сверхспособностями открывают другое измерение."
+    },
+    "colors": [
+      "#7a1520",
+      "#180407"
+    ],
+    "poster": "images/stranger-things.png",
+    "trailer": "https://www.youtube.com/watch?v=PX6KNzyQfZM",
+    "video": "https://c.uzbeklar.biz/film6/ajabtovur/1qism.mp4",
+    "featured": true,
+    "addedAt": 1790253445383,
+    "updatedAt": 1790253445383,
+    "year": 2016,
+    "rating": 8.7,
+    "director": "The Duffer Brothers"
+  },
+  {
     "id": 26,
     "slug": "game-of-thrones",
     "type": "serial",
