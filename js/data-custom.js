@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2044,
+    "slug": "harry-potter-and-the-half-blood-prince",
+    "type": "film",
+    "title": {
+      "uz": "Harry Potter va Tilsim shahzodasi",
+      "ru": "Гарри Поттер и Принц-полукровка"
+    },
+    "genres": [
+      "fantasy"
+    ],
+    "country": {
+      "uz": "AQSh, Buyuk Britaniya",
+      "ru": "США, Великобритания"
+    },
+    "cast": [
+      "Rupert Grint",
+      "Jim Broadbent"
+    ],
+    "desc": {
+      "uz": "«Harry Potter va Tilsim shahzodasi» — 2009-yilgi AQSh va Buyuk Britaniya filmi. Rejissyor: David Yates. Rollarda: Rupert Grint, Jim Broadbent. Saytda rasmiy treyleri bor.",
+      "ru": "«Гарри Поттер и Принц-полукровка» — фэнтезийно-приключенческий фильм 2009 года режиссёра Дэвида Йейтса, шестой из серии фильмов о Гарри Поттере."
+    },
+    "tags": [
+      "Harry Potter and the Half-Blood Prince"
+    ],
+    "colors": [
+      "hsl(16 45% 28%)",
+      "hsl(36 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/3/3f/Harry_Potter_and_the_Half-Blood_Prince_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=U0hMHgNw8hs",
+    "video": "https://kxcdn.ru/Garri_Potter_6_Tilsim_Shahzoda_2009_HD_Daxshat.Net.mp4",
+    "featured": false,
+    "addedAt": 1790255548915,
+    "updatedAt": 1790255548915,
+    "year": 2009,
+    "duration": 147,
+    "director": "David Yates"
+  },
+  {
     "id": 2040,
     "slug": "harry-potter-and-the-prisoner-of-azkaban",
     "type": "film",
