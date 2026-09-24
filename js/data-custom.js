@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2209,
+    "slug": "spider-man-3",
+    "type": "film",
+    "title": {
+      "uz": "Oʻrgimchak-odam 3",
+      "ru": "Человек-паук 3: Враг в отражении"
+    },
+    "genres": [
+      "action",
+      "drama",
+      "scifi"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Thomas Haden Church",
+      "Topher Grace",
+      "Bryce Dallas Howard",
+      "James Cromwell"
+    ],
+    "desc": {
+      "uz": "«Oʻrgimchak-odam 3» — 2007-yilgi AQSh filmi. Rejissyor: Sam Raimi. Rollarda: Thomas Haden Church, Topher Grace, Bryce Dallas Howard. Saytda rasmiy treyleri bor.",
+      "ru": "«Человек-паук 3: Враг в отражении» — американский полнометражный супергеройский фильм 2007 года, основанный на комиксах издательства Marvel Comics о супергерое Человеке-пауке."
+    },
+    "tags": [
+      "Spider-Man 3"
+    ],
+    "colors": [
+      "hsl(64 45% 28%)",
+      "hsl(84 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/7/7a/Spider-Man_3%2C_International_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=XahuuJFdJSw",
+    "video": "http://topfilm.info/3/tarjima_kinolar/o'rgimchak_odam_3_720.mp4",
+    "featured": false,
+    "addedAt": 1790252146953,
+    "updatedAt": 1790252146953,
+    "year": 2007,
+    "duration": 139,
+    "director": "Sam Raimi"
+  },
+  {
     "id": 2184,
     "slug": "spider-man-2",
     "type": "film",
