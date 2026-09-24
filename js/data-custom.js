@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 124,
+    "slug": "thor",
+    "type": "film",
+    "title": {
+      "uz": "Tor",
+      "ru": "Тор"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Chris Hemsworth",
+      "Natalie Portman",
+      "Tom Hiddleston",
+      "Anthony Hopkins"
+    ],
+    "desc": {
+      "uz": "Takabbur jangchi Tor otasi Odin tomonidan Yerga surgun qilinadi. U bolg‘asini qaytarib olish uchun haqiqiy qahramon bo‘lishni o‘rganishi kerak.",
+      "ru": "Высокомерного воина Тора отец Один изгоняет на Землю. Чтобы вернуть свой молот, ему предстоит научиться быть настоящим героем."
+    },
+    "tags": [
+      "Marvel",
+      "thor"
+    ],
+    "colors": [
+      "#1f3a6b",
+      "#060c1a"
+    ],
+    "poster": "images/marvel/thor.jpg",
+    "trailer": "https://www.youtube.com/watch?v=KN0FHCErJjo",
+    "video": "http://topfilm.info/3/tarjima_kinolar/TOR_1_720.mp4",
+    "featured": false,
+    "addedAt": 1790256433815,
+    "updatedAt": 1790256433815,
+    "year": 2011,
+    "duration": 115,
+    "rating": 7,
+    "director": "Kenneth Branagh",
+    "franchise": "marvel"
+  },
+  {
     "id": 142,
     "slug": "ant-man-and-the-wasp-quantumania",
     "type": "film",
