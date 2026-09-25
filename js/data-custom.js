@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2003,
+    "slug": "the-lion-king",
+    "type": "multfilm",
+    "title": {
+      "uz": "Qirol Sher",
+      "ru": "Король Лев"
+    },
+    "genres": [
+      "drama",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Qirol Sher» — 1994-yilgi AQSh multfilmi. Rejissyor: Roger Allers, Rob Minkoff. Saytda rasmiy treyleri bor.",
+      "ru": "«Король Лев» — американский анимационный музыкальный драматический фильм о взрослении 1994 года производства студии Walt Disney Feature Animation и выпущенный компанией Walt Disney Pictures."
+    },
+    "tags": [
+      "The Lion King"
+    ],
+    "colors": [
+      "hsl(116 45% 28%)",
+      "hsl(136 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/3/3d/The_Lion_King_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=w5xsFvmAxrs",
+    "video": "https://d.uzbeklar.biz/film/qirolsher1.mp4",
+    "featured": false,
+    "addedAt": 1790342345216,
+    "updatedAt": 1790342345216,
+    "year": 1994,
+    "duration": 88,
+    "director": "Roger Allers, Rob Minkoff"
+  },
+  {
     "id": 2724,
     "slug": "penguins-of-madagascar",
     "type": "multfilm",
