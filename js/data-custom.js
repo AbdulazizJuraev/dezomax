@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2045,
+    "slug": "toy-story-2",
+    "type": "multfilm",
+    "title": {
+      "uz": "Oʻyinchoqlar tarixi 2",
+      "ru": "История игрушек 2"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Oʻyinchoqlar tarixi 2» — 1999-yilgi AQSh multfilmi. Rejissyor: John Lasseter, Lee Unkrich. Saytda rasmiy treyleri bor.",
+      "ru": "«История игрушек 2» — американский полнометражный компьютерно-анимационный комедийный фильм 1999 года, созданный студией Pixar Animation Studios и выпущенный компанией Walt Disney Pictures."
+    },
+    "tags": [
+      "Toy Story 2"
+    ],
+    "colors": [
+      "hsl(27 45% 28%)",
+      "hsl(47 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/c/c0/Toy_Story_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=bktNr4q2IcE",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Oyinchoqlar_olami_2_1080.mp4",
+    "featured": false,
+    "addedAt": 1790343545480,
+    "updatedAt": 1790343545480,
+    "year": 1999,
+    "duration": 92,
+    "director": "John Lasseter, Lee Unkrich"
+  },
+  {
     "id": 2026,
     "slug": "zootopia",
     "type": "multfilm",
