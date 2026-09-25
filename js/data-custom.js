@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2724,
+    "slug": "penguins-of-madagascar",
+    "type": "multfilm",
+    "title": {
+      "uz": "Madagaskar pingvinlari",
+      "ru": "Пингвины из Мадагаскара"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Madagaskar pingvinlari» — 2014-yilgi AQSh multfilmi. Rejissyor: Eric Darnell, Simon J. Smith. Saytda rasmiy treyleri bor.",
+      "ru": "«Пингвины Мадагаскара» — американский компьютерно-анимационный фильм студии DreamWorks Animation, спин-офф серии мультфильмов «Мадагаскар»."
+    },
+    "tags": [
+      "Penguins of Madagascar"
+    ],
+    "colors": [
+      "hsl(252 45% 28%)",
+      "hsl(272 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/5/5f/Penguins_of_Madagascar_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=8FWnwP4Hrko",
+    "video": "http://topfilm.info/2/tarjima_kinolar/MADAGASKAR_PINGIVINLARI_720.mp4",
+    "featured": false,
+    "addedAt": 1790342166957,
+    "updatedAt": 1790342166957,
+    "year": 2014,
+    "duration": 92,
+    "director": "Eric Darnell, Simon J. Smith"
+  },
+  {
     "id": 2457,
     "slug": "madagascar-3-europe-s-most-wanted",
     "type": "multfilm",
