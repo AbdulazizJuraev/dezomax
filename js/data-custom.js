@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2008,
+    "slug": "frozen",
+    "type": "multfilm",
+    "title": {
+      "uz": "Muzyurak",
+      "ru": "Холодное сердце"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Muzyurak» — 2013-yilgi AQSh multfilmi. Rejissyor: Chris Buck, Jennifer Lee. Saytda rasmiy treyleri bor.",
+      "ru": "«Холодное сердце» — американский компьютерно-анимационный музыкальный фэнтези фильм 2013 года, пятьдесят третий полнометражный мультфильм, созданный студией «Walt Disney Animation Studios» и выпущенный компанией «Walt Disney Pictures»."
+    },
+    "tags": [
+      "Frozen"
+    ],
+    "colors": [
+      "hsl(120 45% 28%)",
+      "hsl(140 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/0/05/Frozen_%282013_film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=UvsA9tv3mIY",
+    "video": "https://topfilm.info/6/tarjima_kinolar/MUZYURAK_1_1080.mp4",
+    "featured": false,
+    "addedAt": 1790342701845,
+    "updatedAt": 1790342701845,
+    "year": 2013,
+    "duration": 101,
+    "director": "Chris Buck, Jennifer Lee"
+  },
+  {
     "id": 2004,
     "slug": "snow-white-and-the-seven-dwarfs",
     "type": "multfilm",
