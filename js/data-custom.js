@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2026,
+    "slug": "zootopia",
+    "type": "multfilm",
+    "title": {
+      "uz": "Hayvonlar shahri",
+      "ru": "Зверополис"
+    },
+    "genres": [
+      "action",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Hayvonlar shahri» — 2016-yilgi AQSh multfilmi. Rejissyor: Byron Howard, Rich Moore. Saytda rasmiy treyleri bor.",
+      "ru": "«Зверополис» — американский компьютерно-анимационный комедийно-приключенческий фильм о друзьях-полицейских в формате 3D производства Walt Disney Animation Studios, выпущенный Walt Disney Pictures."
+    },
+    "tags": [
+      "Zootopia"
+    ],
+    "colors": [
+      "hsl(275 45% 28%)",
+      "hsl(295 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/9/96/Zootopia_%28movie_poster%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=N6zm52tRF0c",
+    "video": "https://kinolar.tv/a9a53499-12d3-4c57-bb6f-7b695fad9c1f",
+    "featured": false,
+    "addedAt": 1790343203722,
+    "updatedAt": 1790343203722,
+    "year": 2016,
+    "duration": 108,
+    "director": "Byron Howard, Rich Moore"
+  },
+  {
     "id": 2008,
     "slug": "frozen",
     "type": "multfilm",
