@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 137,
+    "slug": "shang-chi",
+    "type": "film",
+    "title": {
+      "uz": "Shan-Chi va o‘n uzuk afsonasi",
+      "ru": "Шан-Чи и легенда десяти колец"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Simu Liu",
+      "Awkwafina",
+      "Tony Leung",
+      "Michelle Yeoh"
+    ],
+    "desc": {
+      "uz": "Oddiy hayot kechirayotgan Shan-Chi otasi boshqaradigan «O‘n uzuk» tashkilotiga qaytishga majbur bo‘ladi va o‘z o‘tmishiga yuzma-yuz keladi.",
+      "ru": "Живущий обычной жизнью Шан-Чи вынужден вернуться в организацию «Десять колец», которой управляет его отец, и встретиться со своим прошлым."
+    },
+    "tags": [
+      "Marvel",
+      "shang chi"
+    ],
+    "colors": [
+      "#8a5a14",
+      "#1a1004"
+    ],
+    "poster": "images/marvel/shang-chi.jpg",
+    "trailer": "https://www.youtube.com/watch?v=7IQUxblP30g",
+    "video": "http://topfilm.info/3/tarjima_kinolar/SAN_CHI_VA_O'N_HALQA_AFSONASI_720.mp4",
+    "featured": false,
+    "addedAt": 1790341580147,
+    "updatedAt": 1790341580147,
+    "year": 2021,
+    "duration": 132,
+    "rating": 7.4,
+    "director": "Destin Daniel Cretton",
+    "franchise": "marvel"
+  },
+  {
     "id": 134,
     "slug": "captain-marvel",
     "type": "film",
