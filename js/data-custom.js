@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2132,
+    "slug": "madagascar-escape-2-africa",
+    "type": "multfilm",
+    "title": {
+      "uz": "Madagaskar 2",
+      "ru": "Мадагаскар 2"
+    },
+    "genres": [
+      "comedy",
+      "animation",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Madagaskar 2» — 2008-yilgi AQSh multfilmi. Rejissyor: Eric Darnell, Tom McGrath. Saytda rasmiy treyleri bor.",
+      "ru": "«Мадагаскар 2» — американский мультипликационный фильм режиссёров Эрика Дарнелла и Тома Макграта, производства DreamWorks Animation и Pacific Data Images при поддержке Paramount Pictures."
+    },
+    "tags": [
+      "Madagascar: Escape 2 Africa"
+    ],
+    "colors": [
+      "hsl(80 45% 28%)",
+      "hsl(100 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/7/7f/Madagascar2poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=LEySS_8SCng",
+    "video": "https://s1.kxcdn.ru/Madagaskar_2_HD_2008_Daxshat.Net.mp4",
+    "featured": false,
+    "addedAt": 1790342036885,
+    "updatedAt": 1790342036885,
+    "year": 2008,
+    "duration": 89,
+    "director": "Eric Darnell, Tom McGrath"
+  },
+  {
     "id": 2001,
     "slug": "madagascar",
     "type": "multfilm",
