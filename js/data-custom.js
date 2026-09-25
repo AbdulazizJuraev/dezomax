@@ -4463,7 +4463,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/ZtKA-GdHEolSWUGnSf_qHuYw",
     "featured": true,
     "addedAt": 1789802968800,
-    "updatedAt": 1789802968800,
+    "updatedAt": 1790314500737,
     "year": 2019,
     "duration": 181,
     "rating": 8.4,
