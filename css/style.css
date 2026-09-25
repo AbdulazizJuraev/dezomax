@@ -4875,3 +4875,12 @@ body.mt-open main.wrap > *:not(.mt-wrap) { display: none !important; }
 html, body { max-width: 100%; overflow-x: clip; }
 html[data-fitw] .header { right: auto; width: var(--fit-w); }
 html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, var(--sal))); }
+
+/* ---------------- Uzun hisob (tennis setlari) sahifani kengaytirmasin ---------------- */
+.m-row > *, .m-mid { min-width: 0; }
+.m-score { max-width: 100%; }
+.m-score.m-score-long { white-space: normal; overflow-wrap: anywhere; font-size: 14px; line-height: 1.25; text-align: center; letter-spacing: 0; }
+.sport-sec .m-score.m-score-long { font-size: 13px; text-align: left; }
+.sport-sec .match { overflow: hidden; }
+.mt-score.mt-score-long { font-size: 20px; white-space: normal; overflow-wrap: anywhere; text-align: center; max-width: 100%; }
+.mt-teams > *, .mt-center { min-width: 0; }

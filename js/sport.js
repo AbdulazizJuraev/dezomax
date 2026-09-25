@@ -225,6 +225,9 @@ const logoHTML = s => s.logo
   ? `<img class="m-logo" src="${esc(s.logo)}" alt="" loading="lazy" onerror="this.remove()">`
   : `<span class="m-logo m-logo-empty">${esc((s.name || '?').slice(0, 1))}</span>`;
 
+/* uzun hisob (tennis setlari) — kichikroq va qatorga o'tadigan */
+const scoreCls = e => (String(e.a.score).length + String(e.b.score).length > 9 ? ' m-score-long' : '');
+
 function matchHTML(e, sportId) {
   const live = e.state === 'in';
   const done = e.state === 'post';
@@ -232,10 +235,10 @@ function matchHTML(e, sportId) {
 
   let mid;
   if (live) {
-    mid = `${hasScore ? `<span class="m-score is-live">${esc(e.a.score || 0)} : ${esc(e.b.score || 0)}</span>` : ''}
+    mid = `${hasScore ? `<span class="m-score is-live${scoreCls(e)}">${esc(e.a.score || 0)} : ${esc(e.b.score || 0)}</span>` : ''}
            <span class="m-live"><i></i>${t('sport.live')}${e.clock && e.clock !== '0:00' ? ' ' + esc(e.clock) : ''}</span>`;
   } else if (done) {
-    mid = `${hasScore ? `<span class="m-score">${esc(e.a.score)} : ${esc(e.b.score)}</span>` : ''}
+    mid = `${hasScore ? `<span class="m-score${scoreCls(e)}">${esc(e.a.score)} : ${esc(e.b.score)}</span>` : ''}
            <span class="m-status">${t('sport.finished')}</span>`;
   } else {
     mid = `<span class="m-day">${esc(dayLabel(e.date))}</span><span class="m-time">${timeFmt(e.date)}</span>`;

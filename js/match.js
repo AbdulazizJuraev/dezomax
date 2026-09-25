@@ -132,7 +132,7 @@ function matchHeadHTML(e) {
 
   let center;
   if (live || done) {
-    center = `<div class="mt-score${live ? ' is-live' : ''}">${esc(e.a.score || 0)}<span>:</span>${esc(e.b.score || 0)}</div>
+    center = `<div class="mt-score${live ? ' is-live' : ''}${String(e.a.score).length + String(e.b.score).length > 9 ? ' mt-score-long' : ''}">${esc(e.a.score || 0)}<span>:</span>${esc(e.b.score || 0)}</div>
       ${live ? `<span class="m-live"><i></i>${t('sport.live')}${e.clock && e.clock !== '0:00' ? ' ' + esc(e.clock) : ''}</span>`
              : `<span class="mt-status">${t('sport.finished')}</span>`}`;
   } else {
