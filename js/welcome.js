@@ -17,7 +17,7 @@
 
   Object.assign(I18N.uz, {
     'wc.s1.title': 'Minglab kino va seriallar',
-    'wc.s1.sub': '{n}+ film, serial, anime va doramalar bir joyda',
+    'wc.s1.sub': 'Film, serial, anime va doramalar bir joyda',
     'wc.s2.title': 'O‘zbek kinolari va konsertlar',
     'wc.s2.sub': 'Marvel, DC va yuzlab rasmiy treylerlar',
     'wc.s3.title': 'Telekanallar va sport jonli',
@@ -43,7 +43,7 @@
   });
   Object.assign(I18N.ru, {
     'wc.s1.title': 'Тысячи фильмов и сериалов',
-    'wc.s1.sub': '{n}+ фильмов, сериалов, аниме и дорам в одном месте',
+    'wc.s1.sub': 'Фильмы, сериалы, аниме и дорамы в одном месте',
     'wc.s2.title': 'Узбекское кино и концерты',
     'wc.s2.sub': 'Marvel, DC и сотни официальных трейлеров',
     'wc.s3.title': 'Телеканалы и спорт в прямом эфире',
