@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1124457266,
+    "slug": "moana-2",
+    "type": "multfilm",
+    "title": {
+      "uz": "Moana 2",
+      "ru": "Моана 2"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Moana 2» — 2024-yilgi AQSh multfilmi. Rejissyor: David Derrick Jr..",
+      "ru": "«Моана 2» — мультфильм 2024 года (США). Режиссёр: David Derrick Jr.."
+    },
+    "colors": [
+      "hsl(228 45% 28%)",
+      "hsl(248 50% 7%)"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=oYY0z4qFin0",
+    "video": "http://s10.faylmovi.ru/tarjima_multfilmlar/Moana_2_480.mp4",
+    "tags": [
+      "Moana 2"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/7/73/Moana_2_poster.jpg",
+    "wiki": "Моана 2",
+    "featured": false,
+    "addedAt": 1790344701184,
+    "updatedAt": 1790344701184,
+    "year": 2024,
+    "duration": 100,
+    "director": "David Derrick Jr."
+  },
+  {
     "id": 2046,
     "slug": "moana",
     "type": "multfilm",
