@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 148,
+    "slug": "the-fantastic-four-first-steps",
+    "type": "film",
+    "title": {
+      "uz": "Fantastik to‘rtlik: Ilk qadamlar",
+      "ru": "Фантастическая четвёрка: Первые шаги"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Pedro Pascal",
+      "Vanessa Kirby",
+      "Joseph Quinn",
+      "Ebon Moss-Bachrach"
+    ],
+    "desc": {
+      "uz": "1960-yillar ruhidagi retro-futuristik dunyo. Fantastik to‘rtlik sayyoralarni yutib yuboruvchi Galaktus va uning xabarchisi Kumush serfingchiga qarshi turadi.",
+      "ru": "Ретрофутуристичный мир в духе 1960-х. Фантастическая четвёрка противостоит пожирателю планет Галактусу и его вестнице Серебряной Сёрфер."
+    },
+    "tags": [
+      "Marvel",
+      "the fantastic four first steps"
+    ],
+    "colors": [
+      "#1a4a8a",
+      "#04101e"
+    ],
+    "poster": "images/marvel/the-fantastic-four-first-steps.jpg",
+    "trailer": "https://www.youtube.com/watch?v=-ZjL-r6dW8c",
+    "video": "https://kinolar.tv/78b9dffa-c3e0-4f40-bd60-bdc34b7b7706",
+    "featured": false,
+    "addedAt": 1790341795822,
+    "updatedAt": 1790341795822,
+    "year": 2025,
+    "duration": 115,
+    "director": "Matt Shakman",
+    "franchise": "marvel"
+  },
+  {
     "id": 144,
     "slug": "the-marvels",
     "type": "film",
