@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-25T01:09:13.288Z",
+  "updated": "2026-09-25T10:31:42.263Z",
   "items": [
     {
       "id": "nmug9is84",
@@ -16,6 +16,14 @@
       "at": null,
       "url": "",
       "created": "2026-09-25T01:09:12.736Z"
+    },
+    {
+      "id": "nmugtml5k",
+      "title": "Yangi kino qo‘shildi 🎬",
+      "body": "«Kino nomi» endi DezoMax’da. Hoziroq tomosha qiling!",
+      "at": null,
+      "url": "movie.html?id=150",
+      "created": "2026-09-25T10:31:41.720Z"
     }
   ]
 }
