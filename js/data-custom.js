@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1027044293,
+    "slug": "the-lion-king",
+    "type": "multfilm",
+    "title": {
+      "uz": "Qirol Sher",
+      "ru": "Король Лев"
+    },
+    "genres": [
+      "comedy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Qirol Sher» — 2019-yilgi AQSh multfilmi. Rejissyor: Jon Favreau.",
+      "ru": "«Король Лев» — мультфильм 2019 года (США). Режиссёр: Jon Favreau."
+    },
+    "colors": [
+      "hsl(260 45% 28%)",
+      "hsl(280 50% 7%)"
+    ],
+    "trailer": "",
+    "video": "https://files.uzmax.net/films/Qirol.sher.2019.HDRip.uzmax.net.mp4",
+    "tags": [
+      "The Lion King"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/9/9d/Disney_The_Lion_King_2019.jpg",
+    "wiki": "Король Лев (мультфильм, 2019)",
+    "featured": false,
+    "addedAt": 1790342554584,
+    "updatedAt": 1790342554584,
+    "year": 2019,
+    "duration": 118,
+    "director": "Jon Favreau"
+  },
+  {
     "id": 2792,
     "slug": "the-lion-king-11-2",
     "type": "multfilm",
