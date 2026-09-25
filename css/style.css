@@ -3324,10 +3324,13 @@ img, video, iframe { max-width: 100%; }
 @keyframes mWatchPulse { 50% { box-shadow: 0 4px 22px rgba(225, 29, 72, .8); } }
 
 /* Oyna */
+/* markazlashtirish transform bilan emas — flex bilan (bukiladigan/keng ekranlarda oyna surilib ketmaydi) */
+.mt-wrap { display: flex; align-items: center; justify-content: center; }
 .mt-panel {
-  position: absolute;
-  left: 50%; top: 50%;
+  position: relative;
+  margin: auto;
   width: min(720px, calc(100vw - 32px));
+  max-width: 100%;
   max-height: min(88vh, 900px);
   display: flex;
   flex-direction: column;
@@ -3335,14 +3338,14 @@ img, video, iframe { max-width: 100%; }
   background: linear-gradient(180deg, #111723, #0b0f17 40%);
   border: 1px solid var(--line-strong);
   box-shadow: var(--shadow-lg);
-  transform: translate(-50%, -46%) scale(.97);
+  transform: translateY(16px) scale(.98);
   opacity: 0;
   transition: transform .28s cubic-bezier(.2, .9, .3, 1), opacity .2s;
   overflow: hidden;
 }
-.sheet-wrap.is-open .mt-panel { transform: translate(-50%, -50%); opacity: 1; }
+.sheet-wrap.is-open .mt-panel { transform: none; opacity: 1; }
 
-.mt-scroll { overflow-y: auto; overscroll-behavior: contain; padding-bottom: 20px; }
+.mt-scroll { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding-bottom: 20px; }
 
 .mt-close {
   position: absolute; top: 12px; right: 12px; z-index: 3;
@@ -3500,8 +3503,9 @@ img, video, iframe { max-width: 100%; }
 
 /* Telefonda — pastdan chiquvchi oyna */
 @media (max-width: 640px) {
+  .mt-wrap { flex-direction: column; align-items: stretch; justify-content: flex-end; }
   .mt-panel {
-    left: 0; right: 0; top: auto; bottom: 0;
+    margin: 0;
     width: auto;
     max-height: calc(92vh - var(--sat));
     border-radius: 22px 22px 0 0;
