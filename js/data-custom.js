@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2457,
+    "slug": "madagascar-3-europe-s-most-wanted",
+    "type": "multfilm",
+    "title": {
+      "uz": "Madagaskar 3: Yevropa boʻylab qidiruv",
+      "ru": "Мадагаскар 3"
+    },
+    "genres": [
+      "comedy",
+      "animation",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Madagaskar 3: Yevropa boʻylab qidiruv» — 2012-yilgi AQSh multfilmi. Rejissyor: Eric Darnell, Tom McGrath. Saytda rasmiy treyleri bor.",
+      "ru": "«Мадагаскар 3» — американский компьютерный анимационный фильм производства американской киностудии DreamWorks Animation, премьера которого состоялась в СНГ 7 июня 2012 года в форматах 2D, 3D и IMAX 3D."
+    },
+    "tags": [
+      "Madagascar 3: Europe's Most Wanted"
+    ],
+    "colors": [
+      "hsl(295 45% 28%)",
+      "hsl(315 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/c/c4/Madagascar3-Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=qlOhhNGwNl0",
+    "video": "https://s6.faylmovi.ru/tarjima_multfilmlar/Madagaskar_3_1080.mp4",
+    "featured": false,
+    "addedAt": 1790342108004,
+    "updatedAt": 1790342108004,
+    "year": 2012,
+    "duration": 93,
+    "director": "Eric Darnell, Tom McGrath"
+  },
+  {
     "id": 2132,
     "slug": "madagascar-escape-2-africa",
     "type": "multfilm",
