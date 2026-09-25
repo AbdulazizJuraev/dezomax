@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 138,
+    "slug": "eternals",
+    "type": "film",
+    "title": {
+      "uz": "Abadiylar",
+      "ru": "Вечные"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Gemma Chan",
+      "Richard Madden",
+      "Angelina Jolie",
+      "Salma Hayek"
+    ],
+    "desc": {
+      "uz": "Minglab yillar davomida odamlar orasida yashirin yashagan o‘lmas mavjudotlar — Abadiylar — insoniyatning qadimiy dushmanlariga qarshi yana birlashadi.",
+      "ru": "Бессмертные существа, тысячи лет тайно жившие среди людей, снова объединяются против древних врагов человечества."
+    },
+    "tags": [
+      "Marvel",
+      "eternals"
+    ],
+    "colors": [
+      "#8a6a24",
+      "#140f06"
+    ],
+    "poster": "images/marvel/eternals.jpg",
+    "trailer": "https://www.youtube.com/watch?v=NocQ13xC7gE",
+    "video": "https://topfilm.info/3/tarjima_kinolar/Abadiylar_360.mp4",
+    "featured": false,
+    "addedAt": 1790341648207,
+    "updatedAt": 1790341648207,
+    "year": 2021,
+    "duration": 156,
+    "rating": 6.3,
+    "director": "Chloé Zhao",
+    "franchise": "marvel"
+  },
+  {
     "id": 137,
     "slug": "shang-chi",
     "type": "film",
