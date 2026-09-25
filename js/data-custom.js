@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 134,
+    "slug": "captain-marvel",
+    "type": "film",
+    "title": {
+      "uz": "Kapitan Marvel",
+      "ru": "Капитан Марвел"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Brie Larson",
+      "Samuel L. Jackson",
+      "Jude Law",
+      "Ben Mendelsohn"
+    ],
+    "desc": {
+      "uz": "1990-yillar. Kosmik jangchi Kerol Denvers Yerga tushib qoladi va o‘tmishi haqidagi haqiqatni izlaydi. Yosh Nik Fyuri bilan birga u galaktik urushga aralashadi.",
+      "ru": "1990-е. Космическая воительница Кэрол Дэнверс попадает на Землю и ищет правду о своём прошлом. Вместе с молодым Ником Фьюри она вмешивается в галактическую войну."
+    },
+    "tags": [
+      "Marvel",
+      "captain marvel"
+    ],
+    "colors": [
+      "#1d3a6b",
+      "#6b1a2a"
+    ],
+    "poster": "images/marvel/captain-marvel.jpg",
+    "trailer": "https://www.youtube.com/watch?v=2eaZUwBWJLM",
+    "video": "https://s7.faylmovi.ru/tarjima_kinolar/Kapitan_Marvel_1080.mp4",
+    "featured": false,
+    "addedAt": 1790341518151,
+    "updatedAt": 1790341518151,
+    "year": 2019,
+    "duration": 123,
+    "rating": 6.8,
+    "director": "Anna Boden, Ryan Fleck",
+    "franchise": "marvel"
+  },
+  {
     "id": 2036,
     "slug": "tangled",
     "type": "multfilm",
