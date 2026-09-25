@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2001,
+    "slug": "madagascar",
+    "type": "multfilm",
+    "title": {
+      "uz": "Madagaskar",
+      "ru": "Мадагаскар"
+    },
+    "genres": [
+      "comedy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Madagaskar» — 2005-yilgi AQSh multfilmi. Rejissyor: Eric Darnell, Tom McGrath. Saytda rasmiy treyleri bor.",
+      "ru": "«Мадагаскар» — американский анимационный комедийный фильм о выживании 2005 года производства DreamWorks Animation SKG и PDI/DreamWorks, распространяемый DreamWorks Pictures."
+    },
+    "tags": [
+      "Madagascar"
+    ],
+    "colors": [
+      "hsl(316 45% 28%)",
+      "hsl(336 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/3/36/Madagascar_Theatrical_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=qbWE7fOa0KM",
+    "video": "http://topfilm.info/multifilm/MADAGASKAR_1_480.mp4",
+    "featured": false,
+    "addedAt": 1790341906982,
+    "updatedAt": 1790341906982,
+    "year": 2005,
+    "duration": 86,
+    "director": "Eric Darnell, Tom McGrath"
+  },
+  {
     "id": 148,
     "slug": "the-fantastic-four-first-steps",
     "type": "film",
