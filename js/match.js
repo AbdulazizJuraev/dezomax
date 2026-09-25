@@ -98,6 +98,7 @@ function openMatch(item) {
 
   document.body.appendChild(wrap);
   document.body.classList.add('no-scroll');
+  fitToVisible(wrap);
   requestAnimationFrame(() => wrap.classList.add('is-open'));
   wrap.querySelectorAll('[data-sheet-close]').forEach(el => el.addEventListener('click', closeMoreSheet));
   document.addEventListener('keydown', escCloseSheet);
@@ -112,6 +113,27 @@ function openMatch(item) {
   }
 
   loadMatchDetails(e, sportId, ++matchReq);
+}
+
+/* Ba'zi qurilmalarda (Fold va h.k.) fixed oyna ko'rinadigan ekrandan kengroq chiqadi —
+   oynani qurilma haqiqatan ko'rib turgan kenglikka (visualViewport) moslaymiz */
+function fitToVisible(wrap) {
+  const vv = window.visualViewport;
+  if (!vv) return;
+  const fit = () => {
+    if (!wrap.isConnected) { vv.removeEventListener('resize', fit); vv.removeEventListener('scroll', fit); return; }
+    const w = Math.round(vv.width);
+    if (w > 0 && w < document.documentElement.clientWidth - 1) {
+      wrap.style.right = 'auto';
+      wrap.style.left = Math.round(vv.offsetLeft) + 'px';
+      wrap.style.width = w + 'px';
+    } else {
+      wrap.style.left = wrap.style.right = wrap.style.width = '';
+    }
+  };
+  fit();
+  vv.addEventListener('resize', fit);
+  vv.addEventListener('scroll', fit);
 }
 
 function countdownText(date) {

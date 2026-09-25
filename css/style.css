@@ -3325,7 +3325,8 @@ img, video, iframe { max-width: 100%; }
 
 /* Oyna */
 /* markazlashtirish transform bilan emas — flex bilan (bukiladigan/keng ekranlarda oyna surilib ketmaydi) */
-.mt-wrap { display: flex; align-items: center; justify-content: center; }
+.mt-wrap { display: flex; align-items: center; justify-content: center; overflow: hidden; box-sizing: border-box; }
+.mt-panel, .mt-scroll { min-width: 0; box-sizing: border-box; }
 .mt-panel {
   position: relative;
   margin: auto;
