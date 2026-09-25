@@ -489,6 +489,12 @@ function closeMoreSheet() {
   document.removeEventListener('keydown', escCloseSheet);
   document.body.classList.remove('no-scroll');
   wrap.classList.remove('is-open');
+  if (wrap.classList.contains('mt-wrap')) {      // sahifa ichidagi o'yin ko'rinishi: ro'yxatga qaytamiz
+    wrap.remove();
+    document.body.classList.remove('mt-open');
+    window.scrollTo(0, window.__mtY || 0);
+    return;
+  }
   setTimeout(() => wrap.remove(), 250);
 }
 

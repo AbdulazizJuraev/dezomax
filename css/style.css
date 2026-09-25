@@ -4858,3 +4858,15 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
 .intro-v2.is-in .intro-glow { opacity: .8; transform: scale(1.1); transition: opacity .6s ease, transform 1s ease; }
 /* pastdagi yuklash chizig'i */
 .intro-v2 .intro-bar i { animation: introBar cubic-bezier(.35, 0, .25, 1) forwards; }
+
+/* ---------------- Sport: o'yin tafsiloti — sahifa ichida (fixed oyna emas), har qanday ekranda sig'adi ---------------- */
+.sheet-wrap.mt-wrap { position: static; inset: auto; z-index: auto; display: block; overflow: visible; }
+.mt-wrap .sheet-backdrop { display: none; }
+.mt-wrap .mt-panel {
+  position: relative; left: auto; right: auto; top: auto; bottom: auto;
+  width: 100%; max-width: 820px; margin: 0 auto; max-height: none;
+  transform: none !important; opacity: 1 !important; transition: none;
+  border-radius: 18px; overflow: hidden;
+}
+.mt-wrap .mt-scroll { overflow: visible; }
+body.mt-open main.wrap > *:not(.mt-wrap) { display: none !important; }
