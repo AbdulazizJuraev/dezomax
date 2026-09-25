@@ -7,6 +7,53 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 144,
+    "slug": "the-marvels",
+    "type": "film",
+    "title": {
+      "uz": "Marvellar",
+      "ru": "Марвелы"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Brie Larson",
+      "Teyonah Parris",
+      "Iman Vellani",
+      "Samuel L. Jackson"
+    ],
+    "desc": {
+      "uz": "Kerol Denvers, Monika Rambo va Kamala Xon kuchlari chalkashib, har safar joy almashib qoladi. Ular koinotni qutqarish uchun jamoa bo‘lib ishlashni o‘rganadi.",
+      "ru": "Силы Кэрол Дэнверс, Моники Рамбо и Камалы Хан переплетаются, и героини меняются местами. Чтобы спасти вселенную, им придётся стать командой."
+    },
+    "tags": [
+      "Marvel",
+      "the marvels"
+    ],
+    "colors": [
+      "#2a3a8a",
+      "#8a2a3a"
+    ],
+    "poster": "images/marvel/the-marvels.jpg",
+    "trailer": "https://www.youtube.com/watch?v=-JW8LzqUymc",
+    "video": "https://faylmovi.ru/tarjima_kinolar/kapitan_marvel_2_720.mp4",
+    "featured": false,
+    "addedAt": 1790341730788,
+    "updatedAt": 1790341730788,
+    "year": 2023,
+    "duration": 105,
+    "rating": 5.5,
+    "director": "Nia DaCosta",
+    "franchise": "marvel"
+  },
+  {
     "id": 138,
     "slug": "eternals",
     "type": "film",
