@@ -7,6 +7,42 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2046,
+    "slug": "moana",
+    "type": "multfilm",
+    "title": {
+      "uz": "Moana",
+      "ru": "Моана"
+    },
+    "genres": [
+      "action",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Moana» — 2016-yilgi AQSh multfilmi. Rejissyor: John Musker, Ron Clements. Saytda rasmiy treyleri bor.",
+      "ru": "«Моана» — американский компьютерно-анимационный музыкальный фэнтезийно-приключенческий фильм 2016 года, снятый студией Walt Disney Animation Studios и выпущенный студией Walt Disney Pictures."
+    },
+    "colors": [
+      "hsl(314 45% 28%)",
+      "hsl(334 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/26/Moana_Teaser_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=6HZr-6GKbJI",
+    "video": "http://topfilm.info/2/MULTIFILM/Moana_720.mp4",
+    "featured": false,
+    "addedAt": 1790343700031,
+    "updatedAt": 1790343700031,
+    "year": 2016,
+    "duration": 107,
+    "director": "John Musker, Ron Clements"
+  },
+  {
     "id": 2045,
     "slug": "toy-story-2",
     "type": "multfilm",
