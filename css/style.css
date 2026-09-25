@@ -4870,3 +4870,8 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
 }
 .mt-wrap .mt-scroll { overflow: visible; }
 body.mt-open main.wrap > *:not(.mt-wrap) { display: none !important; }
+
+/* ---------------- Gorizontal oshib ketishga qarshi (Fold va boshqa qurilmalar) ---------------- */
+html, body { max-width: 100%; overflow-x: clip; }
+html[data-fitw] .header { right: auto; width: var(--fit-w); }
+html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, var(--sal))); }

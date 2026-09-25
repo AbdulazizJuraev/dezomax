@@ -15,6 +15,23 @@ if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.is
   });
 }
 
+/* Ba'zi qurilmalarda (Fold) suzuvchi elementlar (fixed) ko'rinadigan ekrandan kengroq chiqib ketadi:
+   ko'rinadigan kenglikni o'lchab, pastki panel va sarlavhani unga moslaymiz (css: html[data-fitw]) */
+(function () {
+  const vv = window.visualViewport;
+  if (!vv) return;
+  const de = document.documentElement;
+  const fit = () => {
+    const w = Math.round(vv.width), cw = de.clientWidth;
+    if (w > 0 && cw - w > 1) { de.style.setProperty('--fit-w', w + 'px'); de.setAttribute('data-fitw', ''); }
+    else { de.style.removeProperty('--fit-w'); de.removeAttribute('data-fitw'); }
+  };
+  fit();
+  vv.addEventListener('resize', fit);
+  addEventListener('resize', fit);
+  addEventListener('load', fit);
+})();
+
 /* ---------- Faqat to'liq film qo'shilgan kinolar ko'rinadi ----------
    Treyler turgan (film qo'shilmagan) kinolar saytda yashiriladi. Admin orqali kinoga video
    qo'shilsa, u avtomatik paydo bo'ladi. Ma'lumot o'chmaydi — faqat ro'yxatlardan chiqariladi.
