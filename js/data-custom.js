@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2004,
+    "slug": "snow-white-and-the-seven-dwarfs",
+    "type": "multfilm",
+    "title": {
+      "uz": "Oppogʻoy va yetti mitti odam",
+      "ru": "Белоснежка и семь гномов"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "romance"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Oppogʻoy va yetti mitti odam» — 1937-yilgi AQSh multfilmi. Rejissyor: David Hand, William Cottrell. Saytda rasmiy treyleri bor.",
+      "ru": "«Белоснежка и семь гномов» — американский анимационный музыкальный фэнтезийный фильм 1937 года, снятый студией Walt Disney Productions и выпущенный студией RKO Radio Pictures, основанный на сказке братьев Гримм «Белоснежка»."
+    },
+    "tags": [
+      "Snow White and the Seven Dwarfs"
+    ],
+    "colors": [
+      "hsl(121 45% 28%)",
+      "hsl(141 50% 7%)"
+    ],
+    "poster": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Snow_White_and_the_Seven_Dwarfs_%28Style_B%29_poster.jpg/500px-Snow_White_and_the_Seven_Dwarfs_%28Style_B%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "trailer": "https://www.youtube.com/watch?v=sqIBCspyoxQ",
+    "video": "https://s11.faylmovi.ru/tarjima_kinolar/Oppogoy_va_yetti_mitti_odam_1080.mp4",
+    "featured": false,
+    "addedAt": 1790342637227,
+    "updatedAt": 1790342637227,
+    "year": 1937,
+    "duration": 83,
+    "director": "David Hand, William Cottrell"
+  },
+  {
     "id": 1027044293,
     "slug": "the-lion-king",
     "type": "multfilm",
