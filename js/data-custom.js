@@ -7,6 +7,44 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2792,
+    "slug": "the-lion-king-11-2",
+    "type": "multfilm",
+    "title": {
+      "uz": "Qirol sher 3: Hakuna Matata",
+      "ru": "Король Лев 3: Хакуна матата"
+    },
+    "genres": [
+      "comedy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Qirol sher 3: Hakuna Matata» — 2004-yilgi AQSh multfilmi. Rejissyor: Bradley Raymond. Saytda rasmiy treyleri bor.",
+      "ru": "«Король Лев 3: Хакуна матата» — американский анимационный музыкальный комедийный фильм 2004 года, снятый австралийским филиалом Disneytoon Studios и выпущенный на видео 10 февраля 2004 года."
+    },
+    "tags": [
+      "The Lion King 1½"
+    ],
+    "colors": [
+      "hsl(326 45% 28%)",
+      "hsl(346 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/a/a9/Lion_king_1_half_cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=p0DTnqn71WQ",
+    "video": "https://files.uzbeklar.biz/film2/qirol-sher3.mp4",
+    "featured": false,
+    "addedAt": 1790342471504,
+    "updatedAt": 1790342471504,
+    "year": 2004,
+    "duration": 77,
+    "director": "Bradley Raymond"
+  },
+  {
     "id": 2003,
     "slug": "the-lion-king",
     "type": "multfilm",
