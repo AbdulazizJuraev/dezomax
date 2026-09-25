@@ -6,8 +6,8 @@
 const SITE_CONFIG = /*CONFIG*/{
   "hero": {
     "ids": [
-      40,
       150,
+      40,
       51,
       2118,
       13,
