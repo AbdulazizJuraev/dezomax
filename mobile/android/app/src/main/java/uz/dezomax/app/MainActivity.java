@@ -1,12 +1,16 @@
 package uz.dezomax.app;
 
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
@@ -96,6 +100,19 @@ public class MainActivity extends BridgeActivity {
                 webView.reload();
             }
             prefs.edit().putInt("webCacheVersion", current).apply();
+        }
+
+        // Android 13 va yangisida bildirishnomalarga ruxsat kod bilan so'raladi (aks holda xabarlar chiqmaydi).
+        // Rad etilsa ham har safar bezovta qilmaymiz — eng ko'pi bilan 3 marta so'raymiz.
+        if (Build.VERSION.SDK_INT >= 33
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+            int asked = prefs.getInt("notifAsked", 0);
+            if (asked < 3) {
+                prefs.edit().putInt("notifAsked", asked + 1).apply();
+                ActivityCompat.requestPermissions(this,
+                    new String[]{ Manifest.permission.POST_NOTIFICATIONS }, 7001);
+            }
         }
     }
 
