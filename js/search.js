@@ -23,7 +23,6 @@ Object.assign(I18N.ru, {
 });
 
 const RECENT_KEY = 'dezomax_recent_search';
-const POPULAR = ['O‘zbek kino', 'Marvel', 'Batman', 'Avengers', 'Spider-Man', 'Komediya', 'Interstellar', 'Multfilm'];
 
 const getRecent = () => { try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; } catch { return []; } };
 const addRecent = q => {
@@ -119,10 +118,6 @@ function renderIdle() {
         <div class="s-head"><h3>${t('search.recent')}</h3><button class="acc-link" type="button" id="clearRecent">${t('search.clear')}</button></div>
         <div class="chips">${recent.map(r => `<button class="chip" data-q="${esc(r)}">${esc(r)}</button>`).join('')}</div>
       </div>` : ''}
-    <div class="s-block">
-      <div class="s-head"><h3>${t('search.popular')}</h3></div>
-      <div class="chips">${POPULAR.map(r => `<button class="chip" data-q="${esc(r)}">${esc(r)}</button>`).join('')}</div>
-    </div>
     <div class="s-block">
       <div class="s-head"><h3>${t('search.genres')}</h3><a class="acc-link" href="catalog.html">${t('search.catalog')}</a></div>
       <div class="s-genres">${GENRES.map(genreTileHTML).join('')}</div>
