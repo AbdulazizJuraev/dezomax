@@ -6,14 +6,12 @@
 const SITE_CONFIG = /*CONFIG*/{
   "hero": {
     "ids": [
-      150,
-      40,
-      51,
-      2118,
+      33,
+      39,
       13,
-      2200
+      47
     ],
-    "delay": 30
+    "delay": 60
   },
   "rows": [
     {
