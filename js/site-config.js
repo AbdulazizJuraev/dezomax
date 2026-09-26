@@ -25,19 +25,19 @@ const SITE_CONFIG = /*CONFIG*/{
       "visible": true
     },
     {
-      "source": "trending",
-      "visible": true
-    },
-    {
-      "source": "uzbek",
-      "visible": true
-    },
-    {
       "source": "konsert",
       "visible": true
     },
     {
+      "source": "trending",
+      "visible": true
+    },
+    {
       "source": "new",
+      "visible": true
+    },
+    {
+      "source": "uzbek",
       "visible": true
     },
     {
