@@ -4884,3 +4884,13 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .sport-sec .match { overflow: hidden; }
 .mt-score.mt-score-long { font-size: 20px; white-space: normal; overflow-wrap: anywhere; text-align: center; max-width: 100%; }
 .mt-teams > *, .mt-center { min-width: 0; }
+
+/* ---------------- Footer: qisqartirilgan (janrlarsiz) ---------------- */
+.footer { padding: 32px 0 20px; }
+.footer-grid { grid-template-columns: 1.6fr 1fr; margin-bottom: 22px; }
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .footer h4 { margin-bottom: 10px; }
+  .footer ul { flex-direction: row; flex-wrap: wrap; gap: 8px 18px; }
+}
+.footer-bottom { padding-top: 16px; }
