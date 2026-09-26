@@ -184,7 +184,6 @@ const I18N = {
     'footer.nav': 'Bo‘limlar',
     'footer.genres': 'Janrlar',
     'footer.rights': 'Barcha huquqlar himoyalangan.',
-    'footer.demo': 'Demo loyiha. Barcha kino ma’lumotlari namuna sifatida keltirilgan.',
 
     'common.all': 'Barchasi',
     'common.showAll': 'Hammasi',
@@ -371,7 +370,6 @@ const I18N = {
     'footer.nav': 'Разделы',
     'footer.genres': 'Жанры',
     'footer.rights': 'Все права защищены.',
-    'footer.demo': 'Демо-проект. Все данные о фильмах приведены в качестве примера.',
 
     'common.all': 'Все',
     'common.showAll': 'Все',
