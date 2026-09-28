@@ -14,7 +14,7 @@ android {
         applicationId "uz.dezomax.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 58
+        versionCode 59
         versionName "6.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // faqat telefon protsessorlari (x86 — kompyuter emulyatorlari uchun, APK hajmini oshiradi)
