@@ -3050,6 +3050,11 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-tile-badge:last-child { margin-right: 0; }
 .acc-tile-badge svg { width: 16px; height: 16px; }
 .acc-tile-subs .acc-tile-cluster { position: absolute; right: 16px; top: 16px; margin: 0; z-index: 1; }
+.acc-tile-devices .acc-tile-cluster, .acc-tile-promo .acc-tile-cluster {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%); margin: 0; z-index: 1;
+}
+.acc-tile-devices, .acc-tile-promo { justify-content: center; }
+.acc-tile-devices b, .acc-tile-promo b { max-width: 68%; }
 
 .acc-tv-banner {
   display: flex;
