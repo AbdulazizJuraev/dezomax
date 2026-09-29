@@ -29,6 +29,9 @@ Object.assign(I18N.uz, {
   'acc.faq3a': 'Ha, quyidagi havoladan hisobni o‘chirish tartibini ko‘ring.',
   'acc.supportDeleteLink': 'Hisobni o‘chirish',
   'acc.supportPrivacyLink': 'Maxfiylik siyosati',
+  'acc.tvTitle': 'Televizorda ko‘ring',
+  'acc.tvText': 'Kino tanlang, pleyerda TV belgisini bosing — Chromecast orqali katta ekranda tomosha qiling.',
+  'acc.tvBtn': 'Kino tanlash →',
   'acc.back': 'Orqaga',
   'acc.language': 'Til',
   'acc.plan': 'Tarif',
@@ -132,6 +135,9 @@ Object.assign(I18N.ru, {
   'acc.faq3a': 'Да, порядок удаления аккаунта — по ссылке ниже.',
   'acc.supportDeleteLink': 'Удаление аккаунта',
   'acc.supportPrivacyLink': 'Политика конфиденциальности',
+  'acc.tvTitle': 'Смотрите на телевизоре',
+  'acc.tvText': 'Выберите фильм, нажмите значок ТВ в плеере — смотрите на большом экране через Chromecast.',
+  'acc.tvBtn': 'Выбрать фильм →',
   'acc.back': 'Назад',
   'acc.language': 'Язык',
   'acc.plan': 'Тариф',
@@ -218,16 +224,17 @@ const ACC_PLANS = {
 };
 
 const MENU = [
+  { id: 'settings', icon: 'gear' }
+];
+/* Asosiy menyu faqat "Sozlamalar" — qolgan hammasi shu ichida ro'yxat sifatida
+   (Tarif/Balans yuqoridagi kartalarda alohida ham ko'rinadi, shuning uchun ular ham shu yerda) */
+const MORE_MENU = [
   { id: 'tariff',   icon: 'crown' },
   { id: 'balance',  icon: 'wallet' },
   { id: 'subs',     icon: 'film' },
   { id: 'devices',  icon: 'device' },
   { id: 'promo',    icon: 'gift' },
   { id: 'payments', icon: 'receipt' },
-  { id: 'settings', icon: 'gear' }
-];
-/* Kamroq ishlatiladigan bo'limlar — alohida menyu qatori emas, Sozlamalar ichida ro'yxat sifatida */
-const MORE_MENU = [
   { id: 'notify',  icon: 'bell' },
   { id: 'support', icon: 'help' },
   { id: 'about',   icon: 'info' }
@@ -244,6 +251,7 @@ const AI = {
   gear:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   bell:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 7-3 8.5-3 8.5h18s-3-1.5-3-8.5"/><path d="M13.7 20.5a2 2 0 0 1-3.4 0"/></svg>',
   help:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M9.2 9.3a2.8 2.8 0 0 1 5.4.9c0 1.9-2.4 2-2.4 3.6"/><path d="M12 17.2v.1"/></svg>',
+  tv:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="13" rx="2.5"/><path d="M8 21h8M12 18v3"/><path d="M6.5 9.5a4 4 0 0 1 4-2M6.5 12.3a6.7 6.7 0 0 1 6.7-3.3"/></svg>',
   send:    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 12.3L21 3.5l-4.8 18-6-4.6-3.2 3.1-.5-5.1z"/></svg>',
   mail:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/></svg>',
   chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
@@ -492,7 +500,7 @@ function renderAccount() {
   const plan = ACC_PLANS[profile.plan] || ACC_PLANS.free;
   const sec = section();
   const wide = matchMedia('(min-width: 900px)').matches;
-  const active = sec || (wide ? 'tariff' : '');
+  const active = sec || (wide ? 'settings' : '');
 
   root.className = 'acc-layout' + (sec ? ' has-section' : '');
   root.innerHTML = `
@@ -525,6 +533,16 @@ function renderAccount() {
         <a href="plans.html"><span>${ICONS.crown}</span>${t('acc.q.plan')}</a>
         <a href="#promo"><span>${AI.gift}</span>${t('acc.q.promo')}</a>
       </div>
+
+      ${window.Capacitor?.isNativePlatform?.() ? `
+      <a class="acc-tv-banner" href="catalog.html">
+        <div class="acc-tv-banner-text">
+          <b>${t('acc.tvTitle')}</b>
+          <small>${t('acc.tvText')}</small>
+          <span class="acc-tv-banner-btn">${t('acc.tvBtn')}</span>
+        </div>
+        <span class="acc-tv-banner-icon">${AI.tv}</span>
+      </a>` : ''}
 
       ${sectionsHTML()}
 
