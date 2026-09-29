@@ -3992,6 +3992,10 @@ img, video, iframe { max-width: 100%; }
 /* ---------------- Admin: kino qo'shish (admin.html) ---------------- */
 
 .adm-page { padding-top: calc(var(--header-h) + 24px); padding-bottom: 40px; min-height: 80vh; }
+.adm-boot { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 50vh; text-align: center; padding: 0 24px; }
+.adm-boot-spin { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--accent); animation: admSpin .8s linear infinite; }
+.adm-boot p { margin: 0; color: var(--text-dim); font-size: 13.5px; max-width: 320px; line-height: 1.5; }
+@keyframes admSpin { to { transform: rotate(360deg); } }
 .adm-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
 .adm-top h1 { margin: 0; font-size: 24px; letter-spacing: -.03em; }
 .adm-top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
