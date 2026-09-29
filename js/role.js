@@ -41,14 +41,13 @@ function showRolePicker(profile) {
     el.className = 'role-pick';
     el.innerHTML = `
       <div class="role-pick-box">
-        <img class="role-pick-logo" src="images/logo/standart.png" alt="DezoMax">
         <h1>${esc(t('role.title'))}</h1>
-        <p>${esc(t('role.sub'))}</p>
-        <div class="role-pick-list">
+        <div class="role-pick-avatars">
           ${['adult', 'child', 'guest'].map(r => `
-            <button type="button" class="role-pick-item" data-role="${r}">
-              <span class="role-pick-icon">${ROLE_ICONS[r]}</span>
-              <span class="role-pick-text"><b>${esc(t('role.' + r))}</b><small>${esc(t('role.' + r + 'Sub'))}</small></span>
+            <button type="button" class="role-pick-av" data-role="${r}">
+              <span class="role-pick-circle role-pick-c-${r}">${ROLE_ICONS[r]}</span>
+              <b>${esc(t('role.' + r))}</b>
+              <small>${esc(t('role.' + r + 'Sub'))}</small>
             </button>`).join('')}
         </div>
       </div>`;

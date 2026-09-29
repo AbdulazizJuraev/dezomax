@@ -2964,26 +2964,26 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   transition: opacity .3s ease, visibility .3s;
 }
 .role-pick.is-out { opacity: 0; visibility: hidden; pointer-events: none; }
-.role-pick-box { width: 100%; max-width: 380px; text-align: center; animation: wcIn .4s ease both; }
-.role-pick-logo { width: 56px; height: 56px; border-radius: 16px; margin-bottom: 18px; }
-.role-pick-box h1 { margin: 0 0 6px; font-size: 25px; font-weight: 800; letter-spacing: -.02em; }
-.role-pick-box > p { margin: 0 0 24px; color: var(--text-dim); font-size: 14.5px; line-height: 1.5; }
-.role-pick-list { display: flex; flex-direction: column; gap: 10px; }
-.role-pick-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  text-align: left;
-  transition: border-color .2s, background .2s;
+.role-pick-box { width: 100%; max-width: 480px; text-align: center; animation: wcIn .4s ease both; }
+.role-pick-box h1 { margin: 0 0 34px; font-size: 27px; font-weight: 800; letter-spacing: -.02em; }
+.role-pick-avatars { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 22px; }
+.role-pick-av { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 108px; }
+.role-pick-circle {
+  display: grid; place-items: center;
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 3px solid transparent;
+  transition: border-color .2s, transform .15s;
+  color: #fff;
 }
-.role-pick-item:hover, .role-pick-item:active { border-color: rgba(10, 147, 220, .5); background: rgba(10, 147, 220, .08); }
-.role-pick-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; background: rgba(10, 147, 220, .14); color: #6cc4f2; flex-shrink: 0; }
-.role-pick-icon svg { width: 22px; height: 22px; }
-.role-pick-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.role-pick-text b { font-size: 15px; font-weight: 700; color: var(--text); }
-.role-pick-text small { font-size: 12.5px; color: var(--text-dim); }
+.role-pick-av:hover .role-pick-circle, .role-pick-av:active .role-pick-circle { border-color: #fff; transform: scale(1.04); }
+.role-pick-circle svg { width: 40px; height: 40px; }
+.role-pick-c-adult { background: linear-gradient(135deg, #0a93dc, #0668a8); }
+.role-pick-c-child { background: linear-gradient(135deg, #a855f7, #6d28d9); }
+.role-pick-c-guest { background: linear-gradient(135deg, #4b5563, #303540); }
+.role-pick-av b { font-size: 14.5px; font-weight: 700; color: var(--text); }
+.role-pick-av small { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
 
 /* ---- QR kod skanerlash (js/qrscan.js) ---- */
 .qr-scan {
