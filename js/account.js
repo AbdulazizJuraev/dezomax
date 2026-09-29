@@ -523,7 +523,7 @@ function renderAccount() {
 
       <div class="acc-tiles">
         <a class="acc-tile acc-tile-tariff" href="#tariff">
-          <span class="acc-tile-icon">${ICONS.crown}</span>
+          <span class="acc-tile-hero">${ICONS.crown}</span>
           <b>${t('acc.m.tariff')}</b>
           <small>${esc(L(plan.name))}</small>
         </a>
@@ -535,28 +535,17 @@ function renderAccount() {
       </div>
 
       <a class="acc-tile acc-tile-subs" href="#subs">
-        <span class="acc-tile-blob"></span>
-        <span class="acc-tile-cluster">
-          <span class="acc-tile-badge">${AI.play}</span>
-          <span class="acc-tile-badge">${ICONS.crown}</span>
-        </span>
+        <span class="acc-tile-hero acc-tile-hero-wide">${AI.play}</span>
         <b>${t('acc.m.subs')}</b>
       </a>
 
       <div class="acc-tiles">
         <a class="acc-tile acc-tile-devices" href="#devices">
-          <span class="acc-tile-cluster">
-            <span class="acc-tile-badge">${AI.phone}</span>
-            <span class="acc-tile-badge">${AI.desktop}</span>
-            <span class="acc-tile-badge">${AI.tv}</span>
-          </span>
+          <span class="acc-tile-hero">${AI.phone}</span>
           <b>${t('acc.m.devices')}</b>
         </a>
         <a class="acc-tile acc-tile-promo" href="#promo">
-          <span class="acc-tile-cluster">
-            <span class="acc-tile-badge">${AI.gift}</span>
-            <span class="acc-tile-badge">${AI.percent}</span>
-          </span>
+          <span class="acc-tile-hero">${AI.gift}</span>
           <b>${t('acc.m.promo')}</b>
         </a>
       </div>
