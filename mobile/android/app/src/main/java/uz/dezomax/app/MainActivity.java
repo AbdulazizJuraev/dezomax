@@ -115,6 +115,18 @@ public class MainActivity extends BridgeActivity {
                     new String[]{ Manifest.permission.POST_NOTIFICATIONS }, 7001);
             }
         }
+
+        // QR kod skanerlash (Televizorda ko'ring banneri) uchun kamera ruxsati.
+        // Rad etilsa ham har safar bezovta qilmaymiz — eng ko'pi bilan 3 marta so'raymiz.
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            int askedCam = prefs.getInt("cameraAsked", 0);
+            if (askedCam < 3) {
+                prefs.edit().putInt("cameraAsked", askedCam + 1).apply();
+                ActivityCompat.requestPermissions(this,
+                    new String[]{ Manifest.permission.CAMERA }, 7002);
+            }
+        }
     }
 
     /* Tepadagi chekinish (soat qatori / kamera qirqimi) balandligini sahifaga beramiz:
