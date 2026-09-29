@@ -255,6 +255,8 @@ const AI = {
   bell:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 7-3 8.5-3 8.5h18s-3-1.5-3-8.5"/><path d="M13.7 20.5a2 2 0 0 1-3.4 0"/></svg>',
   help:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M9.2 9.3a2.8 2.8 0 0 1 5.4.9c0 1.9-2.4 2-2.4 3.6"/><path d="M12 17.2v.1"/></svg>',
   tv:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="13" rx="2.5"/><path d="M8 21h8M12 18v3"/><path d="M6.5 9.5a4 4 0 0 1 4-2M6.5 12.3a6.7 6.7 0 0 1 6.7-3.3"/></svg>',
+  percent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg>',
+  play:    '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z" fill="currentColor"/></svg>',
   send:    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 12.3L21 3.5l-4.8 18-6-4.6-3.2 3.1-.5-5.1z"/></svg>',
   mail:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/></svg>',
   chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
@@ -534,16 +536,27 @@ function renderAccount() {
 
       <a class="acc-tile acc-tile-subs" href="#subs">
         <span class="acc-tile-blob"></span>
+        <span class="acc-tile-cluster">
+          <span class="acc-tile-badge">${AI.play}</span>
+          <span class="acc-tile-badge">${ICONS.crown}</span>
+        </span>
         <b>${t('acc.m.subs')}</b>
       </a>
 
       <div class="acc-tiles">
         <a class="acc-tile acc-tile-devices" href="#devices">
-          <span class="acc-tile-icon">${AI.device}</span>
+          <span class="acc-tile-cluster">
+            <span class="acc-tile-badge">${AI.phone}</span>
+            <span class="acc-tile-badge">${AI.desktop}</span>
+            <span class="acc-tile-badge">${AI.tv}</span>
+          </span>
           <b>${t('acc.m.devices')}</b>
         </a>
         <a class="acc-tile acc-tile-promo" href="#promo">
-          <span class="acc-tile-icon">${AI.gift}</span>
+          <span class="acc-tile-cluster">
+            <span class="acc-tile-badge">${AI.gift}</span>
+            <span class="acc-tile-badge">${AI.percent}</span>
+          </span>
           <b>${t('acc.m.promo')}</b>
         </a>
       </div>

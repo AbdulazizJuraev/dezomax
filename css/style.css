@@ -3036,6 +3036,21 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-tile-promo { background: linear-gradient(135deg, #3a2a1e, #5a3a20); border-color: transparent; color: #fff; }
 .acc-tile-devices .acc-tile-icon, .acc-tile-promo .acc-tile-icon { background: rgba(255, 255, 255, .2); color: #fff; }
 
+/* Kartalar burchagidagi kichik ikonka to'plami (masalan Qurilmalar: telefon/kompyuter/TV) */
+.acc-tile-cluster { display: flex; margin-bottom: 8px; }
+.acc-tile-badge {
+  display: grid; place-items: center;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .2);
+  border: 2px solid rgba(0, 0, 0, .12);
+  color: #fff;
+  margin-right: -10px;
+}
+.acc-tile-badge:last-child { margin-right: 0; }
+.acc-tile-badge svg { width: 16px; height: 16px; }
+.acc-tile-subs .acc-tile-cluster { position: absolute; right: 16px; top: 16px; margin: 0; z-index: 1; }
+
 .acc-tv-banner {
   display: flex;
   align-items: center;
