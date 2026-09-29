@@ -3074,7 +3074,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-tile-devices { background: linear-gradient(135deg, #f5810c, #d9600a); border-color: transparent; color: #fff; }
 .acc-tile-promo { background: linear-gradient(135deg, #3a2a1e, #5a3a20); border-color: transparent; color: #fff; }
 .acc-tile-promo .acc-tile-hero { width: 102px; height: 102px; right: -15px; bottom: -15px; }
-.acc-tile-devices .acc-tile-hero { width: 118px; height: 118px; right: 2px; bottom: 4px; transform: rotate(-4deg) scaleX(-1); }
+.acc-tile-devices .acc-tile-hero { width: 168px; height: 168px; right: -14px; bottom: -18px; transform: rotate(-14deg) scaleX(-1); }
 .acc-tile-devices b, .acc-tile-promo b { max-width: 62%; overflow-wrap: break-word; line-height: 1.2; }
 
 @media (max-width: 380px) {
@@ -3082,7 +3082,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   .acc-tile-hero { width: 111px; height: 111px; right: -18px; bottom: -21px; }
   .acc-tile-hero-wide { width: 90px; height: 90px; }
   .acc-tile-promo .acc-tile-hero { width: 81px; height: 81px; right: -12px; bottom: -12px; }
-  .acc-tile-devices .acc-tile-hero { width: 94px; height: 94px; right: 2px; bottom: 2px; }
+  .acc-tile-devices .acc-tile-hero { width: 128px; height: 128px; right: -10px; bottom: -12px; }
   .acc-tile-devices b, .acc-tile-promo b { max-width: 58%; }
 }
 
