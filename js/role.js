@@ -33,9 +33,9 @@ const ROLE_ICONS = {
   guest: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.3" fill="currentColor" stroke="none"/></svg>'
 };
 
-/* profile.role bo'lmasa — tanlash ekranini ko'rsatadi va tanlanguncha kutadi */
+/* Tanlash ekranini ko'rsatadi va tanlanguncha kutadi (har safar chaqirilganda so'raydi —
+   profile.role oldingi tanlovni saqlab turadi, lekin bu funksiya har safar qayta so'raydi) */
 function showRolePicker(profile) {
-  if (profile.role) return Promise.resolve();
   return new Promise(resolve => {
     const el = document.createElement('div');
     el.className = 'role-pick';
@@ -57,6 +57,7 @@ function showRolePicker(profile) {
       if (el.classList.contains('is-out')) return;
       profile.role = b.dataset.role;
       try { await Auth.saveProfile(profile); } catch {}
+      try { sessionStorage.setItem('dezomax_role_asked', '1'); } catch {}
       el.classList.add('is-out');
       document.documentElement.classList.remove('welcome-lock');
       setTimeout(() => el.remove(), 300);
@@ -64,3 +65,23 @@ function showRolePicker(profile) {
     }));
   });
 }
+
+/* Har safar ilova/sayt ochilganda (yangi sessiyada) allaqachon kirgan foydalanuvchidan
+   ham qayta so'raladi — "kim tomosha qiladi" Netflix uslubidagi tanlov kabi.
+   Bir sessiya ichida (bir necha sahifa ko'rilsa) faqat bir marta so'raladi. */
+(function () {
+  try {
+    if (typeof Auth === 'undefined') return;
+    const user = Auth.user();
+    if (!user) return;
+    if (sessionStorage.getItem('dezomax_role_asked') === '1') return;
+    const run = async () => {
+      try {
+        const profile = await Auth.loadProfile(user);
+        await showRolePicker(profile);
+      } catch {}
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+    else run();
+  } catch {}
+})();
