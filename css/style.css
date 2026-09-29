@@ -3040,15 +3040,12 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-tile-cluster { display: flex; margin-bottom: 8px; }
 .acc-tile-badge {
   display: grid; place-items: center;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .2);
-  border: 2px solid rgba(0, 0, 0, .12);
-  color: #fff;
-  margin-right: -10px;
+  width: 26px; height: 26px;
+  color: rgba(255, 255, 255, .85);
+  margin-right: 4px;
 }
 .acc-tile-badge:last-child { margin-right: 0; }
-.acc-tile-badge svg { width: 16px; height: 16px; }
+.acc-tile-badge svg { width: 20px; height: 20px; }
 .acc-tile-subs .acc-tile-cluster { position: absolute; right: 16px; top: 16px; margin: 0; z-index: 1; }
 .acc-tile-devices .acc-tile-cluster, .acc-tile-promo .acc-tile-cluster {
   position: absolute; right: 14px; top: 50%; transform: translateY(-50%); margin: 0; z-index: 1;
