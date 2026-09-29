@@ -526,7 +526,7 @@ function renderAccount() {
 
       <div class="acc-tiles">
         <a class="acc-tile acc-tile-tariff" href="#tariff">
-          <span class="acc-tile-hero">${ICONS.crown}</span>
+          <img class="acc-tile-hero" src="images/account/crown.webp" alt="" loading="lazy">
           <b>${t('acc.m.tariff')}</b>
           <small>${esc(L(plan.name))}</small>
         </a>
@@ -538,17 +538,17 @@ function renderAccount() {
       </div>
 
       <a class="acc-tile acc-tile-subs" href="#subs">
-        <span class="acc-tile-hero acc-tile-hero-wide">${AI.play}</span>
+        <img class="acc-tile-hero acc-tile-hero-wide" src="images/account/play.webp" alt="" loading="lazy">
         <b>${t('acc.m.subs')}</b>
       </a>
 
       <div class="acc-tiles">
         <a class="acc-tile acc-tile-devices" href="#devices">
-          <span class="acc-tile-hero">${AI.phone}</span>
+          <img class="acc-tile-hero" src="images/account/phone.webp" alt="" loading="lazy">
           <b>${t('acc.m.devices')}</b>
         </a>
         <a class="acc-tile acc-tile-promo" href="#promo">
-          <span class="acc-tile-hero">${AI.gift}</span>
+          <img class="acc-tile-hero" src="images/account/percent.webp" alt="" loading="lazy">
           <b>${t('acc.m.promo')}</b>
         </a>
       </div>
@@ -562,7 +562,7 @@ function renderAccount() {
             <button type="button" class="acc-tv-banner-qr" id="tvQrBtn" aria-label="${esc(t('acc.tvQrBtn'))}">${AI.qr}</button>
           </div>
         </div>
-        <span class="acc-tv-banner-icon">${AI.tv}</span>
+        <img class="acc-tv-banner-icon" src="images/account/tv.webp" alt="" loading="lazy">
       </div>` : ''}
 
       ${sectionsHTML()}
