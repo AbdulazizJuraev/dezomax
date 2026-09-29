@@ -3047,14 +3047,14 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 /* Kartaning pastki-o'ng burchagidan "toshib chiqadigan" katta qiya ikonka */
 .acc-tile-hero {
   position: absolute;
-  right: -14px; bottom: -16px;
-  width: 92px; height: 92px;
+  right: -21px; bottom: -24px;
+  width: 138px; height: 138px;
   object-fit: contain;
   transform: rotate(18deg);
   pointer-events: none;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .35));
 }
-.acc-tile-hero-wide { width: 74px; height: 74px; right: 12px; bottom: -8px; transform: rotate(8deg); }
+.acc-tile-hero-wide { width: 111px; height: 111px; right: 18px; bottom: -12px; transform: rotate(8deg); }
 
 .acc-tile-tariff { background: linear-gradient(135deg, #1fb15f, #189150); border-color: transparent; color: #fff; }
 .acc-tile-tariff small { color: rgba(255, 255, 255, .85); }
@@ -3073,14 +3073,15 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 
 .acc-tile-devices { background: linear-gradient(135deg, #f5810c, #d9600a); border-color: transparent; color: #fff; }
 .acc-tile-promo { background: linear-gradient(135deg, #3a2a1e, #5a3a20); border-color: transparent; color: #fff; }
-.acc-tile-devices .acc-tile-hero, .acc-tile-promo .acc-tile-hero { width: 68px; height: 68px; right: -10px; bottom: -10px; }
+.acc-tile-devices .acc-tile-hero, .acc-tile-promo .acc-tile-hero { width: 102px; height: 102px; right: -15px; bottom: -15px; }
+.acc-tile-devices .acc-tile-hero { transform: rotate(18deg) scaleX(-1); }
 .acc-tile-devices b, .acc-tile-promo b { max-width: 62%; overflow-wrap: break-word; line-height: 1.2; }
 
 @media (max-width: 380px) {
   .acc-tile b { font-size: 14px; }
-  .acc-tile-hero { width: 74px; height: 74px; right: -12px; bottom: -14px; }
-  .acc-tile-hero-wide { width: 60px; height: 60px; }
-  .acc-tile-devices .acc-tile-hero, .acc-tile-promo .acc-tile-hero { width: 54px; height: 54px; right: -8px; bottom: -8px; }
+  .acc-tile-hero { width: 111px; height: 111px; right: -18px; bottom: -21px; }
+  .acc-tile-hero-wide { width: 90px; height: 90px; }
+  .acc-tile-devices .acc-tile-hero, .acc-tile-promo .acc-tile-hero { width: 81px; height: 81px; right: -12px; bottom: -12px; }
   .acc-tile-devices b, .acc-tile-promo b { max-width: 58%; }
 }
 
@@ -3114,7 +3115,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   flex-shrink: 0;
 }
 .acc-tv-banner-qr svg { width: 18px; height: 18px; }
-.acc-tv-banner-icon { width: 72px; height: 72px; object-fit: contain; flex-shrink: 0; }
+.acc-tv-banner-icon { width: 108px; height: 108px; object-fit: contain; flex-shrink: 0; }
 
 .acc-support-top { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 24px 20px; }
 .acc-support-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; background: rgba(10, 147, 220, .14); color: #6cc4f2; }
