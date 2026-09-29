@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 16,
+    "slug": "spirited-away",
+    "type": "multfilm",
+    "title": {
+      "uz": "Ruhlar olami",
+      "ru": "Унесённые призраками"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "Yaponiya",
+      "ru": "Япония"
+    },
+    "cast": [
+      "Rumi Hiiragi",
+      "Miyu Irino",
+      "Mari Natsuki"
+    ],
+    "desc": {
+      "uz": "Qizaloq Chixiro sehrli ruhlar olamiga tushib qoladi va ota-onasini qutqarish uchun kurashadi.",
+      "ru": "Девочка Тихиро попадает в волшебный мир духов и борется за спасение родителей."
+    },
+    "colors": [
+      "#2f6a6a",
+      "#0b1c1c"
+    ],
+    "poster": "images/spirited-away.png",
+    "trailer": "https://www.youtube.com/watch?v=bgxiTkAlQrw",
+    "video": "https://iv.okcdn.ru/i?r=BDFSTM1h2o92P_v-s8DgGlgYie117TfYy5Gq0chBlNXq8qY_4CIrgWuPLQmWM8jm8P0&fn=external_8",
+    "featured": false,
+    "addedAt": 1790665790283,
+    "updatedAt": 1790665790283,
+    "year": 2001,
+    "duration": 125,
+    "rating": 8.6,
+    "director": "Hayao Miyazaki"
+  },
+  {
     "id": 1124457266,
     "slug": "moana-2",
     "type": "multfilm",
