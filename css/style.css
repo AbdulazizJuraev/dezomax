@@ -2985,6 +2985,44 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .role-pick-text b { font-size: 15px; font-weight: 700; color: var(--text); }
 .role-pick-text small { font-size: 12.5px; color: var(--text-dim); }
 
+/* ---- QR kod skanerlash (js/qrscan.js) ---- */
+.qr-scan {
+  position: fixed; inset: 0; z-index: 2100;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  background: #000;
+  color: #fff;
+  overflow-y: auto;
+}
+.qr-scan-close {
+  align-self: flex-start;
+  display: grid; place-items: center;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .1);
+  margin-bottom: 8px;
+}
+.qr-scan h1 { margin: 0 0 20px; font-size: 20px; font-weight: 800; }
+.qr-scan-frame {
+  position: relative;
+  width: 100%; max-width: 340px;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #111;
+}
+.qr-scan-video { width: 100%; height: 100%; object-fit: cover; }
+.qr-scan-box {
+  position: absolute; inset: 14%;
+  border: 3px solid #fff;
+  border-radius: 18px;
+  box-shadow: 0 0 0 999px rgba(0, 0, 0, .35);
+}
+.qr-scan-hint { margin: 18px 0 0; color: rgba(255, 255, 255, .65); font-size: 13.5px; text-align: center; }
+.qr-scan-result { text-align: center; max-width: 320px; margin-top: 12px; }
+.qr-scan-result small { color: rgba(255, 255, 255, .6); font-size: 12.5px; }
+.qr-scan-text { margin: 8px 0 18px; font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+
 .acc-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
 .acc-tile {
@@ -3063,7 +3101,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-tv-banner-text { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .acc-tv-banner-text b { font-size: 15.5px; font-weight: 750; color: #fff; }
 .acc-tv-banner-text small { display: none; }
-.acc-tv-banner-btn { display: inline-block; width: max-content; padding: 9px 20px; border-radius: 999px; background: #fff; color: #101114; font-size: 13px; font-weight: 750; }
+.acc-tv-banner-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.acc-tv-banner-btn { display: inline-flex; align-items: center; gap: 6px; width: max-content; padding: 9px 18px; border-radius: 999px; background: #fff; color: #101114; font-size: 13px; font-weight: 750; }
+.acc-tv-banner-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.acc-tv-banner-btn-ghost { background: rgba(255, 255, 255, .12); color: #fff; border: 1px solid rgba(255, 255, 255, .25); }
 .acc-tv-banner-icon { color: rgba(255, 255, 255, .55); flex-shrink: 0; }
 .acc-tv-banner-icon svg { width: 62px; height: 62px; stroke-width: 1.3; }
 

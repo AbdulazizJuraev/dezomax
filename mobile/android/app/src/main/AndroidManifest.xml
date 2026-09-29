@@ -52,4 +52,7 @@
     <!-- Bildirishnomalar (admin ilovasidan yuboriladi) va ularni belgilangan vaqtda chiqarish -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- QR kod skanerlash (Televizorda ko'ring banneri) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 </manifest>
