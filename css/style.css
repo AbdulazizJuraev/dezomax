@@ -3835,8 +3835,7 @@ img, video, iframe { max-width: 100%; }
   width: 42px; height: 42px;
   padding: 2.5px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0a93dc 0%, #3b82f6 35%, #e11d48 70%, #ff3b5c 100%);
-  box-shadow: 0 4px 16px rgba(10, 147, 220, .25), 0 4px 16px rgba(225, 29, 72, .18);
+  background: var(--line);
 }
 
 .account-btn .avatar,
