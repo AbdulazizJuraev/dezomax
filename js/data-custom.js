@@ -4033,11 +4033,11 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#06161c"
     ],
     "poster": "images/avatar.jpg",
-    "trailer": "https://www.youtube.com/watch?v=uXC_0wE6k7k",
+    "trailer": "https://youtu.be/MUOkqc2ZdK8?si=Onqc7RFBjXvADPmW",
     "video": "https://d.uzbeklar.biz/film/avatar1.mp4",
     "featured": false,
     "addedAt": 1790166238215,
-    "updatedAt": 1790166238215,
+    "updatedAt": 1790704975918,
     "year": 2009,
     "duration": 162,
     "rating": 7.9,
