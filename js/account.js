@@ -565,8 +565,6 @@ function renderAccount() {
         <img class="acc-tv-banner-icon" src="images/account/tv.webp" alt="" loading="lazy">
       </div>` : ''}
 
-      ${sectionsHTML()}
-
       <nav class="acc-menu">
         ${MENU.map(m => `
           <a class="acc-menu-item${m.id === active ? ' is-active' : ''}" href="#${m.id}">
@@ -779,6 +777,7 @@ const SECTIONS = {
           <span class="acc-muted">${fmtDate(profile.createdAt)}</span>
         </div>
       </div>
+      ${sectionsHTML()}
       <nav class="acc-menu acc-more-menu">
         ${MORE_MENU.map(m => `
           <a class="acc-menu-item" href="#${m.id}">
