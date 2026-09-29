@@ -559,7 +559,7 @@ function renderAccount() {
           <b>${t('acc.tvTitle')}</b>
           <div class="acc-tv-banner-btns">
             <a class="acc-tv-banner-btn" href="catalog.html">${t('acc.tvBtn')}</a>
-            <button type="button" class="acc-tv-banner-btn acc-tv-banner-btn-ghost" id="tvQrBtn">${AI.qr}<span>${t('acc.tvQrBtn')}</span></button>
+            <button type="button" class="acc-tv-banner-qr" id="tvQrBtn" aria-label="${esc(t('acc.tvQrBtn'))}">${AI.qr}</button>
           </div>
         </div>
         <span class="acc-tv-banner-icon">${AI.tv}</span>

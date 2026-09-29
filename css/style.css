@@ -3104,7 +3104,16 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-tv-banner-btns { display: flex; flex-wrap: wrap; gap: 8px; }
 .acc-tv-banner-btn { display: inline-flex; align-items: center; gap: 6px; width: max-content; padding: 9px 18px; border-radius: 999px; background: #fff; color: #101114; font-size: 13px; font-weight: 750; }
 .acc-tv-banner-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
-.acc-tv-banner-btn-ghost { background: rgba(255, 255, 255, .12); color: #fff; border: 1px solid rgba(255, 255, 255, .25); }
+.acc-tv-banner-qr {
+  display: grid; place-items: center;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .25);
+  color: #fff;
+  flex-shrink: 0;
+}
+.acc-tv-banner-qr svg { width: 18px; height: 18px; }
 .acc-tv-banner-icon { color: rgba(255, 255, 255, .55); flex-shrink: 0; }
 .acc-tv-banner-icon svg { width: 62px; height: 62px; stroke-width: 1.3; }
 
