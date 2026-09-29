@@ -3035,11 +3035,15 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 
 .acc-tile-devices { background: linear-gradient(135deg, #f5810c, #d9600a); border-color: transparent; color: #fff; }
 .acc-tile-promo { background: linear-gradient(135deg, #3a2a1e, #5a3a20); border-color: transparent; color: #fff; }
+.acc-tile-devices .acc-tile-hero, .acc-tile-promo .acc-tile-hero { width: 68px; height: 68px; right: -10px; bottom: -10px; }
+.acc-tile-devices b, .acc-tile-promo b { max-width: 62%; overflow-wrap: break-word; line-height: 1.2; }
 
 @media (max-width: 380px) {
   .acc-tile b { font-size: 14px; }
   .acc-tile-hero { width: 74px; height: 74px; right: -12px; bottom: -14px; }
   .acc-tile-hero-wide { width: 60px; height: 60px; }
+  .acc-tile-devices .acc-tile-hero, .acc-tile-promo .acc-tile-hero { width: 54px; height: 54px; right: -8px; bottom: -8px; }
+  .acc-tile-devices b, .acc-tile-promo b { max-width: 58%; }
 }
 
 .acc-tv-banner {
