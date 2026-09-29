@@ -229,7 +229,11 @@
     const err = root.querySelector('#wcErr');
     const showErr = m => { err.textContent = m; err.hidden = !m; };
     const btn = root.querySelector('#wcGoogle');
-    const ok = () => { finish(true); };
+    const ok = async () => {
+      const p = await Auth.loadProfile();
+      await showRolePicker(p);
+      finish(true);
+    };
 
     // Sayt: Google'ning o'z tugmasi (popup). Ilova (yoki Google yuklanmasa): bizning tugma
     if (Auth.mode === 'google' && !Auth.native) {

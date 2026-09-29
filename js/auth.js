@@ -168,7 +168,8 @@ function defaultProfile(user) {
         text: { uz: 'O‘zbek kinolari, telekanallar va sport — hammasi bir joyda.',
                 ru: 'Узбекское кино, телеканалы и спорт — всё в одном месте.' } }
     ],
-    settings: { notifyNew: true, notifySport: true, notifyPromo: true, autoplay: true, quality: 'auto' }
+    settings: { notifyNew: true, notifySport: true, notifyPromo: true, autoplay: true, quality: 'auto' },
+    role: null       // 'adult' | 'child' | 'guest' — birinchi kirishda so'raladi (js/role.js)
   };
 }
 

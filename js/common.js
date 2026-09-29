@@ -44,6 +44,15 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
     const admin = page === 'admin.html' || (document.body && document.body.classList.contains('page-admin'));
     if (admin || page === 'movie.html') return;
     for (let i = MOVIES.length - 1; i >= 0; i--) if (!hasFilm(MOVIES[i])) MOVIES.splice(i, 1);
+
+    // "Bola" rolidagi foydalanuvchilar: katalog/qidiruv/bosh sahifada faqat multfilmlar ko'rinadi
+    if (page === 'index.html' || page === 'catalog.html' || page === 'search.html') {
+      const u = JSON.parse(localStorage.getItem('dezomax_user') || 'null');
+      const p = u && u.uid ? JSON.parse(localStorage.getItem('dezomax_profile_' + u.uid) || 'null') : null;
+      if (p && p.role === 'child') {
+        for (let i = MOVIES.length - 1; i >= 0; i--) if (MOVIES[i].type !== 'multfilm') MOVIES.splice(i, 1);
+      }
+    }
   } catch (e) {}
 })();
 
