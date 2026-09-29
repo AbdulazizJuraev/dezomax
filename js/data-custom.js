@@ -3651,11 +3651,11 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#160810"
     ],
     "poster": "images/avengers-infinity-war.jpg",
-    "trailer": "https://www.youtube.com/watch?v=FeJKZMFJ7NA",
+    "trailer": "https://youtu.be/6ZfuNTqbHE8?si=TmEgu7OD2myL8Mpv",
     "video": "https://kinolar.tv/75bdf9e4-e916-4088-9f80-d2df64f7fc4d",
     "featured": false,
     "addedAt": 1790170603056,
-    "updatedAt": 1790170603056,
+    "updatedAt": 1790704742559,
     "year": 2018,
     "duration": 149,
     "rating": 8.4,
