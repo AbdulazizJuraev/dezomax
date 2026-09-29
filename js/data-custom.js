@@ -3695,11 +3695,11 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#070e1c"
     ],
     "poster": "images/the-avengers.jpg",
-    "trailer": "https://youtu.be/Rt8g8_rfc3I?si=A42MiYyT4l85PuTN",
+    "trailer": "https://kinolar.tv/07e12638-85b0-4ea8-aff0-b412402b0d04",
     "video": "https://kinolar.tv/07e12638-85b0-4ea8-aff0-b412402b0d04",
     "featured": false,
     "addedAt": 1790170530090,
-    "updatedAt": 1790704824213,
+    "updatedAt": 1790705038066,
     "year": 2012,
     "duration": 143,
     "rating": 8,
