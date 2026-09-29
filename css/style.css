@@ -3048,10 +3048,24 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-tile-badge svg { width: 20px; height: 20px; }
 .acc-tile-subs .acc-tile-cluster { position: absolute; right: 16px; top: 16px; margin: 0; z-index: 1; }
 .acc-tile-devices .acc-tile-cluster, .acc-tile-promo .acc-tile-cluster {
-  position: absolute; right: 14px; top: 50%; transform: translateY(-50%); margin: 0; z-index: 1;
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%); margin: 0; z-index: 1;
 }
-.acc-tile-devices, .acc-tile-promo { justify-content: center; }
-.acc-tile-devices b, .acc-tile-promo b { max-width: 68%; }
+.acc-tile-devices, .acc-tile-promo { justify-content: center; padding-right: 8px; }
+.acc-tile-devices b, .acc-tile-promo b { overflow-wrap: break-word; }
+.acc-tile-devices .acc-tile-cluster .acc-tile-badge, .acc-tile-promo .acc-tile-cluster .acc-tile-badge { width: 20px; height: 20px; margin-right: 2px; }
+.acc-tile-devices .acc-tile-cluster .acc-tile-badge svg, .acc-tile-promo .acc-tile-cluster .acc-tile-badge svg { width: 15px; height: 15px; }
+.acc-tile-devices b { padding-right: 68px; }
+.acc-tile-promo b { padding-right: 50px; }
+
+@media (max-width: 380px) {
+  .acc-tile-devices .acc-tile-cluster .acc-tile-badge, .acc-tile-promo .acc-tile-cluster .acc-tile-badge { width: 16px; height: 16px; margin-right: 0; }
+  .acc-tile-devices .acc-tile-cluster .acc-tile-badge svg, .acc-tile-promo .acc-tile-cluster .acc-tile-badge svg { width: 12px; height: 12px; }
+  .acc-tile-devices b, .acc-tile-promo b { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .acc-tile-devices b { padding-right: 42px; }
+  .acc-tile-promo b { padding-right: 30px; }
+  .acc-tile-devices .acc-tile-cluster { right: 8px; }
+  .acc-tile-promo .acc-tile-cluster { right: 8px; }
+}
 
 .acc-tv-banner {
   display: flex;
