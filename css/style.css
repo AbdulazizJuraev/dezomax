@@ -2955,6 +2955,57 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-profile > * { position: relative; z-index: 1; }
 .acc-profile-since { margin-top: 3px; color: var(--text-faint); font-size: 11.5px; font-weight: 600; }
 
+.acc-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.acc-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-height: 96px;
+  padding: 16px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  transition: transform .15s, border-color .2s;
+}
+.acc-tile:hover { transform: translateY(-1px); }
+.acc-tile b { font-size: 15px; font-weight: 750; letter-spacing: -.01em; }
+.acc-tile small { font-size: 12px; font-weight: 600; opacity: .85; }
+.acc-tile-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: rgba(255, 255, 255, .18); margin-bottom: 6px; }
+.acc-tile-icon svg { width: 19px; height: 19px; }
+
+.acc-tile-tariff { background: linear-gradient(135deg, #1fb15f, #189150); border-color: transparent; color: #fff; }
+.acc-tile-tariff .acc-tile-icon { color: #d9ffe8; }
+.acc-tile-tariff small { color: rgba(255, 255, 255, .85); }
+
+.acc-tile-balance { align-items: flex-start; }
+.acc-tile-balance b { font-size: 20px; color: #34d399; }
+.acc-tile-balance b span { font-size: 12px; color: var(--text-dim); font-weight: 600; }
+.acc-tile-btn { margin-top: 8px; padding: 7px 16px; border-radius: 999px; background: rgba(255, 255, 255, .08); font-size: 12.5px; font-weight: 700; }
+
+.acc-tile-subs {
+  min-height: 84px;
+  background: linear-gradient(120deg, #6d28d9, #0a93dc 120%);
+  border-color: transparent;
+  color: #fff;
+  justify-content: center;
+}
+.acc-tile-subs b { font-size: 16px; }
+.acc-tile-blob {
+  position: absolute; right: -18px; top: -22px;
+  width: 100px; height: 100px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, .28), transparent 70%);
+  pointer-events: none;
+}
+
+.acc-tile-devices { background: linear-gradient(135deg, #f5810c, #d9600a); border-color: transparent; color: #fff; }
+.acc-tile-promo { background: linear-gradient(135deg, #3a2a1e, #5a3a20); border-color: transparent; color: #fff; }
+.acc-tile-devices .acc-tile-icon, .acc-tile-promo .acc-tile-icon { background: rgba(255, 255, 255, .2); color: #fff; }
+
 .acc-tv-banner {
   display: flex;
   align-items: center;

@@ -226,20 +226,23 @@ const ACC_PLANS = {
 const MENU = [
   { id: 'settings', icon: 'gear' }
 ];
-/* Asosiy menyu faqat "Sozlamalar" — qolgan hammasi shu ichida ro'yxat sifatida
-   (Tarif/Balans yuqoridagi kartalarda alohida ham ko'rinadi, shuning uchun ular ham shu yerda) */
+/* Asosiy menyu faqat "Sozlamalar" — Tarif/Balans/Obunalar/Qurilmalar/Promokod
+   yuqorida rangli kartalar sifatida ko'rinadi, qolganlari shu ro'yxatda */
 const MORE_MENU = [
-  { id: 'tariff',   icon: 'crown' },
-  { id: 'balance',  icon: 'wallet' },
-  { id: 'subs',     icon: 'film' },
-  { id: 'devices',  icon: 'device' },
-  { id: 'promo',    icon: 'gift' },
   { id: 'payments', icon: 'receipt' },
   { id: 'notify',  icon: 'bell' },
   { id: 'support', icon: 'help' },
   { id: 'about',   icon: 'info' }
 ];
-const ALL_SECTIONS = [...MENU, ...MORE_MENU];
+/* Tepadagi rangli kartalar orqali ochiladigan bo'limlar (menyu qatori emas, lekin #hash to'g'ri ishlashi kerak) */
+const TILE_SECTIONS = [
+  { id: 'tariff',  icon: 'crown' },
+  { id: 'balance', icon: 'wallet' },
+  { id: 'subs',    icon: 'film' },
+  { id: 'devices', icon: 'device' },
+  { id: 'promo',   icon: 'gift' }
+];
+const ALL_SECTIONS = [...MENU, ...MORE_MENU, ...TILE_SECTIONS];
 
 const AI = {
   wallet:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2"/><path d="M6 6l9-3 1.5 3"/></svg>',
@@ -515,23 +518,33 @@ function renderAccount() {
         ${langSwitchHTML()}
       </div>
 
-      <div class="acc-stats">
-        <a class="acc-stat${profile.plan !== 'free' ? ' is-paid' : ''}" href="#tariff">
-          <small>${ICONS.crown}${t('acc.plan')}</small>
-          <b>${esc(L(plan.name))}</b>
-          ${planProgressHTML()}
+      <div class="acc-tiles">
+        <a class="acc-tile acc-tile-tariff" href="#tariff">
+          <span class="acc-tile-icon">${ICONS.crown}</span>
+          <b>${t('acc.m.tariff')}</b>
+          <small>${esc(L(plan.name))}</small>
         </a>
-        <a class="acc-stat is-balance" href="#balance">
-          <small>${AI.wallet}${t('acc.balance')}</small>
+        <a class="acc-tile acc-tile-balance" href="#balance">
+          <small>${t('acc.balance')}:</small>
           <b>${money(profile.balance)} <span>${sumWord()}</span></b>
-          <span class="acc-stat-sub">${t('acc.topupShort')} →</span>
+          <span class="acc-tile-btn">${t('acc.topupShort')}</span>
         </a>
       </div>
 
-      <div class="acc-quick">
-        <a href="#balance"><span>${AI.wallet}</span>${t('acc.q.topup')}</a>
-        <a href="plans.html"><span>${ICONS.crown}</span>${t('acc.q.plan')}</a>
-        <a href="#promo"><span>${AI.gift}</span>${t('acc.q.promo')}</a>
+      <a class="acc-tile acc-tile-subs" href="#subs">
+        <span class="acc-tile-blob"></span>
+        <b>${t('acc.m.subs')}</b>
+      </a>
+
+      <div class="acc-tiles">
+        <a class="acc-tile acc-tile-devices" href="#devices">
+          <span class="acc-tile-icon">${AI.device}</span>
+          <b>${t('acc.m.devices')}</b>
+        </a>
+        <a class="acc-tile acc-tile-promo" href="#promo">
+          <span class="acc-tile-icon">${AI.gift}</span>
+          <b>${t('acc.m.promo')}</b>
+        </a>
       </div>
 
       ${window.Capacitor?.isNativePlatform?.() ? `
