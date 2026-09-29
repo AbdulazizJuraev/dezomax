@@ -2990,6 +2990,9 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 }
 .acc-quick a:hover { border-color: rgba(10, 147, 220, .45); color: #fff; }
 .acc-quick span { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: rgba(10, 147, 220, .14); color: #6cc4f2; }
+.acc-quick a:nth-child(1) span { background: rgba(34, 197, 148, .16); color: #34d399; }
+.acc-quick a:nth-child(2) span { background: rgba(245, 166, 35, .16); color: #f5a623; }
+.acc-quick a:nth-child(3) span { background: rgba(192, 132, 252, .16); color: #c084fc; }
 .acc-quick svg { width: 18px; height: 18px; stroke: currentColor; }
 .acc-quick a { overflow-wrap: anywhere; line-height: 1.2; }
 

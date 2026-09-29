@@ -224,11 +224,15 @@ const MENU = [
   { id: 'devices',  icon: 'device' },
   { id: 'promo',    icon: 'gift' },
   { id: 'payments', icon: 'receipt' },
-  { id: 'settings', icon: 'gear' },
-  { id: 'notify',   icon: 'bell' },
-  { id: 'support',  icon: 'help' },
-  { id: 'about',    icon: 'info' }
+  { id: 'settings', icon: 'gear' }
 ];
+/* Kamroq ishlatiladigan bo'limlar — alohida menyu qatori emas, Sozlamalar ichida ro'yxat sifatida */
+const MORE_MENU = [
+  { id: 'notify',  icon: 'bell' },
+  { id: 'support', icon: 'help' },
+  { id: 'about',   icon: 'info' }
+];
+const ALL_SECTIONS = [...MENU, ...MORE_MENU];
 
 const AI = {
   wallet:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2"/><path d="M6 6l9-3 1.5 3"/></svg>',
@@ -463,7 +467,7 @@ async function onLoggedIn() {
 
 const section = () => {
   const id = location.hash.slice(1);
-  return MENU.some(m => m.id === id) ? id : '';
+  return ALL_SECTIONS.some(m => m.id === id) ? id : '';
 };
 
 /* Tarif muddati: qolgan kunlar va chiziq */
@@ -529,7 +533,7 @@ function renderAccount() {
           <a class="acc-menu-item${m.id === active ? ' is-active' : ''}" href="#${m.id}">
             <span class="acc-menu-icon">${icon(m.icon)}</span>
             <span class="acc-menu-label">${t('acc.m.' + m.id)}</span>
-            ${m.id === 'notify' && unreadCount() ? `<b class="acc-badge">${unreadCount()}</b>` : ''}
+            ${m.id === 'settings' && unreadCount() ? `<b class="acc-badge">${unreadCount()}</b>` : ''}
             <span class="acc-chev">${AI.chevron}</span>
           </a>`).join('')}
         <button class="acc-menu-item acc-logout" type="button" data-logout>
@@ -735,6 +739,15 @@ const SECTIONS = {
           <span class="acc-muted">${fmtDate(profile.createdAt)}</span>
         </div>
       </div>
+      <nav class="acc-menu acc-more-menu">
+        ${MORE_MENU.map(m => `
+          <a class="acc-menu-item" href="#${m.id}">
+            <span class="acc-menu-icon">${icon(m.icon)}</span>
+            <span class="acc-menu-label">${t('acc.m.' + m.id)}</span>
+            ${m.id === 'notify' && unreadCount() ? `<b class="acc-badge">${unreadCount()}</b>` : ''}
+            <span class="acc-chev">${AI.chevron}</span>
+          </a>`).join('')}
+      </nav>
       <button class="btn btn-ghost acc-logout-btn" type="button" data-logout>${AI.logout}<span>${t('acc.logout')}</span></button>`;
   },
 
