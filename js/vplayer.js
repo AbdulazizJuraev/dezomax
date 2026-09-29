@@ -66,6 +66,7 @@ function mountVideo(box, url, opts = {}) {
       <input class="ytp-vol ytp-hide-sm" id="vpVol" type="range" min="0" max="100" value="100" aria-label="volume">
       <button class="ytp-btn vp-speed-btn" id="vpSpeed" type="button" aria-label="speed">1x</button>
       <button class="ytp-btn ytp-fit" id="vpFit" type="button" aria-label="zoom">${YT_ICONS.fill}</button>
+      <button class="ytp-btn vp-cast" id="vpCast" type="button" hidden aria-label="${esc(t('player.cast'))}">${YT_ICONS.cast}</button>
       <button class="ytp-btn" id="vpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
     </div>
     <div class="ytp-qrow" id="vpQRow" role="group" aria-label="${esc(t('player.quality'))}" hidden>
@@ -219,6 +220,26 @@ function mountVideo(box, url, opts = {}) {
     $('#vpFit').innerHTML = fill ? YT_ICONS.fit : YT_ICONS.fill;
     wake();
   });
+
+  /* ---- Televizorga ulash (faqat Android ilovada, Chromecast topilganda) ---- */
+  const DezoCast = window.Capacitor?.isNativePlatform?.() ? window.Capacitor.Plugins?.DezoCast : null;
+  if (DezoCast) {
+    const castBtn = $('#vpCast');
+    DezoCast.isAvailable().then(r => { castBtn.hidden = !r.available; }).catch(() => { castBtn.hidden = true; });
+    castBtn.addEventListener('click', async () => {
+      castBtn.disabled = true;
+      try {
+        await DezoCast.cast({
+          url,
+          title: opts.title || '',
+          poster: opts.poster || '',
+          mimeType: isHls ? 'application/x-mpegURL' : 'video/mp4'
+        });
+        video.pause();
+      } catch { if (typeof toast === 'function') toast(t('player.castErr')); }
+      finally { castBtn.disabled = false; }
+    });
+  }
 
   // katta ekranda 3 s harakatsizlikdan keyin panel yashirinadi
   let idleT;

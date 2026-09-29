@@ -23,7 +23,9 @@ const YT_ICONS = {
   // katta ekranda: videoni ekran bo'yicha to'ldirish / to'liq sig'dirish
   fill:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 10l-2 2 2 2M16 10l2 2-2 2"/></svg>',
   fit:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M6 10l2 2-2 2M18 10l-2 2 2 2"/></svg>',
-  replay:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg>'
+  replay:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg>',
+  // Televizorga ulash (Chromecast)
+  cast:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v2h2a2 2 0 0 0-2-2z"/><path d="M3 14v2a4 4 0 0 1 4 4h2a6 6 0 0 0-6-6z"/><rect x="3" y="4" width="18" height="13" rx="2"/></svg>'
 };
 
 /* ---------- Video sifati ----------
