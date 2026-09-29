@@ -15,7 +15,20 @@ Object.assign(I18N.uz, {
   'acc.m.payments': 'To‘lov tarixi',
   'acc.m.settings': 'Sozlamalar',
   'acc.m.notify': 'Bildirishnomalar',
+  'acc.m.support': 'Yordam',
   'acc.m.about': 'Biz haqimizda',
+  'acc.supportText': 'Savolingiz bormi? Quyidagi usullardan biri orqali biz bilan bog‘laning — imkon qadar tezroq javob beramiz.',
+  'acc.supportEmail': 'Email orqali yozish',
+  'acc.supportTelegram': 'Telegram orqali yozish',
+  'acc.supportFaqTitle': 'Ko‘p so‘raladigan savollar',
+  'acc.faq1q': 'To‘lov qanday amalga oshadi?',
+  'acc.faq1a': 'Balansni Click orqali to‘ldirasiz, tarif narxi shu balansdan avtomatik yechiladi.',
+  'acc.faq2q': 'Obunani qanday bekor qilaman?',
+  'acc.faq2a': '«Tarifni boshqarish» bo‘limida «Bepul tarifga o‘tish» tugmasini bosing — keyingi to‘lov olinmaydi.',
+  'acc.faq3q': 'Hisobimni butunlay o‘chirtirsam bo‘ladimi?',
+  'acc.faq3a': 'Ha, quyidagi havoladan hisobni o‘chirish tartibini ko‘ring.',
+  'acc.supportDeleteLink': 'Hisobni o‘chirish',
+  'acc.supportPrivacyLink': 'Maxfiylik siyosati',
   'acc.back': 'Orqaga',
   'acc.language': 'Til',
   'acc.plan': 'Tarif',
@@ -105,7 +118,20 @@ Object.assign(I18N.ru, {
   'acc.m.payments': 'История платежей',
   'acc.m.settings': 'Настройки',
   'acc.m.notify': 'Уведомления',
+  'acc.m.support': 'Помощь',
   'acc.m.about': 'О нас',
+  'acc.supportText': 'Есть вопрос? Свяжитесь с нами одним из способов ниже — ответим как можно быстрее.',
+  'acc.supportEmail': 'Написать на почту',
+  'acc.supportTelegram': 'Написать в Telegram',
+  'acc.supportFaqTitle': 'Часто задаваемые вопросы',
+  'acc.faq1q': 'Как проходит оплата?',
+  'acc.faq1a': 'Пополняете баланс через Click, стоимость тарифа списывается с баланса автоматически.',
+  'acc.faq2q': 'Как отменить подписку?',
+  'acc.faq2a': 'В разделе «Управление тарифом» нажмите «Перейти на бесплатный» — следующее списание не произойдёт.',
+  'acc.faq3q': 'Можно ли полностью удалить аккаунт?',
+  'acc.faq3a': 'Да, порядок удаления аккаунта — по ссылке ниже.',
+  'acc.supportDeleteLink': 'Удаление аккаунта',
+  'acc.supportPrivacyLink': 'Политика конфиденциальности',
   'acc.back': 'Назад',
   'acc.language': 'Язык',
   'acc.plan': 'Тариф',
@@ -200,6 +226,7 @@ const MENU = [
   { id: 'payments', icon: 'receipt' },
   { id: 'settings', icon: 'gear' },
   { id: 'notify',   icon: 'bell' },
+  { id: 'support',  icon: 'help' },
   { id: 'about',    icon: 'info' }
 ];
 
@@ -212,6 +239,9 @@ const AI = {
   receipt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h12v19l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>',
   gear:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   bell:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 7-3 8.5-3 8.5h18s-3-1.5-3-8.5"/><path d="M13.7 20.5a2 2 0 0 1-3.4 0"/></svg>',
+  help:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M9.2 9.3a2.8 2.8 0 0 1 5.4.9c0 1.9-2.4 2-2.4 3.6"/><path d="M12 17.2v.1"/></svg>',
+  send:    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 12.3L21 3.5l-4.8 18-6-4.6-3.2 3.1-.5-5.1z"/></svg>',
+  mail:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/></svg>',
   chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
   logout:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>',
   google:  '<svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>',
@@ -468,6 +498,7 @@ function renderAccount() {
         <div class="acc-profile-info">
           <b>${esc(profile.name || accountLabel(u))}</b>
           <small>${esc(u.email || formatPhone(u.phone))}</small>
+          <span class="acc-profile-since">${t('acc.memberSince')} ${fmtDate(profile.createdAt)}</span>
         </div>
         ${langSwitchHTML()}
       </div>
@@ -478,7 +509,7 @@ function renderAccount() {
           <b>${esc(L(plan.name))}</b>
           ${planProgressHTML()}
         </a>
-        <a class="acc-stat" href="#balance">
+        <a class="acc-stat is-balance" href="#balance">
           <small>${AI.wallet}${t('acc.balance')}</small>
           <b>${money(profile.balance)} <span>${sumWord()}</span></b>
           <span class="acc-stat-sub">${t('acc.topupShort')} →</span>
@@ -732,6 +763,34 @@ const SECTIONS = {
         </div>`).join('')}</div>` : emptyBox(t('acc.notifyEmpty'), '')}`;
   },
 
+  support() {
+    const faqs = [1, 2, 3].map(i => ({ q: t('acc.faq' + i + 'q'), a: t('acc.faq' + i + 'a') }));
+    const tgLink = typeof TG_BOT !== 'undefined' && TG_BOT ? `https://t.me/${TG_BOT}` : '';
+    return `
+      <div class="acc-card acc-support-top">
+        <span class="acc-support-icon">${AI.help}</span>
+        <p>${t('acc.supportText')}</p>
+        <div class="acc-support-btns">
+          <a class="btn btn-primary" href="mailto:newaccaunt0404@gmail.com">${AI.mail}<span>${t('acc.supportEmail')}</span></a>
+          ${tgLink ? `<a class="btn btn-ghost" href="${esc(tgLink)}" target="_blank" rel="noopener">${AI.send}<span>${t('acc.supportTelegram')}</span></a>` : ''}
+        </div>
+      </div>
+      <h3 class="acc-h3">${t('acc.supportFaqTitle')}</h3>
+      <div class="acc-list acc-faq">
+        ${faqs.map(f => `
+          <details class="acc-item acc-faq-item">
+            <summary><b>${esc(f.q)}</b><span class="acc-faq-chev">${AI.chevron}</span></summary>
+            <p>${esc(f.a)}${f.a === t('acc.faq3a') ? ` <a class="acc-link" href="delete-account.html">${t('acc.supportDeleteLink')}</a>` : ''}</p>
+          </details>`).join('')}
+      </div>
+      <div class="acc-card">
+        <div class="acc-setting"><b>${t('acc.supportPrivacyLink')}</b>
+          <a class="acc-link" href="privacy.html">${t('acc.supportPrivacyLink')}</a></div>
+        <div class="acc-setting"><b>${t('acc.supportDeleteLink')}</b>
+          <a class="acc-link" href="delete-account.html">${t('acc.supportDeleteLink')}</a></div>
+      </div>`;
+  },
+
   about() {
     return `
       <div class="acc-card acc-about">
@@ -744,7 +803,7 @@ const SECTIONS = {
       <div class="acc-card">
         <div class="acc-setting"><b>${t('acc.version')}</b><span class="acc-muted">${APP_VERSION}</span></div>
         <div class="acc-setting"><b>${t('acc.website')}</b>
-          <a class="acc-link" href="https://abdulazizjuraev.github.io/dezomax/" target="_blank" rel="noopener">abdulazizjuraev.github.io/dezomax</a></div>
+          <a class="acc-link" href="https://dezomax.uz" target="_blank" rel="noopener">dezomax.uz</a></div>
       </div>
       <p class="acc-muted acc-copy">© ${new Date().getFullYear()} DezoMax. ${t('footer.rights')}</p>`;
   }

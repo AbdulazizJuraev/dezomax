@@ -2935,6 +2935,9 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-stat small { display: flex; align-items: center; gap: 6px; }
 .acc-stat small svg { width: 14px; height: 14px; color: #6cc4f2; flex-shrink: 0; }
 .acc-stat.is-paid { background: linear-gradient(135deg, rgba(10, 147, 220, .2), transparent 70%), var(--surface); border-color: rgba(10, 147, 220, .35); }
+.acc-stat.is-balance { background: linear-gradient(135deg, rgba(34, 197, 148, .22), transparent 70%), var(--surface); border-color: rgba(34, 197, 148, .35); }
+.acc-stat.is-balance:hover { border-color: rgba(34, 197, 148, .5); }
+.acc-stat.is-balance small svg { color: #34d399; }
 .acc-stat-sub { font-size: 12px; color: var(--text-dim); font-weight: 600; }
 .acc-bar { display: block; height: 4px; margin-top: 6px; border-radius: 4px; background: rgba(255, 255, 255, .1); overflow: hidden; }
 .acc-bar i { display: block; height: 100%; border-radius: inherit; background: var(--grad); }
@@ -2950,6 +2953,23 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   pointer-events: none;
 }
 .acc-profile > * { position: relative; z-index: 1; }
+.acc-profile-since { margin-top: 3px; color: var(--text-faint); font-size: 11.5px; font-weight: 600; }
+
+.acc-support-top { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 24px 20px; }
+.acc-support-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; background: rgba(10, 147, 220, .14); color: #6cc4f2; }
+.acc-support-icon svg { width: 26px; height: 26px; }
+.acc-support-top p { margin: 0; color: var(--text-dim); font-size: 14px; max-width: 360px; }
+.acc-support-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 6px; }
+.acc-support-btns .btn svg { width: 17px; height: 17px; margin-right: 6px; vertical-align: -3px; }
+
+.acc-faq-item { display: block; padding: 0; }
+.acc-faq-item summary { display: flex; align-items: center; gap: 10px; padding: 13px 16px; cursor: pointer; list-style: none; }
+.acc-faq-item summary::-webkit-details-marker { display: none; }
+.acc-faq-item summary b { flex: 1; font-size: 14.5px; font-weight: 650; }
+.acc-faq-chev { display: grid; color: var(--text-faint); transition: transform .2s; flex-shrink: 0; }
+.acc-faq-chev svg { width: 16px; height: 16px; }
+.acc-faq-item[open] .acc-faq-chev { transform: rotate(90deg); }
+.acc-faq-item p { margin: 0; padding: 0 16px 14px 16px; color: var(--text-dim); font-size: 13.5px; line-height: 1.55; }
 
 .acc-quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .acc-quick a {
