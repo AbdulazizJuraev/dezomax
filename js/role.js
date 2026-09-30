@@ -35,29 +35,106 @@ const ROLE_ICONS = {
 
 /* Tanlash ekranini ko'rsatadi va tanlanguncha kutadi (har safar chaqirilganda so'raydi —
    profile.role oldingi tanlovni saqlab turadi, lekin bu funksiya har safar qayta so'raydi) */
-/* Fon uchun kino: bosh sahifa slayderidagilardan (keng rasmi borlaridan) tasodifiy biri */
-function rolePickFilm() {
+/* ---------- Fon: treylerlar ovozsiz, har 4 soniyada keyingi kino ----------
+   Bosh sahifa slayderidagi kinolar (treyleri YouTube'da borlari), tasodifiy tartibda.
+   Har sahna oldindan ko'rinmas holda o'ynay boshlaydi (keyingisi joriysi ko'rinib turganda yuklanadi),
+   o'ynay boshlagach (YouTube belgilari yo'qolgach) ko'rsatiladi. Video ishlamasa — treyler rasmi turadi. */
+const RP_SCENE_MS = 4000;
+const RP_CLIP_START = 35;          // treyler boshidagi studiya logotiplarini o'tkazib yuboramiz
+const rpYtId = u => (String(u || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || [])[1];
+
+function rolePickFilms() {
   try {
-    const ytId = u => (String(u || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || [])[1];
-    const wide = m => (m.poster && m.poster.startsWith('images/uz/')) ? m.poster
-      : ytId(m.trailer) ? `https://i.ytimg.com/vi/${ytId(m.trailer)}/maxresdefault.jpg` : null;
     const ids = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG?.hero?.ids) || [];
     let pool = ids.map(id => MOVIES.find(m => m.id === id)).filter(Boolean);
-    if (!pool.length) pool = MOVIES.filter(m => m.featured);
-    pool = pool.filter(m => wide(m) && (typeof hasFilm !== 'function' || hasFilm(m)));
-    const m = pool[Math.floor(Math.random() * pool.length)];
-    return m ? { img: wide(m), title: title(m) } : null;
-  } catch { return null; }
+    if (pool.length < 4) pool = [...pool, ...MOVIES.filter(m => m.featured && !pool.includes(m))];
+    pool = pool.filter(m => rpYtId(m.trailer) && (typeof hasFilm !== 'function' || hasFilm(m)));
+    for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+    return pool.slice(0, 12).map(m => ({ yt: rpYtId(m.trailer), title: title(m) }));
+  } catch { return []; }
+}
+
+function startRoleBackdrop(el, films) {
+  const stage = el.querySelector('.role-pick-bg');
+  const cap = el.querySelector('.role-pick-film b');
+  if (!stage || !films.length) return () => {};
+  const video = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const origin = encodeURIComponent(location.origin);
+  let cur = -1, timer = 0, waitT = 0, dead = false;
+  const scenes = new Map();   // indeks -> { box, frame, playing }
+
+  const make = i => {
+    if (scenes.has(i)) return scenes.get(i);
+    const f = films[i];
+    const box = document.createElement('div');
+    box.className = 'rp-scene';
+    box.style.backgroundImage = `url('https://i.ytimg.com/vi/${f.yt}/maxresdefault.jpg'), url('https://i.ytimg.com/vi/${f.yt}/hqdefault.jpg')`;
+    const s = { box, frame: null, playing: false };
+    if (video) {
+      box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${f.yt}?autoplay=1&mute=1&controls=0&start=${RP_CLIP_START}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&loop=1&playlist=${f.yt}&enablejsapi=1&origin=${origin}"
+        allow="autoplay; encrypted-media" tabindex="-1" title="" aria-hidden="true"></iframe>`;
+      s.frame = box.querySelector('iframe');
+      s.frame.addEventListener('load', () => {
+        const ping = () => s.frame.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 'rp' }), '*');
+        ping(); setTimeout(ping, 500); setTimeout(ping, 1500);
+      });
+    }
+    stage.appendChild(box);
+    scenes.set(i, s);
+    return s;
+  };
+
+  const show = i => {
+    if (dead) return;
+    clearTimeout(timer); clearTimeout(waitT);
+    cur = i;
+    const s = make(i);
+    stage.querySelectorAll('.rp-scene').forEach(b => b.classList.toggle('is-on', b === s.box));
+    if (cap) { cap.style.opacity = 0; setTimeout(() => { cap.textContent = films[i].title; cap.style.opacity = 1; }, 180); }
+    // eskilarini tozalaymiz (joriy va keyingisi qoladi)
+    const next = (i + 1) % films.length;
+    for (const [k, v] of scenes) if (k !== i && k !== next) { setTimeout(() => v.box.remove(), 700); scenes.delete(k); }
+    if (films.length > 1) make(next);   // keyingisi oldindan yuklanadi
+    timer = setTimeout(() => advance(next), RP_SCENE_MS);
+  };
+
+  // keyingi video hali boshlanmagan bo'lsa — 2,5 s gacha kutamiz, keyin baribir o'tamiz (rasmi ko'rinadi)
+  const advance = n => {
+    const s = scenes.get(n);
+    if (!video || !s || s.playing) return show(n);
+    waitT = setTimeout(() => show(n), 2500);
+    s.onPlay = () => { if (cur !== n) show(n); };
+  };
+
+  const onMsg = e => {
+    if (!/^https:\/\/(www\.)?youtube(-nocookie)?\.com$/.test(e.origin)) return;
+    let d; try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+    const st = d?.info?.playerState ?? (d?.event === 'onStateChange' ? d.info : undefined);
+    for (const s of scenes.values()) {
+      if (!s.frame || s.frame.contentWindow !== e.source) continue;
+      if (st === 1 && !s.playing) {
+        // telefonda YouTube boshida pauza belgisini ko'rsatadi — 1,2 s dan keyin video qatlami ochiladi
+        setTimeout(() => { s.playing = true; s.box.classList.add('is-playing'); s.onPlay?.(); }, 1200);
+      } else if (st === 0) {
+        s.frame.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [RP_CLIP_START, true] }), '*');
+      }
+    }
+  };
+  addEventListener('message', onMsg);
+  show(0);
+
+  return () => { dead = true; clearTimeout(timer); clearTimeout(waitT); removeEventListener('message', onMsg); stage.innerHTML = ''; };
 }
 
 function showRolePicker(profile) {
   return new Promise(resolve => {
     const el = document.createElement('div');
     el.className = 'role-pick';
-    const film = rolePickFilm();
+    const films = rolePickFilms();
+    const film = films[0];
     const name = r => r === 'adult' && profile?.name ? profile.name : t('role.' + r);
     el.innerHTML = `
-      ${film ? `<div class="role-pick-bg" style="background-image:url('${esc(film.img)}')"></div>` : ''}
+      ${film ? `<div class="role-pick-bg"></div>` : ''}
       <div class="role-pick-box">
         <img class="role-pick-logo" src="images/logo/logo.png" alt="DezoMax">
         <h1>${esc(t('role.title'))}</h1>
@@ -75,6 +152,7 @@ function showRolePicker(profile) {
       ${film ? `<div class="role-pick-film"><small>DezoMax’da</small><b>${esc(film.title)}</b></div>` : ''}`;
     document.body.appendChild(el);
     document.documentElement.classList.add('welcome-lock');
+    const stopBackdrop = startRoleBackdrop(el, films);
     el.querySelectorAll('[data-role]').forEach(b => b.addEventListener('click', async () => {
       if (el.classList.contains('is-out')) return;
       profile.role = b.dataset.role;
@@ -82,7 +160,7 @@ function showRolePicker(profile) {
       try { sessionStorage.setItem('dezomax_role_asked', '1'); } catch {}
       el.classList.add('is-out');
       document.documentElement.classList.remove('welcome-lock');
-      setTimeout(() => el.remove(), 300);
+      setTimeout(() => { stopBackdrop(); el.remove(); }, 300);
       resolve();
     }));
   });
