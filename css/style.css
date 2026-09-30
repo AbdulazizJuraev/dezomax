@@ -2953,34 +2953,75 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .acc-profile-since { margin-top: 3px; color: var(--text-faint); font-size: 11.5px; font-weight: 600; }
 
 /* ---- "Kimsiz?" rol tanlash (js/role.js) ---- */
+/* Kinopoisk uslubi: o'ngda kinodan katta fon, chapda katta dumaloq rasmli ro'yxat */
 .role-pick {
   position: fixed; inset: 0; z-index: 2100;
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px;
-  background: var(--bg);
+  background: #050608;
+  overflow: hidden;
   transition: opacity .3s ease, visibility .3s;
 }
 .role-pick.is-out { opacity: 0; visibility: hidden; pointer-events: none; }
-.role-pick-box { width: 100%; max-width: 480px; text-align: center; animation: wcIn .4s ease both; }
-.role-pick-box h1 { margin: 0 0 34px; font-size: 27px; font-weight: 800; letter-spacing: -.02em; }
-.role-pick-avatars { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 22px; }
-.role-pick-av { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 108px; }
-.role-pick-circle {
-  display: grid; place-items: center;
-  width: 96px; height: 96px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-  border: 3px solid transparent;
-  transition: border-color .2s, transform .15s;
-  color: #fff;
+.role-pick-bg {
+  position: absolute; inset: 0 0 0 30%;
+  background-size: cover; background-position: center;
+  animation: rpZoom 18s ease-out both;
 }
-.role-pick-av:hover .role-pick-circle, .role-pick-av:active .role-pick-circle { border-color: #fff; transform: scale(1.04); }
-.role-pick-circle svg { width: 40px; height: 40px; }
-.role-pick-c-adult { background: linear-gradient(135deg, #0a93dc, #0668a8); }
-.role-pick-c-child { background: linear-gradient(135deg, #a855f7, #6d28d9); }
-.role-pick-c-guest { background: linear-gradient(135deg, #4b5563, #303540); }
-.role-pick-av b { font-size: 14.5px; font-weight: 700; color: var(--text); }
-.role-pick-av small { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
+@keyframes rpZoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+.role-pick-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, #050608 0%, rgba(5,6,8,.85) 18%, rgba(5,6,8,.2) 55%, rgba(5,6,8,0) 75%),
+              linear-gradient(0deg, rgba(5,6,8,.75) 0%, rgba(5,6,8,0) 35%);
+}
+.role-pick-box {
+  position: relative; z-index: 1;
+  height: 100%; max-width: 620px;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: calc(28px + var(--app-sat, 0px)) 24px calc(28px + env(safe-area-inset-bottom, 0px)) 72px;
+  animation: wcIn .4s ease both;
+}
+.role-pick-logo { position: absolute; top: calc(36px + var(--app-sat, 0px)); left: 72px; height: 34px; width: auto; }
+.role-pick-box h1 { margin: 0 0 26px; font-size: 22px; font-weight: 600; color: rgba(255,255,255,.62); letter-spacing: 0; }
+.role-pick-avatars { display: flex; flex-direction: column; gap: 26px; }
+.role-pick-av { display: flex; align-items: center; gap: 22px; text-align: left; padding: 0; background: none; border: 0; color: #fff; cursor: pointer; }
+.role-pick-circle {
+  position: relative; flex: none;
+  width: 150px; height: 150px; border-radius: 50%;
+  display: grid; place-items: end center; overflow: hidden;
+  outline: 3px solid transparent; outline-offset: 4px;
+  transition: outline-color .2s, transform .2s;
+}
+.role-pick-circle img { width: 100%; height: 100%; object-fit: cover; transform: translateY(4%) scale(1.02); }
+.role-pick-c-adult { background: radial-gradient(circle at 50% 35%, #2c3a52, #141a26); }
+.role-pick-c-child { background: radial-gradient(circle at 50% 35%, #6d3aa8, #3b1d66); }
+.role-pick-c-guest { background: radial-gradient(circle at 50% 35%, #3a3f4b, #1b1e25); }
+.role-pick-c-guest img { transform: scale(.86); }
+.role-pick-av:hover .role-pick-circle, .role-pick-av:focus-visible .role-pick-circle { outline-color: #0a93dc; transform: scale(1.03); }
+.role-pick-av.is-last .role-pick-circle { outline-color: #0a93dc; }
+.role-pick-text { display: grid; gap: 4px; min-width: 0; }
+.role-pick-av b { font-size: 30px; font-weight: 700; letter-spacing: -.01em; color: #fff; }
+.role-pick-av small { font-size: 18px; color: rgba(255,255,255,.62); line-height: 1.35; }
+.role-pick-film { position: absolute; right: 56px; bottom: calc(48px + env(safe-area-inset-bottom, 0px)); z-index: 1; text-align: right; max-width: 40%; }
+.role-pick-film small { display: block; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #0a93dc; }
+.role-pick-film b { display: block; margin-top: 4px; font-size: 38px; font-weight: 800; line-height: 1.1; letter-spacing: -.02em; color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,.6); }
+
+@media (max-width: 900px) {
+  .role-pick-bg { inset: 0 0 45% 0; }
+  .role-pick-bg::after { background: linear-gradient(0deg, #050608 0%, rgba(5,6,8,.5) 40%, rgba(5,6,8,.1) 100%); }
+  .role-pick-box { justify-content: flex-end; max-width: none; padding: calc(24px + var(--app-sat, 0px)) 22px calc(30px + env(safe-area-inset-bottom, 0px)); }
+  .role-pick-logo { top: calc(20px + var(--app-sat, 0px)); left: 22px; height: 26px; }
+  .role-pick-box h1 { font-size: 17px; margin-bottom: 18px; }
+  .role-pick-avatars { gap: 16px; }
+  .role-pick-av { gap: 16px; }
+  .role-pick-circle { width: 92px; height: 92px; }
+  .role-pick-av b { font-size: 21px; }
+  .role-pick-av small { font-size: 14px; }
+  .role-pick-film { right: 22px; left: 22px; bottom: auto; top: calc(28% + var(--app-sat, 0px)); max-width: none; }
+  .role-pick-film b { font-size: 26px; }
+}
+@media (max-width: 900px) and (max-height: 640px) {
+  .role-pick-circle { width: 72px; height: 72px; }
+  .role-pick-film { display: none; }
+}
 
 /* ---- QR kod skanerlash (js/qrscan.js) ---- */
 .qr-scan {

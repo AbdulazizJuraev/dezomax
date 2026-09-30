@@ -7,21 +7,21 @@
    ============================================================ */
 
 Object.assign(I18N.uz, {
-  'role.title': 'Kimsiz?',
+  'role.title': 'Kim tomosha qiladi?',
   'role.sub': 'Kontentni sizga moslashtirish uchun birini tanlang',
   'role.adult': 'Katta odamman',
   'role.adultSub': 'Barcha kontent ochiq',
-  'role.child': 'Bolaman',
+  'role.child': 'Bolalar',
   'role.childSub': 'Faqat multfilmlar ko‘rinadi',
   'role.guest': 'Mehmon',
   'role.guestSub': 'Bepul tarifda ko‘rish'
 });
 Object.assign(I18N.ru, {
-  'role.title': 'Кто вы?',
+  'role.title': 'Кто будет смотреть?',
   'role.sub': 'Выберите, чтобы подобрать контент для вас',
   'role.adult': 'Я взрослый',
   'role.adultSub': 'Весь контент открыт',
-  'role.child': 'Я ребёнок',
+  'role.child': 'Дети',
   'role.childSub': 'Показываются только мультфильмы',
   'role.guest': 'Гость',
   'role.guestSub': 'Просмотр на бесплатном тарифе'
@@ -35,22 +35,44 @@ const ROLE_ICONS = {
 
 /* Tanlash ekranini ko'rsatadi va tanlanguncha kutadi (har safar chaqirilganda so'raydi —
    profile.role oldingi tanlovni saqlab turadi, lekin bu funksiya har safar qayta so'raydi) */
+/* Fon uchun kino: bosh sahifa slayderidagilardan (keng rasmi borlaridan) tasodifiy biri */
+function rolePickFilm() {
+  try {
+    const ytId = u => (String(u || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || [])[1];
+    const wide = m => (m.poster && m.poster.startsWith('images/uz/')) ? m.poster
+      : ytId(m.trailer) ? `https://i.ytimg.com/vi/${ytId(m.trailer)}/maxresdefault.jpg` : null;
+    const ids = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG?.hero?.ids) || [];
+    let pool = ids.map(id => MOVIES.find(m => m.id === id)).filter(Boolean);
+    if (!pool.length) pool = MOVIES.filter(m => m.featured);
+    pool = pool.filter(m => wide(m) && (typeof hasFilm !== 'function' || hasFilm(m)));
+    const m = pool[Math.floor(Math.random() * pool.length)];
+    return m ? { img: wide(m), title: title(m) } : null;
+  } catch { return null; }
+}
+
 function showRolePicker(profile) {
   return new Promise(resolve => {
     const el = document.createElement('div');
     el.className = 'role-pick';
+    const film = rolePickFilm();
+    const name = r => r === 'adult' && profile?.name ? profile.name : t('role.' + r);
     el.innerHTML = `
+      ${film ? `<div class="role-pick-bg" style="background-image:url('${esc(film.img)}')"></div>` : ''}
       <div class="role-pick-box">
+        <img class="role-pick-logo" src="images/logo/logo.png" alt="DezoMax">
         <h1>${esc(t('role.title'))}</h1>
         <div class="role-pick-avatars">
           ${['adult', 'child', 'guest'].map(r => `
-            <button type="button" class="role-pick-av" data-role="${r}">
-              <span class="role-pick-circle role-pick-c-${r}">${ROLE_ICONS[r]}</span>
-              <b>${esc(t('role.' + r))}</b>
-              <small>${esc(t('role.' + r + 'Sub'))}</small>
+            <button type="button" class="role-pick-av${profile?.role === r ? ' is-last' : ''}" data-role="${r}">
+              <span class="role-pick-circle role-pick-c-${r}"><img src="images/role/${r}.webp" alt=""></span>
+              <span class="role-pick-text">
+                <b>${esc(name(r))}</b>
+                <small>${esc(t('role.' + r + 'Sub'))}</small>
+              </span>
             </button>`).join('')}
         </div>
-      </div>`;
+      </div>
+      ${film ? `<div class="role-pick-film"><small>DezoMax’da</small><b>${esc(film.title)}</b></div>` : ''}`;
     document.body.appendChild(el);
     document.documentElement.classList.add('welcome-lock');
     el.querySelectorAll('[data-role]').forEach(b => b.addEventListener('click', async () => {
