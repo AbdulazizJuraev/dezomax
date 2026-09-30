@@ -48,7 +48,10 @@ function mountVideo(box, url, opts = {}) {
       <button class="ytp-pause" id="vpPause" type="button" hidden aria-label="${esc(t('player.play'))}"><span class="ytp-big">${YT_ICONS.play}</span></button>
       <div class="vp-spinner" id="vpSpin" hidden><i></i></div>
       <button class="ytp-cover" id="vpCover" type="button" aria-label="${esc(t('player.play'))}">
-        ${opts.poster ? `<span class="vp-cover-bg" style="background-image:url('${esc(opts.poster)}')"></span><img class="vp-cover-img" src="${esc(opts.poster)}" alt="" onerror="this.remove()">` : ''}
+        ${!opts.poster ? ''
+          // albom (keng) rasm — butun ekranni egallaydi; tik poster — xira fon ustida o'rtada
+          : opts.wide ? `<img class="vp-cover-img is-wide" src="${esc(opts.poster)}" alt="" onerror="this.remove()">`
+          : `<span class="vp-cover-bg" style="background-image:url('${esc(opts.poster)}')"></span><img class="vp-cover-img" src="${esc(opts.poster)}" alt="" onerror="this.remove()">`}
         <span class="ytp-cover-shade"></span>
         <span class="ytp-big">${YT_ICONS.play}</span>
         ${opts.title ? `<span class="ytp-cover-title">${esc(opts.title)}</span>` : ''}

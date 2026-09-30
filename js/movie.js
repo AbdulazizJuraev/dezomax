@@ -72,6 +72,28 @@ function sourcesOf(m) {
   return list;
 }
 
+/* Pleyer muqovasi uchun albom (keng, 16:9) rasm: o'zbek filmlarining keng muqovasi yoki
+   rasmiy treylerning YouTube rasmi (bosh sahifa slayderidagi kabi). Topilmasa — null (tik poster) */
+function wideCover(m) {
+  if (!m) return null;
+  if (m.poster && m.poster.startsWith('images/uz/')) return m.poster;
+  const id = m.trailer && typeof youTubeId === 'function' ? youTubeId(m.trailer) : null;
+  return id ? `https://i.ytimg.com/vi/${id}/maxresdefault.jpg` : null;
+}
+
+/* maxresdefault bo'lmagan eski videolarda YouTube 120×90 kulrang rasm beradi — kattarog'iga o'tamiz */
+function ytThumbFix(img) {
+  if (!img || !/i\.ytimg\.com/.test(img.src)) return;
+  const check = () => {
+    if (img.naturalWidth > 0 && img.naturalWidth <= 120) {
+      const next = img.src.includes('maxresdefault') ? 'sddefault' : img.src.includes('sddefault') ? 'hqdefault' : null;
+      if (next) img.src = img.src.replace(/(maxresdefault|sddefault)/, next);
+    }
+  };
+  img.addEventListener('load', check);
+  if (img.complete) check();
+}
+
 function mountPlayer(url) {
   const box = document.getElementById('playerBox');
   const link = document.getElementById('playerExternal');
@@ -101,12 +123,15 @@ function mountPlayer(url) {
   // .mp4 / .webm / .m3u8 — o'z pleyerimiz (js/vplayer.js): sifat, tezlik, ±10 s, katta ekran
   if (typeof mountVideo === 'function' && /\.(mp4|webm|ogv|m4v|mov|m3u8)(\?|$)/i.test(url)) {
     const isFilm = movie && url === movie.video;
+    const wide = wideCover(movie);
     mountVideo(box, url, {
-      poster: movie?.poster || null,
+      poster: wide || movie?.poster || null,
+      wide: !!wide,
       title: movie ? title(movie) : '',
       qualities: isFilm ? (movie.videos || []) : [],
       preroll: isFilm
     });
+    ytThumbFix(box.querySelector('.vp-cover-img'));
     if (link) { link.href = external; link.hidden = false; }
     return;
   }
@@ -131,14 +156,17 @@ function mountPlayer(url) {
   };
   // Tashqi pleyer (iframe) — film oldidan reklama bo'lsa, avval muqova, bosilganda reklama → film
   if (movie && url === movie.video && typeof Ads !== 'undefined' && Ads.wantsPreroll()) {
+    const wide = wideCover(movie);
     box.innerHTML = `
       <button class="ytp-cover" type="button" aria-label="${esc(t('player.play'))}">
-        ${movie.poster ? `<span class="vp-cover-bg" style="background-image:url('${esc(movie.poster)}')"></span>` : ''}
+        ${wide ? `<img class="vp-cover-img is-wide" src="${esc(wide)}" alt="">`
+          : movie.poster ? `<span class="vp-cover-bg" style="background-image:url('${esc(movie.poster)}')"></span>` : ''}
         <span class="ytp-cover-shade"></span>
         <span class="ytp-big">${YT_ICONS.play}</span>
         <span class="ytp-cover-title">${esc(title(movie))}</span>
       </button>`;
     const cover = box.querySelector('.ytp-cover');
+    ytThumbFix(cover.querySelector('.vp-cover-img'));
     cover.addEventListener('click', async () => {
       cover.disabled = true;
       await Ads.preroll(box);
