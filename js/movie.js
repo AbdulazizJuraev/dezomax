@@ -154,13 +154,14 @@ function mountPlayer(url) {
     const v = box.querySelector('video[data-hls]');
     if (v) initHls(v);
   };
-  // Tashqi pleyer (iframe) — film oldidan reklama bo'lsa, avval muqova, bosilganda reklama → film
-  if (movie && url === movie.video && typeof Ads !== 'undefined' && Ads.wantsPreroll()) {
+  // Tashqi pleyer (iframe) — filmda avval o'z muqovamiz (albom rasm + play), bosilganda
+  // (reklama bo'lsa — reklama, keyin) tashqi pleyer ochiladi
+  if (movie && url === movie.video) {
     const wide = wideCover(movie);
     box.innerHTML = `
       <button class="ytp-cover" type="button" aria-label="${esc(t('player.play'))}">
         ${wide ? `<img class="vp-cover-img is-wide" src="${esc(wide)}" alt="">`
-          : movie.poster ? `<span class="vp-cover-bg" style="background-image:url('${esc(movie.poster)}')"></span>` : ''}
+          : movie.poster ? `<span class="vp-cover-bg" style="background-image:url('${esc(movie.poster)}')"></span><img class="vp-cover-img" src="${esc(movie.poster)}" alt="" onerror="this.remove()">` : ''}
         <span class="ytp-cover-shade"></span>
         <span class="ytp-big">${YT_ICONS.play}</span>
         <span class="ytp-cover-title">${esc(title(movie))}</span>
@@ -169,7 +170,7 @@ function mountPlayer(url) {
     ytThumbFix(cover.querySelector('.vp-cover-img'));
     cover.addEventListener('click', async () => {
       cover.disabled = true;
-      await Ads.preroll(box);
+      if (typeof Ads !== 'undefined') await Ads.preroll(box);
       if (cover.isConnected) embed();
     }, { once: true });
     return;
