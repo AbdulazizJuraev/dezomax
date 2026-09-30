@@ -301,6 +301,8 @@ function formHTML(m = {}) {
           ${field('Nomi (o‘zbekcha) <b class="adm-req">*</b>', `<input class="acc-input" name="titleUz" required value="${val(m.title?.uz)}" placeholder="Masalan: Yulduzlararo">`)}
           ${field('Nomi (ruscha)', `<input class="acc-input" name="titleRu" value="${val(m.title?.ru)}" placeholder="Интерстеллар">`)}
         </div>
+        ${field('Boshqa nomlari', `<input class="acc-input" name="tags" value="${val((m.tags || []).join(', '))}" placeholder="Vergul bilan: Qasoskorlar: Intiho, Avengers: Endgame, Мстители 4">`)}
+        <p class="adm-hint">Odamlar kinoni qanday nom bilan qidirishi mumkin bo‘lsa — hammasini yozing (inglizcha, boshqa tarjima, qism raqami). Sahifada «Boshqa nomlari» bo‘lib chiqadi, sayt qidiruvi, Google va Yandex shu nomlar bilan ham topadi.</p>
         <div class="adm-row adm-row-4">
           ${field('Turi', `<select class="acc-input" name="type">${['film', 'serial', 'multfilm'].map(x => `<option value="${x}"${m.type === x ? ' selected' : ''}>${typeName(x)}</option>`).join('')}</select>`)}
           ${field('Yili', `<input class="acc-input" name="year" type="number" inputmode="numeric" min="1900" max="2100" value="${val(m.year)}" placeholder="2024">`)}
@@ -408,6 +410,9 @@ function readForm(form, old = {}) {
   if (s('franchise')) m.franchise = s('franchise');
   if (f.get('audioUz') === 'on') m.audio = 'uz';
   if (s('sourceName')) m.source = { name: s('sourceName'), url: s('sourceUrl') };
+  // boshqa nomlari (teglar): vergul bilan — "Qasoskorlar: Intiho" dagi ikki nuqta nom ichida qoladi
+  const tags = [...new Set(s('tags').split(',').map(x => x.trim()).filter(Boolean))];
+  if (tags.length) m.tags = tags; else delete m.tags;
   if (old.seasons && !m.duration) m.seasons = old.seasons;
   // qo'shimcha sifatlar (.mp4): pleyerda sifat tanlash uchun
   const videos = ['1080p', '720p', '480p', '360p'].map(label => ({ label, url: s('q_' + label) })).filter(v => v.url);

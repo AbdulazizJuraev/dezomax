@@ -46,7 +46,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2001,
     "duration": 125,
     "rating": 8.6,
-    "director": "Hayao Miyazaki"
+    "director": "Hayao Miyazaki",
+    "tags": [
+      "Spirited Away"
+    ]
   },
   {
     "id": 1124457266,
@@ -122,7 +125,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790343700031,
     "year": 2016,
     "duration": 107,
-    "director": "John Musker, Ron Clements"
+    "director": "John Musker, Ron Clements",
+    "tags": [
+      "Moana 1"
+    ]
   },
   {
     "id": 2045,
@@ -147,7 +153,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«История игрушек 2» — американский полнометражный компьютерно-анимационный комедийный фильм 1999 года, созданный студией Pixar Animation Studios и выпущенный компанией Walt Disney Pictures."
     },
     "tags": [
-      "Toy Story 2"
+      "Toy Story 2",
+      "O‘yinchoqlar hikoyasi 2"
     ],
     "colors": [
       "hsl(27 45% 28%)",
@@ -186,7 +193,9 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Зверополис» — американский компьютерно-анимационный комедийно-приключенческий фильм о друзьях-полицейских в формате 3D производства Walt Disney Animation Studios, выпущенный Walt Disney Pictures."
     },
     "tags": [
-      "Zootopia"
+      "Zootopia",
+      "Zootropolis",
+      "Hayvonlar shahri 1"
     ],
     "colors": [
       "hsl(275 45% 28%)",
@@ -225,7 +234,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Холодное сердце» — американский компьютерно-анимационный музыкальный фэнтези фильм 2013 года, пятьдесят третий полнометражный мультфильм, созданный студией «Walt Disney Animation Studios» и выпущенный компанией «Walt Disney Pictures»."
     },
     "tags": [
-      "Frozen"
+      "Frozen",
+      "Muz yurak",
+      "Sovuq yurak",
+      "Muzyurak 1"
     ],
     "colors": [
       "hsl(120 45% 28%)",
@@ -309,7 +321,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     "trailer": "",
     "video": "https://files.uzmax.net/films/Qirol.sher.2019.HDRip.uzmax.net.mp4",
     "tags": [
-      "The Lion King"
+      "The Lion King",
+      "The Lion King 2019",
+      "Qirol Sher 2019"
     ],
     "poster": "https://upload.wikimedia.org/wikipedia/en/9/9d/Disney_The_Lion_King_2019.jpg",
     "wiki": "Король Лев (мультфильм, 2019)",
@@ -342,7 +356,9 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Король Лев 3: Хакуна матата» — американский анимационный музыкальный комедийный фильм 2004 года, снятый австралийским филиалом Disneytoon Studios и выпущенный на видео 10 февраля 2004 года."
     },
     "tags": [
-      "The Lion King 1½"
+      "The Lion King 1½",
+      "The Lion King 3",
+      "Qirol Sher 3"
     ],
     "colors": [
       "hsl(326 45% 28%)",
@@ -381,7 +397,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Король Лев» — американский анимационный музыкальный драматический фильм о взрослении 1994 года производства студии Walt Disney Feature Animation и выпущенный компанией Walt Disney Pictures."
     },
     "tags": [
-      "The Lion King"
+      "The Lion King",
+      "Qirol Sher 1994",
+      "Qirol sher 1",
+      "The Lion King 1994"
     ],
     "colors": [
       "hsl(116 45% 28%)",
@@ -420,7 +439,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Пингвины Мадагаскара» — американский компьютерно-анимационный фильм студии DreamWorks Animation, спин-офф серии мультфильмов «Мадагаскар»."
     },
     "tags": [
-      "Penguins of Madagascar"
+      "Penguins of Madagascar",
+      "Madagaskar pingvinlari multfilm"
     ],
     "colors": [
       "hsl(252 45% 28%)",
@@ -459,7 +479,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Мадагаскар 3» — американский компьютерный анимационный фильм производства американской киностудии DreamWorks Animation, премьера которого состоялась в СНГ 7 июня 2012 года в форматах 2D, 3D и IMAX 3D."
     },
     "tags": [
-      "Madagascar 3: Europe's Most Wanted"
+      "Madagascar 3: Europe's Most Wanted",
+      "Madagascar 3"
     ],
     "colors": [
       "hsl(295 45% 28%)",
@@ -498,7 +519,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Мадагаскар 2» — американский мультипликационный фильм режиссёров Эрика Дарнелла и Тома Макграта, производства DreamWorks Animation и Pacific Data Images при поддержке Paramount Pictures."
     },
     "tags": [
-      "Madagascar: Escape 2 Africa"
+      "Madagascar: Escape 2 Africa",
+      "Madagascar 2"
     ],
     "colors": [
       "hsl(80 45% 28%)",
@@ -537,7 +559,9 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Мадагаскар» — американский анимационный комедийный фильм о выживании 2005 года производства DreamWorks Animation SKG и PDI/DreamWorks, распространяемый DreamWorks Pictures."
     },
     "tags": [
-      "Madagascar"
+      "Madagascar",
+      "Madagaskar 1",
+      "Madagascar 1"
     ],
     "colors": [
       "hsl(316 45% 28%)",
@@ -583,7 +607,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "the fantastic four first steps"
+      "the fantastic four first steps",
+      "The Fantastic Four: First Steps",
+      "Fantastic Four",
+      "Fantastik to‘rtlik"
     ],
     "colors": [
       "#1a4a8a",
@@ -723,7 +750,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "shang chi"
+      "shang chi",
+      "Shang-Chi and the Legend of the Ten Rings",
+      "Shang-Chi"
     ],
     "colors": [
       "#8a5a14",
@@ -811,7 +840,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Рапунцель: Запутанная история» — американский компьютерно-анимационный музыкальный фэнтезийный комедийно-приключенческий фильм 2010 года в формате 3D, снятый студией Walt Disney Animation Studios и выпущенный студией Walt Disney Pictures и основанный на сказке братьев Гримм «Рапунцель»."
     },
     "tags": [
-      "Tangled"
+      "Tangled",
+      "Rapuntsel"
     ],
     "colors": [
       "hsl(261 45% 28%)",
@@ -856,7 +886,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "thor love and thunder"
+      "thor love and thunder",
+      "Thor: Love and Thunder",
+      "Tor 4"
     ],
     "colors": [
       "#6a2a8a",
@@ -903,7 +935,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "thor the dark world"
+      "thor the dark world",
+      "Thor: The Dark World",
+      "Tor 2"
     ],
     "colors": [
       "#3a2a4a",
@@ -950,7 +984,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "thor"
+      "thor",
+      "Tor 1"
     ],
     "colors": [
       "#1f3a6b",
@@ -997,7 +1032,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "ant man and the wasp quantumania"
+      "ant man and the wasp quantumania",
+      "Ant-Man and the Wasp: Quantumania",
+      "Chumoli odam 3"
     ],
     "colors": [
       "#5a1a6b",
@@ -1044,7 +1081,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "ant man and the wasp"
+      "ant man and the wasp",
+      "Ant-Man and the Wasp",
+      "Chumoli odam 2"
     ],
     "colors": [
       "#7a1a1a",
@@ -1091,7 +1130,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Blade Runner",
-      "Бегущий по лезвию"
+      "Бегущий по лезвию",
+      "Blade Runner 2049"
     ],
     "colors": [
       "#8a4a1e",
@@ -1133,7 +1173,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Гарри Поттер и Дары Смерти. Часть 2» (англ."
     },
     "tags": [
-      "Harry Potter and the Deathly Hallows – Part 2"
+      "Harry Potter and the Deathly Hallows – Part 2",
+      "Harry Potter 8",
+      "Garri Potter 8",
+      "Garri Potter va Ajal tuhfalari 2"
     ],
     "colors": [
       "hsl(189 45% 28%)",
@@ -1176,7 +1219,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Гарри Поттер и Дары Смерти. Часть 1» (англ."
     },
     "tags": [
-      "Harry Potter and the Deathly Hallows – Part 1"
+      "Harry Potter and the Deathly Hallows – Part 1",
+      "Harry Potter 7",
+      "Garri Potter 7",
+      "Garri Potter va Ajal tuhfalari 1"
     ],
     "colors": [
       "hsl(188 45% 28%)",
@@ -1217,7 +1263,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Гарри Поттер и Орден Феникса» — фэнтезийно-приключенческий фильм 2007 года режиссёра Дэвида Йейтса, пятый из серии фильмов о Гарри Поттере."
     },
     "tags": [
-      "Harry Potter and the Order of the Phoenix"
+      "Harry Potter and the Order of the Phoenix",
+      "Harry Potter 5",
+      "Garri Potter 5",
+      "Garri Potter va Feniks ordeni"
     ],
     "colors": [
       "hsl(90 45% 28%)",
@@ -1257,7 +1306,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Гарри Поттер и Принц-полукровка» — фэнтезийно-приключенческий фильм 2009 года режиссёра Дэвида Йейтса, шестой из серии фильмов о Гарри Поттере."
     },
     "tags": [
-      "Harry Potter and the Half-Blood Prince"
+      "Harry Potter and the Half-Blood Prince",
+      "Harry Potter 6",
+      "Garri Potter 6",
+      "Harry Potter va Yarimqon shahzoda"
     ],
     "colors": [
       "hsl(16 45% 28%)",
@@ -1299,7 +1351,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Гарри Поттер и узник Азкабана» — фэнтезийно-приключенческий фильм 2004 года, третий из серии фильмов о Гарри Поттере."
     },
     "tags": [
-      "Harry Potter and the Prisoner of Azkaban"
+      "Harry Potter and the Prisoner of Azkaban",
+      "Harry Potter 3",
+      "Garri Potter 3",
+      "Garri Potter va Azkaban mahbusi"
     ],
     "colors": [
       "hsl(145 45% 28%)",
@@ -1341,7 +1396,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Гарри Поттер и Кубок огня» — фэнтезийно-приключенческий фильм 2005 года режиссёра Майка Ньюэлла, четвёртый из серии фильмов о Гарри Поттере."
     },
     "tags": [
-      "Harry Potter and the Goblet of Fire"
+      "Harry Potter and the Goblet of Fire",
+      "Harry Potter 4",
+      "Garri Potter 4",
+      "Garri Potter va Alanga kubogi"
     ],
     "colors": [
       "hsl(278 45% 28%)",
@@ -1383,7 +1441,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Гарри Поттер и Тайная комната» — британско-американский фэнтезийный фильм 2002 года режиссёра Криса Коламбуса по сценарию Стива Кловиса."
     },
     "tags": [
-      "Harry Potter and the Chamber of Secrets"
+      "Harry Potter and the Chamber of Secrets",
+      "Harry Potter 2",
+      "Garri Potter 2",
+      "Garri Potter va maxfiy hujra"
     ],
     "colors": [
       "hsl(210 45% 28%)",
@@ -1429,7 +1490,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tags": [
       "Harry Potter",
       "Гарри Поттер",
-      "Hogwarts"
+      "Hogwarts",
+      "Harry Potter and the Sorcerer’s Stone",
+      "Harry Potter va falsafiy tosh",
+      "Harry Potter 1",
+      "Garri Potter 1"
     ],
     "colors": [
       "#6b4a1e",
@@ -1486,7 +1551,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1993,
     "duration": 127,
     "rating": 8.2,
-    "director": "Steven Spielberg"
+    "director": "Steven Spielberg",
+    "tags": [
+      "Jurassic Park",
+      "Yura davri parki 1"
+    ]
   },
   {
     "id": 56,
@@ -1517,7 +1586,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Terminator",
-      "Терминатор"
+      "Терминатор",
+      "Terminator 2: Judgment Day",
+      "Terminator 2"
     ],
     "colors": [
       "#2a3a4a",
@@ -1574,7 +1645,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1985,
     "duration": 116,
     "rating": 8.5,
-    "director": "Robert Zemeckis"
+    "director": "Robert Zemeckis",
+    "tags": [
+      "Back to the Future",
+      "Kelajakka qaytish 1"
+    ]
   },
   {
     "id": 53,
@@ -1607,7 +1682,9 @@ const CUSTOM_MOVIES = /*DATA*/[
       "Star Wars",
       "Yulduzli urushlar",
       "Звёздные войны",
-      "Jedi"
+      "Jedi",
+      "Star Wars: A New Hope",
+      "Star Wars 4"
     ],
     "colors": [
       "#6b5a1e",
@@ -1666,7 +1743,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 242,
     "rating": 7.9,
     "director": "Zack Snyder",
-    "franchise": "dc"
+    "franchise": "dc",
+    "tags": [
+      "Zack Snyder’s Justice League",
+      "Adolat ligasi",
+      "Justice League"
+    ]
   },
   {
     "id": 50,
@@ -1710,7 +1792,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 132,
     "rating": 7,
     "director": "David F. Sandberg",
-    "franchise": "dc"
+    "franchise": "dc",
+    "tags": [
+      "Shazam",
+      "Shazam 1"
+    ]
   },
   {
     "id": 1091226161,
@@ -1745,7 +1831,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "trailer": "https://www.youtube.com/watch?v=WuGIT7e-Vas",
     "video": "https://s6.faylmovi.ru/tarjima_kinolar/AKVAMEN_2_1080.mp4",
     "tags": [
-      "Aquaman and the Lost Kingdom"
+      "Aquaman and the Lost Kingdom",
+      "Aquaman 2",
+      "Akvamen 2",
+      "Akvamen va yo‘qolgan qirollik"
     ],
     "poster": "https://upload.wikimedia.org/wikipedia/en/4/4a/Aquaman_and_the_Lost_Kingdom_poster.jpg",
     "wiki": "Аквамен и потерянное царство",
@@ -1797,7 +1886,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 143,
     "rating": 6.8,
     "director": "James Wan",
-    "franchise": "dc"
+    "franchise": "dc",
+    "tags": [
+      "Aquaman",
+      "Akvamen 1"
+    ]
   },
   {
     "id": 48,
@@ -1841,7 +1934,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 141,
     "rating": 7.3,
     "director": "Patty Jenkins",
-    "franchise": "dc"
+    "franchise": "dc",
+    "tags": [
+      "Wonder Woman",
+      "Mo‘jizakor ayol 1"
+    ]
   },
   {
     "id": 46,
@@ -1873,7 +1970,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tags": [
       "Superman",
       "Supermen",
-      "Супермен"
+      "Супермен",
+      "Man of Steel",
+      "Po‘lat odam 1"
     ],
     "colors": [
       "#1e4a7a",
@@ -1930,7 +2029,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790254280371,
     "year": 1992,
     "duration": 126,
-    "director": "Tim Burton"
+    "director": "Tim Burton",
+    "tags": [
+      "Betmen qaytadi"
+    ]
   },
   {
     "id": 47,
@@ -1963,7 +2065,9 @@ const CUSTOM_MOVIES = /*DATA*/[
       "Batman",
       "Superman",
       "Бэтмен",
-      "Супермен"
+      "Супермен",
+      "Batman v Superman: Dawn of Justice",
+      "Betmen va Supermen"
     ],
     "colors": [
       "#3a3a5a",
@@ -2010,7 +2114,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Batman",
-      "Бэтмен"
+      "Бэтмен",
+      "Batman Begins",
+      "Betmen: Boshlanish"
     ],
     "colors": [
       "#2a2a3a",
@@ -2057,7 +2163,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "deadpool and wolverine"
+      "deadpool and wolverine",
+      "Deadpool & Wolverine",
+      "Deadpool 3",
+      "Dedpul 3",
+      "Dedpul va Rosomaha"
     ],
     "colors": [
       "#8a1414",
@@ -2160,7 +2270,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 130,
     "rating": 7.9,
     "director": "Taika Waititi",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "tags": [
+      "Thor: Ragnarok",
+      "Tor 3",
+      "Tor: Ragnarek"
+    ]
   },
   {
     "id": 31,
@@ -2241,7 +2356,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790253505867,
     "year": 2019,
     "rating": 8,
-    "director": "Lauren Schmidt Hissrich"
+    "director": "Lauren Schmidt Hissrich",
+    "tags": [
+      "The Witcher",
+      "Vedmak serial"
+    ]
   },
   {
     "id": 27,
@@ -2283,7 +2402,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790253445383,
     "year": 2016,
     "rating": 8.7,
-    "director": "The Duffer Brothers"
+    "director": "The Duffer Brothers",
+    "tags": [
+      "Juda g‘alati ishlar"
+    ]
   },
   {
     "id": 26,
@@ -2325,7 +2447,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790253332010,
     "year": 2011,
     "rating": 9.2,
-    "director": "David Benioff, D. B. Weiss"
+    "director": "David Benioff, D. B. Weiss",
+    "tags": [
+      "Game of Thrones",
+      "Taxtlar oyini"
+    ]
   },
   {
     "id": 25,
@@ -2407,7 +2533,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2013,
     "duration": 180,
     "rating": 8.2,
-    "director": "Martin Scorsese"
+    "director": "Martin Scorsese",
+    "tags": [
+      "The Wolf of Wall Street",
+      "Uoll strit bo‘risi"
+    ]
   },
   {
     "id": 23,
@@ -2448,7 +2578,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1995,
     "duration": 127,
     "rating": 8.6,
-    "director": "David Fincher"
+    "director": "David Fincher",
+    "tags": [
+      "Se7en",
+      "Seven"
+    ]
   },
   {
     "id": 20,
@@ -2489,7 +2623,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2015,
     "duration": 120,
     "rating": 8.1,
-    "director": "George Miller"
+    "director": "George Miller",
+    "tags": [
+      "Mad Max: Fury Road",
+      "Mad Max"
+    ]
   },
   {
     "id": 19,
@@ -2531,7 +2669,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2001,
     "duration": 90,
     "rating": 7.9,
-    "director": "Andrew Adamson"
+    "director": "Andrew Adamson",
+    "tags": [
+      "Shrek 1"
+    ]
   },
   {
     "id": 18,
@@ -2573,7 +2714,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1995,
     "duration": 81,
     "rating": 8.3,
-    "director": "John Lasseter"
+    "director": "John Lasseter",
+    "tags": [
+      "Toy Story",
+      "O‘yinchoqlar tarixi",
+      "Oyinchoqlar hikoyasi 1"
+    ]
   },
   {
     "id": 17,
@@ -2614,7 +2760,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2017,
     "duration": 105,
     "rating": 8.4,
-    "director": "Lee Unkrich"
+    "director": "Lee Unkrich",
+    "tags": [
+      "Coco"
+    ]
   },
   {
     "id": 2241,
@@ -2642,7 +2791,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Новый Человек-паук: Высокое напряжение» — американский супергеройский фильм 2014 года по мотивам комиксов издательства Marvel Comics об одноимённом супергерое."
     },
     "tags": [
-      "The Amazing Spider-Man 2"
+      "The Amazing Spider-Man 2",
+      "Yangi O‘rgimchak odam 2"
     ],
     "colors": [
       "hsl(195 45% 28%)",
@@ -2684,7 +2834,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Новый Человек-паук» — американский супергеройский фильм 2012 года, основанный на персонаже Marvel Comics Человеке-пауке."
     },
     "tags": [
-      "The Amazing Spider-Man"
+      "The Amazing Spider-Man",
+      "Yangi O‘rgimchak odam 1"
     ],
     "colors": [
       "hsl(246 45% 28%)",
@@ -2728,7 +2879,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Человек-паук 3: Враг в отражении» — американский полнометражный супергеройский фильм 2007 года, основанный на комиксах издательства Marvel Comics о супергерое Человеке-пауке."
     },
     "tags": [
-      "Spider-Man 3"
+      "Spider-Man 3",
+      "O‘rgimchak odam 3"
     ],
     "colors": [
       "hsl(64 45% 28%)",
@@ -2771,7 +2923,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Человек-паук 2» — американский супергеройский фильм 2004 года режиссёра Сэма Рэйми, снятый по сценарию Элвина Сарджента, написанному по сюжету Альфреда Гофа, Майлза Миллара и Майкла Шейбона, и основанный на комиксах издательства Marvel Comics о супергерое Человеке-пауке."
     },
     "tags": [
-      "Spider-Man 2"
+      "Spider-Man 2",
+      "O‘rgimchak odam 2"
     ],
     "colors": [
       "hsl(63 45% 28%)",
@@ -2814,7 +2967,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Человек-паук» — американский супергеройский фильм 2002 года режиссёра Сэма Рэйми, снятый по сценарию Дэвида Кеппа и основанный на комиксах издательства Marvel Comics об одноимённом супергерое."
     },
     "tags": [
-      "Spider-Man"
+      "Spider-Man",
+      "Spider-Man 2002",
+      "O‘rgimchak odam 1",
+      "Spider-Man 1"
     ],
     "colors": [
       "hsl(354 45% 28%)",
@@ -2860,7 +3016,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "spider man brand new day"
+      "spider man brand new day",
+      "Spider-Man: Brand New Day",
+      "Spider-Man 4",
+      "O‘rgimchak odam 4"
     ],
     "colors": [
       "#8a1a24",
@@ -2905,7 +3064,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "spider man far from home"
+      "spider man far from home",
+      "Spider-Man: Far From Home",
+      "O‘rgimchak odam: Uydan uzoqda"
     ],
     "colors": [
       "#2a2a6b",
@@ -2954,7 +3115,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tags": [
       "Spider-Man",
       "O‘rgimchak",
-      "Человек-паук"
+      "Человек-паук",
+      "Spider-Man: Into the Spider-Verse",
+      "O‘rgimchak odam: Olamlar uzra",
+      "O‘rgimchak-odam multfilm"
     ],
     "colors": [
       "#7a1e6b",
@@ -3001,7 +3165,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "spider man homecoming"
+      "spider man homecoming",
+      "Spider-Man: Homecoming",
+      "O‘rgimchak odam: Uyga qaytish"
     ],
     "colors": [
       "#8a1a24",
@@ -3048,7 +3214,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Spider-Man",
-      "Человек-паук"
+      "Человек-паук",
+      "Spider-Man: No Way Home",
+      "O‘rgimchak odam: Uyga yo‘l yo‘q",
+      "O‘rgimchak-odam 3 (Tom Holland)"
     ],
     "colors": [
       "#7a1e3a",
@@ -3095,7 +3264,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "black panther wakanda forever"
+      "black panther wakanda forever",
+      "Black Panther: Wakanda Forever",
+      "Qora pantera 2"
     ],
     "colors": [
       "#3a1a5a",
@@ -3201,7 +3372,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 134,
     "rating": 7.3,
     "director": "Ryan Coogler",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "tags": [
+      "Black Panther",
+      "Qora pantera 1"
+    ]
   },
   {
     "id": 139,
@@ -3232,7 +3407,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "doctor strange multiverse of madness"
+      "doctor strange multiverse of madness",
+      "Doctor Strange in the Multiverse of Madness",
+      "Doktor Streyndj 2",
+      "Doktor Strenj 2"
     ],
     "colors": [
       "#4a1a6b",
@@ -3291,7 +3469,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 115,
     "rating": 7.5,
     "director": "Scott Derrickson",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "tags": [
+      "Doctor Strange",
+      "Doktor Strenj"
+    ]
   },
   {
     "id": 146,
@@ -3322,7 +3504,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "captain america brave new world"
+      "captain america brave new world",
+      "Captain America: Brave New World",
+      "Kapitan Amerika 4"
     ],
     "colors": [
       "#1d3565",
@@ -3369,7 +3553,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "captain america civil war"
+      "captain america civil war",
+      "Captain America: Civil War",
+      "Kapitan Amerika 3",
+      "Kapitan Amerika: Qarama-qarshilik"
     ],
     "colors": [
       "#1d3565",
@@ -3416,7 +3603,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "captain america the first avenger"
+      "captain america the first avenger",
+      "Captain America: The First Avenger",
+      "Kapitan Amerika 1"
     ],
     "colors": [
       "#1d3565",
@@ -3475,7 +3664,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 136,
     "rating": 7.7,
     "director": "Anthony & Joe Russo",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "tags": [
+      "Captain America: The Winter Soldier",
+      "Kapitan Amerika 2",
+      "Kapitan Amerika: Qishki askar"
+    ]
   },
   {
     "id": 143,
@@ -3507,7 +3701,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "guardians of the galaxy vol 3"
+      "guardians of the galaxy vol 3",
+      "Guardians of the Galaxy Vol. 3"
     ],
     "colors": [
       "#1a5a6b",
@@ -3555,7 +3750,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "guardians of the galaxy vol 2"
+      "guardians of the galaxy vol 2",
+      "Guardians of the Galaxy Vol. 2"
     ],
     "colors": [
       "#6a2a7a",
@@ -3616,7 +3812,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 121,
     "rating": 8,
     "director": "James Gunn",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "tags": [
+      "Guardians of the Galaxy",
+      "Galaktika qo‘riqchilari 1"
+    ]
   },
   {
     "id": 39,
@@ -3660,7 +3860,13 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 149,
     "rating": 8.4,
     "director": "Anthony & Joe Russo",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "tags": [
+      "Avengers: Infinity War",
+      "Qasoskorlar 3",
+      "Qasoskorlar: Cheksiz urush",
+      "Мстители 3"
+    ]
   },
   {
     "id": 33,
@@ -3704,7 +3910,13 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 143,
     "rating": 8,
     "director": "Joss Whedon",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "tags": [
+      "The Avengers",
+      "Avengers",
+      "Qasoskorlar 1",
+      "Мстители 1"
+    ]
   },
   {
     "id": 15,
@@ -3744,7 +3956,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1994,
     "duration": 142,
     "rating": 9.3,
-    "director": "Frank Darabont"
+    "director": "Frank Darabont",
+    "tags": [
+      "The Shawshank Redemption",
+      "Shoushenkdan qochish"
+    ]
   },
   {
     "id": 2926,
@@ -3774,7 +3990,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Джон Уик 4» — американский художественный фильм в жанре неонуарного остросюжетного боевика, поставленный режиссёром Чадом Стахелски по сценарию Шэя Хаттена и Майкла Финча как продолжение фильма «Джон Уик 3» из серии о бывшем наёмном убийце в исполнении Киану Ривза наряду с Донни Йеном, Биллом Скарсгардом, Риной…"
     },
     "tags": [
-      "John Wick: Chapter 4"
+      "John Wick: Chapter 4",
+      "John Wick 4"
     ],
     "colors": [
       "hsl(187 45% 28%)",
@@ -3823,7 +4040,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "trailer": "https://www.youtube.com/watch?v=rx-gQVUeSR8",
     "video": "http://topfilm.info/2/tarjima_kinolar/JON_UIK_3_720.mp4",
     "tags": [
-      "John Wick: Chapter 3 – Parabellum"
+      "John Wick: Chapter 3 – Parabellum",
+      "John Wick 3",
+      "Jon Uik 3",
+      "Jon Uik 3: Parabellum"
     ],
     "poster": "https://upload.wikimedia.org/wikipedia/en/9/94/John_Wick_Chapter_3_Parabellum.png",
     "wiki": "Джон Уик 3",
@@ -3862,7 +4082,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Джон Уик 2» — американский неонуарный остросюжетный боевик режиссёра Чада Стахелски по сценарию Дерека Колстада, с Киану Ривзом в главной роли наряду с Common, Лоренсом Фишберном, Риккардо Скамарчо, Руби Роуз, Лэнсом Реддиком, Петером Стормаре, Бриджит Мойнахан, Франко Неро, Джоном Легуизамо и Иэном Макшейном."
     },
     "tags": [
-      "John Wick: Chapter 2"
+      "John Wick: Chapter 2",
+      "Jon Uik 2"
     ],
     "colors": [
       "hsl(185 45% 28%)",
@@ -3917,7 +4138,13 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2014,
     "duration": 101,
     "rating": 7.4,
-    "director": "Chad Stahelski"
+    "director": "Chad Stahelski",
+    "tags": [
+      "John Wick",
+      "John Wick 1",
+      "Jon Uik 1",
+      "Jon Vik"
+    ]
   },
   {
     "id": 2664,
@@ -3945,7 +4172,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Аватар: Пламя и пепел» — американский эпический научно-фантастический фильм режиссёра, продюсера, сценариста и монтажёра Джеймса Кэмерона."
     },
     "tags": [
-      "Avatar: Fire and Ash"
+      "Avatar: Fire and Ash",
+      "Avatar: Olov va kul"
     ],
     "colors": [
       "hsl(269 45% 28%)",
@@ -3987,7 +4215,9 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Аватар: Путь воды» — американский эпический научно-фантастический фильм режиссёра и сценариста Джеймса Кэмерона, созданный студиями Lightstorm Entertainment и выпущенный студией 20th Century Studios."
     },
     "tags": [
-      "Avatar: The Way of Water"
+      "Avatar: The Way of Water",
+      "Avatar 2",
+      "Avatar: Suv yoli"
     ],
     "colors": [
       "hsl(311 45% 28%)",
@@ -4041,7 +4271,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2009,
     "duration": 162,
     "rating": 7.9,
-    "director": "James Cameron"
+    "director": "James Cameron",
+    "tags": [
+      "Avatar 1",
+      "Avatar 2009"
+    ]
   },
   {
     "id": 12,
@@ -4082,7 +4316,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1997,
     "duration": 194,
     "rating": 7.9,
-    "director": "James Cameron"
+    "director": "James Cameron",
+    "tags": [
+      "Titanic"
+    ]
   },
   {
     "id": 11,
@@ -4123,7 +4360,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2000,
     "duration": 155,
     "rating": 8.5,
-    "director": "Ridley Scott"
+    "director": "Ridley Scott",
+    "tags": [
+      "Gladiator 2000"
+    ]
   },
   {
     "id": 10,
@@ -4163,7 +4403,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1999,
     "duration": 136,
     "rating": 8.7,
-    "director": "Lana & Lilly Wachowski"
+    "director": "Lana & Lilly Wachowski",
+    "tags": [
+      "The Matrix",
+      "Matrix"
+    ]
   },
   {
     "id": 9,
@@ -4204,7 +4448,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1994,
     "duration": 142,
     "rating": 8.8,
-    "director": "Robert Zemeckis"
+    "director": "Robert Zemeckis",
+    "tags": [
+      "Forrest Gump"
+    ]
   },
   {
     "id": 8,
@@ -4245,7 +4492,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 1972,
     "duration": 175,
     "rating": 9.2,
-    "director": "Francis Ford Coppola"
+    "director": "Francis Ford Coppola",
+    "tags": [
+      "The Godfather",
+      "Choqintirgan ota"
+    ]
   },
   {
     "id": 6,
@@ -4421,7 +4672,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "Avengers",
       "Qasoskorlar",
       "Мстители",
-      "Tony Stark"
+      "Tony Stark",
+      "Iron Man",
+      "Temir odam 1",
+      "Temir odam (2008)"
     ],
     "colors": [
       "#8a2a1e",
@@ -4478,7 +4732,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790157062563,
     "year": 2014,
     "duration": 165,
-    "director": "Michael Bay"
+    "director": "Michael Bay",
+    "tags": [
+      "Transformers: Age of Extinction",
+      "Transformers 4",
+      "Transformerlar 4"
+    ]
   },
   {
     "id": 2924,
@@ -4518,7 +4777,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790156969639,
     "year": 2017,
     "duration": 154,
-    "director": "Michael Bay"
+    "director": "Michael Bay",
+    "tags": [
+      "Transformers: The Last Knight",
+      "Transformers 5",
+      "Transformerlar 5"
+    ]
   },
   {
     "id": 2436,
@@ -4558,7 +4822,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790156928307,
     "year": 2009,
     "duration": 150,
-    "director": "Michael Bay"
+    "director": "Michael Bay",
+    "tags": [
+      "Transformers: Revenge of the Fallen",
+      "Transformers 2",
+      "Transformerlar 2"
+    ]
   },
   {
     "id": 2343,
@@ -4598,7 +4867,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790156892050,
     "year": 2011,
     "duration": 154,
-    "director": "Michael Bay"
+    "director": "Michael Bay",
+    "tags": [
+      "Transformers: Dark of the Moon",
+      "Transformers 3",
+      "Transformerlar 3"
+    ]
   },
   {
     "id": 2205,
@@ -4627,7 +4901,9 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Трансформеры» — американский научно-фантастический боевик 2007 года режиссёра Майкла Бэя, снятый по мотивам серии игрушек компании Hasbro и одноимённого мультсериала."
     },
     "tags": [
-      "Transformers"
+      "Transformers",
+      "Transformers 1",
+      "Transformerlar 1"
     ],
     "colors": [
       "hsl(66 45% 28%)",
@@ -4709,7 +4985,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "avengers age of ultron"
+      "avengers age of ultron",
+      "Avengers: Age of Ultron",
+      "Qasoskorlar 2",
+      "Qasoskorlar: Ultron davri",
+      "Мстители 2"
     ],
     "colors": [
       "#3a3f4a",
@@ -4767,7 +5047,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2023,
     "duration": 180,
     "rating": 8.3,
-    "director": "Christopher Nolan"
+    "director": "Christopher Nolan",
+    "tags": [
+      "Oppenheimer"
+    ]
   },
   {
     "id": 52,
@@ -4799,7 +5082,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Batman",
-      "Бэтмен"
+      "Бэтмен",
+      "The Batman",
+      "Betmen 2022",
+      "Batman 2022"
     ],
     "colors": [
       "#5a2a1e",
@@ -4857,7 +5143,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2021,
     "duration": 155,
     "rating": 8,
-    "director": "Denis Villeneuve"
+    "director": "Denis Villeneuve",
+    "tags": [
+      "Dune",
+      "Dyuna 1"
+    ]
   },
   {
     "id": 7,
@@ -4898,7 +5188,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2019,
     "duration": 132,
     "rating": 8.5,
-    "director": "Bong Joon-ho"
+    "director": "Bong Joon-ho",
+    "tags": [
+      "Parasite"
+    ]
   },
   {
     "id": 147,
@@ -4929,7 +5222,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "tags": [
       "Marvel",
-      "thunderbolts"
+      "thunderbolts",
+      "Thunderbolts*",
+      "Momaqaldiroqlar"
     ],
     "colors": [
       "#3a3a3a",
@@ -4985,7 +5280,11 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1789811864389,
     "year": 2019,
     "rating": 9.3,
-    "director": "Johan Renck"
+    "director": "Johan Renck",
+    "tags": [
+      "Chernobyl",
+      "Chernobl"
+    ]
   },
   {
     "id": 2928,
@@ -5015,7 +5314,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "ru": "«Соник 3 в кино» — полнометражный приключенческий комедийный экшен-фильм, основанный на серии компьютерных игр Sonic the Hedgehog."
     },
     "tags": [
-      "Sonic the Hedgehog 3"
+      "Sonic the Hedgehog 3",
+      "Sonik 3"
     ],
     "colors": [
       "hsl(350 45% 28%)",
@@ -5062,7 +5362,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       "Batman",
       "Betmen",
       "Бэтмен",
-      "Joker"
+      "Joker",
+      "The Dark Knight",
+      "Qorongu ritsar",
+      "Betmen 2"
     ],
     "colors": [
       "#1f2937",
@@ -5120,7 +5423,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2010,
     "duration": 148,
     "rating": 8.8,
-    "director": "Christopher Nolan"
+    "director": "Christopher Nolan",
+    "tags": [
+      "Inception"
+    ]
   },
   {
     "id": 2981,
@@ -5205,7 +5511,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2014,
     "duration": 169,
     "rating": 8.7,
-    "director": "Christopher Nolan"
+    "director": "Christopher Nolan",
+    "tags": [
+      "Interstellar"
+    ]
   },
   {
     "id": 40,
@@ -5290,7 +5599,561 @@ const CUSTOM_MOVIES = /*DATA*/[
     "addedAt": 1789489966997,
     "updatedAt": 1789817068533,
     "year": 2019,
-    "audio": "uz"
+    "audio": "uz",
+    "tags": [
+      "Ralph Breaks the Internet",
+      "Ralf 2",
+      "Ralf internetni buzadi"
+    ]
+  },
+  {
+    "id": 22,
+    "slug": "fight-club",
+    "year": 1999,
+    "type": "film",
+    "title": {
+      "uz": "Jangovar klub",
+      "ru": "Бойцовский клуб"
+    },
+    "genres": [
+      "drama",
+      "thriller"
+    ],
+    "rating": 8.8,
+    "duration": 139,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "David Fincher",
+    "cast": [
+      "Brad Pitt",
+      "Edward Norton",
+      "Helena Bonham Carter"
+    ],
+    "desc": {
+      "uz": "Uyqusizlikdan aziyat chekayotgan ofis xodimi sirli Tayler Durden bilan yashirin jangovar klub tashkil qiladi.",
+      "ru": "Страдающий бессонницей клерк вместе с загадочным Тайлером Дёрденом создаёт подпольный бойцовский клуб."
+    },
+    "colors": [
+      "#5a3030",
+      "#140808"
+    ],
+    "poster": "images/fight-club.jpg",
+    "trailer": "https://www.youtube.com/watch?v=C7-7qQ61QHU",
+    "video": "",
+    "featured": false,
+    "tags": [
+      "Fight Club"
+    ]
+  },
+  {
+    "id": 30,
+    "slug": "wednesday",
+    "year": 2022,
+    "type": "serial",
+    "title": {
+      "uz": "Uednsdey",
+      "ru": "Уэнсдэй"
+    },
+    "genres": [
+      "detective",
+      "comedy",
+      "fantasy"
+    ],
+    "rating": 8.1,
+    "seasons": 2,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Tim Burton",
+    "cast": [
+      "Jenna Ortega",
+      "Catherine Zeta-Jones",
+      "Gwendoline Christie"
+    ],
+    "desc": {
+      "uz": "Uednsdey Addams sirli akademiyada o‘qiy boshlaydi va shaharni qo‘rquvda saqlayotgan qotilliklarni tergov qiladi.",
+      "ru": "Уэнсдэй Аддамс поступает в загадочную академию и расследует серию убийств."
+    },
+    "colors": [
+      "#2a4a42",
+      "#080f0d"
+    ],
+    "poster": "images/wednesday.jpg",
+    "trailer": "https://www.youtube.com/watch?v=zUyGvjsc6zo",
+    "video": "",
+    "featured": false,
+    "tags": [
+      "Wednesday",
+      "Uensdey"
+    ]
+  },
+  {
+    "id": 42,
+    "slug": "deadpool",
+    "year": 2016,
+    "type": "film",
+    "franchise": "marvel",
+    "title": {
+      "uz": "Dedpul",
+      "ru": "Дэдпул"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "adventure"
+    ],
+    "rating": 8,
+    "duration": 108,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Tim Miller",
+    "cast": [
+      "Ryan Reynolds",
+      "Morena Baccarin",
+      "Ed Skrein",
+      "T.J. Miller"
+    ],
+    "desc": {
+      "uz": "Shafqatsiz tajribadan so‘ng g‘ayritabiiy qobiliyat olgan yollanma askar o‘ziga qilingan yomonlik uchun hazil-huzul bilan o‘ch oladi.",
+      "ru": "Получивший сверхспособности после жестокого эксперимента наёмник мстит своим мучителям — с фирменным чёрным юмором."
+    },
+    "colors": [
+      "#8a1e1e",
+      "#1a0606"
+    ],
+    "poster": "images/deadpool.png",
+    "trailer": "https://www.youtube.com/watch?v=EmH6VNG8QEE",
+    "video": "",
+    "featured": false,
+    "tags": [
+      "Deadpool",
+      "Dedpul 1",
+      "Deadpool 1"
+    ]
+  },
+  {
+    "id": 45,
+    "slug": "the-dark-knight-rises",
+    "year": 2012,
+    "type": "film",
+    "franchise": "dc",
+    "title": {
+      "uz": "Qorong‘u ritsar qaytadi",
+      "ru": "Тёмный рыцарь: Возрождение легенды"
+    },
+    "genres": [
+      "action",
+      "crime",
+      "drama"
+    ],
+    "rating": 8.4,
+    "duration": 164,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Christopher Nolan",
+    "cast": [
+      "Christian Bale",
+      "Tom Hardy",
+      "Anne Hathaway",
+      "Gary Oldman"
+    ],
+    "desc": {
+      "uz": "Sakkiz yillik sukunatdan so‘ng Betmen Gotemni Beyn ismli shafqatsiz kuchdan himoya qilish uchun qaytadi.",
+      "ru": "После восьми лет затишья Бэтмен возвращается, чтобы защитить Готэм от беспощадного Бэйна."
+    },
+    "tags": [
+      "Batman",
+      "Betmen",
+      "Бэтмен",
+      "Bane",
+      "The Dark Knight Rises",
+      "Betmen 3"
+    ],
+    "colors": [
+      "#3a3a44",
+      "#0a0a0e"
+    ],
+    "poster": "images/the-dark-knight-rises.jpg",
+    "trailer": "https://www.youtube.com/watch?v=MytbeYrN1R8",
+    "video": "",
+    "featured": false
+  },
+  {
+    "id": 54,
+    "slug": "alien",
+    "year": 1979,
+    "type": "film",
+    "title": {
+      "uz": "Yot mavjudot",
+      "ru": "Чужой"
+    },
+    "genres": [
+      "horror",
+      "scifi",
+      "thriller"
+    ],
+    "rating": 8.5,
+    "duration": 117,
+    "country": {
+      "uz": "Buyuk Britaniya, AQSh",
+      "ru": "Великобритания, США"
+    },
+    "director": "Ridley Scott",
+    "cast": [
+      "Sigourney Weaver",
+      "Tom Skerritt",
+      "John Hurt",
+      "Ian Holm"
+    ],
+    "desc": {
+      "uz": "Yuk kemasi ekipaji noma’lum signalga javob beradi va bortga olamdagi eng mukammal yirtqichni olib kiradi.",
+      "ru": "Экипаж грузового корабля отвечает на неизвестный сигнал и приносит на борт совершенного хищника."
+    },
+    "colors": [
+      "#1e2a2a",
+      "#060a0a"
+    ],
+    "poster": "images/alien.jpg",
+    "trailer": "https://www.youtube.com/watch?v=xIe98nyo3xI",
+    "video": "",
+    "featured": false,
+    "tags": [
+      "Alien",
+      "Yot mavjudot 1"
+    ]
+  },
+  {
+    "id": 58,
+    "slug": "lotr-fellowship",
+    "year": 2001,
+    "type": "film",
+    "title": {
+      "uz": "Uzuklar hukmdori: Uzuk hamrohlari",
+      "ru": "Властелин колец: Братство Кольца"
+    },
+    "genres": [
+      "fantasy",
+      "adventure",
+      "drama"
+    ],
+    "rating": 8.9,
+    "duration": 178,
+    "country": {
+      "uz": "Yangi Zelandiya, AQSh",
+      "ru": "Новая Зеландия, США"
+    },
+    "director": "Peter Jackson",
+    "cast": [
+      "Elijah Wood",
+      "Ian McKellen",
+      "Viggo Mortensen",
+      "Sean Astin"
+    ],
+    "desc": {
+      "uz": "Yosh xobbit Frodo olamni qulatishi mumkin bo‘lgan Uzukni yo‘q qilish uchun to‘qqiz nafar hamroh bilan yo‘lga chiqadi.",
+      "ru": "Юный хоббит Фродо с восемью спутниками отправляется уничтожить Кольцо, способное погубить мир."
+    },
+    "tags": [
+      "LOTR",
+      "Lord of the Rings",
+      "Властелин колец",
+      "Tolkien",
+      "The Lord of the Rings: The Fellowship of the Ring",
+      "Uzuklar hukmdori 1"
+    ],
+    "colors": [
+      "#3a4a2a",
+      "#0c1008"
+    ],
+    "poster": "images/lotr-fellowship.jpg",
+    "trailer": "https://www.youtube.com/watch?v=RNksw9VU2BQ",
+    "video": "",
+    "featured": true
+  },
+  {
+    "id": 60,
+    "slug": "arrival",
+    "year": 2016,
+    "type": "film",
+    "title": {
+      "uz": "Kelish",
+      "ru": "Прибытие"
+    },
+    "genres": [
+      "scifi",
+      "drama",
+      "thriller"
+    ],
+    "rating": 7.9,
+    "duration": 116,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Denis Villeneuve",
+    "cast": [
+      "Amy Adams",
+      "Jeremy Renner",
+      "Forest Whitaker"
+    ],
+    "desc": {
+      "uz": "Yerga o‘n ikkita sirli kema qo‘nadi. Tilshunos olim ular bilan muloqot yo‘lini topishi kerak — vaqt tugab bormoqda.",
+      "ru": "На Землю садятся двенадцать загадочных кораблей. Лингвист должна найти способ общения с пришельцами, пока не поздно."
+    },
+    "colors": [
+      "#3a4a5a",
+      "#0c1014"
+    ],
+    "poster": "images/arrival.jpg",
+    "trailer": "https://www.youtube.com/watch?v=7u7xTg0ZlDo",
+    "video": "",
+    "featured": false,
+    "tags": [
+      "Arrival"
+    ]
+  },
+  {
+    "id": 70,
+    "slug": "uz-borilar-2-quvgin",
+    "year": 2008,
+    "type": "film",
+    "franchise": "uzbek",
+    "title": {
+      "uz": "Bo'rilar 2 – quvg'in",
+      "ru": "Bo'rilar 2 – quvg'in"
+    },
+    "genres": [
+      "drama"
+    ],
+    "duration": 100,
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "director": "Zebo Navruzova",
+    "cast": [
+      "Shohruhxon",
+      "Nilufar Usmonova",
+      "Jalil Mavlonov",
+      "Bekzod Tojiyev",
+      "Ulug'bek Tuganov",
+      "Nasrulloh Nurov"
+    ],
+    "desc": {
+      "uz": "«Bo'rilar 2 – quvg'in» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      "ru": "Узбекский фильм «Bo'rilar 2 – quvg'in». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    "colors": [
+      "#5a3a2a",
+      "#140c08"
+    ],
+    "poster": "images/uz/borilar-2-quvgin.jpg",
+    "video": "https://www.youtube.com/watch?v=kzTOyuHWEUM",
+    "source": {
+      "name": "UzbekFilmsHD (RizaNova)",
+      "url": "https://www.youtube.com/@UzbekFilmsHD"
+    },
+    "featured": false,
+    "tags": [
+      "Borilar 2",
+      "Bo‘rilar 2"
+    ]
+  },
+  {
+    "id": 71,
+    "slug": "uz-borilar",
+    "year": 2007,
+    "type": "film",
+    "franchise": "uzbek",
+    "title": {
+      "uz": "Bo'rilar",
+      "ru": "Bo'rilar"
+    },
+    "genres": [
+      "drama"
+    ],
+    "duration": 90,
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "director": "Zebo Navruzova",
+    "cast": [
+      "Shohruhxon",
+      "Bekzod Tojiyev",
+      "Adiz Rajabov",
+      "Nilufar Usmonova",
+      "Jalil Mavlonov",
+      "Jamshid Abduazimov"
+    ],
+    "desc": {
+      "uz": "«Bo'rilar» — o‘zbek filmi. To‘liq versiyasi rasmiy «UzbekFilmsHD (RizaNova)» YouTube kanalida joylangan.",
+      "ru": "Узбекский фильм «Bo'rilar». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
+    },
+    "colors": [
+      "#2a4a5a",
+      "#081014"
+    ],
+    "poster": "images/uz/borilar.jpg",
+    "video": "https://www.youtube.com/watch?v=VWNbZRyrqWg",
+    "source": {
+      "name": "UzbekFilmsHD (RizaNova)",
+      "url": "https://www.youtube.com/@UzbekFilmsHD"
+    },
+    "featured": false,
+    "tags": [
+      "Borilar",
+      "Bo‘rilar 1"
+    ]
+  },
+  {
+    "id": 122,
+    "slug": "the-incredible-hulk",
+    "year": 2008,
+    "type": "film",
+    "franchise": "marvel",
+    "title": {
+      "uz": "Aql bovar qilmas Xalk",
+      "ru": "Невероятный Халк"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "rating": 6.6,
+    "duration": 112,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Louis Leterrier",
+    "cast": [
+      "Edward Norton",
+      "Liv Tyler",
+      "Tim Roth",
+      "William Hurt"
+    ],
+    "desc": {
+      "uz": "Olim Bryus Benner g‘azablanganda ulkan yashil maxluqqa aylanadi. U davosini izlab yashirinadi, harbiylar esa uni qo‘lga olish uchun yangi qurol yaratadi.",
+      "ru": "Учёный Брюс Бэннер в гневе превращается в огромного зелёного монстра. Он скрывается в поисках лекарства, а военные создают против него новое оружие."
+    },
+    "tags": [
+      "Marvel",
+      "the incredible hulk",
+      "Xalk",
+      "Hulk"
+    ],
+    "colors": [
+      "#2f5a24",
+      "#0a1406"
+    ],
+    "poster": "images/marvel/the-incredible-hulk.jpg",
+    "trailer": "https://www.youtube.com/watch?v=_-iXjRm3jG0",
+    "video": "",
+    "featured": false
+  },
+  {
+    "id": 129,
+    "slug": "ant-man",
+    "year": 2015,
+    "type": "film",
+    "franchise": "marvel",
+    "title": {
+      "uz": "Chumoli-odam",
+      "ru": "Человек-муравей"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "scifi"
+    ],
+    "rating": 7.3,
+    "duration": 117,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Peyton Reed",
+    "cast": [
+      "Paul Rudd",
+      "Michael Douglas",
+      "Evangeline Lilly",
+      "Corey Stoll"
+    ],
+    "desc": {
+      "uz": "Sobiq o‘g‘ri Skott Lang kichrayish qobiliyatini beradigan kostyumni qo‘lga kiritadi. Olim Xenk Pim unga xavfli texnologiyani yovuzlardan saqlashda yordam berishni topshiradi.",
+      "ru": "Бывший вор Скотт Лэнг получает костюм, позволяющий уменьшаться. Учёный Хэнк Пим поручает ему защитить опасную технологию от злодеев."
+    },
+    "tags": [
+      "Marvel",
+      "ant man",
+      "Ant-Man",
+      "Chumoli odam 1"
+    ],
+    "colors": [
+      "#6b1a1a",
+      "#120404"
+    ],
+    "poster": "images/marvel/ant-man.jpg",
+    "trailer": "https://www.youtube.com/watch?v=Vc0GhqtIteo",
+    "video": "",
+    "featured": false
+  },
+  {
+    "id": 150,
+    "slug": "avengers-doomsday",
+    "year": 2026,
+    "type": "film",
+    "franchise": "marvel",
+    "title": {
+      "uz": "Qasoskorlar: Qiyomat kuni",
+      "ru": "Мстители: Судный день"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Anthony Russo, Joe Russo",
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Hemsworth",
+      "Anthony Mackie",
+      "Pedro Pascal",
+      "Florence Pugh"
+    ],
+    "desc": {
+      "uz": "«Qasoskorlar: Final»ning davomi. Qasoskorlar, Vakanda, Fantastik to‘rtlik va X-odamlar turli olamlardan birlashib, Doktor Dumga qarshi chiqadi. Chiqish sanasi — 2026-yil dekabr (kutilmoqda). Hozircha faqat treyler.",
+      "ru": "Продолжение «Мстителей: Финал». Мстители, Ваканда, Фантастическая четвёрка и Люди Икс из разных вселенных объединяются против Доктора Дума. Выход — декабрь 2026 года (ожидается). Пока доступен только трейлер."
+    },
+    "tags": [
+      "Marvel",
+      "avengers doomsday",
+      "Tez orada",
+      "Скоро",
+      "Avengers: Doomsday",
+      "Qasoskorlar 5"
+    ],
+    "colors": [
+      "#2a4a2a",
+      "#050a05"
+    ],
+    "poster": "images/marvel/avengers-doomsday.jpg",
+    "trailer": "https://www.youtube.com/watch?v=O7DjtgMfNKw",
+    "video": "",
+    "featured": false
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
