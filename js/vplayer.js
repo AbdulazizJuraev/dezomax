@@ -91,7 +91,14 @@ function mountVideo(box, url, opts = {}) {
       `<button type="button" class="ytp-qchip${i === activeIdx ? ' is-active' : ''}" data-vq="${i}">${esc(q.label)}</button>`).join('');
   };
 
+  let adStarted = false;
   const start = async () => {
+    if (opts.preroll && typeof Ads !== 'undefined') {
+      if (adStarted) return;
+      adStarted = true;
+      await Ads.preroll(box);   // kino oldidan reklama (js/ads.js)
+      if (vpActive?.video !== video) return;   // reklama paytida boshqa video tanlangan
+    }
     $('#vpCover').classList.add('is-loading');
     try {
       if (isHls) {

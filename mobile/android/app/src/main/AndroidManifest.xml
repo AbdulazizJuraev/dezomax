@@ -6,11 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" tools:node="remove" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" tools:node="remove" />
-    <!-- Ijtimoiy tarmoq orqali kirish plagini Facebook SDK'ni ham o'zi bilan olib keladi
-         (DezoMax faqat Google va Telegram orqali kiradi, Facebook ishlatilmaydi) —
-         Facebook SDK'ning reklama identifikatori kuzatuvi kerak emas. -->
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
-    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" tools:node="remove" />
+    <!-- Reklama identifikatori (AD_ID) AdMob reklamasi uchun kerak — shuning uchun endi olib tashlanmaydi.
+         Play Console → Ilova tarkibi: «Reklama bor» = Ha, «Reklama identifikatori» = Ha (Reklama/marketing). -->
     <application
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
@@ -44,6 +41,11 @@
         <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
             android:value="uz.dezomax.app.CastOptionsProvider" />
+
+        <!-- AdMob ilova ID (build.gradle → manifestPlaceholders.admobAppId) -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${admobAppId}" />
     </application>
 
     <!-- Permissions -->

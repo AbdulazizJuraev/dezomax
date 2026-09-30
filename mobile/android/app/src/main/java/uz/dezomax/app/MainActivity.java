@@ -32,9 +32,15 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(CastPlugin.class);
+        registerPlugin(AdsPlugin.class);
         super.onCreate(savedInstanceState);
 
         WebView webView = getBridge() != null ? getBridge().getWebView() : null;
+
+        // Saytdagi AdSense bannerlari ilova ichida ham to'g'ri hisoblansin (Google WebView API for Ads)
+        if (webView != null) {
+            try { com.google.android.gms.ads.MobileAds.registerWebView(webView); } catch (Exception ignored) {}
+        }
 
         // Bosh sahifadagi treyler ovozini yoqqanda video to'xtab qolmasin:
         // WebView ovozli videoni ham to'g'ridan-to'g'ri o'ynata oladi

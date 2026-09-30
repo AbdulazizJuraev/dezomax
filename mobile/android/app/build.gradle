@@ -19,6 +19,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // faqat telefon protsessorlari (x86 — kompyuter emulyatorlari uchun, APK hajmini oshiradi)
         ndk { abiFilters 'arm64-v8a', 'armeabi-v7a' }
+        // AdMob ilova ID (AdMob → Ilovalar → Ilova sozlamalari). Hozircha Google'ning SINOV ID'si —
+        // haqiqiy ID olinganda shu yerga yozing, aks holda faqat sinov reklamalari chiqadi.
+        manifestPlaceholders = [admobAppId: "ca-app-pub-3940256099942544~3347511713"]
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
@@ -80,6 +83,8 @@ dependencies {
     // Televizorga ulash (Chromecast)
     implementation "com.google.android.gms:play-services-cast-framework:21.5.0"
     implementation "androidx.mediarouter:mediarouter:1.6.0"
+    // Reklama (AdMob): kino oldidan interstitial + saytdagi AdSense uchun WebView ro'yxati
+    implementation "com.google.android.gms:play-services-ads:24.6.0"
     implementation project(':capacitor-android')
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"

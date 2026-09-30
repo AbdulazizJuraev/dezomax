@@ -153,7 +153,17 @@ function mountYouTube(box, url, opts = {}) {
     </div>`;
 
   const $ = s => box.querySelector(s);
-  $('#ytpCover').addEventListener('click', () => ytStart(box, id));
+  // opts.preroll — kino oldidan reklama (js/ads.js); tugagach film boshlanadi
+  let starting = false;
+  const cover = $('#ytpCover');
+  cover.addEventListener('click', async () => {
+    if (starting) return;
+    starting = true;
+    cover.classList.add('is-loading');
+    if (opts.preroll && typeof Ads !== 'undefined') await Ads.preroll(box);
+    if (!cover.isConnected) return;   // reklama paytida boshqa video tanlangan
+    ytStart(box, id);
+  });
   // video boshlanmasdan oldin ham tanlash mumkin — boshlanganda shu sifat bilan ochiladi
   box.querySelectorAll('[data-qchip]').forEach(b =>
     b.addEventListener('click', () => ytApplyQuality(b.dataset.qchip)));

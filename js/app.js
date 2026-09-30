@@ -445,11 +445,14 @@ function renderRows() {
   if (!box) return;
   const rows = (SITE_CFG.rows && SITE_CFG.rows.length) ? SITE_CFG.rows : DEFAULT_ROWS;
 
+  let shown = 0;
   box.innerHTML = rows.map((row, i) => {
     const src = ROW_SOURCES[row.source] || ROW_SOURCES.custom;
     if (row.visible === false) return '';
     const list = src.list(row);
     if (!list.length) return '';
+    // har 3 qatordan keyin reklama joyi (js/ads.js; reklama ID'lari bo'lmasa — ko'rinmaydi)
+    const ad = ++shown % 3 === 0 ? `<div class="ad-slot" data-ad-slot="home"></div>` : '';
     const title = (row.title && (row.title[LANG] || row.title.uz)) || (src.title ? t(src.title) : '');
     return `
       <section class="section">
@@ -459,9 +462,10 @@ function renderRows() {
           <div class="row-nav" data-for="homeRow${i}"></div>
         </div>
         <div class="row" id="homeRow${i}">${list.map(cardHTML).join('')}</div>
-      </section>`;
+      </section>${ad}`;
   }).join('');
 
+  if (typeof Ads !== 'undefined') Ads.fill(box);
   observeReveals(box);
   initRowNav();
 }

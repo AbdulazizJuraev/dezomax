@@ -104,7 +104,8 @@ function mountPlayer(url) {
     mountVideo(box, url, {
       poster: movie?.poster || null,
       title: movie ? title(movie) : '',
-      qualities: isFilm ? (movie.videos || []) : []
+      qualities: isFilm ? (movie.videos || []) : [],
+      preroll: isFilm
     });
     if (link) { link.href = external; link.hidden = false; }
     return;
@@ -114,17 +115,38 @@ function mountPlayer(url) {
   if (typeof mountYouTube === 'function' && youTubeId(url)) {
     // tik poster keng ekranga sig'maydi — faqat keng muqovali (o'zbek filmlari) rasmini beramiz
     const wide = movie && movie.poster && movie.poster.startsWith('images/uz/') ? movie.poster : null;
-    mountYouTube(box, url, { poster: wide, title: movie ? title(movie) : '' });
+    // treylerdan oldin reklama yo'q — faqat to'liq film oldidan (js/ads.js)
+    mountYouTube(box, url, { poster: wide, title: movie ? title(movie) : '', preroll: !!movie && url === movie.video });
     if (link) { link.href = external; link.hidden = false; }
     return;
   }
 
   if (typeof destroyYouTube === 'function') destroyYouTube();
   box.classList.remove('ytp');
-  box.innerHTML = html;
-  const v = box.querySelector('video[data-hls]');
-  if (v) initHls(v);
   if (link) { link.href = external; link.hidden = false; }
+  const embed = () => {
+    box.innerHTML = html;
+    const v = box.querySelector('video[data-hls]');
+    if (v) initHls(v);
+  };
+  // Tashqi pleyer (iframe) — film oldidan reklama bo'lsa, avval muqova, bosilganda reklama → film
+  if (movie && url === movie.video && typeof Ads !== 'undefined' && Ads.wantsPreroll()) {
+    box.innerHTML = `
+      <button class="ytp-cover" type="button" aria-label="${esc(t('player.play'))}">
+        ${movie.poster ? `<span class="vp-cover-bg" style="background-image:url('${esc(movie.poster)}')"></span>` : ''}
+        <span class="ytp-cover-shade"></span>
+        <span class="ytp-big">${YT_ICONS.play}</span>
+        <span class="ytp-cover-title">${esc(title(movie))}</span>
+      </button>`;
+    const cover = box.querySelector('.ytp-cover');
+    cover.addEventListener('click', async () => {
+      cover.disabled = true;
+      await Ads.preroll(box);
+      if (cover.isConnected) embed();
+    }, { once: true });
+    return;
+  }
+  embed();
 }
 
 function playerSectionHTML(m) {
@@ -258,6 +280,8 @@ function renderMovie() {
       ${playerSectionHTML(movie)}
     </section>
 
+    <div class="ad-slot" data-ad-slot="movie"></div>
+
     ${(movie.cast || []).length ? `
     <section class="section">
       <div class="section-head"><i class="bar"></i><h2>${t('movie.cast')}</h2></div>
@@ -281,6 +305,7 @@ function renderMovie() {
 
   const similarRow = document.getElementById('similar');
   renderCards(similarRow, similarOf(movie));
+  if (typeof Ads !== 'undefined') Ads.fill(page);
   document.querySelectorAll('#similarNav button').forEach(b => b.addEventListener('click', () => {
     similarRow.scrollBy({ left: +b.dataset.dir * Math.max(similarRow.clientWidth * .8, 240), behavior: 'smooth' });
   }));
