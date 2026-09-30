@@ -4263,19 +4263,19 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#06161c"
     ],
     "poster": "images/avatar.jpg",
-    "trailer": "https://youtu.be/MUOkqc2ZdK8?si=Onqc7RFBjXvADPmW",
+    "trailer": "https://www.youtube.com/watch?v=Do6UmtsxHY8",
     "video": "https://d.uzbeklar.biz/film/avatar1.mp4",
     "featured": false,
     "addedAt": 1790166238215,
-    "updatedAt": 1790704975918,
-    "year": 2009,
-    "duration": 162,
-    "rating": 7.9,
-    "director": "James Cameron",
+    "updatedAt": 1790770826953,
     "tags": [
       "Avatar 1",
       "Avatar 2009"
-    ]
+    ],
+    "year": 2009,
+    "duration": 162,
+    "rating": 7.9,
+    "director": "James Cameron"
   },
   {
     "id": 12,
