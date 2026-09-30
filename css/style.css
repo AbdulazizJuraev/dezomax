@@ -5093,6 +5093,11 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 /* ---------------- Reklama (js/ads.js) ---------------- */
 .ad-slot { margin: 26px 0; min-width: 0; }
 .ad-slot:empty { display: none; }
+/* Yandex reklamasi hali chizilmagan — sarlavha va fon yo'q, bo'sh joy 0 px (blok esa ko'rinadigan
+   holatda qoladi: Yandex yashirin konteynerga reklama chizmaydi) */
+.ad-slot.is-pending { margin: 0; }
+.ad-slot.is-pending .ad-head { display: none; }
+.ad-slot.is-pending .ad-body { min-height: 0; background: none; }
 .ad-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 6px; font-size: 11px; color: var(--muted, #8a93a6); text-transform: uppercase; letter-spacing: .06em; }
 .ad-head a { color: var(--muted, #8a93a6); text-transform: none; letter-spacing: 0; font-size: 12px; text-decoration: none; white-space: nowrap; }
 .ad-head a:hover { color: #fff; }

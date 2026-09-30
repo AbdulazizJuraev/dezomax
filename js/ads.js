@@ -11,7 +11,7 @@
 
 const ADS_CONFIG = {
   // Yandex RSYa: RTB blok ID'lari ('R-A-1234567-1'). Bir nechta bo'lsa — navbat bilan
-  yandex: { banners: [] },
+  yandex: { banners: ['R-A-20143550-1'] },
   // Google AdSense: client — 'ca-pub-XXXXXXXXXXXXXXXX', slot — banner blok raqami
   adsense: { client: '', slot: '' },
   // Banner uchun tarmoqlar tartibi: birinchi sozlangani ishlatiladi
@@ -53,6 +53,7 @@ const Ads = (() => {
   function loadOnce(key, src, attrs = {}) {
     if (loaded[key]) return;
     loaded[key] = true;
+    if (document.querySelector(`script[src="${src}"]`)) return;   // sahifa <head>ida allaqachon bor
     const s = document.createElement('script');
     s.src = src;
     s.async = true;
@@ -79,6 +80,8 @@ const Ads = (() => {
       if (net === 'yandex') {
         const ids = C.yandex.banners;
         const blockId = ids[(n - 1) % ids.length];
+        // reklama haqiqatan chizilmaguncha joy yashirin — bo'sh "Reklama" qutisi ko'rinmasin
+        slot.classList.add('is-pending');
         window.yaContextCb = window.yaContextCb || [];
         loadOnce('ya', 'https://yandex.ru/ads/system/context.js');
         window.yaContextCb.push(() => {
@@ -86,6 +89,7 @@ const Ads = (() => {
             Ya.Context.AdvManager.render({
               blockId, renderTo: body.id,
               ...(ids.length === 1 && n > 1 ? { pageNumber: n } : {}),
+              onRender: () => slot.classList.remove('is-pending'),
               onError: () => slot.remove()
             });
           } catch { slot.remove(); }
