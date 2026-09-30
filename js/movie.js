@@ -231,12 +231,20 @@ function similarOf(m) {
 /* ---------- Qidiruv tizimlari uchun (Google, Yandex) ----------
    Sarlavha, tavsif, ijtimoiy tarmoq kartasi va schema.org Movie ma'lumoti — kino nomi bilan
    qidirganda aynan shu sahifa chiqishi uchun */
+/* Boshqa nomlari (admin → teglar): odamlar kinoni turlicha qidiradi — "Qasoskorlar: Intiho",
+   "Avengers: Endgame". Sahifada ko'rinadi va qidiruv tizimlariga ham beriladi */
+function akaOf(m) {
+  const own = [m.title.uz, m.title.ru].map(x => (x || '').toLowerCase());
+  return [...new Set(m.tags || [])].filter(x => x && x.length > 2 && !own.includes(x.toLowerCase()) && !/^(marvel|dc)$/i.test(x));
+}
+
 function setMovieSeo(m) {
   const name = title(m);
   const watch = watchStatus(m) === 'trailer'
     ? (LANG === 'ru' ? 'трейлер' : 'treyler')
     : (LANG === 'ru' ? 'смотреть онлайн' : 'onlayn ko‘rish');
-  const desc = `${name}${m.year ? ` (${m.year})` : ''} — ${watch}. ${descOf(m)}`.slice(0, 300);
+  const aka = akaOf(m);
+  const desc = `${name}${m.year ? ` (${m.year})` : ''} — ${watch}.${aka.length ? ` (${aka.join(', ')})` : ''} ${descOf(m)}`.slice(0, 300);
   const abs = p => p ? new URL(p, 'https://dezomax.uz/').href : '';
   const setMeta = (attr, key, val) => {
     let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -255,7 +263,7 @@ function setMovieSeo(m) {
     '@context': 'https://schema.org',
     '@type': m.type === 'serial' ? 'TVSeries' : 'Movie',
     name,
-    alternateName: [m.title.uz, m.title.ru].filter(x => x && x !== name),
+    alternateName: [m.title.uz, m.title.ru, ...aka].filter(x => x && x !== name),
     description: descOf(m),
     url: `https://dezomax.uz/movie.html?id=${m.id}`,
     ...(m.poster ? { image: abs(m.poster) } : {}),
@@ -317,6 +325,7 @@ function renderMovie() {
         <div>
           <h1 class="mv-title">${esc(title(movie))}</h1>
           ${subTitle ? `<div class="mv-sub">${esc(subTitle)}</div>` : ''}
+          ${akaOf(movie).length ? `<div class="mv-aka">${LANG === 'ru' ? 'Также известен как' : 'Boshqa nomlari'}: ${esc(akaOf(movie).join(' · '))}</div>` : ''}
 
           <div class="mv-tags">
             ${watchSt === 'uz' ? `<span class="tag tag-watch is-uz">${ICONS.play} ${t('watch.statusUz')}</span>` : ''}

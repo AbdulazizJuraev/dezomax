@@ -808,6 +808,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   margin: -6px 0 16px;
   font-weight: 500;
 }
+.mv-aka { color: var(--text-faint); font-size: 13px; margin: -10px 0 16px; }
 
 .mv-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
 

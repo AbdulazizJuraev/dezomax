@@ -5236,6 +5236,12 @@ const CUSTOM_MOVIES = /*DATA*/[
       "uz": "Tanosning qirg‘inidan omon qolgan qahramonlar yo‘qotilgan hamma narsani qaytarish uchun so‘nggi umidsiz rejani amalga oshiradi.",
       "ru": "Выжившие после щелчка Таноса герои идут на отчаянный шаг, чтобы вернуть всё потерянное."
     },
+    "tags": [
+      "Qasoskorlar: Intiho",
+      "Qasoskorlar 4",
+      "Avengers: Endgame",
+      "Мстители 4"
+    ],
     "colors": [
       "#2a4a5a",
       "#08131a"
