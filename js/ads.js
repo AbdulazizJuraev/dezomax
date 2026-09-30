@@ -12,8 +12,10 @@
 const ADS_CONFIG = {
   // Yandex RSYa: RTB blok ID'lari ('R-A-1234567-1'). Bir nechta bo'lsa — navbat bilan
   yandex: { banners: ['R-A-20143550-1'] },
-  // Google AdSense: client — 'ca-pub-XXXXXXXXXXXXXXXX', slot — banner blok raqami
-  adsense: { client: '', slot: '' },
+  // Google AdSense: client — hisob ID, slot — banner blok raqami (sayt tasdiqlangach
+  // AdSense → Объявления → По рекламным блокам → Медийный блок yaratib, raqamini yozing).
+  // Yuklovchi kod va ads.txt har bir sahifada / ildizda turibdi.
+  adsense: { client: 'ca-pub-3356248514435871', slot: '' },
   // Banner uchun tarmoqlar tartibi: birinchi sozlangani ishlatiladi
   bannerOrder: ['yandex', 'adsense'],
   // Kino oldidan video reklama (saytda): VAST havola. Yo'q bo'lsa — reklamasiz boshlanadi
@@ -82,6 +84,8 @@ const Ads = (() => {
         const blockId = ids[(n - 1) % ids.length];
         // reklama haqiqatan chizilmaguncha joy yashirin — bo'sh "Reklama" qutisi ko'rinmasin
         slot.classList.add('is-pending');
+        // Yandex reklama bermasa (moderatsiya, reklama yo'q) — AdSense sozlangan bo'lsa o'shani qo'yamiz
+        const fallback = () => { if (adsenseReady()) { slot.classList.remove('is-pending'); renderAdsense(body); } else slot.remove(); };
         window.yaContextCb = window.yaContextCb || [];
         loadOnce('ya', 'https://yandex.ru/ads/system/context.js');
         window.yaContextCb.push(() => {
@@ -90,17 +94,22 @@ const Ads = (() => {
               blockId, renderTo: body.id,
               ...(ids.length === 1 && n > 1 ? { pageNumber: n } : {}),
               onRender: () => slot.classList.remove('is-pending'),
-              onError: () => slot.remove()
+              onError: fallback
             });
-          } catch { slot.remove(); }
+          } catch { fallback(); }
         });
       } else {
-        loadOnce('gads', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(C.adsense.client)}`, { crossorigin: 'anonymous' });
-        body.innerHTML = `<ins class="adsbygoogle" style="display:block" data-ad-client="${C.adsense.client}"
-          data-ad-slot="${C.adsense.slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
-        try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
+        renderAdsense(body);
       }
     });
+  }
+
+  const adsenseReady = () => !!(C.adsense.client && C.adsense.slot);
+  function renderAdsense(body) {
+    loadOnce('gads', `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${C.adsense.client}`, { crossorigin: 'anonymous' });
+    body.innerHTML = `<ins class="adsbygoogle" style="display:block" data-ad-client="${C.adsense.client}"
+      data-ad-slot="${C.adsense.slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
   }
 
   /* ---------- Kino oldidan reklama ---------- */
