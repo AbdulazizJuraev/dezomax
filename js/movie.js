@@ -228,6 +228,48 @@ function similarOf(m) {
     .map(o => o.x);
 }
 
+/* ---------- Qidiruv tizimlari uchun (Google, Yandex) ----------
+   Sarlavha, tavsif, ijtimoiy tarmoq kartasi va schema.org Movie ma'lumoti — kino nomi bilan
+   qidirganda aynan shu sahifa chiqishi uchun */
+function setMovieSeo(m) {
+  const name = title(m);
+  const watch = watchStatus(m) === 'trailer'
+    ? (LANG === 'ru' ? 'трейлер' : 'treyler')
+    : (LANG === 'ru' ? 'смотреть онлайн' : 'onlayn ko‘rish');
+  const desc = `${name}${m.year ? ` (${m.year})` : ''} — ${watch}. ${descOf(m)}`.slice(0, 300);
+  const abs = p => p ? new URL(p, 'https://dezomax.uz/').href : '';
+  const setMeta = (attr, key, val) => {
+    let el = document.head.querySelector(`meta[${attr}="${key}"]`);
+    if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
+    el.setAttribute('content', val);
+  };
+  setMeta('name', 'description', desc);
+  setMeta('property', 'og:title', document.title);
+  setMeta('property', 'og:description', desc);
+  setMeta('property', 'og:type', 'video.movie');
+  setMeta('name', 'twitter:title', document.title);
+  setMeta('name', 'twitter:description', desc);
+  if (m.poster) { setMeta('property', 'og:image', abs(m.poster)); setMeta('name', 'twitter:image', abs(m.poster)); }
+
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': m.type === 'serial' ? 'TVSeries' : 'Movie',
+    name,
+    alternateName: [m.title.uz, m.title.ru].filter(x => x && x !== name),
+    description: descOf(m),
+    url: `https://dezomax.uz/movie.html?id=${m.id}`,
+    ...(m.poster ? { image: abs(m.poster) } : {}),
+    ...(m.year ? { datePublished: String(m.year) } : {}),
+    ...(m.genres?.length ? { genre: m.genres.map(genreName) } : {}),
+    ...(m.director ? { director: m.director.split(/,\s*/).map(n => ({ '@type': 'Person', name: n })) } : {}),
+    ...(m.cast?.length ? { actor: m.cast.map(n => ({ '@type': 'Person', name: n })) } : {}),
+    ...(m.duration && m.type !== 'serial' ? { duration: `PT${m.duration}M` } : {})
+  };
+  let s = document.getElementById('movieLd');
+  if (!s) { s = document.createElement('script'); s.type = 'application/ld+json'; s.id = 'movieLd'; document.head.appendChild(s); }
+  s.textContent = JSON.stringify(ld);
+}
+
 /* ---------- Sahifani chizish ---------- */
 
 function renderMovie() {
@@ -247,6 +289,7 @@ function renderMovie() {
   }
 
   document.title = `${title(movie)}${movie.year ? ` (${movie.year})` : ''} — DezoMax`;
+  setMovieSeo(movie);
 
   // Noma'lum maydonlar (yil, rejissyor, reyting) umuman ko'rsatilmaydi
   const info = [
