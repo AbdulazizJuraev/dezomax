@@ -515,7 +515,8 @@ const NAV_ICONS = {
   eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.3 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/></svg>',
   uz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
   link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
-  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>'
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
+  tg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5L2.8 11.7c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.5c.3.8 1.3 1 1.9.4l2.6-2.5 4.9 3.6c.7.5 1.7.1 1.9-.7l3-15c.2-1-.8-1.8-1.7-1.4z"/><path d="M8 15l9.5-7.5"/></svg>'
 };
 
 const addedList = () => customList.filter(m => !isBase(m.id));
@@ -574,6 +575,7 @@ function renderMain() {
       <button type="button" data-view="form" class="${view === 'form' && !editingId ? 'is-active' : ''}">${NAV_ICONS.plus}<span>Qo‘shish</span></button>
       <button type="button" data-view="site" class="${view === 'site' ? 'is-active' : ''}">${NAV_ICONS.gear}<span>Sayt</span></button>
       <button type="button" data-view="notify" class="${view === 'notify' ? 'is-active' : ''}">${NAV_ICONS.bell}<span>Xabar</span></button>
+      <button type="button" data-view="tg" class="${view === 'tg' ? 'is-active' : ''}">${NAV_ICONS.tg}<span>Telegram</span></button>
     </nav>
     <div id="admView"></div>`;
 
@@ -588,6 +590,7 @@ function renderMain() {
   else if (view === 'list') renderListView();
   else if (view === 'site') renderSiteView();
   else if (view === 'notify') renderNotifyView();
+  else if (view === 'tg') renderTgView();
   else renderFormView();
 }
 
@@ -1246,6 +1249,238 @@ async function renderNotifyView() {
       renderNotifyView();
     } catch (ex) { toast(friendlyError(ex), true); b.disabled = false; }
   }));
+}
+
+/* ---------- Telegram: o'z kanalingizdan video import (DezoCloud orqali) ----------
+   DezoCloud (dezocloud.uz) Telegram akkauntingiz egasi/admini bo'lgan kanallarni ko'rsatadi.
+   Tanlangan videolar Telegram ichida DezoCloud omboriga forward qilinadi (qayta yuklanmaydi),
+   ulashish havolasi olinadi va kino sifatida data-custom.js ga yoziladi. Nomi post matnidan. */
+
+const DC_URL = 'https://dezocloud.uz';
+const DC_KEY = 'dezomax_dc_key';
+const dcKey = () => localStorage.getItem(DC_KEY) || '';
+let tgState = { channel: null, channels: null, items: [], next: null, sel: new Map() };   // sel: msgId -> title
+
+async function dc(path, opts = {}) {
+  const r = await fetch(DC_URL + path, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + dcKey(), ...(opts.headers || {}) }
+  }).catch(() => { throw new Error('DezoCloud serveriga ulanib bo‘lmadi'); });
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401 && !path.startsWith('/api/tg/key')) localStorage.removeItem(DC_KEY);
+  if (!r.ok) throw Object.assign(new Error(j.error || `DezoCloud xatosi (${r.status})`), { status: r.status });
+  return j;
+}
+
+const onSite = url => !!url && customList.some(m => m.video === url);
+const fmtDur = s => { if (!s) return ''; s = Math.round(s); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h} soat ${m} daq.` : `${m || 1} daq.`; };
+const fmtSize = b => b >= 1073741824 ? (b / 1073741824).toFixed(1) + ' GB' : Math.max(1, Math.round(b / 1048576)) + ' MB';
+
+async function renderTgView() {
+  const box = $('#admView');
+  if (!dcKey()) {
+    box.innerHTML = `
+      <section class="adm-sec">
+        <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.tg}</span><h3>DezoCloud’ga ulash</h3><small>bir marta</small></div>
+        <p class="acc-muted">Telegram kanalingizdagi videolar DezoCloud orqali saytga qo‘shiladi. Ulash uchun DezoCloud (dezocloud.uz) parolini kiriting — u faqat kalit olish uchun ishlatiladi, saqlanmaydi.</p>
+        <div class="adm-field">
+          <label class="adm-label" for="dcPass">DezoCloud paroli</label>
+          <input class="acc-input" id="dcPass" type="password" autocomplete="current-password">
+        </div>
+        <p class="acc-error" id="dcErr" hidden></p>
+        <button class="btn btn-primary" type="button" id="dcLogin">Ulash</button>
+      </section>`;
+    const go1 = async () => {
+      const btn = $('#dcLogin'), err = $('#dcErr');
+      btn.disabled = true; err.hidden = true;
+      try {
+        const j = await dc('/api/tg/key', { method: 'POST', body: JSON.stringify({ password: $('#dcPass').value }) });
+        localStorage.setItem(DC_KEY, j.key);
+        renderTgView();
+      } catch (e) { err.textContent = e.message; err.hidden = false; btn.disabled = false; }
+    };
+    $('#dcLogin').addEventListener('click', go1);
+    $('#dcPass').addEventListener('keydown', e => { if (e.key === 'Enter') go1(); });
+    return;
+  }
+
+  box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  try {
+    if (!tgState.channels) tgState.channels = (await dc('/api/tg/channels')).items;
+  } catch (e) {
+    if (e.status === 401) return renderTgView();
+    box.innerHTML = `<p class="acc-error">${esc(e.message)}</p>`; return;
+  }
+  if (view !== 'tg') return;
+  const chans = tgState.channels;
+  if (!tgState.channel && chans.length === 1) tgState.channel = chans[0].id;
+
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.tg}</span><h3>Telegramdan qo‘shish</h3><small>faqat o‘z kanallaringiz</small></div>
+      ${chans.length ? `
+      <div class="adm-field">
+        <label class="adm-label" for="tgChan">Kanal</label>
+        <select class="acc-input" id="tgChan">
+          <option value="">— kanalni tanlang —</option>
+          ${chans.map(c => `<option value="${esc(c.id)}"${c.id === tgState.channel ? ' selected' : ''}>${esc(c.title)}${c.username ? ` (@${esc(c.username)})` : ''}</option>`).join('')}
+        </select>
+      </div>` : `<p class="acc-muted">Telegram akkauntingiz egasi yoki admini bo‘lgan kanal topilmadi. Kanal ochib (yoki mavjud kanalga shu akkauntni admin qilib), <button class="acc-link" type="button" id="tgRefresh">qayta tekshiring</button>.</p>`}
+      <div id="tgList"></div>
+    </section>`;
+
+  $('#tgRefresh')?.addEventListener('click', async () => {
+    tgState.channels = (await dc('/api/tg/channels?refresh=1').catch(() => ({ items: [] }))).items; renderTgView();
+  });
+  $('#tgChan')?.addEventListener('change', e => {
+    tgState = { ...tgState, channel: e.target.value || null, items: [], next: null, sel: new Map() };
+    loadTgVideos(true);
+  });
+  if (tgState.channel) tgState.items.length ? drawTgList() : loadTgVideos(true);
+}
+
+async function loadTgVideos(reset) {
+  const list = $('#tgList');
+  if (!list || !tgState.channel) { if (list) list.innerHTML = ''; return; }
+  if (reset) list.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  try {
+    const j = await dc(`/api/tg/videos?channel=${encodeURIComponent(tgState.channel)}${!reset && tgState.next ? `&offset=${tgState.next}` : ''}`);
+    tgState.items = reset ? j.items : [...tgState.items, ...j.items];
+    tgState.next = j.next;
+    if (view === 'tg') drawTgList();
+  } catch (e) { list.innerHTML = `<p class="acc-error">${esc(e.message)}</p>`; }
+}
+
+function drawTgList() {
+  const list = $('#tgList');
+  if (!list) return;
+  const items = tgState.items;
+  const thumb = it => it.hasThumb ? `${DC_URL}/api/tg/thumb?channel=${encodeURIComponent(tgState.channel)}&msg=${it.msgId}&k=${encodeURIComponent(dcKey())}` : '';
+
+  list.innerHTML = `
+    ${items.length ? `
+    <div class="adm-tg-bar">
+      <span class="acc-muted">${items.length} ta video${tgState.next ? '+' : ''}</span>
+      <button class="acc-link" type="button" id="tgAll">Qo‘shilmaganlarning hammasini belgilash</button>
+    </div>
+    <div class="adm-tg-grid">
+      ${items.map(it => `
+        <label class="adm-tg-item${onSite(it.imported) ? ' is-done' : ''}${tgState.sel.has(it.msgId) ? ' is-sel' : ''}">
+          <span class="adm-tg-thumb">${thumb(it) ? `<img src="${esc(thumb(it))}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+            ${it.duration ? `<em>${fmtDur(it.duration)}</em>` : ''}</span>
+          <span class="adm-tg-body">
+            <input class="acc-input adm-tg-title" data-title="${it.msgId}" value="${esc(tgState.sel.get(it.msgId) ?? it.title)}" ${onSite(it.imported) ? 'disabled' : ''}>
+            <small>${fmtSize(it.size)} · ${new Date(it.date).toLocaleDateString('uz')}${it.caption ? ` · ${esc(it.caption.split('\n')[0].slice(0, 60))}` : ''}</small>
+          </span>
+          ${onSite(it.imported) ? '<span class="adm-tg-done">Saytda bor ✓</span>' : `<input type="checkbox" class="adm-tg-check" data-msg="${it.msgId}"${tgState.sel.has(it.msgId) ? ' checked' : ''}>`}
+        </label>`).join('')}
+    </div>
+    ${tgState.next ? '<button class="btn btn-ghost" type="button" id="tgMore">Yana yuklash</button>' : ''}` : '<p class="acc-muted">Bu kanalda video topilmadi.</p>'}
+
+    <div class="adm-tg-opts">
+      <div class="adm-row adm-row-2">
+        <div class="adm-field"><label class="adm-label">Turi</label>
+          <select class="acc-input" id="tgType">${['film', 'serial', 'multfilm'].map(x => `<option value="${x}">${typeName(x)}</option>`).join('')}</select></div>
+        <div class="adm-field"><label class="adm-label">Janr</label>
+          <select class="acc-input" id="tgGenre">${GENRES.map(g => `<option value="${g.id}"${g.id === 'drama' ? ' selected' : ''}>${esc(g.uz)}</option>`).join('')}</select></div>
+        <div class="adm-field"><label class="adm-label">Bo‘lim</label>
+          <select class="acc-input" id="tgFr">${[['', 'Yo‘q'], ['uzbek', 'O‘zbek kino'], ['konsert', 'Konsert'], ['dorama', 'Koreys doramasi'], ['anime', 'Anime'], ['hind', 'Hind kino']].map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div>
+        <label class="acc-toggle adm-tg-uz"><span><b>O‘zbek tilida</b></span><input type="checkbox" id="tgUz" checked><i></i></label>
+      </div>
+      <label class="adm-rights">
+        <input type="checkbox" id="tgRights">
+        <span>Bu videolar menga tegishli yoki ularni ko‘rsatish huquqiga egaman.</span>
+      </label>
+      <p class="acc-error" id="tgErr" hidden></p>
+      <button class="btn btn-primary" type="button" id="tgImport" ${tgState.sel.size ? '' : 'disabled'}>${NAV_ICONS.plus}<span>Saytga qo‘shish (${tgState.sel.size})</span></button>
+    </div>`;
+
+  const upd = () => {
+    const b = $('#tgImport');
+    b.disabled = !tgState.sel.size;
+    b.querySelector('span').textContent = `Saytga qo‘shish (${tgState.sel.size})`;
+  };
+  list.querySelectorAll('.adm-tg-check').forEach(cb => cb.addEventListener('change', () => {
+    const id = +cb.dataset.msg;
+    const title = list.querySelector(`[data-title="${id}"]`).value;
+    cb.checked ? tgState.sel.set(id, title) : tgState.sel.delete(id);
+    cb.closest('.adm-tg-item').classList.toggle('is-sel', cb.checked);
+    upd();
+  }));
+  list.querySelectorAll('.adm-tg-title').forEach(inp => {
+    inp.addEventListener('click', e => e.preventDefault());   // label ichida — belgi o'zgarmasin
+    inp.addEventListener('input', () => { const id = +inp.dataset.title; if (tgState.sel.has(id)) tgState.sel.set(id, inp.value); });
+  });
+  $('#tgAll')?.addEventListener('click', () => {
+    for (const it of items) if (!onSite(it.imported)) tgState.sel.set(it.msgId, list.querySelector(`[data-title="${it.msgId}"]`).value);
+    drawTgList();
+  });
+  $('#tgMore')?.addEventListener('click', e => { e.target.disabled = true; loadTgVideos(false); });
+  $('#tgImport').addEventListener('click', importTgSelected);
+}
+
+async function importTgSelected() {
+  const err = $('#tgErr'), btn = $('#tgImport');
+  const showErr = m => { err.textContent = m; err.hidden = !m; };
+  if (!$('#tgRights').checked) return showErr('Videolar sizniki ekanini tasdiqlang.');
+  const picked = [...tgState.sel].map(([msgId, title]) => ({ msgId, title: String(title).trim() }));
+  if (picked.some(p => !p.title)) return showErr('Har bir videoga nom yozing.');
+  showErr('');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'DezoCloud’ga qo‘shilmoqda…';
+
+  const opts = { type: $('#tgType').value, genre: $('#tgGenre').value, franchise: $('#tgFr').value, uz: $('#tgUz').checked };
+  try {
+    const { items } = await dc('/api/tg/import', { method: 'POST', body: JSON.stringify({ channel: tgState.channel, items: picked }) });
+    // DezoCloud'da bor, lekin saytga yozilmay qolganlar (oldingi urinish yarim qolgan bo'lsa) ham qo'shiladi
+    const ok = items.filter(r => r.ok && !onSite(r.url));
+    const failed = items.filter(r => !r.ok);
+    const byMsg = new Map(tgState.items.map(it => [it.msgId, it]));
+    const titleOf = new Map(picked.map(p => [p.msgId, p.title]));
+
+    if (ok.length) {
+      btn.querySelector('span').textContent = 'Saytga yozilmoqda…';
+      let id = nextId();
+      const now = Date.now();
+      const movies = ok.map(r => {
+        const it = byMsg.get(r.msgId) || {};
+        const title = titleOf.get(r.msgId);
+        const desc = (it.caption || '').replace(/https?:\/\/\S+|(^|\s)[@#][\wЀ-ӿ]+/g, ' ').replace(/[ \t]+/g, ' ').trim().slice(0, 600);
+        const m = {
+          id: id++, slug: slugify(title), type: opts.type,
+          title: { uz: title, ru: title },
+          genres: [opts.genre],
+          country: { uz: '—', ru: '—' },
+          cast: [],
+          desc: { uz: desc, ru: desc },
+          colors: ['#2a3142', '#0d1018'],
+          poster: r.thumb || '',
+          trailer: '',
+          video: r.url,
+          featured: false,
+          addedAt: now, updatedAt: now
+        };
+        if (it.duration) m.duration = Math.max(1, Math.round(it.duration / 60));
+        if (it.date) m.year = new Date(it.date).getFullYear();
+        if (opts.franchise) m.franchise = opts.franchise;
+        if (opts.uz) m.audio = 'uz';
+        return m;
+      });
+      await saveCustom(list => [...list, ...movies], `Telegramdan qo‘shildi: ${movies.length} ta video`);
+      commitsCache = null;
+    }
+    for (const r of items) if (r.ok) { tgState.sel.delete(r.msgId); const it = byMsg.get(r.msgId); if (it) it.imported = r.url; }
+    drawTgList();
+    if (failed.length) {
+      $('#tgErr').textContent = failed.map(f => `${titleOf.get(f.msgId) || f.msgId}: ${f.error}`).join('\n');
+      $('#tgErr').hidden = false;
+    }
+    toast(ok.length ? `${ok.length} ta video saytga qo‘shildi — ~1 daqiqada ko‘rinadi` : (failed.length ? 'Qo‘shilmadi' : 'Hammasi allaqachon saytda'), !ok.length && !!failed.length);
+  } catch (e) {
+    showErr(e.status ? e.message : friendlyError(e));
+    btn.disabled = false;
+    btn.querySelector('span').textContent = `Saytga qo‘shish (${tgState.sel.size})`;
+  }
 }
 
 /* ---------- Ishga tushirish ---------- */
