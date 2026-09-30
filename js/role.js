@@ -38,7 +38,7 @@ const ROLE_ICONS = {
 /* ---------- Fon: treylerlar ovozsiz, har 4 soniyada keyingi kino ----------
    Bosh sahifa slayderidagi kinolar (treyleri YouTube'da borlari), tasodifiy tartibda.
    Har sahna oldindan ko'rinmas holda o'ynay boshlaydi (keyingisi joriysi ko'rinib turganda yuklanadi),
-   o'ynay boshlagach (YouTube belgilari yo'qolgach) ko'rsatiladi. Video ishlamasa — treyler rasmi turadi. */
+   o'ynay boshlagach (YouTube belgilari yo'qolgach) ko'rsatiladi. Poster ko'rsatilmaydi — faqat treyler. */
 const RP_SCENE_MS = 4000;
 const RP_CLIP_START = 35;          // treyler boshidagi studiya logotiplarini o'tkazib yuboramiz
 const rpYtId = u => (String(u || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || [])[1];
@@ -68,7 +68,8 @@ function startRoleBackdrop(el, films) {
     const f = films[i];
     const box = document.createElement('div');
     box.className = 'rp-scene';
-    box.style.backgroundImage = `url('https://i.ytimg.com/vi/${f.yt}/maxresdefault.jpg'), url('https://i.ytimg.com/vi/${f.yt}/hqdefault.jpg')`;
+    // poster faqat video o'chirilgan bo'lsa (reduced motion); aks holda faqat treyler ko'rinadi
+    if (!video) box.style.backgroundImage = `url('https://i.ytimg.com/vi/${f.yt}/maxresdefault.jpg'), url('https://i.ytimg.com/vi/${f.yt}/hqdefault.jpg')`;
     const s = { box, frame: null, playing: false };
     if (video) {
       box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${f.yt}?autoplay=1&mute=1&controls=0&start=${RP_CLIP_START}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&loop=1&playlist=${f.yt}&enablejsapi=1&origin=${origin}"
@@ -94,16 +95,28 @@ function startRoleBackdrop(el, films) {
     // eskilarini tozalaymiz (joriy va keyingisi qoladi)
     const next = (i + 1) % films.length;
     for (const [k, v] of scenes) if (k !== i && k !== next) { setTimeout(() => v.box.remove(), 700); scenes.delete(k); }
-    if (films.length > 1) make(next);   // keyingisi oldindan yuklanadi
-    timer = setTimeout(() => advance(next), RP_SCENE_MS);
+    if (films.length < 2) return;
+    make(next);   // keyingisi oldindan yuklanadi
+    // 4 soniya video haqiqatan ko'ringan paytdan boshlab sanaladi
+    const schedule = () => { if (!dead && cur === i) timer = setTimeout(() => advance(next), RP_SCENE_MS); };
+    s.onPlay = null;
+    if (!video || s.playing) schedule();
+    else { s.onPlay = schedule; waitT = setTimeout(() => advance(next), 7000); }   // bu video umuman ochilmasa
   };
 
-  // keyingi video hali boshlanmagan bo'lsa — 2,5 s gacha kutamiz, keyin baribir o'tamiz (rasmi ko'rinadi)
+  // keyingi video hali o'ynamayotgan bo'lsa — joriy treyler davom etadi, u tayyor bo'lgach almashadi.
+  // 6 s da ham ochilmasa, uni tashlab undan keyingisiga o'tamiz (poster ko'rsatilmaydi).
   const advance = n => {
-    const s = scenes.get(n);
-    if (!video || !s || s.playing) return show(n);
-    waitT = setTimeout(() => show(n), 2500);
+    if (dead) return;
+    clearTimeout(waitT);
+    const s = scenes.get(n) || make(n);
+    if (!video || s.playing) return show(n);
     s.onPlay = () => { if (cur !== n) show(n); };
+    waitT = setTimeout(() => {
+      s.onPlay = null; s.box.remove(); scenes.delete(n);
+      const m = (n + 1) % films.length;
+      if (m !== cur) advance(m);
+    }, 6000);
   };
 
   const onMsg = e => {
