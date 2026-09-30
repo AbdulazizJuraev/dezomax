@@ -517,18 +517,15 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 
 .card:hover .card-overlay { opacity: 1; }
 
+/* Faqat oq play belgisi — ko'k doira fonsiz (soya rasm ustida ko'rinib turishi uchun) */
 .card-play {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  background: var(--grad);
   display: grid; place-items: center;
-  box-shadow: 0 6px 24px rgba(10, 147, 220, .55);
   transform: scale(.7);
   transition: transform .28s cubic-bezier(.2, 1.4, .4, 1);
 }
 
 .card:hover .card-play { transform: scale(1); }
-.card-play svg { width: 18px; height: 18px; margin-left: 2px; fill: #fff; }
+.card-play svg { width: 44px; height: 44px; fill: #fff; filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .65)); }
 
 .badge-rating {
   position: absolute;
