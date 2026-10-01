@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1015270775,
+    "slug": "hotel-transylvania-2",
+    "type": "multfilm",
+    "title": {
+      "uz": "Maxluqlar taʼtilda 2",
+      "ru": "Монстры на каникулах 2"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Maxluqlar taʼtilda 2» — 2015-yilgi AQSh multfilmi. Rejissyor: Genndy Tartakovsky.",
+      "ru": "«Монстры на каникулах 2» — мультфильм 2015 года (США). Режиссёр: Genndy Tartakovsky."
+    },
+    "colors": [
+      "hsl(310 45% 28%)",
+      "hsl(330 50% 7%)"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=Z6Q34uhRfSM",
+    "video": "http://topfilm.info/3/MULTIFILM/maxluqlar_tatilda_3_720.mp4",
+    "tags": [
+      "Hotel Transylvania 2"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/5/5d/Hotel_Transylvania_2_poster.jpg",
+    "wiki": "Монстры на каникулах 2",
+    "featured": false,
+    "addedAt": 1790852223077,
+    "updatedAt": 1790852223077,
+    "year": 2015,
+    "duration": 89,
+    "director": "Genndy Tartakovsky"
+  },
+  {
     "id": 2573,
     "slug": "fantastic-beasts-the-crimes-of-grindelwald",
     "type": "film",
