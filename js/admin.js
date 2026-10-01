@@ -1297,7 +1297,7 @@ function groupRowHTML(id, i, n) {
     <div class="adm-pick adm-grp-row">
       <span class="adm-pick-n">${i + 1}</span>
       <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
-      <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${i === 0 ? 'Guruh kartasi · ' : ''}${i + 1}-qism${m.duration ? ` · ${m.duration} daq.` : ''} · ID ${m.id}${m.video ? '' : ' · video yo‘q'}</small></span>
+      <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${i === 0 ? 'Guruh kartasi · ' : ''}${i + 1}-qism${m.duration ? ` · ${m.duration} daq.` : ''}${m.size ? ` · ${fmtSize(m.size)}` : ''} · ID ${m.id}${m.video ? '' : ' · video yo‘q'}</small></span>
       <span class="adm-pick-btns">
         <button type="button" data-gmove="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
         <button type="button" data-gmove="1" data-i="${i}" ${i === n - 1 ? 'disabled' : ''} aria-label="Pastga">↓</button>
@@ -1386,6 +1386,8 @@ function renderGroupsView() {
         <span class="acc-muted">Tartib:</span>
         <button class="acc-link" type="button" data-gsort="name">Nomidagi raqam bo‘yicha</button>
         <button class="acc-link" type="button" data-gsort="id">Qo‘shilgan tartibda</button>
+        <button class="acc-link" type="button" data-gsort="dur">Davomiyligi bo‘yicha</button>
+        <button class="acc-link" type="button" data-gsort="size">Hajmi bo‘yicha</button>
         <button class="acc-link" type="button" data-gsort="rev">Teskari</button>
         ${d.ids.length ? '<button class="acc-link adm-del" type="button" id="grpClear">Hammasini olib tashlash</button>' : ''}
       </div>
@@ -1420,6 +1422,12 @@ function renderGroupsView() {
     const k = b.dataset.gsort;
     if (k === 'rev') d.ids.reverse();
     else if (k === 'id') d.ids.sort((a, b2) => a - b2);
+    // davomiylik / hajm: kichigidan kattasiga; ma'lumoti yo'qlari oxirida («Teskari» — aksincha)
+    else if (k === 'dur' || k === 'size') {
+      const f = k === 'dur' ? 'duration' : 'size';
+      const v = id => movieById(id)?.[f] || Infinity;
+      d.ids.sort((a, b2) => v(a) - v(b2) || a - b2);
+    }
     else d.ids.sort((a, b2) => grpCollator.compare(movieById(a).title.uz, movieById(b2).title.uz) || a - b2);
     redraw();
   }));
@@ -1731,6 +1739,7 @@ async function importTgSelected() {
           addedAt: now, updatedAt: now
         };
         if (it.duration) m.duration = Math.max(1, Math.round(it.duration / 60));
+        if (it.size) m.size = it.size;     // fayl hajmi (bayt) — Guruhlarda hajm bo'yicha tartiblash uchun
         if (it.date) m.year = new Date(it.date).getFullYear();
         if (opts.franchise) m.franchise = opts.franchise;
         if (opts.uz) m.audio = 'uz';
