@@ -6943,7 +6943,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/ubgnoYYRXZBkvdXmZPkO8UK_",
     "featured": false,
     "addedAt": 1790842037568,
-    "updatedAt": 1790855270384,
+    "updatedAt": 1790855361518,
     "groupOrig": {
       "title": {
         "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
