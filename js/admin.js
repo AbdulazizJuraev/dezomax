@@ -1343,7 +1343,7 @@ function renderGroupsView() {
     $('#grpNew').addEventListener('click', () => { grpDraft = { orig: null, ids: [], name: '', nameRu: '', type: 'serial' }; renderGroupsView(); });
     box.querySelectorAll('[data-gedit]').forEach(b => b.addEventListener('click', () => {
       const g = movieById(+b.dataset.gedit);
-      grpDraft = { orig: g.id, ids: g.parts.filter(id => movieById(id)), name: g.title.uz, nameRu: g.title.ru === g.title.uz ? '' : g.title.ru || '', type: g.type, cover: g.cover || '' };
+      grpDraft = { orig: g.id, ids: g.parts.filter(id => movieById(id)), name: g.title.uz, nameRu: g.title.ru === g.title.uz ? '' : g.title.ru || '', type: g.type, cover: g.cover || '', poster: g.poster || '' };
       renderGroupsView();
     }));
     box.querySelectorAll('[data-gsplit]').forEach(b => b.addEventListener('click', () => {
@@ -1371,6 +1371,19 @@ function renderGroupsView() {
       </div>
       <div class="adm-field"><label class="adm-label" for="grpType">Turi</label>
         <select class="acc-input" id="grpType">${['serial', 'film', 'multfilm'].map(x => `<option value="${x}"${x === d.type ? ' selected' : ''}>${typeName(x)}</option>`).join('')}</select></div>
+      <div class="adm-cover adm-grp-poster">
+        <div class="adm-cover-prev is-tall" id="grpPosterPrev">${d.posterFile ? `<img src="${esc(URL.createObjectURL(d.posterFile))}" alt="">` : d.poster ? `<img src="${esc(d.poster)}" alt="" onerror="this.remove()">` : '<span>2:3</span>'}</div>
+        <div class="adm-cover-body">
+          <label class="adm-label">Asosiy poster (tik rasm)</label>
+          <p class="adm-hint">Katalog, qidiruv va bosh sahifadagi guruh kartasining rasmi. Bo‘sh qolsa — guruh kartasining hozirgi posteri.</p>
+          <label class="adm-drop adm-drop-sm">
+            <input type="file" id="grpPosterFile" accept="image/*">
+            <span class="adm-drop-icon">${ADM_ICONS.upload}</span>
+            <span class="adm-drop-text"><b>Poster yuklash</b><small>${d.posterFile ? esc(d.posterFile.name) : 'Tik rasm tanlang'}</small></span>
+          </label>
+          <input class="acc-input" id="grpPoster" value="${esc(d.posterFile ? '' : d.poster || '')}" placeholder="yoki havola: https://...jpg">
+        </div>
+      </div>
       <div class="adm-cover">
         <div class="adm-cover-prev" id="grpCoverPrev">${d.coverFile ? `<img src="${esc(URL.createObjectURL(d.coverFile))}" alt="">` : d.cover ? `<img src="${esc(d.cover)}" alt="" onerror="this.remove()">` : '<span>16:9</span>'}</div>
         <div class="adm-cover-body">
@@ -1413,7 +1426,13 @@ function renderGroupsView() {
       </div>
     </section>`;
 
-  const keep = () => { d.name = $('#grpName').value; d.nameRu = $('#grpNameRu').value; d.type = $('#grpType').value; if (!d.coverFile) d.cover = $('#grpCover').value.trim(); };
+  const keep = () => {
+    d.name = $('#grpName').value; d.nameRu = $('#grpNameRu').value; d.type = $('#grpType').value;
+    if (!d.coverFile) d.cover = $('#grpCover').value.trim();
+    if (!d.posterFile) d.poster = $('#grpPoster').value.trim();
+  };
+  $('#grpPosterFile').addEventListener('change', e => { const f = e.target.files[0]; if (f) { keep(); d.posterFile = f; redraw(); } });
+  $('#grpPoster').addEventListener('change', () => { d.posterFile = null; keep(); redraw(); });
   $('#grpCoverFile').addEventListener('change', e => { const f = e.target.files[0]; if (f) { keep(); d.coverFile = f; redraw(); } });
   $('#grpCover').addEventListener('change', () => { d.coverFile = null; keep(); redraw(); });
   const redraw = () => { keep(); const y = window.scrollY; renderGroupsView(); window.scrollTo(0, y); };
@@ -1478,9 +1497,10 @@ function renderGroupsView() {
     if (d.ids.length < 2) { err.textContent = 'Guruhga kamida 2 ta video kerak.'; err.hidden = false; return; }
     if (!name) { err.textContent = 'Guruh nomini yozing.'; err.hidden = false; return; }
     const ids = [...d.ids], head = ids[0], set = new Set(ids);
-    if (BLOCKED_HOSTS.test(d.cover || '')) { err.textContent = 'Bu xostdagi rasm qabul qilinmaydi.'; err.hidden = false; return; }
+    if (BLOCKED_HOSTS.test(d.cover || '') || BLOCKED_HOSTS.test(d.poster || '')) { err.textContent = 'Bu xostdagi rasm qabul qilinmaydi.'; err.hidden = false; return; }
     runAction(e.currentTarget, async () => {
       const cover = d.coverFile ? await uploadPoster(d.coverFile, `${slugify(name)}-${head}-cover`, 1280) : d.cover;
+      const poster = d.posterFile ? await uploadPoster(d.posterFile, `${slugify(name)}-${head}`) : d.poster;
       await saveCustom(list => {
         const get = id => {
           let m = list.find(x => x.id === id);
@@ -1502,6 +1522,7 @@ function renderGroupsView() {
         h.title = { uz: name, ru: d.nameRu.trim() || name };
         h.type = d.type;
         if (cover) h.cover = cover; else delete h.cover;
+        if (poster) h.poster = poster;
         h.updatedAt = Date.now();
         return list;
       }, `Guruh: ${name} (${ids.length} qism)`);

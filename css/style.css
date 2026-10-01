@@ -5269,7 +5269,7 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .mv-parts-head span { font-size: 13px; color: var(--text-faint); }
 .mv-parts-list {
   position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px;
-  max-height: 196px; overflow-y: auto; overscroll-behavior: contain; padding-right: 2px;
+  /* hamma qismlar ochiq turadi — ichki aylantirish yo'q */
 }
 .mv-part {
   display: grid; place-items: center; height: 40px; border-radius: 10px;
@@ -5282,7 +5282,7 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .mv-next-wrap { display: flex; justify-content: flex-end; margin-top: 12px; }
 .mv-next svg { width: 18px; height: 18px; }
 @media (max-width: 520px) {
-  .mv-parts-list { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); max-height: 184px; }
+  .mv-parts-list { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
   .mv-next-wrap .btn { width: 100%; }
 }
 
@@ -5330,3 +5330,5 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
   .tabbar-item { padding-left: 0; padding-right: 0; }
   .tabbar-label { font-size: 10px; letter-spacing: -.02em; }
 }
+.adm-cover-prev.is-tall { flex: 0 0 104px; aspect-ratio: 2 / 3; }
+@media (max-width: 520px) { .adm-cover-prev.is-tall { width: 120px; flex-basis: auto; } }

@@ -414,10 +414,6 @@ function renderMovie() {
     </section>
   </div>`;
 
-  // tanlangan qism ro'yxat ichida ko'rinib tursin (qismlar ko'p bo'lsa ro'yxat aylantiriladi)
-  const onPart = page.querySelector('.mv-part.is-on');
-  if (onPart) onPart.parentElement.scrollTop = onPart.offsetTop - 40;   // .mv-parts-list — position: relative
-
   const similarRow = document.getElementById('similar');
   renderCards(similarRow, similarOf(movie));
   if (typeof Ads !== 'undefined') Ads.fill(page);
