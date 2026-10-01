@@ -1297,7 +1297,7 @@ function groupRowHTML(id, i, n) {
     <div class="adm-pick adm-grp-row">
       <span class="adm-pick-n">${i + 1}</span>
       <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
-      <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${i === 0 ? 'Guruh kartasi · ' : ''}${i + 1}-qism · ID ${m.id}${m.video ? '' : ' · video yo‘q'}</small></span>
+      <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${i === 0 ? 'Guruh kartasi · ' : ''}${i + 1}-qism${m.duration ? ` · ${m.duration} daq.` : ''} · ID ${m.id}${m.video ? '' : ' · video yo‘q'}</small></span>
       <span class="adm-pick-btns">
         <button type="button" data-gmove="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
         <button type="button" data-gmove="1" data-i="${i}" ${i === n - 1 ? 'disabled' : ''} aria-label="Pastga">↓</button>
@@ -1321,7 +1321,7 @@ function renderGroupsView() {
         ${groups.length ? `<div class="acc-list">${groups.map(g => `
           <div class="acc-item adm-item">
             <span class="adm-thumb">${g.poster ? `<img src="${esc(g.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
-            <div class="acc-item-main"><b>${esc(g.title.uz)}</b><small>${g.parts.length} qism · ${esc(typeName(g.type))} · ID ${g.id}</small></div>
+            <div class="acc-item-main"><b>${esc(g.title.uz)}</b><small>${g.parts.length} qism${(() => { const min = g.parts.reduce((s, id) => s + (movieById(id)?.duration || 0), 0); return min ? ` · jami ${fmtDur(min * 60)}` : ''; })()} · ${esc(typeName(g.type))} · ID ${g.id}</small></div>
             <div class="adm-actions">
               <button class="btn btn-ghost btn-sm" type="button" data-gedit="${g.id}">Tahrirlash</button>
               <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${g.id}" target="_blank" rel="noopener">Ko‘rish</a>

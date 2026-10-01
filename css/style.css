@@ -5289,7 +5289,7 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 /* ---------------- Admin «Guruhlar» ---------------- */
 .adm-grp-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin: 4px 0 8px; font-size: 13px; }
 .adm-grp-list { max-height: 460px; overflow-y: auto; overscroll-behavior: contain; padding-right: 2px; }
-.adm-grp-row .adm-pick-title small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.adm-grp-row .adm-pick-title small { white-space: normal; overflow: visible; }
 .adm-grp-save { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }
 .adm-pick-results .adm-grp-all { background: rgba(10, 147, 220, .14); margin-bottom: 4px; justify-content: space-between; }
 .adm-pick-results .adm-grp-all b { font-size: 13.5px; }
