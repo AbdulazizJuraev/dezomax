@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2244,
+    "slug": "terminator-3-rise-of-the-machines",
+    "type": "film",
+    "title": {
+      "uz": "Terminator 3: Mashinalar isyoni",
+      "ru": "Терминатор 3: Восстание машин"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh, Germaniya",
+      "ru": "США, Германия"
+    },
+    "cast": [
+      "Nick Stahl",
+      "Claire Danes",
+      "Kristanna Loken"
+    ],
+    "desc": {
+      "uz": "«Terminator 3: Mashinalar isyoni» — 2003-yilgi AQSh va Germaniya filmi. Rejissyor: Jonathan Mostow. Rollarda: Nick Stahl, Claire Danes, Kristanna Loken. Saytda rasmiy treyleri bor.",
+      "ru": "«Терминатор 3: Восстание машин» — американский научно-фантастический боевик режиссёра Джонатана Мостоу, вышедший в прокат в 2003 году."
+    },
+    "tags": [
+      "Terminator 3: Rise of the Machines"
+    ],
+    "colors": [
+      "hsl(10 45% 28%)",
+      "hsl(30 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/3/39/Terminator_3_Rise_of_the_Machines_movie.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=4sYj96Sy7KQ",
+    "video": "http://topfilm.info/tarjima_kinolar/TERMINATOR_3_720.mp4",
+    "featured": false,
+    "addedAt": 1790850736711,
+    "updatedAt": 1790850736711,
+    "year": 2003,
+    "duration": 105,
+    "director": "Jonathan Mostow"
+  },
+  {
     "id": 2793,
     "slug": "cars-3",
     "type": "multfilm",
