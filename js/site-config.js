@@ -21,15 +21,11 @@ const SITE_CONFIG = /*CONFIG*/{
   },
   "rows": [
     {
-      "source": "cartoons",
+      "source": "trending",
       "visible": true
     },
     {
       "source": "konsert",
-      "visible": true
-    },
-    {
-      "source": "trending",
       "visible": true
     },
     {
@@ -38,6 +34,10 @@ const SITE_CONFIG = /*CONFIG*/{
     },
     {
       "source": "uzbek",
+      "visible": true
+    },
+    {
+      "source": "cartoons",
       "visible": true
     },
     {
