@@ -19900,8 +19900,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "loki",
     "type": "serial",
     "title": {
-      "uz": "\"LOKI\"",
-      "ru": "\"LOKI\""
+      "uz": "LOKI",
+      "ru": "ЛОКИ"
     },
     "genres": [
       "scifi"
@@ -19919,16 +19919,34 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://dezocloud.uz/t/S1wXnEfYB1lk?s=XIcBtTdEfajJM0DuH5UcKMTf",
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354.jpg",
     "trailer": "",
     "video": "https://dezocloud.uz/s/XIcBtTdEfajJM0DuH5UcKMTf",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790857880272,
     "duration": 56,
     "size": 238734197,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "groupOrig": {
+      "title": {
+        "uz": "\"LOKI\"",
+        "ru": "\"LOKI\""
+      },
+      "type": "serial"
+    },
+    "parts": [
+      3354,
+      3355,
+      3356,
+      3357,
+      3358,
+      3359,
+      3360,
+      3353
+    ],
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354-cover.jpg"
   },
   {
     "id": 3355,
