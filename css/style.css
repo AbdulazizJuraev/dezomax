@@ -5332,3 +5332,9 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 }
 .adm-cover-prev.is-tall { flex: 0 0 104px; aspect-ratio: 2 / 3; }
 @media (max-width: 520px) { .adm-cover-prev.is-tall { width: 120px; flex-basis: auto; } }
+/* Guruh: qidiruv natijalari — sarlavha, «Yopish», «Yana ko'rsatish» */
+#grpResults { max-height: 420px; }
+.adm-grp-res-head { position: sticky; top: -4px; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 6px 8px; margin: -4px -4px 4px; background: var(--surface-2, #1c212e); font-size: 12.5px; color: var(--text-faint); }
+.adm-pick-results .adm-grp-res-head button { width: auto; padding: 5px 10px; border-radius: 8px; font-size: 12.5px; font-weight: 650; color: var(--text); background: rgba(255,255,255,.08); }
+.adm-pick-results .adm-grp-res-head button:hover { background: rgba(255,255,255,.14); }
+.adm-pick-results .adm-grp-more { justify-content: center; margin-top: 4px; padding: 10px; font-size: 13px; font-weight: 650; color: #4cb8f0; background: rgba(10,147,220,.08); }

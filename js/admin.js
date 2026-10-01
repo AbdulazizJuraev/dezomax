@@ -1401,7 +1401,7 @@ function renderGroupsView() {
       <div class="adm-field">
         <label class="adm-label" for="grpSearch">Qism qo‘shish</label>
         <div class="adm-pick-search">
-          <input class="acc-input" id="grpSearch" type="search" placeholder="Nomini yozing — masalan, serial nomi" autocomplete="off">
+          <input class="acc-input" id="grpSearch" type="search" placeholder="Nomini yozing — masalan, serial nomi" autocomplete="off" value="${esc(d.q || '')}">
           <div class="adm-pick-results" id="grpResults" hidden></div>
         </div>
       </div>
@@ -1437,6 +1437,7 @@ function renderGroupsView() {
   $('#grpCover').addEventListener('change', () => { d.coverFile = null; keep(); redraw(); });
   const redraw = () => { keep(); const y = window.scrollY; renderGroupsView(); window.scrollTo(0, y); };
   const addIds = ids => {
+    d.resTop = $('#grpResults').scrollTop;      // ro'yxat ochiq qoladi, joyi saqlanadi
     const have = new Set(d.ids);
     for (const id of ids) if (!have.has(id)) { d.ids.push(id); have.add(id); }
     if (!$('#grpName').value.trim() && d.ids.length) $('#grpName').value = stripPartNo(movieById(d.ids[0]).title.uz);
@@ -1466,29 +1467,37 @@ function renderGroupsView() {
   $('#grpClear')?.addEventListener('click', () => { if (confirm('Tanlangan qismlar ro‘yxati tozalansinmi?')) { d.ids = []; redraw(); } });
   $('#grpCancel').addEventListener('click', () => { grpDraft = null; renderGroupsView(); });
 
-  // qidiruv: 30 tasi ko'rsatiladi, «hammasini qo'shish» — barcha topilganlar
+  // qidiruv: avval 30 tasi, «Yana ko'rsatish» — yana 50 tadan; «hammasini qo'shish» — barcha topilganlar.
+  // Qo'shilgandan keyin ro'yxat yopilmaydi — faqat «Yopish» tugmasi yoki qidiruvni tozalash bilan.
   const input = $('#grpSearch'), results = $('#grpResults');
   let t0;
-  input.addEventListener('input', () => { clearTimeout(t0); t0 = setTimeout(search, 150); });
+  input.addEventListener('input', () => { clearTimeout(t0); t0 = setTimeout(() => { d.lim = 30; d.resTop = 0; search(); }, 150); });
   function search() {
+    d.q = input.value;
     const q = norm(input.value);
     if (!q) { results.hidden = true; return; }
+    const lim = d.lim || 30;
     const picked = new Set(d.ids);
     const found = allMovies().filter(m => !picked.has(m.id) && hayOf(m).includes(q))
       .sort((a, b) => grpCollator.compare(a.title.uz, b.title.uz) || a.id - b.id);
     results.hidden = false;
-    results.innerHTML = found.length ? `
+    results.innerHTML = `<div class="adm-grp-res-head"><span>${found.length} ta topildi</span><button type="button" data-gclose>Yopish ✕</button></div>` + (found.length ? `
       ${found.length > 1 ? `<button type="button" class="adm-grp-all" data-gall><b>Topilganlarning hammasini qo‘shish (${found.length})</b><em>+</em></button>` : ''}
-      ${found.slice(0, 30).map(m => `
+      ${found.slice(0, lim).map(m => `
         <button type="button" data-gadd="${m.id}">
           <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
           <span><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type), `ID ${m.id}`, Array.isArray(m.parts) && m.parts.length > 1 ? `guruh: ${m.parts.length} qism` : ''].filter(Boolean).join(' · ')}</small></span>
           <em>+</em>
         </button>`).join('')}
-      ${found.length > 30 ? `<p class="acc-muted">…yana ${found.length - 30} ta</p>` : ''}` : '<p class="acc-muted">Topilmadi</p>';
+      ${found.length > lim ? `<button type="button" class="adm-grp-more" data-gmore>Yana ko‘rsatish (${found.length - lim} ta)</button>` : ''}` : '<p class="acc-muted">Topilmadi</p>');
+    results.querySelector('[data-gclose]').addEventListener('click', () => { results.hidden = true; d.q = ''; input.value = ''; });
+    results.querySelector('[data-gmore]')?.addEventListener('click', () => { d.resTop = results.scrollTop; d.lim = lim + 50; search(); });
+    results.scrollTop = d.resTop || 0;
     results.querySelector('[data-gall]')?.addEventListener('click', () => addIds(found.map(m => m.id)));
     results.querySelectorAll('[data-gadd]').forEach(b => b.addEventListener('click', () => addIds([+b.dataset.gadd])));
   }
+
+  if (d.q) search();   // qayta chizilgandan keyin qidiruv natijalari ochiq qoladi
 
   $('#grpSave').addEventListener('click', e => {
     keep();
