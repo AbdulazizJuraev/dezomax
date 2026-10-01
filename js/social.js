@@ -26,7 +26,13 @@ Object.assign(I18N.uz, {
   'soc.hour': 'soat oldin',
   'soc.day': 'kun oldin',
   'soc.views': 'marta ko‘rilgan',
-  'soc.added': 'Yuklangan'
+  'soc.added': 'Yuklangan',
+  'soc.times': 'marta',
+  'soc.yana': '…yana',
+  'soc.about': 'Tavsifi',
+  'soc.likes': 'Layklar',
+  'soc.viewsT': 'Tomoshalar',
+  'soc.yearT': 'Yili'
 });
 Object.assign(I18N.ru, {
   'soc.like': 'Нравится',
@@ -49,7 +55,13 @@ Object.assign(I18N.ru, {
   'soc.hour': 'ч. назад',
   'soc.day': 'дн. назад',
   'soc.views': 'просмотров',
-  'soc.added': 'Добавлено'
+  'soc.added': 'Добавлено',
+  'soc.times': 'просмотров',
+  'soc.yana': '…ещё',
+  'soc.about': 'Описание',
+  'soc.likes': 'Нравится',
+  'soc.viewsT': 'Просмотры',
+  'soc.yearT': 'Год'
 });
 
 const SOC_ICONS = {
@@ -86,7 +98,13 @@ function socTime(at) {
   return new Date(at).toLocaleDateString(LANG === 'ru' ? 'ru-RU' : 'uz-UZ');
 }
 
-const socFmt = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace('.0', '') + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace('.0', '') + 'K' : String(n);
+// 1 043 → «1 ming», 2 500 000 → «2,5 mln» (YouTube'dagidek)
+const socFmt = n => {
+  const f = (v, u) => `${(Math.floor(v * 10) / 10).toString().replace('.', ',').replace(',0', '')} ${u}`;
+  if (n >= 1e6) return f(n / 1e6, LANG === 'ru' ? 'млн' : 'mln');
+  if (n >= 1e3) return f(n / 1e3, LANG === 'ru' ? 'тыс.' : 'ming');
+  return String(n);
+};
 
 function socToast(msg) {
   let el = document.querySelector('.soc-toast');
@@ -126,13 +144,55 @@ function initSocial(m, part, opts = {}) {
   let state = { views: null, likes: 0, dislikes: 0, mine: 0, total: 0, comments: [] }, shown = 20, busy = false;
 
   /* ---- ko'rishlar soni va yuklangan sana (pleyer ostida, chapda) ---- */
+  // YouTube'dagidek: «12 345 marta · 3 kun oldin …yana» — «yana» tavsif oynasini ochadi
   const drawStats = () => {
     if (!stats) return;
     const parts = [];
-    if (state.views !== null) parts.push(`<span><b>${socNum(state.views)}</b> ${esc(t('soc.views'))}</span>`);
-    if (opts.addedAt) parts.push(`<span>${esc(t('soc.added'))}: <b>${esc(socDate(opts.addedAt))}</b></span>`);
-    stats.innerHTML = parts.join('<i class="mv-dot">·</i>');
+    if (state.views !== null) parts.push(`<span>${socNum(state.views)} ${esc(t('soc.times'))}</span>`);
+    if (opts.addedAt) parts.push(`<span>${esc(socTime(opts.addedAt))}</span>`);
+    else if (opts.year) parts.push(`<span>${opts.year}</span>`);
+    stats.innerHTML = `<button type="button" class="mv-stats-btn" id="socMoreInfo">${parts.join('')}<b>${esc(t('soc.yana'))}</b></button>`;
+    stats.querySelector('#socMoreInfo').addEventListener('click', openInfo);
   };
+
+  /* ---- «Tavsifi» oynasi: layklar, tomoshalar, sana, tavsif ---- */
+  function openInfo() {
+    closeInfo();
+    const d = opts.addedAt ? new Date(opts.addedAt) : null;
+    const mo = d ? (SOC_MONTHS[LANG] || SOC_MONTHS.uz)[d.getMonth()] : '';
+    const tile = (big, small) => `<div class="soc-tile"><b>${esc(String(big))}</b><small>${esc(small)}</small></div>`;
+    const el = document.createElement('div');
+    el.className = 'soc-sheet-wrap';
+    el.innerHTML = `
+      <div class="soc-sheet-back" data-close></div>
+      <div class="soc-sheet" role="dialog" aria-modal="true" aria-label="${esc(t('soc.about'))}">
+        <i class="soc-sheet-grip"></i>
+        <div class="soc-sheet-head"><h3>${esc(t('soc.about'))}</h3><button type="button" class="soc-sheet-x" data-close aria-label="×">✕</button></div>
+        <div class="soc-sheet-body">
+          <h4>${esc(opts.title || title(m))}</h4>
+          <div class="soc-tiles">
+            ${tile(socFmt(state.likes), t('soc.likes'))}
+            ${tile(state.views !== null ? socNum(state.views) : '—', t('soc.viewsT'))}
+            ${d ? tile(d.getFullYear(), LANG === 'ru' ? `${d.getDate()} ${mo}` : `${d.getDate()}-${mo}`) : tile(opts.year || '—', t('soc.yearT'))}
+          </div>
+          ${opts.desc ? `<div class="soc-desc">${esc(opts.desc)}</div>` : ''}
+        </div>
+      </div>`;
+    document.body.appendChild(el);
+    document.documentElement.classList.add('soc-lock');
+    requestAnimationFrame(() => el.classList.add('is-open'));
+    el.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeInfo));
+    el._key = e => { if (e.key === 'Escape') closeInfo(); };
+    document.addEventListener('keydown', el._key);
+  }
+  function closeInfo() {
+    const el = document.querySelector('.soc-sheet-wrap');
+    if (!el) return;
+    document.removeEventListener('keydown', el._key);
+    document.documentElement.classList.remove('soc-lock');
+    el.classList.remove('is-open');
+    setTimeout(() => el.remove(), 250);
+  }
   // ko'rish — pleyerni birinchi bosganda bir marta sanaladi (server bir IP'ni 6 soatda bir marta sanaydi)
   const playerBox = document.getElementById('playerBox');
   if (playerBox && api) {

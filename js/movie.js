@@ -460,7 +460,12 @@ function renderMovie() {
   }
 
   // like/dislike, ulashish va izohlar (js/social.js)
-  if (typeof initSocial === 'function') initSocial(group || movie, partNo, { addedAt: (partNo && PARTS[partNo - 1].addedAt) || movie.addedAt || null });
+  if (typeof initSocial === 'function') initSocial(group || movie, partNo, {
+    addedAt: (partNo && PARTS[partNo - 1].addedAt) || movie.addedAt || null,
+    title: title(movie) + (partNo ? ` · ${partLabel(partNo)}` : ''),
+    desc: descOf(movie),
+    year: movie.year || null
+  });
 
   // ?play=1 bo'lsa pleyerga o'tamiz
   if (qp.get('play')) {
