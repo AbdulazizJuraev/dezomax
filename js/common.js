@@ -584,3 +584,32 @@ document.addEventListener('langchange', () => {
   renderFooterGenres();
   updateFavCount();
 });
+
+/* ---------- Internetsiz ishlash (sw.js) ----------
+   Ochilgan sahifalar, kod va posterlar telefonda saqlanadi — internet yo'qolsa ham sayt/ilova ochiladi.
+   Internet yo'q paytda tepada ogohlantirish va «Yuklab olinganlar»ga havola chiqadi. */
+const IS_APP = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+(function () {
+  try {
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+  } catch (e) {}
+
+  const bar = () => {
+    let el = document.getElementById('offlineBar');
+    if (navigator.onLine) { el?.remove(); document.documentElement.classList.remove('is-offline'); return; }
+    document.documentElement.classList.add('is-offline');
+    if (el) return;
+    el = document.createElement('div');
+    el.id = 'offlineBar';
+    el.className = 'offline-bar';
+    el.innerHTML = LANG === 'ru'
+      ? `Нет интернета — открыта сохранённая версия.${IS_APP ? ' <a href="downloads.html">Скачанные фильмы →</a>' : ''}`
+      : `Internet yo‘q — saqlangan nusxa ochildi.${IS_APP ? ' <a href="downloads.html">Yuklab olinganlar →</a>' : ''}`;
+    document.body.appendChild(el);
+  };
+  addEventListener('online', bar);
+  addEventListener('offline', bar);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bar); else bar();
+})();

@@ -134,6 +134,19 @@ function mountPlayer(url) {
     return;
   }
 
+  // Telefonga yuklab olingan bo'lsa — internetsiz, telefondagi fayldan (js/offline.js)
+  const local = typeof Offline !== 'undefined' ? Offline.localFor(url) : null;
+  if (local && typeof mountVideo === 'function') {
+    const wide = wideCover(movie);
+    mountVideo(box, local, {
+      poster: wide || movie?.poster || null,
+      wide: !!wide,
+      title: movie ? title(movie) + (typeof partNo !== 'undefined' && partNo ? ` · ${partLabel(partNo)}` : '') : ''
+    });
+    if (link) link.hidden = true;
+    return;
+  }
+
   // DezoCloud ulashish havolasi (dezocloud.uz/s/…) — faylni to'g'ridan-to'g'ri o'z pleyerimizda (/v/…).
   // Fayl brauzerda o'ynamasa — DezoCloud sahifasi pleyer bo'yicha to'liq (embed=1) ochiladi.
   const dcTok = (String(url).match(/^https?:\/\/(?:www\.)?dezocloud\.uz\/s\/([\w-]+)/i) || [])[1];
@@ -400,7 +413,7 @@ function renderMovie() {
     <h2 class="mv-watch-title">${esc(title(movie))}${partNo ? ` <span>· ${partLabel(partNo)}</span>` : ''}</h2>
     <div class="mv-meta-row">
       <div class="mv-stats" id="mvStats"></div>
-      <div class="mv-social" id="mvSocial"></div>
+      <div class="mv-meta-right"><div class="mv-social" id="mvSocial"></div><div class="mv-dl" id="mvDl"></div></div>
     </div>
     ${partNo && partNo < PARTS.length ? `<div class="mv-next-wrap"><a class="btn btn-primary mv-next" href="${partUrl(partNo + 1)}"><span>${LANG === 'ru' ? 'Следующая серия' : 'Keyingi qism'}: ${partLabel(partNo + 1)}</span>${ICONS.right}</a></div>` : ''}
     ${partsBarHTML()}
@@ -451,6 +464,9 @@ function renderMovie() {
     };
     tabs.forEach(b => b.addEventListener('click', () => selectTab(b)));
   }
+
+  // telefonga yuklab olish (faqat ilovada, js/offline.js)
+  if (typeof mountOfflineButton === 'function') mountOfflineButton(document.getElementById('mvDl'), group || movie, partNo, movie.video, partNo ? partLabel(partNo) : '');
 
   // like/dislike, ulashish va izohlar (js/social.js)
   if (typeof initSocial === 'function') initSocial(group || movie, partNo, {

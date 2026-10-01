@@ -5507,3 +5507,32 @@ html.soc-lock { overflow: hidden; }
 .ytp-btn.soc-pbtn.is-on { color: #4cb8f0; }
 .ytp-btn.soc-pbtn.is-on svg { fill: rgba(76,184,240,.3); }
 @media (max-width: 420px) { .ytp-btn.soc-pbtn { padding: 0 5px; min-width: 32px; } .ytp-btn.soc-pbtn span { font-size: 12px; } }
+
+/* Internet yo'q ogohlantirishi */
+.offline-bar {
+  position: fixed; left: 50%; bottom: calc(80px + var(--sab, 0px)); z-index: 1200; transform: translateX(-50%);
+  max-width: calc(100vw - 24px); padding: 10px 16px; border-radius: 14px; background: rgba(30, 22, 8, .96);
+  border: 1px solid rgba(251, 191, 36, .4); color: #fde68a; font-size: 13.5px; font-weight: 600; text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+.offline-bar a { color: #fff; text-decoration: underline; margin-left: 4px; white-space: nowrap; }
+@media (min-width: 901px) { .offline-bar { bottom: 20px; } }
+
+/* ---------------- Telefonga yuklab olish (ilova) ---------------- */
+.mv-meta-right { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.mv-dl[hidden] { display: none; }
+.off-btn { position: relative; overflow: hidden; }
+.off-btn.is-run::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: var(--p, 0%); background: rgba(76,184,240,.22); transition: width .4s; }
+.off-btn > * { position: relative; }
+.off-btn.is-done { color: #4ade80; }
+.off-sec { margin-bottom: 34px; }
+.off-hint { margin: 0 0 14px; font-size: 13px; }
+.off-empty { padding: 18px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid var(--line); }
+.off-row .dl-poster { padding: 0; border: 0; background: none; }
+.off-row .dl-meta svg { width: 15px; height: 15px; vertical-align: -3px; color: #4ade80; }
+.off-bar { height: 4px; margin-top: 8px; border-radius: 4px; background: rgba(255,255,255,.12); overflow: hidden; }
+.off-bar i { display: block; height: 100%; background: var(--grad); transition: width .4s; }
+.off-player { position: fixed; inset: 0; z-index: 1600; background: #000; display: flex; flex-direction: column; justify-content: center; padding: calc(var(--app-sat, 0px) + 8px) 0 var(--sab, 0px); }
+.off-player-top { position: absolute; top: calc(var(--app-sat, 0px) + 6px); left: 0; right: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 12px 0 16px; }
+.off-player-top b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.off-player .player-wrap { width: 100%; border-radius: 0; border: 0; }

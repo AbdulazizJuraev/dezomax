@@ -33,6 +33,7 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(CastPlugin.class);
         registerPlugin(AdsPlugin.class);
+        registerPlugin(DownloadPlugin.class);
         super.onCreate(savedInstanceState);
 
         WebView webView = getBridge() != null ? getBridge().getWebView() : null;
