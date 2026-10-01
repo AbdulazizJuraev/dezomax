@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1028840385,
+    "slug": "hotel-transylvania-3-summer-vacation",
+    "type": "multfilm",
+    "title": {
+      "uz": "Maxluqlar taʼtilda 3: Dengiz chorlamoqda",
+      "ru": "Монстры на каникулах 3"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Maxluqlar taʼtilda 3: Dengiz chorlamoqda» — 2018-yilgi AQSh multfilmi. Rejissyor: Genndy Tartakovsky.",
+      "ru": "«Монстры на каникулах 3» — мультфильм 2018 года (США). Режиссёр: Genndy Tartakovsky."
+    },
+    "colors": [
+      "hsl(129 45% 28%)",
+      "hsl(149 50% 7%)"
+    ],
+    "trailer": "",
+    "video": "http://topfilm.info/3/MULTIFILM/maxluqlar_tatilda_3_720.mp4",
+    "tags": [
+      "Hotel Transylvania 3: Summer Vacation"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/9/9e/Hotel_Transylvania_3_%282018%29_Poster.jpg",
+    "wiki": "Монстры на каникулах 3: Море зовёт",
+    "featured": false,
+    "addedAt": 1790852276105,
+    "updatedAt": 1790852276105,
+    "year": 2018,
+    "duration": 97,
+    "director": "Genndy Tartakovsky"
+  },
+  {
     "id": 1015270775,
     "slug": "hotel-transylvania-2",
     "type": "multfilm",
