@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2042,
+    "slug": "ratatouille",
+    "type": "multfilm",
+    "title": {
+      "uz": "Ratatuy",
+      "ru": "Рататуй"
+    },
+    "genres": [
+      "drama",
+      "comedy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Ratatuy» — 2007-yilgi AQSh multfilmi. Rejissyor: Brad Bird, Jan Pinkava. Saytda rasmiy treyleri bor.",
+      "ru": "«Рататуй» — американский анимационный комедийно-драматический фильм 2007 года, созданный студией Pixar Animation Studios для Walt Disney Pictures."
+    },
+    "tags": [
+      "Ratatouille"
+    ],
+    "colors": [
+      "hsl(34 45% 28%)",
+      "hsl(54 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/5/50/RatatouillePoster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=mqV_C5eqUus",
+    "video": "http://topfilm.info/2/MULTIFILM/Ratatuy_720.mp4",
+    "featured": false,
+    "addedAt": 1790841465150,
+    "updatedAt": 1790841465150,
+    "year": 2007,
+    "duration": 111,
+    "director": "Brad Bird, Jan Pinkava"
+  },
+  {
     "id": 2049,
     "slug": "monsters-inc",
     "type": "multfilm",
