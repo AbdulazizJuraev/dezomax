@@ -246,11 +246,37 @@ function initSocial(m, part, opts = {}) {
       socToast(t('soc.copied'));
     });
     menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menu.hidden = true; }));
+    drawPlayerRate();
   };
   document.addEventListener('click', e => {
     const menu = document.getElementById('socMenu');
     if (menu && !menu.hidden && !e.target.closest('.soc-share-wrap')) menu.hidden = true;
   });
+
+  /* ---- pleyer panelida ham like/dislike (fonsiz, vaqt va «1x» orasida) ---- */
+  const prateHTML = () => `
+    <button type="button" class="ytp-btn soc-pbtn${state.mine === 1 ? ' is-on' : ''}" data-prate="1" aria-label="${esc(t('soc.like'))}">${SOC_ICONS.up}<span>${socFmt(state.likes)}</span></button>
+    <button type="button" class="ytp-btn soc-pbtn${state.mine === -1 ? ' is-on' : ''}" data-prate="-1" aria-label="${esc(t('soc.dislike'))}">${SOC_ICONS.down}<span>${socFmt(state.dislikes)}</span></button>`;
+  const drawPlayerRate = () => {
+    const pb = document.getElementById('playerBox');
+    if (!pb || !api) return;
+    let wrap = pb.querySelector('.soc-prate');
+    if (!wrap) {
+      const anchor = pb.querySelector('#vpSpeed') || pb.querySelector('#ytpFs');
+      if (!anchor) return;
+      wrap = document.createElement('span');
+      wrap.className = 'soc-prate';
+      anchor.before(wrap);
+      wrap.addEventListener('click', e => {
+        const b = e.target.closest('[data-prate]');
+        if (b) { e.stopPropagation(); rate(+b.dataset.prate); }
+      });
+    }
+    wrap.innerHTML = prateHTML();
+  };
+  // pleyer qayta chizilganda (kino ↔ treyler) tugmalar qayta qo'yiladi
+  const pbox = document.getElementById('playerBox');
+  if (pbox && api) new MutationObserver(() => { if (!pbox.querySelector('.soc-prate')) drawPlayerRate(); }).observe(pbox, { childList: true, subtree: true });
 
   const needLogin = () => { box.querySelector('.soc-login')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); socToast(t('soc.login')); };
 

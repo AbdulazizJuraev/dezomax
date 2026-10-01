@@ -5499,3 +5499,11 @@ html.soc-lock { overflow: hidden; }
   .soc-sheet-grip { display: none; }
 }
 .soc-sheet .soc-info { margin: 14px 0 0; }
+/* pleyer panelidagi like/dislike — fonsiz */
+.soc-prate { display: inline-flex; align-items: center; gap: 2px; margin-right: 4px; }
+.ytp-btn.soc-pbtn { width: auto; min-width: 40px; padding: 0 8px; gap: 6px; background: transparent; display: inline-flex; align-items: center; }
+.ytp-btn.soc-pbtn:hover { background: rgba(255,255,255,.1); }
+.ytp-btn.soc-pbtn span { font-size: 13px; font-weight: 600; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.ytp-btn.soc-pbtn.is-on { color: #4cb8f0; }
+.ytp-btn.soc-pbtn.is-on svg { fill: rgba(76,184,240,.3); }
+@media (max-width: 420px) { .ytp-btn.soc-pbtn { padding: 0 5px; min-width: 32px; } .ytp-btn.soc-pbtn span { font-size: 12px; } }
