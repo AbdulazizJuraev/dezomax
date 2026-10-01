@@ -85,6 +85,9 @@ function mountVideo(box, url, opts = {}) {
   const $ = s => box.querySelector(s);
   const video = $('.vp-video');
   vpActive = { box, video, hls: null, timer: null, url };
+  // video almashtirilgach (boshqa manba / tashqi pleyer) eski video hodisalari e'tiborsiz qoldiriladi
+  const live = () => vpActive?.video === video;
+  const onV = (ev, fn, o) => video.addEventListener(ev, e => { if (live()) fn(e); }, o);
 
   // Sifatlar: .mp4 — asosiy havola + admin kiritgan qo'shimchalar
   const fileQualities = !isHls && extra.length
@@ -147,6 +150,7 @@ function mountVideo(box, url, opts = {}) {
   };
 
   const showMsg = () => {
+    if (!live()) return;
     if (opts.onFail && !failed) { failed = true; return opts.onFail(); }
     $('#vpCover').hidden = true;
     const msg = $('#vpMsg');
@@ -165,7 +169,7 @@ function mountVideo(box, url, opts = {}) {
         // mp4: havolani almashtiramiz, vaqt va holat saqlanadi
         const at = video.currentTime, paused = video.paused, rate = video.playbackRate;
         video.src = fileQualities[i].url;
-        video.addEventListener('loadedmetadata', () => {
+        onV('loadedmetadata', () => {
           video.currentTime = at;
           video.playbackRate = rate;
           if (!paused) video.play().catch(() => {});
@@ -178,7 +182,7 @@ function mountVideo(box, url, opts = {}) {
 
   /* ---- holatlar ---- */
   const setPlayIcon = () => { $('#vpPlay').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; };
-  video.addEventListener('playing', () => {
+  onV('playing', () => {
     $('#vpCover').hidden = true;
     $('#vpBar').hidden = false;
     $('#vpClick').hidden = false;
@@ -186,17 +190,17 @@ function mountVideo(box, url, opts = {}) {
     $('#vpSpin').hidden = true;
     setPlayIcon(); wake();
   });
-  video.addEventListener('pause', () => { if (!video.ended) $('#vpPause').hidden = false; setPlayIcon(); wake(); });
-  video.addEventListener('waiting', () => { $('#vpSpin').hidden = false; });
-  video.addEventListener('canplay', () => { $('#vpSpin').hidden = true; });
-  video.addEventListener('ended', () => {
+  onV('pause', () => { if (!video.ended) $('#vpPause').hidden = false; setPlayIcon(); wake(); });
+  onV('waiting', () => { $('#vpSpin').hidden = false; });
+  onV('canplay', () => { $('#vpSpin').hidden = true; });
+  onV('ended', () => {
     const msg = $('#vpMsg');
     msg.hidden = false;
     msg.innerHTML = `<button class="ytp-replay" type="button">${YT_ICONS.replay}<span>${esc(t('player.replay'))}</span></button>`;
     msg.querySelector('button').addEventListener('click', () => { msg.hidden = true; video.currentTime = 0; video.play(); });
   });
-  video.addEventListener('error', () => { if (!vpActive?.hls) showMsg(); });
-  video.addEventListener('volumechange', () => {
+  onV('error', () => { if (!vpActive?.hls) showMsg(); });
+  onV('volumechange', () => {
     $('#vpMute').innerHTML = video.muted || video.volume === 0 ? YT_ICONS.mute : YT_ICONS.vol;
     box.classList.toggle('is-muted', video.muted);
   });
@@ -211,7 +215,7 @@ function mountVideo(box, url, opts = {}) {
   $('#vpMute').addEventListener('click', () => { video.muted = !video.muted; });
   $('#vpVol').addEventListener('input', e => { video.volume = +e.target.value / 100; video.muted = video.volume === 0; });
   const volFill = () => $('#vpVol').style.setProperty('--p', (video.muted ? 0 : video.volume * 100) + '%');
-  video.addEventListener('volumechange', volFill); volFill();
+  onV('volumechange', volFill); volFill();
 
   $('#vpSpeed').addEventListener('click', () => {
     const i = VP_SPEEDS.indexOf(video.playbackRate);
@@ -268,10 +272,11 @@ function mountVideo(box, url, opts = {}) {
     }, 3000);
   }
   ['mousemove', 'touchstart'].forEach(ev => box.addEventListener(ev, wake, { passive: true }));
-  box.addEventListener('mouseleave', () => { if (!video.paused) box.classList.add('ytp-idle'); });
+  box.addEventListener('mouseleave', () => { if (live() && !video.paused) box.classList.add('ytp-idle'); });
 
   box.tabIndex = 0;
   box.addEventListener('keydown', e => {
+    if (!live()) return;
     if (e.target.tagName === 'INPUT') return;
     if (e.code === 'Space' || e.code === 'KeyK') { e.preventDefault(); toggle(); }
     if (e.code === 'ArrowLeft') { e.preventDefault(); jump(-10); }
