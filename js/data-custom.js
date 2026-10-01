@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2059,
+    "slug": "up",
+    "type": "multfilm",
+    "title": {
+      "uz": "Tepaga",
+      "ru": "Вверх"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Tepaga» — 2009-yilgi AQSh multfilmi. Rejissyor: Pete Docter, Bob Peterson. Saytda rasmiy treyleri bor.",
+      "ru": "«Вверх» — американский анимационный комедийно-драматический приключенческий фильм 2009 года, созданный студией Pixar Animation Studios для Walt Disney Pictures."
+    },
+    "tags": [
+      "Up"
+    ],
+    "colors": [
+      "hsl(139 45% 28%)",
+      "hsl(159 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/0/05/Up_%282009_film%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=NYwpa1nxH84",
+    "video": "http://topfilm.info/2/tarjima_kinolar/YUKSAKLIK_SARI_720.mp4",
+    "featured": false,
+    "addedAt": 1790849737843,
+    "updatedAt": 1790849737843,
+    "year": 2009,
+    "duration": 96,
+    "director": "Pete Docter, Bob Peterson"
+  },
+  {
     "id": 2053,
     "slug": "toy-story-3",
     "type": "multfilm",
