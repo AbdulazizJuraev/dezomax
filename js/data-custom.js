@@ -6943,7 +6943,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/ubgnoYYRXZBkvdXmZPkO8UK_",
     "featured": false,
     "addedAt": 1790842037568,
-    "updatedAt": 1790855624998,
+    "updatedAt": 1790855721709,
     "groupOrig": {
       "title": {
         "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
@@ -7246,7 +7246,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       3187,
       3186,
       3185,
-      3184
+      3184,
+      3274,
+      3275,
+      3276
     ],
     "year": 2026,
     "duration": 46,
