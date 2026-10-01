@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2018,
+    "slug": "beauty-and-the-beast",
+    "type": "multfilm",
+    "title": {
+      "uz": "Sohibjamol va maxluq",
+      "ru": "Красавица и Чудовище"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Sohibjamol va maxluq» — 1991-yilgi AQSh multfilmi. Rejissyor: Gary Trousdale, Kirk Wise. Saytda rasmiy treyleri bor.",
+      "ru": "«Красавица и Чудовище» — американский анимационный фильм в жанре музыкального романтического фэнтези 1991 года, снятый студией Walt Disney Feature Animation и выпущенный студией Walt Disney Pictures."
+    },
+    "tags": [
+      "Beauty and the Beast"
+    ],
+    "colors": [
+      "hsl(260 45% 28%)",
+      "hsl(280 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/5/5e/Beauty_and_the_Beast_%281991_film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=_t-ff-GUGwU",
+    "video": "http://topfilm.info/2/MULTIFILM/Sohibjamol_va_maxluq_1_720.mp4",
+    "featured": false,
+    "addedAt": 1790841271759,
+    "updatedAt": 1790841271759,
+    "year": 1991,
+    "duration": 84,
+    "director": "Gary Trousdale, Kirk Wise"
+  },
+  {
     "id": 16,
     "slug": "spirited-away",
     "type": "multfilm",
