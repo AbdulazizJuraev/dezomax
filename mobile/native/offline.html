@@ -8,7 +8,53 @@
   html, body { margin: 0; min-height: 100%; background: #07080c; color: #e8ecf3; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   .box { display: flex; flex-direction: column; align-items: center; text-align: center; padding: calc(env(safe-area-inset-top, 0px) + 48px) 20px 20px; box-sizing: border-box; }
   .box.is-full { min-height: 100vh; justify-content: center; padding-top: 24px; }
-  .logo { width: 72px; height: 72px; border-radius: 20px; margin-bottom: 16px; }
+  /* ---- animatsiya: hammasi shu faylda (CSS), internetsiz ishlaydi ---- */
+  body { overflow-x: hidden; background: transparent !important; }
+  .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .bg i { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; filter: blur(70px); opacity: .35; }
+  .bg i:nth-child(1) { left: -20vmax; top: -18vmax; background: #0a93dc; animation: drift1 14s ease-in-out infinite alternate; }
+  .bg i:nth-child(2) { right: -24vmax; bottom: -22vmax; background: #5b2be0; opacity: .25; animation: drift2 17s ease-in-out infinite alternate; }
+  .bg i:nth-child(3) { left: 30%; top: 40%; width: 30vmax; height: 30vmax; background: #e0306a; opacity: .12; animation: drift1 11s ease-in-out infinite alternate-reverse; }
+  @keyframes drift1 { to { transform: translate(14vmax, 10vmax) scale(1.15); } }
+  @keyframes drift2 { to { transform: translate(-12vmax, -14vmax) scale(.9); } }
+  .stars span { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff; opacity: 0; animation: twinkle 3.2s ease-in-out infinite; }
+  @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(.4); } 50% { opacity: .8; transform: scale(1); } }
+
+  .mark { position: relative; width: 132px; height: 132px; margin-bottom: 18px; display: grid; place-items: center; }
+  .mark .ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(76,184,240,.5); opacity: 0; animation: ring 2.6s ease-out infinite; }
+  .mark .ring:nth-child(2) { animation-delay: .87s; }
+  .mark .ring:nth-child(3) { animation-delay: 1.74s; }
+  @keyframes ring { 0% { transform: scale(.55); opacity: .9; } 100% { transform: scale(1.15); opacity: 0; } }
+  .mark i { position: relative; width: 80px; height: 80px; border-radius: 26px; display: grid; place-items: center;
+    background: linear-gradient(145deg, #12324a, #0b1724); border: 1px solid rgba(76,184,240,.35);
+    box-shadow: 0 14px 34px rgba(0,0,0,.45), 0 0 40px rgba(10,147,220,.25), inset 0 1px 0 rgba(255,255,255,.08);
+    animation: float 3.4s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+  .mark svg { width: 42px; height: 42px; overflow: visible; }
+  .mark .w { opacity: .15; animation: wave 1.8s ease-in-out infinite; }
+  .mark .w2 { animation-delay: .2s; } .mark .w3 { animation-delay: .4s; } .mark .w4 { animation-delay: .6s; }
+  @keyframes wave { 0%, 100% { opacity: .15; } 40% { opacity: 1; } }
+  .mark .slash { stroke-dasharray: 26; stroke-dashoffset: 26; animation: slash .7s .5s ease-out forwards, blink 2.4s 1.4s ease-in-out infinite; }
+  @keyframes slash { to { stroke-dashoffset: 0; } }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+
+  .brand { margin: 0 0 12px; font-size: 24px; font-weight: 900; letter-spacing: -.02em;
+    background: linear-gradient(90deg, #fff 0%, #fff 35%, #38b6ff 50%, #fff 65%, #fff 100%); background-size: 250% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 3.5s linear infinite; }
+  .brand b { color: #38b6ff; -webkit-text-fill-color: #38b6ff; }
+  @keyframes shine { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+  .up { opacity: 0; transform: translateY(14px); animation: up .6s ease-out forwards; }
+  .brand.up { animation: up .6s .1s ease-out forwards, shine 3.5s 1s linear infinite; }
+  h1.up { animation-delay: .2s; } p.up { animation-delay: .3s; } .btn.up { animation-delay: .4s; }
+  @keyframes up { to { opacity: 1; transform: none; } }
+  .btn { position: relative; overflow: hidden; }
+  .btn::after { content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); transform: skewX(-20deg); animation: sweep 2.8s ease-in-out infinite; }
+  @keyframes sweep { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+  .btn.is-busy { pointer-events: none; opacity: .85; }
+  .btn.is-busy::before { content: ''; display: inline-block; width: 14px; height: 14px; margin: 0 8px -2px 0; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .row { opacity: 0; animation: up .5s ease-out forwards; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } .up, .row { opacity: 1; transform: none; } .mark .w { opacity: 1; } .mark .slash { stroke-dashoffset: 0; } }
   h1 { font-size: 20px; margin: 0 0 8px; }
   p { margin: 0 0 18px; color: #9aa4b5; font-size: 14.5px; line-height: 1.5; max-width: 320px; }
   .btn { border: 0; border-radius: 999px; padding: 12px 26px; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #0a93dc, #0668a8); box-shadow: 0 8px 24px rgba(10, 147, 220, .35); }
@@ -29,18 +75,29 @@
 </style>
 </head>
 <body>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i><div class="stars" id="stars"></div></div>
 <div class="box" id="box">
-  <img class="logo" src="images/app/icon-192.png" alt="">
-  <h1>Internet yo‘q</h1>
-  <p id="msg">DezoMax ochilishi uchun internet kerak. Wi-Fi yoki mobil internetni yoqib, qayta urinib ko‘ring.</p>
-  <button class="btn" type="button" id="retry">Qayta urinish</button>
+  <div class="mark up" aria-hidden="true"><span class="ring"></span><span class="ring"></span><span class="ring"></span><i><svg viewBox="0 0 24 24" fill="none" stroke="#4cb8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="w w4" d="M2 8.8a15.5 15.5 0 0 1 5-3.2M10.5 4.6A15.6 15.6 0 0 1 22 8.8"/><path class="w w3" d="M5.3 12.3a10.4 10.4 0 0 1 4.2-2.6M14.7 9.9a10.4 10.4 0 0 1 4 2.4"/><path class="w w2" d="M8.6 15.7a5.5 5.5 0 0 1 6.8 0"/><circle class="w" cx="12" cy="19.2" r="1.1" fill="#4cb8f0" stroke="none"/><path class="slash" d="M3 3l18 18" stroke="#f87171" stroke-width="2.4"/></svg></i></div>
+  <div class="brand up">DEZO<b>MAX</b></div>
+  <h1 class="up">Internet yo‘q</h1>
+  <p class="up" id="msg">DezoMax ochilishi uchun internet kerak. Wi-Fi yoki mobil internetni yoqib, qayta urinib ko‘ring.</p>
+  <button class="btn up" type="button" id="retry">Qayta urinish</button>
 </div>
 <div class="dl" id="dl" hidden></div>
 <script>
   // ilova sozlamasidagi manzil (sayt yoki admin) — capacitor.config.json → server.url
   var START = (window.DZX_START) || 'https://abdulazizjuraev.github.io/dezomax/';
-  function go() { location.href = START; }
+  function go() {
+    var b = document.getElementById('retry');
+    b.classList.add('is-busy'); b.textContent = 'Tekshirilmoqda…';
+    setTimeout(function () { location.href = START; }, 350);
+  }
   document.getElementById('retry').addEventListener('click', go);
+  (function () {
+    var st = document.getElementById('stars'), h = '';
+    for (var i = 0; i < 26; i++) h += '<span style="left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (Math.random() * 100).toFixed(1) + '%;animation-delay:' + (Math.random() * 3.2).toFixed(2) + 's"></span>';
+    st.innerHTML = h;
+  })();
   window.addEventListener('online', go);
 
   /* Telefonga yuklab olingan kinolar (sayt js/offline.js yozadi; bu sahifa sayt bilan bitta manzilda —
@@ -56,7 +113,7 @@
     var esc = function (s) { return String(s || '').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
     var size = function (b) { return b > 0 ? (b >= 1073741824 ? (b / 1073741824).toFixed(1).replace('.', ',') + ' GB' : Math.round(b / 1048576) + ' MB') : ''; };
     dl.innerHTML = '<h2>Yuklab olinganlar</h2><small class="hint">Bosing — internetsiz o‘ynaydi</small>' + list.map(function (it, i) {
-      return '<button class="row" type="button" data-i="' + i + '"><i class="ph" data-ph="' + i + '"></i><div><b>' + esc(it.title) + '</b><span>✓ Telefonda' + (it.total > 0 ? ' · ' + size(it.total) : '') + '</span></div>' +
+      return '<button class="row" type="button" data-i="' + i + '" style="animation-delay:' + (0.45 + i * 0.07).toFixed(2) + 's"><i class="ph" data-ph="' + i + '"></i><div><b>' + esc(it.title) + '</b><span>✓ Telefonda' + (it.total > 0 ? ' · ' + size(it.total) : '') + '</span></div>' +
         '<i class="play"><svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg></i></button>';
     }).join('');
     // posterlar — sayt saqlab qo'ygan nusxadan (service worker keshi)
