@@ -5460,3 +5460,7 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
   .mv-meta-row { flex-direction: column; align-items: flex-start; }
   .mv-hero.mv-hero-below { padding-top: 22px; }
 }
+/* poster/ma'lumot bloki tepada, pleyer uning ostida */
+.mv-hero.mv-hero-top { padding-bottom: 22px; }
+.mv-hero-top + .mv-watch { padding-top: 4px; }
+.mv-hero-top .mv-info { margin-top: 18px; }

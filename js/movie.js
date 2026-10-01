@@ -364,31 +364,19 @@ function renderMovie() {
 
   // Faqat treyleri bor kinoda "Hozir ko'rish" emas — "Treylerni ko'rish" (foydalanuvchi aldanmasin)
   const watchSt = watchStatus(movie);
-  const watchLabel = t(watchSt === 'trailer' ? 'movie.watchTrailer' : 'movie.watchNow');
 
   const subTitle = [LANG === 'uz' ? movie.title.ru : movie.title.uz, movie.year]
     .filter(x => x && x !== title(movie)).join(' · ');
 
   page.innerHTML = `
-  <div class="wrap mv-watch" id="player">
-    ${playerSectionHTML(movie)}
-    <h1 class="mv-watch-title">${esc(title(movie))}${partNo ? ` <span>· ${partLabel(partNo)}</span>` : ''}</h1>
-    <div class="mv-meta-row">
-      <div class="mv-stats" id="mvStats"></div>
-      <div class="mv-social" id="mvSocial"></div>
-    </div>
-    ${partNo && partNo < PARTS.length ? `<div class="mv-next-wrap"><a class="btn btn-primary mv-next" href="${partUrl(partNo + 1)}"><span>${LANG === 'ru' ? 'Следующая серия' : 'Keyingi qism'}: ${partLabel(partNo + 1)}</span>${ICONS.right}</a></div>` : ''}
-    ${partsBarHTML()}
-  </div>
-
-  <section class="mv-hero mv-hero-below">
+  <section class="mv-hero mv-hero-top">
     <div class="mv-hero-bg${movie.poster ? ' has-art' : ''}" style="background-image:${movie.poster ? `url('${esc(movie.poster)}')` : backdropCSS(movie)}"></div>
     <div class="wrap">
       <div class="mv-layout">
         <div class="mv-poster">${posterHTML(movie)}</div>
 
         <div>
-          <h2 class="mv-title">${esc(title(movie))}</h2>
+          <h1 class="mv-title">${esc(title(movie))}</h1>
           ${subTitle ? `<div class="mv-sub">${esc(subTitle)}</div>` : ''}
           ${akaOf(movie).length ? `<div class="mv-aka">${LANG === 'ru' ? 'Также известен как' : 'Boshqa nomlari'}: ${esc(akaOf(movie).join(' · '))}</div>` : ''}
 
@@ -404,12 +392,6 @@ function renderMovie() {
 
           <p class="mv-desc">${esc(descOf(movie))}</p>
 
-          <div class="mv-actions">
-            <a class="btn btn-primary" href="#player">${ICONS.play}<span>${watchLabel}</span></a>
-            ${movie.trailer && movie.video ? `<a class="btn btn-ghost" href="#player" id="trailerBtn">${ICONS.play}<span>${t('movie.trailer')}</span></a>` : ''}
-            <button class="btn btn-ghost" id="favBtn">${ICONS.heart}<span id="favLabel"></span></button>
-            <button class="btn btn-ghost" id="dlBtn">${ICONS.download}<span id="dlLabel"></span></button>
-          </div>
 
           <dl class="mv-info">
             ${info.map(([k, v], i) => `
@@ -419,6 +401,17 @@ function renderMovie() {
       </div>
     </div>
   </section>
+
+  <div class="wrap mv-watch" id="player">
+    ${playerSectionHTML(movie)}
+    <h2 class="mv-watch-title">${esc(title(movie))}${partNo ? ` <span>· ${partLabel(partNo)}</span>` : ''}</h2>
+    <div class="mv-meta-row">
+      <div class="mv-stats" id="mvStats"></div>
+      <div class="mv-social" id="mvSocial"></div>
+    </div>
+    ${partNo && partNo < PARTS.length ? `<div class="mv-next-wrap"><a class="btn btn-primary mv-next" href="${partUrl(partNo + 1)}"><span>${LANG === 'ru' ? 'Следующая серия' : 'Keyingi qism'}: ${partLabel(partNo + 1)}</span>${ICONS.right}</a></div>` : ''}
+    ${partsBarHTML()}
+  </div>
 
   <div class="wrap">
     <div class="ad-slot" data-ad-slot="movie"></div>
@@ -464,36 +457,7 @@ function renderMovie() {
       mountPlayer(btn.dataset.src);
     };
     tabs.forEach(b => b.addEventListener('click', () => selectTab(b)));
-
-    // "Treyler" tugmasi treyler tabini ochadi
-    const trailerBtn = document.getElementById('trailerBtn');
-    if (trailerBtn) {
-      trailerBtn.addEventListener('click', () => {
-        const tab = tabs.find(x => x.dataset.src === movie.trailer);
-        if (tab) selectTab(tab);
-      });
-    }
   }
-
-  // Sevimlilar tugmasi
-  const favBtn = document.getElementById('favBtn');
-  const syncFav = () => {
-    const on = isFav(movie.id);
-    favBtn.classList.toggle('is-fav', on);
-    document.getElementById('favLabel').textContent = on ? t('movie.inFav') : t('movie.addFav');
-  };
-  favBtn.addEventListener('click', () => { toggleFav(movie.id); syncFav(); });
-  syncFav();
-
-  // Yuklab olinganlar ro'yxatiga qo'shish
-  const dlBtn = document.getElementById('dlBtn');
-  const syncDl = () => {
-    const on = isDownloaded(movie.id);
-    dlBtn.classList.toggle('is-fav', on);
-    document.getElementById('dlLabel').textContent = on ? t('dl.added') : t('dl.add');
-  };
-  dlBtn.addEventListener('click', () => { toggleDownload(movie.id); syncDl(); });
-  syncDl();
 
   // like/dislike, ulashish va izohlar (js/social.js)
   if (typeof initSocial === 'function') initSocial(group || movie, partNo, { addedAt: (partNo && PARTS[partNo - 1].addedAt) || movie.addedAt || null });
