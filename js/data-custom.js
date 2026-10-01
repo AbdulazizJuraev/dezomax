@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2573,
+    "slug": "fantastic-beasts-the-crimes-of-grindelwald",
+    "type": "film",
+    "title": {
+      "uz": "Fantastik Maxluqlar: Grindelvaldning jinoyati",
+      "ru": "Фантастические твари: Преступления Грин-де-Вальда"
+    },
+    "genres": [
+      "drama",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "Buyuk Britaniya, AQSh",
+      "ru": "Великобритания, США"
+    },
+    "cast": [
+      "Eddie Redmayne",
+      "Jude Law",
+      "Johnny Depp",
+      "Zoë Kravitz"
+    ],
+    "desc": {
+      "uz": "«Fantastik Maxluqlar: Grindelvaldning jinoyati» — 2018-yilgi Buyuk Britaniya va AQSh filmi. Rejissyor: David Yates. Rollarda: Eddie Redmayne, Jude Law, Johnny Depp. Saytda rasmiy treyleri bor.",
+      "ru": "«Фантастические твари: Преступления Грин-де-Вальда» — фэнтезийный фильм 2018 года режиссёра Дэвида Йейтса о противостоянии Ньюта Саламандера, Альбуса Дамблдора, сестёр Голдштейн и не-мага Якоба Ковальски с одной стороны и злого волшебника Грин-де-Вальда — с другой."
+    },
+    "tags": [
+      "Fantastic Beasts: The Crimes of Grindelwald"
+    ],
+    "colors": [
+      "hsl(144 45% 28%)",
+      "hsl(164 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/3/3c/Fantastic_Beasts_-_The_Crimes_of_Grindelwald_Poster.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=TwvJe2VwhTU",
+    "video": "http://topfilm.info/3/tarjima_kinolar/JODU_SALTANATI_2_1080.mp4",
+    "featured": false,
+    "addedAt": 1790852167212,
+    "updatedAt": 1790852167212,
+    "year": 2018,
+    "duration": 134,
+    "director": "David Yates"
+  },
+  {
     "id": 2487,
     "slug": "hotel-transylvania",
     "type": "multfilm",
