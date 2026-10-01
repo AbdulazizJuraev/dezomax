@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2053,
+    "slug": "toy-story-3",
+    "type": "multfilm",
+    "title": {
+      "uz": "Oʻyinchoqlar tarixi 3",
+      "ru": "История игрушек: Большой побег"
+    },
+    "genres": [
+      "drama",
+      "comedy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Oʻyinchoqlar tarixi 3» — 2010-yilgi AQSh multfilmi. Rejissyor: Lee Unkrich. Saytda rasmiy treyleri bor.",
+      "ru": "«История игрушек: Большой побег» — американский полнометражный компьютерно-анимационный комедийно-драматический фильм 2010 года, созданный студией Pixar Animation Studios и выпущенный компанией Walt Disney Pictures."
+    },
+    "tags": [
+      "Toy Story 3"
+    ],
+    "colors": [
+      "hsl(28 45% 28%)",
+      "hsl(48 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/6/69/Toy_Story_3_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=2BlMNH1QTeE",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Oyinchoqlar_tarixi_3_1080.mp4",
+    "featured": false,
+    "addedAt": 1790841858775,
+    "updatedAt": 1790841858775,
+    "year": 2010,
+    "duration": 103,
+    "director": "Lee Unkrich"
+  },
+  {
     "id": 2052,
     "slug": "kung-fu-panda",
     "type": "multfilm",
