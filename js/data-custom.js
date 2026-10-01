@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2243,
+    "slug": "fantastic-beasts-and-where-to-find-them",
+    "type": "film",
+    "title": {
+      "uz": "Fantastik Maxluqlar",
+      "ru": "Фантастические твари и где они обитают"
+    },
+    "genres": [
+      "drama",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "Buyuk Britaniya, AQSh",
+      "ru": "Великобритания, США"
+    },
+    "cast": [
+      "Eddie Redmayne",
+      "Katherine Waterston",
+      "Alison Sudol",
+      "Dan Fogler"
+    ],
+    "desc": {
+      "uz": "«Fantastik Maxluqlar» — 2016-yilgi Buyuk Britaniya va AQSh filmi. Rejissyor: David Yates. Rollarda: Eddie Redmayne, Katherine Waterston, Alison Sudol. Saytda rasmiy treyleri bor.",
+      "ru": "«Фантастические твари и где они обитают» — британо-американский фэнтезийный фильм режиссёра Дэвида Йейтса по сценарию Джоан Роулинг."
+    },
+    "tags": [
+      "Fantastic Beasts and Where to Find Them"
+    ],
+    "colors": [
+      "hsl(273 45% 28%)",
+      "hsl(293 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/0/0b/FBAWTFT-poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=qMtHFUA4jX4",
+    "video": "https://v.uzbeklar.biz/film44/jodu-saltanati1.mp4",
+    "featured": false,
+    "addedAt": 1790851948465,
+    "updatedAt": 1790851948465,
+    "year": 2016,
+    "duration": 133,
+    "director": "David Yates"
+  },
+  {
     "id": 2244,
     "slug": "terminator-3-rise-of-the-machines",
     "type": "film",
