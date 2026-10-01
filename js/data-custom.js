@@ -18247,6 +18247,516 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 44,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 3333,
+    "slug": "merlin-15-qism",
+    "type": "film",
+    "title": {
+      "uz": "Merlin- 15-qism",
+      "ru": "Merlin- 15-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin- 15-qism",
+      "ru": "Merlin- 15-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/cSvIGCba9UJL?s=eO32qOxI5uMFaFYlvwInlk91",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eO32qOxI5uMFaFYlvwInlk91",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3334,
+    "slug": "merlin-14-qism",
+    "type": "film",
+    "title": {
+      "uz": "Merlin- 14-qism",
+      "ru": "Merlin- 14-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin- 14-qism",
+      "ru": "Merlin- 14-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Imlj8qcViPO9?s=w_EeP-x8bswvisgO7ThPfQN_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/w_EeP-x8bswvisgO7ThPfQN_",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3335,
+    "slug": "1-mavsum-13-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 13-qism",
+      "ru": "1-mavsum 13-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 13-qism\n\n1-mavsum yakunlandi❗️",
+      "ru": "1-mavsum 13-qism\n\n1-mavsum yakunlandi❗️"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/VYSG48UWZXnx?s=T7ds8DBrx5D9CjmHgkfTIVjU",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/T7ds8DBrx5D9CjmHgkfTIVjU",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3336,
+    "slug": "1-mavsum-12-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 12-qism",
+      "ru": "1-mavsum 12-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 12-qism",
+      "ru": "1-mavsum 12-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/QWcZXbwLWN7S?s=E_NdHIixynQI_lfAY8hyCclV",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/E_NdHIixynQI_lfAY8hyCclV",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3337,
+    "slug": "1-mavsum-11-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 11-qism",
+      "ru": "1-mavsum 11-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 11-qism",
+      "ru": "1-mavsum 11-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/wU7bb9XmxBma?s=JGzeNVPkgwhTbIHH1z01CIcq",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/JGzeNVPkgwhTbIHH1z01CIcq",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3338,
+    "slug": "1-mavsum-10-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 10-qism",
+      "ru": "1-mavsum 10-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 10-qism",
+      "ru": "1-mavsum 10-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ZzwmCU71yYRu?s=xjfBlSIkfIHUe0m3r5eU2Ilj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/xjfBlSIkfIHUe0m3r5eU2Ilj",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3339,
+    "slug": "1-mavsum-9-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 9-qism",
+      "ru": "1-mavsum 9-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 9-qism",
+      "ru": "1-mavsum 9-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/wL7ILnPFjGIP?s=8m-gsmUBytjxZExFatL5NpfB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/8m-gsmUBytjxZExFatL5NpfB",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3340,
+    "slug": "1-mavsum-8-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 8-qism",
+      "ru": "1-mavsum 8-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 8-qism",
+      "ru": "1-mavsum 8-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/xakYcod-Xi8X?s=ESt9BTQOBbyWod9sJ9adnMZP",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ESt9BTQOBbyWod9sJ9adnMZP",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3341,
+    "slug": "1-mavsum-7-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 7-qism",
+      "ru": "1-mavsum 7-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 7-qism",
+      "ru": "1-mavsum 7-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/CVnV6CS32RbE?s=KaURUcqsSj4j41jdUWpIalCM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/KaURUcqsSj4j41jdUWpIalCM",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3342,
+    "slug": "1-mavsum-6-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 6-qism",
+      "ru": "1-mavsum 6-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 6-qism",
+      "ru": "1-mavsum 6-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/k6MITF1Rse1d?s=X5kOHfASokXUby74v3BV_o92",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/X5kOHfASokXUby74v3BV_o92",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3343,
+    "slug": "1-mavsum-5-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 5-qism",
+      "ru": "1-mavsum 5-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 5-qism",
+      "ru": "1-mavsum 5-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Jli7tNmXNngI?s=eUPsUvhdxLq5hZuqYhs0O7lf",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eUPsUvhdxLq5hZuqYhs0O7lf",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3344,
+    "slug": "1-mavsum-4-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 4-qism",
+      "ru": "1-mavsum 4-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 4-qism",
+      "ru": "1-mavsum 4-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/sAs4hS7s3zn9?s=f6eNym33UoJG8mHb0cmga3RC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/f6eNym33UoJG8mHb0cmga3RC",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3345,
+    "slug": "1-mavsum-3-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 3-qism",
+      "ru": "1-mavsum 3-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 3-qism",
+      "ru": "1-mavsum 3-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/INqoGAJY508P?s=WzJ_WpZceVRvrpCJktIOH4ZQ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/WzJ_WpZceVRvrpCJktIOH4ZQ",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3346,
+    "slug": "1-mavsum-2-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 2-qism",
+      "ru": "1-mavsum 2-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 2-qism",
+      "ru": "1-mavsum 2-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2_LFef_NNwMb?s=TtXiPNDkkEYsp867GDOekAxY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/TtXiPNDkkEYsp867GDOekAxY",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3347,
+    "slug": "1-mavsum-1-qism",
+    "type": "film",
+    "title": {
+      "uz": "1-mavsum 1-qism",
+      "ru": "1-mavsum 1-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "1-mavsum 1-qism",
+      "ru": "1-mavsum 1-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1DwKZmrhggZq?s=mBJCDBGk_MCbwwkXBW9Xi-wM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mBJCDBGk_MCbwwkXBW9Xi-wM",
+    "featured": false,
+    "addedAt": 1790848733305,
+    "updatedAt": 1790848733305,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
