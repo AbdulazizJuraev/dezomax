@@ -22,6 +22,10 @@ for (const f of ['js/data.js', 'js/data-custom.js']) {
 }
 const byId = new Map();
 for (const m of ctx.MOVIES || []) if (m && m.id != null) byId.set(m.id, m);
+// guruh qismlari (admin → «Guruhlar») alohida sahifa emas — guruh kartasiga yo'naltiriladi
+for (const m of [...byId.values()]) {
+  if (Array.isArray(m.parts) && m.parts.length > 1) for (const id of m.parts) if (id !== m.id) byId.delete(id);
+}
 
 const today = new Date().toISOString().slice(0, 10);
 const day = ts => ts ? new Date(ts).toISOString().slice(0, 10) : today;
