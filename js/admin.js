@@ -1289,6 +1289,17 @@ let grpDraft = null;   // { orig: tahrirlanayotgan guruh kartasi id | null, ids,
 const groupsList = () => allMovies().filter(m => Array.isArray(m.parts) && m.parts.length > 1);
 const stripPartNo = s => String(s || '').replace(/[\s\-–—:.,#(]*\d+\s*-?\s*(qism|qisim|seriya|серия|часть|bo['‘’]?lim)?[\s).]*$/i, '').trim();
 const grpCollator = new Intl.Collator('uz', { numeric: true, sensitivity: 'base' });
+/* Nomdagi qism raqami: «12-qism», «qism 12», «12 серия» — topilmasa nomdagi oxirgi raqam; raqamsiz nom — 1-qism («Bo‘rilar», «Bo‘rilar 2») */
+// guruh kartasining nomi guruh nomiga almashgan — qism raqami uchun asl nomi olinadi
+const origTitle = id => { const m = movieById(id); return m?.groupOrig?.title?.uz || m?.title?.uz || ''; };
+function partNoOf(title) {
+  const s = String(title || '');
+  const m = s.match(/(\d+)\s*-?\s*(?:qism|qisim|қисм|кисм|seriya|серия|часть|qisim|bo['‘’]?lim|бўлим|epizod|эпизод)/i) ||
+    s.match(/(?:qism|қисм|seriya|серия|часть|epizod|эпизод)\s*-?\s*(\d+)/i);
+  if (m) return +m[1];
+  const all = s.match(/\d+/g);
+  return all ? +all[all.length - 1] : 1;
+}
 
 function groupRowHTML(id, i, n) {
   const m = movieById(id);
@@ -1428,7 +1439,9 @@ function renderGroupsView() {
       const v = id => movieById(id)?.[f] || Infinity;
       d.ids.sort((a, b2) => v(a) - v(b2) || a - b2);
     }
-    else d.ids.sort((a, b2) => grpCollator.compare(movieById(a).title.uz, movieById(b2).title.uz) || a - b2);
+    // nomidagi qism raqami bo'yicha — nomning boshi har xil bo'lsa ham («... 476-қисм», «... 544-qism»)
+    else d.ids.sort((a, b2) => partNoOf(origTitle(a)) - partNoOf(origTitle(b2)) ||
+      grpCollator.compare(movieById(a).title.uz, movieById(b2).title.uz) || a - b2);
     redraw();
   }));
   $('#grpClear')?.addEventListener('click', () => { if (confirm('Tanlangan qismlar ro‘yxati tozalansinmi?')) { d.ids = []; redraw(); } });
