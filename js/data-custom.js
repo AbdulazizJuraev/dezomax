@@ -7,6 +7,44 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2074,
+    "slug": "cars",
+    "type": "multfilm",
+    "title": {
+      "uz": "Mashinalar",
+      "ru": "Тачки"
+    },
+    "genres": [
+      "comedy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Mashinalar» — 2006-yilgi AQSh multfilmi. Rejissyor: John Lasseter, Joe Ranft. Saytda rasmiy treyleri bor.",
+      "ru": "«Тачки» — американский компьютерно-анимационный спортивный комедийный фильм 2006 года, снятый студией Pixar для кинокомпании Walt Disney Pictures."
+    },
+    "tags": [
+      "Cars"
+    ],
+    "colors": [
+      "hsl(215 45% 28%)",
+      "hsl(235 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/3/34/Cars_2006.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=Lvkq0HY3EgA",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/MASHINALAR_1_1080.mp4",
+    "featured": false,
+    "addedAt": 1790850465146,
+    "updatedAt": 1790850465146,
+    "year": 2006,
+    "duration": 116,
+    "director": "John Lasseter, Joe Ranft"
+  },
+  {
     "id": 2070,
     "slug": "big-hero-6",
     "type": "multfilm",
