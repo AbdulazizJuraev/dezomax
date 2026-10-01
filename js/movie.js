@@ -5,7 +5,16 @@
 
 const qp = new URLSearchParams(location.search);
 const movieId = Number(qp.get('id'));
-const movie = MOVIES.find(m => m.id === movieId);
+
+/* Guruh (qismlar, js/common.js): qismning o'zi ochilsa — guruh sahifasiga, shu qism tanlangan holda */
+const partRedirect = typeof PART_OF !== 'undefined' && PART_OF.get(movieId);
+if (partRedirect) location.replace(`movie.html?id=${partRedirect.parent}&part=${partRedirect.n}${qp.get('play') ? '&play=1' : ''}`);
+const group = partRedirect ? null : MOVIES.find(m => m.id === movieId);
+const PARTS = typeof partsOf === 'function' ? partsOf(group) : [];
+const partNo = PARTS.length ? Math.min(Math.max(1, Math.round(+qp.get('part') || 1)), PARTS.length) : 0;
+// sahifa ma'lumotlari — guruh kartasidan, pleyer videosi — tanlangan qismdan
+const movie = partNo ? (({ video, videos, source }) => ({ ...group, video, videos, source: source || group.source }))(PARTS[partNo - 1]) : group;
+const partUrl = n => `movie.html?id=${group.id}&part=${n}&play=1`;
 
 /* ---------- Pleyer ----------
    Qo'llab-quvvatlanadigan havolalar:
@@ -214,6 +223,23 @@ function playerSectionHTML(m) {
     </div>`;
 }
 
+/* ---------- Guruh qismlari: «1-qism, 2-qism…» tugmalari ---------- */
+const partLabel = n => LANG === 'ru' ? `${n} серия` : `${n}-qism`;
+
+function partsBarHTML() {
+  if (!partNo) return '';
+  return `
+    <div class="mv-parts">
+      <div class="mv-parts-head">
+        <b>${LANG === 'ru' ? 'Серии' : 'Qismlar'}</b>
+        <span>${esc(durationText(group))}</span>
+      </div>
+      <div class="mv-parts-list">
+        ${PARTS.map((_, i) => `<a class="mv-part${i + 1 === partNo ? ' is-on' : ''}" href="${partUrl(i + 1)}"${i + 1 === partNo ? ' aria-current="true"' : ''}>${partLabel(i + 1)}</a>`).join('')}
+      </div>
+    </div>`;
+}
+
 /* ---------- O'xshash kinolar ---------- */
 
 function similarOf(m) {
@@ -282,6 +308,7 @@ function setMovieSeo(m) {
 
 function renderMovie() {
   const page = document.getElementById('page');
+  if (partRedirect) return;
 
   if (!movie) {
     document.title = t('movie.notFound') + ' — DezoMax';
@@ -296,14 +323,14 @@ function renderMovie() {
     return;
   }
 
-  document.title = `${title(movie)}${movie.year ? ` (${movie.year})` : ''} — DezoMax`;
+  document.title = `${title(movie)}${partNo ? ` · ${partLabel(partNo)}` : ''}${movie.year ? ` (${movie.year})` : ''} — DezoMax`;
   setMovieSeo(movie);
 
   // Noma'lum maydonlar (yil, rejissyor, reyting) umuman ko'rsatilmaydi
   const info = [
     [t('movie.year'), movie.year],
     [t('movie.country'), countryOf(movie)],
-    [movie.type === 'serial' ? t('movie.seasons') : t('movie.duration'), durationText(movie)],
+    [partNo ? (LANG === 'ru' ? 'Серии' : 'Qismlar') : movie.type === 'serial' ? t('movie.seasons') : t('movie.duration'), durationText(movie)],
     [t('movie.director'), movie.director],
     [t('movie.rating'), movie.rating ? movie.rating.toFixed(1) + ' / 10' : '']
   ].filter(([, v]) => v && v !== '—');
@@ -357,8 +384,10 @@ function renderMovie() {
 
   <div class="wrap">
     <section class="section" id="player">
-      <div class="section-head"><i class="bar"></i><h2>${watchLabel}</h2></div>
+      <div class="section-head"><i class="bar"></i><h2>${watchLabel}${partNo ? ` · ${partLabel(partNo)}` : ''}</h2></div>
+      ${partsBarHTML()}
       ${playerSectionHTML(movie)}
+      ${partNo && partNo < PARTS.length ? `<div class="mv-next-wrap"><a class="btn btn-primary mv-next" href="${partUrl(partNo + 1)}"><span>${LANG === 'ru' ? 'Следующая серия' : 'Keyingi qism'}: ${partLabel(partNo + 1)}</span>${ICONS.right}</a></div>` : ''}
     </section>
 
     <div class="ad-slot" data-ad-slot="movie"></div>
@@ -383,6 +412,10 @@ function renderMovie() {
       <div class="row" id="similar"></div>
     </section>
   </div>`;
+
+  // tanlangan qism ro'yxat ichida ko'rinib tursin (qismlar ko'p bo'lsa ro'yxat aylantiriladi)
+  const onPart = page.querySelector('.mv-part.is-on');
+  if (onPart) onPart.parentElement.scrollTop = onPart.offsetTop - 40;   // .mv-parts-list — position: relative
 
   const similarRow = document.getElementById('similar');
   renderCards(similarRow, similarOf(movie));

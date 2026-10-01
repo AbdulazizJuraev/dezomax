@@ -516,7 +516,8 @@ const NAV_ICONS = {
   uz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
   link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
   bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
-  tg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5L2.8 11.7c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.5c.3.8 1.3 1 1.9.4l2.6-2.5 4.9 3.6c.7.5 1.7.1 1.9-.7l3-15c.2-1-.8-1.8-1.7-1.4z"/><path d="M8 15l9.5-7.5"/></svg>'
+  tg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5L2.8 11.7c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.5c.3.8 1.3 1 1.9.4l2.6-2.5 4.9 3.6c.7.5 1.7.1 1.9-.7l3-15c.2-1-.8-1.8-1.7-1.4z"/><path d="M8 15l9.5-7.5"/></svg>',
+  group: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="14" rx="2.5"/><path d="M7 3h11.5A2.5 2.5 0 0 1 21 5.5V17"/></svg>'
 };
 
 const addedList = () => customList.filter(m => !isBase(m.id));
@@ -573,6 +574,7 @@ function renderMain() {
       <button type="button" data-view="home" class="${view === 'home' ? 'is-active' : ''}">${NAV_ICONS.home}<span>Bosh sahifa</span></button>
       <button type="button" data-view="list" class="${view === 'list' ? 'is-active' : ''}">${NAV_ICONS.list}<span>Kinolar</span></button>
       <button type="button" data-view="form" class="${view === 'form' && !editingId ? 'is-active' : ''}">${NAV_ICONS.plus}<span>Qo‘shish</span></button>
+      <button type="button" data-view="groups" class="${view === 'groups' ? 'is-active' : ''}">${NAV_ICONS.group}<span>Guruhlar</span></button>
       <button type="button" data-view="site" class="${view === 'site' ? 'is-active' : ''}">${NAV_ICONS.gear}<span>Sayt</span></button>
       <button type="button" data-view="notify" class="${view === 'notify' ? 'is-active' : ''}">${NAV_ICONS.bell}<span>Xabar</span></button>
       <button type="button" data-view="tg" class="${view === 'tg' ? 'is-active' : ''}">${NAV_ICONS.tg}<span>Telegram</span></button>
@@ -591,6 +593,7 @@ function renderMain() {
   else if (view === 'site') renderSiteView();
   else if (view === 'notify') renderNotifyView();
   else if (view === 'tg') renderTgView();
+  else if (view === 'groups') renderGroupsView();
   else renderFormView();
 }
 
@@ -1249,6 +1252,204 @@ async function renderNotifyView() {
       renderNotifyView();
     } catch (ex) { toast(friendlyError(ex), true); b.disabled = false; }
   }));
+}
+
+/* ---------- Guruhlar: bir nechta video bitta kartaga (1-qism, 2-qism…) ----------
+   Guruh kartasi — ro'yxatdagi birinchi kino; unga parts: [id, ...] yoziladi (saytda js/common.js o'qiydi).
+   Qolgan qismlar o'chirilmaydi: saytda ro'yxatlardan chiqadi va kino sahifasida qism sifatida ochiladi.
+   Guruh tarqatilsa — kartaning asl nomi/turi qaytariladi (groupOrig). */
+let grpDraft = null;   // { orig: tahrirlanayotgan guruh kartasi id | null, ids, name, nameRu, type }
+
+const groupsList = () => allMovies().filter(m => Array.isArray(m.parts) && m.parts.length > 1);
+const stripPartNo = s => String(s || '').replace(/[\s\-–—:.,#(]*\d+\s*-?\s*(qism|qisim|seriya|серия|часть|bo['‘’]?lim)?[\s).]*$/i, '').trim();
+const grpCollator = new Intl.Collator('uz', { numeric: true, sensitivity: 'base' });
+
+function groupRowHTML(id, i, n) {
+  const m = movieById(id);
+  if (!m) return '';
+  return `
+    <div class="adm-pick adm-grp-row">
+      <span class="adm-pick-n">${i + 1}</span>
+      <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+      <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${i === 0 ? 'Guruh kartasi · ' : ''}${i + 1}-qism · ID ${m.id}${m.video ? '' : ' · video yo‘q'}</small></span>
+      <span class="adm-pick-btns">
+        <button type="button" data-gmove="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
+        <button type="button" data-gmove="1" data-i="${i}" ${i === n - 1 ? 'disabled' : ''} aria-label="Pastga">↓</button>
+        <button type="button" data-gremove="${i}" class="adm-del" aria-label="Guruhdan chiqarish">✕</button>
+      </span>
+    </div>`;
+}
+
+function renderGroupsView() {
+  const box = $('#admView');
+  if (!grpDraft) {
+    const groups = groupsList();
+    box.innerHTML = `
+      <section class="adm-sec">
+        <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.group}</span><h3>Guruhlar</h3><small>bir nechta video — bitta karta</small></div>
+        <p class="acc-muted">Qismlarga bo‘lingan kino yoki serialni bitta kartaga yig‘ing. Saytda faqat birinchi qism karta bo‘lib ko‘rinadi, ichiga kirganda «1-qism, 2-qism…» tugmalari chiqadi. Videolar o‘chirilmaydi.</p>
+        <button class="btn btn-primary" type="button" id="grpNew">${NAV_ICONS.plus}<span>Yangi guruh</span></button>
+      </section>
+      <section class="adm-sec">
+        <div class="adm-sec-head"><h3>Mavjud guruhlar</h3><small>${groups.length} ta</small></div>
+        ${groups.length ? `<div class="acc-list">${groups.map(g => `
+          <div class="acc-item adm-item">
+            <span class="adm-thumb">${g.poster ? `<img src="${esc(g.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+            <div class="acc-item-main"><b>${esc(g.title.uz)}</b><small>${g.parts.length} qism · ${esc(typeName(g.type))} · ID ${g.id}</small></div>
+            <div class="adm-actions">
+              <button class="btn btn-ghost btn-sm" type="button" data-gedit="${g.id}">Tahrirlash</button>
+              <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${g.id}" target="_blank" rel="noopener">Ko‘rish</a>
+              <button class="btn btn-ghost btn-sm adm-del" type="button" data-gsplit="${g.id}">Tarqatish</button>
+            </div>
+          </div>`).join('')}</div>` : '<p class="acc-muted">Hozircha guruh yo‘q.</p>'}
+      </section>`;
+    $('#grpNew').addEventListener('click', () => { grpDraft = { orig: null, ids: [], name: '', nameRu: '', type: 'serial' }; renderGroupsView(); });
+    box.querySelectorAll('[data-gedit]').forEach(b => b.addEventListener('click', () => {
+      const g = movieById(+b.dataset.gedit);
+      grpDraft = { orig: g.id, ids: g.parts.filter(id => movieById(id)), name: g.title.uz, nameRu: g.title.ru === g.title.uz ? '' : g.title.ru || '', type: g.type };
+      renderGroupsView();
+    }));
+    box.querySelectorAll('[data-gsplit]').forEach(b => b.addEventListener('click', () => {
+      const g = movieById(+b.dataset.gsplit);
+      if (!confirm(`«${g.title.uz}» guruhi tarqatilsinmi? Qismlar yana alohida kartalar bo‘lib ko‘rinadi (hech narsa o‘chmaydi).`)) return;
+      runAction(b, () => saveCustom(list => {
+        let m = list.find(x => x.id === g.id);
+        if (!m) { m = structuredClone(baseById().get(g.id)); list.push(m); }
+        ungroupMovie(m);
+        return list;
+      }, `Guruh tarqatildi: ${g.title.uz}`), 'Guruh tarqatildi — ~1 daqiqada saytda');
+    }));
+    return;
+  }
+
+  const d = grpDraft;
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.group}</span><h3>${d.orig ? 'Guruhni tahrirlash' : 'Yangi guruh'}</h3><small>${d.ids.length} qism</small></div>
+      <div class="adm-row adm-row-2">
+        <div class="adm-field"><label class="adm-label" for="grpName">Guruh nomi (o‘zbekcha)</label>
+          <input class="acc-input" id="grpName" value="${esc(d.name)}" placeholder="Masalan: Bo‘rilar"></div>
+        <div class="adm-field"><label class="adm-label" for="grpNameRu">Ruscha nomi (ixtiyoriy)</label>
+          <input class="acc-input" id="grpNameRu" value="${esc(d.nameRu)}"></div>
+      </div>
+      <div class="adm-field"><label class="adm-label" for="grpType">Turi</label>
+        <select class="acc-input" id="grpType">${['serial', 'film', 'multfilm'].map(x => `<option value="${x}"${x === d.type ? ' selected' : ''}>${typeName(x)}</option>`).join('')}</select></div>
+
+      <div class="adm-field">
+        <label class="adm-label" for="grpSearch">Qism qo‘shish</label>
+        <div class="adm-pick-search">
+          <input class="acc-input" id="grpSearch" type="search" placeholder="Nomini yozing — masalan, serial nomi" autocomplete="off">
+          <div class="adm-pick-results" id="grpResults" hidden></div>
+        </div>
+      </div>
+
+      <div class="adm-grp-tools">
+        <span class="acc-muted">Tartib:</span>
+        <button class="acc-link" type="button" data-gsort="name">Nomidagi raqam bo‘yicha</button>
+        <button class="acc-link" type="button" data-gsort="id">Qo‘shilgan tartibda</button>
+        <button class="acc-link" type="button" data-gsort="rev">Teskari</button>
+        ${d.ids.length ? '<button class="acc-link adm-del" type="button" id="grpClear">Hammasini olib tashlash</button>' : ''}
+      </div>
+      <div class="adm-picked adm-grp-list">
+        ${d.ids.length ? d.ids.map((id, i) => groupRowHTML(id, i, d.ids.length)).join('') : '<p class="acc-muted adm-empty-pick">Qism tanlanmagan — yuqoridan qidirib qo‘shing</p>'}
+      </div>
+
+      <p class="acc-error" id="grpErr" hidden></p>
+      <div class="adm-grp-save">
+        <button class="btn btn-ghost" type="button" id="grpCancel">Bekor qilish</button>
+        <button class="btn btn-primary" type="button" id="grpSave" ${d.ids.length < 2 ? 'disabled' : ''}>Guruhni saqlash</button>
+      </div>
+    </section>`;
+
+  const keep = () => { d.name = $('#grpName').value; d.nameRu = $('#grpNameRu').value; d.type = $('#grpType').value; };
+  const redraw = () => { keep(); const y = window.scrollY; renderGroupsView(); window.scrollTo(0, y); };
+  const addIds = ids => {
+    const have = new Set(d.ids);
+    for (const id of ids) if (!have.has(id)) { d.ids.push(id); have.add(id); }
+    if (!$('#grpName').value.trim() && d.ids.length) $('#grpName').value = stripPartNo(movieById(d.ids[0]).title.uz);
+    redraw();
+  };
+
+  box.querySelectorAll('[data-gmove]').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.i, j = i + +b.dataset.gmove;
+    [d.ids[i], d.ids[j]] = [d.ids[j], d.ids[i]]; redraw();
+  }));
+  box.querySelectorAll('[data-gremove]').forEach(b => b.addEventListener('click', () => { d.ids.splice(+b.dataset.gremove, 1); redraw(); }));
+  box.querySelectorAll('[data-gsort]').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.gsort;
+    if (k === 'rev') d.ids.reverse();
+    else if (k === 'id') d.ids.sort((a, b2) => a - b2);
+    else d.ids.sort((a, b2) => grpCollator.compare(movieById(a).title.uz, movieById(b2).title.uz) || a - b2);
+    redraw();
+  }));
+  $('#grpClear')?.addEventListener('click', () => { if (confirm('Tanlangan qismlar ro‘yxati tozalansinmi?')) { d.ids = []; redraw(); } });
+  $('#grpCancel').addEventListener('click', () => { grpDraft = null; renderGroupsView(); });
+
+  // qidiruv: 30 tasi ko'rsatiladi, «hammasini qo'shish» — barcha topilganlar
+  const input = $('#grpSearch'), results = $('#grpResults');
+  let t0;
+  input.addEventListener('input', () => { clearTimeout(t0); t0 = setTimeout(search, 150); });
+  function search() {
+    const q = norm(input.value);
+    if (!q) { results.hidden = true; return; }
+    const picked = new Set(d.ids);
+    const found = allMovies().filter(m => !picked.has(m.id) && hayOf(m).includes(q))
+      .sort((a, b) => grpCollator.compare(a.title.uz, b.title.uz) || a.id - b.id);
+    results.hidden = false;
+    results.innerHTML = found.length ? `
+      ${found.length > 1 ? `<button type="button" class="adm-grp-all" data-gall><b>Topilganlarning hammasini qo‘shish (${found.length})</b><em>+</em></button>` : ''}
+      ${found.slice(0, 30).map(m => `
+        <button type="button" data-gadd="${m.id}">
+          <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+          <span><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type), `ID ${m.id}`, Array.isArray(m.parts) && m.parts.length > 1 ? `guruh: ${m.parts.length} qism` : ''].filter(Boolean).join(' · ')}</small></span>
+          <em>+</em>
+        </button>`).join('')}
+      ${found.length > 30 ? `<p class="acc-muted">…yana ${found.length - 30} ta</p>` : ''}` : '<p class="acc-muted">Topilmadi</p>';
+    results.querySelector('[data-gall]')?.addEventListener('click', () => addIds(found.map(m => m.id)));
+    results.querySelectorAll('[data-gadd]').forEach(b => b.addEventListener('click', () => addIds([+b.dataset.gadd])));
+  }
+
+  $('#grpSave').addEventListener('click', e => {
+    keep();
+    const err = $('#grpErr');
+    const name = d.name.trim();
+    if (d.ids.length < 2) { err.textContent = 'Guruhga kamida 2 ta video kerak.'; err.hidden = false; return; }
+    if (!name) { err.textContent = 'Guruh nomini yozing.'; err.hidden = false; return; }
+    const ids = [...d.ids], head = ids[0], set = new Set(ids);
+    runAction(e.currentTarget, async () => {
+      await saveCustom(list => {
+        const get = id => {
+          let m = list.find(x => x.id === id);
+          if (!m) { m = structuredClone(baseById().get(id)); list.push(m); }
+          return m;
+        };
+        // eski guruh kartasi o'zgargan bo'lsa — uni tarqatamiz; boshqa guruhlardan bu qismlarni chiqaramiz
+        for (const m of list) {
+          if (!Array.isArray(m.parts) || m.id === head) continue;
+          if (m.id === d.orig || set.has(m.id)) ungroupMovie(m);
+          else if (m.parts.some(id => set.has(id))) {
+            m.parts = m.parts.filter(id => !set.has(id));
+            if (m.parts.length < 2) ungroupMovie(m);
+          }
+        }
+        const h = get(head);
+        if (!h.groupOrig) h.groupOrig = { title: h.title, type: h.type };
+        h.parts = ids;
+        h.title = { uz: name, ru: d.nameRu.trim() || name };
+        h.type = d.type;
+        h.updatedAt = Date.now();
+        return list;
+      }, `Guruh: ${name} (${ids.length} qism)`);
+      grpDraft = null;
+    }, `«${name}» guruhi saqlandi — ~1 daqiqada saytda`);
+  });
+}
+
+function ungroupMovie(m) {
+  if (m.groupOrig) { m.title = m.groupOrig.title; m.type = m.groupOrig.type; }
+  delete m.parts;
+  delete m.groupOrig;
+  m.updatedAt = Date.now();
 }
 
 /* ---------- Telegram: o'z kanalingizdan video import (DezoCloud orqali) ----------

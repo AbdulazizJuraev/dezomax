@@ -32,6 +32,34 @@ if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.is
   addEventListener('load', fit);
 })();
 
+/* ---------- Guruhlar (qismlar) ----------
+   Admin → «Guruhlar»: bir nechta video bitta kartaga yig'iladi. Guruh kartasi — 1-qism kinosi,
+   unda parts: [1-qism id, 2-qism id, ...]. Qolgan qismlar ro'yxatlardan chiqariladi (PART_MOVIES'da
+   saqlanadi) va kino sahifasida «1-qism, 2-qism…» tugmalari orqali ochiladi. Admin'da hammasi ko'rinadi. */
+const PART_OF = new Map();      // qism id -> { parent: guruh kartasi id, n: qism raqami (1 dan) }
+const PART_MOVIES = new Map();  // ro'yxatlardan chiqarilgan qismlar (id -> kino)
+(function () {
+  try {
+    if (typeof MOVIES === 'undefined') return;
+    const ids = new Set(MOVIES.map(m => m.id));
+    for (const m of MOVIES) {
+      if (!Array.isArray(m.parts) || m.parts.length < 2 || PART_OF.has(m.id)) continue;
+      m.parts.forEach((id, i) => { if (id !== m.id && ids.has(id) && !PART_OF.has(id)) PART_OF.set(id, { parent: m.id, n: i + 1 }); });
+    }
+    const page = location.pathname.split('/').pop() || 'index.html';
+    if (page === 'admin.html' || (document.body && document.body.classList.contains('page-admin'))) return;
+    for (let i = MOVIES.length - 1; i >= 0; i--) {
+      if (PART_OF.has(MOVIES[i].id)) { PART_MOVIES.set(MOVIES[i].id, MOVIES[i]); MOVIES.splice(i, 1); }
+    }
+  } catch (e) {}
+})();
+
+/* Guruh kartasining qismlari tartibda (guruh bo'lmasa — bo'sh ro'yxat) */
+function partsOf(m) {
+  if (!m || !Array.isArray(m.parts) || m.parts.length < 2) return [];
+  return m.parts.map(id => id === m.id ? m : PART_MOVIES.get(id) || MOVIES.find(x => x.id === id)).filter(Boolean);
+}
+
 /* ---------- Faqat to'liq film qo'shilgan kinolar ko'rinadi ----------
    Treyler turgan (film qo'shilmagan) kinolar saytda yashiriladi. Admin orqali kinoga video
    qo'shilsa, u avtomatik paydo bo'ladi. Ma'lumot o'chmaydi — faqat ro'yxatlardan chiqariladi.
@@ -111,6 +139,8 @@ const resultsText = n =>
   LANG === 'ru' ? `${n} ${plural(n, ['результат', 'результата', 'результатов'])}` : `${n} ta natija`;
 
 function durationText(m) {
+  const np = Array.isArray(m.parts) && m.parts.length > 1 ? m.parts.length : 0;
+  if (np) return LANG === 'ru' ? `${np} ${plural(np, ['серия', 'серии', 'серий'])}` : `${np} qism`;
   if (m.type === 'serial' && m.seasons) return seasonsText(m.seasons);
   if (!m.duration) return '—';
   const h = Math.floor(m.duration / 60), mn = m.duration % 60;
