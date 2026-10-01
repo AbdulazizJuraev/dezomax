@@ -13147,6 +13147,1706 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 47,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 3183,
+    "slug": "songi-imperator-544-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 544-qism",
+      "ru": "So'ngi imperator 544-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_544-qism\n\n👉",
+      "ru": "So'ngi_imperator_544-qism\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/3HPBNeKudVoN?s=BwHk9_KrWXmg1wnEohxQccnk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/BwHk9_KrWXmg1wnEohxQccnk",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3184,
+    "slug": "songi-imperator-543-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 543-qism",
+      "ru": "So'ngi imperator 543-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_543-qism\n\n👉",
+      "ru": "So'ngi_imperator_543-qism\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YKSqMe5-X_-l?s=yz90QwpGE0YvcwgjiBpMTtFO",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/yz90QwpGE0YvcwgjiBpMTtFO",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3185,
+    "slug": "songi-imperator-542-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 542-qism",
+      "ru": "So'ngi imperator 542-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_542-qism\n\n👉",
+      "ru": "So'ngi_imperator_542-qism\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vvrkFSCEcyfj?s=PcbH3zCSUo07AXVLLWZeU2Og",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/PcbH3zCSUo07AXVLLWZeU2Og",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 42,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3186,
+    "slug": "songi-imperator-541-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 541-qism",
+      "ru": "So'ngi imperator 541-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_541-qism\n\n👉",
+      "ru": "So'ngi_imperator_541-qism\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vIMl9Ti05LJo?s=xuWSPnT-tmg9Oyfj2CU76KMR",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/xuWSPnT-tmg9Oyfj2CU76KMR",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3187,
+    "slug": "songi-imperator-540-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 540-qism",
+      "ru": "So'ngi imperator 540-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_540-qism\n\n👉",
+      "ru": "So'ngi_imperator_540-qism\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/bwC73ts2tpyA?s=C_dnR-Hg4dTundCuFimJPvBJ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/C_dnR-Hg4dTundCuFimJPvBJ",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 42,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3188,
+    "slug": "songi-imperator-539-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 539-qism",
+      "ru": "So'ngi imperator 539-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_539-qism",
+      "ru": "So'ngi_imperator_539-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PXtxXd8MWKMh?s=PhxVScAsqX6LeJvbHF-rXg3G",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/PhxVScAsqX6LeJvbHF-rXg3G",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 39,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3189,
+    "slug": "songi-imperator-538-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 538-qism",
+      "ru": "So'ngi imperator 538-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_538-qism",
+      "ru": "So'ngi_imperator_538-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/RSajNc6-z3da?s=0mUGh2ju7e_yBdihacuxfLdW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/0mUGh2ju7e_yBdihacuxfLdW",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 41,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3190,
+    "slug": "songi-imperator-537-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 537-qism",
+      "ru": "So'ngi imperator 537-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_537-qism",
+      "ru": "So'ngi_imperator_537-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/iSy3L60ceOFg?s=93Si0muaVIcBFEDavGZp2syB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/93Si0muaVIcBFEDavGZp2syB",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3191,
+    "slug": "songi-imperator-536-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 536-qism",
+      "ru": "So'ngi imperator 536-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_536-qism",
+      "ru": "So'ngi_imperator_536-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Xal2q89QSFyz?s=pKUsj8S2tQ-Y2Jr0FkV220LU",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/pKUsj8S2tQ-Y2Jr0FkV220LU",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3192,
+    "slug": "songi-imperator-535-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 535-qism",
+      "ru": "So'ngi imperator 535-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_535-qism",
+      "ru": "So'ngi_imperator_535-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/dHQeVkKRZeNL?s=_OUzqCDJfBm6Ej3JbeMnKQA4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/_OUzqCDJfBm6Ej3JbeMnKQA4",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3193,
+    "slug": "songi-imperator-534-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 534-qism",
+      "ru": "So'ngi imperator 534-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_534-qism",
+      "ru": "So'ngi_imperator_534-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/CEaV12sryn79?s=JMPHAAWUMtVPacGwlMDzXo-g",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/JMPHAAWUMtVPacGwlMDzXo-g",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3194,
+    "slug": "songi-imperator-533-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 533-qism",
+      "ru": "So'ngi imperator 533-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_533-qism",
+      "ru": "So'ngi_imperator_533-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/5craKadlMsrT?s=IX9F-ckicRjsqh6gGzytPasE",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/IX9F-ckicRjsqh6gGzytPasE",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3195,
+    "slug": "songi-imperator-532-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 532-qism",
+      "ru": "So'ngi imperator 532-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_532-qism",
+      "ru": "So'ngi_imperator_532-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/KdfdVOGKXUMk?s=bkSvxieuaHYlSsqlnhYXZKZm",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/bkSvxieuaHYlSsqlnhYXZKZm",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3196,
+    "slug": "songi-imperator-531-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 531-qism",
+      "ru": "So'ngi imperator 531-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_531-qism",
+      "ru": "So'ngi_imperator_531-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DowhSxldOPkN?s=pdi2rIzwgDwm9oqjmq5ZKH19",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/pdi2rIzwgDwm9oqjmq5ZKH19",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 42,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3197,
+    "slug": "songi-imperator-530-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 530-qism",
+      "ru": "So'ngi imperator 530-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_530-qism",
+      "ru": "So'ngi_imperator_530-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/qPEkkVS4NnSK?s=f_IPoKstMG_o_HSgGmBCJkbY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/f_IPoKstMG_o_HSgGmBCJkbY",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3198,
+    "slug": "songi-imperator-529-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 529-qism",
+      "ru": "So'ngi imperator 529-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_529-qism",
+      "ru": "So'ngi_imperator_529-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nB_BjMI3I0PU?s=Gar-IumLfv9bKqzaeBfKqWGo",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Gar-IumLfv9bKqzaeBfKqWGo",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3199,
+    "slug": "songi-imperator-528-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 528-qism",
+      "ru": "So'ngi imperator 528-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_528-qism",
+      "ru": "So'ngi_imperator_528-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/iLaVh4rmbF9L?s=7IUTpZ3Tflj0lMpqw290wMyj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/7IUTpZ3Tflj0lMpqw290wMyj",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3200,
+    "slug": "songi-imperator-527-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 527-qism",
+      "ru": "So'ngi imperator 527-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_527-qism",
+      "ru": "So'ngi_imperator_527-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/HYoCJT0kMQe8?s=XeUMxD1hqk-lfA6Hgg_PVy6Y",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XeUMxD1hqk-lfA6Hgg_PVy6Y",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3201,
+    "slug": "songi-imperator-526-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 526-qism",
+      "ru": "So'ngi imperator 526-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_526-qism",
+      "ru": "So'ngi_imperator_526-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/0JKRUO6y7cFR?s=QZ0Uhzs20HTtxq-PBg9O3hlJ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/QZ0Uhzs20HTtxq-PBg9O3hlJ",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3202,
+    "slug": "songi-imperator-525-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 525-qism",
+      "ru": "So'ngi imperator 525-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_525-qism",
+      "ru": "So'ngi_imperator_525-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/e42nNacVQt-f?s=GfDMnNNEwVLBJUJ19uPxEpAS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/GfDMnNNEwVLBJUJ19uPxEpAS",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3203,
+    "slug": "songi-imperator-524-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 524-qism",
+      "ru": "So'ngi imperator 524-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_524-qism",
+      "ru": "So'ngi_imperator_524-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/yYCyie2_xo7N?s=YT4nPdpmOu7ihz_QjtBbBWmA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/YT4nPdpmOu7ihz_QjtBbBWmA",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3204,
+    "slug": "songi-imperator-523-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 523-qism",
+      "ru": "So'ngi imperator 523-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_523-qism",
+      "ru": "So'ngi_imperator_523-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vyvT9QxJ_vWn?s=oZxwDrSFEV-oifXN2a968JMi",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/oZxwDrSFEV-oifXN2a968JMi",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3205,
+    "slug": "songi-imperator-522-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 522-qism",
+      "ru": "So'ngi imperator 522-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_522-qism",
+      "ru": "So'ngi_imperator_522-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/7VF40pXMHeqZ?s=GpBDZmYrwl6LoHvaK6LrhlN2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/GpBDZmYrwl6LoHvaK6LrhlN2",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3206,
+    "slug": "songi-imperator-521-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 521-qism",
+      "ru": "So'ngi imperator 521-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_521-qism",
+      "ru": "So'ngi_imperator_521-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vwh0Lc2Ndb9W?s=KWK8wYIYY1muiPwNZdcUNfi7",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/KWK8wYIYY1muiPwNZdcUNfi7",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3207,
+    "slug": "songi-imperator-520-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 520-qism",
+      "ru": "So'ngi imperator 520-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_520-qism",
+      "ru": "So'ngi_imperator_520-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/o9EzWCq52Jkq?s=NC3g_5DEOWlHVHEosG3ytHKY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/NC3g_5DEOWlHVHEosG3ytHKY",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3208,
+    "slug": "songi-imperator-519-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 519-qism",
+      "ru": "So'ngi imperator 519-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_519-qism",
+      "ru": "So'ngi_imperator_519-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/CaS0GaJS1wFm?s=35hVNU4NS8mxBHV2cW0RZZUG",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/35hVNU4NS8mxBHV2cW0RZZUG",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3209,
+    "slug": "songi-imperator-518-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 518-qism",
+      "ru": "So'ngi imperator 518-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_518-qism",
+      "ru": "So'ngi_imperator_518-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/JL_X0YcGxmyH?s=TEqvYO1pP75ykpyNr3J9e-wc",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/TEqvYO1pP75ykpyNr3J9e-wc",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3210,
+    "slug": "songi-imperator-517-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 517-qism",
+      "ru": "So'ngi imperator 517-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_517-qism",
+      "ru": "So'ngi_imperator_517-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/U9w3YGe-7tlG?s=qRXytEuRUZZkIlJ5Oy2zhcAy",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qRXytEuRUZZkIlJ5Oy2zhcAy",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3211,
+    "slug": "songi-imperator-516-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 516-qism",
+      "ru": "So'ngi imperator 516-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_516-qism",
+      "ru": "So'ngi_imperator_516-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/btT4p8g0uAMa?s=G8KsB0wfFRs7satkT8jAC_D-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/G8KsB0wfFRs7satkT8jAC_D-",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3212,
+    "slug": "songi-imperator-515-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 515-qism",
+      "ru": "So'ngi imperator 515-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_515-qism",
+      "ru": "So'ngi_imperator_515-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/V39w5KnLb3bz?s=yhyw8XprjUnMbDlb5o7CZmE6",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/yhyw8XprjUnMbDlb5o7CZmE6",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3213,
+    "slug": "songi-imperator-514-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 514-qism",
+      "ru": "So'ngi imperator 514-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_514-qism",
+      "ru": "So'ngi_imperator_514-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/eNRNNP8Sv-9t?s=TbwrbuHuoU7AblIDi-LrW6ay",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/TbwrbuHuoU7AblIDi-LrW6ay",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3214,
+    "slug": "songi-imperator-513-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 513-qism",
+      "ru": "So'ngi imperator 513-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_513-qism\n\n👉",
+      "ru": "So'ngi_imperator_513-qism\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/xdt6aQj-rfqJ?s=eNra4meYhwn4XkYvmyEm0B7F",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eNra4meYhwn4XkYvmyEm0B7F",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3215,
+    "slug": "songi-imperator-512-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 512-qism",
+      "ru": "So'ngi imperator 512-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_512-qism\n\n👉",
+      "ru": "So'ngi_imperator_512-qism\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/VKx4jlkdZqc0?s=-DyzXMj60IiEOycr4f43qJ6j",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/-DyzXMj60IiEOycr4f43qJ6j",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3216,
+    "slug": "songi-imperator-511-qism",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi imperator 511-qism",
+      "ru": "So'ngi imperator 511-qism"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "So'ngi_imperator_511-qism\n\n👉",
+      "ru": "So'ngi_imperator_511-qism\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_7O8IU1HmIqH?s=v3X8nwZ-MgkHQIdDRxXXU41y",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/v3X8nwZ-MgkHQIdDRxXXU41y",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3217,
+    "slug": "abdul-amidhon-s-nggi-imperator-510-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 510-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 510-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 510-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 510-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/EqXKmUpIM5af?s=hG9hrTuqy6cKC2TXkU5gSiW0",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/hG9hrTuqy6cKC2TXkU5gSiW0",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3218,
+    "slug": "abdul-amidhon-s-nggi-imperator-509-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 509-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 509-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 509-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 509-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/UNusqw--z-NR?s=0I0z6VMHCxrISv_obKrnixaE",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/0I0z6VMHCxrISv_obKrnixaE",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3219,
+    "slug": "abdul-amidhon-s-nggi-imperator-508-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 508-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 508-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 508-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 508-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PbTtksq-sEnL?s=34e6JPaYmd5eJvewJG9hjtJX",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/34e6JPaYmd5eJvewJG9hjtJX",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3220,
+    "slug": "abdul-amidhon-s-nggi-imperator-507-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 507-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 507-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 507-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 507-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/5L1oujknjGZ_?s=yG0x_zc1V4JPb6cgB-0pytvo",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/yG0x_zc1V4JPb6cgB-0pytvo",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3221,
+    "slug": "abdul-amidhon-s-nggi-imperator-506-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 506-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 506-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 506-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 506-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2XkOFTkDWhNc?s=0bpLfQuoTF2R1VAFUgtiv6oj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/0bpLfQuoTF2R1VAFUgtiv6oj",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3222,
+    "slug": "abdul-amidhon-s-nggi-imperator-505-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 505-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 505-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 505-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 505-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/R0-Z4352Tqsy?s=KS2siRxIdHSjqP-N5XAvJP-K",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/KS2siRxIdHSjqP-N5XAvJP-K",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3223,
+    "slug": "abdul-amidhon-s-nggi-imperator-504-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 504-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 504-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 504-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 504-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mFnONqWbbT3E?s=OxkOdIcyo3EaS_8v5SLpg8XX",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/OxkOdIcyo3EaS_8v5SLpg8XX",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3224,
+    "slug": "abdul-amidhon-s-nggi-imperator-503-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 503-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 503-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 503-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 503-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/cVB6tRo9pJxw?s=2zYiXiEVzqEW5q6-Xc4KG_VE",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2zYiXiEVzqEW5q6-Xc4KG_VE",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 53,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3225,
+    "slug": "abdul-amidhon-s-nggi-imperator-502-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 502-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 502-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 502-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 502-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/s_6tDVc0JVIX?s=Na6ev7gywLuA0lN36aUDYKbu",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Na6ev7gywLuA0lN36aUDYKbu",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3226,
+    "slug": "abdul-amidhon-s-nggi-imperator-501-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 501-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 501-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 501-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 501-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/HsypFGhYnYGe?s=2EtwnjVXEboxzzGnmkQQEwAi",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2EtwnjVXEboxzzGnmkQQEwAi",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3227,
+    "slug": "abdul-amidhon-s-nggi-imperator-500-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 500-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 500-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 500-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 500-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/RPjrw53pXTRB?s=BCPVLbMwxH-7Tg0sMqD3X_GF",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/BCPVLbMwxH-7Tg0sMqD3X_GF",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 54,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3228,
+    "slug": "abdul-amidhon-s-nggi-imperator-499-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 499-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 499-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 499-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 499-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/EUgENa0yAIGV?s=fRW6osb2IXSkPsyvG3cIVm4i",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/fRW6osb2IXSkPsyvG3cIVm4i",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3229,
+    "slug": "abdul-amidhon-s-nggi-imperator-498-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 498-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 498-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 498-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 498-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/OQU1-5gp9M_2?s=UlLmZ3nI8y0XDwg4dxNOg2Q5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/UlLmZ3nI8y0XDwg4dxNOg2Q5",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3230,
+    "slug": "abdul-amidhon-s-nggi-imperator-497-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 497-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 497-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 497-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 497-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/tMyN4lCHGyJg?s=IXXak-0DoT63FSbAPug7zHxy",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/IXXak-0DoT63FSbAPug7zHxy",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 50,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3231,
+    "slug": "abdul-amidhon-s-nggi-imperator-496-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 496-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 496-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 496-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 496-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/6UugFb8F869i?s=QQ4B9fptW2uf-yO55OgodyrD",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/QQ4B9fptW2uf-yO55OgodyrD",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 51,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3232,
+    "slug": "abdul-amidhon-s-nggi-imperator-495-ism",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 495-қисм",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 495-қисм"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 495-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” 495-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/MWUIh5QMiv9p?s=qmY-8PBj-CECxorJb4atQ3zJ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qmY-8PBj-CECxorJb4atQ3zJ",
+    "featured": false,
+    "addedAt": 1790842196482,
+    "updatedAt": 1790842196482,
+    "duration": 49,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
