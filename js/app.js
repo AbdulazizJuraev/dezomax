@@ -440,12 +440,85 @@ const ROW_SOURCES = {
 const DEFAULT_ROWS = ['uzbek', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
   .map(source => ({ source, visible: true }));
 
+/* ---------- «Seriallar» banneri: hamma seriallar bitta katta banner ostida ----------
+   Fonda serialning keng kadri (treyler rasmi), chapda nomi/tavsifi, pastda hamma seriallar
+   posterchalari. Har 6 soniyada keyingi serial; posterchani bosib tanlash mumkin. */
+const SB_MS = 6000;
+let sbTimer = 0;
+const sbYt = m => (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
+const sbArt = m => (m.poster && m.poster.startsWith('images/uz/') && m.poster) ||
+  (sbYt(m) ? `https://i.ytimg.com/vi/${sbYt(m)}/maxresdefault.jpg` : m.poster);
+
+function seriesBannerHTML(list, head) {
+  return `
+    <section class="section sb-section">
+      ${head}
+      <div class="sb" data-sb>
+        <div class="sb-stage">
+          ${list.map((m, i) => `<img class="sb-bg${i ? '' : ' is-on'}" src="${esc(sbArt(m) || '')}" alt="" decoding="async">`).join('')}
+        </div>
+        <div class="sb-info"></div>
+        ${list.length > 1 ? `<div class="sb-thumbs">
+          ${list.map((m, i) => `<button type="button" class="sb-thumb${i ? '' : ' is-on'}" data-i="${i}" aria-label="${esc(title(m))}">
+            ${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async">` : `<span>${esc(title(m))}</span>`}</button>`).join('')}
+        </div>` : ''}
+      </div>
+    </section>`;
+}
+
+function sbInfoHTML(m, n) {
+  const meta = [m.year, m.type === 'serial' && m.seasons ? durationText(m) : '', m.rating ? `★ ${m.rating}` : '',
+    (m.genres || []).slice(0, 2).map(genreName).join(', ')].filter(Boolean);
+  return `
+    <span class="sb-kicker">${LANG === 'ru' ? 'Сериалы DezoMax' : 'DezoMax seriallari'} · ${n}</span>
+    <h3 class="sb-title">${esc(title(m))}</h3>
+    <div class="sb-meta">${meta.map(x => `<span>${esc(x)}</span>`).join('')}</div>
+    ${m.desc ? `<p class="sb-desc">${esc(descOf(m))}</p>` : ''}
+    <div class="sb-actions">
+      <a class="btn btn-primary" href="movie.html?id=${m.id}">${ICONS.play}<span>${LANG === 'ru' ? 'Смотреть' : 'Ko‘rish'}</span></a>
+      <a class="btn btn-ghost sb-all" href="catalog.html?type=serial">${LANG === 'ru' ? 'Все сериалы' : 'Barcha seriallar'}</a>
+    </div>`;
+}
+
+function initSeriesBanner(root, list) {
+  clearInterval(sbTimer);
+  const sb = root.querySelector('[data-sb]');
+  if (!sb) return;
+  const bgs = [...sb.querySelectorAll('.sb-bg')], thumbs = [...sb.querySelectorAll('.sb-thumb')];
+  const info = sb.querySelector('.sb-info');
+  let cur = 0;
+
+  // maxresdefault bo'lmagan treylerlarda YouTube 120×90 kulrang rasm beradi — hq variantiga o'tamiz
+  bgs.forEach(img => {
+    const fix = () => { if (img.naturalWidth > 0 && img.naturalWidth <= 120 && /maxresdefault/.test(img.src)) img.src = img.src.replace('maxresdefault', 'hqdefault'); };
+    img.addEventListener('load', fix);
+    if (img.complete) fix();
+  });
+
+  const show = i => {
+    cur = (i + list.length) % list.length;
+    bgs.forEach((b, k) => b.classList.toggle('is-on', k === cur));
+    thumbs.forEach((b, k) => b.classList.toggle('is-on', k === cur));
+    info.innerHTML = sbInfoHTML(list[cur], list.length);
+    info.classList.remove('is-in'); void info.offsetWidth; info.classList.add('is-in');
+    const th = thumbs[cur];
+    if (th) th.parentElement.scrollTo({ left: th.offsetLeft - th.parentElement.clientWidth / 2 + th.clientWidth / 2, behavior: 'smooth' });
+  };
+  const restart = () => { clearInterval(sbTimer); if (list.length > 1) sbTimer = setInterval(() => { if (!document.hidden) show(cur + 1); }, SB_MS); };
+
+  thumbs.forEach(b => b.addEventListener('click', () => { show(+b.dataset.i); restart(); }));
+  // fonning bo'sh joyini bosish — shu serial sahifasi
+  sb.querySelector('.sb-stage').addEventListener('click', () => { location.href = `movie.html?id=${list[cur].id}`; });
+  show(0);
+  restart();
+}
+
 function renderRows() {
   const box = document.getElementById('homeRows');
   if (!box) return;
   const rows = (SITE_CFG.rows && SITE_CFG.rows.length) ? SITE_CFG.rows : DEFAULT_ROWS;
 
-  let shown = 0;
+  let shown = 0, seriesList = null;
   box.innerHTML = rows.map((row, i) => {
     const src = ROW_SOURCES[row.source] || ROW_SOURCES.custom;
     if (row.visible === false) return '';
@@ -454,6 +527,14 @@ function renderRows() {
     // har 3 qatordan keyin reklama joyi (js/ads.js; reklama ID'lari bo'lmasa — ko'rinmaydi)
     const ad = ++shown % 3 === 0 ? `<div class="ad-slot" data-ad-slot="home"></div>` : '';
     const title = (row.title && (row.title[LANG] || row.title.uz)) || (src.title ? t(src.title) : '');
+    if (row.source === 'series' && !seriesList) {
+      seriesList = list;
+      return seriesBannerHTML(list, `
+        <div class="section-head">
+          <i class="bar"></i><h2>${esc(title)}</h2>
+          ${src.all ? `<a class="row-all" href="${src.all}">${t('row.seeAll')}</a>` : ''}
+        </div>`) + ad;
+    }
     return `
       <section class="section">
         <div class="section-head">
@@ -468,6 +549,8 @@ function renderRows() {
   if (typeof Ads !== 'undefined') Ads.fill(box);
   observeReveals(box);
   initRowNav();
+  if (seriesList) initSeriesBanner(box, seriesList);
+  else clearInterval(sbTimer);
 }
 
 /* ---------- Qator strelkalari ---------- */
