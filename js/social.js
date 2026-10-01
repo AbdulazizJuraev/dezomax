@@ -160,6 +160,7 @@ function initSocial(m, part, opts = {}) {
     closeInfo();
     const d = opts.addedAt ? new Date(opts.addedAt) : null;
     const mo = d ? (SOC_MONTHS[LANG] || SOC_MONTHS.uz)[d.getMonth()] : '';
+    const desc = typeof opts.desc === 'function' ? opts.desc() : opts.desc;
     const tile = (big, small) => `<div class="soc-tile"><b>${esc(String(big))}</b><small>${esc(small)}</small></div>`;
     const el = document.createElement('div');
     el.className = 'soc-sheet-wrap';
@@ -175,7 +176,12 @@ function initSocial(m, part, opts = {}) {
             ${tile(state.views !== null ? socNum(state.views) : '—', t('soc.viewsT'))}
             ${d ? tile(d.getFullYear(), LANG === 'ru' ? `${d.getDate()} ${mo}` : `${d.getDate()}-${mo}`) : tile(opts.year || '—', t('soc.yearT'))}
           </div>
-          ${opts.desc ? `<div class="soc-desc">${esc(opts.desc)}</div>` : ''}
+          ${desc ? `<div class="soc-desc">${esc(desc)}</div>` : ''}
+          ${(opts.info || []).length ? `
+          <dl class="mv-info soc-info">
+            ${opts.info.map(([k, v], i) => `
+              <div class="mv-info-item${i === opts.info.length - 1 && opts.info.length % 2 ? ' is-wide' : ''}"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}
+          </dl>` : ''}
         </div>
       </div>`;
     document.body.appendChild(el);

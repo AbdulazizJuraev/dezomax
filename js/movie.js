@@ -390,13 +390,6 @@ function renderMovie() {
             <span class="tag">${esc(durationText(partNo ? group : movie))}</span>
           </div>
 
-          <p class="mv-desc">${esc(descOf(movie))}</p>
-
-
-          <dl class="mv-info">
-            ${info.map(([k, v], i) => `
-              <div class="mv-info-item${i === info.length - 1 && info.length % 2 ? ' is-wide' : ''}"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}
-          </dl>
         </div>
       </div>
     </div>
@@ -463,7 +456,9 @@ function renderMovie() {
   if (typeof initSocial === 'function') initSocial(group || movie, partNo, {
     addedAt: (partNo && PARTS[partNo - 1].addedAt) || movie.addedAt || null,
     title: title(movie) + (partNo ? ` · ${partLabel(partNo)}` : ''),
-    desc: descOf(movie),
+    // tavsif va ma'lumotlar «…yana» oynasida (ruscha tavsif Wikipedia'dan kelishi mumkin — ochilganda olinadi)
+    desc: () => (LANG === 'ru' && wikiText) || descOf(movie),
+    info,
     year: movie.year || null
   });
 

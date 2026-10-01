@@ -5498,3 +5498,4 @@ html.soc-lock { overflow: hidden; }
   .soc-sheet-wrap.is-open .soc-sheet { transform: translate(-50%, -50%); opacity: 1; }
   .soc-sheet-grip { display: none; }
 }
+.soc-sheet .soc-info { margin: 14px 0 0; }
