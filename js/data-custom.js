@@ -19563,6 +19563,111 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 43,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 1001176076,
+    "slug": "merlin",
+    "year": 2008,
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - (Afsungar)",
+      "ru": "Merlin - (Afsungar)"
+    },
+    "genres": [
+      "fantasy",
+      "adventure",
+      "drama"
+    ],
+    "country": {
+      "uz": "Buyuk Britaniya",
+      "ru": "Великобритания"
+    },
+    "cast": [
+      "Colin Morgan",
+      "Bradley James",
+      "Angel Coulby"
+    ],
+    "desc": {
+      "uz": "«Merlin» — 2008-yilgi Buyuk Britaniya seriali. 5 fasl, 65 qism. Rollarda: Colin Morgan, Bradley James, Angel Coulby.",
+      "ru": "«Мерлин» — сериал 2008 года (Великобритания). Сезонов: 5, серий: 65. В ролях: Colin Morgan, Bradley James, Angel Coulby."
+    },
+    "colors": [
+      "hsl(255 45% 28%)",
+      "hsl(275 50% 7%)"
+    ],
+    "trailer": "",
+    "video": "",
+    "seasons": 5,
+    "tags": [
+      "Merlin"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/8/84/Merlin_-_Screen_Capture.jpg",
+    "wiki": "Мерлин (телесериал)",
+    "groupOrig": {
+      "title": {
+        "uz": "Merlin",
+        "ru": "Мерлин"
+      },
+      "type": "serial"
+    },
+    "parts": [
+      1001176076,
+      1001500095,
+      3331,
+      3328,
+      3320,
+      3319,
+      3318,
+      3317,
+      3316,
+      3315,
+      3314,
+      3313,
+      3312,
+      3311,
+      3310,
+      3309,
+      3308,
+      3307,
+      3306,
+      3305,
+      3301,
+      3300,
+      3299,
+      3298,
+      3296,
+      3295,
+      3294,
+      3293,
+      3292,
+      3291,
+      3290,
+      3288,
+      3287,
+      3286,
+      3285,
+      3284,
+      3283,
+      3325,
+      3334,
+      3333,
+      3330,
+      3289,
+      3329,
+      3332,
+      3327,
+      3326,
+      3324,
+      3323,
+      3322,
+      3321,
+      3304,
+      3303,
+      3302,
+      3297,
+      1001786452
+    ],
+    "updatedAt": 1790856085616
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
