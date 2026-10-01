@@ -19594,7 +19594,7 @@ const CUSTOM_MOVIES = /*DATA*/[
       "hsl(255 45% 28%)",
       "hsl(275 50% 7%)"
     ],
-    "trailer": "https://www.youtube.com/watch?v=yAAOsFoViKQ",
+    "trailer": "https://www.youtube.com/watch?v=DSQIJBGeqn4",
     "video": "",
     "seasons": 5,
     "tags": [
@@ -19666,7 +19666,7 @@ const CUSTOM_MOVIES = /*DATA*/[
       3297,
       1001786452
     ],
-    "updatedAt": 1790856999916,
+    "updatedAt": 1790857031373,
     "featured": false,
     "addedAt": 1790856984289,
     "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-1001176076-cover.jpg",
