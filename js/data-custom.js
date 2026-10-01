@@ -7,6 +7,46 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2049,
+    "slug": "monsters-inc",
+    "type": "multfilm",
+    "title": {
+      "uz": "Maxluqlar jamiyati",
+      "ru": "Корпорация монстров"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Maxluqlar jamiyati» — 2001-yilgi AQSh multfilmi. Rejissyor: Pete Docter, Lee Unkrich. Saytda rasmiy treyleri bor.",
+      "ru": "«Корпорация монстров» (англ. Monsters, Inc."
+    },
+    "tags": [
+      "Monsters",
+      "Inc."
+    ],
+    "colors": [
+      "hsl(34 45% 28%)",
+      "hsl(54 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/6/63/Monsters_Inc.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=EGIzZ0JzMzg",
+    "video": "http://topfilm.info/3/MULTIFILM/Maxluqlar_uyushmasii_720.mp4",
+    "featured": false,
+    "addedAt": 1790841388211,
+    "updatedAt": 1790841388211,
+    "year": 2001,
+    "duration": 92,
+    "director": "Pete Docter, Lee Unkrich"
+  },
+  {
     "id": 2018,
     "slug": "beauty-and-the-beast",
     "type": "multfilm",
