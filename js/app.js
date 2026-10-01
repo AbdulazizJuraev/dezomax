@@ -67,11 +67,14 @@ function renderHero() {
     const tries = ['maxresdefault', 'sddefault', 'hqdefault'];
     const test = i => {
       const img = new Image();
+      // treyler o'chirilgan bo'lsa — hamma o'lchamda kulrang «rasm yo'q» belgisi: YouTube rasmi olib tashlanadi
+      const drop = () => { bg.style.backgroundImage = bg.style.backgroundImage.replace(/url\([^)]*i\.ytimg\.com[^)]*\),?\s*/, ''); };
       img.onload = () => {
         if (img.naturalWidth <= 120 && i < tries.length - 1) return test(i + 1);
+        if (img.naturalWidth <= 120) return drop();
         if (i > 0) bg.style.backgroundImage = bg.style.backgroundImage.replace(/maxresdefault/, tries[i]);
       };
-      img.onerror = () => { if (i < tries.length - 1) test(i + 1); };
+      img.onerror = () => { if (i < tries.length - 1) test(i + 1); else drop(); };
       img.src = `https://i.ytimg.com/vi/${id}/${tries[i]}.jpg`;
     };
     test(0);
@@ -490,7 +493,12 @@ function initSeriesBanner(root, list) {
 
   // maxresdefault bo'lmagan treylerlarda YouTube 120×90 kulrang rasm beradi — hq variantiga o'tamiz
   bgs.forEach(img => {
-    const fix = () => { if (img.naturalWidth > 0 && img.naturalWidth <= 120 && /maxresdefault/.test(img.src)) img.src = img.src.replace('maxresdefault', 'hqdefault'); };
+    // maxres yo'q — hq; treyler o'chirilgan (hq ham kulrang belgi) — serialning posteri
+    const fix = () => {
+      if (!(img.naturalWidth > 0 && img.naturalWidth <= 120)) return;
+      if (/maxresdefault/.test(img.src)) img.src = img.src.replace('maxresdefault', 'hqdefault');
+      else if (/i\.ytimg\.com/.test(img.src)) { const m = list[bgs.indexOf(img)]; if (m && m.poster) img.src = m.poster; }
+    };
     img.addEventListener('load', fix);
     if (img.complete) fix();
   });

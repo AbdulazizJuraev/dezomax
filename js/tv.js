@@ -123,7 +123,7 @@ function playChannel(ch) {
 
   const box = document.getElementById('tvPlayer');
   box.innerHTML = `
-    <video id="tvVideo" controls playsinline preload="auto"></video>
+    <video id="tvVideo" controls playsinline preload="auto" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
     <button class="tv-overlay" id="tvOverlay" type="button" hidden aria-label="Play">
       <span class="tv-overlay-btn">${ICONS.play}</span>
     </button>

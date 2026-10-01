@@ -49,12 +49,12 @@ function embedFor(url) {
   };
 
   if (/\.m3u8(\?|$)/i.test(url)) return {
-    html: `<video controls playsinline data-hls="${esc(url)}"></video>`,
+    html: `<video controls playsinline poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-hls="${esc(url)}"></video>`,
     external: url
   };
 
   if (/\.(mp4|webm|ogv|ogg|mov|m4v)(\?|$)/i.test(url)) return {
-    html: `<video controls playsinline preload="metadata"><source src="${esc(url)}"></video>`,
+    html: `<video controls playsinline preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><source src="${esc(url)}"></video>`,
     external: url
   };
 
@@ -98,14 +98,26 @@ function wideCover(m) {
 /* maxresdefault bo'lmagan eski videolarda YouTube 120×90 kulrang rasm beradi — kattarog'iga o'tamiz */
 function ytThumbFix(img) {
   if (!img || !/i\.ytimg\.com/.test(img.src)) return;
-  const check = () => {
-    if (img.naturalWidth > 0 && img.naturalWidth <= 120) {
-      const next = img.src.includes('maxresdefault') ? 'sddefault' : img.src.includes('sddefault') ? 'hqdefault' : null;
-      if (next) img.src = img.src.replace(/(maxresdefault|sddefault)/, next);
+  // YouTube'da kerakli o'lcham bo'lmasa: 404 (ilova brauzeri rasmni «xato» deb olib tashlaydi — inline onerror)
+  // yoki kulrang 120×90 belgi. Ketma-ket: maxres → sd → hq → kinoning o'z posteri (tik, xira fon ustida o'rtada).
+  const host = img.parentElement, anchor = img.nextSibling;
+  img.removeAttribute('onerror');
+  const next = () => {
+    if (!img.isConnected && host) host.insertBefore(img, anchor && anchor.parentNode === host ? anchor : null);
+    const n = img.src.includes('maxresdefault') ? 'sddefault' : img.src.includes('sddefault') ? 'hqdefault' : null;
+    if (n) { img.src = img.src.replace(/(maxresdefault|sddefault)/, n); return; }
+    const poster = movie && movie.poster;
+    if (!poster || img.dataset.fallback) { img.remove(); return; }
+    img.dataset.fallback = '1';
+    img.classList.remove('is-wide');
+    if (host && !host.querySelector('.vp-cover-bg')) {
+      img.insertAdjacentHTML('beforebegin', `<span class="vp-cover-bg" style="background-image:url('${esc(poster)}')"></span>`);
     }
+    img.src = poster;
   };
-  img.addEventListener('load', check);
-  if (img.complete) check();
+  img.addEventListener('load', () => { if (!img.dataset.fallback && img.naturalWidth > 0 && img.naturalWidth <= 120) next(); });
+  img.addEventListener('error', () => { if (!img.dataset.fallback) next(); else img.remove(); });
+  if (img.complete && (img.naturalWidth === 0 || img.naturalWidth <= 120)) next();
 }
 
 function mountPlayer(url) {

@@ -193,7 +193,7 @@ const Ads = (() => {
       const layer = document.createElement('div');
       layer.className = 'ad-preroll';
       layer.innerHTML = `
-        <video playsinline preload="auto"></video>
+        <video playsinline preload="auto" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
         <span class="ad-preroll-tag">${L('Reklama', 'Реклама')} <b></b></span>
         ${ad.clickThrough ? `<a class="ad-preroll-more" href="${esc(ad.clickThrough)}" target="_blank" rel="noopener sponsored">${L('Batafsil', 'Подробнее')}</a>` : ''}
         <button class="ad-preroll-skip" type="button" disabled></button>`;

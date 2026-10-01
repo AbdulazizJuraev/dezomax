@@ -43,7 +43,7 @@ function mountVideo(box, url, opts = {}) {
 
   box.innerHTML = `
     <div class="ytp-stage vp-stage">
-      <video class="vp-video" playsinline preload="metadata"></video>
+      <video class="vp-video" playsinline preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
       <div class="ytp-click" id="vpClick" hidden></div>
       <button class="ytp-pause" id="vpPause" type="button" hidden aria-label="${esc(t('player.play'))}"><span class="ytp-big">${YT_ICONS.play}</span></button>
       <div class="vp-spinner" id="vpSpin" hidden><i></i></div>
