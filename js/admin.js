@@ -1318,6 +1318,14 @@ async function renderTgView() {
   box.innerHTML = `
     <section class="adm-sec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.tg}</span><h3>Telegramdan qo‘shish</h3><small>faqat o‘z kanallaringiz</small></div>
+      <div class="adm-field">
+        <label class="adm-label" for="tgLink">Kanal havolasi</label>
+        <div class="adm-tg-link">
+          <input class="acc-input" id="tgLink" placeholder="https://t.me/kanal_nomi yoki @kanal_nomi" autocomplete="off" spellcheck="false">
+          <button class="btn btn-primary" type="button" id="tgLinkGo">Topish</button>
+        </div>
+        <p class="acc-error" id="tgLinkErr" hidden></p>
+      </div>
       ${chans.length ? `
       <div class="adm-field">
         <label class="adm-label" for="tgChan">Kanal</label>
@@ -1332,6 +1340,23 @@ async function renderTgView() {
   $('#tgRefresh')?.addEventListener('click', async () => {
     tgState.channels = (await dc('/api/tg/channels?refresh=1').catch(() => ({ items: [] }))).items; renderTgView();
   });
+  const findLink = async () => {
+    const inp = $('#tgLink'), btn = $('#tgLinkGo'), err = $('#tgLinkErr');
+    const link = inp.value.trim();
+    if (!link) return inp.focus();
+    err.hidden = true; btn.disabled = true; btn.textContent = 'Qidirilmoqda…';
+    try {
+      const ch = await dc('/api/tg/resolve?link=' + encodeURIComponent(link));
+      if (!tgState.channels.some(c => c.id === ch.id)) tgState.channels = [ch, ...tgState.channels];
+      tgState = { ...tgState, channel: ch.id, items: [], next: null, sel: new Map() };
+      renderTgView();
+    } catch (e) {
+      err.textContent = e.message; err.hidden = false;
+      btn.disabled = false; btn.textContent = 'Topish';
+    }
+  };
+  $('#tgLinkGo').addEventListener('click', findLink);
+  $('#tgLink').addEventListener('keydown', e => { if (e.key === 'Enter') findLink(); });
   $('#tgChan')?.addEventListener('change', e => {
     tgState = { ...tgState, channel: e.target.value || null, items: [], next: null, sel: new Map() };
     loadTgVideos(true);

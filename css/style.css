@@ -4688,8 +4688,11 @@ img, video, iframe { max-width: 100%; }
   .hero h1 { font-size: 9px; }
 }
 /* ---------------- Admin В«XabarВ»: bildirishnomalar ---------------- */
-.adm-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.adm-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 @media (max-width: 520px) { .adm-nav button { flex-direction: column; gap: 2px; height: 50px; font-size: 11px; } }
+/* ochiladigan ro'yxat (select) qorong'i fonda o'qiladigan bo'lsin */
+.page-admin select.acc-input { color-scheme: dark; }
+.page-admin select.acc-input option, .page-admin select.acc-input optgroup { background: #1a1f2b; color: #e8ecf3; }
 .adm-textarea { height: auto !important; min-height: 84px; padding-top: 10px; padding-bottom: 10px; resize: vertical; line-height: 1.45; }
 .adm-notify-preview {
   display: flex; flex-direction: column; gap: 2px;
@@ -5164,6 +5167,9 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .ad-preroll.is-paused::after { content: 'в–¶'; position: absolute; font-size: 44px; color: #fff; pointer-events: none; }
 
 /* ---------------- Admin: Telegramdan qo'shish ---------------- */
+.adm-tg-link { display: flex; gap: 8px; }
+.adm-tg-link .acc-input { flex: 1; min-width: 0; }
+.adm-tg-link .btn { flex-shrink: 0; height: 44px; padding: 0 18px; }
 .adm-tg-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 6px 0 10px; flex-wrap: wrap; }
 .adm-tg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 10px; margin-bottom: 14px; }
 .adm-tg-item { position: relative; display: flex; gap: 10px; align-items: center; padding: 8px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,.02); cursor: pointer; min-width: 0; }
