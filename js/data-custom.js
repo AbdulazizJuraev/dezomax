@@ -19924,7 +19924,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/XIcBtTdEfajJM0DuH5UcKMTf",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857880272,
+    "updatedAt": 1790858096785,
     "duration": 56,
     "size": 238734197,
     "year": 2026,
@@ -19944,7 +19944,12 @@ const CUSTOM_MOVIES = /*DATA*/[
       3358,
       3359,
       3360,
-      3353
+      3353,
+      3348,
+      3349,
+      3352,
+      3351,
+      3350
     ],
     "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354-cover.jpg"
   },
