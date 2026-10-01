@@ -19600,7 +19600,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tags": [
       "Afsungar"
     ],
-    "poster": "https://upload.wikimedia.org/wikipedia/en/8/84/Merlin_-_Screen_Capture.jpg",
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-afsungar-1001176076.jpg",
     "wiki": "Мерлин (телесериал)",
     "groupOrig": {
       "title": {
@@ -19679,7 +19679,7 @@ const CUSTOM_MOVIES = /*DATA*/[
       3336,
       3335
     ],
-    "updatedAt": 1790857325019,
+    "updatedAt": 1790857893286,
     "featured": false,
     "addedAt": 1790856984289,
     "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-1001176076-cover.jpg",
