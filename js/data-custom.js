@@ -19684,6 +19684,461 @@ const CUSTOM_MOVIES = /*DATA*/[
     "addedAt": 1790856984289,
     "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-1001176076-cover.jpg",
     "year": 2008
+  },
+  {
+    "id": 3348,
+    "slug": "6qism-1sezon-tugadi-2sezon-ham-mavjud",
+    "type": "serial",
+    "title": {
+      "uz": "6qism. 1sezon tugadi. 2sezon ham mavjud",
+      "ru": "6qism. 1sezon tugadi. 2sezon ham mavjud"
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "6qism. 1sezon tugadi. 2sezon ham mavjud",
+      "ru": "6qism. 1sezon tugadi. 2sezon ham mavjud"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ZyBQXlnc4tG1?s=MHGtqA2lsedGSDe3hBAszjpM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/MHGtqA2lsedGSDe3hBAszjpM",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 45,
+    "size": 238422745,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3349,
+    "slug": "5qism",
+    "type": "serial",
+    "title": {
+      "uz": "5qism",
+      "ru": "5qism"
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "5qism",
+      "ru": "5qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/IKqg9BJTNLpd?s=yNB8bZ33p04M029ef9gTTjG2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/yNB8bZ33p04M029ef9gTTjG2",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 49,
+    "size": 295869015,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3350,
+    "slug": "4qism",
+    "type": "serial",
+    "title": {
+      "uz": "4qism",
+      "ru": "4qism"
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "4qism",
+      "ru": "4qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2ygbNISfoI2T?s=Jfqji_1ipFIE1xtOsln0jYpJ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Jfqji_1ipFIE1xtOsln0jYpJ",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 48,
+    "size": 219780576,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3351,
+    "slug": "3qism",
+    "type": "serial",
+    "title": {
+      "uz": "3qism",
+      "ru": "3qism"
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "3qism",
+      "ru": "3qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Y0Q66nIdtXkI?s=ChuJQIPxXMjnQMtaam5v5_XE",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ChuJQIPxXMjnQMtaam5v5_XE",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 41,
+    "size": 246629494,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3352,
+    "slug": "2qism",
+    "type": "serial",
+    "title": {
+      "uz": "2qism",
+      "ru": "2qism"
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "2qism",
+      "ru": "2qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/KxX9sJHDeh69?s=aGOnOsT2Jn2emzIhNkcQ3Yrj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/aGOnOsT2Jn2emzIhNkcQ3Yrj",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 53,
+    "size": 301200977,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3353,
+    "slug": "loki-1sezon-1qism",
+    "type": "serial",
+    "title": {
+      "uz": "LOKI 1sezon 1qism",
+      "ru": "LOKI 1sezon 1qism"
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "LOKI 1sezon 1qism",
+      "ru": "LOKI 1sezon 1qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/LqA-fGv_y09H?s=QOoyRYKSpqAP7bZkYEg-wzf_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/QOoyRYKSpqAP7bZkYEg-wzf_",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 52,
+    "size": 279481824,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3354,
+    "slug": "loki",
+    "type": "serial",
+    "title": {
+      "uz": "\"LOKI\"",
+      "ru": "\"LOKI\""
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  6-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya. \n\nSerial tugadi ! ❤️‍🩹",
+      "ru": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  6-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya. \n\nSerial tugadi ! ❤️‍🩹"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/S1wXnEfYB1lk?s=XIcBtTdEfajJM0DuH5UcKMTf",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XIcBtTdEfajJM0DuH5UcKMTf",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 56,
+    "size": 238734197,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3355,
+    "slug": "loki",
+    "type": "serial",
+    "title": {
+      "uz": "\"LOKI\"",
+      "ru": "\"LOKI\""
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  5-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya.",
+      "ru": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  5-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/MK8PAiAAECmW?s=GvNFSVFVEmM3E0U8zVzsxNu2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/GvNFSVFVEmM3E0U8zVzsxNu2",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 45,
+    "size": 132833477,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3356,
+    "slug": "loki",
+    "type": "serial",
+    "title": {
+      "uz": "\"LOKI\"",
+      "ru": "\"LOKI\""
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  4-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya.",
+      "ru": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  4-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/NMuHYA8L2h-i?s=X4iLKx-Gwqs9WZMep_0CM48E",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/X4iLKx-Gwqs9WZMep_0CM48E",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 48,
+    "size": 163630010,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3357,
+    "slug": "loki",
+    "type": "serial",
+    "title": {
+      "uz": "\"LOKI\"",
+      "ru": "\"LOKI\""
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  3-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya.",
+      "ru": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  3-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/gBNUzBZMrod8?s=zJhiYqol78DQNHfdDAZXnQ1e",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/zJhiYqol78DQNHfdDAZXnQ1e",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 54,
+    "size": 191850428,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3358,
+    "slug": "loki",
+    "type": "serial",
+    "title": {
+      "uz": "\"LOKI\"",
+      "ru": "\"LOKI\""
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  2-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya.",
+      "ru": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  2-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/s6a5f-Zf0J5M?s=R6hL47uq23_r8Z7URKJoUPPr",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/R6hL47uq23_r8Z7URKJoUPPr",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 49,
+    "size": 174184679,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3359,
+    "slug": "loki",
+    "type": "serial",
+    "title": {
+      "uz": "\"LOKI\"",
+      "ru": "\"LOKI\""
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida\n📹 Serialning 2-mavsum  1-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya.",
+      "ru": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida\n📹 Serialning 2-mavsum  1-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/B0S1_hFzjzvQ?s=5KDXYazOkwqF-bvyt8N5tYqP",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/5KDXYazOkwqF-bvyt8N5tYqP",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 45,
+    "size": 177222775,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3360,
+    "slug": "loki",
+    "type": "serial",
+    "title": {
+      "uz": "\"LOKI\"",
+      "ru": "\"LOKI\""
+    },
+    "genres": [
+      "scifi"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  1-qismi. \n💿 HD 720p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya.",
+      "ru": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  1-qismi. \n💿 HD 720p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-xK6XMqwGpRk?s=giXxlvi-xFLn4WGVcyI4_r2r",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/giXxlvi-xFLn4WGVcyI4_r2r",
+    "featured": false,
+    "addedAt": 1790857756630,
+    "updatedAt": 1790857756630,
+    "duration": 45,
+    "size": 472545532,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
