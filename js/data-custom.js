@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2065,
+    "slug": "pirates-of-the-caribbean-dead-man-s-chest",
+    "type": "film",
+    "title": {
+      "uz": "Karib dengizi qaroqchilari: Murdalar sandigʻi",
+      "ru": "Пираты Карибского моря: Сундук мертвеца"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Orlando Bloom",
+      "Keira Knightley",
+      "Stellan Skarsgård",
+      "Bill Nighy"
+    ],
+    "desc": {
+      "uz": "«Karib dengizi qaroqchilari: Murdalar sandigʻi» — 2006-yilgi AQSh filmi. Rejissyor: Gore Verbinski. Rollarda: Orlando Bloom, Keira Knightley, Stellan Skarsgård. Saytda rasmiy treyleri bor.",
+      "ru": "«Пираты Карибского моря: Сундук мертвеца» — американский фэнтезийный фильм плаща и шпаги 2006 года и вторая картина из серии фильмов «Пираты Карибского моря» после «Пираты Карибского моря: Проклятие Чёрной жемчужины» режиссёра Гора Вербински по сценарию Терри Россио и Тед Эллиот."
+    },
+    "tags": [
+      "Pirates of the Caribbean: Dead Man's Chest"
+    ],
+    "colors": [
+      "hsl(74 45% 28%)",
+      "hsl(94 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/2d/Pirates_of_the_caribbean_2_poster_b.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=3sKnbnz6-KY",
+    "video": "https://s7.faylmovi.ru/tarjima_kinolar/Karib_Dengizi_qaroqchilari_2_1080.mp4",
+    "featured": false,
+    "addedAt": 1790849958075,
+    "updatedAt": 1790849958075,
+    "year": 2006,
+    "duration": 145,
+    "director": "Gore Verbinski"
+  },
+  {
     "id": 2061,
     "slug": "inside-out",
     "type": "multfilm",
