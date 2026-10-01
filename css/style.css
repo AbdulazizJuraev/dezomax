@@ -5315,3 +5315,18 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .mv-part b { font-weight: 650; }
 .mv-part small { font-size: 11px; font-weight: 550; opacity: .65; }
 .mv-part.is-on small { opacity: .9; }
+
+/* Yuqori menyu o'rtacha kenglikdagi ekranlarda sig'sin (900–1240 px) */
+@media (max-width: 1240px) {
+  .nav { gap: 2px; }
+  .nav a { padding: 8px 10px; font-size: 13.5px; }
+}
+@media (max-width: 1100px) {
+  /* Obunalar va Yuklab olinganlar — profil sahifasida ham bor */
+  .nav a[href="plans.html"], .nav a[href="downloads.html"] { display: none; }
+}
+/* pastki menyuda 5 ta bo'lim — tor telefonda yozuvlar sig'sin */
+@media (max-width: 420px) {
+  .tabbar-item { padding-left: 0; padding-right: 0; }
+  .tabbar-label { font-size: 10px; letter-spacing: -.02em; }
+}

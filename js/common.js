@@ -97,6 +97,7 @@ const ICONS = {
   up:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
   home:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3.5l9 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.5 20v-6h5v6"/></svg>',
   tv:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M8 3.5l4 3.5 4-3.5"/></svg>',
+  series: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="14" height="13" rx="2.5"/><path d="M16.5 10.5l5-3v11l-5-3"/><path d="M6 3.5h8"/></svg>',
   grid:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>',
   ball:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M12 6.6l3.9 2.8-1.5 4.6H9.6l-1.5-4.6z"/><path d="M12 2.8v3.8M20.8 9.4l-4.9 0M17.5 20.1l-3.1-5.8M6.5 20.1l3.1-5.8M3.2 9.4l4.9 0"/></svg>',
   more:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>',
@@ -445,6 +446,7 @@ function initLayout() {
 const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
   { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
+  { key: 'series',  href: 'catalog.html?type=serial', icon: 'series', label: 'nav.series' },
   { key: 'sport',   href: 'sport.html',   icon: 'ball', label: 'nav.sport' },
   { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tv' }
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
@@ -469,6 +471,7 @@ function activeTab() {
   if (page === 'sport.html') return 'sport';
   if (page === 'tv.html') return 'tv';
   if (page === 'search.html') return 'search';
+  if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'serial') return 'series';
   if (page === 'index.html' || page === '') return 'home';
   return null;                       // movie.html — hech biri faol emas
 }
