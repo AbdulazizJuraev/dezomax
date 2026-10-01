@@ -179,6 +179,8 @@ public class DownloadPlugin extends Plugin {
         try {
             File target = new File(dir(getContext()), file);
             if (target.exists()) target.delete();
+            // DownloadManager 308 (va ba'zi 307) yo'naltirishni kuzatmaydi — haqiqiy fayl manzilini o'zimiz topamiz
+            url = resolveRedirects(url);
             DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
             r.setTitle(call.getString("title", "DezoMax"));
             r.setDescription("DezoMax — internetsiz ko‘rish uchun");
@@ -193,6 +195,35 @@ public class DownloadPlugin extends Plugin {
         } catch (Exception e) {
             call.reject(e.getMessage() == null ? "start_failed" : e.getMessage());
         }
+    }
+
+    /* Yo'naltirishlar zanjiri (301/302/303/307/308) bo'ylab yakuniy manzil; xato bo'lsa — asl manzil.
+       (Plagin chaqiruvlari asosiy oqimda emas — tarmoqqa murojaat qilish mumkin.) */
+    static String resolveRedirects(String url) {
+        String cur = url;
+        for (int i = 0; i < 8; i++) {
+            java.net.HttpURLConnection c = null;
+            try {
+                c = (java.net.HttpURLConnection) new java.net.URL(cur).openConnection();
+                c.setInstanceFollowRedirects(false);
+                c.setRequestMethod("HEAD");
+                c.setConnectTimeout(10000);
+                c.setReadTimeout(10000);
+                int code = c.getResponseCode();
+                if (code == 301 || code == 302 || code == 303 || code == 307 || code == 308) {
+                    String loc = c.getHeaderField("Location");
+                    if (loc == null || loc.isEmpty()) return cur;
+                    cur = new java.net.URL(new java.net.URL(cur), loc).toString();
+                    continue;
+                }
+                return cur;
+            } catch (Exception e) {
+                return cur;
+            } finally {
+                if (c != null) c.disconnect();
+            }
+        }
+        return cur;
     }
 
     /* status({items:[{dmId, file}]}) → { items: [{dmId, file, state, loaded, total, exists}] }
