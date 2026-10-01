@@ -7,6 +7,42 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2052,
+    "slug": "kung-fu-panda",
+    "type": "multfilm",
+    "title": {
+      "uz": "Kung Fu Panda",
+      "ru": "Кунг-фу панда"
+    },
+    "genres": [
+      "action",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Kung Fu Panda» — 2008-yilgi AQSh multfilmi. Rejissyor: John Stevenson, Mark Osborne. Saytda rasmiy treyleri bor.",
+      "ru": "«Кунг-фу панда» — американский компьютерно-анимационный комедийный фильм о боевых искусствах, созданный студией DreamWorks Animation и распространяемый студией Paramount Pictures."
+    },
+    "colors": [
+      "hsl(230 45% 28%)",
+      "hsl(250 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/7/76/Kungfupanda.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=XEZKXIQjYFQ",
+    "video": "https://s6.faylmovi.ru/tarjima_multfilmlar/Kunfu_Panda_1080.mp4",
+    "featured": false,
+    "addedAt": 1790841791699,
+    "updatedAt": 1790841791699,
+    "year": 2008,
+    "duration": 92,
+    "director": "John Stevenson, Mark Osborne"
+  },
+  {
     "id": 2042,
     "slug": "ratatouille",
     "type": "multfilm",
