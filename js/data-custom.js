@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2061,
+    "slug": "inside-out",
+    "type": "multfilm",
+    "title": {
+      "uz": "Boshqotirma",
+      "ru": "Головоломка"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Boshqotirma» — 2015-yilgi AQSh multfilmi. Rejissyor: Pete Docter, Ronnie del Carmen. Saytda rasmiy treyleri bor.",
+      "ru": "«Головоломка» — американский анимационный фильм о взрослении 2015 года, созданный Pixar Animation Studios и распространяемый Walt Disney Studios."
+    },
+    "tags": [
+      "Inside Out"
+    ],
+    "colors": [
+      "hsl(133 45% 28%)",
+      "hsl(153 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/0/0a/Inside_Out_%282015_film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=XaGjd5paQ4M",
+    "video": "https://a.uzbeklar.biz/film/boshqotirma1.mp4",
+    "featured": false,
+    "addedAt": 1790849887220,
+    "updatedAt": 1790849887220,
+    "year": 2015,
+    "duration": 94,
+    "director": "Pete Docter, Ronnie del Carmen"
+  },
+  {
     "id": 2059,
     "slug": "up",
     "type": "multfilm",
