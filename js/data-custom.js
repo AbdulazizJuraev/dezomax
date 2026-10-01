@@ -19570,7 +19570,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "type": "serial",
     "title": {
       "uz": "Merlin - (Afsungar)",
-      "ru": "Мерлин - (Волшебник)"
+      "ru": "Merlin - (Afsungar)"
     },
     "genres": [
       "drama",
@@ -19679,7 +19679,7 @@ const CUSTOM_MOVIES = /*DATA*/[
       3336,
       3335
     ],
-    "updatedAt": 1790857251019,
+    "updatedAt": 1790857318398,
     "featured": false,
     "addedAt": 1790856984289,
     "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-1001176076-cover.jpg",
