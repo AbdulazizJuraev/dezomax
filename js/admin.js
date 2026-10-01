@@ -141,8 +141,8 @@ function compressImage(file, maxW = 600) {
   });
 }
 
-async function uploadPoster(file, slug) {
-  const b64 = await compressImage(file);
+async function uploadPoster(file, slug, maxW = 600) {
+  const b64 = await compressImage(file, maxW);
   const path = `images/custom/${slug}.jpg`;
   const existing = await getFile(path);
   await putFile(path, b64, `Poster: ${slug}`, existing?.sha);
@@ -339,6 +339,19 @@ function formHTML(m = {}) {
           <span class="adm-drop-text"><b>Poster yuklash</b><small id="admFileName">Rasm tanlang — avtomatik kichraytiriladi</small></span>
         </label>
         ${field('yoki poster havolasi', `<input class="acc-input" name="posterUrl" value="${val(m.poster)}" placeholder="https://...jpg">`)}
+        <div class="adm-cover">
+          <div class="adm-cover-prev" id="admCoverPrev">${m.cover ? `<img src="${esc(m.cover)}" alt="" onerror="this.remove()">` : '<span>16:9</span>'}</div>
+          <div class="adm-cover-body">
+            <label class="adm-label">Pleyer muqovasi (keng rasm)</label>
+            <p class="adm-hint">Video boshlanishidan oldin pleyerda turadigan rasm. Bo‘sh qolsa — treyler rasmi yoki poster.</p>
+            <label class="adm-drop adm-drop-sm">
+              <input type="file" name="coverFile" accept="image/*">
+              <span class="adm-drop-icon">${ADM_ICONS.upload}</span>
+              <span class="adm-drop-text"><b>Muqova yuklash</b><small id="admCoverName">Gorizontal rasm tanlang</small></span>
+            </label>
+            <input class="acc-input" name="coverUrl" value="${val(m.cover)}" placeholder="yoki havola: https://...jpg">
+          </div>
+        </div>
         <div class="adm-row adm-row-2">
           ${field('To‘liq kino havolasi', `<input class="acc-input" name="video" value="${val(m.video)}" placeholder="YouTube, Vimeo, .mp4, .m3u8, embed...">`)}
           ${field('Treyler havolasi', `<input class="acc-input" name="trailer" value="${val(m.trailer)}" placeholder="https://youtube.com/watch?v=...">`)}
@@ -402,7 +415,8 @@ function readForm(form, old = {}) {
     updatedAt: Date.now()
   };
   // ixtiyoriy maydonlar: bo'sh qoldirilsa o'chiriladi
-  ['year', 'duration', 'rating', 'director', 'franchise', 'audio', 'source'].forEach(k => delete m[k]);
+  ['year', 'duration', 'rating', 'director', 'franchise', 'audio', 'source', 'cover'].forEach(k => delete m[k]);
+  if (s('coverUrl')) m.cover = s('coverUrl');
   if (num('year')) m.year = Math.round(num('year'));
   if (num('duration')) m.duration = Math.round(num('duration'));
   if (num('rating') !== undefined && s('rating')) m.rating = num('rating');
@@ -447,6 +461,16 @@ function bindForm(old) {
   form.posterUrl.addEventListener('change', () => {
     if (form.posterUrl.value.trim()) setHeroImg(form.posterUrl.value.trim());
   });
+  // pleyer muqovasi oldindan ko'rish
+  const coverPrev = $('#admCoverPrev');
+  const setCover = src => { coverPrev.innerHTML = src ? `<img src="${esc(src)}" alt="" onerror="this.remove()">` : '<span>16:9</span>'; };
+  form.coverFile.addEventListener('change', () => {
+    const file = form.coverFile.files[0];
+    if (!file) return;
+    setCover(URL.createObjectURL(file));
+    $('#admCoverName').textContent = file.name;
+  });
+  form.coverUrl.addEventListener('change', () => setCover(form.coverUrl.value.trim()));
 
   // havolani tekshirish
   const hint = $('#admVideoHint');
@@ -466,7 +490,7 @@ function bindForm(old) {
       if (!r.ok) return showErr(r.msg);
     }
     // poster va manba: nisbiy yo'l ham bo'lishi mumkin, faqat taqiqlangan xostlar tekshiriladi
-    for (const inp of [form.posterUrl, form.sourceUrl]) {
+    for (const inp of [form.posterUrl, form.sourceUrl, form.coverUrl]) {
       if (BLOCKED_HOSTS.test(inp.value)) return showErr('Bu xostdagi kontent ruxsatsiz tarqatiladi — qabul qilinmaydi.');
     }
     if (!form.video.value.trim() && !form.trailer.value.trim()) return showErr('Kino yoki treyler havolasini kiriting');
@@ -478,6 +502,8 @@ function bindForm(old) {
       const movie = readForm(form, old);
       const file = form.posterFile.files[0];
       if (file) movie.poster = await uploadPoster(file, `${movie.slug}-${movie.id}`);
+      const coverFile = form.coverFile.files[0];
+      if (coverFile) movie.cover = await uploadPoster(coverFile, `${movie.slug}-${movie.id}-cover`, 1280);
 
       await saveCustom(list => {
         const i = list.findIndex(x => x.id === movie.id);
@@ -1306,7 +1332,7 @@ function renderGroupsView() {
     $('#grpNew').addEventListener('click', () => { grpDraft = { orig: null, ids: [], name: '', nameRu: '', type: 'serial' }; renderGroupsView(); });
     box.querySelectorAll('[data-gedit]').forEach(b => b.addEventListener('click', () => {
       const g = movieById(+b.dataset.gedit);
-      grpDraft = { orig: g.id, ids: g.parts.filter(id => movieById(id)), name: g.title.uz, nameRu: g.title.ru === g.title.uz ? '' : g.title.ru || '', type: g.type };
+      grpDraft = { orig: g.id, ids: g.parts.filter(id => movieById(id)), name: g.title.uz, nameRu: g.title.ru === g.title.uz ? '' : g.title.ru || '', type: g.type, cover: g.cover || '' };
       renderGroupsView();
     }));
     box.querySelectorAll('[data-gsplit]').forEach(b => b.addEventListener('click', () => {
@@ -1334,6 +1360,19 @@ function renderGroupsView() {
       </div>
       <div class="adm-field"><label class="adm-label" for="grpType">Turi</label>
         <select class="acc-input" id="grpType">${['serial', 'film', 'multfilm'].map(x => `<option value="${x}"${x === d.type ? ' selected' : ''}>${typeName(x)}</option>`).join('')}</select></div>
+      <div class="adm-cover">
+        <div class="adm-cover-prev" id="grpCoverPrev">${d.coverFile ? `<img src="${esc(URL.createObjectURL(d.coverFile))}" alt="">` : d.cover ? `<img src="${esc(d.cover)}" alt="" onerror="this.remove()">` : '<span>16:9</span>'}</div>
+        <div class="adm-cover-body">
+          <label class="adm-label">Pleyer muqovasi (keng rasm)</label>
+          <p class="adm-hint">Har bir qism boshlanishidan oldin pleyerda turadigan rasm.</p>
+          <label class="adm-drop adm-drop-sm">
+            <input type="file" id="grpCoverFile" accept="image/*">
+            <span class="adm-drop-icon">${ADM_ICONS.upload}</span>
+            <span class="adm-drop-text"><b>Muqova yuklash</b><small>${d.coverFile ? esc(d.coverFile.name) : 'Gorizontal rasm tanlang'}</small></span>
+          </label>
+          <input class="acc-input" id="grpCover" value="${esc(d.coverFile ? '' : d.cover || '')}" placeholder="yoki havola: https://...jpg">
+        </div>
+      </div>
 
       <div class="adm-field">
         <label class="adm-label" for="grpSearch">Qism qo‘shish</label>
@@ -1361,7 +1400,9 @@ function renderGroupsView() {
       </div>
     </section>`;
 
-  const keep = () => { d.name = $('#grpName').value; d.nameRu = $('#grpNameRu').value; d.type = $('#grpType').value; };
+  const keep = () => { d.name = $('#grpName').value; d.nameRu = $('#grpNameRu').value; d.type = $('#grpType').value; if (!d.coverFile) d.cover = $('#grpCover').value.trim(); };
+  $('#grpCoverFile').addEventListener('change', e => { const f = e.target.files[0]; if (f) { keep(); d.coverFile = f; redraw(); } });
+  $('#grpCover').addEventListener('change', () => { d.coverFile = null; keep(); redraw(); });
   const redraw = () => { keep(); const y = window.scrollY; renderGroupsView(); window.scrollTo(0, y); };
   const addIds = ids => {
     const have = new Set(d.ids);
@@ -1416,7 +1457,9 @@ function renderGroupsView() {
     if (d.ids.length < 2) { err.textContent = 'Guruhga kamida 2 ta video kerak.'; err.hidden = false; return; }
     if (!name) { err.textContent = 'Guruh nomini yozing.'; err.hidden = false; return; }
     const ids = [...d.ids], head = ids[0], set = new Set(ids);
+    if (BLOCKED_HOSTS.test(d.cover || '')) { err.textContent = 'Bu xostdagi rasm qabul qilinmaydi.'; err.hidden = false; return; }
     runAction(e.currentTarget, async () => {
+      const cover = d.coverFile ? await uploadPoster(d.coverFile, `${slugify(name)}-${head}-cover`, 1280) : d.cover;
       await saveCustom(list => {
         const get = id => {
           let m = list.find(x => x.id === id);
@@ -1437,6 +1480,7 @@ function renderGroupsView() {
         h.parts = ids;
         h.title = { uz: name, ru: d.nameRu.trim() || name };
         h.type = d.type;
+        if (cover) h.cover = cover; else delete h.cover;
         h.updatedAt = Date.now();
         return list;
       }, `Guruh: ${name} (${ids.length} qism)`);

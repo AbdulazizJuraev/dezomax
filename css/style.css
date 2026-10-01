@@ -5294,3 +5294,19 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .adm-pick-results .adm-grp-all { background: rgba(10, 147, 220, .14); margin-bottom: 4px; justify-content: space-between; }
 .adm-pick-results .adm-grp-all b { font-size: 13.5px; }
 @media (max-width: 520px) { .adm-grp-save .btn { flex: 1; } }
+
+/* Admin: pleyer muqovasi (keng rasm) */
+.adm-cover { display: flex; gap: 14px; align-items: flex-start; margin: 4px 0 6px; }
+.adm-cover-prev {
+  flex: 0 0 168px; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden;
+  background: rgba(255,255,255,.04); border: 1px dashed var(--line-strong, rgba(255,255,255,.18));
+  display: grid; place-items: center; color: var(--text-faint); font-size: 12px; font-weight: 650;
+}
+.adm-cover-prev img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.adm-cover-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.adm-cover-body .adm-hint { margin: -4px 0 0; color: var(--text-faint); }
+.adm-drop.adm-drop-sm { padding: 10px 12px; min-height: 0; }
+@media (max-width: 520px) {
+  .adm-cover { flex-direction: column; }
+  .adm-cover-prev { flex-basis: auto; width: 100%; }
+}

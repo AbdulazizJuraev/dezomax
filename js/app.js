@@ -446,7 +446,7 @@ const DEFAULT_ROWS = ['uzbek', 'konsert', 'trending', 'new', 'dorama', 'anime', 
 const SB_MS = 6000;
 let sbTimer = 0;
 const sbYt = m => (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
-const sbArt = m => (m.poster && m.poster.startsWith('images/uz/') && m.poster) ||
+const sbArt = m => m.cover || (m.poster && m.poster.startsWith('images/uz/') && m.poster) ||
   (sbYt(m) ? `https://i.ytimg.com/vi/${sbYt(m)}/maxresdefault.jpg` : m.poster);
 
 function seriesBannerHTML(list, head) {

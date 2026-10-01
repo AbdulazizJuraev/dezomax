@@ -85,6 +85,7 @@ function sourcesOf(m) {
    rasmiy treylerning YouTube rasmi (bosh sahifa slayderidagi kabi). Topilmasa — null (tik poster) */
 function wideCover(m) {
   if (!m) return null;
+  if (m.cover) return m.cover;                     // admin'da qo'lda qo'yilgan muqova
   if (m.poster && m.poster.startsWith('images/uz/')) return m.poster;
   const id = m.trailer && typeof youTubeId === 'function' ? youTubeId(m.trailer) : null;
   return id ? `https://i.ytimg.com/vi/${id}/maxresdefault.jpg` : null;
@@ -148,7 +149,7 @@ function mountPlayer(url) {
   // YouTube — o'z pleyerimiz (js/ytplayer.js): o'z posterimiz, tugmalarimiz
   if (typeof mountYouTube === 'function' && youTubeId(url)) {
     // tik poster keng ekranga sig'maydi — faqat keng muqovali (o'zbek filmlari) rasmini beramiz
-    const wide = movie && movie.poster && movie.poster.startsWith('images/uz/') ? movie.poster : null;
+    const wide = movie ? movie.cover || (movie.poster && movie.poster.startsWith('images/uz/') ? movie.poster : null) : null;
     // treylerdan oldin reklama yo'q — faqat to'liq film oldidan (js/ads.js)
     mountYouTube(box, url, { poster: wide, title: movie ? title(movie) : '', preroll: !!movie && url === movie.video });
     if (link) { link.href = external; link.hidden = false; }
