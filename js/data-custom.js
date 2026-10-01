@@ -11447,6 +11447,1706 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 50,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 3133,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n394-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n394-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/CfXlvyGtE1kW?s=dGw08eCeTgQgkOtrefogPeJY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/dGw08eCeTgQgkOtrefogPeJY",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3134,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n393-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n393-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/IbmNtktjTuAP?s=9aw4OXS5jONdJr3t0AI6SJ_x",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/9aw4OXS5jONdJr3t0AI6SJ_x",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 49,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3135,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n392-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n392-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/4bK5f_RgOOdF?s=T-6DGV6SON2SsV5EzRuyDW4X",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/T-6DGV6SON2SsV5EzRuyDW4X",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3136,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n391-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n391-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/9Gs2QaeUoEug?s=3BJR4W1tGnDgH3PxR23ooAjk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/3BJR4W1tGnDgH3PxR23ooAjk",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3137,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n390-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n390-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/kozbXkMbqaRX?s=t5vGyplEMweLz9My9gUPiA0z",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/t5vGyplEMweLz9My9gUPiA0z",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3138,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n389-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n389-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/0NM1c1yeg5Jw?s=9q5zcWpwUP8rKuC1naDgwIRT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/9q5zcWpwUP8rKuC1naDgwIRT",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 60,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3139,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n388-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n388-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/7uhTzX1TrD4A?s=jsdeshPCdYIpRF_Ig3UCctam",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/jsdeshPCdYIpRF_Ig3UCctam",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 55,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3140,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n387-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n387-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/xHpPW-wJ0Sxm?s=6GQ_qZUomTNIcP_REUJYNyke",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/6GQ_qZUomTNIcP_REUJYNyke",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 55,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3141,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n386-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n386-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_nwkwMv4iRz4?s=mrjJkLg56nX0_JP0eC4PrMld",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mrjJkLg56nX0_JP0eC4PrMld",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 58,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3142,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n385-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n385-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ifPl7UFEbMsd?s=EfIsHVEGijDMA_EdU9sVL8kN",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/EfIsHVEGijDMA_EdU9sVL8kN",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 55,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3143,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n384-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n384-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/haOo9iNtwUwA?s=fYp1KF0Ba9AvEtSed9iY344J",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/fYp1KF0Ba9AvEtSed9iY344J",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 52,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3144,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n383-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n383-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/jAId6DCRhsjy?s=I0MqEUzzXfrKJks-sDITr-jt",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/I0MqEUzzXfrKJks-sDITr-jt",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3145,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n382-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n382-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/5f2UAJPJtqYV?s=hn9-SBvACPiaDGiKxSk3fe28",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/hn9-SBvACPiaDGiKxSk3fe28",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3146,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n381-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n381-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Od_VrcrELtOe?s=JOv7dyOfB6QU7iNsD02-BTzX",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/JOv7dyOfB6QU7iNsD02-BTzX",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3147,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n380-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n380-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/pK7X3FuwFUu1?s=_KnX4PMCR0KAbc0FP5WmUUeW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/_KnX4PMCR0KAbc0FP5WmUUeW",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3148,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n379-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n379-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/zJ76RsXW7baz?s=WXlYblxkbXqFK9sZv9V07v5I",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/WXlYblxkbXqFK9sZv9V07v5I",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3149,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n378-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n378-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Is8xVqJ215kr?s=FwiO-LU2AcPhwMchyoQp2gfW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/FwiO-LU2AcPhwMchyoQp2gfW",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3150,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n377-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n377-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/BDbAxJ46EW6i?s=wOacl23VGxPlc5DvUopSvBgS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/wOacl23VGxPlc5DvUopSvBgS",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3151,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n376-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n376-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Zh6ivFLBYvSt?s=Gxijbib_FSjpXC_o1LmqyfcJ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Gxijbib_FSjpXC_o1LmqyfcJ",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3152,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 375-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 375-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PNYewumGlQJI?s=gjE2pqvMADppT_H2HP0oGSuY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gjE2pqvMADppT_H2HP0oGSuY",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3153,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n374-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n374-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/jl-GCtw92InU?s=j3_HO3pIp7OX9oQax45wYDYG",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/j3_HO3pIp7OX9oQax45wYDYG",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3154,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n373-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n373-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/wdYxVUkdZOrB?s=16NIGAKSvy2W3lb-sH7h9zE-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/16NIGAKSvy2W3lb-sH7h9zE-",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3155,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n372-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n372-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1D-eDsbrdR3j?s=HUxO24dN4vBwJWF4f8xc6SeA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/HUxO24dN4vBwJWF4f8xc6SeA",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 51,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3156,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n371-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n371-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/tXVInSz0eGM8?s=4whRtYGdIEujeEw049frLXhg",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/4whRtYGdIEujeEw049frLXhg",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3157,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n370-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n370-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/tjs1CjNcwRTN?s=i_eIyKOPJFP5_c-7kt9woLrW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/i_eIyKOPJFP5_c-7kt9woLrW",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3158,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n369-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n369-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YRmvuYEK3WBt?s=S7HfGh5yotruejBQCcVBx3ga",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/S7HfGh5yotruejBQCcVBx3ga",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3159,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n368-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n368-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AWnNjbnQzsy8?s=lBrFz34_6Wq7u-rhviFUQJIC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/lBrFz34_6Wq7u-rhviFUQJIC",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3160,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n367-қисм\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n367-қисм\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1L0moLPHcY25?s=JGHBfCWWe-8qJXYszGKYOaPw",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/JGHBfCWWe-8qJXYszGKYOaPw",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3161,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n366-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n366-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nExjFeOVIRuE?s=gCsVfkbABF-JWDDT0bpJ8ryO",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gCsVfkbABF-JWDDT0bpJ8ryO",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3162,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n365-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n365-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AoTog8OYGjXn?s=oC-t1JTeeSO4UUeSohorJJZW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/oC-t1JTeeSO4UUeSohorJJZW",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 49,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3163,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 364-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 364-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/4NlIcD_HPmyY?s=eeSmHH-s9Wwen7zpY3pskEYj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eeSmHH-s9Wwen7zpY3pskEYj",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3164,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n363-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n363-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/v6-H5pRCi7F4?s=rTRm_a-Ld7QisAjnRZoNoPdR",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/rTRm_a-Ld7QisAjnRZoNoPdR",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3165,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n362-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n362-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/eMlP0pMyCsFI?s=kbJcUWOS2fUUNnf8eoE5c7oa",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/kbJcUWOS2fUUNnf8eoE5c7oa",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3166,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n361-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n361-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/H3GF-r3OOA3a?s=Wd1pofxJEVRR8Zrg4dX6b21B",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Wd1pofxJEVRR8Zrg4dX6b21B",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 52,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3167,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 360-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 360-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/aZVOoJbYintI?s=otX0W9Q_XJ-A6pLXHZgY0QNl",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/otX0W9Q_XJ-A6pLXHZgY0QNl",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3168,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n358-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n358-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/484CzX68sfP1?s=KAK8bUHgsyY4apdVR5-Q9DUA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/KAK8bUHgsyY4apdVR5-Q9DUA",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3169,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n357-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n357-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/N6gO_8R6-Lu3?s=D4bHovHZGXPDW7YqoT56j69q",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/D4bHovHZGXPDW7YqoT56j69q",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3170,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 356-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 356-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/KQ-sM_LghweQ?s=zRRcWSle7IJV_0uMN8enAVZv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/zRRcWSle7IJV_0uMN8enAVZv",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3171,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n355-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n355-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/xWbx09_CwpuG?s=A1OMJdm5W5CST9Mjsu7NEySL",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/A1OMJdm5W5CST9Mjsu7NEySL",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3172,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 354-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 354-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/apIQeACno9nZ?s=p3OO2phtMfnpFjBHO7Rj8qiL",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/p3OO2phtMfnpFjBHO7Rj8qiL",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3173,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n353-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n353-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ZGgjSIqU-zVb?s=ee9SHTjJ_23xamQONZVHlvHa",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ee9SHTjJ_23xamQONZVHlvHa",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3174,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n352-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n352-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/iaAb__XBGOGr?s=tuRAEu0Y9_E6nDOaY4vN7ef7",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/tuRAEu0Y9_E6nDOaY4vN7ef7",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3175,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n351-қисм\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n351-қисм\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/K3I2gi3crAQm?s=qhQU48D9NQogOxtHjP9QXT3R",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qhQU48D9NQogOxtHjP9QXT3R",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3176,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n350-қисм\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n350-қисм\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/pIw_3AxFvboO?s=StRuuU1U3Sv0nsTWcSrkN8Tv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/StRuuU1U3Sv0nsTWcSrkN8Tv",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3177,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n349-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n349-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/HDh8xWLazVSs?s=0l4HaBkMFZ1mO8dyAA7LGpQy",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/0l4HaBkMFZ1mO8dyAA7LGpQy",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3178,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n348-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n348-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PAw9F1iz-jyz?s=Z0hH1N7WlSwUr66LhQLgQqGN",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Z0hH1N7WlSwUr66LhQLgQqGN",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3179,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 347-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 347-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Y__imqW0Sqn6?s=Ys-KMrsh52j0elY9s-lw7BqM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Ys-KMrsh52j0elY9s-lw7BqM",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3180,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 346-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”\n 346-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/NDDoi2Pqt_Dv?s=eGZWc42x5dRcnHJ_xkFfaXHB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eGZWc42x5dRcnHJ_xkFfaXHB",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 52,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3181,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n345-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n345-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Xs5wIX3dklUI?s=E3HYi6Z_XenqKD-nFCmHAS9j",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/E3HYi6Z_XenqKD-nFCmHAS9j",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 46,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3182,
+    "slug": "abdul-amidhon-s-nggi-imperator",
+    "type": "film",
+    "title": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n344-қисм.\n\n👉",
+      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n344-қисм.\n\n👉"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1XSrkcgKb-E0?s=x6YTgJQX5n3Fi5GfPMSnWJMU",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/x6YTgJQX5n3Fi5GfPMSnWJMU",
+    "featured": false,
+    "addedAt": 1790842151562,
+    "updatedAt": 1790842151562,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
