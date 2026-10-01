@@ -37,6 +37,12 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>
 
+        <!-- Kinoni telefonga parallel yuklab olish (foydalanuvchi bosganda; ilova yopilsa ham davom etadi) -->
+        <service
+            android:name=".DownloadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
         <!-- Televizorga ulash (Chromecast) -->
         <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
@@ -56,5 +62,8 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <!-- QR kod skanerlash (Televizorda ko'ring banneri) -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Yuklab olish xizmati (bildirishnomada foiz) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 </manifest>

@@ -62,6 +62,8 @@ public class DownloadPlugin extends Plugin {
     public void load() {
         Bridge bridge = getBridge();
         Context ctx = getContext();
+        // telefon o'chib-yongan yoki ilova yopilgan bo'lsa — chala qolgan parallel yuklashlar davom etadi
+        try { if (!DownloadService.unfinished(ctx).isEmpty()) DownloadService.kick(ctx); } catch (Exception ignored) {}
         // sahifa va service worker so'rovlarida /_dzx_offline/ — telefondagi fayl
         bridge.getWebView().post(() -> bridge.setWebViewClient(new BridgeWebViewClient(bridge) {
             @Override
@@ -181,6 +183,24 @@ public class DownloadPlugin extends Plugin {
             if (target.exists()) target.delete();
             // DownloadManager 308 (va ba'zi 307) yo'naltirishni kuzatmaydi — haqiqiy fayl manzilini o'zimiz topamiz
             url = resolveRedirects(url);
+            new File(dir(getContext()), file + ".part").delete();
+
+            // DezoCloud'dan boshqa saytlar: bo'lab berishni (Range) qo'llasa — 6 ta parallel ulanish (ancha tez).
+            // DezoCloud'da foyda yo'q (Telegram chegarasi) va serverni ortiqcha yuklaydi — oddiy usul.
+            if (!Uri.parse(url).getHost().endsWith("dezocloud.uz")) {
+                long total = DownloadService.probe(url);
+                if (total > 8L * 1048576) {
+                    long id = Math.max(System.currentTimeMillis(), DownloadService.MIN_ID + 1);
+                    DownloadService.create(getContext(), id, url, file, call.getString("title", "DezoMax"), total);
+                    DownloadService.kick(getContext());
+                    JSObject ret = new JSObject();
+                    ret.put("dmId", id);
+                    ret.put("parallel", true);
+                    call.resolve(ret);
+                    return;
+                }
+            }
+
             DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
             r.setTitle(call.getString("title", "DezoMax"));
             r.setDescription("DezoMax — internetsiz ko‘rish uchun");
@@ -243,7 +263,14 @@ public class DownloadPlugin extends Plugin {
                 o.put("file", file);
                 String state = "missing";
                 long loaded = 0, total = -1;
-                if (id >= 0) {
+                if (id >= DownloadService.MIN_ID) {
+                    DownloadService.Task t = DownloadService.load(getContext(), id);
+                    if (t != null) {
+                        state = "running".equals(t.state) ? "running" : "done".equals(t.state) ? "done" : "failed";
+                        loaded = t.loaded.get();
+                        total = t.total;
+                    }
+                } else if (id >= 0) {
                     try (Cursor c = dm().query(new DownloadManager.Query().setFilterById(id))) {
                         if (c != null && c.moveToFirst()) {
                             int st = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
@@ -279,10 +306,13 @@ public class DownloadPlugin extends Plugin {
     public void remove(PluginCall call) {
         long id = call.getLong("dmId", -1L);
         String file = safeName(call.getString("file"));
-        try { if (id >= 0) dm().remove(id); } catch (Exception ignored) {}
+        if (id >= DownloadService.MIN_ID) DownloadService.cancel(getContext(), id);
+        else try { if (id >= 0) dm().remove(id); } catch (Exception ignored) {}
         if (file != null) {
             File f = new File(dir(getContext()), file);
             if (f.exists()) f.delete();
+            File part = new File(dir(getContext()), file + ".part");
+            if (part.exists()) part.delete();
         }
         call.resolve();
     }
