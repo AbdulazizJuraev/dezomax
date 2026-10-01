@@ -595,7 +595,10 @@ const IS_APP = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && 
       addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js').catch(() => {});
         // asosiy sahifalar va shu sahifaning kod fayllari darhol saqlansin (internetsiz ochilishi uchun)
-        navigator.serviceWorker.ready.then(reg => {
+        // sahifalar har 6 soatda bir marta yangilanib saqlanadi (yangi versiya chiqsa ham internetsiz to'g'ri ochilsin)
+        let last = 0; try { last = +localStorage.getItem('dzx_precache_at') || 0; } catch {}
+        if (Date.now() - last > 6 * 3600e3) navigator.serviceWorker.ready.then(reg => {
+          try { localStorage.setItem('dzx_precache_at', String(Date.now())); } catch {}
           const assets = [...document.querySelectorAll('script[src], link[rel="stylesheet"][href]')]
             .map(el => el.src || el.href).filter(u => u && u.startsWith(location.origin));
           reg.active?.postMessage({

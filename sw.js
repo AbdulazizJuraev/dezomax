@@ -29,7 +29,6 @@ self.addEventListener('message', e => {
         const url = new URL(u, self.registration.scope);
         if (url.origin !== self.location.origin) continue;
         const key = new Request(url.origin + url.pathname);
-        if (await pages.match(key)) continue;
         const res = await fetch(new Request(url.href, { headers: { Accept: 'text/html' }, credentials: 'same-origin' }));
         if (!res.ok) continue;
         // sahifaning o'z js/css fayllari ham (masalan catalog.js) — aks holda internetsiz sahifa bo'sh ochiladi
@@ -66,10 +65,11 @@ self.addEventListener('fetch', e => {
   if (url.pathname.includes('/_dzx_offline/')) return;            // telefondagi kino — Android beradi
   const same = url.origin === self.location.origin;
 
-  // sahifalar
+  // sahifalar: internet bor — tegilmaydi (ilovada Capacitor sahifani o'zi ochadi, avvalgidek);
+  // internet yo'q — saqlangan nusxa (aynan shu sahifa; boshqa sahifaga «almashtirib» yuborilmaydi)
   if (req.mode === 'navigate') {
-    if (!same) return;
-    e.respondWith(networkFirst(req, PAGES, new Request(url.origin + url.pathname)));
+    if (!same || self.navigator.onLine !== false) return;
+    e.respondWith(offlinePage(req, url));
     return;
   }
 
@@ -95,6 +95,12 @@ self.addEventListener('fetch', e => {
   }
   if (/fonts\.(googleapis|gstatic)\.com$/i.test(url.hostname)) { e.respondWith(cacheFirst(req, SHELL)); return; }
 });
+
+async function offlinePage(req, url) {
+  const cache = await caches.open(PAGES);
+  const hit = await cache.match(new Request(url.origin + url.pathname), { ignoreSearch: true });
+  return hit || fetch(req);          // saqlanmagan bo'lsa — odatdagi xato (ilovada «Internet yo'q» sahifasi)
+}
 
 async function networkFirst(req, name, key) {
   const cache = await caches.open(name);
