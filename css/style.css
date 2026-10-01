@@ -5310,3 +5310,8 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
   .adm-cover { flex-direction: column; }
   .adm-cover-prev { flex-basis: auto; width: 100%; }
 }
+/* qism tugmasida davomiyligi */
+.mv-part { height: auto; min-height: 40px; padding: 6px 4px; align-content: center; gap: 1px; line-height: 1.2; }
+.mv-part b { font-weight: 650; }
+.mv-part small { font-size: 11px; font-weight: 550; opacity: .65; }
+.mv-part.is-on small { opacity: .9; }

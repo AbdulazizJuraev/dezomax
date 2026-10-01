@@ -236,7 +236,7 @@ function partsBarHTML() {
         <span>${esc(durationText(group))}</span>
       </div>
       <div class="mv-parts-list">
-        ${PARTS.map((_, i) => `<a class="mv-part${i + 1 === partNo ? ' is-on' : ''}" href="${partUrl(i + 1)}"${i + 1 === partNo ? ' aria-current="true"' : ''}>${partLabel(i + 1)}</a>`).join('')}
+        ${PARTS.map((p, i) => `<a class="mv-part${i + 1 === partNo ? ' is-on' : ''}" href="${partUrl(i + 1)}"${i + 1 === partNo ? ' aria-current="true"' : ''}><b>${partLabel(i + 1)}</b>${p.duration ? `<small>${p.duration} ${t('movie.min')}</small>` : ''}</a>`).join('')}
       </div>
     </div>`;
 }
