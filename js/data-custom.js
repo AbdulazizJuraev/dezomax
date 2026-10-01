@@ -3248,10 +3248,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://e.uzbeklar.biz/breaking/1qism.mp4",
     "featured": false,
     "addedAt": 1790253250945,
-    "updatedAt": 1790253250945,
+    "updatedAt": 1790860386917,
     "year": 2008,
     "rating": 9.5,
-    "director": "Vince Gilligan"
+    "director": "Vince Gilligan",
+    "audio": "uz",
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/breaking-bad-25-cover.jpg"
   },
   {
     "id": 24,
