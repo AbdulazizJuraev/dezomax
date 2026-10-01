@@ -121,7 +121,11 @@ const esc = s => String(s).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const title = m => m.title[LANG] || m.title.uz;
-const descOf = m => m.desc[LANG] || m.desc.uz;
+/* Tavsif: emoji/stikerlarsiz (Telegram'dan kelgan matnlarda ko'p bo'ladi), ortiqcha bo'sh joylarsiz */
+const stripEmoji = s => String(s || '')
+  .replace(/[\p{Extended_Pictographic}\p{Regional_Indicator}\u{FE0F}\u{200D}\u{20E3}\u{1F3FB}-\u{1F3FF}]/gu, '')
+  .replace(/[ \t ]{2,}/g, ' ').replace(/ +([,.!?;:])/g, '$1').replace(/^[ \t ]+|[ \t ]+$/gm, '').trim();
+const descOf = m => stripEmoji(m.desc?.[LANG] || m.desc?.uz || '');
 const countryOf = m => m.country[LANG] || m.country.uz;
 
 function genreName(id) {
