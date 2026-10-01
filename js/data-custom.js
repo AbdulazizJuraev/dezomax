@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2487,
+    "slug": "hotel-transylvania",
+    "type": "multfilm",
+    "title": {
+      "uz": "Maxluqlar taʼtilda",
+      "ru": "Монстры на каникулах"
+    },
+    "genres": [
+      "comedy",
+      "horror",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Maxluqlar taʼtilda» — 2012-yilgi AQSh multfilmi. Rejissyor: Genndy Tartakovsky. Saytda rasmiy treyleri bor.",
+      "ru": "«Монстры на каникулах» (англ. Hotel Transylvania (с англ."
+    },
+    "tags": [
+      "Hotel Transylvania"
+    ],
+    "colors": [
+      "hsl(57 45% 28%)",
+      "hsl(77 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/f/f5/HotelTransylvania.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=jgdl2mxX9W0",
+    "video": "https://files.uzbeklar.biz/film3/maxluqlar-tatilda1.mp4",
+    "featured": false,
+    "addedAt": 1790852099702,
+    "updatedAt": 1790852099702,
+    "year": 2012,
+    "duration": 91,
+    "director": "Genndy Tartakovsky"
+  },
+  {
     "id": 2261,
     "slug": "monsters-university",
     "type": "multfilm",
