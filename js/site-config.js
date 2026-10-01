@@ -21,6 +21,10 @@ const SITE_CONFIG = /*CONFIG*/{
   },
   "rows": [
     {
+      "source": "series",
+      "visible": true
+    },
+    {
       "source": "trending",
       "visible": true
     },
@@ -62,10 +66,6 @@ const SITE_CONFIG = /*CONFIG*/{
     },
     {
       "source": "top",
-      "visible": true
-    },
-    {
-      "source": "series",
       "visible": true
     }
   ]
