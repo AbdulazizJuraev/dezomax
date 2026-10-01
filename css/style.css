@@ -5536,3 +5536,12 @@ html.soc-lock { overflow: hidden; }
 .off-player-top { position: absolute; top: calc(var(--app-sat, 0px) + 6px); left: 0; right: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 12px 0 16px; }
 .off-player-top b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .off-player .player-wrap { width: 100%; border-radius: 0; border: 0; }
+/* Seriallar banneri telefonda — ixcham: tavsif va «Barcha seriallar» yo'q (sarlavhada «Hammasi» bor) */
+@media (max-width: 640px) {
+  .sb .sb-desc, .sb .sb-all { display: none; }
+  .sb-title { font-size: 26px; margin-bottom: 6px; }
+  .sb-meta { margin-bottom: 14px; }
+  .sb { min-height: 400px; }
+}
+/* kompyuterda ham tavsif 2 qatordan oshmaydi va «Film nomi: … Tili: …» kabi uzun matnlar qisqa ko'rinadi */
+.sb-desc { -webkit-line-clamp: 2; max-width: 480px; }
