@@ -5440,3 +5440,23 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
   .soc-menu { left: auto; right: 0; }
   .soc-ava { flex-basis: 32px; width: 32px; height: 32px; font-size: 13px; }
 }
+
+/* ---------------- Kino sahifasi: YouTube tartibi — pleyer tepada ---------------- */
+.mv-watch { padding-top: calc(var(--header-h) + 18px); position: relative; z-index: 2; }
+.mv-watch .player-tabs { margin-bottom: 10px; }
+.mv-watch-title { margin: 14px 0 8px; font-size: clamp(19px, 2.3vw, 24px); font-weight: 750; line-height: 1.25; letter-spacing: -.02em; }
+.mv-watch-title span { color: var(--text-dim); font-weight: 650; }
+.mv-meta-row { display: flex; align-items: center; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.mv-stats { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 0; font-size: 14px; color: var(--text-dim); }
+.mv-stats b { color: var(--text); font-weight: 650; }
+.mv-dot { margin: 0 8px; font-style: normal; color: var(--text-faint); }
+.mv-meta-row .mv-social { margin: 0; }
+.mv-watch .mv-next-wrap { margin: 0 0 16px; }
+.mv-watch .mv-parts { margin-bottom: 8px; }
+.mv-hero.mv-hero-below { padding-top: 34px; }
+@media (max-width: 640px) {
+  .mv-watch { padding-top: calc(var(--header-h) + 8px); }
+  .mv-watch .player-wrap { border-radius: 12px; }
+  .mv-meta-row { flex-direction: column; align-items: flex-start; }
+  .mv-hero.mv-hero-below { padding-top: 22px; }
+}

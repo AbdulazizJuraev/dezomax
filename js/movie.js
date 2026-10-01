@@ -370,14 +370,25 @@ function renderMovie() {
     .filter(x => x && x !== title(movie)).join(' · ');
 
   page.innerHTML = `
-  <section class="mv-hero">
+  <div class="wrap mv-watch" id="player">
+    ${playerSectionHTML(movie)}
+    <h1 class="mv-watch-title">${esc(title(movie))}${partNo ? ` <span>· ${partLabel(partNo)}</span>` : ''}</h1>
+    <div class="mv-meta-row">
+      <div class="mv-stats" id="mvStats"></div>
+      <div class="mv-social" id="mvSocial"></div>
+    </div>
+    ${partNo && partNo < PARTS.length ? `<div class="mv-next-wrap"><a class="btn btn-primary mv-next" href="${partUrl(partNo + 1)}"><span>${LANG === 'ru' ? 'Следующая серия' : 'Keyingi qism'}: ${partLabel(partNo + 1)}</span>${ICONS.right}</a></div>` : ''}
+    ${partsBarHTML()}
+  </div>
+
+  <section class="mv-hero mv-hero-below">
     <div class="mv-hero-bg${movie.poster ? ' has-art' : ''}" style="background-image:${movie.poster ? `url('${esc(movie.poster)}')` : backdropCSS(movie)}"></div>
     <div class="wrap">
       <div class="mv-layout">
         <div class="mv-poster">${posterHTML(movie)}</div>
 
         <div>
-          <h1 class="mv-title">${esc(title(movie))}</h1>
+          <h2 class="mv-title">${esc(title(movie))}</h2>
           ${subTitle ? `<div class="mv-sub">${esc(subTitle)}</div>` : ''}
           ${akaOf(movie).length ? `<div class="mv-aka">${LANG === 'ru' ? 'Также известен как' : 'Boshqa nomlari'}: ${esc(akaOf(movie).join(' · '))}</div>` : ''}
 
@@ -399,7 +410,6 @@ function renderMovie() {
             <button class="btn btn-ghost" id="favBtn">${ICONS.heart}<span id="favLabel"></span></button>
             <button class="btn btn-ghost" id="dlBtn">${ICONS.download}<span id="dlLabel"></span></button>
           </div>
-          <div class="mv-social" id="mvSocial"></div>
 
           <dl class="mv-info">
             ${info.map(([k, v], i) => `
@@ -411,13 +421,6 @@ function renderMovie() {
   </section>
 
   <div class="wrap">
-    <section class="section" id="player">
-      <div class="section-head"><i class="bar"></i><h2>${watchLabel}${partNo ? ` · ${partLabel(partNo)}` : ''}</h2></div>
-      ${partsBarHTML()}
-      ${playerSectionHTML(movie)}
-      ${partNo && partNo < PARTS.length ? `<div class="mv-next-wrap"><a class="btn btn-primary mv-next" href="${partUrl(partNo + 1)}"><span>${LANG === 'ru' ? 'Следующая серия' : 'Keyingi qism'}: ${partLabel(partNo + 1)}</span>${ICONS.right}</a></div>` : ''}
-    </section>
-
     <div class="ad-slot" data-ad-slot="movie"></div>
 
     <section class="section mv-comments" id="comments"></section>
@@ -493,7 +496,7 @@ function renderMovie() {
   syncDl();
 
   // like/dislike, ulashish va izohlar (js/social.js)
-  if (typeof initSocial === 'function') initSocial(group || movie, partNo);
+  if (typeof initSocial === 'function') initSocial(group || movie, partNo, { addedAt: (partNo && PARTS[partNo - 1].addedAt) || movie.addedAt || null });
 
   // ?play=1 bo'lsa pleyerga o'tamiz
   if (qp.get('play')) {

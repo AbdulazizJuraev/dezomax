@@ -157,6 +157,12 @@ const comp = (o, prepId, amount, extra = {}) => {
   assert.equal((await call('POST', '/api/comment/delete', { token: adm, body: { id: longc.id } })).status, 200);
   assert.equal((await call('GET', '/social?movie=42')).json.total, 0); ok('admin o‘chirdi, ro‘yxat bo‘sh');
   assert.equal((await call('GET', '/social?movie=43')).json.likes, 0); ok('baholar kino bo‘yicha alohida');
+
+  // --- ko'rishlar ---
+  assert.equal((await call('POST', '/view', { body: { movie: 'x' } })).status, 400); ok('ko‘rish: noto‘g‘ri kino ID rad etildi');
+  assert.equal((await call('POST', '/view', { body: { movie: 77 } })).json.views, 1); ok('ko‘rish sanaldi (tokensiz)');
+  assert.equal((await call('POST', '/view', { body: { movie: 77 } })).json.views, 1); ok('o‘sha IP 6 soat ichida qayta sanalmaydi');
+  assert.equal((await call('GET', '/social?movie=77')).json.views, 1); ok('ko‘rishlar /social da qaytadi');
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();
 })().catch(er => { console.error('\nSINOV YIQILDI:', er.message); console.error(er.stack.split('\n').slice(1, 4).join('\n')); server.close(); process.exit(1); });

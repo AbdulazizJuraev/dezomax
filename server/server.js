@@ -13,7 +13,8 @@
      POST /api/order    {amount}            Click to'lov havolasi                (Bearer token)
      POST /api/spend    {amount, plan,days} balansdan yechish (tarif sotib olish) (Bearer token)
      POST /click/prepare, /click/complete   Click chaqiradi (Shop API, imzo MD5)
-     GET  /social?movie=ID                  like/dislike soni + izohlar (ochiq; token bo'lsa — o'z bahosi)
+     GET  /social?movie=ID                  ko'rishlar, like/dislike soni + izohlar (ochiq; token bo'lsa — o'z bahosi)
+     POST /view {movie}                     ko'rishni sanash (bir IP — 6 soatda bir marta)
      POST /api/react   {movie, value}       1 — like, -1 — dislike, 0 — bekor qilish   (Bearer token)
      POST /api/comment {movie, text}        izoh yozish                                 (Bearer token)
      POST /api/comment/delete {id}          o'z izohini (admin — istalganini) o'chirish (Bearer token)
@@ -56,6 +57,7 @@ function openDb(file) {
       id INTEGER PRIMARY KEY AUTOINCREMENT, movie_id INTEGER NOT NULL, uid TEXT NOT NULL REFERENCES users(uid),
       name TEXT, text TEXT NOT NULL, at INTEGER NOT NULL, hidden INTEGER NOT NULL DEFAULT 0);
     CREATE INDEX IF NOT EXISTS comments_movie ON comments(movie_id, hidden, at DESC);
+    CREATE TABLE IF NOT EXISTS views (movie_id INTEGER PRIMARY KEY, n INTEGER NOT NULL DEFAULT 0);
   `);
   return db;
 }
@@ -114,7 +116,9 @@ function createApp(cfg, deps = {}) {
     addComment: db.prepare('INSERT INTO comments (movie_id, uid, name, text, at) VALUES (?, ?, ?, ?, ?)'),
     comment: db.prepare('SELECT * FROM comments WHERE id = ?'),
     hideComment: db.prepare('UPDATE comments SET hidden = 1 WHERE id = ?'),
-    recentByUser: db.prepare('SELECT COUNT(*) AS n FROM comments WHERE uid = ? AND at > ?')
+    recentByUser: db.prepare('SELECT COUNT(*) AS n FROM comments WHERE uid = ? AND at > ?'),
+    views: db.prepare('SELECT n FROM views WHERE movie_id = ?'),
+    addView: db.prepare('INSERT INTO views (movie_id, n) VALUES (?, 1) ON CONFLICT(movie_id) DO UPDATE SET n = n + 1')
   };
 
   /* --- Like/dislike va izohlar --- */
@@ -123,6 +127,7 @@ function createApp(cfg, deps = {}) {
   function socialOf(movie, user) {
     const c = q.reactCounts.get(movie) || {};
     return {
+      views: q.views.get(movie)?.n || 0,
       likes: Number(c.likes) || 0,
       dislikes: Number(c.dislikes) || 0,
       mine: user ? (q.myReaction.get(movie, user.uid)?.value || 0) : 0,
@@ -133,6 +138,19 @@ function createApp(cfg, deps = {}) {
       })),
       admin: !!user && admins.has(user.uid)
     };
+  }
+  // ko'rishlar: bir IP bir kinoni 6 soat ichida faqat bir marta sanaydi (xotirada, server qayta ishga tushsa tozalanadi)
+  const seen = new Map();
+  const VIEW_MS = 6 * 3600000;
+  function addView(req, movie) {
+    const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+    const k = ip + '|' + movie, t = now();
+    if ((seen.get(k) || 0) > t - VIEW_MS) return false;
+    if (seen.size > 100000) for (const [kk, tt] of seen) { if (tt <= t - VIEW_MS) seen.delete(kk); }
+    if (seen.size > 100000) seen.clear();
+    seen.set(k, t);
+    q.addView.run(movie);
+    return true;
   }
   // izoh matni: boshqaruv va ko'rinmas belgilarsiz, 2 tadan ortiq bo'sh qatorsiz, 1000 belgigacha
   const cleanText = t => String(t || '')
@@ -350,6 +368,14 @@ function createApp(cfg, deps = {}) {
         const movie = movieIdOf(url.searchParams.get('movie'));
         if (!movie) return send(res, 400, { error: 'movie kerak' });
         return send(res, 200, socialOf(movie, user));
+      }
+      if (path === '/view' && req.method === 'POST') {
+        if (limited(req, 'view', 60)) return send(res, 429, { error: 'Ko‘p so‘rov' });
+        const b = await readBody(req).catch(() => ({}));
+        const movie = movieIdOf(b.movie);
+        if (!movie) return send(res, 400, { error: 'movie kerak' });
+        addView(req, movie);
+        return send(res, 200, { views: q.views.get(movie)?.n || 0 });
       }
       if (path.startsWith('/api/')) {
         if (!user) return send(res, 401, { error: 'Qayta kiring' });

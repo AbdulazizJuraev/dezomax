@@ -24,7 +24,9 @@ Object.assign(I18N.uz, {
   'soc.now': 'hozirgina',
   'soc.min': 'daq. oldin',
   'soc.hour': 'soat oldin',
-  'soc.day': 'kun oldin'
+  'soc.day': 'kun oldin',
+  'soc.views': 'marta ko‘rilgan',
+  'soc.added': 'Yuklangan'
 });
 Object.assign(I18N.ru, {
   'soc.like': 'Нравится',
@@ -45,7 +47,9 @@ Object.assign(I18N.ru, {
   'soc.now': 'только что',
   'soc.min': 'мин. назад',
   'soc.hour': 'ч. назад',
-  'soc.day': 'дн. назад'
+  'soc.day': 'дн. назад',
+  'soc.views': 'просмотров',
+  'soc.added': 'Добавлено'
 });
 
 const SOC_ICONS = {
@@ -93,19 +97,50 @@ function socToast(msg) {
   el._t = setTimeout(() => el.classList.remove('is-on'), 2200);
 }
 
+const SOC_MONTHS = {
+  uz: ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr'],
+  ru: ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+};
+function socDate(ts) {
+  const d = new Date(ts);
+  if (isNaN(d)) return '';
+  const mo = (SOC_MONTHS[LANG] || SOC_MONTHS.uz)[d.getMonth()];
+  return LANG === 'ru' ? `${d.getDate()} ${mo} ${d.getFullYear()}` : `${d.getDate()}-${mo}, ${d.getFullYear()}`;
+}
+// 12 345 ko'rinishida (to'liq son, bo'sh joy bilan)
+const socNum = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
 /* Ilovada ham (localhost) ulashish havolasi — saytning ochiq manzili */
 function socShareUrl(m, part) {
   return `https://dezomax.uz/movie.html?id=${m.id}${part ? `&part=${part}` : ''}`;
 }
 
-function initSocial(m, part) {
+function initSocial(m, part, opts = {}) {
   const bar = document.getElementById('mvSocial');
+  const stats = document.getElementById('mvStats');
   const box = document.getElementById('comments');
   if (!bar || !box || !m) return;
   const api = socApi();
   const shareUrl = socShareUrl(m, part);
   const shareText = title(m) + (part ? ` · ${LANG === 'ru' ? part + ' серия' : part + '-qism'}` : '') + ' — DezoMax';
-  let state = { likes: 0, dislikes: 0, mine: 0, total: 0, comments: [] }, shown = 20, busy = false;
+  let state = { views: null, likes: 0, dislikes: 0, mine: 0, total: 0, comments: [] }, shown = 20, busy = false;
+
+  /* ---- ko'rishlar soni va yuklangan sana (pleyer ostida, chapda) ---- */
+  const drawStats = () => {
+    if (!stats) return;
+    const parts = [];
+    if (state.views !== null) parts.push(`<span><b>${socNum(state.views)}</b> ${esc(t('soc.views'))}</span>`);
+    if (opts.addedAt) parts.push(`<span>${esc(t('soc.added'))}: <b>${esc(socDate(opts.addedAt))}</b></span>`);
+    stats.innerHTML = parts.join('<i class="mv-dot">·</i>');
+  };
+  // ko'rish — pleyerni birinchi bosganda bir marta sanaladi (server bir IP'ni 6 soatda bir marta sanaydi)
+  const playerBox = document.getElementById('playerBox');
+  if (playerBox && api) {
+    playerBox.addEventListener('click', () => {
+      fetch(api + '/view', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ movie: m.id }), keepalive: true })
+        .then(r => r.json()).then(j => { if (typeof j.views === 'number') { state.views = j.views; drawStats(); } }).catch(() => {});
+    }, { once: true, capture: true });
+  }
 
   /* ---- like / dislike / ulashish ---- */
   const drawBar = () => {
@@ -231,10 +266,11 @@ function initSocial(m, part) {
     }));
   };
 
+  drawStats();
   drawBar();
   drawComments();
   if (!api) return;
   socReq('GET', `/social?movie=${m.id}`)
-    .then(j => { state = j; drawBar(); drawComments(); })
+    .then(j => { state = { ...state, ...j }; if (typeof j.views !== 'number') state.views = null; drawStats(); drawBar(); drawComments(); })
     .catch(() => { box.querySelector('.soc-list').innerHTML = `<p class="acc-muted">${esc(t('soc.off'))}</p>`; });
 }
