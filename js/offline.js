@@ -22,7 +22,9 @@ Object.assign(I18N.uz, {
   'off.empty': 'Hali hech narsa yuklab olinmagan. Kino sahifasidagi «Yuklab olish» tugmasini bosing.',
   'off.watch': 'Ko‘rish',
   'off.delete': 'O‘chirish',
-  'off.space': 'Band: {used} · Bo‘sh: {free}'
+  'off.space': 'Band: {used} · Bo‘sh: {free}',
+  'off.cannot': 'Bu kino YouTube/oqim orqali — uni yuklab olib bo‘lmaydi',
+  'off.update': 'Yuklab olish uchun ilovani yangilang (6.5 va yangisi)'
 });
 Object.assign(I18N.ru, {
   'off.download': 'Скачать',
@@ -39,7 +41,9 @@ Object.assign(I18N.ru, {
   'off.empty': 'Пока ничего не скачано. Нажмите «Скачать» на странице фильма.',
   'off.watch': 'Смотреть',
   'off.delete': 'Удалить',
-  'off.space': 'Занято: {used} · Свободно: {free}'
+  'off.space': 'Занято: {used} · Свободно: {free}',
+  'off.cannot': 'Этот фильм идёт через YouTube/поток — скачать нельзя',
+  'off.update': 'Обновите приложение (6.5 или новее), чтобы скачивать'
 });
 
 const OFF_ICONS = {
@@ -86,7 +90,7 @@ const Offline = {
     const name = title(m) + (part ? ` · ${partTitle || part + '-qism'}` : '');
     const { dmId } = await p.start({ url: dl, file, title: name });
     const item = {
-      key, id: m.id, part: part || 0, title: name, poster: m.poster || '', cover: (typeof wideCover === 'function' && wideCover(m)) || m.cover || '',
+      key, id: m.id, part: part || 0, title: name, poster: absUrl(m.poster), cover: absUrl((typeof wideCover === 'function' && wideCover(m)) || m.cover),
       src, file, dmId, state: 'pending', loaded: 0, total: -1, at: Date.now()
     };
     this.save([item, ...this.list().filter(x => x.key !== key)]);
@@ -123,12 +127,21 @@ const Offline = {
   async space() { try { return await this.plugin().space(); } catch { return null; } }
 };
 
+const absUrl = u => { try { return u ? new URL(u, location.href).href : ''; } catch { return u || ''; } };
 const offSize = b => !(b > 0) ? '' : b >= 1073741824 ? (b / 1073741824).toFixed(1).replace('.', ',') + ' GB' : Math.max(1, Math.round(b / 1048576)) + ' MB';
 const offPct = it => it.total > 0 ? Math.min(100, Math.floor(it.loaded / it.total * 100)) : 0;
 
 /* Kino sahifasidagi «Yuklab olish» tugmasi (faqat ilovada va yuklab bo'ladigan videoda) */
 function mountOfflineButton(box, m, part, src, partTitle) {
-  if (!box || !Offline.enabled() || !Offline.srcOf(src)) { if (box) box.hidden = true; return; }
+  if (!box) return;
+  const isApp = typeof IS_APP !== 'undefined' && IS_APP;
+  if (!isApp) { box.hidden = true; return; }
+  if (!Offline.enabled() || !Offline.srcOf(src)) {
+    const why = !Offline.enabled() ? t('off.update') : t('off.cannot');
+    box.innerHTML = `<button type="button" class="soc-btn soc-pill off-btn is-off">${OFF_ICONS.dl}<b>${esc(t('off.download'))}</b></button>`;
+    box.querySelector('button').addEventListener('click', () => { if (typeof socToast === 'function') socToast(why); else alert(why); });
+    return;
+  }
   let timer = 0;
   const draw = () => {
     const it = Offline.get(m.id, part);

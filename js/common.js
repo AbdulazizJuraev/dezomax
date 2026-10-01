@@ -592,7 +592,19 @@ const IS_APP = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && 
 (function () {
   try {
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-      addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+      addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+        // asosiy sahifalar va shu sahifaning kod fayllari darhol saqlansin (internetsiz ochilishi uchun)
+        navigator.serviceWorker.ready.then(reg => {
+          const assets = [...document.querySelectorAll('script[src], link[rel="stylesheet"][href]')]
+            .map(el => el.src || el.href).filter(u => u && u.startsWith(location.origin));
+          reg.active?.postMessage({
+            type: 'precache',
+            pages: ['index.html', 'catalog.html', 'movie.html', 'search.html', 'downloads.html', 'favorites.html', 'tv.html', 'sport.html'],
+            assets
+          });
+        }).catch(() => {});
+      });
     }
   } catch (e) {}
 

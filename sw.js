@@ -16,6 +16,40 @@ const IMG_MAX = 900;
 
 self.addEventListener('install', () => self.skipWaiting());
 
+/* Sahifa yuboradi: { type: 'precache', pages: [...], assets: [...] } — asosiy sahifalar va hozirgi kod fayllari
+   birinchi ochilishdayoq saqlanadi (keyin internetsiz ochiladi, oldin kirilmagan bo'lsa ham).
+   Sahifalar Accept: text/html bilan so'raladi — ilovada Capacitor ularga o'z ko'prigini qo'shadi. */
+self.addEventListener('message', e => {
+  const d = e.data || {};
+  if (d.type !== 'precache') return;
+  e.waitUntil((async () => {
+    const pages = await caches.open(PAGES), shell = await caches.open(SHELL);
+    for (const u of d.pages || []) {
+      try {
+        const url = new URL(u, self.registration.scope);
+        if (url.origin !== self.location.origin) continue;
+        const key = new Request(url.origin + url.pathname);
+        if (await pages.match(key)) continue;
+        const res = await fetch(new Request(url.href, { headers: { Accept: 'text/html' }, credentials: 'same-origin' }));
+        if (!res.ok) continue;
+        // sahifaning o'z js/css fayllari ham (masalan catalog.js) — aks holda internetsiz sahifa bo'sh ochiladi
+        const html = await res.clone().text();
+        for (const m of html.matchAll(/(?:src|href)="((?:js|css)\/[^"]+\.(?:js|css)(?:\?[^"]*)?)"/g)) (d.assets = d.assets || []).push(new URL(m[1], url).href);
+        await pages.put(key, res);
+      } catch {}
+    }
+    for (const u of d.assets || []) {
+      try {
+        const url = new URL(u, self.registration.scope);
+        if (url.origin !== self.location.origin || !/\.(js|css)$/i.test(url.pathname)) continue;
+        if (await shell.match(url.href)) continue;
+        const res = await fetch(url.href);
+        if (res.ok) await shell.put(url.href, res);
+      } catch {}
+    }
+  })());
+});
+
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (k.startsWith('dzx-') && !KEEP.includes(k)) await caches.delete(k);

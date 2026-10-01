@@ -5,28 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>DezoMax</title>
 <style>
-  html, body { margin: 0; height: 100%; background: #07080c; color: #e8ecf3; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .box { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; box-sizing: border-box; }
-  img { width: 84px; height: 84px; border-radius: 22px; margin-bottom: 22px; }
+  html, body { margin: 0; min-height: 100%; background: #07080c; color: #e8ecf3; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .box { display: flex; flex-direction: column; align-items: center; text-align: center; padding: calc(env(safe-area-inset-top, 0px) + 48px) 20px 20px; box-sizing: border-box; }
+  .box.is-full { min-height: 100vh; justify-content: center; padding-top: 24px; }
+  .logo { width: 72px; height: 72px; border-radius: 20px; margin-bottom: 16px; }
   h1 { font-size: 20px; margin: 0 0 8px; }
-  p { margin: 0 0 22px; color: #9aa4b5; font-size: 14.5px; line-height: 1.5; max-width: 300px; }
-  button { border: 0; border-radius: 999px; padding: 13px 28px; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #0a93dc, #0668a8); box-shadow: 0 8px 24px rgba(10, 147, 220, .35); }
-  button:active { transform: scale(.96); }
+  p { margin: 0 0 18px; color: #9aa4b5; font-size: 14.5px; line-height: 1.5; max-width: 320px; }
+  .btn { border: 0; border-radius: 999px; padding: 12px 26px; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #0a93dc, #0668a8); box-shadow: 0 8px 24px rgba(10, 147, 220, .35); }
+  .btn:active { transform: scale(.96); }
+  .dl { padding: 8px 16px calc(env(safe-area-inset-bottom, 0px) + 24px); max-width: 640px; margin: 0 auto; }
+  .dl h2 { font-size: 17px; margin: 18px 4px 4px; }
+  .dl small.hint { display: block; margin: 0 4px 14px; color: #9aa4b5; font-size: 13px; }
+  .row { display: flex; align-items: center; gap: 14px; width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,.08); border-radius: 14px; background: rgba(255,255,255,.04); color: inherit; text-align: left; font: inherit; }
+  .row:active { background: rgba(255,255,255,.08); }
+  .ph { flex: 0 0 64px; width: 64px; aspect-ratio: 2 / 3; border-radius: 10px; background: #151a24 center / cover no-repeat; }
+  .row b { display: block; font-size: 15px; line-height: 1.3; }
+  .row span { display: block; margin-top: 4px; color: #4ade80; font-size: 12.5px; font-weight: 600; }
+  .play { margin-left: auto; flex: 0 0 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #0a93dc, #0668a8); }
+  .play svg { width: 18px; height: 18px; fill: #fff; margin-left: 2px; }
+  .player { position: fixed; inset: 0; z-index: 10; background: #000; display: flex; align-items: center; }
+  .player video { width: 100%; max-height: 100vh; background: #000; }
+  .player .x { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 10px); right: 12px; z-index: 2; width: 42px; height: 42px; border: 0; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; font-size: 20px; }
 </style>
 </head>
 <body>
-<div class="box">
-  <img src="images/app/icon-192.png" alt="">
+<div class="box" id="box">
+  <img class="logo" src="images/app/icon-192.png" alt="">
   <h1>Internet yo‘q</h1>
-  <p>DezoMax ochilishi uchun internet kerak. Wi-Fi yoki mobil internetni yoqib, qayta urinib ko‘ring.</p>
-  <button type="button" id="retry">Qayta urinish</button>
+  <p id="msg">DezoMax ochilishi uchun internet kerak. Wi-Fi yoki mobil internetni yoqib, qayta urinib ko‘ring.</p>
+  <button class="btn" type="button" id="retry">Qayta urinish</button>
 </div>
+<div class="dl" id="dl" hidden></div>
 <script>
   // ilova sozlamasidagi manzil (sayt yoki admin) — capacitor.config.json → server.url
   var START = (window.DZX_START) || 'https://abdulazizjuraev.github.io/dezomax/';
   function go() { location.href = START; }
   document.getElementById('retry').addEventListener('click', go);
   window.addEventListener('online', go);
+
+  /* Telefonga yuklab olingan kinolar (sayt js/offline.js yozadi; bu sahifa sayt bilan bitta manzilda —
+     ro'yxat ko'rinadi). Fayl ilovaning o'zidan /_dzx_offline/ orqali o'ynaydi — internet kerak emas. */
+  (function () {
+    var list = [];
+    try { list = JSON.parse(localStorage.getItem('dezomax_offline') || '[]').filter(function (x) { return x && x.state === 'done' && x.file; }); } catch (e) {}
+    var box = document.getElementById('box');
+    if (!list.length) { box.classList.add('is-full'); return; }
+    document.getElementById('msg').textContent = 'Yuklab olingan kinolaringizni internetsiz ko‘rishingiz mumkin.';
+    var dl = document.getElementById('dl');
+    dl.hidden = false;
+    var esc = function (s) { return String(s || '').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+    var size = function (b) { return b > 0 ? (b >= 1073741824 ? (b / 1073741824).toFixed(1).replace('.', ',') + ' GB' : Math.round(b / 1048576) + ' MB') : ''; };
+    dl.innerHTML = '<h2>Yuklab olinganlar</h2><small class="hint">Bosing — internetsiz o‘ynaydi</small>' + list.map(function (it, i) {
+      return '<button class="row" type="button" data-i="' + i + '"><i class="ph" data-ph="' + i + '"></i><div><b>' + esc(it.title) + '</b><span>✓ Telefonda' + (it.total > 0 ? ' · ' + size(it.total) : '') + '</span></div>' +
+        '<i class="play"><svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg></i></button>';
+    }).join('');
+    // posterlar — sayt saqlab qo'ygan nusxadan (service worker keshi)
+    if (window.caches) list.forEach(function (it, i) {
+      var url = it.poster; if (!url) return;
+      caches.match(url, { ignoreSearch: false }).then(function (r) { return r ? r.blob() : null; }).then(function (b) {
+        if (b && b.size) dl.querySelector('[data-ph="' + i + '"]').style.backgroundImage = 'url(' + URL.createObjectURL(b) + ')';
+      }).catch(function () {});
+    });
+    dl.querySelectorAll('[data-i]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var it = list[+b.dataset.i];
+        var p = document.createElement('div');
+        p.className = 'player';
+        p.innerHTML = '<button class="x" type="button" aria-label="Yopish">✕</button><video controls autoplay playsinline src="/_dzx_offline/' + encodeURIComponent(it.file) + '"></video>';
+        document.body.appendChild(p);
+        p.querySelector('.x').addEventListener('click', function () { var v = p.querySelector('video'); v.pause(); v.removeAttribute('src'); v.load(); p.remove(); });
+      });
+    });
+  })();
 </script>
 </body>
 </html>

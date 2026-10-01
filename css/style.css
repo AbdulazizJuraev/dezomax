@@ -5545,3 +5545,4 @@ html.soc-lock { overflow: hidden; }
 }
 /* kompyuterda ham tavsif 2 qatordan oshmaydi va «Film nomi: … Tili: …» kabi uzun matnlar qisqa ko'rinadi */
 .sb-desc { -webkit-line-clamp: 2; max-width: 480px; }
+.off-btn.is-off { opacity: .5; }
