@@ -32,7 +32,8 @@ Object.assign(I18N.uz, {
   'soc.about': 'Tavsifi',
   'soc.likes': 'Layklar',
   'soc.viewsT': 'Tomoshalar',
-  'soc.yearT': 'Yili'
+  'soc.yearT': 'Yili',
+  'soc.rateOff': 'Baholash vaqtincha ishlamayapti — tez orada yoqiladi'
 });
 Object.assign(I18N.ru, {
   'soc.like': 'Нравится',
@@ -61,7 +62,8 @@ Object.assign(I18N.ru, {
   'soc.about': 'Описание',
   'soc.likes': 'Нравится',
   'soc.viewsT': 'Просмотры',
-  'soc.yearT': 'Год'
+  'soc.yearT': 'Год',
+  'soc.rateOff': 'Оценки временно недоступны — скоро заработают'
 });
 
 const SOC_ICONS = {
@@ -141,7 +143,7 @@ function initSocial(m, part, opts = {}) {
   const api = socApi();
   const shareUrl = socShareUrl(m, part);
   const shareText = title(m) + (part ? ` · ${LANG === 'ru' ? part + ' серия' : part + '-qism'}` : '') + ' — DezoMax';
-  let state = { views: null, likes: 0, dislikes: 0, mine: 0, total: 0, comments: [] }, shown = 20, busy = false;
+  let state = { views: null, likes: 0, dislikes: 0, mine: 0, total: 0, comments: [] }, shown = 20, busy = false, down = false;   // down — server bu imkoniyatni hali bilmaydi / ishlamayapti
 
   /* ---- ko'rishlar soni va yuklangan sana (pleyer ostida, chapda) ---- */
   // YouTube'dagidek: «12 345 marta · 3 kun oldin …yana» — «yana» tavsif oynasini ochadi
@@ -282,6 +284,7 @@ function initSocial(m, part, opts = {}) {
 
   async function rate(v) {
     if (!api || busy) return;
+    if (down) return socToast(t('soc.rateOff'));
     if (!socLoggedIn()) return needLogin();
     const next = state.mine === v ? 0 : v;
     // darhol ko'rsatamiz, server javobi bilan tuzatamiz
@@ -291,7 +294,7 @@ function initSocial(m, part, opts = {}) {
     state.mine = next; drawBar();
     busy = true;
     try { Object.assign(state, await socReq('POST', '/api/react', { movie: m.id, value: next })); }
-    catch (er) { state = prev; if (er.status === 401) needLogin(); else socToast(er.message); }
+    catch (er) { state = prev; if (er.status === 401) needLogin(); else if (er.status === 404) { down = true; socToast(t('soc.rateOff')); } else socToast(er.message); }
     finally { busy = false; drawBar(); }
   }
 
@@ -342,7 +345,7 @@ function initSocial(m, part, opts = {}) {
           drawComments();
         } catch (er) {
           if (er.status === 401) { drawComments(); return needLogin(); }
-          err.textContent = er.message; err.hidden = false; send.disabled = false;
+          err.textContent = er.status === 404 ? t('soc.off') : er.message; err.hidden = false; send.disabled = false;
         }
       });
     }
@@ -364,5 +367,5 @@ function initSocial(m, part, opts = {}) {
   if (!api) return;
   socReq('GET', `/social?movie=${m.id}`)
     .then(j => { state = { ...state, ...j }; if (typeof j.views !== 'number') state.views = null; drawStats(); drawBar(); drawComments(); })
-    .catch(() => { box.querySelector('.soc-list').innerHTML = `<p class="acc-muted">${esc(t('soc.off'))}</p>`; });
+    .catch(() => { down = true; box.querySelector('.soc-list').innerHTML = `<p class="acc-muted">${esc(t('soc.off'))}</p>`; });
 }
