@@ -19667,7 +19667,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       3297,
       1001786452
     ],
-    "updatedAt": 1790856085616
+    "updatedAt": 1790856850942,
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-afsungar-1001176076-cover.jpg"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
