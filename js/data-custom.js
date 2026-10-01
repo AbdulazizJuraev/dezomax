@@ -16547,6 +16547,1706 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 50,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 3283,
+    "slug": "merlin-65-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 65 qism",
+      "ru": "Merlin - 65 qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 65 qism \n\nSerial yakunlandi❗️\nReaksiya qoldiramiz",
+      "ru": "Merlin - 65 qism \n\nSerial yakunlandi❗️\nReaksiya qoldiramiz"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/NIFTp6HKWxPn?s=-mNxGBzpSlFC-UhpvpCqAQUS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/-mNxGBzpSlFC-UhpvpCqAQUS",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 47,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3284,
+    "slug": "merlin-64-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 64 qism",
+      "ru": "Merlin - 64 qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 64 qism",
+      "ru": "Merlin - 64 qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YdnqhRbS_QZl?s=4QpDxhviXXvWGjAN5nPEJYiJ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/4QpDxhviXXvWGjAN5nPEJYiJ",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3285,
+    "slug": "merlin-63-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 63 qism",
+      "ru": "Merlin - 63 qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 63 qism",
+      "ru": "Merlin - 63 qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/v0YmvBXj0mng?s=B5H7MKabofK2U5R12u70RYKb",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/B5H7MKabofK2U5R12u70RYKb",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3286,
+    "slug": "merlin-62-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 62 qism",
+      "ru": "Merlin - 62 qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 62 qism",
+      "ru": "Merlin - 62 qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/jBuIm9wW5t7q?s=AmU2nou7ErXTRoqM4rPHAE9g",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/AmU2nou7ErXTRoqM4rPHAE9g",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3287,
+    "slug": "merlin-61-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 61-qism",
+      "ru": "Merlin - 61-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 61-qism",
+      "ru": "Merlin - 61-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/oFBXRCuop6Qd?s=gqxQm4O8dyIkEVJ84esUwJZW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gqxQm4O8dyIkEVJ84esUwJZW",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3288,
+    "slug": "merlin-60-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 60-qism",
+      "ru": "Merlin - 60-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 60-qism",
+      "ru": "Merlin - 60-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PNLdxvZDtCO6?s=bM8uxAHTteoBoeoR0x_yhCn0",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/bM8uxAHTteoBoeoR0x_yhCn0",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 39,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3289,
+    "slug": "merlin-59-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin- 59-qism",
+      "ru": "Merlin- 59-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin- 59-qism",
+      "ru": "Merlin- 59-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/o8HjDGxT9v8W?s=bAB4GJmLxi7oIBs6fqngk3DM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/bAB4GJmLxi7oIBs6fqngk3DM",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3290,
+    "slug": "merlin-58-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 58-qism",
+      "ru": "Merlin - 58-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 58-qism",
+      "ru": "Merlin - 58-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/eBMa3mn9B4li?s=agLAlXxt7qPfZs_foJz8raHK",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/agLAlXxt7qPfZs_foJz8raHK",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 42,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3291,
+    "slug": "merlin-57-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 57-qism",
+      "ru": "Merlin - 57-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 57-qism",
+      "ru": "Merlin - 57-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/7j8LX9aAjBBS?s=Krh4YvG2HeljyV_gqhIFKvXC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Krh4YvG2HeljyV_gqhIFKvXC",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3292,
+    "slug": "merlin-56-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 56-qism",
+      "ru": "Merlin - 56-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 56-qism",
+      "ru": "Merlin - 56-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/0Kzx9sr-yjyI?s=Q9Nicws8kQgE_L6Jtcl3ae1v",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Q9Nicws8kQgE_L6Jtcl3ae1v",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3293,
+    "slug": "merlin-55-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 55-qism",
+      "ru": "Merlin - 55-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 55-qism",
+      "ru": "Merlin - 55-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Ouv41Y3StsqN?s=iwSPkd6Bziptwkqryk76djyY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/iwSPkd6Bziptwkqryk76djyY",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3294,
+    "slug": "merlin-54-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 54-qism",
+      "ru": "Merlin - 54-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 54-qism",
+      "ru": "Merlin - 54-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1CeFTZWlGX-R?s=t3Lu6NeHJa-Qb5hU9Aokbjan",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/t3Lu6NeHJa-Qb5hU9Aokbjan",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3295,
+    "slug": "merlin-53-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 53-qism",
+      "ru": "Merlin - 53-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 53-qism",
+      "ru": "Merlin - 53-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PVygUBfPMpeD?s=7F66j6BQNUtb1ih6nLat3vL_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/7F66j6BQNUtb1ih6nLat3vL_",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3296,
+    "slug": "merlin-52-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 52-qism",
+      "ru": "Merlin - 52-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 52-qism",
+      "ru": "Merlin - 52-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/O-_j6aZv8DNJ?s=3wqR8FgZ_HNubg5ACis6_eJc",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/3wqR8FgZ_HNubg5ACis6_eJc",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3297,
+    "slug": "merlin-51-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 51-qism",
+      "ru": "Merlin: 51-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 51-qism",
+      "ru": "Merlin: 51-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/9QSoM72SzpEj?s=UmCUhSwu8-nd7GiRtol18yjT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/UmCUhSwu8-nd7GiRtol18yjT",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3298,
+    "slug": "merlin-50-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 50-qism",
+      "ru": "Merlin - 50-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 50-qism",
+      "ru": "Merlin - 50-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Jcf2R9yOAV6n?s=wlc_LZXOmTm-u4RvbRdOTG5b",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/wlc_LZXOmTm-u4RvbRdOTG5b",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3299,
+    "slug": "merlin-49-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 49-qism",
+      "ru": "Merlin - 49-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 49-qism",
+      "ru": "Merlin - 49-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/JMjNZ7Ahc51A?s=ywcDdqUL5S5NzbwA4ynBWACi",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ywcDdqUL5S5NzbwA4ynBWACi",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3300,
+    "slug": "merlin-48-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 48-qism",
+      "ru": "Merlin - 48-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 48-qism",
+      "ru": "Merlin - 48-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/K_TfhaFfc6lq?s=QZJB9__ypA-HVbUqrFLobiWr",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/QZJB9__ypA-HVbUqrFLobiWr",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3301,
+    "slug": "merlin-47-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 47-qism",
+      "ru": "Merlin - 47-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 47-qism",
+      "ru": "Merlin - 47-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/LwsyFTGo6ZyE?s=Pv0NheiKjXoHHMSyAZBzEmmQ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Pv0NheiKjXoHHMSyAZBzEmmQ",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3302,
+    "slug": "merlin-46-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 46-qism",
+      "ru": "Merlin: 46-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 46-qism",
+      "ru": "Merlin: 46-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/zeTxh_b7CCpn?s=hUcTNLmnlb-oLmopvn5UBF81",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/hUcTNLmnlb-oLmopvn5UBF81",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3303,
+    "slug": "merlin-45-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 45-qism",
+      "ru": "Merlin: 45-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 45-qism",
+      "ru": "Merlin: 45-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/yh5sYFXVypoL?s=my5F8YXPeNHopUEE7-1KtsR1",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/my5F8YXPeNHopUEE7-1KtsR1",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3304,
+    "slug": "merlin-44-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 44-qism",
+      "ru": "Merlin: 44-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 44-qism",
+      "ru": "Merlin: 44-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mNonKIQXjENV?s=1UlOVGrY45h_nrYytwZuXLI7",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/1UlOVGrY45h_nrYytwZuXLI7",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3305,
+    "slug": "merlin-43-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 43-qism",
+      "ru": "Merlin - 43-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 43-qism",
+      "ru": "Merlin - 43-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-nC5ZozSa0Gm?s=dwUGX7jJ2sw6zzqVh6rUTTly",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/dwUGX7jJ2sw6zzqVh6rUTTly",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3306,
+    "slug": "merlin-42-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 42-qism",
+      "ru": "Merlin - 42-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 42-qism",
+      "ru": "Merlin - 42-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/L7QJ3z_lpOma?s=ZbrZjbijtiMz-xUIf1XoYtrJ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ZbrZjbijtiMz-xUIf1XoYtrJ",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3307,
+    "slug": "merlin-41-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 41-qism",
+      "ru": "Merlin - 41-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 41-qism",
+      "ru": "Merlin - 41-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/OsCkuGFOaMM7?s=kmmJ_RN8SxJsfk2u-70C0wDj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/kmmJ_RN8SxJsfk2u-70C0wDj",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 45,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3308,
+    "slug": "merlin-40-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 40 qism",
+      "ru": "Merlin - 40 qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 40 qism",
+      "ru": "Merlin - 40 qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/eGj4q944n0nM?s=e2PAy2RTIPAEaRtTydZCsSQ8",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/e2PAy2RTIPAEaRtTydZCsSQ8",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3309,
+    "slug": "merlin-39-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 39 qism",
+      "ru": "Merlin - 39 qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 39 qism",
+      "ru": "Merlin - 39 qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/SFJydoKwkcwM?s=hFEO1JVKrgIBtDz1pI5n1zbB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/hFEO1JVKrgIBtDz1pI5n1zbB",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3310,
+    "slug": "merlin-38-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 38 qism",
+      "ru": "Merlin - 38 qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 38 qism",
+      "ru": "Merlin - 38 qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/8YMBQmcYuUU8?s=QhmU9XdGj_iaCTVnggVryEeD",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/QhmU9XdGj_iaCTVnggVryEeD",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3311,
+    "slug": "merlin-37-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 37 qism",
+      "ru": "Merlin - 37 qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 37 qism",
+      "ru": "Merlin - 37 qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/4ZMVi4oiO7pg?s=31sMytjX4lUXllVxZbX4wYeK",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/31sMytjX4lUXllVxZbX4wYeK",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3312,
+    "slug": "merlin-36-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 36-qism",
+      "ru": "Merlin - 36-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 36-qism",
+      "ru": "Merlin - 36-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/l1oE1mLIy6AF?s=NtZ8kqEiLgjCLy8ks2A5iwD1",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/NtZ8kqEiLgjCLy8ks2A5iwD1",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3313,
+    "slug": "merlin-35-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 35-qism",
+      "ru": "Merlin - 35-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 35-qism",
+      "ru": "Merlin - 35-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/i2Ce4ZPIrR7R?s=50KSxgAE928GZupP9t9V3p7M",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/50KSxgAE928GZupP9t9V3p7M",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3314,
+    "slug": "merlin-34-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 34-qism",
+      "ru": "Merlin - 34-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 34-qism",
+      "ru": "Merlin - 34-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/qwZLivuudRnq?s=1HCbm2rr_Hi66bDhyNiYDok_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/1HCbm2rr_Hi66bDhyNiYDok_",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3315,
+    "slug": "merlin-33-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 33-qism",
+      "ru": "Merlin - 33-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 33-qism",
+      "ru": "Merlin - 33-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YIfgHZ3M7p9g?s=zsLpqo4PbjVbGxTa1Yuf0l5T",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/zsLpqo4PbjVbGxTa1Yuf0l5T",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3316,
+    "slug": "merlin-32-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 32-qism",
+      "ru": "Merlin - 32-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 32-qism",
+      "ru": "Merlin - 32-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2Y5s9fFCospv?s=AXAl5l502CEsbF1KH7Ua1mRe",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/AXAl5l502CEsbF1KH7Ua1mRe",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3317,
+    "slug": "merlin-31-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 31-qism",
+      "ru": "Merlin - 31-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 31-qism",
+      "ru": "Merlin - 31-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GhBG5_ucbJi_?s=f1D9soHdOp-5f553JY91Ixdt",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/f1D9soHdOp-5f553JY91Ixdt",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3318,
+    "slug": "merlin-30-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 30-qism",
+      "ru": "Merlin - 30-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 30-qism",
+      "ru": "Merlin - 30-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/smSBpJGltUta?s=pUesT4zgL6c31ahpa_sEzLsL",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/pUesT4zgL6c31ahpa_sEzLsL",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3319,
+    "slug": "merlin-29-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 29-qism",
+      "ru": "Merlin - 29-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 29-qism",
+      "ru": "Merlin - 29-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/KD-9pXe5_wPw?s=d08EUPe6F9u7FMHt0R7bI4QA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/d08EUPe6F9u7FMHt0R7bI4QA",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3320,
+    "slug": "merlin-28-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 28-qism",
+      "ru": "Merlin - 28-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 28-qism",
+      "ru": "Merlin - 28-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/QHaq2seBh6I3?s=IL-_D07WirsZGF-zcTJw4L4F",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/IL-_D07WirsZGF-zcTJw4L4F",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3321,
+    "slug": "merlin-27-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 27-qism",
+      "ru": "Merlin: 27-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 27-qism",
+      "ru": "Merlin: 27-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nA8Kt567GA0y?s=iceA-5CU5DSw3iVaxdOtbm2x",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/iceA-5CU5DSw3iVaxdOtbm2x",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3322,
+    "slug": "merlin-26-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 26-qism",
+      "ru": "Merlin: 26-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 26-qism",
+      "ru": "Merlin: 26-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/3urc0oGmTKum?s=i0stZqbldj_-QUwXQa6E3VeV",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/i0stZqbldj_-QUwXQa6E3VeV",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 48,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3323,
+    "slug": "merlin-25-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 25-qism",
+      "ru": "Merlin: 25-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 25-qism",
+      "ru": "Merlin: 25-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/fxjX6Tj-vcSW?s=rjiFvyIGPq-nLzxAm3m60oid",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/rjiFvyIGPq-nLzxAm3m60oid",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3324,
+    "slug": "merlin-24-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 24-qism",
+      "ru": "Merlin: 24-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 24-qism",
+      "ru": "Merlin: 24-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/l3iW6Lu6xi-H?s=BlsOulPGcVVKOuafCCkCETHg",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/BlsOulPGcVVKOuafCCkCETHg",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 42,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3325,
+    "slug": "merlin-23-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin : 23-qism",
+      "ru": "Merlin : 23-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin : 23-qism",
+      "ru": "Merlin : 23-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/lqCNZLY5DcFU?s=1520BumDpg-VOOtPR1vnR6wY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/1520BumDpg-VOOtPR1vnR6wY",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3326,
+    "slug": "merlin-22-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 22-qism",
+      "ru": "Merlin: 22-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 22-qism",
+      "ru": "Merlin: 22-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/w5tIPmKXCNbE?s=6BY9QS-QEapt8lEdOHL2M39O",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/6BY9QS-QEapt8lEdOHL2M39O",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3327,
+    "slug": "merlin-21-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 21-qism",
+      "ru": "Merlin: 21-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 21-qism",
+      "ru": "Merlin: 21-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/melddWtgO_e2?s=jI3LY0pCcYEsUjqWK7wcmAS4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/jI3LY0pCcYEsUjqWK7wcmAS4",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3328,
+    "slug": "merlin-20-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 20-qism",
+      "ru": "Merlin - 20-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 20-qism",
+      "ru": "Merlin - 20-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/7ju9CUwVDLNM?s=7mjt0SbQmJ4CvJSr0xYlSd-s",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/7mjt0SbQmJ4CvJSr0xYlSd-s",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3329,
+    "slug": "merlin-19-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin-19-qism",
+      "ru": "Merlin-19-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin-19-qism",
+      "ru": "Merlin-19-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/rqAhLmAGGWHN?s=ISuKThI5GI4D0x4vwUnZZ1iS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ISuKThI5GI4D0x4vwUnZZ1iS",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3330,
+    "slug": "merlin-18-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin- 18-qism",
+      "ru": "Merlin- 18-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin- 18-qism",
+      "ru": "Merlin- 18-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/VjVSJInb8Ys0?s=YskrjPR_0U_8XoP4HAy4kdBU",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/YskrjPR_0U_8XoP4HAy4kdBU",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 43,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3331,
+    "slug": "merlin-17-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin - 17-qism",
+      "ru": "Merlin - 17-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin - 17-qism",
+      "ru": "Merlin - 17-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Bslp6ZQZSOK1?s=9SWB5jNnLPjTfAqBAjyWwuuT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/9SWB5jNnLPjTfAqBAjyWwuuT",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3332,
+    "slug": "merlin-16-qism",
+    "type": "serial",
+    "title": {
+      "uz": "Merlin: 16-qism",
+      "ru": "Merlin: 16-qism"
+    },
+    "genres": [
+      "biography"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Merlin: 16-qism",
+      "ru": "Merlin: 16-qism"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AX7Q0vOObQcc?s=Pl1jAbKmip4DRDnQRaB7871M",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Pl1jAbKmip4DRDnQRaB7871M",
+    "featured": false,
+    "addedAt": 1790848717320,
+    "updatedAt": 1790848717320,
+    "duration": 44,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
