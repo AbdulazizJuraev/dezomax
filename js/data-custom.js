@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2261,
+    "slug": "monsters-university",
+    "type": "multfilm",
+    "title": {
+      "uz": "Maxluqlar universiteti",
+      "ru": "Университет монстров"
+    },
+    "genres": [
+      "comedy",
+      "fantasy",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Maxluqlar universiteti» — 2013-yilgi AQSh multfilmi. Rejissyor: Dan Scanlon. Saytda rasmiy treyleri bor.",
+      "ru": "«Университет монстров» — американский компьютерно-анимационный комедийный фильм 2013 года компании Pixar, приквел комедийного мультфильма «Корпорация монстров»."
+    },
+    "tags": [
+      "Monsters University"
+    ],
+    "colors": [
+      "hsl(234 45% 28%)",
+      "hsl(254 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/2a/Monsters_University_poster_3.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=yPiloAB2B6U",
+    "video": "https://s9.faylmovi.ru/tarjima_kinolar/Mahluqlar_uyushmasi_1080.mp4",
+    "featured": false,
+    "addedAt": 1790852028128,
+    "updatedAt": 1790852028128,
+    "year": 2013,
+    "duration": 104,
+    "director": "Dan Scanlon"
+  },
+  {
     "id": 2243,
     "slug": "fantastic-beasts-and-where-to-find-them",
     "type": "film",
