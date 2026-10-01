@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2070,
+    "slug": "big-hero-6",
+    "type": "multfilm",
+    "title": {
+      "uz": "Qahramonlar shahri",
+      "ru": "Город героев"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "fantasy"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Qahramonlar shahri» — 2014-yilgi AQSh multfilmi. Rejissyor: Chris Williams, Don Hall. Saytda rasmiy treyleri bor.",
+      "ru": "«Город героев» (англ. Big Hero 6; букв."
+    },
+    "tags": [
+      "Big Hero 6"
+    ],
+    "colors": [
+      "hsl(256 45% 28%)",
+      "hsl(276 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/4/4b/Big_Hero_6_%28film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=i5KOw_KHvso",
+    "video": "http://topfilm.info/MULTIFILM/Qahramonlar_Shahri_720P.mp4",
+    "featured": false,
+    "addedAt": 1790850064905,
+    "updatedAt": 1790850064905,
+    "year": 2014,
+    "duration": 102,
+    "director": "Chris Williams, Don Hall"
+  },
+  {
     "id": 2065,
     "slug": "pirates-of-the-caribbean-dead-man-s-chest",
     "type": "film",
