@@ -591,11 +591,7 @@ document.addEventListener('langchange', () => {
 const IS_APP = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 (function () {
   try {
-    // Ilovada service worker vaqtincha o'chiq (ilova yiqilishi tekshirilmoqda) — o'rnatilgani ham olib tashlanadi.
-    // Ilovada internetsiz ko'rish «Internet yo'q» sahifasidagi yuklab olinganlar ro'yxati orqali ishlaydi.
-    if (IS_APP && 'serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});
-    } else if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
       addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js').catch(() => {});
         // asosiy sahifalar va shu sahifaning kod fayllari darhol saqlansin (internetsiz ochilishi uchun)

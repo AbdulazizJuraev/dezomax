@@ -246,7 +246,9 @@ function mountVideo(box, url, opts = {}) {
   const DezoCast = window.Capacitor?.isNativePlatform?.() ? window.Capacitor.Plugins?.DezoCast : null;
   if (DezoCast) {
     const castBtn = $('#vpCast');
-    DezoCast.isAvailable().then(r => { castBtn.hidden = !r.available; }).catch(() => { castBtn.hidden = true; });
+    // eski ilovalarda (6.7 gacha) isAvailable() ilovani yiqitardi — faqat xavfsiz state() (6.8+) ishlatiladi
+    if (typeof DezoCast.state === 'function') DezoCast.state().then(r => { castBtn.hidden = !r.available; }).catch(() => { castBtn.hidden = true; });
+    else castBtn.hidden = true;
     castBtn.addEventListener('click', async () => {
       castBtn.disabled = true;
       try {
