@@ -1711,7 +1711,23 @@ async function importTgSelected() {
 
 /* ---------- Ishga tushirish ---------- */
 
+/* Admin ilovasi (va brauzer) admin.html ni 10 daqiqagacha keshdan ochadi — yangi versiya chiqqan bo'lsa,
+   sahifani keshsiz qayta yuklaymiz (bir sessiyada bir marta, aylanib qolmasligi uchun). */
+async function checkAdminUpdate() {
+  try {
+    const mine = (document.querySelector('script[src*="js/admin.js"]')?.getAttribute('src').match(/v=(\d+)/) || [])[1];
+    if (!mine) return;
+    const html = await (await fetch('admin.html?nc=' + Date.now(), { cache: 'no-store' })).text();
+    const live = (html.match(/js\/admin\.js\?v=(\d+)/) || [])[1];
+    if (live && live !== mine && sessionStorage.getItem('dezomax_admin_reload') !== live) {
+      sessionStorage.setItem('dezomax_admin_reload', live);
+      location.replace(location.pathname + '?v=' + live + location.hash);
+    }
+  } catch {}
+}
+
 async function boot() {
+  checkAdminUpdate();
   if (!token()) return renderTokenScreen();
   $('#admin').innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
   try {
