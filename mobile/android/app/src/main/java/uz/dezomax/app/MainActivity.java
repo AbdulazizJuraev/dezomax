@@ -29,8 +29,57 @@ public class MainActivity extends BridgeActivity {
     private int lastTopDp = -1;
     private ScriptHandler topInsetScript;
 
+    /* ---- Xatolar jurnali: ilova yiqilsa yoki sahifa jarayoni o'chsa — sababi saqlanadi,
+       keyingi ochilishda oynada ko'rsatiladi (foydalanuvchi skrinshot qilib yuboradi). ---- */
+    private static long lastGoneAt = 0;
+    private static int goneCount = 0;
+
+    static void noteProblem(android.content.Context ctx, String what, Throwable e) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(new java.text.SimpleDateFormat("dd.MM HH:mm:ss", Locale.US).format(new java.util.Date()))
+              .append("  v").append(BuildConfig.VERSION_NAME).append(" · Android ").append(Build.VERSION.RELEASE)
+              .append(" · ").append(Build.MANUFACTURER).append(' ').append(Build.MODEL).append('\n').append(what);
+            if (e != null) {
+                java.io.StringWriter w = new java.io.StringWriter();
+                e.printStackTrace(new java.io.PrintWriter(w));
+                sb.append('\n').append(w);
+            }
+            String s = sb.length() > 3500 ? sb.substring(0, 3500) : sb.toString();
+            ctx.getSharedPreferences("dezomax", MODE_PRIVATE).edit().putString("lastProblem", s).commit();
+        } catch (Throwable ignored) {}
+        if (what != null && what.startsWith("WebView")) {
+            long now = System.currentTimeMillis();
+            goneCount = now - lastGoneAt < 60000 ? goneCount + 1 : 1;
+            lastGoneAt = now;
+        }
+    }
+
+    /* Sahifa jarayoni qisqa vaqtda ketma-ket o'chsa — qayta yaratib aylanib qolmaymiz */
+    static boolean tooManyGone() { return goneCount > 3; }
+
+    private void showLastProblem(SharedPreferences prefs) {
+        String p = prefs.getString("lastProblem", null);
+        if (p == null) return;
+        prefs.edit().remove("lastProblem").apply();
+        new android.app.AlertDialog.Builder(this)
+            .setTitle("Oldingi safar xatolik bo‘ldi")
+            .setMessage("Iltimos, shu oynani skrinshot qilib yuboring — tuzatamiz.\n\n" + p)
+            .setPositiveButton("Nusxalash", (d, w) -> {
+                android.content.ClipboardManager cm = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                if (cm != null) cm.setPrimaryClip(android.content.ClipData.newPlainText("DezoMax xato", p));
+            })
+            .setNegativeButton("Yopish", null)
+            .show();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        final Thread.UncaughtExceptionHandler prev = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            noteProblem(getApplicationContext(), "Ilova xatosi (" + t.getName() + ")", e);
+            if (prev != null) prev.uncaughtException(t, e);
+        });
         registerPlugin(CastPlugin.class);
         registerPlugin(AdsPlugin.class);
         registerPlugin(DownloadPlugin.class);
@@ -101,6 +150,7 @@ public class MainActivity extends BridgeActivity {
         // o'rnatilgandan keyin ham eski sahifalar ko'rinib qolishi mumkin.
         // Sevimlilar, akkaunt va boshqa localStorage ma'lumotlari saqlanib qoladi.
         SharedPreferences prefs = getSharedPreferences("dezomax", MODE_PRIVATE);
+        showLastProblem(prefs);
         int current = BuildConfig.VERSION_CODE;
         if (prefs.getInt("webCacheVersion", 0) != current) {
             if (webView != null) {

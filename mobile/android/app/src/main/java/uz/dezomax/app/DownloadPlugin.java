@@ -66,8 +66,31 @@ public class DownloadPlugin extends Plugin {
         bridge.getWebView().post(() -> bridge.setWebViewClient(new BridgeWebViewClient(bridge) {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                WebResourceResponse r = serveLocal(ctx, request);
-                return r != null ? r : super.shouldInterceptRequest(view, request);
+                try {
+                    WebResourceResponse r = serveLocal(ctx, request);
+                    return r != null ? r : super.shouldInterceptRequest(view, request);
+                } catch (Exception e) {
+                    MainActivity.noteProblem(ctx, "intercept: " + request.getUrl(), e);
+                    return null;
+                }
+            }
+
+            // Sahifa jarayoni yiqilsa yoki xotira yetmay o'chirilsa — butun ilova yopilmasin:
+            // sababini yozib qo'yamiz va oynani qayta yaratamiz (sahifa qaytadan yuklanadi)
+            @Override
+            public boolean onRenderProcessGone(WebView view, android.webkit.RenderProcessGoneDetail detail) {
+                boolean crashed = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && detail != null && detail.didCrash();
+                MainActivity.noteProblem(ctx, "WebView " + (crashed ? "yiqildi (crash)" : "xotira yetmadi (killed)") + " — " + view.getUrl(), null);
+                try {
+                    android.view.ViewGroup parent = (android.view.ViewGroup) view.getParent();
+                    if (parent != null) parent.removeView(view);
+                    view.destroy();
+                } catch (Exception ignored) {}
+                if (getActivity() != null) getActivity().runOnUiThread(() -> {
+                    // ketma-ket ko'p marta bo'lsa — aylanib qolmaymiz, ilovani yopamiz (sababi keyin ko'rsatiladi)
+                    if (MainActivity.tooManyGone()) getActivity().finish(); else getActivity().recreate();
+                });
+                return true;
             }
         }));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -75,10 +98,15 @@ public class DownloadPlugin extends Plugin {
                 ServiceWorkerController.getInstance().setServiceWorkerClient(new ServiceWorkerClient() {
                     @Override
                     public WebResourceResponse shouldInterceptRequest(WebResourceRequest request) {
-                        WebResourceResponse r = serveLocal(ctx, request);
-                        if (r != null) return r;
-                        // qolganini Capacitor'ning o'zi qiladigandek (sahifalarga ko'prik skriptini qo'shish)
-                        return bridge.getLocalServer().shouldInterceptRequest(request);
+                        try {
+                            WebResourceResponse r = serveLocal(ctx, request);
+                            if (r != null) return r;
+                            // qolganini Capacitor'ning o'zi qiladigandek (sahifalarga ko'prik skriptini qo'shish)
+                            return bridge.getLocalServer().shouldInterceptRequest(request);
+                        } catch (Exception e) {
+                            MainActivity.noteProblem(ctx, "sw: " + request.getUrl(), e);
+                            return null;
+                        }
                     }
                 });
             } catch (Exception ignored) {}

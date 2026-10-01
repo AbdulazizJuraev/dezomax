@@ -81,7 +81,7 @@ self.addEventListener('fetch', e => {
       else e.respondWith(cacheFirst(req, SHELL));
       return;
     }
-    if (/\.(png|jpe?g|webp|gif|svg|ico|avif)$/i.test(p)) { e.respondWith(cacheFirst(req, IMG, true)); return; }
+    if (/\.(png|jpe?g|webp|gif|svg|ico|avif)$/i.test(p)) { image(e, req); return; }
     if (/\.(woff2?|ttf|json|webmanifest)$/i.test(p) && !p.includes('/data/')) { e.respondWith(cacheFirst(req, SHELL)); return; }
     return;
   }
@@ -90,11 +90,28 @@ self.addEventListener('fetch', e => {
   // (destination '' — sahifa posterni oldindan saqlash uchun fetch() bilan so'raganda)
   if ((req.destination === 'image' || req.destination === '') && (IMG_HOSTS.test(url.hostname) || /\.(png|jpe?g|webp|gif|avif)(\?|$)/i.test(url.pathname))) {
     if (url.hostname.endsWith('dezocloud.uz') && !url.pathname.startsWith('/t/')) return;
-    e.respondWith(cacheFirst(req, IMG, true));
+    image(e, req);
     return;
   }
   if (/fonts\.(googleapis|gstatic)\.com$/i.test(url.hostname)) { e.respondWith(cacheFirst(req, SHELL)); return; }
 });
+
+/* Rasmlar: internet bor — sahifaga aralashmaymiz (odatdagidek yuklanadi), nusxasini fonda saqlaymiz;
+   internet yo'q — saqlangan nusxa. Sahifa yuklanishi va aylantirish og'irlashmaydi. */
+function image(e, req) {
+  if (self.navigator.onLine === false) {
+    e.respondWith(caches.open(IMG).then(c => c.match(req, { ignoreSearch: true })).then(hit => hit || fetch(req)));
+    return;
+  }
+  e.waitUntil((async () => {
+    try {
+      const c = await caches.open(IMG);
+      if (await c.match(req)) return;
+      const res = await fetch(req);                       // odatda brauzer keshidan, qayta yuklanmaydi
+      if (res && (res.ok || res.type === 'opaque')) { await c.put(req, res); trim(c); }
+    } catch {}
+  })());
+}
 
 async function offlinePage(req, url) {
   const cache = await caches.open(PAGES);
