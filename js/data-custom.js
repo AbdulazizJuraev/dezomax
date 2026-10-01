@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2354,
+    "slug": "cars-2",
+    "type": "multfilm",
+    "title": {
+      "uz": "Mashinalar 2",
+      "ru": "Тачки 2"
+    },
+    "genres": [
+      "action",
+      "crime",
+      "animation"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Mashinalar 2» — 2011-yilgi AQSh multfilmi. Rejissyor: John Lasseter, Brad Lewis. Saytda rasmiy treyleri bor.",
+      "ru": "«Тачки 2» — американский компьютерно-анимационный шпионский комедийный фильм 2011 года, снятый студией Pixar Animation Studios для кинокомпании Walt Disney Pictures."
+    },
+    "tags": [
+      "Cars 2"
+    ],
+    "colors": [
+      "hsl(340 45% 28%)",
+      "hsl(0 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/7/7f/Cars_2_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=c1tziDrXXkM",
+    "video": "https://s6.faylmovi.ru/tarjima_kinolar/MASHINALAR_2_1080.mp4",
+    "featured": false,
+    "addedAt": 1790850530885,
+    "updatedAt": 1790850530885,
+    "year": 2011,
+    "duration": 107,
+    "director": "John Lasseter, Brad Lewis"
+  },
+  {
     "id": 2074,
     "slug": "cars",
     "type": "multfilm",
