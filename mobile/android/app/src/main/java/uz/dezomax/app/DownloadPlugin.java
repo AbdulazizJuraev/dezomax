@@ -1,0 +1,245 @@
+package uz.dezomax.app;
+
+import android.app.DownloadManager;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.os.StatFs;
+import android.webkit.ServiceWorkerClient;
+import android.webkit.ServiceWorkerController;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
+
+import com.getcapacitor.Bridge;
+import com.getcapacitor.BridgeWebViewClient;
+import com.getcapacitor.JSArray;
+import com.getcapacitor.JSObject;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+/* ============================================================
+   Kinoni telefonga yuklab olish va internetsiz ko'rish.
+   - Yuklash: Android DownloadManager (ilova yopilsa ham davom etadi, bildirishnomada ko'rinadi),
+     fayl ilovaning o'z papkasiga: Android/data/uz.dezomax.app/files/Movies/dezomax/<fayl>
+     (ruxsat so'ralmaydi; ilova o'chirilsa — fayllar ham o'chadi).
+   - Ko'rish: sahifa <video src="/_dzx_offline/<fayl>"> so'raydi — bu so'rov shu yerda ushlanib,
+     fayl Range (oldinga/orqaga surish) bilan beriladi. Capacitor'ning o'z lokal fayl berishi
+     Range'da boshlang'ich nuqtaga o'tmaydi — surilganda video buziladi, shuning uchun o'zimiz.
+   JS: Capacitor.Plugins.DezoDownload — start, status, remove, space.
+   ============================================================ */
+@CapacitorPlugin(name = "DezoDownload")
+public class DownloadPlugin extends Plugin {
+    static final String PREFIX = "/_dzx_offline/";
+
+    private DownloadManager dm() { return (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE); }
+
+    static File dir(Context ctx) {
+        File d = new File(ctx.getExternalFilesDir(Environment.DIRECTORY_MOVIES), "dezomax");
+        if (!d.exists()) d.mkdirs();
+        return d;
+    }
+
+    // fayl nomi faqat xavfsiz belgilardan (papkadan tashqariga chiqib bo'lmasin)
+    static String safeName(String s) {
+        if (s == null) return null;
+        String n = s.replaceAll("[^A-Za-z0-9._-]", "");
+        return n.isEmpty() || n.startsWith(".") ? null : n;
+    }
+
+    @Override
+    public void load() {
+        Bridge bridge = getBridge();
+        Context ctx = getContext();
+        // sahifa va service worker so'rovlarida /_dzx_offline/ — telefondagi fayl
+        bridge.getWebView().post(() -> bridge.setWebViewClient(new BridgeWebViewClient(bridge) {
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                WebResourceResponse r = serveLocal(ctx, request);
+                return r != null ? r : super.shouldInterceptRequest(view, request);
+            }
+        }));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                ServiceWorkerController.getInstance().setServiceWorkerClient(new ServiceWorkerClient() {
+                    @Override
+                    public WebResourceResponse shouldInterceptRequest(WebResourceRequest request) {
+                        WebResourceResponse r = serveLocal(ctx, request);
+                        if (r != null) return r;
+                        // qolganini Capacitor'ning o'zi qiladigandek (sahifalarga ko'prik skriptini qo'shish)
+                        return bridge.getLocalServer().shouldInterceptRequest(request);
+                    }
+                });
+            } catch (Exception ignored) {}
+        }
+    }
+
+    static WebResourceResponse serveLocal(Context ctx, WebResourceRequest request) {
+        Uri u = request.getUrl();
+        String path = u.getPath();
+        if (path == null || !path.contains(PREFIX)) return null;
+        String name = safeName(path.substring(path.indexOf(PREFIX) + PREFIX.length()));
+        File f = name == null ? null : new File(dir(ctx), name);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Accept-Ranges", "bytes");
+        headers.put("Access-Control-Allow-Origin", "*");
+        headers.put("Cache-Control", "no-store");
+        if (f == null || !f.isFile()) {
+            return new WebResourceResponse("text/plain", "utf-8", 404, "Not Found", headers, null);
+        }
+        long size = f.length();
+        long start = 0, end = size - 1;
+        String range = null;
+        Map<String, String> rq = request.getRequestHeaders();
+        if (rq != null) for (Map.Entry<String, String> e : rq.entrySet()) if (e.getKey().equalsIgnoreCase("Range")) range = e.getValue();
+        boolean partial = false;
+        if (range != null && range.startsWith("bytes=")) {
+            try {
+                String[] p = range.substring(6).split("-", 2);
+                if (!p[0].isEmpty()) start = Long.parseLong(p[0].trim());
+                if (p.length > 1 && !p[1].trim().isEmpty()) end = Math.min(Long.parseLong(p[1].trim()), size - 1);
+                else if (p[0].isEmpty() && p.length > 1) { start = Math.max(0, size - Long.parseLong(p[1].trim())); end = size - 1; }
+                partial = true;
+            } catch (Exception ignored) { start = 0; end = size - 1; }
+        }
+        if (start >= size || start > end) {
+            headers.put("Content-Range", "bytes */" + size);
+            return new WebResourceResponse("video/mp4", null, 416, "Range Not Satisfiable", headers, null);
+        }
+        try {
+            InputStream in = new FileInputStream(f);
+            long skipped = 0;
+            while (skipped < start) { long s = in.skip(start - skipped); if (s <= 0) break; skipped += s; }
+            final long len = end - start + 1;
+            InputStream limited = new InputStream() {
+                long left = len;
+                @Override public int read() throws IOException { if (left <= 0) return -1; int b = in.read(); if (b >= 0) left--; return b; }
+                @Override public int read(byte[] b, int off, int n) throws IOException {
+                    if (left <= 0) return -1;
+                    int r = in.read(b, off, (int) Math.min(n, left));
+                    if (r > 0) left -= r;
+                    return r;
+                }
+                @Override public void close() throws IOException { in.close(); }
+            };
+            headers.put("Content-Length", String.valueOf(len));
+            if (partial) headers.put("Content-Range", "bytes " + start + "-" + end + "/" + size);
+            String mime = name.endsWith(".webm") ? "video/webm" : "video/mp4";
+            return new WebResourceResponse(mime, null, partial ? 206 : 200, partial ? "Partial Content" : "OK", headers, limited);
+        } catch (IOException e) {
+            return new WebResourceResponse("text/plain", "utf-8", 500, "Error", headers, null);
+        }
+    }
+
+    /* start({url, file, title}) → { dmId } */
+    @PluginMethod
+    public void start(PluginCall call) {
+        String url = call.getString("url");
+        String file = safeName(call.getString("file"));
+        if (url == null || !url.startsWith("http") || file == null) { call.reject("bad_args"); return; }
+        try {
+            File target = new File(dir(getContext()), file);
+            if (target.exists()) target.delete();
+            DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
+            r.setTitle(call.getString("title", "DezoMax"));
+            r.setDescription("DezoMax — internetsiz ko‘rish uchun");
+            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            r.setDestinationInExternalFilesDir(getContext(), Environment.DIRECTORY_MOVIES, "dezomax/" + file);
+            r.setAllowedOverMetered(true);
+            r.setAllowedOverRoaming(true);
+            long id = dm().enqueue(r);
+            JSObject ret = new JSObject();
+            ret.put("dmId", id);
+            call.resolve(ret);
+        } catch (Exception e) {
+            call.reject(e.getMessage() == null ? "start_failed" : e.getMessage());
+        }
+    }
+
+    /* status({items:[{dmId, file}]}) → { items: [{dmId, file, state, loaded, total, exists}] }
+       state: pending | running | paused | done | failed | missing */
+    @PluginMethod
+    public void status(PluginCall call) {
+        JSArray out = new JSArray();
+        try {
+            JSArray items = call.getArray("items", new JSArray());
+            for (int i = 0; i < items.length(); i++) {
+                org.json.JSONObject it = items.getJSONObject(i);
+                long id = it.optLong("dmId", -1);
+                String file = safeName(it.optString("file", ""));
+                File f = file == null ? null : new File(dir(getContext()), file);
+                JSObject o = new JSObject();
+                o.put("dmId", id);
+                o.put("file", file);
+                String state = "missing";
+                long loaded = 0, total = -1;
+                if (id >= 0) {
+                    try (Cursor c = dm().query(new DownloadManager.Query().setFilterById(id))) {
+                        if (c != null && c.moveToFirst()) {
+                            int st = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
+                            loaded = c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                            total = c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                            state = st == DownloadManager.STATUS_SUCCESSFUL ? "done"
+                                : st == DownloadManager.STATUS_FAILED ? "failed"
+                                : st == DownloadManager.STATUS_PAUSED ? "paused"
+                                : st == DownloadManager.STATUS_RUNNING ? "running" : "pending";
+                        }
+                    }
+                }
+                // DownloadManager yozuvni unutgan bo'lsa ham fayl joyida bo'lsa — tayyor
+                if (f != null && f.isFile() && (state.equals("missing") || state.equals("done"))) {
+                    state = "done";
+                    loaded = f.length();
+                    total = f.length();
+                }
+                o.put("state", state);
+                o.put("loaded", loaded);
+                o.put("total", total);
+                o.put("exists", f != null && f.isFile());
+                out.put(o);
+            }
+        } catch (Exception ignored) {}
+        JSObject ret = new JSObject();
+        ret.put("items", out);
+        call.resolve(ret);
+    }
+
+    /* remove({dmId, file}) — yuklashni to'xtatadi va faylni o'chiradi */
+    @PluginMethod
+    public void remove(PluginCall call) {
+        long id = call.getLong("dmId", -1L);
+        String file = safeName(call.getString("file"));
+        try { if (id >= 0) dm().remove(id); } catch (Exception ignored) {}
+        if (file != null) {
+            File f = new File(dir(getContext()), file);
+            if (f.exists()) f.delete();
+        }
+        call.resolve();
+    }
+
+    /* space() → { free, used } — telefonda bo'sh joy va yuklangan kinolar hajmi (bayt) */
+    @PluginMethod
+    public void space(PluginCall call) {
+        File d = dir(getContext());
+        long used = 0;
+        File[] files = d.listFiles();
+        if (files != null) for (File f : files) used += f.length();
+        long free = 0;
+        try { StatFs s = new StatFs(d.getAbsolutePath()); free = s.getAvailableBytes(); } catch (Exception ignored) {}
+        JSObject ret = new JSObject();
+        ret.put("free", free);
+        ret.put("used", used);
+        call.resolve(ret);
+    }
+}
