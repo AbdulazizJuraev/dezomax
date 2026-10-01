@@ -19567,16 +19567,15 @@ const CUSTOM_MOVIES = /*DATA*/[
   {
     "id": 1001176076,
     "slug": "merlin",
-    "year": 2008,
     "type": "serial",
     "title": {
       "uz": "Merlin - (Afsungar)",
       "ru": "Merlin - (Afsungar)"
     },
     "genres": [
+      "drama",
       "fantasy",
-      "adventure",
-      "drama"
+      "adventure"
     ],
     "country": {
       "uz": "Buyuk Britaniya",
@@ -19595,7 +19594,7 @@ const CUSTOM_MOVIES = /*DATA*/[
       "hsl(255 45% 28%)",
       "hsl(275 50% 7%)"
     ],
-    "trailer": "",
+    "trailer": "https://www.youtube.com/watch?v=yAAOsFoViKQ",
     "video": "",
     "seasons": 5,
     "tags": [
@@ -19667,8 +19666,11 @@ const CUSTOM_MOVIES = /*DATA*/[
       3297,
       1001786452
     ],
-    "updatedAt": 1790856888268,
-    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-afsungar-1001176076-cover.jpg"
+    "updatedAt": 1790856984289,
+    "featured": false,
+    "addedAt": 1790856984289,
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-1001176076-cover.jpg",
+    "year": 2008
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
