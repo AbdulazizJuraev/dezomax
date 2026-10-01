@@ -6938,15 +6938,12 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://dezocloud.uz/t/RJYjJAo7lH7e?s=ubgnoYYRXZBkvdXmZPkO8UK_",
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/abdul-amidhon-s-nggi-imperator-2983.jpg",
     "trailer": "",
     "video": "https://dezocloud.uz/s/ubgnoYYRXZBkvdXmZPkO8UK_",
     "featured": false,
     "addedAt": 1790842037568,
-    "updatedAt": 1790853914207,
-    "duration": 46,
-    "year": 2026,
-    "audio": "uz",
+    "updatedAt": 1790854322061,
     "groupOrig": {
       "title": {
         "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
@@ -7216,7 +7213,10 @@ const CUSTOM_MOVIES = /*DATA*/[
       3219,
       3218,
       3217
-    ]
+    ],
+    "year": 2026,
+    "duration": 46,
+    "audio": "uz"
   },
   {
     "id": 2984,
