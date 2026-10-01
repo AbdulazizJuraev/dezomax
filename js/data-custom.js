@@ -19570,7 +19570,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "type": "serial",
     "title": {
       "uz": "Merlin - (Afsungar)",
-      "ru": "Merlin - (Afsungar)"
+      "ru": "Мерлин - (Волшебник)"
     },
     "genres": [
       "drama",
@@ -19598,7 +19598,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "",
     "seasons": 5,
     "tags": [
-      "Merlin"
+      "Afsungar"
     ],
     "poster": "https://upload.wikimedia.org/wikipedia/en/8/84/Merlin_-_Screen_Capture.jpg",
     "wiki": "Мерлин (телесериал)",
@@ -19679,7 +19679,7 @@ const CUSTOM_MOVIES = /*DATA*/[
       3336,
       3335
     ],
-    "updatedAt": 1790857076890,
+    "updatedAt": 1790857251019,
     "featured": false,
     "addedAt": 1790856984289,
     "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-1001176076-cover.jpg",
