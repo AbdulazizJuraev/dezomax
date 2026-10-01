@@ -20240,8 +20240,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "film-nomi-vanda-vijin-7-qism",
     "type": "serial",
     "title": {
-      "uz": "Film Nomi: Vanda Vijin (7-qism)",
-      "ru": "Film Nomi: Vanda Vijin (7-qism)"
+      "uz": "Wanda Vision",
+      "ru": "Wanda Vision"
     },
     "genres": [
       "drama"
@@ -20259,16 +20259,30 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://dezocloud.uz/t/zDB3E9BXDE63?s=33Koiy05SNa0bnX3O6RsAzZb",
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/wanda-vision-3363.jpg",
     "trailer": "",
     "video": "https://dezocloud.uz/s/33Koiy05SNa0bnX3O6RsAzZb",
     "featured": false,
     "addedAt": 1790861728443,
-    "updatedAt": 1790861728443,
+    "updatedAt": 1790861812528,
     "duration": 35,
     "size": 455039871,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "groupOrig": {
+      "title": {
+        "uz": "Film Nomi: Vanda Vijin (7-qism)",
+        "ru": "Film Nomi: Vanda Vijin (7-qism)"
+      },
+      "type": "serial"
+    },
+    "parts": [
+      3363,
+      3362,
+      3361,
+      3364
+    ],
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/wanda-vision-3363-cover.jpg"
   },
   {
     "id": 3364,
