@@ -57,20 +57,24 @@ function mountVideo(box, url, opts = {}) {
         ${opts.title ? `<span class="ytp-cover-title">${esc(opts.title)}</span>` : ''}
       </button>
       <div class="ytp-msg" id="vpMsg" hidden></div>
-    </div>
-    <div class="ytp-bar" id="vpBar" hidden>
-      <button class="ytp-btn" id="vpPlay" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
-      <button class="ytp-btn ytp-hide-sm" id="vpBack" type="button" aria-label="-10s">${YT_ICONS.back}</button>
-      <button class="ytp-btn ytp-hide-sm" id="vpFwd" type="button" aria-label="+10s">${YT_ICONS.fwd}</button>
-      <span class="ytp-time" id="vpTime">0:00</span>
-      <input class="ytp-seek" id="vpSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="seek">
-      <span class="ytp-time" id="vpDur">0:00</span>
-      <button class="ytp-btn" id="vpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
-      <input class="ytp-vol ytp-hide-sm" id="vpVol" type="range" min="0" max="100" value="100" aria-label="volume">
-      <button class="ytp-btn vp-speed-btn" id="vpSpeed" type="button" aria-label="speed">1x</button>
-      <button class="ytp-btn ytp-fit" id="vpFit" type="button" aria-label="zoom">${YT_ICONS.fill}</button>
-      <button class="ytp-btn vp-cast" id="vpCast" type="button" hidden aria-label="${esc(t('player.cast'))}">${YT_ICONS.cast}</button>
-      <button class="ytp-btn" id="vpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
+      <!-- YouTube uslubidagi panel: tepada to'liq kenglikdagi chiziq, pastda tugmalar; video ustida turadi -->
+      <div class="ytp-bar vp-ytbar" id="vpBar" hidden>
+        <input class="ytp-seek" id="vpSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="seek">
+        <div class="vp-row">
+          <button class="ytp-btn" id="vpPlay" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
+          <button class="ytp-btn ytp-hide-sm" id="vpBack" type="button" aria-label="-10s">${YT_ICONS.back}</button>
+          <button class="ytp-btn ytp-hide-sm" id="vpFwd" type="button" aria-label="+10s">${YT_ICONS.fwd}</button>
+          <button class="ytp-btn" id="vpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
+          <input class="ytp-vol ytp-hide-sm" id="vpVol" type="range" min="0" max="100" value="100" aria-label="volume">
+          <span class="vp-times"><span id="vpTime">0:00</span> / <span id="vpDur">0:00</span></span>
+          ${opts.title ? `<span class="vp-title">${esc(opts.title)}</span>` : ''}
+          <span class="vp-gap"></span>
+          <button class="ytp-btn vp-speed-btn" id="vpSpeed" type="button" aria-label="speed">1x</button>
+          <button class="ytp-btn ytp-fit" id="vpFit" type="button" aria-label="zoom">${YT_ICONS.fill}</button>
+          <button class="ytp-btn vp-cast" id="vpCast" type="button" hidden aria-label="${esc(t('player.cast'))}">${YT_ICONS.cast}</button>
+          <button class="ytp-btn" id="vpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
+        </div>
+      </div>
     </div>
     <div class="ytp-qrow" id="vpQRow" role="group" aria-label="${esc(t('player.quality'))}" hidden>
       <span class="ytp-qrow-label">${YT_ICONS.gear}${esc(t('player.quality'))}</span>
@@ -94,7 +98,7 @@ function mountVideo(box, url, opts = {}) {
       `<button type="button" class="ytp-qchip${i === activeIdx ? ' is-active' : ''}" data-vq="${i}">${esc(q.label)}</button>`).join('');
   };
 
-  let adStarted = false;
+  let adStarted = false, failed = false;
   const start = async () => {
     if (opts.preroll && typeof Ads !== 'undefined') {
       if (adStarted) return;
@@ -143,6 +147,7 @@ function mountVideo(box, url, opts = {}) {
   };
 
   const showMsg = () => {
+    if (opts.onFail && !failed) { failed = true; return opts.onFail(); }
     $('#vpCover').hidden = true;
     const msg = $('#vpMsg');
     msg.hidden = false;
@@ -205,6 +210,8 @@ function mountVideo(box, url, opts = {}) {
   $('#vpFwd').addEventListener('click', () => jump(10));
   $('#vpMute').addEventListener('click', () => { video.muted = !video.muted; });
   $('#vpVol').addEventListener('input', e => { video.volume = +e.target.value / 100; video.muted = video.volume === 0; });
+  const volFill = () => $('#vpVol').style.setProperty('--p', (video.muted ? 0 : video.volume * 100) + '%');
+  video.addEventListener('volumechange', volFill); volFill();
 
   $('#vpSpeed').addEventListener('click', () => {
     const i = VP_SPEEDS.indexOf(video.playbackRate);
@@ -220,7 +227,7 @@ function mountVideo(box, url, opts = {}) {
 
   // video ustiga bosish: katta ekranda panel yashiringan bo'lsa — faqat ko'rsatadi
   $('#vpClick').addEventListener('click', () => {
-    if (typeof ytIsFull === 'function' && ytIsFull(box) && box.classList.contains('ytp-idle')) { wake(); return; }
+    if (box.classList.contains('ytp-idle')) { wake(); return; }
     toggle(); wake();
   });
   $('#vpClick').addEventListener('dblclick', () => ytToggleFullscreen(box));
@@ -257,10 +264,11 @@ function mountVideo(box, url, opts = {}) {
     box.classList.remove('ytp-idle');
     clearTimeout(idleT);
     idleT = setTimeout(() => {
-      if (typeof ytIsFull === 'function' && ytIsFull(box) && !video.paused) box.classList.add('ytp-idle');
+      if (!video.paused) box.classList.add('ytp-idle');
     }, 3000);
   }
   ['mousemove', 'touchstart'].forEach(ev => box.addEventListener(ev, wake, { passive: true }));
+  box.addEventListener('mouseleave', () => { if (!video.paused) box.classList.add('ytp-idle'); });
 
   box.tabIndex = 0;
   box.addEventListener('keydown', e => {

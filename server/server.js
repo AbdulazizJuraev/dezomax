@@ -13,6 +13,10 @@
      POST /api/order    {amount}            Click to'lov havolasi                (Bearer token)
      POST /api/spend    {amount, plan,days} balansdan yechish (tarif sotib olish) (Bearer token)
      POST /click/prepare, /click/complete   Click chaqiradi (Shop API, imzo MD5)
+     GET  /social?movie=ID                  like/dislike soni + izohlar (ochiq; token bo'lsa — o'z bahosi)
+     POST /api/react   {movie, value}       1 — like, -1 — dislike, 0 — bekor qilish   (Bearer token)
+     POST /api/comment {movie, text}        izoh yozish                                 (Bearer token)
+     POST /api/comment/delete {id}          o'z izohini (admin — istalganini) o'chirish (Bearer token)
      GET  /health
    ============================================================ */
 
@@ -45,6 +49,13 @@ function openDb(file) {
       id INTEGER PRIMARY KEY AUTOINCREMENT, uid TEXT NOT NULL REFERENCES users(uid), at INTEGER NOT NULL,
       amount INTEGER NOT NULL, kind TEXT NOT NULL, method TEXT, ref TEXT, plan TEXT, days INTEGER);
     CREATE INDEX IF NOT EXISTS payments_uid ON payments(uid, at DESC);
+    CREATE TABLE IF NOT EXISTS reactions (
+      movie_id INTEGER NOT NULL, uid TEXT NOT NULL REFERENCES users(uid), value INTEGER NOT NULL CHECK (value IN (-1, 1)),
+      at INTEGER NOT NULL, PRIMARY KEY (movie_id, uid));
+    CREATE TABLE IF NOT EXISTS comments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT, movie_id INTEGER NOT NULL, uid TEXT NOT NULL REFERENCES users(uid),
+      name TEXT, text TEXT NOT NULL, at INTEGER NOT NULL, hidden INTEGER NOT NULL DEFAULT 0);
+    CREATE INDEX IF NOT EXISTS comments_movie ON comments(movie_id, hidden, at DESC);
   `);
   return db;
 }
@@ -92,8 +103,43 @@ function createApp(cfg, deps = {}) {
     setTicketCode: db.prepare('UPDATE tg_tickets SET code_hash = ?, tg_id = ?, tg_name = ?, expires_at = ? WHERE ticket = ?'),
     ticketTry: db.prepare('UPDATE tg_tickets SET tries = tries + 1 WHERE ticket = ?'),
     ticketUsed: db.prepare("UPDATE tg_tickets SET used = 1 WHERE ticket = ?"),
-    dropTickets: db.prepare('DELETE FROM tg_tickets WHERE expires_at <= ?')
+    dropTickets: db.prepare('DELETE FROM tg_tickets WHERE expires_at <= ?'),
+    reactCounts: db.prepare('SELECT SUM(value = 1) AS likes, SUM(value = -1) AS dislikes FROM reactions WHERE movie_id = ?'),
+    myReaction: db.prepare('SELECT value FROM reactions WHERE movie_id = ? AND uid = ?'),
+    setReaction: db.prepare(`INSERT INTO reactions (movie_id, uid, value, at) VALUES (?, ?, ?, ?)
+                             ON CONFLICT(movie_id, uid) DO UPDATE SET value = excluded.value, at = excluded.at`),
+    delReaction: db.prepare('DELETE FROM reactions WHERE movie_id = ? AND uid = ?'),
+    comments: db.prepare('SELECT id, uid, name, text, at FROM comments WHERE movie_id = ? AND hidden = 0 ORDER BY at DESC, id DESC LIMIT 200'),
+    commentCount: db.prepare('SELECT COUNT(*) AS n FROM comments WHERE movie_id = ? AND hidden = 0'),
+    addComment: db.prepare('INSERT INTO comments (movie_id, uid, name, text, at) VALUES (?, ?, ?, ?, ?)'),
+    comment: db.prepare('SELECT * FROM comments WHERE id = ?'),
+    hideComment: db.prepare('UPDATE comments SET hidden = 1 WHERE id = ?'),
+    recentByUser: db.prepare('SELECT COUNT(*) AS n FROM comments WHERE uid = ? AND at > ?')
   };
+
+  /* --- Like/dislike va izohlar --- */
+  const admins = new Set(cfg.adminUids || []);
+  const movieIdOf = v => { const n = Number(v); return Number.isInteger(n) && n > 0 && n < 1e12 ? n : 0; };
+  function socialOf(movie, user) {
+    const c = q.reactCounts.get(movie) || {};
+    return {
+      likes: Number(c.likes) || 0,
+      dislikes: Number(c.dislikes) || 0,
+      mine: user ? (q.myReaction.get(movie, user.uid)?.value || 0) : 0,
+      total: q.commentCount.get(movie).n,
+      comments: q.comments.all(movie).map(r => ({
+        id: r.id, name: r.name || 'Tomoshabin', text: r.text, at: r.at,
+        mine: !!user && r.uid === user.uid, canDelete: !!user && (r.uid === user.uid || admins.has(user.uid))
+      })),
+      admin: !!user && admins.has(user.uid)
+    };
+  }
+  // izoh matni: boshqaruv va ko'rinmas belgilarsiz, 2 tadan ortiq bo'sh qatorsiz, 1000 belgigacha
+  const cleanText = t => String(t || '')
+    .replace(/\r\n?/g, '\n')
+    .replace(/[\u0000-\u0008\u000B-\u001F\u007F​-‏‪-‮]/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim().slice(0, 1000);
 
   const tx = fn => { db.exec('BEGIN IMMEDIATE'); try { const r = fn(); db.exec('COMMIT'); return r; } catch (e) { db.exec('ROLLBACK'); throw e; } };
 
@@ -299,8 +345,43 @@ function createApp(cfg, deps = {}) {
       }
 
       const user = authUser(req);
+      if (path === '/social' && req.method === 'GET') {
+        if (limited(req, 'social', 120)) return send(res, 429, { error: 'Ko‘p so‘rov' });
+        const movie = movieIdOf(url.searchParams.get('movie'));
+        if (!movie) return send(res, 400, { error: 'movie kerak' });
+        return send(res, 200, socialOf(movie, user));
+      }
       if (path.startsWith('/api/')) {
         if (!user) return send(res, 401, { error: 'Qayta kiring' });
+
+        if (path === '/api/react' && req.method === 'POST') {
+          if (limited(req, 'react', 60)) return send(res, 429, { error: 'Ko‘p urinish' });
+          const b = await readBody(req);
+          const movie = movieIdOf(b.movie), v = Number(b.value);
+          if (!movie || ![1, -1, 0].includes(v)) return send(res, 400, { error: 'Noto‘g‘ri so‘rov' });
+          if (v === 0) q.delReaction.run(movie, user.uid); else q.setReaction.run(movie, user.uid, v, now());
+          const c = q.reactCounts.get(movie) || {};
+          return send(res, 200, { likes: Number(c.likes) || 0, dislikes: Number(c.dislikes) || 0, mine: v });
+        }
+        if (path === '/api/comment' && req.method === 'POST') {
+          if (limited(req, 'comment', 6)) return send(res, 429, { error: 'Juda tez yozyapsiz — biroz kuting' });
+          const b = await readBody(req);
+          const movie = movieIdOf(b.movie), text = cleanText(b.text);
+          if (!movie) return send(res, 400, { error: 'Noto‘g‘ri so‘rov' });
+          if (text.length < 2) return send(res, 400, { error: 'Izoh juda qisqa' });
+          if (q.recentByUser.get(user.uid, now() - 3600000).n >= 30) return send(res, 429, { error: 'Bir soatda 30 tadan ortiq izoh yozib bo‘lmaydi' });
+          const name = String(user.name || '').trim().slice(0, 60) || 'Tomoshabin';
+          const id = Number(q.addComment.run(movie, user.uid, name, text, now()).lastInsertRowid);
+          return send(res, 200, { id, name, text, at: now(), mine: true, canDelete: true });
+        }
+        if (path === '/api/comment/delete' && req.method === 'POST') {
+          const b = await readBody(req);
+          const c = q.comment.get(Number(b.id) || 0);
+          if (!c || c.hidden) return send(res, 404, { error: 'Izoh topilmadi' });
+          if (c.uid !== user.uid && !admins.has(user.uid)) return send(res, 403, { error: 'Faqat o‘z izohingizni o‘chira olasiz' });
+          q.hideComment.run(c.id);
+          return send(res, 200, { ok: true });
+        }
 
         if (path === '/api/me' && req.method === 'GET') {
           return send(res, 200, { uid: user.uid, balance: user.balance, payments: q.payments.all(user.uid) });
@@ -357,7 +438,8 @@ if (require.main === module) {
     returnUrl: process.env.RETURN_URL || 'https://abdulazizjuraev.github.io/dezomax/account.html#balance',
     tgBotToken: process.env.TG_BOT_TOKEN || '',          // @BotFather bergan token — faqat shu yerda
     tgBotName: process.env.TG_BOT_NAME || '',            // bot foydalanuvchi nomi (@siz)
-    tgWebhookSecret: process.env.TG_WEBHOOK_SECRET || ''
+    tgWebhookSecret: process.env.TG_WEBHOOK_SECRET || '',
+    adminUids: (process.env.ADMIN_UIDS || '').split(',').map(s => s.trim()).filter(Boolean)   // izohlarni o'chira oladiganlar
   };
   const app = createApp(cfg);
   const port = Number(process.env.PORT) || 8787;

@@ -7,7 +7,7 @@ const { createApp, md5 } = require('./server.js');
 
 const sent = [];   // botdan yuborilgan xabarlar (sinovda haqiqiy Telegram chaqirilmaydi)
 const cfg = { serviceId: '1', merchantId: '2', secretKey: 'TEST_SECRET_NOT_REAL', googleClientId: 'x', origins: ['http://localhost:5577'],
-  returnUrl: 'https://example.test/back', tgBotToken: 'TEST_BOT_TOKEN', tgBotName: 'DezoTestBot', tgWebhookSecret: 'shh' };
+  returnUrl: 'https://example.test/back', tgBotToken: 'TEST_BOT_TOKEN', tgBotName: 'DezoTestBot', tgWebhookSecret: 'shh', adminUids: ['google_adm'] };
 const app = createApp(cfg, { tgSend: async (chatId, text) => { sent.push({ chatId, text }); }, verifyGoogle: async t => { if (!t.startsWith('ok:')) throw new Error('bad'); return { sub: t.slice(3), email: t.slice(3) + '@x.test', name: 'T' }; } });
 const server = http.createServer(app.handler);
 
@@ -124,6 +124,39 @@ const comp = (o, prepId, amount, extra = {}) => {
   assert.equal((await call('POST', '/api/tg/verify', { body: { ticket: st2.ticket, code: code2 } })).status, 400); ok('5 marta xato -> chipta bloklandi');
   assert.ok(!sent.some(m => /TEST_BOT_TOKEN/.test(m.text))); ok('bot xabarida token yoq');
 
+
+  // --- like/dislike va izohlar ---
+  const s0 = (await call('GET', '/social?movie=42')).json;
+  assert.deepEqual([s0.likes, s0.dislikes, s0.mine, s0.total, s0.comments.length], [0, 0, 0, 0, 0]); ok('ijtimoiy: bo‘sh holat, tokensiz ochiq');
+  assert.equal((await call('GET', '/social?movie=abc')).status, 400); ok('ijtimoiy: noto‘g‘ri kino ID rad etildi');
+  assert.equal((await call('POST', '/api/react', { body: { movie: 42, value: 1 } })).status, 401); ok('like: tokensiz rad etildi');
+  assert.equal((await call('POST', '/api/react', { token: tk, body: { movie: 42, value: 5 } })).status, 400); ok('like: noto‘g‘ri qiymat rad etildi');
+  let rr = (await call('POST', '/api/react', { token: tk, body: { movie: 42, value: 1 } })).json;
+  assert.deepEqual([rr.likes, rr.dislikes, rr.mine], [1, 0, 1]); ok('like qo‘yildi');
+  rr = (await call('POST', '/api/react', { token: v.token, body: { movie: 42, value: -1 } })).json;
+  assert.deepEqual([rr.likes, rr.dislikes], [1, 1]); ok('boshqa foydalanuvchi dislike');
+  rr = (await call('POST', '/api/react', { token: tk, body: { movie: 42, value: -1 } })).json;
+  assert.deepEqual([rr.likes, rr.dislikes], [0, 2]); ok('like → dislike ga almashdi (ikki marta sanalmaydi)');
+  rr = (await call('POST', '/api/react', { token: tk, body: { movie: 42, value: 0 } })).json;
+  assert.deepEqual([rr.likes, rr.dislikes], [0, 1]); ok('baho bekor qilindi');
+  assert.equal((await call('GET', '/social?movie=42', { token: v.token })).json.mine, -1); ok('o‘z bahosi qaytadi');
+
+  assert.equal((await call('POST', '/api/comment', { body: { movie: 42, text: 'salom' } })).status, 401); ok('izoh: tokensiz rad etildi');
+  assert.equal((await call('POST', '/api/comment', { token: tk, body: { movie: 42, text: ' ' } })).status, 400); ok('izoh: bo‘sh matn rad etildi');
+  const cm = (await call('POST', '/api/comment', { token: tk, body: { movie: 42, text: 'Zo‘r kino!\n\n\n\n<b>a</b>​' } })).json;
+  assert.equal(cm.text, 'Zo‘r kino!\n\n<b>a</b>'); assert.equal(cm.name, 'T'); ok('izoh saqlandi, ortiqcha qator/ko‘rinmas belgi tozalandi');
+  const longc = (await call('POST', '/api/comment', { token: v.token, body: { movie: 42, text: 'x'.repeat(5000) } })).json;
+  assert.equal(longc.text.length, 1000); ok('izoh 1000 belgigacha qisqartirildi');
+  const sc = (await call('GET', '/social?movie=42', { token: v.token })).json;
+  assert.equal(sc.total, 2); assert.equal(sc.comments[0].id, longc.id);
+  assert.ok(sc.comments.find(c => c.id === cm.id && !c.mine && !c.canDelete)); ok('izohlar yangi birinchi, begona izohni o‘chira olmaydi');
+  assert.equal((await call('POST', '/api/comment/delete', { token: v.token, body: { id: cm.id } })).status, 403); ok('begona izohni o‘chirish rad etildi');
+  assert.equal((await call('POST', '/api/comment/delete', { token: tk, body: { id: cm.id } })).status, 200); ok('o‘z izohini o‘chirdi');
+  const adm = (await call('POST', '/api/login', { body: { idToken: 'ok:adm' } })).json.token;
+  assert.equal((await call('GET', '/social?movie=42', { token: adm })).json.comments[0].canDelete, true); ok('admin istalgan izohni o‘chira oladi');
+  assert.equal((await call('POST', '/api/comment/delete', { token: adm, body: { id: longc.id } })).status, 200);
+  assert.equal((await call('GET', '/social?movie=42')).json.total, 0); ok('admin o‘chirdi, ro‘yxat bo‘sh');
+  assert.equal((await call('GET', '/social?movie=43')).json.likes, 0); ok('baholar kino bo‘yicha alohida');
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();
 })().catch(er => { console.error('\nSINOV YIQILDI:', er.message); console.error(er.stack.split('\n').slice(1, 4).join('\n')); server.close(); process.exit(1); });

@@ -134,6 +134,28 @@ function mountPlayer(url) {
     return;
   }
 
+  // DezoCloud ulashish havolasi (dezocloud.uz/s/…) — faylni to'g'ridan-to'g'ri o'z pleyerimizda (/v/…).
+  // Fayl brauzerda o'ynamasa — DezoCloud sahifasi pleyer bo'yicha to'liq (embed=1) ochiladi.
+  const dcTok = (String(url).match(/^https?:\/\/(?:www\.)?dezocloud\.uz\/s\/([\w-]+)/i) || [])[1];
+  if (dcTok && typeof mountVideo === 'function') {
+    const isFilm = movie && url === movie.video;
+    const wide = wideCover(movie);
+    mountVideo(box, `https://dezocloud.uz/v/${dcTok}`, {
+      poster: wide || movie?.poster || null,
+      wide: !!wide,
+      title: movie ? title(movie) + (typeof partNo !== 'undefined' && partNo ? ` · ${partLabel(partNo)}` : '') : '',
+      preroll: isFilm,
+      onFail: () => {
+        if (typeof destroyVideo === 'function') destroyVideo();
+        box.classList.remove('ytp', 'vp', 'ytp-idle');
+        box.innerHTML = `<iframe src="https://dezocloud.uz/s/${dcTok}?embed=1" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>`;
+      }
+    });
+    ytThumbFix(box.querySelector('.vp-cover-img'));
+    if (link) { link.href = external; link.hidden = false; }
+    return;
+  }
+
   // .mp4 / .webm / .m3u8 — o'z pleyerimiz (js/vplayer.js): sifat, tezlik, ±10 s, katta ekran
   if (typeof mountVideo === 'function' && /\.(mp4|webm|ogv|m4v|mov|m3u8)(\?|$)/i.test(url)) {
     const isFilm = movie && url === movie.video;
@@ -377,6 +399,7 @@ function renderMovie() {
             <button class="btn btn-ghost" id="favBtn">${ICONS.heart}<span id="favLabel"></span></button>
             <button class="btn btn-ghost" id="dlBtn">${ICONS.download}<span id="dlLabel"></span></button>
           </div>
+          <div class="mv-social" id="mvSocial"></div>
 
           <dl class="mv-info">
             ${info.map(([k, v], i) => `
@@ -396,6 +419,8 @@ function renderMovie() {
     </section>
 
     <div class="ad-slot" data-ad-slot="movie"></div>
+
+    <section class="section mv-comments" id="comments"></section>
 
     ${(movie.cast || []).length ? `
     <section class="section">
@@ -466,6 +491,9 @@ function renderMovie() {
   };
   dlBtn.addEventListener('click', () => { toggleDownload(movie.id); syncDl(); });
   syncDl();
+
+  // like/dislike, ulashish va izohlar (js/social.js)
+  if (typeof initSocial === 'function') initSocial(group || movie, partNo);
 
   // ?play=1 bo'lsa pleyerga o'tamiz
   if (qp.get('play')) {
