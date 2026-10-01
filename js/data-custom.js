@@ -10280,40 +10280,6 @@ const CUSTOM_MOVIES = /*DATA*/[
     "audio": "uz"
   },
   {
-    "id": 3074,
-    "slug": "italyan-oshhonasida-turk-me-mond-stligi",
-    "type": "film",
-    "title": {
-      "uz": "Итальян ошхонасида турк меҳмондўстлиги",
-      "ru": "Итальян ошхонасида турк меҳмондўстлиги"
-    },
-    "genres": [
-      "drama"
-    ],
-    "country": {
-      "uz": "—",
-      "ru": "—"
-    },
-    "cast": [],
-    "desc": {
-      "uz": "Итальян ошхонасида турк меҳмондўстлиги\n\n👉",
-      "ru": "Итальян ошхонасида турк меҳмондўстлиги\n\n👉"
-    },
-    "colors": [
-      "#2a3142",
-      "#0d1018"
-    ],
-    "poster": "https://dezocloud.uz/t/rIrp_pamcqq9?s=tjCfmUPAyrydTVpnyOuZv7dI",
-    "trailer": "",
-    "video": "https://dezocloud.uz/s/tjCfmUPAyrydTVpnyOuZv7dI",
-    "featured": false,
-    "addedAt": 1790842074760,
-    "updatedAt": 1790842074760,
-    "duration": 2,
-    "year": 2026,
-    "audio": "uz"
-  },
-  {
     "id": 3075,
     "slug": "abdul-amidhon-s-nggi-imperator",
     "type": "film",
