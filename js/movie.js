@@ -8,7 +8,11 @@ const movieId = Number(qp.get('id'));
 
 /* Guruh (qismlar, js/common.js): qismning o'zi ochilsa — guruh sahifasiga, shu qism tanlangan holda */
 const partRedirect = typeof PART_OF !== 'undefined' && PART_OF.get(movieId);
-if (partRedirect) location.replace(`movie.html?id=${partRedirect.parent}&part=${partRedirect.n}${qp.get('play') ? '&play=1' : ''}`);
+if (partRedirect) {
+  // qism raqami — saytda ko'rinadigan tartib bo'yicha (videosiz guruh kartasi sanalmaydi)
+  const idx = partsOf(MOVIES.find(m => m.id === partRedirect.parent)).findIndex(p => p.id === movieId);
+  location.replace(`movie.html?id=${partRedirect.parent}&part=${idx > -1 ? idx + 1 : partRedirect.n}${qp.get('play') ? '&play=1' : ''}`);
+}
 const group = partRedirect ? null : MOVIES.find(m => m.id === movieId);
 const PARTS = typeof partsOf === 'function' ? partsOf(group) : [];
 const partNo = PARTS.length ? Math.min(Math.max(1, Math.round(+qp.get('part') || 1)), PARTS.length) : 0;
@@ -331,7 +335,7 @@ function renderMovie() {
   const info = [
     [t('movie.year'), movie.year],
     [t('movie.country'), countryOf(movie)],
-    [partNo ? (LANG === 'ru' ? 'Серии' : 'Qismlar') : movie.type === 'serial' ? t('movie.seasons') : t('movie.duration'), durationText(movie)],
+    [partNo ? (LANG === 'ru' ? 'Серии' : 'Qismlar') : movie.type === 'serial' ? t('movie.seasons') : t('movie.duration'), durationText(partNo ? group : movie)],
     [t('movie.director'), movie.director],
     [t('movie.rating'), movie.rating ? movie.rating.toFixed(1) + ' / 10' : '']
   ].filter(([, v]) => v && v !== '—');
@@ -362,7 +366,7 @@ function renderMovie() {
             ${movie.rating ? `<span class="tag tag-rating">${ICONS.star} ${movie.rating.toFixed(1)}</span>` : ''}
             <span class="tag">${typeName(movie.type)}</span>
             ${movie.genres.map(g => `<a class="tag" href="catalog.html?genre=${g}">${esc(genreName(g))}</a>`).join('')}
-            <span class="tag">${esc(durationText(movie))}</span>
+            <span class="tag">${esc(durationText(partNo ? group : movie))}</span>
           </div>
 
           <p class="mv-desc">${esc(descOf(movie))}</p>

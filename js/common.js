@@ -57,7 +57,10 @@ const PART_MOVIES = new Map();  // ro'yxatlardan chiqarilgan qismlar (id -> kino
 /* Guruh kartasining qismlari tartibda (guruh bo'lmasa — bo'sh ro'yxat) */
 function partsOf(m) {
   if (!m || !Array.isArray(m.parts) || m.parts.length < 2) return [];
-  return m.parts.map(id => id === m.id ? m : PART_MOVIES.get(id) || MOVIES.find(x => x.id === id)).filter(Boolean);
+  const list = m.parts.map(id => id === m.id ? m : PART_MOVIES.get(id) || MOVIES.find(x => x.id === id)).filter(Boolean);
+  // guruh kartasining o'zida video bo'lmasa (masalan, faqat treylerli asl kino) — u qism emas, faqat muqova
+  const real = list.filter(p => p !== m || hasFilm(m));
+  return real.length ? real : list;
 }
 
 /* ---------- Faqat to'liq film qo'shilgan kinolar ko'rinadi ----------
@@ -71,7 +74,10 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
     const page = location.pathname.split('/').pop() || 'index.html';
     const admin = page === 'admin.html' || (document.body && document.body.classList.contains('page-admin'));
     if (admin || page === 'movie.html') return;
-    for (let i = MOVIES.length - 1; i >= 0; i--) if (!hasFilm(MOVIES[i])) MOVIES.splice(i, 1);
+    // guruh kartasining o'zida video bo'lmasa ham, qismlaridan birida bo'lsa — ko'rinadi
+    for (let i = MOVIES.length - 1; i >= 0; i--) {
+      if (!hasFilm(MOVIES[i]) && !partsOf(MOVIES[i]).some(hasFilm)) MOVIES.splice(i, 1);
+    }
 
     // "Bola" rolidagi foydalanuvchilar: katalog/qidiruv/bosh sahifada faqat multfilmlar ko'rinadi
     if (page === 'index.html' || page === 'catalog.html' || page === 'search.html') {
@@ -140,7 +146,7 @@ const resultsText = n =>
   LANG === 'ru' ? `${n} ${plural(n, ['результат', 'результата', 'результатов'])}` : `${n} ta natija`;
 
 function durationText(m) {
-  const np = Array.isArray(m.parts) && m.parts.length > 1 ? m.parts.length : 0;
+  const np = Array.isArray(m.parts) && m.parts.length > 1 ? (partsOf(m).length || m.parts.length) : 0;
   if (np) return LANG === 'ru' ? `${np} ${plural(np, ['серия', 'серии', 'серий'])}` : `${np} qism`;
   if (m.type === 'serial' && m.seasons) return seasonsText(m.seasons);
   if (!m.duration) return '—';
@@ -198,6 +204,9 @@ function backdropCSS(m) {
    'trailer' — faqat treyler
    'none'    — hech narsa yo'q */
 function watchStatus(m) {
+  // guruh: kartaning o'zida video bo'lmasa ham, qismlarida bo'lsa — to'liq
+  const p = !m.video && Array.isArray(m.parts) ? partsOf(m).find(hasFilm) : null;
+  if (p) return (m.audio === 'uz' || p.audio === 'uz' || m.franchise === 'uzbek') ? 'uz' : 'full';
   if (m.video) return (m.audio === 'uz' || m.franchise === 'uzbek') ? 'uz' : 'full';
   return m.trailer ? 'trailer' : 'none';
 }
