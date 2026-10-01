@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2793,
+    "slug": "cars-3",
+    "type": "multfilm",
+    "title": {
+      "uz": "Mashinalar 3",
+      "ru": "Тачки 3"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Mashinalar 3» — 2017-yilgi AQSh multfilmi. Rejissyor: Brian Fee. Saytda rasmiy treyleri bor.",
+      "ru": "«Тачки 3» — американский компьютерно-анимационный спортивный комедийно-приключенческий фильм 2017 года, снятый студией Pixar Animation Studios для кинокомпании Walt Disney Pictures."
+    },
+    "tags": [
+      "Cars 3"
+    ],
+    "colors": [
+      "hsl(341 45% 28%)",
+      "hsl(1 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/9/94/Cars_3_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=1dBfWCTN7F8",
+    "video": "https://d.uzbeklar.biz/film/makvin3.mp4",
+    "featured": false,
+    "addedAt": 1790850676697,
+    "updatedAt": 1790850676697,
+    "year": 2017,
+    "duration": 109,
+    "director": "Brian Fee"
+  },
+  {
     "id": 2354,
     "slug": "cars-2",
     "type": "multfilm",
