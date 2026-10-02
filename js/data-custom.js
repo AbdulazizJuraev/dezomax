@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2176,
+    "slug": "ice-age-the-meltdown",
+    "type": "multfilm",
+    "title": {
+      "uz": "Muzlik davri: Jazirama issiq",
+      "ru": "Ледниковый период 2: Глобальное потепление"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Muzlik davri: Jazirama issiq» — 2006-yilgi AQSh multfilmi. Rejissyor: Carlos Saldanha. Saytda rasmiy treyleri bor.",
+      "ru": "«Ледниковый период 2: Глобальное потепление» — американский компьютерно-анимационный приключенческий комедийный фильм 2006 года, снятый студией Blue Sky Studios и выпущенный студией 20th Century Fox."
+    },
+    "tags": [
+      "Ice Age: The Meltdown"
+    ],
+    "colors": [
+      "hsl(86 45% 28%)",
+      "hsl(106 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/f/f1/Ice_Age_2_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=5wEOwitnCDo",
+    "video": "https://d.uzbeklar.biz/film/md2.mp4",
+    "featured": false,
+    "addedAt": 1790943479101,
+    "updatedAt": 1790943479101,
+    "year": 2006,
+    "duration": 86,
+    "director": "Carlos Saldanha"
+  },
+  {
     "id": 2146,
     "slug": "ice-age-dawn-of-the-dinosaurs",
     "type": "multfilm",
