@@ -425,7 +425,7 @@ const rt = m => m.rating || 0;
 const libRow = fr => MOVIES.filter(m => m.franchise === fr && m.poster).slice(0, 24);
 
 const ROW_SOURCES = {
-  uzbek:    { title: 'row.uzbek',    all: 'catalog.html?watch=uz',        list: () => MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)) },
+  uzbek:    { title: 'row.uzbek',    all: 'catalog.html?watch=uz',        list: () => MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)).slice(0, 30) },   // qolgani — «Hammasi»
   konsert:  { title: 'row.konsert',  all: 'catalog.html?franchise=konsert', list: () => MOVIES.filter(m => m.franchise === 'konsert').sort((a, b) => yr(b) - yr(a)) },
   trending: { title: 'row.trending', all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) * (yr(b) >= 2014 ? 1.1 : 1) - rt(a) * (yr(a) >= 2014 ? 1.1 : 1)).slice(0, 14) },
   new:      { title: 'row.new',      all: null,                           list: () => [...MOVIES].filter(m => yr(m) && m.franchise !== 'konsert' && m.poster && (m.trailer || m.video)).sort((a, b) => yr(b) - yr(a)).slice(0, 14) },

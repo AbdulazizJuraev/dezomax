@@ -17,7 +17,8 @@ const group = partRedirect ? null : MOVIES.find(m => m.id === movieId);
 const PARTS = typeof partsOf === 'function' ? partsOf(group) : [];
 const partNo = PARTS.length ? Math.min(Math.max(1, Math.round(+qp.get('part') || 1)), PARTS.length) : 0;
 // sahifa ma'lumotlari — guruh kartasidan, pleyer videosi — tanlangan qismdan
-const movie = partNo ? (({ video, videos, source, lang, langs }) => ({ ...group, video, videos, source: source || group.source, lang: lang || group.lang, langs }))(PARTS[partNo - 1]) : group;
+// qismning o'z muqovasi bo'lsa (YouTube seriallari) — o'shanisi, aks holda guruhniki
+const movie = partNo ? (({ video, videos, source, lang, langs, cover }) => ({ ...group, video, videos, source: source || group.source, lang: lang || group.lang, langs, cover: (group.eps && cover) || group.cover }))(PARTS[partNo - 1]) : group;
 const partUrl = n => `movie.html?id=${group.id}&part=${n}&play=1`;
 
 /* ---------- Pleyer ----------

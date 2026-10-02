@@ -56,6 +56,10 @@ const PART_MOVIES = new Map();  // ro'yxatlardan chiqarilgan qismlar (id -> kino
 
 /* Guruh kartasining qismlari tartibda (guruh bo'lmasa — bo'sh ro'yxat) */
 function partsOf(m) {
+  // ixcham qismlar (YouTube kanal seriallari, js/data-rizanova.js): eps: [[youtubeId, daqiqa], ...]
+  if (m && Array.isArray(m.eps) && m.eps.length) {
+    return m.eps.map(([yt, min]) => ({ id: m.id, title: m.title, video: 'https://www.youtube.com/watch?v=' + yt, cover: 'https://i.ytimg.com/vi/' + yt + '/maxresdefault.jpg', duration: min || undefined, source: m.source, audio: m.audio }));
+  }
   if (!m || !Array.isArray(m.parts) || m.parts.length < 2) return [];
   const list = m.parts.map(id => id === m.id ? m : PART_MOVIES.get(id) || MOVIES.find(x => x.id === id)).filter(Boolean);
   // guruh kartasining o'zida video bo'lmasa (masalan, faqat treylerli asl kino) — u qism emas, faqat muqova
@@ -151,7 +155,8 @@ const resultsText = n =>
   LANG === 'ru' ? `${n} ${plural(n, ['результат', 'результата', 'результатов'])}` : `${n} ta natija`;
 
 function durationText(m) {
-  const np = Array.isArray(m.parts) && m.parts.length > 1 ? (partsOf(m).length || m.parts.length) : 0;
+  const np = Array.isArray(m.eps) && m.eps.length > 1 ? m.eps.length
+    : Array.isArray(m.parts) && m.parts.length > 1 ? (partsOf(m).length || m.parts.length) : 0;
   if (np) return LANG === 'ru' ? `${np} ${plural(np, ['серия', 'серии', 'серий'])}` : `${np} qism`;
   if (m.type === 'serial' && m.seasons) return seasonsText(m.seasons);
   if (!m.duration) return '—';
@@ -256,7 +261,7 @@ function cardHTML(m) {
     .filter(Boolean).join('<i class="dot"></i>');
 
   return `
-  <a class="card reveal${m.franchise === 'konsert' ? ' is-wide' : ''}" href="${movieHref(m)}">
+  <a class="card reveal${m.franchise === 'konsert' || m.wide ? ' is-wide' : ''}" href="${movieHref(m)}">
     <div class="card-poster">
       ${posterHTML(m)}
       <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
