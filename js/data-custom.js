@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2079,
+    "slug": "ice-age",
+    "type": "multfilm",
+    "title": {
+      "uz": "Muzlik davri",
+      "ru": "Ледниковый период"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Muzlik davri» — 2002-yilgi AQSh multfilmi. Rejissyor: Chris Wedge, Carlos Saldanha. Saytda rasmiy treyleri bor.",
+      "ru": "«Ледниковый период» — американский компьютерно-анимационный приключенческий комедийный фильм 2002 года, снятый студией Blue Sky Studios и распространяемый студией 20th Century Fox."
+    },
+    "tags": [
+      "Ice Age"
+    ],
+    "colors": [
+      "hsl(29 45% 28%)",
+      "hsl(49 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/3/3c/Ice_Age_%282002_film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=PcQDU4_gsDo",
+    "video": "https://t.me/muzlikDavriBarchaQismlar/4",
+    "featured": false,
+    "addedAt": 1790943122993,
+    "updatedAt": 1790943122993,
+    "year": 2002,
+    "duration": 81,
+    "director": "Chris Wedge, Carlos Saldanha"
+  },
+  {
     "id": 2894,
     "slug": "home-alone-3",
     "type": "film",
