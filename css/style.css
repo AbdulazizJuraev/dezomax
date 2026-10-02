@@ -5605,3 +5605,5 @@ html.soc-lock { overflow: hidden; }
   .mv-brand.is-marvel { height: 24px; }
   .mv-brand.is-disney-plus { height: 40px; }
 }
+/* logotiplar bilan — ramkasiz (logotip ramka chetidan chiqib turardi) */
+.mv-official.has-brands, .mv-official.has-brands:hover { border: 0; background: none; padding: 0; border-radius: 0; }
