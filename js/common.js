@@ -223,6 +223,24 @@ function watchBadgeHTML(m) {
   return '';
 }
 
+/* ---------- Ovoz tillari: bayroqlar (kino sahifasi — js/movie.js, admin — guruh tillari) ----------
+   Kino/qism maydonlari: lang: 'en' — asosiy video tili; langs: { uz: url, ru: url } — boshqa tildagi versiyalar */
+const AUDIO_LANGS = ['uz', 'ru', 'en', 'tr'];
+const LANG_FLAGS = {
+  uz: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.4" fill="#0099b5"/><rect y="13.6" width="30" height="6.4" fill="#1eb53a"/><rect y="6.4" width="30" height=".7" fill="#ce1126"/><rect y="12.9" width="30" height=".7" fill="#ce1126"/><circle cx="5" cy="3.2" r="2.2" fill="#fff"/><circle cx="5.9" cy="3.2" r="2" fill="#0099b5"/><circle cx="9" cy="2" r=".45" fill="#fff"/><circle cx="10.6" cy="2" r=".45" fill="#fff"/><circle cx="9" cy="3.6" r=".45" fill="#fff"/><circle cx="10.6" cy="3.6" r=".45" fill="#fff"/><circle cx="12.2" cy="2" r=".45" fill="#fff"/></svg>',
+  en: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#012169"/><path d="M0 0l30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0l30 20M30 0L0 20" stroke="#c8102e" stroke-width="1.4"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6"/><path d="M15 0v20M0 10h30" stroke="#c8102e" stroke-width="3.4"/></svg>',
+  ru: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#0039a6"/><rect y="13.33" width="30" height="6.67" fill="#d52b1e"/></svg>',
+  orig: '<svg viewBox="0 0 30 20"><rect width="30" height="20" rx="2" fill="#2a3142"/><circle cx="15" cy="10" r="6" fill="none" stroke="#cfd6e4" stroke-width="1.3"/><path d="M9 10h12M15 4c-2.4 2.6-2.4 9.4 0 12M15 4c2.4 2.6 2.4 9.4 0 12" fill="none" stroke="#cfd6e4" stroke-width="1.1"/></svg>',
+  tr: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#e30a17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.2" cy="10" r="4" fill="#e30a17"/><path d="M15.5 10l3.6-1.2-2.2 3.1V8.1l2.2 3.1z" fill="#fff"/></svg>'
+};
+const LANG_NAMES = {
+  uz: { uz: 'O‘zbek tilida', ru: 'На узбекском' },
+  en: { uz: 'Ingliz tilida (asl nusxa)', ru: 'На английском (оригинал)' },
+  ru: { uz: 'Rus tilida', ru: 'На русском' },
+  tr: { uz: 'Turk tilida', ru: 'На турецком' },
+  orig: { uz: 'Asl nusxa', ru: 'Оригинал' }
+};
+
 /* ---------- Kartochka ---------- */
 
 /* Kino havolasi: qidiruv tizimlari uchun tayyor sahifasi bo'lsa (js/seo-pages.js) — kino/<slug>.html */

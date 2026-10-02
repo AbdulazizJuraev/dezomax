@@ -243,23 +243,12 @@ function mountPlayer(url) {
    Kino (yoki qism) maydonlari:  lang: 'en'  — asosiy video (m.video) tili;
    langs: { ru: 'https://…', uz: 'https://…' } — shu kinoning boshqa tildagi qonuniy versiyalari.
    Tanlangan til eslab qolinadi (keyingi qism/kino ham shu tilda ochiladi, bo'lsa). */
-const LANG_FLAGS = {
-  uz: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.4" fill="#0099b5"/><rect y="13.6" width="30" height="6.4" fill="#1eb53a"/><rect y="6.4" width="30" height=".7" fill="#ce1126"/><rect y="12.9" width="30" height=".7" fill="#ce1126"/><circle cx="5" cy="3.2" r="2.2" fill="#fff"/><circle cx="5.9" cy="3.2" r="2" fill="#0099b5"/><circle cx="9" cy="2" r=".45" fill="#fff"/><circle cx="10.6" cy="2" r=".45" fill="#fff"/><circle cx="9" cy="3.6" r=".45" fill="#fff"/><circle cx="10.6" cy="3.6" r=".45" fill="#fff"/><circle cx="12.2" cy="2" r=".45" fill="#fff"/></svg>',
-  en: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#012169"/><path d="M0 0l30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0l30 20M30 0L0 20" stroke="#c8102e" stroke-width="1.4"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6"/><path d="M15 0v20M0 10h30" stroke="#c8102e" stroke-width="3.4"/></svg>',
-  ru: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#0039a6"/><rect y="13.33" width="30" height="6.67" fill="#d52b1e"/></svg>',
-  tr: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#e30a17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.2" cy="10" r="4" fill="#e30a17"/><path d="M15.5 10l3.6-1.2-2.2 3.1V8.1l2.2 3.1z" fill="#fff"/></svg>'
-};
-const LANG_NAMES = {
-  uz: { uz: 'O‘zbek tilida', ru: 'На узбекском' },
-  en: { uz: 'Ingliz tilida (asl nusxa)', ru: 'На английском (оригинал)' },
-  ru: { uz: 'Rus tilida', ru: 'На русском' },
-  tr: { uz: 'Turk tilida', ru: 'На турецком' }
-};
+// bayroqlar va til nomlari — js/common.js (LANG_FLAGS, LANG_NAMES; admin ham ishlatadi)
 const AUDIO_KEY = 'dezomax_audio_lang';
 
 function langsOf(m) {
   if (!m || !m.video) return [];
-  const main = m.lang || (m.audio === 'uz' ? 'uz' : '');
+  const main = m.lang || (m.audio === 'uz' ? 'uz' : '') || (m.langs && Object.values(m.langs).some(Boolean) ? 'orig' : '');
   const list = main ? [{ code: main, url: m.video }] : [];
   for (const [code, url] of Object.entries(m.langs || {})) {
     if (url && !list.some(l => l.code === code)) list.push({ code, url });
@@ -331,10 +320,19 @@ function officialHTML(m) {
   const BRANDS = { marvel: ['marvel.svg', 'Marvel'], 'disney-plus': ['disney-plus-white.svg', 'Disney+'] };
   const logos = (m.brands || []).filter(b => BRANDS[b])
     .map(b => `<img class="mv-brand is-${b}" src="images/brands/${BRANDS[b][0]}" alt="${BRANDS[b][1]}" title="${BRANDS[b][1]}">`).join('');
-  return `<a class="mv-official${logos ? ' has-brands' : ''}" href="${esc(m.source.url || '#')}" target="_blank" rel="noopener">
+  return `<a class="mv-official${logos ? ' has-brands' : ''}" id="mvOfficial" href="${esc(m.source.url || '#')}" target="_blank" rel="noopener">
     ${logos ? `<span class="mv-brands">${logos}</span>` : ''}
     <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
     <span>${esc(text)}</span><i>✓</i></a>`;
+}
+
+/* «Rasmiy manba» belgisi faqat o'sha manbadagi video ochiq turganda ko'rinadi — boshqa tildagi
+   versiya (masalan admin qo'shgan tarjima) rasmiy kanalniki deb ko'rinib qolmasin */
+function syncOfficial(url) {
+  const el = document.getElementById('mvOfficial');
+  if (!el || !movie.source || !movie.source.url) return;
+  const host = u => { try { return new URL(u).hostname.replace(/^(www|m)\./, '').replace('youtu.be', 'youtube.com'); } catch (e) { return ''; } };
+  el.hidden = !!url && host(url) !== host(movie.source.url);
 }
 
 /* ---------- Guruh qismlari: «1-qism, 2-qism…» tugmalari ---------- */
@@ -541,6 +539,7 @@ function renderMovie() {
   if (sources.length) {
     const startLang = langsOf(movie).length ? pickLang(langsOf(movie)) : null;   // film — tanlangan tildagisi
     mountPlayer(startLang && sources[0].key === 'film' ? startLang.url : sources[0].url);
+    syncOfficial(startLang ? startLang.url : movie.video);
 
     const tabs = [...document.querySelectorAll('.player-tabs .chip')];
     const flags = [...document.querySelectorAll('.player-lang')];
@@ -555,6 +554,7 @@ function renderMovie() {
       try { localStorage.setItem(AUDIO_KEY, f.dataset.lang); } catch (e) {}
       const film = tabs.find(x => x.dataset.key === 'film');
       if (film) { film.dataset.src = f.dataset.src; selectTab(film); } else mountPlayer(f.dataset.src);
+      syncOfficial(f.dataset.src);
     }));
   }
 

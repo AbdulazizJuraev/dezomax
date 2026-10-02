@@ -1340,10 +1340,13 @@ function renderGroupsView() {
             </div>
           </div>`).join('')}</div>` : '<p class="acc-muted">Hozircha guruh yo‘q.</p>'}
       </section>`;
-    $('#grpNew').addEventListener('click', () => { grpDraft = { orig: null, ids: [], name: '', nameRu: '', type: 'serial' }; renderGroupsView(); });
+    $('#grpNew').addEventListener('click', () => { grpDraft = { orig: null, ids: [], name: '', nameRu: '', type: 'serial', langMain: '', langTab: 'uz', langs: {} }; renderGroupsView(); });
     box.querySelectorAll('[data-gedit]').forEach(b => b.addEventListener('click', () => {
       const g = movieById(+b.dataset.gedit);
-      grpDraft = { orig: g.id, ids: g.parts.filter(id => movieById(id)), name: g.title.uz, nameRu: g.title.ru === g.title.uz ? '' : g.title.ru || '', type: g.type, cover: g.cover || '', poster: g.poster || '' };
+      const ids = g.parts.filter(id => movieById(id));
+      const langMain = g.lang || (g.audio === 'uz' ? 'uz' : '');
+      grpDraft = { orig: g.id, ids, name: g.title.uz, nameRu: g.title.ru === g.title.uz ? '' : g.title.ru || '', type: g.type, cover: g.cover || '', poster: g.poster || '',
+        langMain, langTab: langMain || 'uz', langs: Object.fromEntries(ids.map(id => [id, { ...(movieById(id).langs || {}) }])) };
       renderGroupsView();
     }));
     box.querySelectorAll('[data-gsplit]').forEach(b => b.addEventListener('click', () => {
@@ -1419,6 +1422,8 @@ function renderGroupsView() {
         ${d.ids.length ? d.ids.map((id, i) => groupRowHTML(id, i, d.ids.length)).join('') : '<p class="acc-muted adm-empty-pick">Qism tanlanmagan — yuqoridan qidirib qo‘shing</p>'}
       </div>
 
+      ${d.ids.length ? grpLangsHTML(d) : ''}
+
       <p class="acc-error" id="grpErr" hidden></p>
       <div class="adm-grp-save">
         <button class="btn btn-ghost" type="button" id="grpCancel">Bekor qilish</button>
@@ -1430,6 +1435,9 @@ function renderGroupsView() {
     d.name = $('#grpName').value; d.nameRu = $('#grpNameRu').value; d.type = $('#grpType').value;
     if (!d.coverFile) d.cover = $('#grpCover').value.trim();
     if (!d.posterFile) d.poster = $('#grpPoster').value.trim();
+    if ($('#grpLangMain')) d.langMain = $('#grpLangMain').value;
+    d.langs = d.langs || {};
+    box.querySelectorAll('[data-glurl]').forEach(inp => { (d.langs[inp.dataset.glurl] ||= {})[d.langTab] = inp.value.trim(); });
   };
   $('#grpPosterFile').addEventListener('change', e => { const f = e.target.files[0]; if (f) { keep(); d.posterFile = f; redraw(); } });
   $('#grpPoster').addEventListener('change', () => { d.posterFile = null; keep(); redraw(); });
@@ -1464,6 +1472,12 @@ function renderGroupsView() {
       grpCollator.compare(movieById(a).title.uz, movieById(b2).title.uz) || a - b2);
     redraw();
   }));
+  // redraw() yana keep() qiladi — u yangi tabga eski tabning havolalarini yozib yuborardi; shuning uchun to'g'ridan-to'g'ri chizamiz
+  box.querySelectorAll('[data-gltab]').forEach(b => b.addEventListener('click', () => {
+    keep(); d.langTab = b.dataset.gltab;
+    const y = window.scrollY; renderGroupsView(); window.scrollTo(0, y);
+  }));
+  $('#grpLangMain')?.addEventListener('change', () => { keep(); redraw(); });
   $('#grpClear')?.addEventListener('click', () => { if (confirm('Tanlangan qismlar ro‘yxati tozalansinmi?')) { d.ids = []; redraw(); } });
   $('#grpCancel').addEventListener('click', () => { grpDraft = null; renderGroupsView(); });
 
@@ -1507,6 +1521,9 @@ function renderGroupsView() {
     if (!name) { err.textContent = 'Guruh nomini yozing.'; err.hidden = false; return; }
     const ids = [...d.ids], head = ids[0], set = new Set(ids);
     if (BLOCKED_HOSTS.test(d.cover || '') || BLOCKED_HOSTS.test(d.poster || '')) { err.textContent = 'Bu xostdagi rasm qabul qilinmaydi.'; err.hidden = false; return; }
+    const langUrls = Object.values(d.langs || {}).flatMap(o => Object.values(o)).filter(Boolean);
+    if (langUrls.some(u => !/^https?:\/\//i.test(u))) { err.textContent = 'Til videosi havolasi https:// bilan boshlanishi kerak.'; err.hidden = false; return; }
+    if (langUrls.some(u => BLOCKED_HOSTS.test(u))) { err.textContent = 'Bu xostdagi video qabul qilinmaydi.'; err.hidden = false; return; }
     runAction(e.currentTarget, async () => {
       const cover = d.coverFile ? await uploadPoster(d.coverFile, `${slugify(name)}-${head}-cover`, 1280) : d.cover;
       const poster = d.posterFile ? await uploadPoster(d.posterFile, `${slugify(name)}-${head}`) : d.poster;
@@ -1532,12 +1549,55 @@ function renderGroupsView() {
         h.type = d.type;
         if (cover) h.cover = cover; else delete h.cover;
         if (poster) h.poster = poster;
+        // ovoz tillari: har bir qismga — asosiy til (lang) va boshqa tildagi versiyalar (langs)
+        for (const id of ids) {
+          const m = get(id);
+          if (d.langMain) m.lang = d.langMain; else delete m.lang;
+          const extra = Object.fromEntries(Object.entries((d.langs || {})[id] || {}).filter(([code, url]) => url && code !== d.langMain));
+          if (Object.keys(extra).length) m.langs = extra; else delete m.langs;
+          if (id !== head) m.updatedAt = Date.now();
+        }
         h.updatedAt = Date.now();
         return list;
       }, `Guruh: ${name} (${ids.length} qism)`);
       grpDraft = null;
     }, `«${name}» guruhi saqlandi — ~1 daqiqada saytda`);
   });
+}
+
+/* Guruh: ovoz tillari — tepada bayroqli tablar, tanlangan tilda har bir qismning video havolasi.
+   Asosiy til — qismlarning o'z videosi (o'zgartirilmaydi); boshqa tillar — langs. Saytda pleyer tepasida bayroq. */
+function grpLangsHTML(d) {
+  const main = d.langMain || '', tab = d.langTab || 'uz';
+  const name = c => (LANG_NAMES[c] || {}).uz || c;
+  const count = c => c === main ? d.ids.filter(id => movieById(id)?.video).length : d.ids.filter(id => d.langs?.[id]?.[c]).length;
+  return `
+      <div class="adm-field adm-langs">
+        <label class="adm-label">Ovoz tillari</label>
+        <p class="adm-hint">Tilni tanlang — shu tildagi har bir qism videosining havolasi ko‘rinadi. Saytda pleyer tepasida bayroq bo‘lib chiqadi, tomoshabin bosib tilni almashtiradi.</p>
+        <div class="adm-lang-main">
+          <label for="grpLangMain">Asosiy videolar tili</label>
+          <select class="acc-input" id="grpLangMain">
+            <option value=""${main ? '' : ' selected'}>Belgilanmagan</option>
+            ${AUDIO_LANGS.map(c => `<option value="${c}"${c === main ? ' selected' : ''}>${name(c)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="adm-lang-tabs" role="tablist">${AUDIO_LANGS.map(c => `
+          <button type="button" role="tab" class="adm-lang-tab${c === tab ? ' is-on' : ''}" data-gltab="${c}" aria-selected="${c === tab}">
+            ${LANG_FLAGS[c]}<span>${name(c).replace(/ tilida.*$/, '')}</span>${count(c) ? `<em>${count(c)}</em>` : ''}
+          </button>`).join('')}
+        </div>
+        <div class="adm-lang-list">
+          ${d.ids.map((id, i) => {
+            const m = movieById(id);
+            if (!m) return '';
+            return `<div class="adm-lang-row"><b>${i + 1}-qism</b>${tab === main
+              ? `<span class="adm-lang-own" title="${esc(m.video || '')}">${m.video ? esc(m.video) : 'video yo‘q'}<small>asosiy video</small></span>`
+              : `<input class="acc-input" data-glurl="${id}" value="${esc(d.langs?.[id]?.[tab] || '')}" placeholder="${esc(name(tab))} video havolasi: https://..." inputmode="url" autocomplete="off">`}</div>`;
+          }).join('')}
+        </div>
+        ${!main && d.ids.some(id => Object.values(d.langs?.[id] || {}).some(Boolean)) ? '<p class="adm-hint">Asosiy videolar tilini belgilang — aks holda saytda ular «Asl nusxa» bo‘lib turadi.</p>' : ''}
+      </div>`;
 }
 
 function ungroupMovie(m) {
