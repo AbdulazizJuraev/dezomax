@@ -163,6 +163,12 @@ const comp = (o, prepId, amount, extra = {}) => {
   assert.equal((await call('POST', '/view', { body: { movie: 77 } })).json.views, 1); ok('ko‘rish sanaldi (tokensiz)');
   assert.equal((await call('POST', '/view', { body: { movie: 77 } })).json.views, 1); ok('o‘sha IP 6 soat ichida qayta sanalmaydi');
   assert.equal((await call('GET', '/social?movie=77')).json.views, 1); ok('ko‘rishlar /social da qaytadi');
+  // --- TOP (kunlik / haftalik / oylik) ---
+  let top = (await call('GET', '/top?days=1')).json;
+  assert.equal(top.days, 1); assert.deepEqual(top.items[0], { movie: 77, views: 1 }); ok('TOP kunlik: bugungi ko‘rish bor');
+  assert.deepEqual((await call('GET', '/top?days=30')).json.items[0], { movie: 77, views: 1 }); ok('TOP oylik');
+  assert.equal((await call('GET', '/top?days=all')).json.days, 'all'); ok('TOP hamma vaqt');
+  assert.equal((await call('GET', '/top?days=5')).json.days, 1); ok('TOP: noma’lum davr — kunlik');
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();
 })().catch(er => { console.error('\nSINOV YIQILDI:', er.message); console.error(er.stack.split('\n').slice(1, 4).join('\n')); server.close(); process.exit(1); });

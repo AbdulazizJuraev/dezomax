@@ -58,6 +58,9 @@ function openDb(file) {
       name TEXT, text TEXT NOT NULL, at INTEGER NOT NULL, hidden INTEGER NOT NULL DEFAULT 0);
     CREATE INDEX IF NOT EXISTS comments_movie ON comments(movie_id, hidden, at DESC);
     CREATE TABLE IF NOT EXISTS views (movie_id INTEGER PRIMARY KEY, n INTEGER NOT NULL DEFAULT 0);
+    -- kunlik ko'rishlar (TOP 10: kunlik / haftalik / oylik); day — 1970-yildan beri kun (UTC+5, Toshkent)
+    CREATE TABLE IF NOT EXISTS views_daily (movie_id INTEGER NOT NULL, day INTEGER NOT NULL, n INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (movie_id, day));
+    CREATE INDEX IF NOT EXISTS views_daily_day ON views_daily(day);
   `);
   return db;
 }
@@ -118,7 +121,10 @@ function createApp(cfg, deps = {}) {
     hideComment: db.prepare('UPDATE comments SET hidden = 1 WHERE id = ?'),
     recentByUser: db.prepare('SELECT COUNT(*) AS n FROM comments WHERE uid = ? AND at > ?'),
     views: db.prepare('SELECT n FROM views WHERE movie_id = ?'),
-    addView: db.prepare('INSERT INTO views (movie_id, n) VALUES (?, 1) ON CONFLICT(movie_id) DO UPDATE SET n = n + 1')
+    addView: db.prepare('INSERT INTO views (movie_id, n) VALUES (?, 1) ON CONFLICT(movie_id) DO UPDATE SET n = n + 1'),
+    addViewDay: db.prepare('INSERT INTO views_daily (movie_id, day, n) VALUES (?, ?, 1) ON CONFLICT(movie_id, day) DO UPDATE SET n = n + 1'),
+    topSince: db.prepare('SELECT movie_id, SUM(n) AS n FROM views_daily WHERE day >= ? GROUP BY movie_id ORDER BY n DESC, movie_id LIMIT ?'),
+    topAll: db.prepare('SELECT movie_id, n FROM views ORDER BY n DESC, movie_id LIMIT ?')
   };
 
   /* --- Like/dislike va izohlar --- */
@@ -150,7 +156,20 @@ function createApp(cfg, deps = {}) {
     if (seen.size > 100000) seen.clear();
     seen.set(k, t);
     q.addView.run(movie);
+    q.addViewDay.run(movie, dayOf(t));
     return true;
+  }
+  // Toshkent vaqti bo'yicha kun raqami (yarim tunda yangi kun boshlanadi)
+  const dayOf = t => Math.floor((t + 5 * 3600000) / 86400000);
+  // TOP: so'nggi 1 / 7 / 30 kun yoki hamma vaqt; natija 1 daqiqa keshlanadi
+  const topCache = new Map();
+  function topOf(days, limit) {
+    const key = days + ':' + limit, c = topCache.get(key), t = now();
+    if (c && c.at > t - 60000) return c.items;
+    const rows = days ? q.topSince.all(dayOf(t) - days + 1, limit) : q.topAll.all(limit);
+    const items = rows.map(r => ({ movie: Number(r.movie_id), views: Number(r.n) }));
+    topCache.set(key, { at: t, items });
+    return items;
   }
   // izoh matni: boshqaruv va ko'rinmas belgilarsiz, 2 tadan ortiq bo'sh qatorsiz, 1000 belgigacha
   const cleanText = t => String(t || '')
@@ -368,6 +387,13 @@ function createApp(cfg, deps = {}) {
         const movie = movieIdOf(url.searchParams.get('movie'));
         if (!movie) return send(res, 400, { error: 'movie kerak' });
         return send(res, 200, socialOf(movie, user));
+      }
+      if (path === '/top' && req.method === 'GET') {
+        if (limited(req, 'top', 60)) return send(res, 429, { error: 'Ko‘p so‘rov' });
+        const d = url.searchParams.get('days');
+        const days = d === 'all' ? 0 : [1, 7, 30].includes(Number(d)) ? Number(d) : 1;
+        const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 30));
+        return send(res, 200, { days: days || 'all', items: topOf(days, limit) });
       }
       if (path === '/view' && req.method === 'POST') {
         if (limited(req, 'view', 60)) return send(res, 429, { error: 'Ko‘p so‘rov' });

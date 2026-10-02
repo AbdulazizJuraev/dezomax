@@ -435,12 +435,13 @@ const ROW_SOURCES = {
   marvel:   { title: 'row.marvel',   all: 'catalog.html?franchise=marvel', list: () => MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => yr(a) - yr(b)) },
   dc:       { title: 'row.dc',       all: 'catalog.html?franchise=dc',     list: () => MOVIES.filter(m => m.franchise === 'dc').sort((a, b) => yr(a) - yr(b)) },
   top:      { title: 'row.top',      all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) - rt(a)).slice(0, 14) },
+  popular:  { title: 'row.popular',  all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) - rt(a)).slice(0, 10) },   // TOP 10 — js: initTop10
   series:   { title: 'row.series',   all: 'catalog.html?type=serial',     list: () => MOVIES.filter(m => m.type === 'serial').slice(0, 24) },
   cartoons: { title: 'row.cartoons', all: 'catalog.html?type=multfilm',   list: () => MOVIES.filter(m => m.type === 'multfilm').slice(0, 24) },
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
-const DEFAULT_ROWS = ['uzbek', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
+const DEFAULT_ROWS = ['popular', 'uzbek', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
   .map(source => ({ source, visible: true }));
 
 /* ---------- «Seriallar» banneri: hamma seriallar bitta katta banner ostida ----------
@@ -526,7 +527,7 @@ function renderRows() {
   if (!box) return;
   const rows = (SITE_CFG.rows && SITE_CFG.rows.length) ? SITE_CFG.rows : DEFAULT_ROWS;
 
-  let shown = 0, seriesList = null;
+  let shown = 0, seriesList = null, hasTop = false;
   box.innerHTML = rows.map((row, i) => {
     const src = ROW_SOURCES[row.source] || ROW_SOURCES.custom;
     if (row.visible === false) return '';
@@ -535,6 +536,10 @@ function renderRows() {
     // har 3 qatordan keyin reklama joyi (js/ads.js; reklama ID'lari bo'lmasa — ko'rinmaydi)
     const ad = ++shown % 3 === 0 ? `<div class="ad-slot" data-ad-slot="home"></div>` : '';
     const title = (row.title && (row.title[LANG] || row.title.uz)) || (src.title ? t(src.title) : '');
+    if (row.source === 'popular' && !hasTop) {
+      hasTop = true;
+      return top10HTML(title) + ad;
+    }
     if (row.source === 'series' && !seriesList) {
       seriesList = list;
       return seriesBannerHTML(list, `
@@ -557,8 +562,88 @@ function renderRows() {
   if (typeof Ads !== 'undefined') Ads.fill(box);
   observeReveals(box);
   initRowNav();
+  if (hasTop) initTop10(box);
   if (seriesList) initSeriesBanner(box, seriesList);
   else clearInterval(sbTimer);
+}
+
+/* ---------- TOP 10: eng ko'p ko'rilganlar (kunlik / haftalik / oylik) ----------
+   Ko'rishlar to'lov serverida sanaladi (js/social.js → POST /view, GET /top). Server javob bermasa yoki
+   ko'rishlar hali kam bo'lsa — qolgan joylar reyting bo'yicha to'ldiriladi («Real vaqt» belgisi faqat haqiqiy ma'lumotda). */
+const TOP_TABS = [[1, 'top.day'], [7, 'top.week'], [30, 'top.month']];
+let topDays = 1;
+const topCache = new Map();
+
+function top10HTML(title) {
+  return `
+    <section class="section t10" id="top10">
+      <div class="wrap">
+        <div class="t10-head">
+          <div>
+            <span class="t10-kicker" id="t10Kicker" hidden>${t('top.kicker')}</span>
+            <h2>${esc(title)}</h2>
+            <p class="t10-sub">${t('top.sub')}</p>
+          </div>
+          <div class="t10-side">
+            <div class="t10-tabs" role="tablist">${TOP_TABS.map(([d, k]) => `<button type="button" role="tab" data-days="${d}" class="${d === topDays ? 'is-on' : ''}" aria-selected="${d === topDays}">${t(k)}</button>`).join('')}</div>
+            <div class="row-nav t10-nav" data-for="t10Row"></div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap t10-wrap">
+        <div class="row t10-row" id="t10Row">${t10CardsHTML(ROW_SOURCES.popular.list())}</div>
+      </div>
+    </section>`;
+}
+
+function t10CardsHTML(list) {
+  return list.slice(0, 10).map((m, i) => `
+    <a class="t10-card${i < 3 ? ' is-top' : ''}" href="${movieHref(m)}">
+      <span class="t10-num" aria-hidden="true">${i + 1}</span>
+      <span class="t10-poster">
+        ${posterHTML(m)}
+        ${i === 0 ? `<em class="t10-badge">TOP 1</em>` : ''}
+        <span class="badge-type">${typeName(m.type)}</span>
+      </span>
+      <span class="t10-title">${esc(title(m))}</span>
+    </a>`).join('');
+}
+
+async function topIds(days) {
+  if (topCache.has(days)) return topCache.get(days);
+  const api = typeof PAY_API !== 'undefined' && PAY_API ? String(PAY_API).replace(/\/+$/, '') : '';
+  if (!api) return [];
+  const r = await fetch(`${api}/top?days=${days}&limit=40`).catch(() => null);
+  const j = r && r.ok ? await r.json().catch(() => null) : null;
+  const ids = (j?.items || []).map(x => x.movie);
+  topCache.set(days, ids);
+  return ids;
+}
+
+async function loadTop10(root) {
+  const row = root.querySelector('#t10Row');
+  if (!row) return;
+  const byId = new Map(MOVIES.map(m => [m.id, m]));
+  const days = topDays;
+  const real = (await topIds(days)).map(id => byId.get(id)).filter(Boolean);
+  if (days !== topDays) return;   // boshqa tab tanlandi
+  // kam bo'lsa — hamma vaqtdagi ko'rishlar, keyin reyting bo'yicha to'ldiramiz
+  const all = real.length < 10 ? (await topIds('all')).map(id => byId.get(id)).filter(Boolean) : [];
+  const list = [...new Set([...real, ...all, ...ROW_SOURCES.popular.list()])].slice(0, 10);
+  root.querySelector('#t10Kicker').hidden = !real.length;
+  row.innerHTML = t10CardsHTML(list);
+  row.scrollLeft = 0;
+}
+
+function initTop10(root) {
+  const box = root.querySelector('#top10');
+  if (!box) return;
+  box.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => {
+    topDays = +b.dataset.days;
+    box.querySelectorAll('[data-days]').forEach(x => { x.classList.toggle('is-on', x === b); x.setAttribute('aria-selected', x === b); });
+    loadTop10(box);
+  }));
+  loadTop10(box);
 }
 
 /* ---------- Qator strelkalari ---------- */

@@ -1132,11 +1132,11 @@ const ROW_SOURCE_NAMES = {
   uzbek: 'O‘zbek kinolari (avtomatik)', konsert: 'Konsertlar (avtomatik)', trending: 'Trendda (avtomatik)', new: 'Yangi qo‘shilganlar (avtomatik)',
   dorama: 'Koreys doramalari (avtomatik)', anime: 'Anime (avtomatik)', hind: 'Hind kinolari (avtomatik)',
   marvel: 'Marvel (avtomatik)', dc: 'DC (avtomatik)', top: 'Eng yuqori reyting (avtomatik)',
-  series: 'Seriallar (avtomatik)', cartoons: 'Multfilmlar (avtomatik)', custom: 'Qo‘lda tanlangan kinolar'
+  popular: 'Mashhur kinolar — TOP 10 (eng ko‘p ko‘rilgan)', series: 'Seriallar (avtomatik)', cartoons: 'Multfilmlar (avtomatik)', custom: 'Qo‘lda tanlangan kinolar'
 };
 const ROW_DEFAULT_TITLES = {
   uzbek: 'row.uzbek', konsert: 'row.konsert', trending: 'row.trending', new: 'row.new', dorama: 'row.dorama', anime: 'row.anime', hind: 'row.hind', marvel: 'row.marvel', dc: 'row.dc',
-  top: 'row.top', series: 'row.series', cartoons: 'row.cartoons'
+  top: 'row.top', popular: 'row.popular', series: 'row.series', cartoons: 'row.cartoons'
 };
 
 let siteDraft = null;     // tahrirlanayotgan sozlama

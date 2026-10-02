@@ -25,6 +25,10 @@ const SITE_CONFIG = /*CONFIG*/{
       "visible": true
     },
     {
+      "source": "popular",
+      "visible": true
+    },
+    {
       "source": "trending",
       "visible": true
     },

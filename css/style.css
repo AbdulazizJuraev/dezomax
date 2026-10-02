@@ -5650,3 +5650,43 @@ html.soc-lock { overflow: hidden; }
 .adm-tr-btn svg { width: 15px; height: 15px; }
 .adm-tr-btn:disabled { opacity: .5; cursor: wait; }
 #admTrNote.is-error { color: #ff6b6b; }
+
+/* ---------- Bosh sahifa: TOP 10 — mashhur kinolar (js/app.js top10HTML) ---------- */
+.t10-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.t10-kicker { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.t10-head h2 { margin: 0; font-family: 'Oswald', var(--font, sans-serif); font-weight: 700; font-size: clamp(28px, 4vw, 44px); line-height: 1; text-transform: uppercase; letter-spacing: .01em; }
+.t10-sub { margin: 8px 0 0; color: var(--text-dim); font-size: 13.5px; }
+.t10-tabs { display: inline-flex; gap: 4px; padding: 5px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.t10-tabs button { border: 0; background: none; color: var(--text-dim); font: 700 13.5px/1 inherit; font-family: inherit; padding: 11px 20px; border-radius: 10px; cursor: pointer; transition: background .18s, color .18s; }
+.t10-tabs button:hover { color: var(--text); }
+.t10-tabs button.is-on { background: var(--grad); color: #fff; box-shadow: 0 6px 18px rgba(10, 147, 220, .35); }
+.t10-wrap { position: relative; }
+.t10-side { display: flex; align-items: center; gap: 10px; }
+.t10-nav { position: static; }
+.t10-row { gap: 6px; padding: 6px 0 14px; }
+.t10-card { position: relative; flex: none; display: flex; flex-direction: column; width: 238px; padding-left: 62px; color: var(--text); scroll-snap-align: start; }
+.t10-num { position: absolute; left: -4px; bottom: 44px; z-index: 0; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 150px; line-height: .8;
+  color: var(--bg); -webkit-text-stroke: 4px rgba(255, 255, 255, .88); paint-order: stroke fill; letter-spacing: -6px; pointer-events: none; }
+.t10-card.is-top .t10-num { -webkit-text-stroke-color: var(--accent); }
+.t10-poster { position: relative; z-index: 1; display: block; aspect-ratio: 2 / 3; border-radius: 14px; overflow: hidden; background: var(--surface);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .45); transition: transform .25s, box-shadow .25s; }
+.t10-card.is-top:first-child .t10-poster { box-shadow: 0 0 0 2px var(--accent), 0 10px 30px rgba(10, 147, 220, .25); }
+.t10-poster .poster-art, .t10-poster .poster-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.t10-poster .poster-img { z-index: 1; }
+/* rasm bo'lsa — nom yozuvi ko'rinmasin; rasm yuklanmasa (onerror rasmni olib tashlaydi) yana chiqadi */
+.t10-poster:has(.poster-img) .poster-art { visibility: hidden; }
+.t10-poster .badge-type, .t10-badge { z-index: 2; }
+.t10-poster .badge-type { position: absolute; right: 8px; bottom: 8px; top: auto; left: auto; }
+.t10-badge { position: absolute; left: 8px; top: 8px; font-style: normal; font-size: 11px; font-weight: 800; letter-spacing: .06em; padding: 5px 9px; border-radius: 999px;
+  background: rgba(10, 147, 220, .25); border: 1px solid var(--accent); color: #fff; backdrop-filter: blur(6px); }
+.t10-title { position: relative; z-index: 1; margin-top: 10px; font-size: 14px; font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.t10-card:hover .t10-poster { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(0, 0, 0, .55); }
+.t10-card:hover .t10-title { color: var(--accent); }
+@media (max-width: 640px) {
+  .t10-card { width: 168px; padding-left: 44px; }
+  .t10-num { font-size: 104px; bottom: 46px; -webkit-text-stroke-width: 3px; letter-spacing: -4px; }
+  .t10-side, .t10-tabs { width: 100%; }
+  .t10-tabs button { flex: 1; padding: 10px 8px; font-size: 13px; }
+  .t10-nav { display: none; }
+  .t10-title { font-size: 13px; }
+}
