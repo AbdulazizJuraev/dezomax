@@ -57,7 +57,7 @@ async function find(title, year) {
   const j = await get({ action: 'wbsearchentities', search: title, language: 'en', type: 'item', limit: 12 });
   const ids = (j.search || []).map(s => s.id);
   if (!ids.length) return null;
-  const e = (await get({ action: 'wbgetentities', ids: ids.join('|'), props: 'claims|labels', languages: 'en' })).entities;
+  const e = (await get({ action: 'wbgetentities', ids: ids.join('|'), props: 'claims|labels', languages: 'en|mul' })).entities;
   const films = ids.map(id => e[id]).filter(x => x && claims(x, 'P31').some(c => FILM_TYPES.has(val(c)?.id)));
   return films.find(f => yearOf(f) === year) || films.find(f => Math.abs((yearOf(f) || 0) - year) <= 1)
     || films.find(f => !yearOf(f) && (f.labels?.en?.value || '').toLowerCase() === title.toLowerCase()) || null;   // hali chiqmagan film — sanasiz
@@ -77,14 +77,21 @@ function money(e, p, world = false) {
 
 (async () => {
   const out = {};
+  const actorIds = new Map();   // aktyor nomi → Wikidata ID (surati uchun)
   for (const [id, title] of Object.entries(FILMS)) {
     try {
       const f = await find(title, YEAR[id]);
       if (!f) { console.warn(`  topilmadi: ${title}`); continue; }
       const dates = claims(f, 'P577').map(c => val(c)?.time).filter(Boolean).map(t => t.slice(1, 11)).sort();
-      const people = [...claims(f, 'P161').map(c => val(c)?.id), ...claims(f, 'P57').map(c => val(c)?.id)].filter(Boolean).slice(0, 40);
-      const lab = people.length ? (await get({ action: 'wbgetentities', ids: [...new Set(people)].join('|'), props: 'labels', languages: 'en' })).entities : {};
-      const name = q => lab[q]?.labels?.en?.value || '';
+      // barcha aktyorlar va rejissyorlar nomi (Wikidata bir so'rovda 50 tagacha beradi)
+      const people = [...new Set([...claims(f, 'P57').map(c => val(c)?.id), ...claims(f, 'P161').map(c => val(c)?.id)].filter(Boolean))].slice(0, 150);
+      const lab = {};
+      for (let i = 0; i < people.length; i += 50) {
+        Object.assign(lab, (await get({ action: 'wbgetentities', ids: people.slice(i, i + 50).join('|'), props: 'labels', languages: 'en|mul' })).entities || {});
+      }
+      // mashhur odamlarning ismi Wikidata'da ko'pincha faqat «mul» (barcha tillar uchun) maydonida
+      const name = q => lab[q]?.labels?.en?.value || lab[q]?.labels?.mul?.value || '';
+      for (const q of claims(f, 'P161').map(c => val(c)?.id).filter(Boolean)) if (name(q) && !actorIds.has(name(q))) actorIds.set(name(q), q);
       const dur = val(claims(f, 'P2047')[0] || {});
       out[id] = {
         wd: f.id,
@@ -100,8 +107,38 @@ function money(e, p, world = false) {
       console.log(`  ${title}: ${out[id].date} · $${out[id].budget || '?'} / $${out[id].gross || '?'}`);
     } catch (e) { console.warn(`  xato: ${title} — ${e.message}`); }
   }
+  // Aktyor suratlari: Wikidata P18 → Wikimedia Commons (erkin litsenziya). Katalogdagi bosh rollar ham (data.js cast).
+  const vm = require('vm');
+  const ctx = { console, window: {}, document: { write() {} }, location: { pathname: '/' } };
+  vm.createContext(ctx);
+  vm.runInContext(fs.readFileSync(path.join(root, 'js', 'data.js'), 'utf8').replace(/^(const|let) /gm, 'var '), ctx);
+  const names = new Set();
+  for (const m of ctx.MOVIES || []) if (FILMS[m.id]) (m.cast || []).forEach(n => names.add(n));
+  Object.values(out).forEach(o => (o.cast || []).forEach(n => names.add(n)));
+  for (const n of names) {
+    if (actorIds.has(n)) continue;
+    await new Promise(r => setTimeout(r, 250));   // Wikidata so'rovlarni cheklaydi
+    // bir xil ismli odamlar ko'p — tavsifida aktyor/aktrisa bo'lganini tanlaymiz
+    const j = await get({ action: 'wbsearchentities', search: n, language: 'en', type: 'item', limit: 8 }).catch(() => null);
+    const hit = (j?.search || []).find(r => /(actor|actress)/i.test(r.description || ''));
+    if (hit) actorIds.set(n, hit.id);
+  }
+  const photos = {};
+  const pairs = [...names].filter(n => actorIds.has(n)).map(n => [n, actorIds.get(n)]);
+  for (let i = 0; i < pairs.length; i += 50) {
+    const ents = (await get({ action: 'wbgetentities', ids: pairs.slice(i, i + 50).map(p => p[1]).join('|'), props: 'claims' })).entities || {};
+    for (const [n, q] of pairs.slice(i, i + 50)) {
+      const e = ents[q];
+      if (!e || !claims(e, 'P31').some(c => val(c)?.id === 'Q5')) continue;     // faqat odamlar
+      const file = val(claims(e, 'P18')[0] || {});
+      if (file) photos[n] = 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(file.replace(/ /g, '_')) + '?width=160';
+    }
+  }
+  console.log(`aktyor suratlari: ${Object.keys(photos).length} / ${names.size}`);
+
   for (const id of Object.keys(TRAILERS)) if (!out[id]) out[id] = { yt: TRAILERS[id].yt, ytCh: TRAILERS[id].ch };   // Wikidata'da yo'q (hali chiqmagan) — treyleri bo'lsa ham
-  const js = `/* tools/fetch-marvel.js yaratadi — Wikidata (CC0) ma'lumotlari. Qo'lda o'zgartirmang. */\nvar MARVEL_INFO = ${JSON.stringify(out, null, 1)};\n`;
+  const js = `/* tools/fetch-marvel.js yaratadi — Wikidata (CC0) ma'lumotlari. Qo'lda o'zgartirmang. */\nvar MARVEL_INFO = ${JSON.stringify(out, null, 1)};\n` +
+    `/* Aktyor suratlari — Wikimedia Commons (erkin litsenziya) */\nvar MARVEL_PHOTOS = ${JSON.stringify(photos, null, 1)};\n`;
   fs.writeFileSync(path.join(root, 'js', 'marvel-data.js'), js);
   console.log(`js/marvel-data.js — ${Object.keys(out).length} ta film`);
 })();

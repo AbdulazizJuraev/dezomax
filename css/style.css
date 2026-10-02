@@ -5858,3 +5858,6 @@ html.soc-lock { overflow: hidden; }
 .acc-sec-tile.is-marvel { background: linear-gradient(135deg, #ec1d24, #5c0a0d); }
 .acc-sec-tile.is-marvel .acc-sec-glyph { width: 120px; height: 72px; right: -16px; bottom: 8px; transform: rotate(-8deg); }
 .nav a.nav-marvel.is-active, .nav a.nav-marvel:hover { color: #ff5a5f; }
+.mx-cast-av { position: relative; overflow: hidden; width: 48px; height: 48px; }
+.mx-cast-av img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+.mx-cast li { padding: 8px 12px 8px 8px; }

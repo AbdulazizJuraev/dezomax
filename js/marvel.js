@@ -14,7 +14,7 @@ const MX_TXT = {
     back: 'Barcha Marvel filmlari', trailer: 'Rasmiy treyler', cast: 'Aktyorlar', director: 'Rejissyor',
     release: 'Premyera', runtime: 'Davomiyligi', min: 'daq.', budget: 'Byudjet', gross: 'Kassa (butun dunyo)',
     ratio: 'byudjetdan', profit: 'Foyda', noData: 'Ma’lumot hali yo‘q', play: 'Treylerni ko‘rish',
-    src: 'Byudjet, kassa va aktyorlar: Wikidata (ochiq ma’lumotlar).', srcYt: 'Treyler: {ch} rasmiy YouTube kanali.', trailerPlain: 'Treyler',
+    src: 'Byudjet, kassa va aktyorlar: Wikidata (ochiq ma’lumotlar). Aktyor suratlari: Wikimedia Commons.', srcYt: 'Treyler: {ch} rasmiy YouTube kanali.', trailerPlain: 'Treyler',
     mln: 'mln', mlrd: 'mlrd', notFound: 'Film topilmadi'
   },
   ru: {
@@ -23,7 +23,7 @@ const MX_TXT = {
     back: 'Все фильмы Marvel', trailer: 'Официальный трейлер', cast: 'Актёры', director: 'Режиссёр',
     release: 'Премьера', runtime: 'Длительность', min: 'мин.', budget: 'Бюджет', gross: 'Сборы (мир)',
     ratio: 'от бюджета', profit: 'Прибыль', noData: 'Данных пока нет', play: 'Смотреть трейлер',
-    src: 'Бюджет, сборы и актёры: Wikidata (открытые данные).', srcYt: 'Трейлер: официальный YouTube-канал {ch}.', trailerPlain: 'Трейлер',
+    src: 'Бюджет, сборы и актёры: Wikidata (открытые данные). Фото актёров: Wikimedia Commons.', srcYt: 'Трейлер: официальный YouTube-канал {ch}.', trailerPlain: 'Трейлер',
     mln: 'млн', mlrd: 'млрд', notFound: 'Фильм не найден'
   }
 };
@@ -141,7 +141,11 @@ function mxFilmHTML(f) {
 
         ${cast.length ? `
         <h2 class="mx-h2">${mx('cast')}</h2>
-        <ul class="mx-cast">${cast.map(n => `<li><span class="mx-cast-av">${esc(n.split(/\s+/).map(w => w[0]).join('').slice(0, 2))}</span><b>${esc(n)}</b></li>`).join('')}</ul>` : ''}
+        <ul class="mx-cast">${cast.map(n => {
+          // surat (Wikimedia Commons) — yuklanmasa bosh harflar qoladi
+          const ph = typeof MARVEL_PHOTOS !== 'undefined' && MARVEL_PHOTOS[n];
+          return `<li><span class="mx-cast-av">${esc(n.split(/\s+/).map(w => w[0]).join('').slice(0, 2))}${ph ? `<img src="${esc(ph)}" alt="${esc(n)}" loading="lazy" onerror="this.remove()">` : ''}</span><b>${esc(n)}</b></li>`;
+        }).join('')}</ul>` : ''}
 
         <p class="mx-src">${mx('src')}${official ? ' ' + esc(mx('srcYt').replace('{ch}', info.ytCh)) : ''}</p>
       </div>
