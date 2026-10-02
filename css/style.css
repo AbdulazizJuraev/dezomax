@@ -5645,3 +5645,8 @@ html.soc-lock { overflow: hidden; }
 .adm-tmdb-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--text-faint); }
 .adm-steps { margin: 6px 0 12px; padding-left: 20px; color: var(--text-dim); font-size: 14px; line-height: 1.7; }
 .adm-steps a { color: var(--accent); }
+/* Admin → tavsif tarjimoni */
+.adm-tr-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 13px; }
+.adm-tr-btn svg { width: 15px; height: 15px; }
+.adm-tr-btn:disabled { opacity: .5; cursor: wait; }
+#admTrNote.is-error { color: #ff6b6b; }

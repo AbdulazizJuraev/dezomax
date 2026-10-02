@@ -330,8 +330,11 @@ function formHTML(m = {}) {
       `, 'bir nechtasini tanlash mumkin')}
 
       ${section('text', 'Tavsif', `
-        ${field('O‘zbekcha', `<textarea class="acc-input adm-text" name="descUz" rows="4" placeholder="Kino haqida qisqacha...">${val(m.desc?.uz)}</textarea>`)}
-        ${field('Ruscha', `<textarea class="acc-input adm-text" name="descRu" rows="3" placeholder="Коротко о фильме...">${val(m.desc?.ru)}</textarea>`)}
+        ${field('O‘zbekcha', `<textarea class="acc-input adm-text" name="descUz" rows="4" placeholder="Kino haqida qisqacha...">${val(m.desc?.uz)}</textarea>
+          <button class="acc-link adm-tr-btn" type="button" data-tr="ru>uz">${ICONS.globe || '⇄'} Ruschadan o‘zbekchaga o‘girish</button>`)}
+        ${field('Ruscha', `<textarea class="acc-input adm-text" name="descRu" rows="3" placeholder="Коротко о фильме...">${val(m.desc?.ru)}</textarea>
+          <button class="acc-link adm-tr-btn" type="button" data-tr="uz>ru">${ICONS.globe || '⇄'} O‘zbekchadan ruschaga o‘girish</button>`)}
+        <p class="adm-hint" id="admTrNote" hidden></p>
       `)}
 
       ${section('media', 'Poster va video', `
@@ -475,6 +478,7 @@ function bindForm(old) {
   form.coverUrl.addEventListener('change', () => setCover(form.coverUrl.value.trim()));
 
   bindTmdb(form, { setHeroImg, setCover });
+  bindTranslate(form);
 
   // havolani tekshirish
   const hint = $('#admVideoHint');
@@ -963,8 +967,9 @@ function fillFromTmdb(form, type, d, { setHeroImg, setCover }) {
   // tavsif: o'zbekchasi bo'lsa — o'zbekcha; bo'lmasa o'zbekcha maydon o'zgarmaydi
   if (uz.overview) form.descUz.value = uz.overview;
   if (d.overview) form.descRu.value = d.overview;
-  const hint = !uz.overview && !form.descUz.value.trim();
-  form.descUz.placeholder = hint ? 'TMDB’da o‘zbekcha tavsif yo‘q — ruschasidan tarjima qilib yozing' : 'Kino haqida qisqacha...';
+  // tavsifning o'zbekchasi (yoki ruschasi) TMDB'da bo'lmasa — avtomatik tarjima (keyin tekshirib to'g'rilash mumkin)
+  if (!uz.overview && (d.overview || en.overview)) autoTranslate(form, 'descUz', d.overview ? 'ru' : 'en', d.overview || en.overview);
+  if (!d.overview && en.overview) autoTranslate(form, 'descRu', 'en', en.overview);
 
   if (d.poster_path) { form.posterUrl.value = `${TMDB_IMG}w500${d.poster_path}`; setHeroImg(form.posterUrl.value); }
   if (d.backdrop_path) { form.coverUrl.value = `${TMDB_IMG}w1280${d.backdrop_path}`; setCover(form.coverUrl.value); }
@@ -974,6 +979,64 @@ function fillFromTmdb(form, type, d, { setHeroImg, setCover }) {
   vids.sort((a, b) => (a.type === 'Trailer' ? 0 : 1) - (b.type === 'Trailer' ? 0 : 1) || (a.iso_639_1 === 'ru' ? 0 : 1) - (b.iso_639_1 === 'ru' ? 0 : 1));
   if (vids[0]) set('trailer', `https://www.youtube.com/watch?v=${vids[0].key}`, true);
   form.trailer.dispatchEvent(new Event('input'));
+}
+
+/* ---------- Tarjimon: tavsifni o'zbekcha ↔ ruscha (inglizchadan ham) ----------
+   Bepul MyMemory xizmati (kalitsiz, kuniga ~5000 belgi). Bir so'rovga 500 belgigacha — gaplarga bo'lib yuboriladi.
+   Mashina tarjimasi — saqlashdan oldin o'qib chiqish kerak. */
+async function translateText(text, from, to) {
+  const parts = [];
+  let cur = '';
+  for (const s of String(text).match(/[^.!?]+[.!?]*\s*/g) || [text]) {
+    if ((cur + s).length > 450 && cur) { parts.push(cur); cur = ''; }
+    cur += s;
+  }
+  if (cur.trim()) parts.push(cur);
+  const decode = s => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
+  const out = [];
+  for (const p of parts) {
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(p.trim().slice(0, 480))}&langpair=${from}|${to}`;
+    const r = await fetch(url).catch(() => { throw new Error('Tarjima xizmatiga ulanib bo‘lmadi'); });
+    const j = await r.json().catch(() => ({}));
+    if (j.quotaFinished || r.status === 429) throw new Error('Bugungi bepul tarjima limiti tugadi — ertaga qayta urinib ko‘ring');
+    if (j.responseStatus !== 200 || !j.responseData?.translatedText) throw new Error('Tarjima qilinmadi — qayta urinib ko‘ring');
+    out.push(decode(j.responseData.translatedText));
+  }
+  let res = out.join(' ').replace(/\s+/g, ' ').trim();
+  // o'zbek lotin yozuvi: o‘, g‘ (saytdagi kabi) va ’ (tutuq belgisi)
+  if (to === 'uz') res = res.replace(/([oOgG])['’`ʻʼ]/g, '$1‘').replace(/['`ʻʼ]/g, '’');
+  return res;
+}
+
+async function autoTranslate(form, field, from, text) {
+  const note = $('#admTrNote'), box = form[field];
+  const to = field === 'descUz' ? 'uz' : 'ru';
+  const prevPh = box.placeholder;
+  box.placeholder = 'O‘girilmoqda…';
+  if (note) { note.hidden = true; note.classList.remove('is-error'); }
+  try {
+    const res = await translateText(text, from, to);
+    if (!box.value.trim() || box.dataset.autoTr) { box.value = res; box.dataset.autoTr = '1'; }
+    if (note) { note.textContent = `${to === 'uz' ? 'O‘zbekcha' : 'Ruscha'} tavsif avtomatik tarjima qilindi — saqlashdan oldin o‘qib, kerak bo‘lsa to‘g‘rilang.`; note.hidden = false; }
+  } catch (ex) {
+    if (note) { note.textContent = ex.message; note.classList.add('is-error'); note.hidden = false; }
+  } finally { box.placeholder = prevPh; }
+}
+
+function bindTranslate(form) {
+  form.querySelectorAll('[data-tr]').forEach(b => b.addEventListener('click', async () => {
+    const [from, to] = b.dataset.tr.split('>');
+    const src = form[from === 'ru' ? 'descRu' : 'descUz'].value.trim();
+    const dst = form[to === 'uz' ? 'descUz' : 'descRu'];
+    if (!src) { const n = $('#admTrNote'); n.textContent = `Avval ${from === 'ru' ? 'ruscha' : 'o‘zbekcha'} tavsifni yozing.`; n.classList.add('is-error'); n.hidden = false; return; }
+    if (dst.value.trim() && !dst.dataset.autoTr && !confirm('Mavjud matn tarjima bilan almashtirilsinmi?')) return;
+    b.disabled = true;
+    dst.dataset.autoTr = '1';
+    await autoTranslate(form, to === 'uz' ? 'descUz' : 'descRu', from, src);
+    b.disabled = false;
+  }));
+  // qo'lda tahrirlangan matnni avtomatik tarjima endi ustidan yozmaydi
+  ['descUz', 'descRu'].forEach(k => form[k].addEventListener('input', () => { delete form[k].dataset.autoTr; }));
 }
 
 /* Saqlashda TMDB rasmi saytning o'ziga yuklanadi (images/custom/) — tashqi xostga bog'liq bo'lmasin */
