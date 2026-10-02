@@ -20451,6 +20451,1756 @@ const CUSTOM_MOVIES = /*DATA*/[
     "size": 472545532,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 3361,
+    "slug": "premyera",
+    "type": "film",
+    "title": {
+      "uz": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA",
+      "ru": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA\n🎬 Nomi: Jon Uik 2\n➖➖➖➖➖➖➖\n🌎 Davlati: AQSH\n💽 Formati: MOBILE HD (480p)\n📆 Yili: 2017\n📊 IMDb: 7.5\n🇺🇿 Tili: Oʻzbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 2s | 02 minut\n\nYUQORI SIFATDA ORIGINAL HOLATDA FAQAT telegram kanalda",
+      "ru": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA\n🎬 Nomi: Jon Uik 2\n➖➖➖➖➖➖➖\n🌎 Davlati: AQSH\n💽 Formati: MOBILE HD (480p)\n📆 Yili: 2017\n📊 IMDb: 7.5\n🇺🇿 Tili: Oʻzbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 2s | 02 minut\n\nYUQORI SIFATDA ORIGINAL HOLATDA FAQAT telegram kanalda"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/g3sakb6S6-an?s=CL_LATpPGgeQtt7Wd5G5v_E8",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/CL_LATpPGgeQtt7Wd5G5v_E8",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 122,
+    "size": 535382269,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3362,
+    "slug": "premyera",
+    "type": "film",
+    "title": {
+      "uz": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA",
+      "ru": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA\n🎬 Nomi: Jon Uik 1\n➖➖➖➖➖➖➖\n🌎 Davlati: AQSH\n💽 Formati: MOBILE HD (480p)\n📊 IMDb: 7.5\n🇺🇿 Tili: Oʻzbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 1s | 32 minut",
+      "ru": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA\n🎬 Nomi: Jon Uik 1\n➖➖➖➖➖➖➖\n🌎 Davlati: AQSH\n💽 Formati: MOBILE HD (480p)\n📊 IMDb: 7.5\n🇺🇿 Tili: Oʻzbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 1s | 32 minut"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/kUmeEKFDui9j?s=7AoDWbtEr17yI3-7pRfRs-ov",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/7AoDWbtEr17yI3-7pRfRs-ov",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 93,
+    "size": 337480556,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3363,
+    "slug": "nomi-chol-ovchilari",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Cho'l ovchilari",
+      "ru": "Nomi: Cho'l ovchilari"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Cho'l ovchilari\n\n🔥 Sifati: 720p HD \n🗣 Tarjima: Uzbek tilida\n🎭 Janri: , , , \n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇",
+      "ru": "🎬 Nomi: Cho'l ovchilari\n\n🔥 Sifati: 720p HD \n🗣 Tarjima: Uzbek tilida\n🎭 Janri: , , , \n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ufPCWhrzlxq0?s=NnnM14KZzPT97QobYRiwBCV8",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/NnnM14KZzPT97QobYRiwBCV8",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 111,
+    "size": 683191161,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3364,
+    "slug": "nomi-asalarichi",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Asalarichi",
+      "ru": "Nomi: Asalarichi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Asalarichi\n\n🔥 Sifati: 720p HD\n🇺🇸 Davlati: AQSh\n🗣 Tarjima: Uzbek tilida\n🎭 Janri: , , , \n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇",
+      "ru": "🎬 Nomi: Asalarichi\n\n🔥 Sifati: 720p HD\n🇺🇸 Davlati: AQSh\n🗣 Tarjima: Uzbek tilida\n🎭 Janri: , , , \n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DXOkALqAkZP9?s=E7HN9wH_dJrtQiWEGLFzr40R",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/E7HN9wH_dJrtQiWEGLFzr40R",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 107,
+    "size": 1081867850,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3365,
+    "slug": "nomi-labirintdagilar-3",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Labirintdagilar 3",
+      "ru": "Nomi: Labirintdagilar 3"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Labirintdagilar 3\n\n🔥 Sifati: 720p HD\n📆 Yili: 2018 yil\n🇺🇸 Davlati: AQSh\n🗣 Tarjima: Uzbek tilida\n🎭 Janri: , , , \n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇",
+      "ru": "🎬 Nomi: Labirintdagilar 3\n\n🔥 Sifati: 720p HD\n📆 Yili: 2018 yil\n🇺🇸 Davlati: AQSh\n🗣 Tarjima: Uzbek tilida\n🎭 Janri: , , , \n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/sl50YMUusJ_1?s=BIl-9AqIqi4fyDc4CD9lNX8p",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/BIl-9AqIqi4fyDc4CD9lNX8p",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 144,
+    "size": 1488389656,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3366,
+    "slug": "nomi-labirintdagilar-2",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Labirintdagilar 2",
+      "ru": "Nomi: Labirintdagilar 2"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Labirintdagilar 2\n\n🔥 Sifati: 480p\n📆 Yili: 2015-yil\n🇺🇸 Davlati: AQSh\n🗣 Tarjima: O'zbek tilida\n🎭 Janri: , , \n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇",
+      "ru": "🎬 Nomi: Labirintdagilar 2\n\n🔥 Sifati: 480p\n📆 Yili: 2015-yil\n🇺🇸 Davlati: AQSh\n🗣 Tarjima: O'zbek tilida\n🎭 Janri: , , \n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/v6DT6Hs2cBIL?s=aX6S0MMjUuRITvK3Bvd6UDMe",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/aX6S0MMjUuRITvK3Bvd6UDMe",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 132,
+    "size": 527419497,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3367,
+    "slug": "nomi-labirintdagilar-1-havfli-tuzoq",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Labirintdagilar 1: Havfli tuzoq",
+      "ru": "Nomi: Labirintdagilar 1: Havfli tuzoq"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Labirintdagilar 1: Havfli tuzoq\n\n🔥 Sifati: 720p HD\n📆 Yili: 2014 yil\n🇺🇸 Davlati: AQSh\n🗣 Tarjima: O'zbek tilida\n🎭 Janri: , , (🧟‍♂️)\n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇",
+      "ru": "🎬 Nomi: Labirintdagilar 1: Havfli tuzoq\n\n🔥 Sifati: 720p HD\n📆 Yili: 2014 yil\n🇺🇸 Davlati: AQSh\n🗣 Tarjima: O'zbek tilida\n🎭 Janri: , , (🧟‍♂️)\n\n- Reaksiya esdan chiqmasin!🔥\n\n🔗Kanal manzili:👇"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/jS1bWxuwY7Br?s=VFRAAGw2svewyoXuEhlKLrEt",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/VFRAAGw2svewyoXuEhlKLrEt",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 113,
+    "size": 952896202,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3368,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n🔟-qism 1-fasl tugadi bizdan uzoqlashmang tez orada 2 - faslini yuklaymiz sizdan reaktsiya kutib qolamiz\n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n🔟-qism 1-fasl tugadi bizdan uzoqlashmang tez orada 2 - faslini yuklaymiz sizdan reaktsiya kutib qolamiz\n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/fqWROF2jkMhO?s=6CFehksfsgZ5kkTv1b1Mdum8",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/6CFehksfsgZ5kkTv1b1Mdum8",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 59,
+    "size": 597731405,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3369,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n9⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n9⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/SxFsJS1hKLua?s=9CrmgZtd7wnh9em2RZX2Ne72",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/9CrmgZtd7wnh9em2RZX2Ne72",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 55,
+    "size": 528107477,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3370,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n8️⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n8️⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/4U9rUio4B4Yp?s=tvePcKEKhsbUG95WUopLrhqW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/tvePcKEKhsbUG95WUopLrhqW",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 53,
+    "size": 487583787,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3371,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n7⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n7⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/HMH0dmUD405L?s=cAYwd4964QtpO4n1FJMX9cpP",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/cAYwd4964QtpO4n1FJMX9cpP",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 49,
+    "size": 457938016,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3372,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n6⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n6⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/rDTANIhQMTg_?s=4zDv2hZubwUHwoj2fODYSahk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/4zDv2hZubwUHwoj2fODYSahk",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 54,
+    "size": 515312349,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3373,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n5️⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n5️⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/lekOa1b1nN_m?s=F3zlQc1MyCQrAENqimsEGRJn",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/F3zlQc1MyCQrAENqimsEGRJn",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 45,
+    "size": 416581743,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3374,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n4⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n4⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vxXR39YxBo-6?s=1MRpjdqaJQpSllxyY0o25QFI",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/1MRpjdqaJQpSllxyY0o25QFI",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 47,
+    "size": 400108881,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3375,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n3️⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n3️⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/XV3aldYxhR1U?s=8dIErQMId11W8BsBmceOpY7R",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/8dIErQMId11W8BsBmceOpY7R",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 46,
+    "size": 422735552,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3376,
+    "slug": "daxshatli-uy",
+    "type": "film",
+    "title": {
+      "uz": "Daxshatli Uy",
+      "ru": "Daxshatli Uy"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Daxshatli Uy \n\n1⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar",
+      "ru": "Daxshatli Uy \n\n1⃣-qism \n telegram kanalimiz\nBizdan uzoqlashmang siz izlagan serial va filmlar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/OZgjs_kZt5Ka?s=BXc3dVQ3hB_DP9n55U6Ds-VH",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/BXc3dVQ3hB_DP9n55U6Ds-VH",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 49,
+    "size": 570016212,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3377,
+    "slug": "yigit-sozi-kocha-bolasi",
+    "type": "film",
+    "title": {
+      "uz": "YIGIT SO’ZI: Ko’cha bolasi",
+      "ru": "YIGIT SO’ZI: Ko’cha bolasi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔8-qism 1-fasl Tugadi",
+      "ru": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔8-qism 1-fasl Tugadi"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/8DhvPqe_r17_?s=2_p3-ghGuxICA3O9Vyg_aVNZ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2_p3-ghGuxICA3O9Vyg_aVNZ",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 57,
+    "size": 296086181,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3378,
+    "slug": "yigit-sozi-kocha-bolasi",
+    "type": "film",
+    "title": {
+      "uz": "YIGIT SO’ZI: Ko’cha bolasi",
+      "ru": "YIGIT SO’ZI: Ko’cha bolasi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔7-qism\n\nKanalimizga Obuna Bo'ling !",
+      "ru": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔7-qism\n\nKanalimizga Obuna Bo'ling !"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mf4Jl4z0_87P?s=qIqy6mIEsrRKxhOhuhy-_K90",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qIqy6mIEsrRKxhOhuhy-_K90",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 52,
+    "size": 296165952,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3379,
+    "slug": "yigit-sozi-kocha-bolasi",
+    "type": "film",
+    "title": {
+      "uz": "YIGIT SO’ZI: Ko’cha bolasi",
+      "ru": "YIGIT SO’ZI: Ko’cha bolasi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔6-qism\n\nKanalimizga Obuna Bo'ling !",
+      "ru": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔6-qism\n\nKanalimizga Obuna Bo'ling !"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/jH-HY1nMf0ib?s=-lbxMZ_ygPSe3cKpOXPQ5TYg",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/-lbxMZ_ygPSe3cKpOXPQ5TYg",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 49,
+    "size": 275893891,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3380,
+    "slug": "yigit-sozi-kocha-bolasi",
+    "type": "film",
+    "title": {
+      "uz": "YIGIT SO’ZI: Ko’cha bolasi",
+      "ru": "YIGIT SO’ZI: Ko’cha bolasi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔5-qism\n\nKanalimizga Obuna Bo'ling !",
+      "ru": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔5-qism\n\nKanalimizga Obuna Bo'ling !"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GajVJpgJITy0?s=yxNTzeGBEFlL7u3kUBySevue",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/yxNTzeGBEFlL7u3kUBySevue",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 55,
+    "size": 268668522,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3381,
+    "slug": "yigit-sozi-kocha-bolasi",
+    "type": "film",
+    "title": {
+      "uz": "YIGIT SO’ZI: Ko’cha bolasi",
+      "ru": "YIGIT SO’ZI: Ko’cha bolasi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔4-qism\n\nKanalimizga Obuna Bo'ling !",
+      "ru": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔4-qism\n\nKanalimizga Obuna Bo'ling !"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/bGwA5VC5ldt-?s=i9iOqmxF7KKsD_w2bgRM4cPP",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/i9iOqmxF7KKsD_w2bgRM4cPP",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 49,
+    "size": 247481431,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3382,
+    "slug": "yigit-sozi-kocha-bolasi",
+    "type": "film",
+    "title": {
+      "uz": "YIGIT SO’ZI: Ko’cha bolasi",
+      "ru": "YIGIT SO’ZI: Ko’cha bolasi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔3-qism\n\nKanalimizga Obuna Bo'ling !",
+      "ru": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔3-qism\n\nKanalimizga Obuna Bo'ling !"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2uDLWGSFZ7gW?s=McT8uqsivmh1LsU_9LCgCUL7",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/McT8uqsivmh1LsU_9LCgCUL7",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 53,
+    "size": 259241820,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3383,
+    "slug": "yigit-sozi-kocha-bolasi",
+    "type": "film",
+    "title": {
+      "uz": "YIGIT SO’ZI: Ko’cha bolasi",
+      "ru": "YIGIT SO’ZI: Ko’cha bolasi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔2-qism\n\nKanalimizga Obuna Bo'ling !",
+      "ru": "🎥YIGIT SO’ZI: Ko’cha bolasi \n\n🇺🇿Uzbek tilida\n\n🆔2-qism\n\nKanalimizga Obuna Bo'ling !"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/w-2-2qbrCSrp?s=zdAq7BvsI5SfoNMqxMCdXMGv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/zdAq7BvsI5SfoNMqxMCdXMGv",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 52,
+    "size": 274177474,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3384,
+    "slug": "slovo-patkana-yigit-sozi",
+    "type": "film",
+    "title": {
+      "uz": "Слово Патцана / YIGIT SO'ZI",
+      "ru": "Слово Патцана / YIGIT SO'ZI"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Слово Патцана /  YIGIT SO'ZI\n\n1-Qism uzbek tilida\n\nYaqinlarga ulashing",
+      "ru": "Слово Патцана /  YIGIT SO'ZI\n\n1-Qism uzbek tilida\n\nYaqinlarga ulashing"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/VR_8ne_AjLdj?s=lQfuRirNXh3NXpk0FPYCH9zx",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/lQfuRirNXh3NXpk0FPYCH9zx",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 51,
+    "size": 319123160,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3385,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 20-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 20-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/LMu8lxi75Kx7?s=76G4b-zfYhjzpMmFfYjWrtjV",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/76G4b-zfYhjzpMmFfYjWrtjV",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 45,
+    "size": 210542719,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3386,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 19-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 19-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/cXmdPZd95MB_?s=qv6f2ctAot_N5bgeC4VZomv5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qv6f2ctAot_N5bgeC4VZomv5",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 47,
+    "size": 207151771,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3387,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 18-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 18-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/A6mVVQCB3fpu?s=Ufy4sr8k7pr1eOWEc_dET6gM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Ufy4sr8k7pr1eOWEc_dET6gM",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 44,
+    "size": 207879293,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3388,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 17-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 17-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/3bQak6gSOADO?s=lTjn0Wc75fi4qpwhypFJMRfz",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/lTjn0Wc75fi4qpwhypFJMRfz",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 51,
+    "size": 219186191,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3389,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 16-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 45:03\n📌 |➺ 16-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vkkuV4SKZdYc?s=iP-JVcOehSwmQlChBsMoBl9Q",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/iP-JVcOehSwmQlChBsMoBl9Q",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 45,
+    "size": 177493028,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3390,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 42:45\n📌 |➺ 15-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 42:45\n📌 |➺ 15-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PVy89Xtdd9ou?s=-I3qpN5HLs-tZobi5Az5woOv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/-I3qpN5HLs-tZobi5Az5woOv",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 43,
+    "size": 193095296,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3391,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 44:14\n📌 |➺ 14-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 44:14\n📌 |➺ 14-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/kC56Z7SNFQyb?s=ynPU09Qg3EbD5lo6sEbzMS40",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ynPU09Qg3EbD5lo6sEbzMS40",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 44,
+    "size": 192157089,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3392,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 56:33\n📌 |➺ 13-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 56:33\n📌 |➺ 13-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/eELSYHdptmnj?s=SR8rYUEn2u0K2-e2GbjidDKR",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/SR8rYUEn2u0K2-e2GbjidDKR",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 57,
+    "size": 229270786,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3393,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 44:38\n📌 |➺ 12-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 44:38\n📌 |➺ 12-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/5MZtjxdoj2iE?s=LLM7k2SXCZs1JrWRc-fmmv1F",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/LLM7k2SXCZs1JrWRc-fmmv1F",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 45,
+    "size": 213663908,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3394,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 43:34\n📌 |➺ 11-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 43:34\n📌 |➺ 11-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2r-6QfvpH_F1?s=cscFr8wNfFGiZLh7eP7gQjpt",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/cscFr8wNfFGiZLh7eP7gQjpt",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 44,
+    "size": 271251866,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3395,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 55:26\n📌 |➺ 10-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 55:26\n📌 |➺ 10-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/tccz8sUjV1fw?s=vpCQCCOo8c2bCxoWP8csQFwR",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/vpCQCCOo8c2bCxoWP8csQFwR",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 55,
+    "size": 230552021,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3396,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 43:41\n📌 |➺ 9-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 43:41\n📌 |➺ 9-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/680HCHLWMxW0?s=mbuYmGyLhC3GVU4B5uWbZ8uj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mbuYmGyLhC3GVU4B5uWbZ8uj",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 44,
+    "size": 207724535,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3397,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 44:46\n📌 |➺ 8-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 44:46\n📌 |➺ 8-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/IY_PzBgOIkGL?s=KvUaP9yGrg2vF8pOlBhBRK7z",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/KvUaP9yGrg2vF8pOlBhBRK7z",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 45,
+    "size": 227072418,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3398,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 47:15\n📌 |➺ 7-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 47:15\n📌 |➺ 7-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Jy_sPFUoOgTc?s=nQS3_vq_HFgqHMUcyzmjCMG9",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/nQS3_vq_HFgqHMUcyzmjCMG9",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 47,
+    "size": 272780666,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3399,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 42:54\n📌 |➺ 6-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 42:54\n📌 |➺ 6-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/WEHVC7PeoxWu?s=SqceO6bLOrgqxF6Ylge7wdSK",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/SqceO6bLOrgqxF6Ylge7wdSK",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 43,
+    "size": 129249797,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3400,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 39:26\n📌 |➺ 5-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 39:26\n📌 |➺ 5-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/63ylNaG49sap?s=TSZsTsTyWRXpEm4pg3AblkHF",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/TSZsTsTyWRXpEm4pg3AblkHF",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 39,
+    "size": 155939135,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3401,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 50:13\n📌 |➺ 4-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 50:13\n📌 |➺ 4-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/gOKuurOMzC2u?s=bK6HgBL-q6GtKt65zYJ74PLW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/bK6HgBL-q6GtKt65zYJ74PLW",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 50,
+    "size": 158840860,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3402,
+    "slug": "rokovoe-vlechenie-2016",
+    "type": "film",
+    "title": {
+      "uz": "Роковое влечение (2016)",
+      "ru": "Роковое влечение (2016)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Роковое влечение (2016)\n\nПриятного просмотра! \n\nНа тик-ток",
+      "ru": "Роковое влечение (2016)\n\nПриятного просмотра! \n\nНа тик-ток"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/CTAkjZJfVouc?s=G1sNVE0eCNs22JKviX-HDLQG",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/G1sNVE0eCNs22JKviX-HDLQG",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 110,
+    "size": 1326369687,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3403,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 46:23\n📌 |➺ 3-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 46:23\n📌 |➺ 3-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/9pG0brl_2trK?s=dmpPco5DGGc2uz8jyj525WQS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/dmpPco5DGGc2uz8jyj525WQS",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 49,
+    "size": 165733383,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3404,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 46:23\n📌 |➺ 2-Qism\n🔞 |➺ 18+",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 46:23\n📌 |➺ 2-Qism\n🔞 |➺ 18+"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Yhej-qJBlFbz?s=iXw9t-aOt1HJkc1k7ay-Yxkk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/iXw9t-aOt1HJkc1k7ay-Yxkk",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 41,
+    "size": 154438965,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3405,
+    "slug": "qogoz-bino",
+    "type": "film",
+    "title": {
+      "uz": "➺ Qog'oz Bino",
+      "ru": "➺ Qog'oz Bino"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 46:23\n📌 |➺ 1-Qism\n🔞 |➺ 18+\n\nYaqinlarga ulashing",
+      "ru": "📺 |➺ Qog'oz Bino\n🌍 |➺ Davlati Ispaniya\n📍 |➺ Janr Kriminal Jangari\n🇺🇿 |➺ O'zbek Tilida \n⏳ |➺ Davomiligi: 46:23\n📌 |➺ 1-Qism\n🔞 |➺ 18+\n\nYaqinlarga ulashing"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_K0jqslVuFrT?s=RZVxamf8Zfgk5rH7pkHxShwu",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/RZVxamf8Zfgk5rH7pkHxShwu",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 46,
+    "size": 199621541,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3406,
+    "slug": "premyera",
+    "type": "film",
+    "title": {
+      "uz": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA",
+      "ru": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA\n🎬 Nomi: Jon Uik 3\n➖➖➖➖➖➖➖\n🌎 Davlati: AQSH\n💽 Formati: MOBILE HD (480p)\n📆 Yili: 2019\n📊 IMDb: 7.4\n🇺🇿 Tili: Oʻzbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 2s | 10 minut\n\nYUQORI SIFATDA ORIGINAL HOLATDA FAQAT telegram kanalda",
+      "ru": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA\n🎬 Nomi: Jon Uik 3\n➖➖➖➖➖➖➖\n🌎 Davlati: AQSH\n💽 Formati: MOBILE HD (480p)\n📆 Yili: 2019\n📊 IMDb: 7.4\n🇺🇿 Tili: Oʻzbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 2s | 10 minut\n\nYUQORI SIFATDA ORIGINAL HOLATDA FAQAT telegram kanalda"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Cg8cnIU6Vlpd?s=Vk_KStTxyd7wsufylcKbtHyB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Vk_KStTxyd7wsufylcKbtHyB",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 131,
+    "size": 509332819,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3407,
+    "slug": "nomi-greyxound",
+    "type": "film",
+    "title": {
+      "uz": "nomi: GreyXound",
+      "ru": "nomi: GreyXound"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬nomi: GreyXound \n➖➖➖➖➖ ➖➖➖\n🇺🇿tili: O'zbek tilida\n📀Sifati: 480p\n📆Yili: 2020 \n🎞️Janri : Jangari, Tarixiy\n\n🔜",
+      "ru": "🎬nomi: GreyXound \n➖➖➖➖➖ ➖➖➖\n🇺🇿tili: O'zbek tilida\n📀Sifati: 480p\n📆Yili: 2020 \n🎞️Janri : Jangari, Tarixiy\n\n🔜"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/FLMgMFJKPQSL?s=9lxLDm8pdLn9JpXiSy4k-e_5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/9lxLDm8pdLn9JpXiSy4k-e_5",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 83,
+    "size": 561002334,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3408,
+    "slug": "nomi-birinchi-qasoskor",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Birinchi qasoskor",
+      "ru": "Nomi: Birinchi qasoskor"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Birinchi qasoskor \n ➖➖➖➖➖➖\n🇺🇸 Davlati: AQSH\n💽 Formati: Mobile HD (480p)\n🇺🇿 Tili: O'zbekcha\n🎭 Janri: \n🗓 Sanasi: 2011-yil\n⏳ Davomiyligi: 1 soat | 49 daqiqa \n\n🔜",
+      "ru": "🎬 Nomi: Birinchi qasoskor \n ➖➖➖➖➖➖\n🇺🇸 Davlati: AQSH\n💽 Formati: Mobile HD (480p)\n🇺🇿 Tili: O'zbekcha\n🎭 Janri: \n🗓 Sanasi: 2011-yil\n⏳ Davomiyligi: 1 soat | 49 daqiqa \n\n🔜"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DWCowf2uQopn?s=lbOBFefs41Ze4Q2zx9E1blAY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/lbOBFefs41Ze4Q2zx9E1blAY",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 110,
+    "size": 577168836,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3409,
+    "slug": "fors-shaxzodasi-uzbek-tilida-hd",
+    "type": "film",
+    "title": {
+      "uz": "Fors Shaxzodasi (Uzbek tilida) HD",
+      "ru": "Fors Shaxzodasi (Uzbek tilida) HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Fors Shaxzodasi (Uzbek tilida) HD\n➖➖➖➖➖➖\n🌎 Davlati: AQSH\n⏳ Davomiyligi: 1s I 48min\n🗓 396 MB\n💽 Turi: , tarixiy, fantastik\n\n🔜",
+      "ru": "🎞 Fors Shaxzodasi (Uzbek tilida) HD\n➖➖➖➖➖➖\n🌎 Davlati: AQSH\n⏳ Davomiyligi: 1s I 48min\n🗓 396 MB\n💽 Turi: , tarixiy, fantastik\n\n🔜"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1Q7F4VpbLHc8?s=GEkfCpDbqbK--Hx82hQo0D8X",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/GEkfCpDbqbK--Hx82hQo0D8X",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 108,
+    "size": 415538780,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3410,
+    "slug": "nomi-saroy-qoriqchisi",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Saroy qo'riqchisi",
+      "ru": "Nomi: Saroy qo'riqchisi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Saroy qo'riqchisi\n🌎 Davlati: Xitoy\n💽 Formati: Mobile HD\n🇺🇿 Tili: O'zbek Tilida\n\n🔜",
+      "ru": "🎬 Nomi: Saroy qo'riqchisi\n🌎 Davlati: Xitoy\n💽 Formati: Mobile HD\n🇺🇿 Tili: O'zbek Tilida\n\n🔜"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/TwqSOXzB10dL?s=dtKlONk8duhkFJlKSMuQOiuD",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/dtKlONk8duhkFJlKSMuQOiuD",
+    "featured": false,
+    "addedAt": 1790945175354,
+    "updatedAt": 1790945175354,
+    "duration": 90,
+    "size": 432969345,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
