@@ -300,7 +300,9 @@ function formHTML(m = {}) {
 
       ${section('info', 'Asosiy', `
         <div class="adm-row adm-row-2">
-          ${field('Nomi (o‘zbekcha) <b class="adm-req">*</b>', `<input class="acc-input" name="titleUz" required value="${val(m.title?.uz)}" placeholder="Masalan: Yulduzlararo">`)}
+          ${field('Nomi (o‘zbekcha) <b class="adm-req">*</b>', `<input class="acc-input" name="titleUz" required value="${val(m.title?.uz)}" placeholder="Masalan: Yulduzlararo">
+            <button class="acc-link adm-tr-btn" type="button" data-tr="titleRu>titleUz">${ICONS.globe || '⇄'} Ruschadan o‘girish</button>
+            <p class="adm-hint" data-tr-note="titleUz" hidden></p>`)}
           ${field('Nomi (ruscha)', `<input class="acc-input" name="titleRu" value="${val(m.title?.ru)}" placeholder="Интерстеллар">`)}
         </div>
         ${field('Boshqa nomlari', `<input class="acc-input" name="tags" value="${val((m.tags || []).join(', '))}" placeholder="Vergul bilan: Qasoskorlar: Intiho, Avengers: Endgame, Мстители 4">`)}
@@ -331,9 +333,9 @@ function formHTML(m = {}) {
 
       ${section('text', 'Tavsif', `
         ${field('O‘zbekcha', `<textarea class="acc-input adm-text" name="descUz" rows="4" placeholder="Kino haqida qisqacha...">${val(m.desc?.uz)}</textarea>
-          <button class="acc-link adm-tr-btn" type="button" data-tr="ru>uz">${ICONS.globe || '⇄'} Ruschadan o‘zbekchaga o‘girish</button>`)}
+          <button class="acc-link adm-tr-btn" type="button" data-tr="descRu>descUz">${ICONS.globe || '⇄'} Ruschadan o‘zbekchaga o‘girish</button>`)}
         ${field('Ruscha', `<textarea class="acc-input adm-text" name="descRu" rows="3" placeholder="Коротко о фильме...">${val(m.desc?.ru)}</textarea>
-          <button class="acc-link adm-tr-btn" type="button" data-tr="uz>ru">${ICONS.globe || '⇄'} O‘zbekchadan ruschaga o‘girish</button>`)}
+          <button class="acc-link adm-tr-btn" type="button" data-tr="descUz>descRu">${ICONS.globe || '⇄'} O‘zbekchadan ruschaga o‘girish</button>`)}
         <p class="adm-hint" id="admTrNote" hidden></p>
       `)}
 
@@ -934,10 +936,11 @@ function fillFromTmdb(form, type, d, { setHeroImg, setCover }) {
   };
   const ruTitle = d.title || d.name, orig = d.original_title || d.original_name;
   set('titleUz', name(uz) || form.titleUz.value.trim() || name(en) || orig);
+  if (!name(uz) && (ruTitle || name(en))) { form.titleUz.dataset.autoTr = '1'; autoTranslate(form, 'titleUz', ruTitle ? 'ru' : 'en', ruTitle || name(en)); }
   set('titleRu', ruTitle);
   $('#admHeadTitle').textContent = form.titleUz.value.trim() || 'Nomsiz kino';
   // boshqa nomlari: asl, inglizcha, ruscha — qidiruvda topilishi uchun
-  const tags = [...new Set([...form.tags.value.split(',').map(x => x.trim()), orig, name(en), ruTitle].filter(x => x && x !== form.titleUz.value.trim()))];
+  const tags = [...new Set([...form.tags.value.split(',').map(x => x.trim()), orig, name(en), ruTitle].filter(x => x && x !== name(uz)))];   // o'zbekcha nom tarjima qilinsa ham inglizchasi teglarda qoladi
   form.tags.value = tags.join(', ');
 
   const genreIds = (d.genres || []).map(g => g.id);
@@ -1009,15 +1012,20 @@ async function translateText(text, from, to) {
 }
 
 async function autoTranslate(form, field, from, text) {
-  const note = $('#admTrNote'), box = form[field];
-  const to = field === 'descUz' ? 'uz' : 'ru';
+  const note = form.querySelector(`[data-tr-note="${field}"]`) || $('#admTrNote'), box = form[field];
+  const to = /Uz$/.test(field) ? 'uz' : 'ru';
+  const isTitle = field.startsWith('title');
   const prevPh = box.placeholder;
   box.placeholder = 'O‘girilmoqda…';
   if (note) { note.hidden = true; note.classList.remove('is-error'); }
   try {
-    const res = await translateText(text, from, to);
-    if (!box.value.trim() || box.dataset.autoTr) { box.value = res; box.dataset.autoTr = '1'; }
-    if (note) { note.textContent = `${to === 'uz' ? 'O‘zbekcha' : 'Ruscha'} tavsif avtomatik tarjima qilindi — saqlashdan oldin o‘qib, kerak bo‘lsa to‘g‘rilang.`; note.hidden = false; }
+    let res = await translateText(text, from, to);
+    if (isTitle) res = res.replace(/[.!]+$/, '').replace(/^./, c => c.toUpperCase());
+    if (!box.value.trim() || box.dataset.autoTr) {
+      box.value = res; box.dataset.autoTr = '1';
+      if (field === 'titleUz') $('#admHeadTitle').textContent = res;
+    }
+    if (note) { note.textContent = `${to === 'uz' ? 'O‘zbekcha' : 'Ruscha'} ${isTitle ? 'nomi' : 'tavsif'} avtomatik tarjima qilindi — saqlashdan oldin tekshirib, kerak bo‘lsa to‘g‘rilang.`; note.hidden = false; }
   } catch (ex) {
     if (note) { note.textContent = ex.message; note.classList.add('is-error'); note.hidden = false; }
   } finally { box.placeholder = prevPh; }
@@ -1025,18 +1033,22 @@ async function autoTranslate(form, field, from, text) {
 
 function bindTranslate(form) {
   form.querySelectorAll('[data-tr]').forEach(b => b.addEventListener('click', async () => {
-    const [from, to] = b.dataset.tr.split('>');
-    const src = form[from === 'ru' ? 'descRu' : 'descUz'].value.trim();
-    const dst = form[to === 'uz' ? 'descUz' : 'descRu'];
-    if (!src) { const n = $('#admTrNote'); n.textContent = `Avval ${from === 'ru' ? 'ruscha' : 'o‘zbekcha'} tavsifni yozing.`; n.classList.add('is-error'); n.hidden = false; return; }
+    const [srcField, dstField] = b.dataset.tr.split('>');
+    const from = /Ru$/.test(srcField) ? 'ru' : 'uz';
+    const src = form[srcField].value.trim();
+    const dst = form[dstField];
+    if (!src) {
+      const n = form.querySelector(`[data-tr-note="${dstField}"]`) || $('#admTrNote');
+      n.textContent = `Avval ${from === 'ru' ? 'ruscha' : 'o‘zbekcha'} ${srcField.startsWith('title') ? 'nomini' : 'tavsifni'} yozing.`; n.classList.add('is-error'); n.hidden = false; return;
+    }
     if (dst.value.trim() && !dst.dataset.autoTr && !confirm('Mavjud matn tarjima bilan almashtirilsinmi?')) return;
     b.disabled = true;
     dst.dataset.autoTr = '1';
-    await autoTranslate(form, to === 'uz' ? 'descUz' : 'descRu', from, src);
+    await autoTranslate(form, dstField, from, src);
     b.disabled = false;
   }));
   // qo'lda tahrirlangan matnni avtomatik tarjima endi ustidan yozmaydi
-  ['descUz', 'descRu'].forEach(k => form[k].addEventListener('input', () => { delete form[k].dataset.autoTr; }));
+  ['descUz', 'descRu', 'titleUz'].forEach(k => form[k].addEventListener('input', () => { delete form[k].dataset.autoTr; }));
 }
 
 /* Saqlashda TMDB rasmi saytning o'ziga yuklanadi (images/custom/) — tashqi xostga bog'liq bo'lmasin */
