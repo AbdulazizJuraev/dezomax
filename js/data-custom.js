@@ -9274,9 +9274,9 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/WSObDFCoHiLQVd3dFDEhonzo",
     "featured": false,
     "addedAt": 1790842074760,
-    "updatedAt": 1790842074760,
-    "duration": 46,
+    "updatedAt": 1790948287947,
     "year": 2026,
+    "duration": 46,
     "audio": "uz"
   },
   {
