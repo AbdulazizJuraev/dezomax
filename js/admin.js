@@ -296,6 +296,8 @@ function formHTML(m = {}) {
         ${editing ? `<button class="adm-hero-close" type="button" id="admCancel" aria-label="Bekor qilish">${ICONS.close}</button>` : ''}
       </div>
 
+      ${tmdbSectionHTML(m)}
+
       ${section('info', 'Asosiy', `
         <div class="adm-row adm-row-2">
           ${field('Nomi (o‘zbekcha) <b class="adm-req">*</b>', `<input class="acc-input" name="titleUz" required value="${val(m.title?.uz)}" placeholder="Masalan: Yulduzlararo">`)}
@@ -472,6 +474,8 @@ function bindForm(old) {
   });
   form.coverUrl.addEventListener('change', () => setCover(form.coverUrl.value.trim()));
 
+  bindTmdb(form, { setHeroImg, setCover });
+
   // havolani tekshirish
   const hint = $('#admVideoHint');
   [form.video, form.trailer].forEach(inp => inp.addEventListener('input', () => {
@@ -500,9 +504,10 @@ function bindForm(old) {
     btn.textContent = 'Saqlanmoqda...';
     try {
       const movie = readForm(form, old);
-      const file = form.posterFile.files[0];
+      if (form._tmdb) movie.tmdb = form._tmdb;
+      const file = form.posterFile.files[0] || await tmdbImageFile(movie.poster);
       if (file) movie.poster = await uploadPoster(file, `${movie.slug}-${movie.id}`);
-      const coverFile = form.coverFile.files[0];
+      const coverFile = form.coverFile.files[0] || await tmdbImageFile(movie.cover);
       if (coverFile) movie.cover = await uploadPoster(coverFile, `${movie.slug}-${movie.id}-cover`, 1280);
 
       await saveCustom(list => {
@@ -777,6 +782,208 @@ function renderListView() {
 }
 
 /* ---------- Forma ---------- */
+
+/* ---------- TMDB: nomi bo'yicha ma'lumotlarni avtomatik to'ldirish ----------
+   themoviedb.org bepul API kaliti — faqat shu brauzerda (localStorage) saqlanadi, repoga yozilmaydi.
+   Qidiruv → natijani tanlash → nom, yil, davomiylik, reyting, davlat, rejissyor, aktyorlar, janrlar,
+   tavsif (o'zbekcha bo'lsa — o'zbekcha, ruscha), poster, keng muqova va rasmiy treyler formaga yoziladi.
+   Poster va muqova saqlashda saytning o'ziga yuklanadi (images/custom/). */
+const TMDB_KEY = 'dezomax_tmdb_key';
+const TMDB_IMG = 'https://image.tmdb.org/t/p/';
+const tmdbKey = () => { try { return localStorage.getItem(TMDB_KEY) || ''; } catch { return ''; } };
+
+// TMDB janrlari → sayt janrlari (js/data.js GENRES); seriallarning qo'shma janrlari ikkiga bo'linadi
+const TMDB_GENRES = {
+  28: ['action'], 12: ['adventure'], 16: ['animation'], 35: ['comedy'], 80: ['crime'], 18: ['drama'],
+  10751: ['family'], 14: ['fantasy'], 36: ['history'], 27: ['horror'], 9648: ['detective'], 10749: ['romance'],
+  878: ['scifi'], 53: ['thriller'], 10752: ['war'], 37: ['adventure'],
+  10759: ['action', 'adventure'], 10765: ['scifi', 'fantasy'], 10768: ['war'], 10762: ['family']
+};
+const COUNTRY_UZ = { US: 'AQSh', GB: 'Buyuk Britaniya', RU: 'Rossiya', UZ: 'O‘zbekiston', KR: 'Janubiy Koreya', IN: 'Hindiston', TR: 'Turkiya',
+  FR: 'Fransiya', DE: 'Germaniya', JP: 'Yaponiya', CN: 'Xitoy', CA: 'Kanada', NZ: 'Yangi Zelandiya', AU: 'Avstraliya', IT: 'Italiya', ES: 'Ispaniya', KZ: 'Qozog‘iston' };
+const COUNTRY_RU = { US: 'США', GB: 'Великобритания' };
+const regionName = (code, lang) => {
+  if (lang === 'uz' && COUNTRY_UZ[code]) return COUNTRY_UZ[code];
+  if (lang === 'ru' && COUNTRY_RU[code]) return COUNTRY_RU[code];
+  try { return new Intl.DisplayNames([lang], { type: 'region' }).of(code) || code; } catch { return code; }
+};
+
+async function tmdb(path, params = {}) {
+  const key = tmdbKey();
+  const url = new URL('https://api.themoviedb.org/3' + path);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  // v4 «API Read Access Token» (eyJ...) — sarlavhada; v3 «API Key» — havolada
+  const bearer = key.startsWith('eyJ');
+  if (!bearer) url.searchParams.set('api_key', key);
+  const r = await fetch(url, bearer ? { headers: { Authorization: 'Bearer ' + key } } : {})
+    .catch(() => { throw new Error('TMDB’ga ulanib bo‘lmadi — internetni tekshiring'); });
+  if (r.status === 401) throw new Error('TMDB kaliti noto‘g‘ri — «Kalitni o‘zgartirish» orqali qayta kiriting');
+  if (!r.ok) throw new Error(`TMDB xatosi (${r.status})`);
+  return r.json();
+}
+
+function tmdbSectionHTML(m) {
+  const key = tmdbKey();
+  return `
+    <section class="adm-sec adm-tmdb" id="tmdbBox">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${ICONS.search}</span><h3>Avtomatik to‘ldirish</h3><small>TMDB</small></div>
+      ${key ? `
+        <p class="adm-hint">Nomini yozing va ro‘yxatdan to‘g‘ri kinoni tanlang — ma’lumotlar, poster va treyler o‘zi to‘ldiriladi. Saqlashdan oldin tekshirib chiqing.</p>
+        <div class="adm-tmdb-row">
+          <input class="acc-input" id="tmdbQ" type="search" value="${esc(m.title?.uz || '')}" placeholder="Kino nomi — masalan: Inception yoki Qizil oyna" autocomplete="off">
+          <select class="acc-input" id="tmdbType"><option value="multi">Hammasi</option><option value="movie">Film</option><option value="tv">Serial</option></select>
+          <button class="btn btn-primary" type="button" id="tmdbGo">Qidirish</button>
+        </div>
+        <p class="acc-error" id="tmdbErr" hidden></p>
+        <div class="adm-tmdb-res" id="tmdbRes"></div>
+        <div class="adm-tmdb-foot"><button class="acc-link" type="button" id="tmdbKeyReset">Kalitni o‘zgartirish</button><span>Ma’lumotlar: The Movie Database (TMDB)</span></div>` : `
+        <p class="adm-hint">Kino nomini yozsangiz — poster, syujet, janr, yil va aktyorlar o‘zi to‘ldiriladi. Buning uchun bir marta bepul TMDB kaliti kerak:</p>
+        <ol class="adm-steps">
+          <li><a href="https://www.themoviedb.org/signup" target="_blank" rel="noopener">themoviedb.org</a> saytida ro‘yxatdan o‘ting (email tasdiqlanadi)</li>
+          <li><a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Settings → API</a> sahifasida «Create» → «Developer» ni tanlang, shartlarga rozilik bering</li>
+          <li>Ilova ma’lumotlari: nomi — DezoMax, turi — Website, manzil — https://dezomax.uz</li>
+          <li>Chiqqan <b>API Key</b> (yoki <b>API Read Access Token</b>) ni nusxalab, pastga qo‘ying</li>
+        </ol>
+        <div class="adm-tmdb-row">
+          <input class="acc-input" id="tmdbKeyIn" type="password" placeholder="TMDB API kaliti" autocomplete="off">
+          <button class="btn btn-primary" type="button" id="tmdbKeySave">Saqlash</button>
+        </div>
+        <p class="acc-error" id="tmdbErr" hidden></p>
+        <p class="adm-hint">Kalit faqat shu qurilmada saqlanadi, saytga yozilmaydi.</p>`}
+    </section>`;
+}
+
+function bindTmdb(form, { setHeroImg, setCover }) {
+  const box = $('#tmdbBox');
+  if (!box) return;
+  const err = $('#tmdbErr');
+  const showErr = m => { err.textContent = m || ''; err.hidden = !m; };
+  const redraw = () => { box.outerHTML = tmdbSectionHTML({ title: { uz: form.titleUz.value } }); bindTmdb(form, { setHeroImg, setCover }); };
+
+  $('#tmdbKeySave')?.addEventListener('click', async e => {
+    const v = $('#tmdbKeyIn').value.trim();
+    if (!v) return showErr('Kalitni qo‘ying');
+    e.currentTarget.disabled = true;
+    try {
+      localStorage.setItem(TMDB_KEY, v);
+      await tmdb('/configuration');        // kalitni tekshiramiz
+      redraw();
+    } catch (ex) {
+      localStorage.removeItem(TMDB_KEY);
+      showErr(ex.message);
+      e.currentTarget.disabled = false;
+    }
+  });
+  $('#tmdbKeyReset')?.addEventListener('click', () => {
+    if (!confirm('TMDB kaliti shu qurilmadan o‘chirilsinmi?')) return;
+    localStorage.removeItem(TMDB_KEY);
+    redraw();
+  });
+
+  const q = $('#tmdbQ'), res = $('#tmdbRes');
+  if (!q) return;
+  const search = async () => {
+    const text = q.value.trim();
+    if (!text) return showErr('Kino nomini yozing');
+    showErr('');
+    res.innerHTML = '<p class="acc-muted">Qidirilmoqda…</p>';
+    try {
+      const type = $('#tmdbType').value;
+      const j = await tmdb(`/search/${type}`, { query: text, language: 'ru-RU', include_adult: 'false' });
+      const items = (j.results || []).filter(x => type !== 'multi' || x.media_type === 'movie' || x.media_type === 'tv').slice(0, 12)
+        .map(x => ({ ...x, media_type: x.media_type || type }));
+      res.innerHTML = items.length ? items.map(x => {
+        const name = x.title || x.name, orig = x.original_title || x.original_name;
+        const year = (x.release_date || x.first_air_date || '').slice(0, 4);
+        return `<button type="button" class="adm-tmdb-item" data-tid="${x.id}" data-ttype="${x.media_type}">
+          <span class="adm-thumb">${x.poster_path ? `<img src="${TMDB_IMG}w92${esc(x.poster_path)}" alt="" loading="lazy">` : ''}</span>
+          <span><b>${esc(name)}</b><small>${[orig !== name ? orig : '', year, x.media_type === 'tv' ? 'Serial' : 'Film'].filter(Boolean).map(esc).join(' · ')}</small>
+            ${x.overview ? `<em>${esc(x.overview.slice(0, 140))}${x.overview.length > 140 ? '…' : ''}</em>` : ''}</span>
+        </button>`;
+      }).join('') : '<p class="acc-muted">Topilmadi — boshqacha yozib ko‘ring (inglizcha yoki ruscha nomi bilan ham).</p>';
+      res.querySelectorAll('[data-tid]').forEach(b => b.addEventListener('click', () => pick(b.dataset.ttype, +b.dataset.tid, b)));
+    } catch (ex) { res.innerHTML = ''; showErr(ex.message); }
+  };
+  $('#tmdbGo').addEventListener('click', search);
+  q.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); search(); } });
+
+  async function pick(type, id, btn) {
+    res.querySelectorAll('.adm-tmdb-item').forEach(x => x.classList.toggle('is-on', x === btn));
+    showErr('');
+    try {
+      const d = await tmdb(`/${type}/${id}`, { language: 'ru-RU', append_to_response: 'credits,videos,translations', include_video_language: 'ru,en,null' });
+      fillFromTmdb(form, type, d, { setHeroImg, setCover });
+      form._tmdb = { id, type };
+      res.innerHTML = `<p class="adm-tmdb-ok">✓ «${esc(d.title || d.name)}» ma’lumotlari formaga yozildi — tekshirib, saqlang.</p>`;
+    } catch (ex) { showErr(ex.message); }
+  }
+}
+
+function fillFromTmdb(form, type, d, { setHeroImg, setCover }) {
+  const tr = code => (d.translations?.translations || []).find(t => t.iso_639_1 === code)?.data || {};
+  const uz = tr('uz'), en = tr('en');
+  const name = x => x.title || x.name || '';
+  const set = (field, v, onlyEmpty = false) => {
+    if (v === undefined || v === null || v === '') return;
+    if (onlyEmpty && form[field].value.trim()) return;
+    form[field].value = v;
+  };
+  const ruTitle = d.title || d.name, orig = d.original_title || d.original_name;
+  set('titleUz', name(uz) || form.titleUz.value.trim() || name(en) || orig);
+  set('titleRu', ruTitle);
+  $('#admHeadTitle').textContent = form.titleUz.value.trim() || 'Nomsiz kino';
+  // boshqa nomlari: asl, inglizcha, ruscha — qidiruvda topilishi uchun
+  const tags = [...new Set([...form.tags.value.split(',').map(x => x.trim()), orig, name(en), ruTitle].filter(x => x && x !== form.titleUz.value.trim()))];
+  form.tags.value = tags.join(', ');
+
+  const genreIds = (d.genres || []).map(g => g.id);
+  form.type.value = type === 'tv' ? 'serial' : genreIds.includes(16) ? 'multfilm' : 'film';
+  const year = (d.release_date || d.first_air_date || '').slice(0, 4);
+  set('year', year);
+  set('duration', d.runtime || d.episode_run_time?.[0]);
+  if (d.vote_count > 20) set('rating', Math.round(d.vote_average * 10) / 10);
+
+  const cc = (d.production_countries || []).map(c => c.iso_3166_1)[0] || d.origin_country?.[0];
+  if (cc) { set('countryUz', regionName(cc, 'uz')); set('countryRu', regionName(cc, 'ru')); }
+  const directors = type === 'tv' ? (d.created_by || []).map(p => p.name) : (d.credits?.crew || []).filter(p => p.job === 'Director').map(p => p.name);
+  set('director', directors.slice(0, 3).join(', '));
+  set('cast', (d.credits?.cast || []).slice(0, 6).map(p => p.name).join(', '));
+
+  const site = new Set(genreIds.flatMap(g => TMDB_GENRES[g] || []));
+  if (site.size) form.querySelectorAll('input[name="genres"]').forEach(cb => { cb.checked = site.has(cb.value); });
+
+  // bo'lim: faqat tanlanmagan bo'lsa
+  if (!form.franchise.value) {
+    const comp = (d.production_companies || []).map(c => c.name).join(' ');
+    const fr = /Marvel Studios/i.test(comp) ? 'marvel' : /\bDC\b|DC Films|DC Entertainment|DC Studios/i.test(comp) ? 'dc'
+      : cc === 'UZ' ? 'uzbek' : cc === 'IN' ? 'hind' : cc === 'KR' && type === 'tv' ? 'dorama' : cc === 'JP' && genreIds.includes(16) ? 'anime' : '';
+    if (fr) form.franchise.value = fr;
+  }
+
+  // tavsif: o'zbekchasi bo'lsa — o'zbekcha; bo'lmasa o'zbekcha maydon o'zgarmaydi
+  if (uz.overview) form.descUz.value = uz.overview;
+  if (d.overview) form.descRu.value = d.overview;
+  const hint = !uz.overview && !form.descUz.value.trim();
+  form.descUz.placeholder = hint ? 'TMDB’da o‘zbekcha tavsif yo‘q — ruschasidan tarjima qilib yozing' : 'Kino haqida qisqacha...';
+
+  if (d.poster_path) { form.posterUrl.value = `${TMDB_IMG}w500${d.poster_path}`; setHeroImg(form.posterUrl.value); }
+  if (d.backdrop_path) { form.coverUrl.value = `${TMDB_IMG}w1280${d.backdrop_path}`; setCover(form.coverUrl.value); }
+
+  // rasmiy treyler (YouTube): ruscha bo'lsa — ruscha, bo'lmasa inglizcha
+  const vids = (d.videos?.results || []).filter(v => v.site === 'YouTube' && v.official !== false && /Trailer|Teaser/.test(v.type));
+  vids.sort((a, b) => (a.type === 'Trailer' ? 0 : 1) - (b.type === 'Trailer' ? 0 : 1) || (a.iso_639_1 === 'ru' ? 0 : 1) - (b.iso_639_1 === 'ru' ? 0 : 1));
+  if (vids[0]) set('trailer', `https://www.youtube.com/watch?v=${vids[0].key}`, true);
+  form.trailer.dispatchEvent(new Event('input'));
+}
+
+/* Saqlashda TMDB rasmi saytning o'ziga yuklanadi (images/custom/) — tashqi xostga bog'liq bo'lmasin */
+async function tmdbImageFile(url) {
+  if (!url || !url.startsWith(TMDB_IMG)) return null;
+  const r = await fetch(url).catch(() => null);
+  if (!r || !r.ok) return null;
+  const blob = await r.blob();
+  return new File([blob], 'tmdb.jpg', { type: blob.type || 'image/jpeg' });
+}
 
 function renderFormView() {
   const editing = editingId !== null ? currentMovie(editingId) : null;

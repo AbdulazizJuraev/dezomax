@@ -5627,3 +5627,21 @@ html.soc-lock { overflow: hidden; }
 .adm-lang-own { display: flex; flex-direction: column; min-width: 0; padding: 10px 12px; border-radius: 10px; background: var(--surface); font-size: 13px; color: var(--text-dim);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .adm-lang-own small { color: var(--text-faint); font-size: 11px; }
+
+/* Admin → kino formasi: TMDB avtomatik to'ldirish (js/admin.js tmdbSectionHTML) */
+.adm-tmdb { border-color: rgba(10, 147, 220, .35); background: linear-gradient(180deg, rgba(10, 147, 220, .07), transparent 70%); }
+.adm-tmdb-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.adm-tmdb-row .acc-input { flex: 1 1 220px; min-width: 0; }
+.adm-tmdb-row select.acc-input { flex: 0 0 auto; width: auto; }
+.adm-tmdb-res { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 460px; overflow-y: auto; }
+.adm-tmdb-item { display: flex; gap: 12px; align-items: flex-start; text-align: left; padding: 8px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--text); font: inherit; cursor: pointer; }
+.adm-tmdb-item:hover, .adm-tmdb-item.is-on { border-color: var(--accent); background: var(--accent-soft); }
+.adm-tmdb-item .adm-thumb { width: 46px; height: 69px; flex: none; }
+.adm-tmdb-item b { display: block; font-size: 14px; }
+.adm-tmdb-item small { display: block; color: var(--text-faint); font-size: 12px; margin-top: 2px; }
+.adm-tmdb-item em { display: block; font-style: normal; color: var(--text-dim); font-size: 12px; margin-top: 4px; line-height: 1.4; }
+.adm-tmdb-ok { color: #2fbf71; font-weight: 600; font-size: 14px; margin: 4px 0 0; }
+.adm-tmdb-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--text-faint); }
+.adm-steps { margin: 6px 0 12px; padding-left: 20px; color: var(--text-dim); font-size: 14px; line-height: 1.7; }
+.adm-steps a { color: var(--accent); }
