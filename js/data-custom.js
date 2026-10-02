@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2146,
+    "slug": "ice-age-dawn-of-the-dinosaurs",
+    "type": "multfilm",
+    "title": {
+      "uz": "Muzlik davri: Dinozavrlar asri",
+      "ru": "Ледниковый период 3: Эра динозавров"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Muzlik davri: Dinozavrlar asri» — 2009-yilgi AQSh multfilmi. Rejissyor: Carlos Saldanha, Mike Thurmeier. Saytda rasmiy treyleri bor.",
+      "ru": "«Ледниковый период 3: Эра динозавров» — американский компьютерно-анимационный приключенческий комедийный фильм 2009 года, снятый студией Blue Sky Studios и выпущенный компанией 20th Century Fox."
+    },
+    "tags": [
+      "Ice Age: Dawn of the Dinosaurs"
+    ],
+    "colors": [
+      "hsl(233 45% 28%)",
+      "hsl(253 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/24/Ice_Age_Dawn_of_the_Dinosaurs_theatrical_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=bLeuH8OufmU",
+    "video": "https://t.me/muzlikDavriBarchaQismlar/6",
+    "featured": false,
+    "addedAt": 1790943167633,
+    "updatedAt": 1790943167633,
+    "year": 2009,
+    "duration": 94,
+    "director": "Carlos Saldanha, Mike Thurmeier"
+  },
+  {
     "id": 2079,
     "slug": "ice-age",
     "type": "multfilm",
