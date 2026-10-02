@@ -20272,11 +20272,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/MHGtqA2lsedGSDe3hBAszjpM",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 45,
     "size": 238422745,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3349,
@@ -20307,11 +20308,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/yNB8bZ33p04M029ef9gTTjG2",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 49,
     "size": 295869015,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3350,
@@ -20342,11 +20344,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/Jfqji_1ipFIE1xtOsln0jYpJ",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 48,
     "size": 219780576,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3351,
@@ -20377,11 +20380,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/ChuJQIPxXMjnQMtaam5v5_XE",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 41,
     "size": 246629494,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3352,
@@ -20412,19 +20416,20 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/aGOnOsT2Jn2emzIhNkcQ3Yrj",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 53,
     "size": 301200977,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3353,
     "slug": "loki-1sezon-1qism",
     "type": "serial",
     "title": {
-      "uz": "LOKI 1sezon 1qism",
-      "ru": "LOKI 1sezon 1qism"
+      "uz": "LOKI",
+      "ru": "ЛОКИ"
     },
     "genres": [
       "scifi"
@@ -20442,24 +20447,48 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://dezocloud.uz/t/LqA-fGv_y09H?s=QOoyRYKSpqAP7bZkYEg-wzf_",
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354.jpg",
     "trailer": "",
     "video": "https://dezocloud.uz/s/QOoyRYKSpqAP7bZkYEg-wzf_",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341077,
     "duration": 52,
     "size": 279481824,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "groupOrig": {
+      "title": {
+        "uz": "LOKI 1sezon 1qism",
+        "ru": "LOKI 1sezon 1qism"
+      },
+      "type": "serial"
+    },
+    "parts": [
+      3353,
+      3352,
+      3351,
+      3350,
+      3349,
+      3348,
+      3356,
+      3355,
+      3357,
+      3358,
+      3359,
+      3360,
+      3354
+    ],
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354-cover.jpg",
+    "lang": "uz"
   },
   {
     "id": 3354,
     "slug": "loki",
     "type": "serial",
     "title": {
-      "uz": "LOKI",
-      "ru": "ЛОКИ"
+      "uz": "\"LOKI\"",
+      "ru": "\"LOKI\""
     },
     "genres": [
       "scifi"
@@ -20482,34 +20511,13 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/XIcBtTdEfajJM0DuH5UcKMTf",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790858096785,
+    "updatedAt": 1790984341077,
     "duration": 56,
     "size": 238734197,
     "year": 2026,
     "audio": "uz",
-    "groupOrig": {
-      "title": {
-        "uz": "\"LOKI\"",
-        "ru": "\"LOKI\""
-      },
-      "type": "serial"
-    },
-    "parts": [
-      3354,
-      3355,
-      3356,
-      3357,
-      3358,
-      3359,
-      3360,
-      3353,
-      3348,
-      3349,
-      3352,
-      3351,
-      3350
-    ],
-    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354-cover.jpg"
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354-cover.jpg",
+    "lang": "uz"
   },
   {
     "id": 3355,
@@ -20540,11 +20548,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/GvNFSVFVEmM3E0U8zVzsxNu2",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 45,
     "size": 132833477,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3356,
@@ -20575,11 +20584,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/X4iLKx-Gwqs9WZMep_0CM48E",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 48,
     "size": 163630010,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3357,
@@ -20610,11 +20620,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/zJhiYqol78DQNHfdDAZXnQ1e",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 54,
     "size": 191850428,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3358,
@@ -20645,11 +20656,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/R6hL47uq23_r8Z7URKJoUPPr",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 49,
     "size": 174184679,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3359,
@@ -20680,11 +20692,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/5KDXYazOkwqF-bvyt8N5tYqP",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341076,
     "duration": 45,
     "size": 177222775,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3360,
@@ -20715,11 +20728,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/giXxlvi-xFLn4WGVcyI4_r2r",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790857756630,
+    "updatedAt": 1790984341077,
     "duration": 45,
     "size": 472545532,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 3361,
