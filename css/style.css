@@ -5769,3 +5769,6 @@ html.soc-lock { overflow: hidden; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 26px 18px; }
   .footer .footer-grid ul { flex-direction: column; flex-wrap: nowrap; gap: 10px; }
 }
+/* futer: faqat brend va «Reklama yuzasidan» */
+.footer-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); align-items: start; }
+@media (max-width: 1000px) { .footer-grid { grid-template-columns: 1fr; } }
