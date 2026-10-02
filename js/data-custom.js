@@ -5972,7 +5972,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "oyning-qulashi",
     "type": "film",
     "title": {
-      "uz": "Oyning qulashi",
+      "uz": "Moon Fall",
       "ru": "Падение Луны"
     },
     "genres": [
@@ -6001,7 +6001,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/klEU7eqI_v2u-AHL0U0p1vnm",
     "featured": false,
     "addedAt": 1789967245094,
-    "updatedAt": 1790946700449
+    "updatedAt": 1790946714547
   },
   {
     "id": 128,
