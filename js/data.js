@@ -2652,7 +2652,7 @@ const MOVIES = [
       uz: "Vanda Maksimoff va Vijn — ikki super qahramon — shahar chetida 1950-yillar sitkomidagidek tinch hayot kechirmoqda. Ammo har bir qism yangi davrga o‘tadi va ular hamma narsa ko‘ringanidek emasligini sezib qoladi. Qismlar Marvel Entertainment’ning rasmiy YouTube kanalidan, asl tilda (ingliz tilida).",
       ru: "Ванда Максимофф и Вижн — двое супергероев — живут идеальной жизнью в пригороде, словно в ситкоме 1950-х. Но каждая серия переносит их в новую эпоху, и они начинают подозревать, что всё не так, как кажется. Серии — с официального YouTube-канала Marvel Entertainment, на языке оригинала (английский)."
     },
-    tags: ["Marvel","WandaVision","Wanda Vision","Vanda Vijn","Ванда Вижн"],
+    tags: ["Marvel","WandaVision","Wanda Vision","Vanda Vijn","Ванда Вижн","ВандаВижн","Ванда/Вижн","Ванда и Вижн","Vanda Vijin","Vanda va Vijn","WandaVision serial","Scarlet Witch","Алая ведьма","Marvel seriali"],
     colors: ["#8a1a2a","#10060a"],
     poster: "images/marvel/wandavision.jpg",
     cover: "images/marvel/wandavision-cover.jpg",

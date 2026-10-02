@@ -28767,150 +28767,6 @@ const CUSTOM_MOVIES = /*DATA*/[
     "audio": "uz"
   },
   {
-    "id": 3550,
-    "slug": "film-nomi-vanda-vijin-9-qism",
-    "type": "film",
-    "title": {
-      "uz": "Film Nomi: Vanda Vijin (9-qism)",
-      "ru": "Film Nomi: Vanda Vijin (9-qism)"
-    },
-    "genres": [
-      "drama"
-    ],
-    "country": {
-      "uz": "—",
-      "ru": "—"
-    },
-    "cast": [],
-    "desc": {
-      "uz": "🎥Film Nomi: Vanda Vijin (9-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri:jangari sarguzasht\nMarvel_uz_prikol",
-      "ru": "🎥Film Nomi: Vanda Vijin (9-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri:jangari sarguzasht\nMarvel_uz_prikol"
-    },
-    "colors": [
-      "#2a3142",
-      "#0d1018"
-    ],
-    "poster": "https://dezocloud.uz/t/AuPy23Qm5iSP?s=FU9hebB6XnYiD1ZD329VTCDZ",
-    "trailer": "",
-    "video": "https://dezocloud.uz/s/FU9hebB6XnYiD1ZD329VTCDZ",
-    "featured": false,
-    "addedAt": 1790945840212,
-    "updatedAt": 1790947003156,
-    "duration": 47,
-    "size": 704815373,
-    "year": 2026,
-    "audio": "uz",
-    "lang": "uz"
-  },
-  {
-    "id": 3551,
-    "slug": "film-nomi-vanda-vijin-8-qism",
-    "type": "film",
-    "title": {
-      "uz": "Film Nomi: Vanda Vijin (8-qism)",
-      "ru": "Film Nomi: Vanda Vijin (8-qism)"
-    },
-    "genres": [
-      "drama"
-    ],
-    "country": {
-      "uz": "—",
-      "ru": "—"
-    },
-    "cast": [],
-    "desc": {
-      "uz": "🎥Film Nomi: Vanda Vijin (8-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 420p HD\n🎭Janri:",
-      "ru": "🎥Film Nomi: Vanda Vijin (8-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 420p HD\n🎭Janri:"
-    },
-    "colors": [
-      "#2a3142",
-      "#0d1018"
-    ],
-    "poster": "https://dezocloud.uz/t/Tyn4jwJuvHRB?s=wUVLtoGfjqvcgbL99tPE6ha8",
-    "trailer": "",
-    "video": "https://dezocloud.uz/s/wUVLtoGfjqvcgbL99tPE6ha8",
-    "featured": false,
-    "addedAt": 1790945840212,
-    "updatedAt": 1790947003156,
-    "duration": 43,
-    "size": 161989333,
-    "year": 2026,
-    "audio": "uz",
-    "lang": "uz"
-  },
-  {
-    "id": 3552,
-    "slug": "film-nomi-vanda-vijin-7-qism",
-    "type": "film",
-    "title": {
-      "uz": "Film Nomi: Vanda Vijin (7-qism)",
-      "ru": "Film Nomi: Vanda Vijin (7-qism)"
-    },
-    "genres": [
-      "drama"
-    ],
-    "country": {
-      "uz": "—",
-      "ru": "—"
-    },
-    "cast": [],
-    "desc": {
-      "uz": "🎥Film Nomi: Vanda Vijin (7-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri: jangari",
-      "ru": "🎥Film Nomi: Vanda Vijin (7-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri: jangari"
-    },
-    "colors": [
-      "#2a3142",
-      "#0d1018"
-    ],
-    "poster": "https://dezocloud.uz/t/zDB3E9BXDE63?s=33Koiy05SNa0bnX3O6RsAzZb",
-    "trailer": "",
-    "video": "https://dezocloud.uz/s/33Koiy05SNa0bnX3O6RsAzZb",
-    "featured": false,
-    "addedAt": 1790945840212,
-    "updatedAt": 1790947003156,
-    "duration": 35,
-    "size": 455039871,
-    "year": 2026,
-    "audio": "uz",
-    "lang": "uz"
-  },
-  {
-    "id": 3553,
-    "slug": "film-nomi-vanda-vijin-9-qism",
-    "type": "film",
-    "title": {
-      "uz": "Film Nomi: Vanda Vijin (9-qism)",
-      "ru": "Film Nomi: Vanda Vijin (9-qism)"
-    },
-    "genres": [
-      "drama"
-    ],
-    "country": {
-      "uz": "—",
-      "ru": "—"
-    },
-    "cast": [],
-    "desc": {
-      "uz": "🎥Film Nomi: Vanda Vijin (9-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri: jangari",
-      "ru": "🎥Film Nomi: Vanda Vijin (9-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri: jangari"
-    },
-    "colors": [
-      "#2a3142",
-      "#0d1018"
-    ],
-    "poster": "https://dezocloud.uz/t/v2QCmFvcefU1?s=pZxgC7fN-oyclfj8e5CFRO1S",
-    "trailer": "",
-    "video": "https://dezocloud.uz/s/pZxgC7fN-oyclfj8e5CFRO1S",
-    "featured": false,
-    "addedAt": 1790945840212,
-    "updatedAt": 1790947003156,
-    "duration": 47,
-    "size": 704815373,
-    "year": 2026,
-    "audio": "uz",
-    "lang": "uz"
-  },
-  {
     "id": 151,
     "slug": "wandavision",
     "year": 2021,
@@ -28946,7 +28802,16 @@ const CUSTOM_MOVIES = /*DATA*/[
       "WandaVision",
       "Wanda Vision",
       "Vanda Vijn",
-      "Ванда Вижн"
+      "Ванда Вижн",
+      "ВандаВижн",
+      "Ванда/Вижн",
+      "Ванда и Вижн",
+      "Vanda Vijin",
+      "Vanda va Vijn",
+      "WandaVision serial",
+      "Scarlet Witch",
+      "Алая ведьма",
+      "Marvel seriali"
     ],
     "colors": [
       "#8a1a2a",
@@ -28956,7 +28821,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "cover": "images/marvel/wandavision-cover.jpg",
     "trailer": "https://www.youtube.com/watch?v=sj9J2ecsSpo",
     "video": "https://www.youtube.com/watch?v=X5Am3fEqvQI",
-    "lang": "uz",
+    "lang": "en",
     "duration": 27,
     "source": {
       "name": "Marvel Entertainment",
@@ -28969,12 +28834,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "parts": [
       151,
       152,
-      153,
-      3552,
-      3551,
-      3550,
-      3553,
-      1065980217
+      153
     ],
     "featured": false,
     "groupOrig": {
@@ -28984,7 +28844,7 @@ const CUSTOM_MOVIES = /*DATA*/[
       },
       "type": "serial"
     },
-    "updatedAt": 1790947003157
+    "updatedAt": 1790948171808
   },
   {
     "id": 152,
@@ -29017,7 +28877,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "poster": "images/marvel/wandavision.jpg",
     "trailer": "",
     "video": "https://www.youtube.com/watch?v=MDu8SVwYaa0",
-    "lang": "uz",
+    "lang": "en",
     "duration": 34,
     "source": {
       "name": "Marvel Entertainment",
@@ -29057,7 +28917,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "poster": "images/marvel/wandavision.jpg",
     "trailer": "",
     "video": "https://www.youtube.com/watch?v=NUW7dpNXfyU",
-    "lang": "uz",
+    "lang": "en",
     "duration": 30,
     "source": {
       "name": "Marvel Entertainment",
@@ -29065,49 +28925,6 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "featured": false,
     "updatedAt": 1790947003156
-  },
-  {
-    "id": 1065980217,
-    "slug": "wandavision",
-    "year": 2021,
-    "type": "serial",
-    "title": {
-      "uz": "WandaVision",
-      "ru": "Ванда/Вижн"
-    },
-    "genres": [
-      "action",
-      "fantasy",
-      "adventure"
-    ],
-    "country": {
-      "uz": "AQSh",
-      "ru": "США"
-    },
-    "cast": [
-      "Elizabeth Olsen",
-      "Paul Bettany",
-      "Teyonah Parris"
-    ],
-    "desc": {
-      "uz": "«WandaVision» — 2021-yilgi AQSh seriali. 1 fasl, 9 qism. Rejissyor: Matt Shakman. Rollarda: Elizabeth Olsen, Paul Bettany, Teyonah Parris.",
-      "ru": "«Ванда/Вижн» — сериал 2021 года (США). Сезонов: 1, серий: 9. Режиссёр: Matt Shakman. В ролях: Elizabeth Olsen, Paul Bettany, Teyonah Parris."
-    },
-    "colors": [
-      "hsl(337 45% 28%)",
-      "hsl(357 50% 7%)"
-    ],
-    "trailer": "",
-    "video": "",
-    "seasons": 1,
-    "director": "Matt Shakman",
-    "tags": [
-      "WandaVision"
-    ],
-    "poster": "https://upload.wikimedia.org/wikipedia/en/2/20/WandaVision_logo.png",
-    "wiki": "Ванда/Вижн",
-    "lang": "uz",
-    "updatedAt": 1790947003157
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
