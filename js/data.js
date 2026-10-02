@@ -2661,6 +2661,7 @@ const MOVIES = [
     lang: 'en',
     duration: 27,
     source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' },
+    brands: ['marvel', 'disney-plus'],   // rasmiy manba belgisidagi logotiplar (images/brands/)
     parts: [151, 152, 153],
     featured: false
   },

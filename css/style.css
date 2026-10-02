@@ -5593,3 +5593,15 @@ html.soc-lock { overflow: hidden; }
 .player-lang:hover { opacity: .9; }
 .player-lang.is-active { opacity: 1; border-color: var(--accent); }
 .player-lang:active { transform: scale(.94); }
+.mv-brands { display: flex; align-items: center; gap: 10px; padding-right: 12px; margin-right: 2px; border-right: 1px solid rgba(255, 255, 255, .18); flex: none; }
+.mv-brand { display: block; width: auto; flex: none; }
+.mv-brand.is-marvel { height: 28px; border-radius: 3px; }
+.mv-brand.is-disney-plus { height: 46px; margin: -9px -4px; }
+.mv-official.has-brands { padding: 7px 14px 7px 8px; }
+@media (max-width: 640px) {
+  .mv-official.has-brands { flex-wrap: wrap; border-radius: 16px; row-gap: 6px; padding: 8px 14px 10px; }
+  .mv-brands { flex-basis: 100%; border-right: 0; padding: 0 0 6px; margin: 0; border-bottom: 1px solid rgba(255, 255, 255, .14); }
+  .mv-official.has-brands > span:not(.mv-brands) { flex: 1 1 0; min-width: 0; }
+  .mv-brand.is-marvel { height: 24px; }
+  .mv-brand.is-disney-plus { height: 40px; }
+}
