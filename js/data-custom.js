@@ -17943,7 +17943,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/-mNxGBzpSlFC-UhpvpCqAQUS",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 47,
     "year": 2026,
     "audio": "uz"
@@ -17977,7 +17977,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/4QpDxhviXXvWGjAN5nPEJYiJ",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18011,7 +18011,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/B5H7MKabofK2U5R12u70RYKb",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18045,7 +18045,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/AmU2nou7ErXTRoqM4rPHAE9g",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18079,7 +18079,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/gqxQm4O8dyIkEVJ84esUwJZW",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18113,7 +18113,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/bM8uxAHTteoBoeoR0x_yhCn0",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 39,
     "year": 2026,
     "audio": "uz"
@@ -18147,7 +18147,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/bAB4GJmLxi7oIBs6fqngk3DM",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18181,7 +18181,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/agLAlXxt7qPfZs_foJz8raHK",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 42,
     "year": 2026,
     "audio": "uz"
@@ -18215,7 +18215,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/Krh4YvG2HeljyV_gqhIFKvXC",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18249,7 +18249,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/Q9Nicws8kQgE_L6Jtcl3ae1v",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18283,7 +18283,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/iwSPkd6Bziptwkqryk76djyY",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18317,7 +18317,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/t3Lu6NeHJa-Qb5hU9Aokbjan",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18351,7 +18351,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/7F66j6BQNUtb1ih6nLat3vL_",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18385,7 +18385,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/3wqR8FgZ_HNubg5ACis6_eJc",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18419,7 +18419,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/UmCUhSwu8-nd7GiRtol18yjT",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18453,7 +18453,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/wlc_LZXOmTm-u4RvbRdOTG5b",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18487,7 +18487,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/ywcDdqUL5S5NzbwA4ynBWACi",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18521,7 +18521,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/QZJB9__ypA-HVbUqrFLobiWr",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -18555,7 +18555,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/Pv0NheiKjXoHHMSyAZBzEmmQ",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18589,7 +18589,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/hUcTNLmnlb-oLmopvn5UBF81",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18623,7 +18623,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/my5F8YXPeNHopUEE7-1KtsR1",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18657,7 +18657,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/1UlOVGrY45h_nrYytwZuXLI7",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18691,7 +18691,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/dwUGX7jJ2sw6zzqVh6rUTTly",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18725,7 +18725,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/ZbrZjbijtiMz-xUIf1XoYtrJ",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 45,
     "year": 2026,
     "audio": "uz"
@@ -18759,7 +18759,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/kmmJ_RN8SxJsfk2u-70C0wDj",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 45,
     "year": 2026,
     "audio": "uz"
@@ -18793,7 +18793,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/e2PAy2RTIPAEaRtTydZCsSQ8",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -18827,7 +18827,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/hFEO1JVKrgIBtDz1pI5n1zbB",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18861,7 +18861,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/QhmU9XdGj_iaCTVnggVryEeD",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18895,7 +18895,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/31sMytjX4lUXllVxZbX4wYeK",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -18929,7 +18929,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/NtZ8kqEiLgjCLy8ks2A5iwD1",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18963,7 +18963,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/50KSxgAE928GZupP9t9V3p7M",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -18997,7 +18997,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/1HCbm2rr_Hi66bDhyNiYDok_",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19031,7 +19031,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/zsLpqo4PbjVbGxTa1Yuf0l5T",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19065,7 +19065,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/AXAl5l502CEsbF1KH7Ua1mRe",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19099,7 +19099,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/f1D9soHdOp-5f553JY91Ixdt",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19133,7 +19133,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/pUesT4zgL6c31ahpa_sEzLsL",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19167,7 +19167,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/d08EUPe6F9u7FMHt0R7bI4QA",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19201,7 +19201,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/IL-_D07WirsZGF-zcTJw4L4F",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19235,7 +19235,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/iceA-5CU5DSw3iVaxdOtbm2x",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19269,7 +19269,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/i0stZqbldj_-QUwXQa6E3VeV",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 48,
     "year": 2026,
     "audio": "uz"
@@ -19303,7 +19303,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/rjiFvyIGPq-nLzxAm3m60oid",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19337,7 +19337,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/BlsOulPGcVVKOuafCCkCETHg",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 42,
     "year": 2026,
     "audio": "uz"
@@ -19371,7 +19371,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/1520BumDpg-VOOtPR1vnR6wY",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19405,7 +19405,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/6BY9QS-QEapt8lEdOHL2M39O",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19439,7 +19439,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/jI3LY0pCcYEsUjqWK7wcmAS4",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19473,7 +19473,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/7mjt0SbQmJ4CvJSr0xYlSd-s",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19507,7 +19507,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/ISuKThI5GI4D0x4vwUnZZ1iS",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19541,7 +19541,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/YskrjPR_0U_8XoP4HAy4kdBU",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19575,7 +19575,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/9SWB5jNnLPjTfAqBAjyWwuuT",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19609,7 +19609,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/Pl1jAbKmip4DRDnQRaB7871M",
     "featured": false,
     "addedAt": 1790848717320,
-    "updatedAt": 1790848717320,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19643,7 +19643,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/eO32qOxI5uMFaFYlvwInlk91",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19677,7 +19677,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/w_EeP-x8bswvisgO7ThPfQN_",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19711,7 +19711,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/T7ds8DBrx5D9CjmHgkfTIVjU",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19745,7 +19745,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/E_NdHIixynQI_lfAY8hyCclV",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19779,7 +19779,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/JGzeNVPkgwhTbIHH1z01CIcq",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19813,7 +19813,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/xjfBlSIkfIHUe0m3r5eU2Ilj",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19847,7 +19847,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/8m-gsmUBytjxZExFatL5NpfB",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
     "audio": "uz"
@@ -19881,7 +19881,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/ESt9BTQOBbyWod9sJ9adnMZP",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19915,7 +19915,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/KaURUcqsSj4j41jdUWpIalCM",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19949,7 +19949,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/X5kOHfASokXUby74v3BV_o92",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -19983,7 +19983,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/eUPsUvhdxLq5hZuqYhs0O7lf",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -20017,7 +20017,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/f6eNym33UoJG8mHb0cmga3RC",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -20051,7 +20051,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/WzJ_WpZceVRvrpCJktIOH4ZQ",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139094,
     "duration": 44,
     "year": 2026,
     "audio": "uz"
@@ -20085,7 +20085,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/TtXiPNDkkEYsp867GDOekAxY",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139094,
     "duration": 45,
     "year": 2026,
     "audio": "uz"
@@ -20093,10 +20093,10 @@ const CUSTOM_MOVIES = /*DATA*/[
   {
     "id": 3347,
     "slug": "1-mavsum-1-qism",
-    "type": "film",
+    "type": "serial",
     "title": {
-      "uz": "1-mavsum 1-qism",
-      "ru": "1-mavsum 1-qism"
+      "uz": "Merlin - (Afsungar)",
+      "ru": "Мерлин - (Волшебник)"
     },
     "genres": [
       "biography"
@@ -20114,23 +20114,98 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://dezocloud.uz/t/1DwKZmrhggZq?s=mBJCDBGk_MCbwwkXBW9Xi-wM",
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-afsungar-1001176076.jpg",
     "trailer": "",
     "video": "https://dezocloud.uz/s/mBJCDBGk_MCbwwkXBW9Xi-wM",
     "featured": false,
     "addedAt": 1790848733305,
-    "updatedAt": 1790848733305,
+    "updatedAt": 1790984139096,
     "duration": 43,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "groupOrig": {
+      "title": {
+        "uz": "1-mavsum 1-qism",
+        "ru": "1-mavsum 1-qism"
+      },
+      "type": "film"
+    },
+    "parts": [
+      3347,
+      3346,
+      3345,
+      3344,
+      3343,
+      3342,
+      3341,
+      3340,
+      3339,
+      3338,
+      3337,
+      3336,
+      3335,
+      3334,
+      3333,
+      3332,
+      3331,
+      3330,
+      3329,
+      3328,
+      3327,
+      3326,
+      3325,
+      3324,
+      3323,
+      3322,
+      3321,
+      3320,
+      3319,
+      3318,
+      3317,
+      3316,
+      3315,
+      3314,
+      3313,
+      3312,
+      3311,
+      3310,
+      3309,
+      3308,
+      3307,
+      3306,
+      3305,
+      3304,
+      3303,
+      3302,
+      3301,
+      3300,
+      3299,
+      3298,
+      3297,
+      3296,
+      3295,
+      3294,
+      3293,
+      3292,
+      3291,
+      3290,
+      3289,
+      3288,
+      3287,
+      3286,
+      3285,
+      3284,
+      3283
+    ],
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-1001176076-cover.jpg"
   },
   {
     "id": 1001176076,
     "slug": "merlin",
     "type": "serial",
     "title": {
-      "uz": "Merlin - (Afsungar)",
-      "ru": "Мерлин - (Волшебник)"
+      "uz": "Merlin",
+      "ru": "Мерлин"
     },
     "genres": [
       "drama",
@@ -20162,84 +20237,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     ],
     "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-afsungar-1001176076.jpg",
     "wiki": "Мерлин (телесериал)",
-    "groupOrig": {
-      "title": {
-        "uz": "Merlin",
-        "ru": "Мерлин"
-      },
-      "type": "serial"
-    },
-    "parts": [
-      1001176076,
-      1001500095,
-      3331,
-      3328,
-      3320,
-      3319,
-      3318,
-      3317,
-      3316,
-      3315,
-      3314,
-      3313,
-      3312,
-      3311,
-      3310,
-      3309,
-      3308,
-      3307,
-      3306,
-      3305,
-      3301,
-      3300,
-      3299,
-      3298,
-      3296,
-      3295,
-      3294,
-      3293,
-      3292,
-      3291,
-      3290,
-      3288,
-      3287,
-      3286,
-      3285,
-      3284,
-      3283,
-      3325,
-      3334,
-      3333,
-      3330,
-      3289,
-      3329,
-      3332,
-      3327,
-      3326,
-      3324,
-      3323,
-      3322,
-      3321,
-      3304,
-      3303,
-      3302,
-      3297,
-      1001786452,
-      3347,
-      3346,
-      3345,
-      3344,
-      3343,
-      3342,
-      3341,
-      3340,
-      3339,
-      3338,
-      3337,
-      3336,
-      3335
-    ],
-    "updatedAt": 1790857893286,
+    "updatedAt": 1790984139094,
     "featured": false,
     "addedAt": 1790856984289,
     "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/merlin-1001176076-cover.jpg",
