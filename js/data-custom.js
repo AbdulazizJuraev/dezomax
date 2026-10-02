@@ -11,39 +11,54 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "ice-age-continental-drift",
     "type": "multfilm",
     "title": {
-      "uz": "Muzlik davri: Ayro qitʼalar",
+      "uz": "Muzlik davri 4: Kontinental siljish",
       "ru": "Ледниковый период 4: Континентальный дрейф"
     },
     "genres": [
-      "fantasy",
+      "comedy",
       "animation",
-      "adventure"
+      "adventure",
+      "family"
     ],
     "country": {
       "uz": "AQSh",
       "ru": "США"
     },
-    "cast": [],
+    "cast": [
+      "Рэй Романо",
+      "Джон Легуизамо",
+      "Денис Лири",
+      "Шонн Уильям Скотт",
+      "Джош Пек",
+      "Питер Динклэйдж"
+    ],
     "desc": {
       "uz": "«Muzlik davri: Ayro qitʼalar» — 2012-yilgi AQSh multfilmi. Rejissyor: Mike Thurmeier, Steve Martino. Saytda rasmiy treyleri bor.",
-      "ru": "«Ледниковый период 4: Континентальный дрейф» — американский компьютерно-анимационный приключенческий комедийный фильм 2012 года, снятый студией Blue Sky Studios и распространяемый студией 20th Century Fox."
+      "ru": "После приключений под землёй прошло 7 лет. Случился дрейф континентов. Главные герои, отделённые от стада, вынуждены использовать айсберг в качестве плота. Они пересекают океан и попадают в неизвестные им ранее земли с экзотическими животными и пиратами, враждебно настроенными к ним. А Скрату удаётся получить свой жёлудь, но он перемещается в новые для него земли."
     },
     "tags": [
-      "Ice Age: Continental Drift"
+      "Ice Age: Continental Drift",
+      "Ледниковый период 4: Континентальный дрейф"
     ],
     "colors": [
       "hsl(123 45% 28%)",
       "hsl(143 50% 7%)"
     ],
-    "poster": "https://upload.wikimedia.org/wikipedia/en/6/6c/Ice_Age_Continental_Drift.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "poster": "https://image.tmdb.org/t/p/w500/bZRHz4bV5WHVlpLjmYbrkOAQhyT.jpg",
     "trailer": "https://www.youtube.com/watch?v=2UpbYL-A3S0",
     "video": "https://s6.faylmovi.ru/tarjima_multfilmlar/Muzlik_Davri_4_1080.mp4",
     "featured": false,
     "addedAt": 1790943589841,
-    "updatedAt": 1790943589841,
+    "updatedAt": 1790948498055,
+    "cover": "https://image.tmdb.org/t/p/w1280/scLQDnf1m2AqEEQSjAEdMRD6K9I.jpg",
     "year": 2012,
     "duration": 88,
-    "director": "Mike Thurmeier, Steve Martino"
+    "rating": 6.4,
+    "director": "Steve Martino, Michael Thurmeier",
+    "tmdb": {
+      "id": 57800,
+      "type": "movie"
+    }
   },
   {
     "id": 2176,
