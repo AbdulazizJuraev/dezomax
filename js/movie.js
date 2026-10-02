@@ -275,6 +275,18 @@ function playerSectionHTML(m) {
     </div>`;
 }
 
+/* Rasmiy manbadan olingan video — sahifaga kirganda darhol ko'rinadi (masalan Marvel'ning YouTube kanali) */
+function officialHTML(m) {
+  if (!m.source || !m.source.name || !hasFilm(m)) return '';
+  const yt = /youtube\.com|youtu\.be/.test(m.source.url || '');
+  const text = LANG === 'ru'
+    ? (yt ? `Официальный YouTube-канал ${m.source.name}` : `Официальный источник: ${m.source.name}`)
+    : (yt ? `${m.source.name}’ning rasmiy YouTube kanalidan` : `Rasmiy manba: ${m.source.name}`);
+  return `<a class="mv-official" href="${esc(m.source.url || '#')}" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
+    <span>${esc(text)}</span><i>✓</i></a>`;
+}
+
 /* ---------- Guruh qismlari: «1-qism, 2-qism…» tugmalari ---------- */
 const partLabel = n => LANG === 'ru' ? `${n} серия` : `${n}-qism`;
 
@@ -423,6 +435,7 @@ function renderMovie() {
             ${movie.genres.map(g => `<a class="tag" href="catalog.html?genre=${g}">${esc(genreName(g))}</a>`).join('')}
             <span class="tag">${esc(durationText(partNo ? group : movie))}</span>
           </div>
+          ${officialHTML(movie)}
 
         </div>
       </div>

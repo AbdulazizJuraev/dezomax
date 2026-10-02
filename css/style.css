@@ -5574,3 +5574,11 @@ html.soc-lock { overflow: hidden; }
   .seo-grid { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 16px 10px; }
   .seo-grid a { font-size: 13px; }
 }
+
+/* Rasmiy manba belgisi (kino sahifasi, js/movie.js officialHTML) */
+.mv-official { display: inline-flex; align-items: center; gap: 9px; margin-top: 14px; padding: 8px 14px 8px 10px; border-radius: 999px;
+  background: rgba(255, 0, 0, .1); border: 1px solid rgba(255, 60, 60, .35); color: var(--text); font-size: 14px; font-weight: 600; line-height: 1.25; max-width: 100%; }
+.mv-official svg { width: 22px; height: 22px; color: #ff2d2d; flex: none; }
+.mv-official i { font-style: normal; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #2fbf71; color: #fff; font-size: 11px; flex: none; }
+.mv-official:hover { background: rgba(255, 0, 0, .16); }
+@media (max-width: 640px) { .mv-official { font-size: 13px; } }

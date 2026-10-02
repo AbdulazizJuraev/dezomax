@@ -32,7 +32,7 @@ const GENRES = ctx.GENRES || [];
 
 const OFFICIAL = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|upload\.wikimedia\.org)\//i;
 const inGroup = new Set();
-for (const m of MOVIES) if (Array.isArray(m.parts) && m.parts.length > 1) for (const id of m.parts) inGroup.add(id);
+for (const m of MOVIES) if (Array.isArray(m.parts) && m.parts.length > 1) for (const id of m.parts) if (id !== m.id) inGroup.add(id);
 
 const list = MOVIES.filter(m => m && m.id != null && m.title && OFFICIAL.test(String(m.video || '').trim()) && !inGroup.has(m.id));
 

@@ -2638,5 +2638,43 @@ const MOVIES = [
     trailer: "https://www.youtube.com/watch?v=O7DjtgMfNKw",
     video: '',
     featured: false
+  },
+  /* WandaVision — Marvel Entertainment'ning rasmiy YouTube kanali qismlarni bepul joylamoqda
+     (2026-oktabr, «VisionQuest» oldidan). Yangi qism chiqsa — shu guruhga qo'shiladi */
+  {
+    id: 151, slug: "wandavision", year: 2021, type: 'serial', franchise: 'marvel',
+    title: { uz: "WandaVision", ru: "ВандаВижн" },
+    genres: ["scifi","comedy","drama"],
+    country: { uz: 'AQSh', ru: 'США' },
+    director: "Matt Shakman",
+    cast: ["Elizabeth Olsen","Paul Bettany","Kathryn Hahn","Teyonah Parris","Kat Dennings"],
+    desc: {
+      uz: "Vanda Maksimoff va Vijn — ikki super qahramon — shahar chetida 1950-yillar sitkomidagidek tinch hayot kechirmoqda. Ammo har bir qism yangi davrga o‘tadi va ular hamma narsa ko‘ringanidek emasligini sezib qoladi. Qismlar Marvel Entertainment’ning rasmiy YouTube kanalidan, asl tilda (ingliz tilida).",
+      ru: "Ванда Максимофф и Вижн — двое супергероев — живут идеальной жизнью в пригороде, словно в ситкоме 1950-х. Но каждая серия переносит их в новую эпоху, и они начинают подозревать, что всё не так, как кажется. Серии — с официального YouTube-канала Marvel Entertainment, на языке оригинала (английский)."
+    },
+    tags: ["Marvel","WandaVision","Wanda Vision","Vanda Vijn","Ванда Вижн"],
+    colors: ["#8a1a2a","#10060a"],
+    poster: "images/marvel/wandavision.jpg",
+    cover: "images/marvel/wandavision-cover.jpg",
+    trailer: "https://www.youtube.com/watch?v=sj9J2ecsSpo",
+    video: "https://www.youtube.com/watch?v=X5Am3fEqvQI",
+    duration: 27,
+    source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' },
+    parts: [151, 152, 153],
+    featured: false
+  },
+  {
+    id: 152, slug: "wandavision-2-qism", year: 2021, type: 'serial', franchise: 'marvel',
+    title: { uz: "WandaVision (2-qism)", ru: "ВандаВижн (2 серия)" },
+    genres: ["scifi","comedy","drama"], country: { uz: 'AQSh', ru: 'США' }, cast: [],
+    desc: { uz: "", ru: "" }, colors: ["#8a1a2a","#10060a"], poster: "images/marvel/wandavision.jpg", trailer: "",
+    video: "https://www.youtube.com/watch?v=MDu8SVwYaa0", duration: 34, source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' }, featured: false
+  },
+  {
+    id: 153, slug: "wandavision-3-qism", year: 2021, type: 'serial', franchise: 'marvel',
+    title: { uz: "WandaVision (3-qism)", ru: "ВандаВижн (3 серия)" },
+    genres: ["scifi","comedy","drama"], country: { uz: 'AQSh', ru: 'США' }, cast: [],
+    desc: { uz: "", ru: "" }, colors: ["#8a1a2a","#10060a"], poster: "images/marvel/wandavision.jpg", trailer: "",
+    video: "https://www.youtube.com/watch?v=NUW7dpNXfyU", duration: 30, source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' }, featured: false
   }
 ];
