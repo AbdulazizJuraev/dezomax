@@ -27,12 +27,16 @@ for (const m of [...byId.values()]) {
   if (Array.isArray(m.parts) && m.parts.length > 1) for (const id of m.parts) if (id !== m.id) byId.delete(id);
 }
 
+// qidiruv uchun tayyor sahifalari bor filmlar — kino/<slug>.html (tools/gen-pages.js)
+const SEO = require('./gen-pages.js').pages;
+
 const today = new Date().toISOString().slice(0, 10);
 const day = ts => ts ? new Date(ts).toISOString().slice(0, 10) : today;
 
 const pages = [
   ['', 'daily', '1.0'],
   ['catalog.html', 'daily', '0.9'],
+  ['kino/index.html', 'daily', '0.9'],
   ['sport.html', 'daily', '0.7'],
   ['tv.html', 'weekly', '0.7'],
   ['plans.html', 'monthly', '0.5'],
@@ -44,7 +48,9 @@ const pages = [
 const movies = [...byId.values()]
   .sort((a, b) => a.id - b.id)
   // to'liq filmi borlar muhimroq, faqat treylerlilar — pastroq
-  .map(m => ({ loc: `${SITE}movie.html?id=${m.id}`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: m.video ? '0.8' : '0.5' }));
+  .map(m => SEO[m.id]
+    ? { loc: `${SITE}kino/${SEO[m.id]}.html`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: '0.9' }
+    : { loc: `${SITE}movie.html?id=${m.id}`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: m.video ? '0.8' : '0.5' });
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

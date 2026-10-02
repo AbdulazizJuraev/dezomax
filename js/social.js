@@ -132,7 +132,7 @@ const socNum = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
 /* Ilovada ham (localhost) ulashish havolasi — saytning ochiq manzili */
 function socShareUrl(m, part) {
-  return `https://dezomax.uz/movie.html?id=${m.id}${part ? `&part=${part}` : ''}`;
+  return part ? `https://dezomax.uz/movie.html?id=${m.id}&part=${part}` : 'https://dezomax.uz/' + movieHref(m);
 }
 
 function initSocial(m, part, opts = {}) {
@@ -322,7 +322,7 @@ function initSocial(m, part, opts = {}) {
               <button class="btn btn-primary btn-sm" type="submit" id="socSend" disabled>${SOC_ICONS.send}<span>${esc(t('soc.send'))}</span></button></div>
           </div>
         </form>` : `
-        <div class="soc-login"><span>${esc(t('soc.login'))}</span><a class="btn btn-primary btn-sm" href="account.html?next=${encodeURIComponent(location.pathname.split('/').pop() + location.search)}">${esc(t('soc.loginBtn'))}</a></div>`}
+        <div class="soc-login"><span>${esc(t('soc.login'))}</span><a class="btn btn-primary btn-sm" href="account.html?next=${encodeURIComponent(window.DZX_ID ? 'movie.html?id=' + window.DZX_ID : location.pathname.split('/').pop() + location.search)}">${esc(t('soc.loginBtn'))}</a></div>`}
       <div class="soc-list">
         ${list.length ? list.map(commentHTML).join('') : api ? `<p class="acc-muted soc-empty">${esc(t('soc.empty'))}</p>` : ''}
       </div>

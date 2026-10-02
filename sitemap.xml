@@ -2,49 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dezomax.uz/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/catalog.html</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/index.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/sport.html</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/tv.html</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/plans.html</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/downloads.html</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/privacy.html</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/delete-account.html</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -170,7 +176,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=22</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -218,7 +224,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=30</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -290,7 +296,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=42</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -308,7 +314,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=45</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -362,7 +368,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=54</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -386,7 +392,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=58</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -398,7 +404,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=60</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -409,368 +415,368 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=62</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-bir-uyda-sevishganlar.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=63</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-daxshatli-uy.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=64</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-omadli-oshiqlar.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=65</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-qizil-oyna.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=66</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-nomussiz.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=67</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-kutilmagan-kelin.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=68</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-super-kelinchak.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=69</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-notanish-qotil.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=70</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-borilar-2-quvgin.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=71</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-borilar.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=72</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-qaysarginam.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=73</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-tilim-qursin-2.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=74</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-qaysarginam-2.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=75</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-ichkuyov.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=76</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-xoreograf.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=77</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-zamonaviy-sovchilar-4.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=78</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-oling-quda-bering-quda.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=79</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-snayper.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=80</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-sotqin.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=81</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-jasur.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=82</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-novda.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=83</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-18-kvadrat.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=84</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-uch-qahramon.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=85</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-telba.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=86</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-panoh.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=87</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-puling-bolsa.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=88</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-afv.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=89</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-tutqunlik.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=90</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-101-reys.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=91</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-oshiqlar.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=92</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-posht-arava.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=93</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-ogay-ona.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=94</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-men-talabaman.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=95</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-janob-hech-kim.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=96</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-shabnam.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=97</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-yugurganniki-emas-buyurganniki.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=98</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-qalb-kozi.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=99</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-yoqotilgan-jannat.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=100</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/uz-dadam-bilmasin.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=101</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2025-kulib-yashaylik.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=102</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2024-toydagi-tomosha.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=103</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2023-10-yillik-yubiley.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=104</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2022-kulgiterapiya.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=105</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2021-kulgularingizni-sogindim.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=106</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2019.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=107</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2018.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=108</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2017.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=109</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2016.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=110</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2015.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=111</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-avaz-2014.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=112</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2025-kuz.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=113</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2025.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=114</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2024-kuz.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=115</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2024.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=116</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2023-10-yillik-yubiley.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=117</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2022.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=118</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2021-kuz.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=119</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2019.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=120</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2018.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=121</loc>
-    <lastmod>2026-10-01</lastmod>
+    <loc>https://dezomax.uz/kino/konsert-million-2017.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=122</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -812,7 +818,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=129</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -938,7 +944,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=150</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

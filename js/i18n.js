@@ -185,6 +185,7 @@ const I18N = {
 
     'footer.about': 'DezoMax — filmlar, seriallar va multfilmlar uchun onlayn kinoteatr.',
     'footer.nav': 'Bo‘limlar',
+    'footer.films': 'Filmlar ro‘yxati',
     'footer.genres': 'Janrlar',
     'footer.rights': 'Barcha huquqlar himoyalangan.',
 
@@ -374,6 +375,7 @@ const I18N = {
 
     'footer.about': 'DezoMax — онлайн-кинотеатр фильмов, сериалов и мультфильмов.',
     'footer.nav': 'Разделы',
+    'footer.films': 'Список фильмов',
     'footer.genres': 'Жанры',
     'footer.rights': 'Все права защищены.',
 

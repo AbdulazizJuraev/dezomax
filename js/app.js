@@ -478,7 +478,7 @@ function sbInfoHTML(m, n) {
     <div class="sb-meta">${meta.map(x => `<span>${esc(x)}</span>`).join('')}</div>
     ${m.desc ? `<p class="sb-desc">${esc(descOf(m))}</p>` : ''}
     <div class="sb-actions">
-      <a class="btn btn-primary" href="movie.html?id=${m.id}">${ICONS.play}<span>${LANG === 'ru' ? 'Смотреть' : 'Ko‘rish'}</span></a>
+      <a class="btn btn-primary" href="${movieHref(m)}">${ICONS.play}<span>${LANG === 'ru' ? 'Смотреть' : 'Ko‘rish'}</span></a>
       <a class="btn btn-ghost sb-all" href="catalog.html?type=serial">${LANG === 'ru' ? 'Все сериалы' : 'Barcha seriallar'}</a>
     </div>`;
 }
@@ -516,7 +516,7 @@ function initSeriesBanner(root, list) {
 
   thumbs.forEach(b => b.addEventListener('click', () => { show(+b.dataset.i); restart(); }));
   // fonning bo'sh joyini bosish — shu serial sahifasi
-  sb.querySelector('.sb-stage').addEventListener('click', () => { location.href = `movie.html?id=${list[cur].id}`; });
+  sb.querySelector('.sb-stage').addEventListener('click', () => { location.href = movieHref(list[cur]); });
   show(0);
   restart();
 }

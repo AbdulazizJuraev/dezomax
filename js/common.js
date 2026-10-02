@@ -73,7 +73,7 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
     if (typeof MOVIES === 'undefined') return;
     const page = location.pathname.split('/').pop() || 'index.html';
     const admin = page === 'admin.html' || (document.body && document.body.classList.contains('page-admin'));
-    if (admin || page === 'movie.html') return;
+    if (admin || page === 'movie.html' || window.DZX_ID) return;
     // guruh kartasining o'zida video bo'lmasa ham, qismlaridan birida bo'lsa — ko'rinadi
     for (let i = MOVIES.length - 1; i >= 0; i--) {
       if (!hasFilm(MOVIES[i]) && !partsOf(MOVIES[i]).some(hasFilm)) MOVIES.splice(i, 1);
@@ -225,13 +225,19 @@ function watchBadgeHTML(m) {
 
 /* ---------- Kartochka ---------- */
 
+/* Kino havolasi: qidiruv tizimlari uchun tayyor sahifasi bo'lsa (js/seo-pages.js) — kino/<slug>.html */
+function movieHref(m) {
+  const p = typeof SEO_PAGES !== 'undefined' && SEO_PAGES[m.id];
+  return p ? `kino/${p}.html` : `movie.html?id=${m.id}`;
+}
+
 function cardHTML(m) {
   // yil yoki reyting noma'lum bo'lishi mumkin (masalan YouTube'dagi o'zbek filmlari)
   const meta = [m.year, m.type === 'serial' && m.seasons ? seasonsText(m.seasons) : genreName(m.genres[0])]
     .filter(Boolean).join('<i class="dot"></i>');
 
   return `
-  <a class="card reveal${m.franchise === 'konsert' ? ' is-wide' : ''}" href="movie.html?id=${m.id}">
+  <a class="card reveal${m.franchise === 'konsert' ? ' is-wide' : ''}" href="${movieHref(m)}">
     <div class="card-poster">
       ${posterHTML(m)}
       <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
@@ -423,7 +429,7 @@ function initLayout() {
   }
 
   // Joriy sahifani navigatsiyada belgilash
-  const page = location.pathname.split('/').pop() || 'index.html';
+  const page = /\/kino\//.test(location.pathname) ? 'kino' : location.pathname.split('/').pop() || 'index.html';   // kino/*.html — tools/gen-pages.js
   const params = new URLSearchParams(location.search);
   document.querySelectorAll('.nav a').forEach(a => {
     const href = a.getAttribute('href');
@@ -480,7 +486,7 @@ const MORE_LINKS = [
 
 /* Qaysi bo'lim ochiq turganini aniqlaymiz */
 function activeTab() {
-  const page = location.pathname.split('/').pop() || 'index.html';
+  const page = /\/kino\//.test(location.pathname) ? 'kino' : location.pathname.split('/').pop() || 'index.html';   // kino/*.html — tools/gen-pages.js
   if (page === 'sport.html') return 'sport';
   if (page === 'tv.html') return 'tv';
   if (page === 'search.html') return 'search';

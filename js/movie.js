@@ -4,7 +4,7 @@
    ============================================================ */
 
 const qp = new URLSearchParams(location.search);
-const movieId = Number(qp.get('id'));
+const movieId = Number(window.DZX_ID || qp.get('id'));   // kino/<slug>.html — tools/gen-pages.js
 
 /* Guruh (qismlar, js/common.js): qismning o'zi ochilsa — guruh sahifasiga, shu qism tanlangan holda */
 const partRedirect = typeof PART_OF !== 'undefined' && PART_OF.get(movieId);
@@ -343,7 +343,7 @@ function setMovieSeo(m) {
     name,
     alternateName: [m.title.uz, m.title.ru, ...aka].filter(x => x && x !== name),
     description: descOf(m),
-    url: `https://dezomax.uz/movie.html?id=${m.id}`,
+    url: 'https://dezomax.uz/' + movieHref(m),
     ...(m.poster ? { image: abs(m.poster) } : {}),
     ...(m.year ? { datePublished: String(m.year) } : {}),
     ...(m.genres?.length ? { genre: m.genres.map(genreName) } : {}),
@@ -354,6 +354,13 @@ function setMovieSeo(m) {
   let s = document.getElementById('movieLd');
   if (!s) { s = document.createElement('script'); s.type = 'application/ld+json'; s.id = 'movieLd'; document.head.appendChild(s); }
   s.textContent = JSON.stringify(ld);
+  // qidiruv uchun tayyor sahifasi bor kino — asosiy manzil o'sha (movie.html?id=N uning nusxasi)
+  if (!partNo) {
+    let c = document.head.querySelector('link[rel="canonical"]');
+    if (!c) { c = document.createElement('link'); c.rel = 'canonical'; document.head.appendChild(c); }
+    c.href = ld.url;
+    setMeta('property', 'og:url', ld.url);
+  }
 }
 
 /* ---------- Sahifani chizish ---------- */
@@ -375,6 +382,8 @@ function renderMovie() {
     return;
   }
 
+  // kino/<slug>.html sarlavhasi qidiruv uchun yozilgan (tools/gen-pages.js) — o'zbekcha bo'lsa o'zgartirmaymiz
+  if (!(window.DZX_ID && LANG === 'uz'))
   document.title = `${title(movie)}${partNo ? ` · ${partLabel(partNo)}` : ''}${movie.year ? ` (${movie.year})` : ''} — DezoMax`;
   setMovieSeo(movie);
 
