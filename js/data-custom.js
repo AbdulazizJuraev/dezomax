@@ -28776,12 +28776,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/FU9hebB6XnYiD1ZD329VTCDZ",
     "featured": false,
     "addedAt": 1790945840212,
-    "updatedAt": 1790946937038,
+    "updatedAt": 1790947003156,
     "duration": 47,
     "size": 704815373,
     "year": 2026,
     "audio": "uz",
-    "lang": "en"
+    "lang": "uz"
   },
   {
     "id": 3551,
@@ -28812,12 +28812,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/wUVLtoGfjqvcgbL99tPE6ha8",
     "featured": false,
     "addedAt": 1790945840212,
-    "updatedAt": 1790946937038,
+    "updatedAt": 1790947003156,
     "duration": 43,
     "size": 161989333,
     "year": 2026,
     "audio": "uz",
-    "lang": "en"
+    "lang": "uz"
   },
   {
     "id": 3552,
@@ -28848,12 +28848,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/33Koiy05SNa0bnX3O6RsAzZb",
     "featured": false,
     "addedAt": 1790945840212,
-    "updatedAt": 1790946937038,
+    "updatedAt": 1790947003156,
     "duration": 35,
     "size": 455039871,
     "year": 2026,
     "audio": "uz",
-    "lang": "en"
+    "lang": "uz"
   },
   {
     "id": 3553,
@@ -28884,12 +28884,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/pZxgC7fN-oyclfj8e5CFRO1S",
     "featured": false,
     "addedAt": 1790945840212,
-    "updatedAt": 1790946937038,
+    "updatedAt": 1790947003156,
     "duration": 47,
     "size": 704815373,
     "year": 2026,
     "audio": "uz",
-    "lang": "en"
+    "lang": "uz"
   },
   {
     "id": 151,
@@ -28937,7 +28937,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "cover": "images/marvel/wandavision-cover.jpg",
     "trailer": "https://www.youtube.com/watch?v=sj9J2ecsSpo",
     "video": "https://www.youtube.com/watch?v=X5Am3fEqvQI",
-    "lang": "en",
+    "lang": "uz",
     "duration": 27,
     "source": {
       "name": "Marvel Entertainment",
@@ -28950,7 +28950,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "parts": [
       151,
       152,
-      153
+      153,
+      3552,
+      3551,
+      3550,
+      3553,
+      1065980217
     ],
     "featured": false,
     "groupOrig": {
@@ -28960,7 +28965,7 @@ const CUSTOM_MOVIES = /*DATA*/[
       },
       "type": "serial"
     },
-    "updatedAt": 1790946947778
+    "updatedAt": 1790947003157
   },
   {
     "id": 152,
@@ -28993,14 +28998,14 @@ const CUSTOM_MOVIES = /*DATA*/[
     "poster": "images/marvel/wandavision.jpg",
     "trailer": "",
     "video": "https://www.youtube.com/watch?v=MDu8SVwYaa0",
-    "lang": "en",
+    "lang": "uz",
     "duration": 34,
     "source": {
       "name": "Marvel Entertainment",
       "url": "https://www.youtube.com/@marvel"
     },
     "featured": false,
-    "updatedAt": 1790946947778
+    "updatedAt": 1790947003156
   },
   {
     "id": 153,
@@ -29033,14 +29038,57 @@ const CUSTOM_MOVIES = /*DATA*/[
     "poster": "images/marvel/wandavision.jpg",
     "trailer": "",
     "video": "https://www.youtube.com/watch?v=NUW7dpNXfyU",
-    "lang": "en",
+    "lang": "uz",
     "duration": 30,
     "source": {
       "name": "Marvel Entertainment",
       "url": "https://www.youtube.com/@marvel"
     },
     "featured": false,
-    "updatedAt": 1790946947778
+    "updatedAt": 1790947003156
+  },
+  {
+    "id": 1065980217,
+    "slug": "wandavision",
+    "year": 2021,
+    "type": "serial",
+    "title": {
+      "uz": "WandaVision",
+      "ru": "Ванда/Вижн"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Elizabeth Olsen",
+      "Paul Bettany",
+      "Teyonah Parris"
+    ],
+    "desc": {
+      "uz": "«WandaVision» — 2021-yilgi AQSh seriali. 1 fasl, 9 qism. Rejissyor: Matt Shakman. Rollarda: Elizabeth Olsen, Paul Bettany, Teyonah Parris.",
+      "ru": "«Ванда/Вижн» — сериал 2021 года (США). Сезонов: 1, серий: 9. Режиссёр: Matt Shakman. В ролях: Elizabeth Olsen, Paul Bettany, Teyonah Parris."
+    },
+    "colors": [
+      "hsl(337 45% 28%)",
+      "hsl(357 50% 7%)"
+    ],
+    "trailer": "",
+    "video": "",
+    "seasons": 1,
+    "director": "Matt Shakman",
+    "tags": [
+      "WandaVision"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/20/WandaVision_logo.png",
+    "wiki": "Ванда/Вижн",
+    "lang": "uz",
+    "updatedAt": 1790947003157
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
