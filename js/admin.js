@@ -1812,7 +1812,14 @@ async function importTgSelected() {
 
   const opts = { type: $('#tgType').value, genre: $('#tgGenre').value, franchise: $('#tgFr').value, uz: $('#tgUz').checked };
   try {
-    const { items } = await dc('/api/tg/import', { method: 'POST', body: JSON.stringify({ channel: tgState.channel, items: picked }) });
+    // 25 tadan — tugmada jarayon ko'rinib turadi (avval bitta so'rov daqiqalab «qotib» turardi)
+    const items = [];
+    const CHUNK = 25;
+    for (let i = 0; i < picked.length; i += CHUNK) {
+      btn.querySelector('span').textContent = `DezoCloud’ga qo‘shilmoqda… ${Math.min(i + CHUNK, picked.length)}/${picked.length}`;
+      const part = await dc('/api/tg/import', { method: 'POST', body: JSON.stringify({ channel: tgState.channel, items: picked.slice(i, i + CHUNK) }) });
+      items.push(...part.items);
+    }
     // DezoCloud'da bor, lekin saytga yozilmay qolganlar (oldingi urinish yarim qolgan bo'lsa) ham qo'shiladi
     const ok = items.filter(r => r.ok && !onSite(r.url));
     const failed = items.filter(r => !r.ok);
