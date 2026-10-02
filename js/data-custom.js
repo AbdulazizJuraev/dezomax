@@ -20457,35 +20457,54 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "premyera",
     "type": "film",
     "title": {
-      "uz": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA",
-      "ru": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA"
+      "uz": "Jon Uik",
+      "ru": "Джон Уик"
     },
     "genres": [
-      "drama"
+      "action",
+      "thriller"
     ],
     "country": {
-      "uz": "—",
-      "ru": "—"
+      "uz": "AQSh",
+      "ru": "США"
     },
-    "cast": [],
+    "cast": [
+      "Киану Ривз",
+      "Микаэль Нюквист",
+      "Альфи Аллен",
+      "Уиллем Дефо",
+      "Дин Уинтерс",
+      "Эдрианн Палики"
+    ],
     "desc": {
       "uz": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA\n🎬 Nomi: Jon Uik 2\n➖➖➖➖➖➖➖\n🌎 Davlati: AQSH\n💽 Formati: MOBILE HD (480p)\n📆 Yili: 2017\n📊 IMDb: 7.5\n🇺🇿 Tili: Oʻzbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 2s | 02 minut\n\nYUQORI SIFATDA ORIGINAL HOLATDA FAQAT telegram kanalda",
-      "ru": "​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​#PREMYERA\n🎬 Nomi: Jon Uik 2\n➖➖➖➖➖➖➖\n🌎 Davlati: AQSH\n💽 Formati: MOBILE HD (480p)\n📆 Yili: 2017\n📊 IMDb: 7.5\n🇺🇿 Tili: Oʻzbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 2s | 02 minut\n\nYUQORI SIFATDA ORIGINAL HOLATDA FAQAT telegram kanalda"
+      "ru": "Джон Уик - на первый взгляд, самый обычный среднестатистический американец, который ведет спокойную мирную жизнь. Однако мало кто знает, что он был наёмным убийцей, причём одним из лучших профессионалов в своём деле. После того как сынок главы бандитской группы со своими приятелями угоняет его любимый «Мустанг» 1969 года выпуска, при этом убив его собаку Дейзи, которая была подарком недавно почившей супруги, Джон вынужден вернуться к своему прошлому. Теперь Уик начинает охоту за теми, кто имел неосторожность перейти ему дорогу, и он готов на всё, чтобы отомстить"
     },
     "colors": [
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://dezocloud.uz/t/g3sakb6S6-an?s=CL_LATpPGgeQtt7Wd5G5v_E8",
-    "trailer": "",
+    "poster": "https://image.tmdb.org/t/p/w500/2hfeF2566IKZ30c1BAay0N2lxBr.jpg",
+    "trailer": "https://www.youtube.com/watch?v=6r0s41Ju5XA",
     "video": "https://dezocloud.uz/s/CL_LATpPGgeQtt7Wd5G5v_E8",
     "featured": false,
     "addedAt": 1790945175354,
-    "updatedAt": 1790945175354,
-    "duration": 122,
+    "updatedAt": 1790948192494,
     "size": 535382269,
-    "year": 2026,
-    "audio": "uz"
+    "cover": "https://image.tmdb.org/t/p/w1280/ff2ti5DkA9UYLzyqhQfI2kZqEuh.jpg",
+    "year": 2014,
+    "duration": 101,
+    "rating": 7.5,
+    "director": "Чад Стахелски",
+    "audio": "uz",
+    "tags": [
+      "John Wick",
+      "Джон Уик"
+    ],
+    "tmdb": {
+      "id": 245891,
+      "type": "movie"
+    }
   },
   {
     "id": 3362,
