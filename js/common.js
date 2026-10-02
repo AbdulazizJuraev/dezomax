@@ -440,7 +440,8 @@ function initLayout() {
 
   // Ortga tugmasi — bosh sahifadan boshqa barcha sahifalarda, logotip oldida
   const headWrap = header && (header.querySelector('.wrap') || header);
-  if (headWrap && page !== 'index.html' && !headWrap.querySelector('.back-btn')) {
+  // admin sahifada yo'q — bosilsa saytga chiqib ketib, admin «yopilib qolardi» (admin ilovasida qaytish yo'li yo'q)
+  if (headWrap && page !== 'index.html' && page !== 'admin.html' && !headWrap.querySelector('.back-btn')) {
     headWrap.insertAdjacentHTML('afterbegin',
       `<button class="back-btn" type="button" aria-label="${LANG === 'ru' ? 'Назад' : 'Orqaga'}">${ICONS.back}</button>`);
     headWrap.querySelector('.back-btn').addEventListener('click', () => {
