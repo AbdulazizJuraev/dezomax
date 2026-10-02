@@ -7,6 +7,45 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2382,
+    "slug": "ice-age-continental-drift",
+    "type": "multfilm",
+    "title": {
+      "uz": "Muzlik davri: Ayro qitʼalar",
+      "ru": "Ледниковый период 4: Континентальный дрейф"
+    },
+    "genres": [
+      "fantasy",
+      "animation",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Muzlik davri: Ayro qitʼalar» — 2012-yilgi AQSh multfilmi. Rejissyor: Mike Thurmeier, Steve Martino. Saytda rasmiy treyleri bor.",
+      "ru": "«Ледниковый период 4: Континентальный дрейф» — американский компьютерно-анимационный приключенческий комедийный фильм 2012 года, снятый студией Blue Sky Studios и распространяемый студией 20th Century Fox."
+    },
+    "tags": [
+      "Ice Age: Continental Drift"
+    ],
+    "colors": [
+      "hsl(123 45% 28%)",
+      "hsl(143 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/6/6c/Ice_Age_Continental_Drift.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=2UpbYL-A3S0",
+    "video": "https://s6.faylmovi.ru/tarjima_multfilmlar/Muzlik_Davri_4_1080.mp4",
+    "featured": false,
+    "addedAt": 1790943589841,
+    "updatedAt": 1790943589841,
+    "year": 2012,
+    "duration": 88,
+    "director": "Mike Thurmeier, Steve Martino"
+  },
+  {
     "id": 2176,
     "slug": "ice-age-the-meltdown",
     "type": "multfilm",
