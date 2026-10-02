@@ -5582,3 +5582,14 @@ html.soc-lock { overflow: hidden; }
 .mv-official i { font-style: normal; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #2fbf71; color: #fff; font-size: 11px; flex: none; }
 .mv-official:hover { background: rgba(255, 0, 0, .16); }
 @media (max-width: 640px) { .mv-official { font-size: 13px; } }
+
+/* Ovoz tili — bayroqli tugmalar (js/movie.js langsHTML) */
+.player-tabs { align-items: center; }
+.player-langs { display: flex; gap: 6px; margin-left: auto; }
+.player-lang { display: grid; place-items: center; width: 46px; height: 34px; padding: 0; border-radius: 8px; border: 2px solid transparent;
+  background: var(--surface); cursor: pointer; opacity: .55; transition: opacity .15s, border-color .15s, transform .15s; }
+.player-lang svg { width: 30px; height: 20px; border-radius: 3px; display: block; box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
+.player-lang b { font-size: 11px; color: var(--text); }
+.player-lang:hover { opacity: .9; }
+.player-lang.is-active { opacity: 1; border-color: var(--accent); }
+.player-lang:active { transform: scale(.94); }

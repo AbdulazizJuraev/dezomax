@@ -17,7 +17,7 @@ const group = partRedirect ? null : MOVIES.find(m => m.id === movieId);
 const PARTS = typeof partsOf === 'function' ? partsOf(group) : [];
 const partNo = PARTS.length ? Math.min(Math.max(1, Math.round(+qp.get('part') || 1)), PARTS.length) : 0;
 // sahifa ma'lumotlari — guruh kartasidan, pleyer videosi — tanlangan qismdan
-const movie = partNo ? (({ video, videos, source }) => ({ ...group, video, videos, source: source || group.source }))(PARTS[partNo - 1]) : group;
+const movie = partNo ? (({ video, videos, source, lang, langs }) => ({ ...group, video, videos, source: source || group.source, lang: lang || group.lang, langs }))(PARTS[partNo - 1]) : group;
 const partUrl = n => `movie.html?id=${group.id}&part=${n}&play=1`;
 
 /* ---------- Pleyer ----------
@@ -239,8 +239,53 @@ function mountPlayer(url) {
   embed();
 }
 
+/* ---------- Ovoz tili: bayroqli tugmalar ----------
+   Kino (yoki qism) maydonlari:  lang: 'en'  — asosiy video (m.video) tili;
+   langs: { ru: 'https://…', uz: 'https://…' } — shu kinoning boshqa tildagi qonuniy versiyalari.
+   Tanlangan til eslab qolinadi (keyingi qism/kino ham shu tilda ochiladi, bo'lsa). */
+const LANG_FLAGS = {
+  uz: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.4" fill="#0099b5"/><rect y="13.6" width="30" height="6.4" fill="#1eb53a"/><rect y="6.4" width="30" height=".7" fill="#ce1126"/><rect y="12.9" width="30" height=".7" fill="#ce1126"/><circle cx="5" cy="3.2" r="2.2" fill="#fff"/><circle cx="5.9" cy="3.2" r="2" fill="#0099b5"/><circle cx="9" cy="2" r=".45" fill="#fff"/><circle cx="10.6" cy="2" r=".45" fill="#fff"/><circle cx="9" cy="3.6" r=".45" fill="#fff"/><circle cx="10.6" cy="3.6" r=".45" fill="#fff"/><circle cx="12.2" cy="2" r=".45" fill="#fff"/></svg>',
+  en: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#012169"/><path d="M0 0l30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0l30 20M30 0L0 20" stroke="#c8102e" stroke-width="1.4"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6"/><path d="M15 0v20M0 10h30" stroke="#c8102e" stroke-width="3.4"/></svg>',
+  ru: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#0039a6"/><rect y="13.33" width="30" height="6.67" fill="#d52b1e"/></svg>',
+  tr: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#e30a17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.2" cy="10" r="4" fill="#e30a17"/><path d="M15.5 10l3.6-1.2-2.2 3.1V8.1l2.2 3.1z" fill="#fff"/></svg>'
+};
+const LANG_NAMES = {
+  uz: { uz: 'O‘zbek tilida', ru: 'На узбекском' },
+  en: { uz: 'Ingliz tilida (asl nusxa)', ru: 'На английском (оригинал)' },
+  ru: { uz: 'Rus tilida', ru: 'На русском' },
+  tr: { uz: 'Turk tilida', ru: 'На турецком' }
+};
+const AUDIO_KEY = 'dezomax_audio_lang';
+
+function langsOf(m) {
+  if (!m || !m.video) return [];
+  const main = m.lang || (m.audio === 'uz' ? 'uz' : '');
+  const list = main ? [{ code: main, url: m.video }] : [];
+  for (const [code, url] of Object.entries(m.langs || {})) {
+    if (url && !list.some(l => l.code === code)) list.push({ code, url });
+  }
+  return list;
+}
+
+function pickLang(list) {
+  let want = '';
+  try { want = localStorage.getItem(AUDIO_KEY) || ''; } catch (e) {}
+  return list.find(l => l.code === want) || list.find(l => l.code === LANG) || list[0];
+}
+
+function langsHTML(list, active) {
+  if (!list.length) return '';
+  return `<div class="player-langs" role="group" aria-label="${LANG === 'ru' ? 'Язык озвучки' : 'Ovoz tili'}">${list.map(l => {
+    const name = (LANG_NAMES[l.code] || {})[LANG] || l.code.toUpperCase();
+    return `<button type="button" class="player-lang${l === active ? ' is-active' : ''}" data-lang="${esc(l.code)}" data-src="${esc(l.url)}" title="${esc(name)}" aria-label="${esc(name)}" aria-pressed="${l === active}">${LANG_FLAGS[l.code] || `<b>${esc(l.code.toUpperCase())}</b>`}</button>`;
+  }).join('')}</div>`;
+}
+
 function playerSectionHTML(m) {
   const sources = sourcesOf(m);
+  const langs = langsOf(m);
+  const lang = langs.length ? pickLang(langs) : null;
+  if (lang && sources[0] && sources[0].key === 'film') sources[0].url = lang.url;
 
   if (!sources.length) {
     return `
@@ -253,9 +298,9 @@ function playerSectionHTML(m) {
       </div>`;
   }
 
-  const tabs = sources.length > 1
-    ? `<div class="player-tabs">${sources.map((s, i) =>
-        `<button class="chip${i === 0 ? ' is-active' : ''}" data-src="${esc(s.url)}">${esc(s.label)}</button>`).join('')}</div>`
+  const tabs = sources.length > 1 || langs.length
+    ? `<div class="player-tabs">${sources.length > 1 ? sources.map((s, i) =>
+        `<button class="chip${i === 0 ? ' is-active' : ''}" data-key="${s.key}" data-src="${esc(s.url)}">${esc(s.label)}</button>`).join('') : ''}${langsHTML(langs, lang)}</div>`
     : '';
 
   const note = !m.video && m.trailer
@@ -489,14 +534,23 @@ function renderMovie() {
   // Pleyer: birinchi manbani yuklaymiz, tablar orqali almashtiriladi
   const sources = sourcesOf(movie);
   if (sources.length) {
-    mountPlayer(sources[0].url);
+    const startLang = langsOf(movie).length ? pickLang(langsOf(movie)) : null;   // film — tanlangan tildagisi
+    mountPlayer(startLang && sources[0].key === 'film' ? startLang.url : sources[0].url);
 
     const tabs = [...document.querySelectorAll('.player-tabs .chip')];
+    const flags = [...document.querySelectorAll('.player-lang')];
     const selectTab = btn => {
       tabs.forEach(x => x.classList.toggle('is-active', x === btn));
       mountPlayer(btn.dataset.src);
     };
     tabs.forEach(b => b.addEventListener('click', () => selectTab(b)));
+    // bayroq bosilsa — film shu tilda (treyler ochiq turgan bo'lsa ham filmga qaytadi)
+    flags.forEach(f => f.addEventListener('click', () => {
+      flags.forEach(x => { x.classList.toggle('is-active', x === f); x.setAttribute('aria-pressed', x === f); });
+      try { localStorage.setItem(AUDIO_KEY, f.dataset.lang); } catch (e) {}
+      const film = tabs.find(x => x.dataset.key === 'film');
+      if (film) { film.dataset.src = f.dataset.src; selectTab(film); } else mountPlayer(f.dataset.src);
+    }));
   }
 
   // telefonga yuklab olish (faqat ilovada, js/offline.js)

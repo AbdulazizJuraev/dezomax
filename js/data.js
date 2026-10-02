@@ -2658,6 +2658,7 @@ const MOVIES = [
     cover: "images/marvel/wandavision-cover.jpg",
     trailer: "https://www.youtube.com/watch?v=sj9J2ecsSpo",
     video: "https://www.youtube.com/watch?v=X5Am3fEqvQI",
+    lang: 'en',
     duration: 27,
     source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' },
     parts: [151, 152, 153],
@@ -2668,13 +2669,13 @@ const MOVIES = [
     title: { uz: "WandaVision (2-qism)", ru: "ВандаВижн (2 серия)" },
     genres: ["scifi","comedy","drama"], country: { uz: 'AQSh', ru: 'США' }, cast: [],
     desc: { uz: "", ru: "" }, colors: ["#8a1a2a","#10060a"], poster: "images/marvel/wandavision.jpg", trailer: "",
-    video: "https://www.youtube.com/watch?v=MDu8SVwYaa0", duration: 34, source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' }, featured: false
+    video: "https://www.youtube.com/watch?v=MDu8SVwYaa0", lang: 'en', duration: 34, source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' }, featured: false
   },
   {
     id: 153, slug: "wandavision-3-qism", year: 2021, type: 'serial', franchise: 'marvel',
     title: { uz: "WandaVision (3-qism)", ru: "ВандаВижн (3 серия)" },
     genres: ["scifi","comedy","drama"], country: { uz: 'AQSh', ru: 'США' }, cast: [],
     desc: { uz: "", ru: "" }, colors: ["#8a1a2a","#10060a"], poster: "images/marvel/wandavision.jpg", trailer: "",
-    video: "https://www.youtube.com/watch?v=NUW7dpNXfyU", duration: 30, source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' }, featured: false
+    video: "https://www.youtube.com/watch?v=NUW7dpNXfyU", lang: 'en', duration: 30, source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' }, featured: false
   }
 ];
