@@ -5690,3 +5690,47 @@ html.soc-lock { overflow: hidden; }
   .t10-nav { display: none; }
   .t10-title { font-size: 13px; }
 }
+
+/* ---------- Akkaunt: ism profil kartasida tahrirlanadi (js/account.js bindNameEdit) ---------- */
+.acc-name { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.acc-name b { min-width: 0; font-size: 16.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acc-name-edit { flex: none; display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 8px;
+  background: rgba(255, 255, 255, .08); color: var(--text-dim); cursor: pointer; transition: background .15s, color .15s; }
+.acc-name-edit:hover { background: rgba(10, 147, 220, .22); color: #fff; }
+.acc-name-edit svg { width: 14px; height: 14px; }
+.acc-name-form { display: flex; gap: 6px; width: 100%; margin-bottom: 2px; }
+.acc-name-form .acc-input { flex: 1; min-width: 0; height: 34px; padding: 0 10px; font-size: 14px; }
+.acc-name-ok { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 10px; background: var(--grad); color: #fff; cursor: pointer; }
+.acc-name-ok svg { width: 16px; height: 16px; }
+
+/* Sozlamalar: ixcham kartochkalar */
+.acc-card.is-compact { padding: 4px 16px; }
+.acc-card.is-compact .acc-setting { padding: 9px 0; }
+.acc-card.is-compact .acc-setting b, .acc-card.is-compact .acc-toggle b { font-size: 13.5px; }
+.acc-card.is-compact .acc-muted { font-size: 13px; }
+.acc-card.is-compact .select { padding-top: 6px; padding-bottom: 6px; font-size: 13px; }
+
+/* Bo'limlar — katta rangli kartochkalar (chapdagi Tarif/Obunalar uslubida) */
+.acc-sections .acc-sections-grid { gap: 10px; }
+.acc-sec-tile { min-height: 104px; border-color: transparent; color: #fff; }
+.acc-sec-tile b { max-width: 72%; font-size: 14.5px; line-height: 1.2; overflow-wrap: normal; word-break: keep-all; text-shadow: 0 1px 6px rgba(0, 0, 0, .35); }
+.acc-sec-tile.is-fav     { background: linear-gradient(135deg, #e11d48, #881337); }
+.acc-sec-tile.is-dl      { background: linear-gradient(135deg, #0891b2, #134e4a); }
+.acc-sec-tile.is-plans   { background: linear-gradient(135deg, #d97706, #7c2d12); }
+.acc-sec-tile.is-cat     { background: linear-gradient(135deg, #2563eb, #1e3a8a); }
+.acc-sec-tile.is-film    { background: linear-gradient(135deg, #7c3aed, #3b0764); }
+.acc-sec-tile.is-serial  { background: linear-gradient(135deg, #ea580c, #7c2d12); }
+.acc-sec-tile.is-cartoon { background: linear-gradient(135deg, #16a34a, #14532d); }
+.acc-sec-tile .acc-tile-hero { width: 112px; height: 112px; right: -14px; bottom: -18px; }
+.acc-sec-glyph { position: absolute; right: -10px; bottom: -14px; width: 104px; height: 104px; transform: rotate(14deg); pointer-events: none;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, .4)); }
+.acc-sec-glyph svg { width: 100%; height: 100%; }
+.acc-sec-count { position: absolute; top: 12px; right: 12px; z-index: 1; min-width: 24px; padding: 3px 8px; border-radius: 999px; font-style: normal; font-size: 12px;
+  font-weight: 800; text-align: center; background: rgba(255, 255, 255, .22); backdrop-filter: blur(4px); }
+@media (max-width: 640px) {
+  .acc-sec-tile { min-height: 92px; }
+  .acc-sec-tile b { font-size: 13.5px; }
+  .acc-sec-tile .acc-tile-hero { width: 92px; height: 92px; }
+  .acc-sec-glyph { width: 84px; height: 84px; }
+}
+.acc-card.is-compact .acc-toggle { padding: 7px 0; }

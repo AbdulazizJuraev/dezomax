@@ -76,6 +76,7 @@ Object.assign(I18N.uz, {
   'acc.promoEmpty': 'Hali promokod ishlatilmagan',
   'acc.payEmpty': 'To‘lovlar yo‘q',
   'acc.setName': 'Ismingiz',
+  'acc.editName': 'Ismni o‘zgartirish',
   'acc.save': 'Saqlash',
   'acc.saved': 'Saqlandi',
   'acc.autoplay': 'Keyingi videoni avtomatik boshlash',
@@ -183,6 +184,7 @@ Object.assign(I18N.ru, {
   'acc.promoEmpty': 'Промокоды ещё не использовались',
   'acc.payEmpty': 'Платежей нет',
   'acc.setName': 'Ваше имя',
+  'acc.editName': 'Изменить имя',
   'acc.save': 'Сохранить',
   'acc.saved': 'Сохранено',
   'acc.autoplay': 'Автозапуск следующего видео',
@@ -265,7 +267,8 @@ const AI = {
   chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
   logout:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>',
   google:  '<svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>',
-  check:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+  check:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  pen:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19.5 8.5a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>'
 };
 const icon = name => AI[name] || ICONS[name] || '';
 
@@ -369,6 +372,17 @@ function buyPlan(planId, days, price, renew = false) {
 
 /* ================= KIRISH ================= */
 
+/* Bo'limlar kartochkalari: rang va katta rasm (chapdagi Tarif/Obunalar kartalari uslubida) */
+const SECTION_LOOK = {
+  'favorites.html': { cls: 'fav', glyph: '<svg viewBox="0 0 24 24"><defs><linearGradient id="gHeart" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd1dc"/><stop offset="1" stop-color="#ff4d7a"/></linearGradient></defs><path fill="url(#gHeart)" d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21.2l7.7-7.7 1.1-1a5.5 5.5 0 0 0 0-7.9z"/><ellipse cx="7.6" cy="7.6" rx="2.2" ry="1.3" fill="#fff" opacity=".55" transform="rotate(-35 7.6 7.6)"/></svg>' },
+  'downloads.html': { cls: 'dl', glyph: '<svg viewBox="0 0 24 24"><defs><linearGradient id="gDl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0fbff"/><stop offset="1" stop-color="#5ee0f5"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="url(#gDl)"/><path d="M12 6.5v8M8.3 11.3 12 15l3.7-3.7M7.5 17.8h9" fill="none" stroke="#0e7490" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' },
+  'plans.html': { cls: 'plans', img: 'crown.webp' },
+  'catalog.html': { cls: 'cat', glyph: '<svg viewBox="0 0 24 24"><defs><linearGradient id="gCat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs><rect x="2.5" y="2.5" width="8.5" height="8.5" rx="2.4" fill="url(#gCat)"/><rect x="13" y="2.5" width="8.5" height="8.5" rx="2.4" fill="url(#gCat)" opacity=".85"/><rect x="2.5" y="13" width="8.5" height="8.5" rx="2.4" fill="url(#gCat)" opacity=".85"/><rect x="13" y="13" width="8.5" height="8.5" rx="2.4" fill="url(#gCat)"/></svg>' },
+  'catalog.html?type=film': { cls: 'film', img: 'play.webp' },
+  'catalog.html?type=serial': { cls: 'serial', img: 'tv.webp' },
+  'catalog.html?type=multfilm': { cls: 'cartoon', glyph: '<svg viewBox="0 0 24 24"><defs><linearGradient id="gStar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff7c2"/><stop offset="1" stop-color="#facc15"/></linearGradient></defs><path fill="url(#gStar)" d="M12 2.2l2.9 6.1 6.7.8-4.9 4.6 1.3 6.6L12 17.1l-6 3.2 1.3-6.6-4.9-4.6 6.7-.8z"/><circle cx="9.6" cy="11.4" r="1" fill="#854d0e"/><circle cx="14.4" cy="11.4" r="1" fill="#854d0e"/><path d="M9.8 14.2c1.2 1 3.2 1 4.4 0" fill="none" stroke="#854d0e" stroke-width="1.1" stroke-linecap="round"/></svg>' }
+};
+
 /* Oldingi "Yana" menyusidagi bo'limlar — endi akkaunt sahifasida */
 function sectionsHTML() {
   const links = (typeof MORE_LINKS !== 'undefined' ? MORE_LINKS : []).filter(l => !l.sep && l.href !== 'account.html');
@@ -379,10 +393,11 @@ function sectionsHTML() {
       <div class="acc-sections-grid">
         ${links.map(l => {
           const n = l.badge === 'fav' ? nFav : l.badge === 'dl' ? nDl : 0;
-          return `<a class="acc-section" href="${l.href}">
-            <span class="acc-section-icon">${ICONS[l.icon] || ''}</span>
-            <span class="acc-section-label">${t(l.label)}</span>
-            ${n ? `<b class="acc-badge">${n}</b>` : ''}
+          const look = SECTION_LOOK[l.href] || {};
+          return `<a class="acc-tile acc-sec-tile is-${look.cls || 'plain'}" href="${l.href}">
+            ${look.img ? `<img class="acc-tile-hero" src="images/account/${look.img}" alt="" loading="lazy">` : `<span class="acc-sec-glyph" aria-hidden="true">${look.glyph || ICONS[l.icon] || ''}</span>`}
+            <b>${t(l.label)}</b>
+            ${n ? `<em class="acc-sec-count">${n}</em>` : ''}
           </a>`;
         }).join('')}
       </div>
@@ -517,7 +532,10 @@ function renderAccount() {
       <div class="acc-profile">
         ${avatarHTML({ ...u, name: profile.name || u.name }, 'avatar avatar-lg')}
         <div class="acc-profile-info">
-          <b>${esc(profile.name || accountLabel(u))}</b>
+          <div class="acc-name" id="accName">
+            <b>${esc(profile.name || accountLabel(u))}</b>
+            <button type="button" class="acc-name-edit" id="accNameEdit" aria-label="${esc(t('acc.editName'))}" title="${esc(t('acc.editName'))}">${AI.pen}</button>
+          </div>
           <small>${esc(u.email || formatPhone(u.phone))}</small>
           <span class="acc-profile-since">${t('acc.memberSince')} ${fmtDate(profile.createdAt)}</span>
         </div>
@@ -590,10 +608,32 @@ function renderAccount() {
     </section>`;
 
   bindLang(root);
+  bindNameEdit(root);
   root.querySelectorAll('[data-logout]').forEach(b => b.addEventListener('click', logout));
   root.querySelector('#tvQrBtn')?.addEventListener('click', () => openQrScanner());
   if (active && BINDERS[active]) BINDERS[active](root.querySelector('#accPanel'));
   if (sec && !wide) window.scrollTo(0, 0);
+}
+
+/* Ismni profil kartasining o'zida tahrirlash (qalamcha → maydon → ✓) */
+function bindNameEdit(root) {
+  const box = root.querySelector('#accName');
+  root.querySelector('#accNameEdit')?.addEventListener('click', () => {
+    box.innerHTML = `<form class="acc-name-form" id="nameForm">
+        <input class="acc-input" id="nameInput" type="text" maxlength="40" value="${esc(profile.name || '')}" placeholder="${esc(t('acc.setName'))}" aria-label="${esc(t('acc.setName'))}">
+        <button type="submit" class="acc-name-ok" aria-label="${esc(t('acc.save'))}">${AI.check}</button>
+      </form>`;
+    const inp = box.querySelector('#nameInput');
+    inp.focus(); inp.select();
+    inp.addEventListener('keydown', e => { if (e.key === 'Escape') renderAccount(); });
+    box.querySelector('#nameForm').addEventListener('submit', e => {
+      e.preventDefault();
+      profile.name = inp.value.trim();
+      const u = Auth.user();
+      if (u) { u.name = profile.name; localStorage.setItem(AUTH_USER_KEY, JSON.stringify(u)); renderAccountButtons(); }
+      rerender(t('acc.saved'));
+    });
+  });
 }
 
 async function logout() {
@@ -744,20 +784,7 @@ const SECTIONS = {
     const s = profile.settings || {};
     const u = Auth.user();
     return `
-      <div class="acc-card">
-        <div class="acc-setting">
-          <b>${t('acc.language')}</b>
-          ${langSwitchHTML()}
-        </div>
-      </div>
-      <form class="acc-card" id="nameForm">
-        <label class="acc-label" for="nameInput">${t('acc.setName')}</label>
-        <div class="acc-promo-row">
-          <input class="acc-input" id="nameInput" type="text" maxlength="40" value="${esc(profile.name || '')}">
-          <button class="btn btn-ghost" type="submit">${t('acc.save')}</button>
-        </div>
-      </form>
-      <div class="acc-card">
+      <div class="acc-card is-compact">
         ${toggleHTML('setAutoplay', s.autoplay !== false, t('acc.autoplay'))}
         <div class="acc-setting">
           <b>${t('acc.quality')}</b>
@@ -767,7 +794,7 @@ const SECTIONS = {
           </select>
         </div>
       </div>
-      <div class="acc-card">
+      <div class="acc-card is-compact">
         <div class="acc-setting">
           <b>${t('acc.loginMethod')}</b>
           <span class="acc-muted">Google · ${esc(u.email || formatPhone(u.phone))}</span>
@@ -940,13 +967,6 @@ const BINDERS = {
 
   settings(p) {
     p.querySelectorAll('[data-logout]').forEach(b => b.addEventListener('click', logout));
-    p.querySelector('#nameForm').addEventListener('submit', e => {
-      e.preventDefault();
-      profile.name = p.querySelector('#nameInput').value.trim();
-      const u = Auth.user();
-      if (u) { u.name = profile.name; localStorage.setItem(AUTH_USER_KEY, JSON.stringify(u)); renderAccountButtons(); }
-      rerender(t('acc.saved'));
-    });
     p.querySelector('#setAutoplay').addEventListener('change', e => { profile.settings.autoplay = e.target.checked; save(); });
     p.querySelector('#setQuality').addEventListener('change', e => {
       profile.settings.quality = e.target.value;
