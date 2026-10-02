@@ -73,7 +73,8 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
     if (typeof MOVIES === 'undefined') return;
     const page = location.pathname.split('/').pop() || 'index.html';
     const admin = page === 'admin.html' || (document.body && document.body.classList.contains('page-admin'));
-    if (admin || page === 'movie.html' || window.DZX_ID) return;
+    // Marvel sahifasi — treyleri bor filmlar ham kerak (ma'lumot sahifasi, film ko'rsatilmaydi)
+    if (admin || page === 'movie.html' || page === 'marvel.html' || window.DZX_ID) return;
     // guruh kartasining o'zida video bo'lmasa ham, qismlaridan birida bo'lsa — ko'rinadi
     for (let i = MOVIES.length - 1; i >= 0; i--) {
       if (!hasFilm(MOVIES[i]) && !partsOf(MOVIES[i]).some(hasFilm)) MOVIES.splice(i, 1);
@@ -500,7 +501,8 @@ const MORE_LINKS = [
   { href: 'catalog.html',               icon: 'grid', label: 'nav.catalog' },
   { href: 'catalog.html?type=film',     icon: 'film', label: 'nav.films' },
   { href: 'catalog.html?type=serial',   icon: 'tv',   label: 'nav.series' },
-  { href: 'catalog.html?type=multfilm', icon: 'grid', label: 'nav.cartoons' }
+  { href: 'catalog.html?type=multfilm', icon: 'grid', label: 'nav.cartoons' },
+  { href: 'marvel.html',                icon: 'film', label: 'nav.marvel' }
 ];
 
 /* Qaysi bo'lim ochiq turganini aniqlaymiz */

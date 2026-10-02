@@ -37,6 +37,7 @@ const pages = [
   ['', 'daily', '1.0'],
   ['catalog.html', 'daily', '0.9'],
   ['kino/index.html', 'daily', '0.9'],
+  ['marvel.html', 'weekly', '0.8'],
   ['sport.html', 'daily', '0.7'],
   ['tv.html', 'weekly', '0.7'],
   ['plans.html', 'monthly', '0.5'],
