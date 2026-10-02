@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2215,
+    "slug": "home-alone-2-lost-in-new-york",
+    "type": "film",
+    "title": {
+      "uz": "Uyda yolgʻiz 2",
+      "ru": "Один дома 2: Потерявшийся в Нью-Йорке"
+    },
+    "genres": [
+      "comedy",
+      "detective",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Catherine O'Hara",
+      "Rob Schneider",
+      "Devin Ratray",
+      "Eddie Bracken"
+    ],
+    "desc": {
+      "uz": "«Uyda yolgʻiz 2» — 1992-yilgi AQSh filmi. Rejissyor: Chris Columbus. Rollarda: Catherine O'Hara, Rob Schneider, Devin Ratray. Saytda rasmiy treyleri bor.",
+      "ru": "«Один дома 2: Потерявшийся в Нью-Йорке» — американский рождественский комедийный и семейный фильм 1992 года режиссёра Криса Коламбуса, сценариста и продюсера Джона Хьюза."
+    },
+    "tags": [
+      "Home Alone 2: Lost in New York"
+    ],
+    "colors": [
+      "hsl(326 45% 28%)",
+      "hsl(346 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/5/50/Home_Alone_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=ZD1D3w0RA60",
+    "video": "https://t.me/uyda_yollgiz/12",
+    "featured": false,
+    "addedAt": 1790942711572,
+    "updatedAt": 1790942711572,
+    "year": 1992,
+    "duration": 120,
+    "director": "Chris Columbus"
+  },
+  {
     "id": 2077,
     "slug": "home-alone",
     "type": "film",
