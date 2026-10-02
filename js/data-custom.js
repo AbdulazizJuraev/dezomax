@@ -7,6 +7,50 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2077,
+    "slug": "home-alone",
+    "type": "film",
+    "title": {
+      "uz": "Uyda yolgʻiz",
+      "ru": "Один дома"
+    },
+    "genres": [
+      "comedy",
+      "adventure",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Macaulay Culkin",
+      "Joe Pesci",
+      "Daniel Stern",
+      "John Heard"
+    ],
+    "desc": {
+      "uz": "«Uyda yolgʻiz» — 1990-yilgi AQSh filmi. Rejissyor: Chris Columbus. Rollarda: Macaulay Culkin, Joe Pesci, Daniel Stern. Saytda rasmiy treyleri bor.",
+      "ru": "«Один дома» — американский рождественский комедийный фильм производства и авторства Джона Хьюза, который в трёх первых фильмах выступил создателем персонажей, сценаристом, а также главным продюсером со своей компанией Hughes Entertainment."
+    },
+    "tags": [
+      "Home Alone"
+    ],
+    "colors": [
+      "hsl(237 45% 28%)",
+      "hsl(257 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/7/76/Home_alone_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=LgKSDXhJL9g",
+    "video": "https://t.me/uyda_yollgiz/11",
+    "featured": false,
+    "addedAt": 1790942677206,
+    "updatedAt": 1790942677206,
+    "year": 1990,
+    "duration": 103,
+    "director": "Chris Columbus"
+  },
+  {
     "id": 1028840385,
     "slug": "hotel-transylvania-3-summer-vacation",
     "type": "multfilm",
