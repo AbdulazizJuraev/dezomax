@@ -5734,3 +5734,38 @@ html.soc-lock { overflow: hidden; }
   .acc-sec-glyph { width: 84px; height: 84px; }
 }
 .acc-card.is-compact .acc-toggle { padding: 7px 0; }
+
+/* ---------- Futer: ijtimoiy tarmoqlar, akkaunt, reklama yuzasidan ---------- */
+.footer { position: relative; padding: 44px 0 22px; border-top: 1px solid var(--line);
+  background: radial-gradient(60% 120% at 0% 0%, rgba(10, 147, 220, .10), transparent 60%), var(--bg-2); }
+.footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1.4fr; gap: 32px; margin-bottom: 28px; }
+.footer h4 { margin: 4px 0 14px; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
+.footer-brand p { max-width: 320px; }
+.footer-social { display: flex; gap: 10px; margin-top: 18px; }
+.footer-social a { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; color: #fff;
+  background: var(--surface); border: 1px solid var(--line); transition: transform .18s, background .18s, border-color .18s; }
+.footer-social a svg { width: 20px; height: 20px; }
+.footer-social a:hover { transform: translateY(-2px); border-color: transparent; }
+.footer-social .fs-yt:hover { background: #ff0033; }
+.footer-social .fs-ig:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+.footer-social .fs-tg:hover { background: #229ed9; }
+.footer-ads { padding: 18px; border-radius: 18px; background: linear-gradient(135deg, rgba(10, 147, 220, .16), rgba(109, 40, 217, .12)); border: 1px solid rgba(10, 147, 220, .28); }
+.footer-ads h4 { color: var(--text); margin-top: 0; }
+.footer-ads p { margin: 0 0 14px; font-size: 13.5px; line-height: 1.55; }
+.footer-ads-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: #229ed9; color: #fff;
+  font-size: 14px; font-weight: 700; transition: filter .18s, transform .18s; }
+.footer-ads-btn svg { width: 18px; height: 18px; }
+.footer-ads-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 18px; font-size: 13px; color: var(--text-faint); }
+.footer-legal { display: flex; gap: 18px; flex-wrap: wrap; }
+.footer-legal a { color: var(--text-faint); }
+.footer-legal a:hover { color: var(--accent); }
+@media (max-width: 1000px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand, .footer-ads { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .footer { padding: 32px 0 calc(96px + var(--sab)); }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 26px 18px; }
+  .footer .footer-grid ul { flex-direction: column; flex-wrap: nowrap; gap: 10px; }
+}
