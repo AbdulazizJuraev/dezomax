@@ -37,10 +37,10 @@ const CUSTOM_MOVIES = /*DATA*/[
     ],
     "poster": "https://upload.wikimedia.org/wikipedia/en/2/24/Ice_Age_Dawn_of_the_Dinosaurs_theatrical_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
     "trailer": "https://www.youtube.com/watch?v=bLeuH8OufmU",
-    "video": "https://t.me/muzlikDavriBarchaQismlar/6",
+    "video": "https://t.me/muzlikDavriBarchaQismlar/8",
     "featured": false,
     "addedAt": 1790943167633,
-    "updatedAt": 1790943167633,
+    "updatedAt": 1790943254616,
     "year": 2009,
     "duration": 94,
     "director": "Carlos Saldanha, Mike Thurmeier"
