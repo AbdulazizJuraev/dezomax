@@ -7618,34 +7618,56 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "abdul-amidhon-s-nggi-imperator",
     "type": "serial",
     "title": {
-      "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”",
-      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР”"
+      "uz": "Taxtga egalik huquqi. Abdulhamid",
+      "ru": "Права на престол. Абдулхамид"
     },
     "genres": [
-      "drama"
+      "action",
+      "drama",
+      "adventure",
+      "war"
     ],
     "country": {
-      "uz": "—",
-      "ru": "—"
+      "uz": "Turkiya",
+      "ru": "Турция"
     },
-    "cast": [],
+    "cast": [
+      "Bülent İnal",
+      "Duygu Gürcan",
+      "Hakan Boyav",
+      "Bahadır Yenişehirlioğlu",
+      "Taner Ertürkler",
+      "Halil Kumova"
+    ],
     "desc": {
       "uz": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n339-қисм.\n\n👉",
-      "ru": "“АБДУЛҲАМИДХОН – СЎНГГИ ИМПЕРАТОР” \n339-қисм.\n\n👉"
+      "ru": "Сериал рассказывает о долгом и трудном пути к престолу султана Абдулхамида II — последнего императора великой Османской империи. Для того чтобы возглавить огромное государство, ему потребовалось пройти через беды и предательства и свергнуть с трона собственного брата. Годы его султаната связаны с греко-турецкой войной, 1-м сионистским конгрессом, вопросом о палестинских землях и открытием железной дороги в Хиджазе. Абдулхамида II называли Кровавым султаном, но в то же время и Великим правителем.."
     },
     "colors": [
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://dezocloud.uz/t/yfgD5wRdMKeR?s=NhRX-lm3AjHKtUKXrOycx9ld",
+    "poster": "https://image.tmdb.org/t/p/w500/fmaWiokhUVDsVkCfoWaQEDFZFFP.jpg",
     "trailer": "",
     "video": "https://dezocloud.uz/s/NhRX-lm3AjHKtUKXrOycx9ld",
     "featured": false,
     "addedAt": 1790842037568,
-    "updatedAt": 1790842037568,
-    "duration": 43,
-    "year": 2026,
-    "audio": "uz"
+    "updatedAt": 1790948367144,
+    "cover": "https://image.tmdb.org/t/p/w1280/hU0nzL6eKsdzeMaEt3mqWMCwYgM.jpg",
+    "year": 2017,
+    "duration": 120,
+    "rating": 7.6,
+    "director": "Serdar Akar",
+    "audio": "uz",
+    "tags": [
+      "Payitaht: Abdülhamid",
+      "Payitaht: Abdulhamid",
+      "Права на престол. Абдулхамид"
+    ],
+    "tmdb": {
+      "id": 70788,
+      "type": "tv"
+    }
   },
   {
     "id": 2987,
