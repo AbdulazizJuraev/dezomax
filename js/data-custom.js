@@ -7,6 +7,49 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 2894,
+    "slug": "home-alone-3",
+    "type": "film",
+    "title": {
+      "uz": "Uyda yolgʻiz 3",
+      "ru": "Один дома 3"
+    },
+    "genres": [
+      "action",
+      "comedy",
+      "family"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Alex D. Linz",
+      "Aleksander Krupa",
+      "Marian Seldes"
+    ],
+    "desc": {
+      "uz": "«Uyda yolgʻiz 3» — 1997-yilgi AQSh filmi. Rejissyor: Raja Gosnell. Rollarda: Alex D. Linz, Aleksander Krupa, Marian Seldes. Saytda rasmiy treyleri bor.",
+      "ru": "«Один дома 3» — американский семейный комедийный фильм 1997 года производства и авторства Джона Хьюза, режиссёром которого выступил Раджа Госнелл, для которого данный фильм стал его режиссёрским дебютом."
+    },
+    "tags": [
+      "Home Alone 3"
+    ],
+    "colors": [
+      "hsl(259 45% 28%)",
+      "hsl(279 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/c/cc/Home_Alone_3_film.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=URlV3H4jevY",
+    "video": "https://t.me/uyda_yollgiz/13",
+    "featured": false,
+    "addedAt": 1790942741523,
+    "updatedAt": 1790942741523,
+    "year": 1997,
+    "duration": 102,
+    "director": "Raja Gosnell"
+  },
+  {
     "id": 2215,
     "slug": "home-alone-2-lost-in-new-york",
     "type": "film",
