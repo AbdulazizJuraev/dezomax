@@ -185,6 +185,13 @@ const comp = (o, prepId, amount, extra = {}) => {
   assert.ok(dl.find(d => d.current && d.id === 'dtab001' && d.os === 'iOS')); ok('eski sessiya qurilmasini keyin yozish mumkin');
   assert.equal((await call('GET', '/api/devices', { token: tk })).json.devices.every(d => d.id !== 'dpc0001'), true); ok('boshqa akkaunt qurilmalari ko‘rinmaydi');
   dl = (await call('POST', '/api/device', { token: old, body: { device: { id: 'dtab001', os: 'Android', app: 'Chrome', model: 'SM-A515F', type: 'phone' } } })).json.devices;
+  const old2 = (await call('POST', '/api/login', { body: { idToken: 'ok:dv' } })).json.token;   // yana bitta «eski kirish»
+  dl = (await call('GET', '/api/devices', { token: old })).json.devices;
+  const oldRow = dl.find(d => /^s[0-9a-f]{12}$/.test(d.id));
+  assert.ok(oldRow);
+  dl = (await call('POST', '/api/devices/remove', { token: old, body: { id: oldRow.id } })).json.devices;
+  assert.ok(!dl.find(d => d.id === oldRow.id)); assert.equal((await call('GET', '/api/me', { token: old2 })).status, 401); ok('«eski kirish» qatorini chiqarish ishlaydi');
+  dl = (await call('POST', '/api/device', { token: old, body: { device: { id: 'dtab001', os: 'Android', app: 'Chrome', model: 'SM-A515F', type: 'phone' } } })).json.devices;
   const me1 = dl.find(d => d.current);
   assert.equal(me1.model, 'SM-A515F'); assert.ok(me1.ip && me1.lastSeen); ok('qurilma modeli, IP va oxirgi faollik saqlanadi');
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');

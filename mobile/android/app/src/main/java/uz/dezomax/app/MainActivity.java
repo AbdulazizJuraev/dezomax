@@ -103,8 +103,15 @@ public class MainActivity extends BridgeActivity {
             String ua = webView.getSettings().getUserAgentString();
             java.util.regex.Matcher chrome = java.util.regex.Pattern.compile("Chrome/([\\d.]+)").matcher(ua == null ? "" : ua);
             String ver = chrome.find() ? chrome.group(1) : "140.0.0.0";
+            // oxirida telefon modeli — Akkaunt → Qurilmalar ro'yxatida ko'rinadi (masalan «Samsung SM-A515F»)
+            String maker = Build.MANUFACTURER == null ? "" : Build.MANUFACTURER.trim();
+            String model = Build.MODEL == null ? "" : Build.MODEL.trim();
+            if (!maker.isEmpty() && !model.toLowerCase().startsWith(maker.toLowerCase()))
+                model = Character.toUpperCase(maker.charAt(0)) + maker.substring(1) + " " + model;
+            model = model.replaceAll("[^\\w .\\-]", "").trim();
             webView.getSettings().setUserAgentString(
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/" + ver + " Safari/537.36 DezoMaxApp");
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/" + ver + " Safari/537.36 DezoMaxApp"
+                + (model.isEmpty() ? "" : " (" + model + ")"));
         }
 
         // To'liq ekran — barcha telefonlarda (Android 15 dan eskilarida ham):

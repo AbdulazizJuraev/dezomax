@@ -493,7 +493,7 @@ function createApp(cfg, deps = {}) {
           if (!/^[\w-]{4,41}$/.test(id)) return send(res, 400, { error: 'Noto‘g‘ri so‘rov' });
           const cur = devicesOf(user).find(d => d.current);
           if (cur && cur.id === id) return send(res, 400, { error: 'Bu qurilmadan «Chiqish» tugmasi bilan chiqing' });
-          q.dropDevice.run(user.uid, id, id, user.th);
+          q.dropDevice.run(user.uid, id, /^s[0-9a-f]{12}$/.test(id) ? id.slice(1) : '-', user.th);
           return send(res, 200, { devices: devicesOf(user) });
         }
 

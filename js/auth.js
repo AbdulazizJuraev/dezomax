@@ -127,7 +127,7 @@ const deviceModelReady = (async () => {
 function deviceInfo() {
   const ua = navigator.userAgent;
   // Android ilovasi YouTube uchun o'zini kompyuter brauzeri deb tanishtiradi (DezoMaxApp belgisi bilan)
-  if (/DezoMaxApp/.test(ua)) return { id: deviceId(), os: 'Android', app: 'DezoMax App', model: deviceModel(), type: 'phone' };
+  if (/DezoMaxApp/.test(ua)) return { id: deviceId(), os: 'Android', app: 'DezoMax App', model: (/DezoMaxApp \(([^)]+)\)/.exec(ua) || [])[1] || deviceModel(), type: 'phone' };
   const os = /Android/i.test(ua) ? 'Android'
     : /iPhone|iPad|iPod/i.test(ua) ? 'iOS'
     : /Windows/i.test(ua) ? 'Windows'
@@ -393,7 +393,7 @@ function renderAccountButtons() {
 const DEVICE_PING_KEY = 'dezomax_device_ping';
 async function pingDevice() {
   if (!Auth.user() || !Pay.hasSession()) return;
-  try { if (Date.now() - Number(localStorage.getItem(DEVICE_PING_KEY) || 0) < 5 * 60000) return; } catch {}
+  try { if (Date.now() - Number(localStorage.getItem(DEVICE_PING_KEY) || 0) < 60000) return; } catch {}
   try {
     await Pay.devices();
     try { localStorage.setItem(DEVICE_PING_KEY, String(Date.now())); } catch {}
