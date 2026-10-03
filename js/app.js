@@ -574,20 +574,28 @@ function renderRows() {
 }
 
 /* ---------- Kinostudiyalar (ro'yxat — js/common.js STUDIOS) ----------
-   Marvel — o'z sahifasi; qolganlari — rasmiy kanaldan kelgan treylerlari bo'lsa ko'rinadi. */
-const studiosShown = () => STUDIOS.filter(s => s.href || MOVIES.some(m => m.franchise === s.key && m.ch));
+   Hammasi ko'rinadi. Marvel — o'z sahifasi; qolganlari — rasmiy kanaldan treylerlari kelgach ochiladi,
+   ungacha xira holda «Tez orada» (admin → Kanallar → Kinostudiyalar). Treylerlari borlari birinchi. */
+const studioReady = s => !!s.href || MOVIES.some(m => m.franchise === s.key && m.ch);
+const studiosShown = () => [...STUDIOS].sort((a, b) => studioReady(b) - studioReady(a));
 
 function studiosHTML(title) {
   const list = studiosShown();
   if (!list.length) return '';
+  const soon = LANG === 'ru' ? 'Скоро' : 'Tez orada';
   return `
     <section class="section studios">
-      <div class="section-head"><i class="bar"></i><h2>${esc(title)}</h2></div>
-      <div class="row studios-row">${list.map(s => `
+      <div class="section-head"><i class="bar"></i><h2>${esc(title)}</h2><div class="row-nav" data-for="studiosRow"></div></div>
+      <div class="row studios-row" id="studiosRow">${list.map(s => studioReady(s) ? `
         <a class="studio-card is-${s.key}" href="${studioHref(s)}" style="--studio:${s.bg}" aria-label="${esc(s.name)}">
           <span class="studio-logo">${s.logo}</span>
           <span class="studio-name">${esc(s.name)}</span>
-        </a>`).join('')}
+        </a>` : `
+        <span class="studio-card is-soon is-${s.key}" style="--studio:${s.bg}" aria-label="${esc(s.name)} — ${soon}">
+          <span class="studio-logo">${s.logo}</span>
+          <span class="studio-name">${esc(s.name)}</span>
+          <em class="studio-soon">${soon}</em>
+        </span>`).join('')}
       </div>
     </section>`;
 }
