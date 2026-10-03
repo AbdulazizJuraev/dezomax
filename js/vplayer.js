@@ -50,6 +50,7 @@ function mountVideo(box, url, opts = {}) {
       <video class="vp-video" playsinline preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
       <div class="ytp-click" id="vpClick" hidden></div>
       <div class="vp-spinner" id="vpSpin" hidden><i></i></div>
+      <div class="vp-flash" id="vpFlash" aria-hidden="true"></div>
       <button class="ytp-cover" id="vpCover" type="button" aria-label="${esc(t('player.play'))}">
         ${!opts.poster ? ''
           // albom (keng) rasm — butun ekranni egallaydi; tik poster — xira fon ustida o'rtada
@@ -252,11 +253,32 @@ function mountVideo(box, url, opts = {}) {
   seek.addEventListener('change', () => { video.currentTime = (video.duration || 0) * seek.value / 1000; seeking = false; });
 
   // video ustiga bosish: katta ekranda panel yashiringan bo'lsa — faqat ko'rsatadi
-  $('#vpClick').addEventListener('click', () => {
-    if (box.classList.contains('ytp-idle')) { wake(); return; }
-    toggle(); wake();
+  // video ustiga bir marta bosish — faqat panelni ko'rsatadi/yashiradi (pauza qilmaydi);
+  // ikki marta bosish: o'ng yarmida +10 s, chap yarmida −10 s (har keyingi tez bosish yana 10 s)
+  let tapT = null, lastTap = 0, skipSum = 0, flashT;
+  const flash = right => {
+    const el = $('#vpFlash');
+    skipSum = el.classList.contains(right ? 'is-right' : 'is-left') && el.classList.contains('is-on') ? skipSum + 10 : 10;
+    el.className = 'vp-flash is-on ' + (right ? 'is-right' : 'is-left');
+    el.innerHTML = right ? `<b>${skipSum}</b>${VP_ICONS.ffw}` : `${VP_ICONS.rew}<b>${skipSum}</b>`;
+    clearTimeout(flashT);
+    flashT = setTimeout(() => el.classList.remove('is-on'), 650);
+  };
+  $('#vpClick').addEventListener('click', e => {
+    const now = Date.now();
+    const r = box.getBoundingClientRect(), right = e.clientX > r.left + r.width / 2;
+    if (now - lastTap < 300) {
+      clearTimeout(tapT); tapT = null; lastTap = now;
+      jump(right ? 10 : -10); flash(right);
+      return;
+    }
+    lastTap = now;
+    tapT = setTimeout(() => {
+      tapT = null;
+      if (video.paused || box.classList.contains('ytp-idle')) wake();
+      else { clearTimeout(idleT); box.classList.add('ytp-idle'); }
+    }, 300);
   });
-  $('#vpClick').addEventListener('dblclick', () => ytToggleFullscreen(box));
   $('#vpFs').addEventListener('click', () => ytToggleFullscreen(box));
   $('#vpFit').addEventListener('click', () => {
     const fill = box.classList.toggle('ytp-fill');
