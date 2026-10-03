@@ -37,7 +37,10 @@ import java.util.Map;
    - Ko'rish: sahifa <video src="/_dzx_offline/<fayl>"> so'raydi — bu so'rov shu yerda ushlanib,
      fayl Range (oldinga/orqaga surish) bilan beriladi. Capacitor'ning o'z lokal fayl berishi
      Range'da boshlang'ich nuqtaga o'tmaydi — surilganda video buziladi, shuning uchun o'zimiz.
-   JS: Capacitor.Plugins.DezoDownload — start, status, remove, space.
+   - Internetsiz ro'yxat: har bir kino yonida <fayl>.json (nomi, poster, dmId) va <fayl>.jpg (poster nusxasi).
+     /_dzx_offline/__list.json — tayyor kinolar ro'yxati. «Internet yo'q» sahifasi (https://localhost/offline.html)
+     saytning localStorage'ini ko'ra olmaydi (boshqa manzil) — ro'yxatni shu yerdan oladi.
+   JS: Capacitor.Plugins.DezoDownload — start, status, remove, space, meta.
    ============================================================ */
 @CapacitorPlugin(name = "DezoDownload")
 public class DownloadPlugin extends Plugin {
@@ -125,6 +128,18 @@ public class DownloadPlugin extends Plugin {
         headers.put("Accept-Ranges", "bytes");
         headers.put("Access-Control-Allow-Origin", "*");
         headers.put("Cache-Control", "no-store");
+        if ("__list.json".equals(name)) {
+            byte[] body = listJson(ctx).getBytes(java.nio.charset.StandardCharsets.UTF_8);
+            return new WebResourceResponse("application/json", "utf-8", 200, "OK", headers, new java.io.ByteArrayInputStream(body));
+        }
+        if (name != null && name.endsWith(".json")) {
+            return new WebResourceResponse("text/plain", "utf-8", 404, "Not Found", headers, null);
+        }
+        if (name != null && name.endsWith(".jpg")) {
+            if (f == null || !f.isFile()) return new WebResourceResponse("text/plain", "utf-8", 404, "Not Found", headers, null);
+            try { return new WebResourceResponse("image/jpeg", null, 200, "OK", headers, new FileInputStream(f)); }
+            catch (IOException e) { return new WebResourceResponse("text/plain", "utf-8", 500, "Error", headers, null); }
+        }
         if (f == null || !f.isFile()) {
             return new WebResourceResponse("text/plain", "utf-8", 404, "Not Found", headers, null);
         }
@@ -193,6 +208,7 @@ public class DownloadPlugin extends Plugin {
                     long id = Math.max(System.currentTimeMillis(), DownloadService.MIN_ID + 1);
                     DownloadService.create(getContext(), id, url, file, call.getString("title", "DezoMax"), total);
                     DownloadService.kick(getContext());
+                    writeMeta(getContext(), file, call.getString("title", "DezoMax"), call.getString("poster"), id);
                     JSObject ret = new JSObject();
                     ret.put("dmId", id);
                     ret.put("parallel", true);
@@ -209,6 +225,7 @@ public class DownloadPlugin extends Plugin {
             r.setAllowedOverMetered(true);
             r.setAllowedOverRoaming(true);
             long id = dm().enqueue(r);
+            writeMeta(getContext(), file, call.getString("title", "DezoMax"), call.getString("poster"), id);
             JSObject ret = new JSObject();
             ret.put("dmId", id);
             call.resolve(ret);
@@ -261,37 +278,11 @@ public class DownloadPlugin extends Plugin {
                 JSObject o = new JSObject();
                 o.put("dmId", id);
                 o.put("file", file);
-                String state = "missing";
-                long loaded = 0, total = -1;
-                if (id >= DownloadService.MIN_ID) {
-                    DownloadService.Task t = DownloadService.load(getContext(), id);
-                    if (t != null) {
-                        state = "running".equals(t.state) ? "running" : "done".equals(t.state) ? "done" : "failed";
-                        loaded = t.loaded.get();
-                        total = t.total;
-                    }
-                } else if (id >= 0) {
-                    try (Cursor c = dm().query(new DownloadManager.Query().setFilterById(id))) {
-                        if (c != null && c.moveToFirst()) {
-                            int st = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
-                            loaded = c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                            total = c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                            state = st == DownloadManager.STATUS_SUCCESSFUL ? "done"
-                                : st == DownloadManager.STATUS_FAILED ? "failed"
-                                : st == DownloadManager.STATUS_PAUSED ? "paused"
-                                : st == DownloadManager.STATUS_RUNNING ? "running" : "pending";
-                        }
-                    }
-                }
-                // DownloadManager yozuvni unutgan bo'lsa ham fayl joyida bo'lsa — tayyor
-                if (f != null && f.isFile() && (state.equals("missing") || state.equals("done"))) {
-                    state = "done";
-                    loaded = f.length();
-                    total = f.length();
-                }
+                long[] lt = new long[] { 0, -1 };
+                String state = stateOf(getContext(), id, f, lt);
                 o.put("state", state);
-                o.put("loaded", loaded);
-                o.put("total", total);
+                o.put("loaded", lt[0]);
+                o.put("total", lt[1]);
                 o.put("exists", f != null && f.isFile());
                 out.put(o);
             }
@@ -299,6 +290,118 @@ public class DownloadPlugin extends Plugin {
         JSObject ret = new JSObject();
         ret.put("items", out);
         call.resolve(ret);
+    }
+
+    /* Yuklash holati: pending | running | paused | done | failed | missing; lt = {yuklangan, jami} */
+    static String stateOf(Context ctx, long id, File f, long[] lt) {
+        String state = "missing";
+        if (id >= DownloadService.MIN_ID) {
+            DownloadService.Task t = DownloadService.load(ctx, id);
+            if (t != null) {
+                state = "running".equals(t.state) ? "running" : "done".equals(t.state) ? "done" : "failed";
+                lt[0] = t.loaded.get();
+                lt[1] = t.total;
+            }
+        } else if (id >= 0) {
+            DownloadManager dm = (DownloadManager) ctx.getSystemService(Context.DOWNLOAD_SERVICE);
+            try (Cursor c = dm.query(new DownloadManager.Query().setFilterById(id))) {
+                if (c != null && c.moveToFirst()) {
+                    int st = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
+                    lt[0] = c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                    lt[1] = c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                    state = st == DownloadManager.STATUS_SUCCESSFUL ? "done"
+                        : st == DownloadManager.STATUS_FAILED ? "failed"
+                        : st == DownloadManager.STATUS_PAUSED ? "paused"
+                        : st == DownloadManager.STATUS_RUNNING ? "running" : "pending";
+                }
+            } catch (Exception ignored) {}
+        }
+        // DownloadManager yozuvni unutgan bo'lsa ham fayl joyida bo'lsa — tayyor
+        if (f != null && f.isFile() && (state.equals("missing") || state.equals("done"))) {
+            state = "done";
+            lt[0] = f.length();
+            lt[1] = f.length();
+        }
+        return state;
+    }
+
+    /* <fayl>.json — nomi, poster manzili, dmId; poster rasmi <fayl>.jpg ga fonda yuklanadi (internetsiz ko'rinsin) */
+    static synchronized void writeMeta(Context ctx, String file, String title, String poster, Long dmId) {
+        if (file == null) return;
+        File mf = new File(dir(ctx), file + ".json");
+        org.json.JSONObject m = readMeta(ctx, file);
+        try {
+            if (title != null && !title.isEmpty()) m.put("title", title);
+            if (poster != null && poster.startsWith("http")) m.put("poster", poster);
+            if (dmId != null) m.put("dmId", dmId);
+            try (java.io.FileOutputStream out = new java.io.FileOutputStream(mf)) {
+                out.write(m.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            }
+        } catch (Exception ignored) {}
+        final String url = m.optString("poster", "");
+        final File jpg = new File(dir(ctx), file + ".jpg");
+        if (!url.isEmpty() && !jpg.isFile()) new Thread(() -> {
+            java.net.HttpURLConnection c = null;
+            try {
+                c = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
+                c.setConnectTimeout(15000);
+                c.setReadTimeout(20000);
+                if (c.getResponseCode() != 200) return;
+                File tmp = new File(dir(ctx), file + ".jpg.part");
+                try (InputStream in = c.getInputStream(); java.io.FileOutputStream out = new java.io.FileOutputStream(tmp)) {
+                    byte[] buf = new byte[16384];
+                    int n, total = 0;
+                    while ((n = in.read(buf)) > 0 && total < 8 * 1048576) { out.write(buf, 0, n); total += n; }
+                }
+                if (!tmp.renameTo(jpg)) tmp.delete();
+            } catch (Exception ignored) {
+            } finally { if (c != null) c.disconnect(); }
+        }).start();
+    }
+
+    static org.json.JSONObject readMeta(Context ctx, String file) {
+        File mf = new File(dir(ctx), file + ".json");
+        if (mf.isFile()) {
+            try (FileInputStream in = new FileInputStream(mf)) {
+                byte[] b = new byte[(int) Math.min(mf.length(), 65536)];
+                int n = in.read(b);
+                return new org.json.JSONObject(new String(b, 0, Math.max(n, 0), java.nio.charset.StandardCharsets.UTF_8));
+            } catch (Exception ignored) {}
+        }
+        return new org.json.JSONObject();
+    }
+
+    /* Telefondagi tayyor kinolar (yangilari birinchi) — «Internet yo'q» sahifasi uchun */
+    static String listJson(Context ctx) {
+        org.json.JSONArray arr = new org.json.JSONArray();
+        File[] files = dir(ctx).listFiles();
+        if (files != null) {
+            java.util.Arrays.sort(files, (a, b) -> Long.compare(b.lastModified(), a.lastModified()));
+            for (File f : files) {
+                String n = f.getName();
+                if (!f.isFile() || !n.matches("[A-Za-z0-9._-]+\\.(mp4|webm|m4v|mov)")) continue;
+                org.json.JSONObject m = readMeta(ctx, n);
+                if (!"done".equals(stateOf(ctx, m.optLong("dmId", -1), f, new long[] { 0, -1 }))) continue;
+                try {
+                    org.json.JSONObject o = new org.json.JSONObject();
+                    o.put("file", n);
+                    o.put("title", m.optString("title", n));
+                    o.put("poster", new File(dir(ctx), n + ".jpg").isFile() ? PREFIX + n + ".jpg" : "");
+                    o.put("total", f.length());
+                    arr.put(o);
+                } catch (Exception ignored) {}
+            }
+        }
+        return arr.toString();
+    }
+
+    /* meta({file, title, poster}) — oldin yuklangan kinolar uchun ham nomi va posterini telefonga yozib qo'yadi */
+    @PluginMethod
+    public void meta(PluginCall call) {
+        String file = safeName(call.getString("file"));
+        if (file == null) { call.reject("bad_args"); return; }
+        writeMeta(getContext(), file, call.getString("title"), call.getString("poster"), null);
+        call.resolve();
     }
 
     /* remove({dmId, file}) — yuklashni to'xtatadi va faylni o'chiradi */
@@ -313,6 +416,8 @@ public class DownloadPlugin extends Plugin {
             if (f.exists()) f.delete();
             File part = new File(dir(getContext()), file + ".part");
             if (part.exists()) part.delete();
+            new File(dir(getContext()), file + ".json").delete();
+            new File(dir(getContext()), file + ".jpg").delete();
         }
         call.resolve();
     }

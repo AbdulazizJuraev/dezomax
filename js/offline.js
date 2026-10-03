@@ -88,7 +88,8 @@ const Offline = {
     const old = this.get(m.id, part);
     if (old) await p.remove({ dmId: old.dmId ?? -1, file: old.file }).catch(() => {});
     const name = title(m) + (part ? ` · ${partTitle || part + '-qism'}` : '');
-    const { dmId } = await p.start({ url: dl, file, title: name });
+    const poster = absUrl(m.poster) || absUrl((typeof wideCover === 'function' && wideCover(m)) || m.cover);
+    const { dmId } = await p.start({ url: dl, file, title: name, poster });
     const item = {
       key, id: m.id, part: part || 0, title: name, poster: absUrl(m.poster), cover: absUrl((typeof wideCover === 'function' && wideCover(m)) || m.cover),
       src, file, dmId, state: 'pending', loaded: 0, total: -1, at: Date.now()
@@ -111,6 +112,10 @@ const Offline = {
         if (!it) continue;
         it.state = s.state === 'missing' ? (it.state === 'done' ? 'missing' : 'failed') : s.state;
         it.loaded = s.loaded; it.total = s.total;
+        // nomi va posteri telefonga ham (internetsiz ro'yxat uchun) — bir marta; eski ilovada meta() yo'q
+        if (it.state === 'done' && !it.meta && typeof p.meta === 'function') {
+          p.meta({ file: it.file, title: it.title, poster: it.poster || it.cover || '' }).then(() => { it.meta = 1; this.save(this.list().map(x => x.key === it.key ? { ...x, meta: 1 } : x)); }).catch(() => {});
+        }
       }
       this.save(list);
     } catch {}

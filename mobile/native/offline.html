@@ -100,39 +100,49 @@
   })();
   window.addEventListener('online', go);
 
-  /* Telefonga yuklab olingan kinolar (sayt js/offline.js yozadi; bu sahifa sayt bilan bitta manzilda —
-     ro'yxat ko'rinadi). Fayl ilovaning o'zidan /_dzx_offline/ orqali o'ynaydi — internet kerak emas. */
+  /* Telefonga yuklab olingan kinolar. Bu sahifa https://localhost da ochiladi — saytning localStorage'i
+     ko'rinmaydi, shuning uchun ro'yxat ilovaning o'zidan: /_dzx_offline/__list.json (DownloadPlugin).
+     Eski ilovada bunday manzil yo'q — unda localStorage (sayt bilan bitta manzilda ochilgan bo'lsa).
+     Fayl ilovaning o'zidan /_dzx_offline/ orqali o'ynaydi — internet kerak emas. */
   (function () {
-    var list = [];
-    try { list = JSON.parse(localStorage.getItem('dezomax_offline') || '[]').filter(function (x) { return x && x.state === 'done' && x.file; }); } catch (e) {}
     var box = document.getElementById('box');
-    if (!list.length) { box.classList.add('is-full'); return; }
-    document.getElementById('msg').textContent = 'Yuklab olingan kinolaringizni internetsiz ko‘rishingiz mumkin.';
-    var dl = document.getElementById('dl');
-    dl.hidden = false;
     var esc = function (s) { return String(s || '').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
     var size = function (b) { return b > 0 ? (b >= 1073741824 ? (b / 1073741824).toFixed(1).replace('.', ',') + ' GB' : Math.round(b / 1048576) + ' MB') : ''; };
-    dl.innerHTML = '<h2>Yuklab olinganlar</h2><small class="hint">Bosing — internetsiz o‘ynaydi</small>' + list.map(function (it, i) {
-      return '<button class="row" type="button" data-i="' + i + '" style="animation-delay:' + (0.45 + i * 0.07).toFixed(2) + 's"><i class="ph" data-ph="' + i + '"></i><div><b>' + esc(it.title) + '</b><span>✓ Telefonda' + (it.total > 0 ? ' · ' + size(it.total) : '') + '</span></div>' +
-        '<i class="play"><svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg></i></button>';
-    }).join('');
-    // posterlar — sayt saqlab qo'ygan nusxadan (service worker keshi)
-    if (window.caches) list.forEach(function (it, i) {
-      var url = it.poster; if (!url) return;
-      caches.match(url, { ignoreSearch: false }).then(function (r) { return r ? r.blob() : null; }).then(function (b) {
-        if (b && b.size) dl.querySelector('[data-ph="' + i + '"]').style.backgroundImage = 'url(' + URL.createObjectURL(b) + ')';
-      }).catch(function () {});
-    });
-    dl.querySelectorAll('[data-i]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var it = list[+b.dataset.i];
-        var p = document.createElement('div');
-        p.className = 'player';
-        p.innerHTML = '<button class="x" type="button" aria-label="Yopish">✕</button><video controls autoplay playsinline src="/_dzx_offline/' + encodeURIComponent(it.file) + '"></video>';
-        document.body.appendChild(p);
-        p.querySelector('.x').addEventListener('click', function () { var v = p.querySelector('video'); v.pause(); v.removeAttribute('src'); v.load(); p.remove(); });
+    function fromStorage() {
+      try { return JSON.parse(localStorage.getItem('dezomax_offline') || '[]').filter(function (x) { return x && x.state === 'done' && x.file; }); } catch (e) { return []; }
+    }
+    function show(list, nativePosters) {
+      if (!list.length) { box.classList.add('is-full'); return; }
+      document.getElementById('msg').textContent = 'Yuklab olingan kinolaringizni internetsiz ko‘rishingiz mumkin.';
+      var dl = document.getElementById('dl');
+      dl.hidden = false;
+      dl.innerHTML = '<h2>Yuklab olinganlar</h2><small class="hint">Bosing — internetsiz o‘ynaydi</small>' + list.map(function (it, i) {
+        var ph = nativePosters && it.poster ? ' style="background-image:url(\'' + esc(it.poster) + '\')"' : '';
+        return '<button class="row" type="button" data-i="' + i + '" style="animation-delay:' + (0.45 + i * 0.07).toFixed(2) + 's"><i class="ph" data-ph="' + i + '"' + ph + '></i><div><b>' + esc(it.title) + '</b><span>✓ Telefonda' + (it.total > 0 ? ' · ' + size(it.total) : '') + '</span></div>' +
+          '<i class="play"><svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg></i></button>';
+      }).join('');
+      // eski usul: posterlar — sayt saqlab qo'ygan nusxadan (service worker keshi)
+      if (!nativePosters && window.caches) list.forEach(function (it, i) {
+        var url = it.poster; if (!url) return;
+        caches.match(url, { ignoreSearch: false }).then(function (r) { return r ? r.blob() : null; }).then(function (b) {
+          if (b && b.size) dl.querySelector('[data-ph="' + i + '"]').style.backgroundImage = 'url(' + URL.createObjectURL(b) + ')';
+        }).catch(function () {});
       });
-    });
+      dl.querySelectorAll('[data-i]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var it = list[+b.dataset.i];
+          var p = document.createElement('div');
+          p.className = 'player';
+          p.innerHTML = '<button class="x" type="button" aria-label="Yopish">✕</button><video controls autoplay playsinline src="/_dzx_offline/' + encodeURIComponent(it.file) + '"></video>';
+          document.body.appendChild(p);
+          p.querySelector('.x').addEventListener('click', function () { var v = p.querySelector('video'); v.pause(); v.removeAttribute('src'); v.load(); p.remove(); });
+        });
+      });
+    }
+    fetch('/_dzx_offline/__list.json', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (list) { show(Array.isArray(list) ? list : [], true); })
+      .catch(function () { show(fromStorage(), false); });
   })();
 </script>
 </body>
