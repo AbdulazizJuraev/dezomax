@@ -13,12 +13,28 @@ const SRC_DIR = path.resolve(ROOT, '..', 'images', 'app');
 const RES = name => path.join(ROOT, 'android', 'app', 'src', name, 'res');
 
 const VARIANTS = [
-  { file: 'DezoMax Yangi Logo qizil.png',  res: RES('main') },
+  { file: 'DezoMax Yangi Logo qizil.png',  res: RES('main'), fadeRight: true },
   { file: 'DezoMax Admin panel qizil.png', res: RES('admin') },
 ];
 
 // zichlik -> [eski ikonka (dp 48), adaptive qatlam (dp 108)] piksel o'lchamlari
 const DENS = { mdpi: [48, 108], hdpi: [72, 162], xhdpi: [96, 216], xxhdpi: [144, 324], xxxhdpi: [192, 432] };
+
+/* «D» dan chiqqan qizil nur rasmning o'ng chetigacha boradi — telefonda belgidan chiqib ketgandek ko'rinardi.
+   O'ng tomonda nur (va undagi logotiplar) asta-sekin qora fonga singib ketadi: 84% dan 96% gacha so'nadi,
+   oxirgi qismi — toza qora (qora to'rtburchakning cheti). Asl rasm o'zgarmaydi. */
+async function fadeRight(buf) {
+  const { data, info } = await sharp(buf).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const W = info.width, H = info.height, x0 = W * 0.84, x1 = W * 0.965;
+  for (let y = 0; y < H; y++) for (let x = Math.floor(x0); x < W; x++) {
+    const i = (y * W + x) * 4;
+    if (!data[i + 3]) continue;
+    const t = Math.min(1, (x - x0) / (x1 - x0));
+    const f = 1 - t * t * (3 - 2 * t);                 // silliq o'tish (smoothstep)
+    data[i] = Math.round(data[i] * f); data[i + 1] = Math.round(data[i + 1] * f); data[i + 2] = Math.round(data[i + 2] * f);
+  }
+  return sharp(data, { raw: { width: W, height: H, channels: 4 } }).png().toBuffer();
+}
 
 /* Rasmning ichki (shaffof bo'lmagan) qismidan o'rtacha fon rangini olamiz */
 async function bgColor(buf) {
@@ -38,7 +54,8 @@ async function bgColor(buf) {
 
 (async () => {
   for (const v of VARIANTS) {
-    const src = fs.readFileSync(path.join(SRC_DIR, v.file));
+    let src = fs.readFileSync(path.join(SRC_DIR, v.file));
+    if (v.fadeRight) src = await fadeRight(src);
     const bg = await bgColor(src);
     console.log(v.file, '-> fon rangi', `rgb(${bg.r},${bg.g},${bg.b})`);
 
