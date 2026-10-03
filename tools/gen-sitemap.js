@@ -28,7 +28,8 @@ for (const m of [...byId.values()]) {
 }
 
 // qidiruv uchun tayyor sahifalari bor filmlar — kino/<slug>.html (tools/gen-pages.js)
-const SEO = require('./gen-pages.js').pages;
+const GEN = require('./gen-pages.js');
+const SEO = GEN.pages;
 const MARVEL = require('./gen-marvel-pages.js').pages;
 
 const today = new Date().toISOString().slice(0, 10);
@@ -51,15 +52,18 @@ const movies = [...byId.values()]
   .sort((a, b) => a.id - b.id)
   // to'liq filmi borlar muhimroq, faqat treylerlilar — pastroq
   .map(m => SEO[m.id]
-    ? { loc: `${SITE}kino/${SEO[m.id]}.html`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: '0.9' }
+    ? { loc: `${SITE}kino/${SEO[m.id]}.html`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: m.video ? '0.9' : '0.7' }
     : { loc: `${SITE}movie.html?id=${m.id}`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: m.video ? '0.8' : '0.5' });
 
 // Marvel filmlari — marvel/<nom>.html (tools/gen-marvel-pages.js)
 const marvel = Object.values(MARVEL).map(slug => ({ loc: `${SITE}marvel/${slug}.html`, lastmod: today, freq: 'monthly', pr: '0.7' }));
 
+// kinostudiyalar — studio/<key>.html (rasmiy treylerlar ro'yxati)
+const studios = (GEN.studios || []).map(k => ({ loc: `${SITE}studio/${k}.html`, lastmod: today, freq: 'weekly', pr: '0.8' }));
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...pages, ...marvel, ...movies].map(u => `  <url>
+${[...pages, ...studios, ...marvel, ...movies].map(u => `  <url>
     <loc>${u.loc.replace(/&/g, '&amp;')}</loc>
     <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.freq}</changefreq>

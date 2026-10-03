@@ -2226,7 +2226,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .intro {
   position: fixed;
   inset: 0;
-  z-index: 2000;
+  z-index: 2300;   /* «Kim tomosha qiladi?» (2100) ustida — avval intro, keyin tanlash */
   display: grid;
   place-items: center;
   background: radial-gradient(120% 90% at 50% 50%, #0d1622 0%, #07080c 60%);
@@ -5697,6 +5697,15 @@ html.soc-lock { overflow: hidden; }
   .seo-poster { width: 160px; }
   .seo-grid { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 16px 10px; }
   .seo-grid a { font-size: 13px; }
+}
+/* studiya treylerlari (tools/gen-pages.js → studio/, kino/): YouTube muqovasi 16:9 */
+.seo-poster.seo-poster-wide { width: 400px; max-width: 100%; aspect-ratio: 16 / 9; }
+.seo-grid.seo-grid-wide { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.seo-grid.seo-grid-wide img { aspect-ratio: 16 / 9; }
+.seo-grid small { display: block; }
+@media (max-width: 640px) {
+  .seo-poster.seo-poster-wide { width: 100%; }
+  .seo-grid.seo-grid-wide { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
 }
 
 /* Rasmiy manba belgisi (kino sahifasi, js/movie.js officialHTML) */

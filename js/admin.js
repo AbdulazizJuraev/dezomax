@@ -2241,9 +2241,27 @@ async function syncChannel(ch) {
     await saveChannels(st => {
       const items = st.items.slice();
       const byId = new Map(items.map((m, i) => [m.id, i]));
+      // studiya treylerlari (Marvel'dan boshqa): DezoCloud matni Marvel uchun yozilgan — studiyaga moslanadi;
+      // tools/fetch-studio-trailers.js qo'shgan ma'lumotlar (ruscha nom, yil, aktyorlar, teglar) saqlanadi
+      const studio = ch.kind === 'trailers' && ch.franchise !== 'marvel' && typeof STUDIOS !== 'undefined' ? STUDIOS.find(s => s.key === ch.franchise) : null;
+      // DreamWorks treylerlari Universal kanalida (studio.via) — yangilarini Universal oladi, bu yerda faqat borlari yangilanadi
+      const shared = studio && studio.via;
+      const KEEP = ['title', 'desc', 'tags', 'year', 'cast', 'director', 'genres', 'type', 'wd', 'slug', 'colors', 'id'];
+      // skript yozgan treylerlarning ID'si boshqacha — bir xil YouTube video bo'lsa, o'sha yozuv yangilanadi
+      const byTrailer = new Map(items.map((m, i) => [m.ch === ch.key && m.trailer, i]));
       for (const m of j.items || []) {
-        const it = { ...m, ch: ch.key };
-        if (byId.has(m.id)) { items[byId.get(m.id)] = it; updated++; continue; }
+        let it = { ...m, ch: ch.key };
+        if (studio) {
+          const { mx, ...rest } = it;
+          it = { ...rest, desc: { uz: `«${m.title.uz}» — ${studio.name}. Rasmiy treyler.`, ru: `«${m.title.ru}» — ${studio.name}. Официальный трейлер.` } };
+          if (!byId.has(m.id) && byTrailer.has(m.trailer)) byId.set(m.id, byTrailer.get(m.trailer));
+        }
+        if (byId.has(m.id)) {
+          const old = items[byId.get(m.id)];
+          if (studio) KEEP.forEach(k => { if (old[k] !== undefined) it[k] = old[k]; });
+          items[byId.get(m.id)] = it; updated++; continue;
+        }
+        if (shared) continue;
         if (known.has(chNorm(m.title.uz)) || (m.mx && known.has(chNorm(m.mx.en)))) continue;
         items.push(it); byId.set(m.id, items.length - 1); added++;
       }

@@ -61,6 +61,60 @@
     <priority>0.2</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/studio/dc.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/studio/pixar.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/studio/disney.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/studio/warner.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/studio/universal.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/studio/sony.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/studio/lucasfilm.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/studio/dreamworks.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/studio/paramount.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/marvel/iron-man.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -4831,6 +4885,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/pm-scream-7.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-saboq.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -4891,6 +4951,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-28-years-later.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-jonim-qizim.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -4901,6 +4967,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-stags.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-sugdiyona.html</loc>
@@ -4933,6 +5005,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-lee-cronins-the-mummy.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-xorlangan-qiz.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -4949,6 +5027,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/un-focker-in-law.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-yurak-yiglar.html</loc>
@@ -4987,6 +5071,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-heart-eyes.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-street-fighter.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-sizsiz-otmas-kunlarim.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5003,6 +5099,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-roofman.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-super-talaba.html</loc>
@@ -5035,6 +5137,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/pm-mr-irrelevant.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-ciao-alberto.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-the-girls-are-angry-uzbek-film.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5051,6 +5165,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-turning-red.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=7105528</loc>
@@ -5095,6 +5215,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-mortal-kombat-ii.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-boyvachcha-kuyov.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5111,6 +5237,18 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-children-of-blood-and-bone.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-smurfs.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-amakivachchalar.html</loc>
@@ -5135,6 +5273,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-win-or-lose.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-xum-asirasi.html</loc>
@@ -5173,6 +5317,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/px-lightyear.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-keksa-boydoq.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5195,6 +5345,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-dug-days.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-kozlarim-yolingda.html</loc>
@@ -5227,10 +5383,22 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-we-grown-now.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/movie.html?id=7163869</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/dw-the-wild-robot.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-inson-qadri.html</loc>
@@ -5329,10 +5497,22 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-the-cat-in-the-hat.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-sinfdoshlar.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/un-one-night-only.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-sadoqat.html</loc>
@@ -5351,6 +5531,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/un-reminders-of-him.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-muhayyo-surayo-rano-muqaddas.html</loc>
@@ -5419,6 +5605,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/dw-kung-fu-panda-4.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-rashk.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5473,6 +5665,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/ds-tron-ares.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-hamilion.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5483,6 +5681,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-caught-stealing.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-bevalar.html</loc>
@@ -5525,6 +5729,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-absolution.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-ana-xolos.html</loc>
@@ -5575,10 +5785,28 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-evil-dead-burn.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sw-andor.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-azart.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-hoppers.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-xorlangan-kelin.html</loc>
@@ -5659,6 +5887,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-here.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ketaman-dedimmi-ketaman.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5675,6 +5909,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-saturday-night.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-vafodor.html</loc>
@@ -5743,6 +5983,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/dw-how-to-train-your-dragon.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-jangovar-qaynona.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5753,6 +5999,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-the-naked-gun.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-tashlandiq.html</loc>
@@ -5773,6 +6025,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-they-will-kill-you.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-dream-productions.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ustoz.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5791,6 +6055,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/dc-krypto-saves-the-day.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-xon.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5801,6 +6071,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-sisu-road-to-revenge.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-jarohat-3.html</loc>
@@ -5827,6 +6103,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-broke.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ali-vali-gani-yohud-nasiba-qani.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5845,6 +6127,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/px-elio.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-xoin.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5857,10 +6145,34 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-clika.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-venom-the-last-dance.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-mahallada-shov-shuv-gap.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-karate-kid-legends.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-mission-impossible.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-yomgir-ostida.html</loc>
@@ -5893,6 +6205,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-insidious-out-of-the-further.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-saboq-qisqa-metrajli-film.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5909,6 +6227,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/un-you-me-and-tuscany.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-taqdir-sinovi.html</loc>
@@ -5953,6 +6277,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/px-elemental.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-sevgim-sevgilim.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -5993,6 +6323,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-scary-movie.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-ofitser-55.html</loc>
@@ -6043,6 +6379,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sw-star-wars-visions.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-azobli-ogriq.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6073,6 +6415,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-hijack-1971.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-omadli-yigitlar.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6083,6 +6431,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-mission-impossible-iii.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-osmon-uzoq.html</loc>
@@ -6163,6 +6517,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-digger.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-qudajonlar-7450298.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6173,6 +6533,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-jumanji-open-world.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-jonimga-tegding-jonim.html</loc>
@@ -6211,10 +6577,22 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/pm-passenger.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-mehribonim.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sw-star-wars-young-jedi-adventures.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-okinch.html</loc>
@@ -6227,6 +6605,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/un-michael.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-nafrat.html</loc>
@@ -6271,6 +6655,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-28-days-later.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-farzand-omonat-qisqa-metrajli-film.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6287,6 +6677,24 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-a-big-bold-beautiful-journey.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/wb-wuthering-heights.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-i-know-what-you-did-last-summer.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-jufti-halolim.html</loc>
@@ -6397,6 +6805,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/px-carls-date.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-notanish-qotil-2.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6407,6 +6821,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-luca.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-alovuddinning-yangi-sarguzashtlari.html</loc>
@@ -6487,6 +6907,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/pm-jackass-best-and-last.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-qayerdasan-qizim.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6523,6 +6949,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/dc-supergirl.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-yulduzlar.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6533,6 +6965,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-by-any-means.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-kim-aybdor.html</loc>
@@ -6559,10 +6997,28 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/px-soul.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/dw-gabbys-dollhouse-the-movie.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-kapalak-qisqa-metrajli-film.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-primate.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-robiya-qisqa-metrajli-film.html</loc>
@@ -6581,6 +7037,18 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/wb-the-family-mcmullen.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-inside-out-2.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-tilla-buva.html</loc>
@@ -6643,6 +7111,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-practical-magic-2.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-bir-soniya.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6655,6 +7129,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/pm-heart-of-the-beast.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-qasos.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6665,6 +7145,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/ds-disneyland-handcrafted.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-malikam-2-fasl.html</loc>
@@ -6757,6 +7243,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-dune-part-three.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-jonim-bolam.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6779,6 +7271,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sw-the-mandalorian-and-grogu.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-meni-uylantiring.html</loc>
@@ -6811,10 +7309,22 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-groundhog-day.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-mahbusning-xotini.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/dc-superman.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-baxt-ortidagi-dard.html</loc>
@@ -6871,6 +7381,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-one-of-them-days.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/dw-trolls-band-together.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ijarachilar-7688762.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6895,6 +7417,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/pm-the-rescue.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-qadamlar.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -6911,6 +7439,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-klara-and-the-sun.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-alamli-taqdir.html</loc>
@@ -7003,6 +7537,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-resident-evil.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/dc-clayface.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ota-qisqa-metrajli.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7013,6 +7559,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-a-spark-story.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-yuraklar-jangi.html</loc>
@@ -7039,6 +7591,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/ds-diary-of-a-wimpy-kid-the-last-straw.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-marom.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7063,6 +7621,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-ghost-soldier.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-namaste-muhabbat.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7079,6 +7643,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-the-forge.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-erkaklar-fasli.html</loc>
@@ -7117,10 +7687,22 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/pm-regretting-you.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-alvido-sevgi.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/un-other-mommy.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-jonim-yigloqi.html</loc>
@@ -7151,6 +7733,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-the-spongebob-movie-search-for-squarepants.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-tilim-qursin.html</loc>
@@ -7225,6 +7813,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/dw-forgotten-island.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ahmadboy-rahmatboy.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7235,6 +7829,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/un-the-odyssey.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-qora-tanli-bojalar.html</loc>
@@ -7261,6 +7861,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/pm-paw-patrol-the-dino-movie.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-ebenezer.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-boyvachcha.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7279,10 +7891,22 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/wb-the-bride.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-yaralangan-yuraklar.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-classified.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-shaytanat.html</loc>
@@ -7295,6 +7919,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/dc-peacemaker.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-salom-rashk.html</loc>
@@ -7321,10 +7951,22 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-kill-em-all-2.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-sarvinoz.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/un-disclosure-day.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-salom-natasha.html</loc>
@@ -7333,10 +7975,22 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/dw-dog-man.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ishq-oyinlari.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-the-angry-birds-movie-3.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-sen-uchun-men.html</loc>
@@ -7349,6 +8003,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-sniper-the-last-stand.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-antiqa-kuyov.html</loc>
@@ -7387,6 +8047,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/dw-the-bad-guys-2.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-zirapcha.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7409,6 +8075,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/pm-the-running-man.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-boylik-yoki-muhabbat.html</loc>
@@ -7495,6 +8167,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-anaconda.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ajab-bolibdi.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7511,6 +8189,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-28-years-later-the-bone-temple.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-jumboq.html</loc>
@@ -7555,6 +8239,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sp-afraid.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-super-bolakaylar.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7577,6 +8267,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-chainsaw-man.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-sinovli-dunyo.html</loc>
@@ -7621,6 +8317,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/sw-star-wars-visions-presents.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-3-kvartal.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7649,6 +8351,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-the-breadwinner.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-rais.html</loc>
@@ -7687,6 +8395,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/un-violent-night-2.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-nazar-qisqa-metrajli-film.html</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -7703,6 +8417,18 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/sp-paddington-in-peru.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/wb-the-end-of-oak-street.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-qora-kunlar.html</loc>
@@ -7727,6 +8453,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-embrace-the-panda-making-turning-red.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-meni-sev.html</loc>
@@ -7793,6 +8525,12 @@
     <lastmod>2026-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/kino/px-cars-on-the-road.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/kino/rn-kulba.html</loc>
