@@ -5,10 +5,10 @@
    Qayta yig'ish: scratchpad/build-logo.js (SVG o'zgarsa shu skript qayta ishga tushiriladi).
    ============================================================ */
 
-/* Ilovada (DezoMaxApp) JavaScript xatosi bo'lsa — ekranning pastida qizil yozuv: xato matni va fayl:qator.
-   Telefonda sahifa bo'sh qolsa, skrinshotdan sababni topish uchun (kompyuterda ko'rinmaydi). */
+/* Tekshiruv rejimi (?debug=1): JavaScript xatosi bo'lsa — ekranning pastida qizil yozuv: xato matni va fayl:qator.
+   Oddiy foydalanuvchiga ko'rinmaydi. Yuklanmagan rasm (poster) — xato emas, ko'rsatilmaydi. */
 (function () {
-  if (!/DezoMaxApp/.test(navigator.userAgent) && !/[?&]debug=1/.test(location.search)) return;
+  if (!/[?&]debug=1/.test(location.search)) return;
   const shown = new Set();
   const show = (msg, src) => {
     const text = String(msg || 'xato').slice(0, 300) + (src ? ' — ' + src : '');
@@ -28,7 +28,10 @@
     document.body ? put() : addEventListener('DOMContentLoaded', put);
   };
   addEventListener('error', e => {
-    if (e.target && e.target !== window && e.target.src) return show('Yuklanmadi: ' + e.target.src.split('/').pop());
+    if (e.target && e.target !== window && e.target.src) {
+      if (e.target.tagName === 'SCRIPT') show('Yuklanmadi: ' + e.target.src.split('/').pop());
+      return;
+    }
     show(e.message, (e.filename || '').split('/').pop() + ':' + e.lineno + ':' + e.colno);
   }, true);
   addEventListener('unhandledrejection', e => show('Promise: ' + ((e.reason && (e.reason.stack || e.reason.message)) || e.reason)));

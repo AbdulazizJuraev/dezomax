@@ -6158,8 +6158,22 @@ html.tv-mode .row-nav { display: none !important; }
 .adm-dup-item.is-keep .adm-dup-tag { color: #22c55e; }
 .adm-dup .adm-actions { margin-top: 10px; }
 .adm-more { width: 100%; margin-top: 12px; }
-@media (max-width: 560px) {
-  .adm-dup-item .btn { display: none; }
-}
 .adm-dup-warn { margin: 0 0 8px; font-size: 12.5px; color: #fbbf24; }
 .adm-warn { border-color: rgba(251, 191, 36, .35); }
+/* Dublikatlar: telefonda kartalar ekrandan chiqmasin (grid ichidagi uzun nomlar kengaytirib yubormasin) */
+.adm-dups { grid-template-columns: minmax(0, 1fr); }
+.adm-dup, .adm-dup-item { min-width: 0; max-width: 100%; }
+.adm-dup-item .adm-thumb { width: 40px; height: 58px; }
+.adm-dup-warn { overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .adm-dup-item { padding: 8px; gap: 8px; }
+  .adm-dup-tag { display: none; }                 /* «Qoladi» — yashil ramka va belgi yetarli */
+  .adm-dup .adm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .adm-dup .adm-actions .btn { width: 100%; padding-inline: 8px; }
+}
+/* 10 ta bo'lim; menyu ostidan ro'yxat ko'rinmasin (Android WebView'da shaffof fon xira ko'rinardi) */
+.adm-nav { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+@media (max-width: 640px) { .adm-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.page-admin .adm-nav { background: #141822; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.adm-dup-item .acc-item-main small { white-space: normal; overflow-wrap: anywhere; }   /* ID va manba to'liq ko'rinsin */
+@media (max-width: 560px) { .adm-dup-item .btn { padding: 6px 10px; font-size: 12px; flex: none; } }
