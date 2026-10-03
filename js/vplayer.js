@@ -11,6 +11,10 @@
 let vpActive = null;   // { box, video, hls, timer }
 
 const VP_SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
+const VP_ICONS = {
+  rew: '<svg viewBox="0 0 24 24"><path d="M11 6.5v11L3.5 12zM20 6.5v11L12.5 12z" fill="currentColor"/></svg>',
+  ffw: '<svg viewBox="0 0 24 24"><path d="M4 6.5v11l7.5-5.5zM13 6.5v11l7.5-5.5z" fill="currentColor"/></svg>'
+};
 
 function destroyVideo() {
   if (!vpActive) return;
@@ -45,7 +49,6 @@ function mountVideo(box, url, opts = {}) {
     <div class="ytp-stage vp-stage">
       <video class="vp-video" playsinline preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
       <div class="ytp-click" id="vpClick" hidden></div>
-      <button class="ytp-pause" id="vpPause" type="button" hidden aria-label="${esc(t('player.play'))}"><span class="ytp-big">${YT_ICONS.play}</span></button>
       <div class="vp-spinner" id="vpSpin" hidden><i></i></div>
       <button class="ytp-cover" id="vpCover" type="button" aria-label="${esc(t('player.play'))}">
         ${!opts.poster ? ''
@@ -57,29 +60,43 @@ function mountVideo(box, url, opts = {}) {
         ${opts.title ? `<span class="ytp-cover-title">${esc(opts.title)}</span>` : ''}
       </button>
       <div class="ytp-msg" id="vpMsg" hidden></div>
-      <!-- YouTube uslubidagi panel: tepada to'liq kenglikdagi chiziq, pastda tugmalar; video ustida turadi -->
-      <div class="ytp-bar vp-ytbar" id="vpBar" hidden>
-        <input class="ytp-seek" id="vpSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="seek">
-        <div class="vp-row">
-          <button class="ytp-btn" id="vpPlay" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
-          <button class="ytp-btn ytp-hide-sm" id="vpBack" type="button" aria-label="-10s">${YT_ICONS.back}</button>
-          <button class="ytp-btn ytp-hide-sm" id="vpFwd" type="button" aria-label="+10s">${YT_ICONS.fwd}</button>
-          <button class="ytp-btn" id="vpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
-          <input class="ytp-vol ytp-hide-sm" id="vpVol" type="range" min="0" max="100" value="100" aria-label="volume">
-          <span class="vp-times"><span id="vpTime">0:00</span> / <span id="vpDur">0:00</span></span>
-          ${opts.title ? `<span class="vp-title">${esc(opts.title)}</span>` : ''}
-          <span class="vp-gap"></span>
-          <button class="ytp-btn vp-speed-btn" id="vpSpeed" type="button" aria-label="speed">1x</button>
-          <button class="ytp-btn ytp-fit" id="vpFit" type="button" aria-label="zoom">${YT_ICONS.fill}</button>
-          <button class="ytp-btn vp-cast" id="vpCast" type="button" hidden aria-label="${esc(t('player.cast'))}">${YT_ICONS.cast}</button>
-          <button class="ytp-btn" id="vpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
+      <!-- Panel video ustida: tepada nom va sozlamalar, o'rtada ±10 s va play, pastda chiziq va tugmalar -->
+      <div class="vp-ui" id="vpBar" hidden>
+        <div class="vp-top">
+          <span class="vp-title">${esc(opts.title || '')}</span>
+          <button class="vp-ico" id="vpGear" type="button" aria-label="${esc(t('player.quality'))}" aria-expanded="false">${YT_ICONS.gear}</button>
+        </div>
+        <div class="vp-menu" id="vpMenu" hidden>
+          <div class="vp-menu-sec"><small>${LANG === 'ru' ? 'Скорость' : 'Tezlik'}</small>
+            <div class="vp-menu-chips" id="vpSpeeds">${VP_SPEEDS.map(s => `<button type="button" data-speed="${s}" class="${s === 1 ? 'is-active' : ''}">${s === 1 ? (LANG === 'ru' ? 'Обычная' : 'Oddiy') : s + 'x'}</button>`).join('')}</div></div>
+          <div class="vp-menu-sec" id="vpQRow" hidden><small>${esc(t('player.quality'))} <span id="vpQNow"></span></small>
+            <div class="vp-menu-chips" id="vpQChips"></div></div>
+          <button class="vp-menu-row" id="vpFit" type="button">${YT_ICONS.fill}<span>${LANG === 'ru' ? 'Заполнить экран' : 'Ekranni to‘ldirish'}</span></button>
+        </div>
+        <div class="vp-mid">
+          <button class="vp-skip" id="vpBack" type="button" aria-label="-10s">${VP_ICONS.rew}<span>10</span></button>
+          <button class="vp-center" id="vpPlay" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
+          <button class="vp-skip" id="vpFwd" type="button" aria-label="+10s"><span>10</span>${VP_ICONS.ffw}</button>
+        </div>
+        <div class="vp-bottom">
+          <span class="vp-left" id="vpLeft"></span>
+          <input class="vp-seek" id="vpSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="seek">
+          <div class="vp-row">
+            <button class="vp-circ" id="vpPlay2" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
+            <span class="vp-volwrap">
+              <button class="vp-circ" id="vpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
+              <input class="vp-vol" id="vpVol" type="range" min="0" max="100" value="100" aria-label="volume">
+            </span>
+            <span class="vp-pill vp-times"><span id="vpTime">0:00</span><i></i><span id="vpDur">0:00</span></span>
+            <span class="vp-gap"></span>
+            <span class="vp-pill vp-right">
+              <span class="vp-rate" id="vpRate"></span>
+              <button class="vp-ico" id="vpCast" type="button" hidden aria-label="${esc(t('player.cast'))}">${YT_ICONS.cast}</button>
+              <button class="vp-ico" id="vpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="ytp-qrow" id="vpQRow" role="group" aria-label="${esc(t('player.quality'))}" hidden>
-      <span class="ytp-qrow-label">${YT_ICONS.gear}${esc(t('player.quality'))}</span>
-      <div class="ytp-qrow-chips" id="vpQChips"></div>
-      <span class="ytp-qrow-now" id="vpQNow"></span>
     </div>`;
 
   const $ = s => box.querySelector(s);
@@ -95,7 +112,7 @@ function mountVideo(box, url, opts = {}) {
     : null;
 
   const renderChips = (items, activeIdx) => {
-    $('#vpQRow').hidden = !items || items.length < 2;
+    $('#vpQRow').hidden = !items || items.length < 2;   // sozlamalar menyusida
     if (!items) return;
     $('#vpQChips').innerHTML = items.map((q, i) =>
       `<button type="button" class="ytp-qchip${i === activeIdx ? ' is-active' : ''}" data-vq="${i}">${esc(q.label)}</button>`).join('');
@@ -181,16 +198,15 @@ function mountVideo(box, url, opts = {}) {
   $('#vpCover').addEventListener('click', start);
 
   /* ---- holatlar ---- */
-  const setPlayIcon = () => { $('#vpPlay').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; };
+  const setPlayIcon = () => { $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; box.classList.toggle('vp-paused', video.paused); };
   onV('playing', () => {
     $('#vpCover').hidden = true;
     $('#vpBar').hidden = false;
     $('#vpClick').hidden = false;
-    $('#vpPause').hidden = true;
     $('#vpSpin').hidden = true;
     setPlayIcon(); wake();
   });
-  onV('pause', () => { if (!video.ended) $('#vpPause').hidden = false; setPlayIcon(); wake(); });
+  onV('pause', () => { setPlayIcon(); wake(); });
   onV('waiting', () => { $('#vpSpin').hidden = false; });
   onV('canplay', () => { $('#vpSpin').hidden = true; });
   onV('ended', () => {
@@ -208,20 +224,26 @@ function mountVideo(box, url, opts = {}) {
   /* ---- tugmalar ---- */
   const toggle = () => (video.paused ? video.play() : video.pause());
   const jump = d => { video.currentTime = Math.max(0, Math.min((video.duration || 0), video.currentTime + d)); };
-  $('#vpPlay').addEventListener('click', toggle);
-  $('#vpPause').addEventListener('click', () => video.play());
-  $('#vpBack').addEventListener('click', () => jump(-10));
-  $('#vpFwd').addEventListener('click', () => jump(10));
+  $('#vpPlay').addEventListener('click', () => { toggle(); wake(); });
+  $('#vpPlay2').addEventListener('click', () => { toggle(); wake(); });
+  $('#vpBack').addEventListener('click', () => { jump(-10); wake(); });
+  $('#vpFwd').addEventListener('click', () => { jump(10); wake(); });
   $('#vpMute').addEventListener('click', () => { video.muted = !video.muted; });
   $('#vpVol').addEventListener('input', e => { video.volume = +e.target.value / 100; video.muted = video.volume === 0; });
   const volFill = () => $('#vpVol').style.setProperty('--p', (video.muted ? 0 : video.volume * 100) + '%');
   onV('volumechange', volFill); volFill();
 
-  $('#vpSpeed').addEventListener('click', () => {
-    const i = VP_SPEEDS.indexOf(video.playbackRate);
-    video.playbackRate = VP_SPEEDS[(i + 1) % VP_SPEEDS.length];
-    $('#vpSpeed').textContent = video.playbackRate + 'x';
-    wake();
+  /* ---- sozlamalar (tishli g'ildirak): tezlik, sifat, ekranni to'ldirish ---- */
+  const menu = $('#vpMenu');
+  const setMenu = open => { menu.hidden = !open; $('#vpGear').setAttribute('aria-expanded', open); box.classList.toggle('vp-menu-open', open); };
+  $('#vpGear').addEventListener('click', e => { e.stopPropagation(); setMenu(menu.hidden); wake(); });
+  menu.addEventListener('click', e => e.stopPropagation());
+  box.addEventListener('click', e => { if (!menu.hidden && !e.target.closest('#vpMenu, #vpGear')) setMenu(false); });
+  $('#vpSpeeds').addEventListener('click', e => {
+    const b = e.target.closest('[data-speed]');
+    if (!b) return;
+    video.playbackRate = +b.dataset.speed;
+    $('#vpSpeeds').querySelectorAll('button').forEach(x => x.classList.toggle('is-active', x === b));
   });
 
   let seeking = false;
@@ -238,8 +260,8 @@ function mountVideo(box, url, opts = {}) {
   $('#vpFs').addEventListener('click', () => ytToggleFullscreen(box));
   $('#vpFit').addEventListener('click', () => {
     const fill = box.classList.toggle('ytp-fill');
-    $('#vpFit').innerHTML = fill ? YT_ICONS.fit : YT_ICONS.fill;
-    wake();
+    $('#vpFit').classList.toggle('is-active', fill);
+    $('#vpFit').querySelector('svg').outerHTML = fill ? YT_ICONS.fit : YT_ICONS.fill;
   });
 
   /* ---- Televizorga ulash (faqat Android ilovada, Chromecast topilganda) ---- */
@@ -270,11 +292,11 @@ function mountVideo(box, url, opts = {}) {
     box.classList.remove('ytp-idle');
     clearTimeout(idleT);
     idleT = setTimeout(() => {
-      if (!video.paused) box.classList.add('ytp-idle');
+      if (!video.paused && menu.hidden) box.classList.add('ytp-idle');
     }, 3000);
   }
   ['mousemove', 'touchstart'].forEach(ev => box.addEventListener(ev, wake, { passive: true }));
-  box.addEventListener('mouseleave', () => { if (live() && !video.paused) box.classList.add('ytp-idle'); });
+  box.addEventListener('mouseleave', () => { if (live() && !video.paused && menu.hidden) box.classList.add('ytp-idle'); });
 
   box.tabIndex = 0;
   box.addEventListener('keydown', e => {
@@ -296,6 +318,7 @@ function mountVideo(box, url, opts = {}) {
       seek.style.setProperty('--p', (cur / dur * 100) + '%');
       $('#vpTime').textContent = fmtTime(cur);
       $('#vpDur').textContent = fmtTime(dur);
+      $('#vpLeft').textContent = fmtTime(dur);
     }
     if (!vpActive.hls && fileQualities) {
       const h = video.videoHeight;

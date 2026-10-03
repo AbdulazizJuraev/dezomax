@@ -14,6 +14,7 @@ Object.assign(I18N.uz, {
   'soc.comments': 'Izohlar',
   'soc.ytComments': 'YouTube izohlari',
   'soc.ytAll': 'Barcha izohlar YouTube’da',
+  'soc.ytMore': 'Yana {n} ta izoh',
   'soc.ytViews': 'shundan YouTube’da',
   'soc.placeholder': 'Fikringizni yozing…',
   'soc.send': 'Yuborish',
@@ -47,6 +48,7 @@ Object.assign(I18N.ru, {
   'soc.comments': 'Комментарии',
   'soc.ytComments': 'Комментарии на YouTube',
   'soc.ytAll': 'Все комментарии на YouTube',
+  'soc.ytMore': 'Ещё {n} комментариев',
   'soc.ytViews': 'из них на YouTube',
   'soc.placeholder': 'Напишите своё мнение…',
   'soc.send': 'Отправить',
@@ -152,7 +154,8 @@ function initSocial(m, part, opts = {}) {
   const shareText = title(m) + (part ? ` · ${LANG === 'ru' ? part + ' серия' : part + '-qism'}` : '') + ' — DezoMax';
   let state = { views: null, likes: 0, dislikes: 0, mine: 0, total: 0, comments: [] }, shown = 20, busy = false, down = false;   // down — server bu imkoniyatni hali bilmaydi / ishlamayapti
   // YouTube'dagi raqamlar (DezoCloud /api/yt/info, 6 soat kesh): ko'rishlar va layklar bizning sonlarga qo'shiladi
-  let yt = null;
+  let yt = null, ytOpen = false;
+  const YT_SHOW = 3;   // YouTube izohlaridan avval nechtasi ko'rinadi
   const ytId = (String(opts.video || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/) || [])[1] || '';
   const views = () => state.views === null && !yt ? null : (state.views || 0) + (yt?.views || 0);
   const likes = () => (state.likes || 0) + (yt?.likes || 0);
@@ -277,11 +280,12 @@ function initSocial(m, part, opts = {}) {
     if (!pb || !api) return;
     let wrap = pb.querySelector('.soc-prate');
     if (!wrap) {
-      const anchor = pb.querySelector('#vpSpeed') || pb.querySelector('#ytpFs');
-      if (!anchor) return;
+      // o'z pleyerimizda — o'ng pastki «tabletka» ichida (#vpRate), YouTube pleyerida — katta ekran tugmasidan oldin
+      const slot = pb.querySelector('#vpRate'), anchor = pb.querySelector('#ytpFs');
+      if (!slot && !anchor) return;
       wrap = document.createElement('span');
       wrap.className = 'soc-prate';
-      anchor.before(wrap);
+      slot ? slot.appendChild(wrap) : anchor.before(wrap);
       wrap.addEventListener('click', e => {
         const b = e.target.closest('[data-prate]');
         if (b) { e.stopPropagation(); rate(+b.dataset.prate); }
@@ -343,7 +347,7 @@ function initSocial(m, part, opts = {}) {
       ${yt && yt.comments && yt.comments.length ? `
       <div class="soc-yt">
         <div class="soc-yt-head">${SOC_ICONS.yt}<b>${esc(t('soc.ytComments'))}</b>${yt.commentCount ? `<span>${esc(socFmt(yt.commentCount))}</span>` : ''}</div>
-        <div class="soc-list">${yt.comments.map(c => `
+        <div class="soc-list soc-yt-list${ytOpen ? ' is-open' : ''}">${yt.comments.map(c => `
           <div class="soc-c is-yt">
             ${c.avatar ? `<img class="soc-ava" src="${esc(c.avatar)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'soc-ava',textContent:'${esc((c.author.replace('@', '')[0] || '?').toUpperCase())}'}))">` : `<span class="soc-ava">${esc((c.author.replace('@', '')[0] || '?').toUpperCase())}</span>`}
             <div class="soc-c-body">
@@ -352,6 +356,7 @@ function initSocial(m, part, opts = {}) {
               ${c.likes ? `<small class="soc-c-likes">${SOC_ICONS.up}${esc(socFmt(c.likes))}</small>` : ''}
             </div>
           </div>`).join('')}</div>
+        ${!ytOpen && yt.comments.length > YT_SHOW ? `<button class="soc-yt-toggle" type="button" id="socYtMore">${esc(t('soc.ytMore').replace('{n}', yt.comments.length - YT_SHOW))}</button>` : ''}
         <a class="btn btn-ghost soc-more" href="https://www.youtube.com/watch?v=${ytId}" target="_blank" rel="noopener">${SOC_ICONS.yt}<span>${esc(t('soc.ytAll'))}</span></a>
       </div>` : ''}`;
 
@@ -377,6 +382,7 @@ function initSocial(m, part, opts = {}) {
       });
     }
     box.querySelector('#socMore')?.addEventListener('click', () => { shown += 30; drawComments(); });
+    box.querySelector('#socYtMore')?.addEventListener('click', () => { ytOpen = true; drawComments(); });
     box.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
       if (!confirm(t('soc.delAsk'))) return;
       b.disabled = true;
