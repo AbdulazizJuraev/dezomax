@@ -6035,3 +6035,15 @@ img.soc-ava { object-fit: cover; padding: 0; background: var(--surface); }
 .acc-dev-meta { margin-top: 2px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
 .acc-dev-on { display: inline-flex; align-items: center; gap: 5px; color: #4ade80; font-weight: 650; }
 .acc-dev-on::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 3px rgba(74, 222, 128, .2); }
+
+/* Internet yo'q paytda kinoga kirganda: «Internetni yoqing» (js/common.js offlineNoticeHTML) */
+.offline-modal { position: fixed; inset: 0; z-index: 1200; display: grid; place-items: center; padding: 16px; }
+.offline-modal-back { position: absolute; inset: 0; background: rgba(4, 6, 10, .72); backdrop-filter: blur(6px); }
+.offline-note { position: relative; width: min(360px, 100%); display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 26px 22px 20px; text-align: center; border-radius: 20px; background: var(--surface, #11151d); border: 1px solid var(--line); box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.offline-note-ico { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 20px; color: #4cb8f0; background: rgba(10, 147, 220, .12); margin-bottom: 4px; }
+.offline-note-ico svg { width: 34px; height: 34px; }
+.offline-note b { font-size: 18px; }
+.offline-note p { margin: 0 0 8px; color: var(--text-dim); font-size: 14px; line-height: 1.5; }
+.offline-note-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+/* kino sahifasida pleyer o'rnida */
+.player-wrap > .offline-note { width: 100%; height: 100%; border-radius: 0; border: 0; box-shadow: none; justify-content: center; background: radial-gradient(circle at 50% 40%, #13202e, #07090d 70%); }

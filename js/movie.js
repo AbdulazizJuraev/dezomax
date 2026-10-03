@@ -159,6 +159,13 @@ function mountPlayer(url) {
     if (link) link.hidden = true;
     return;
   }
+  if (!navigator.onLine && typeof offlineNoticeHTML === 'function') {
+    box.innerHTML = offlineNoticeHTML();
+    box.querySelector('[data-offline-close]')?.remove();
+    addEventListener('online', () => location.reload(), { once: true });
+    if (link) link.hidden = true;
+    return;
+  }
 
   // DezoCloud ulashish havolasi (dezocloud.uz/s/…) — faylni to'g'ridan-to'g'ri o'z pleyerimizda (/v/…).
   // Fayl brauzerda o'ynamasa — DezoCloud sahifasi pleyer bo'yicha to'liq (embed=1) ochiladi.

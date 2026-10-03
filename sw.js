@@ -21,6 +21,20 @@ self.addEventListener('install', () => self.skipWaiting());
    Sahifalar Accept: text/html bilan so'raladi — ilovada Capacitor ularga o'z ko'prigini qo'shadi. */
 self.addEventListener('message', e => {
   const d = e.data || {};
+  if (d.type === 'images') {
+    e.waitUntil((async () => {
+      const c = await caches.open(IMG);
+      for (const u of (d.images || []).slice(0, 80)) {
+        try {
+          if (await c.match(u, { ignoreSearch: false })) continue;
+          const res = await fetch(u, { mode: 'no-cors' });
+          if (res && (res.ok || res.type === 'opaque')) await c.put(u, res);
+        } catch {}
+      }
+      trim(c);
+    })());
+    return;
+  }
   if (d.type !== 'precache') return;
   e.waitUntil((async () => {
     const pages = await caches.open(PAGES), shell = await caches.open(SHELL);
@@ -115,8 +129,9 @@ function image(e, req) {
 
 async function offlinePage(req, url) {
   const cache = await caches.open(PAGES);
-  const hit = await cache.match(new Request(url.origin + url.pathname), { ignoreSearch: true });
-  return hit || fetch(req);          // saqlanmagan bo'lsa — odatdagi xato (ilovada «Internet yo'q» sahifasi)
+  const hit = await cache.match(new Request(url.origin + url.pathname), { ignoreSearch: true })
+    || await cache.match(new Request(new URL('index.html', self.registration.scope).href), { ignoreSearch: true });
+  return hit || fetch(req);          // hech narsa saqlanmagan — odatdagi xato (ilovada «Internet yo'q» sahifasi)
 }
 
 async function networkFirst(req, name, key) {

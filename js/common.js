@@ -635,7 +635,7 @@ const IS_APP = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && 
             .map(el => el.src || el.href).filter(u => u && u.startsWith(location.origin));
           reg.active?.postMessage({
             type: 'precache',
-            pages: ['index.html', 'catalog.html', 'movie.html', 'search.html', 'downloads.html', 'favorites.html', 'tv.html', 'sport.html'],
+            pages: ['index.html', 'catalog.html', 'movie.html', 'search.html', 'downloads.html', 'favorites.html', 'tv.html', 'sport.html', 'account.html', 'marvel.html', 'plans.html'],
             assets
           });
         }).catch(() => {});
@@ -658,5 +658,73 @@ const IS_APP = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && 
   };
   addEventListener('online', bar);
   addEventListener('offline', bar);
+
+  // sahifadagi posterlar va slayder rasmlari — internetsiz ham ko'rinsin (sw.js saqlaydi)
+  addEventListener('load', () => setTimeout(() => {
+    if (!navigator.onLine || !navigator.serviceWorker?.controller) return;
+    const urls = new Set();
+    document.querySelectorAll('img[src]').forEach(i => { if (/^https?:/.test(i.currentSrc || i.src)) urls.add(i.currentSrc || i.src); });
+    document.querySelectorAll('.hero-bg, [style*="background-image"]').forEach(el => {
+      const m = /url\(["']?([^"')]+)["']?\)/.exec(el.style.backgroundImage || getComputedStyle(el).backgroundImage || '');
+      if (m && /^https?:/.test(m[1])) urls.add(m[1]);
+    });
+    navigator.serviceWorker.controller.postMessage({ type: 'images', images: [...urls].slice(0, 80) });
+  }, 4000));
+
+  /* Internet yo'q paytda kinoga kirmoqchi bo'lsa — «Internetni yoqing» oynasi.
+     Telefonga yuklab olingan kino bo'lsa — «Yuklab olinganlar»ga (u yerda internetsiz o'ynaydi). */
+  document.addEventListener('click', e => {
+    if (navigator.onLine) return;
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+    const id = movieIdOfHref(href);
+    if (id === null) return;
+    e.preventDefault();
+    e.stopPropagation();
+    let saved = [];
+    try { saved = JSON.parse(localStorage.getItem('dezomax_offline') || '[]'); } catch {}
+    if (id && saved.some(x => x && x.id === id && x.state === 'done')) { location.href = 'downloads.html'; return; }
+    showOfflineNotice();
+  }, true);
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bar); else bar();
 })();
+
+/* Havola kino sahifasigami: movie.html?id=…, kino/<sahifa>.html, marvel/<sahifa>.html → kino id (noma'lum — 0); boshqa havola — null */
+function movieIdOfHref(href) {
+  const q = /(?:^|\/)movie\.html\?(?:[^#]*&)?id=(\d+)/.exec(href);
+  if (q) return Number(q[1]);
+  const k = /(?:^|\/)kino\/([\w-]+)\.html/.exec(href);
+  if (k && k[1] !== 'index') {
+    const map = typeof SEO_PAGES !== 'undefined' ? SEO_PAGES : {};
+    const hit = Object.keys(map).find(i => map[i] === k[1]);
+    return hit ? Number(hit) : 0;
+  }
+  if (/(?:^|\/)marvel\/[\w-]+\.html/.test(href)) return 0;
+  return null;
+}
+
+function offlineNoticeHTML() {
+  const ru = LANG === 'ru';
+  return `
+    <div class="offline-note">
+      <span class="offline-note-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.8a15.5 15.5 0 0 1 5-3.2M10.5 4.6A15.6 15.6 0 0 1 22 8.8M5.3 12.3a10.4 10.4 0 0 1 4.2-2.6M14.7 9.9a10.4 10.4 0 0 1 4 2.4M8.6 15.7a5.5 5.5 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r="1" fill="currentColor"/><path d="M3 3l18 18" stroke="#f87171"/></svg></span>
+      <b>${ru ? 'Нет интернета' : 'Internet yo‘q'}</b>
+      <p>${ru ? 'Чтобы смотреть фильм, включите интернет (Wi-Fi или мобильные данные).' : 'Kinoni ko‘rish uchun internetni yoqing (Wi-Fi yoki mobil internet).'}</p>
+      <div class="offline-note-actions">
+        ${IS_APP ? `<a class="btn btn-ghost" href="downloads.html">${ru ? 'Скачанные фильмы' : 'Yuklab olinganlar'}</a>` : ''}
+        <button class="btn btn-primary" type="button" data-offline-close>${ru ? 'Понятно' : 'Tushunarli'}</button>
+      </div>
+    </div>`;
+}
+
+function showOfflineNotice() {
+  document.querySelector('.offline-modal')?.remove();
+  const el = document.createElement('div');
+  el.className = 'offline-modal';
+  el.innerHTML = `<div class="offline-modal-back" data-offline-close></div>${offlineNoticeHTML()}`;
+  document.body.appendChild(el);
+  el.querySelectorAll('[data-offline-close]').forEach(b => b.addEventListener('click', () => el.remove()));
+  addEventListener('online', () => el.remove(), { once: true });
+}

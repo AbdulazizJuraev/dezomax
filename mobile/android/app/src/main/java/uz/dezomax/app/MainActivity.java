@@ -73,19 +73,6 @@ public class MainActivity extends BridgeActivity {
             .show();
     }
 
-    private boolean isOnline() {
-        try {
-            android.net.ConnectivityManager cm = (android.net.ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-            if (cm == null) return true;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                android.net.NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
-                return nc != null && nc.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET);
-            }
-            android.net.NetworkInfo ni = cm.getActiveNetworkInfo();
-            return ni != null && ni.isConnected();
-        } catch (Exception e) { return true; }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         final Thread.UncaughtExceptionHandler prev = Thread.getDefaultUncaughtExceptionHandler();
@@ -100,12 +87,6 @@ public class MainActivity extends BridgeActivity {
 
         WebView webView = getBridge() != null ? getBridge().getWebView() : null;
 
-        // Internet yo'q — sayt ochilmaydi; to'g'ridan-to'g'ri ilovadagi sahifa: telefondagi kinolar ro'yxati
-        // (offline.html, /_dzx_offline/__list.json orqali — internetsiz o'ynaydi)
-        if (webView != null && !isOnline()) {
-            String err = getBridge().getErrorUrl();
-            if (err != null) webView.post(() -> webView.loadUrl(err));
-        }
 
         // Saytdagi AdSense bannerlari ilova ichida ham to'g'ri hisoblansin (Google WebView API for Ads)
         if (webView != null) {

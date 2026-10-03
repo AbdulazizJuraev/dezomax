@@ -227,7 +227,7 @@ function listenClip(clip) {
 function createShared(cur) {
   const hero = document.getElementById('hero');
   const id = heroYtId(featured[heroIndex]);
-  if (!hero || !id) return;
+  if (!hero || !id || !navigator.onLine) return;
   const sp = document.createElement('div');
   sp.className = 'hero-clip hero-clip-shared';
   sp._shared = true;
@@ -368,7 +368,7 @@ addEventListener('message', e => {
 function startClip(i) {
   const m = featured[i], id = heroYtId(m);
   const bg = document.querySelector(`.hero-slide[data-i="${i}"] .hero-bg`);
-  if (!id || !bg || document.hidden || heroShared || bg.querySelector('.hero-clip')) return;
+  if (!id || !bg || document.hidden || !navigator.onLine || heroShared || bg.querySelector('.hero-clip')) return;
   const clip = document.createElement('div');
   clip.className = 'hero-clip';
   clip._slide = i;
