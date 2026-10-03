@@ -5863,3 +5863,14 @@ html.soc-lock { overflow: hidden; }
 .mx-cast li { padding: 8px 12px 8px 8px; }
 .mx-aka { margin-top: 6px; color: var(--text-faint); font-size: 13px; line-height: 1.5; }
 .mx-trailer.player-wrap { aspect-ratio: auto; overflow: visible; cursor: default; background: none; border-radius: 14px; }
+
+/* YouTube'dagi izohlar va ko'rishlar (js/social.js, DezoCloud /api/yt/info) */
+.soc-yt { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line); }
+.soc-yt-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 16px; }
+.soc-yt-head span { color: var(--text-faint); font-size: 14px; }
+.soc-yt-ico { width: 22px; height: 22px; flex: none; vertical-align: -5px; }
+img.soc-ava { object-fit: cover; padding: 0; background: var(--surface); }
+.soc-c-likes { display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; color: var(--text-faint); font-size: 12px; }
+.soc-c-likes svg { width: 14px; height: 14px; }
+.soc-yt-note { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; color: var(--text-dim); font-size: 13.5px; }
+.soc-yt .soc-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; }

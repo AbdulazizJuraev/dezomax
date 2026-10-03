@@ -12,6 +12,9 @@ Object.assign(I18N.uz, {
   'soc.copy': 'Havolani nusxalash',
   'soc.copied': 'Havola nusxalandi',
   'soc.comments': 'Izohlar',
+  'soc.ytComments': 'YouTube izohlari',
+  'soc.ytAll': 'Barcha izohlar YouTube’da',
+  'soc.ytViews': 'shundan YouTube’da',
   'soc.placeholder': 'Fikringizni yozing…',
   'soc.send': 'Yuborish',
   'soc.login': 'Baho berish va izoh yozish uchun kiring',
@@ -42,6 +45,9 @@ Object.assign(I18N.ru, {
   'soc.copy': 'Скопировать ссылку',
   'soc.copied': 'Ссылка скопирована',
   'soc.comments': 'Комментарии',
+  'soc.ytComments': 'Комментарии на YouTube',
+  'soc.ytAll': 'Все комментарии на YouTube',
+  'soc.ytViews': 'из них на YouTube',
   'soc.placeholder': 'Напишите своё мнение…',
   'soc.send': 'Отправить',
   'soc.login': 'Войдите, чтобы оценивать и комментировать',
@@ -67,6 +73,7 @@ Object.assign(I18N.ru, {
 });
 
 const SOC_ICONS = {
+  yt: '<svg class="soc-yt-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#ff0033" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z"/><path fill="#fff" d="M9.6 15.6V8.4l6.2 3.6z"/></svg>',
   up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H3.5a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1H7z"/><path d="M7 10l4.2-7.4a1.9 1.9 0 0 1 3.5 1.3L13.8 9H19a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 17.6 21H7"/></svg>',
   down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V3h3.5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H17z"/><path d="M17 14l-4.2 7.4a1.9 1.9 0 0 1-3.5-1.3l.9-5.1H5a2 2 0 0 1-2-2.3l1.4-8A2 2 0 0 1 6.4 3H17"/></svg>',
   share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l6 6-6 6"/><path d="M21 11H11a7 7 0 0 0-7 7v1"/></svg>',
@@ -144,13 +151,18 @@ function initSocial(m, part, opts = {}) {
   const shareUrl = socShareUrl(m, part);
   const shareText = title(m) + (part ? ` · ${LANG === 'ru' ? part + ' серия' : part + '-qism'}` : '') + ' — DezoMax';
   let state = { views: null, likes: 0, dislikes: 0, mine: 0, total: 0, comments: [] }, shown = 20, busy = false, down = false;   // down — server bu imkoniyatni hali bilmaydi / ishlamayapti
+  // YouTube'dagi raqamlar (DezoCloud /api/yt/info, 6 soat kesh): ko'rishlar va layklar bizning sonlarga qo'shiladi
+  let yt = null;
+  const ytId = (String(opts.video || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/) || [])[1] || '';
+  const views = () => state.views === null && !yt ? null : (state.views || 0) + (yt?.views || 0);
+  const likes = () => (state.likes || 0) + (yt?.likes || 0);
 
   /* ---- ko'rishlar soni va yuklangan sana (pleyer ostida, chapda) ---- */
   // YouTube'dagidek: «12 345 marta · 3 kun oldin …yana» — «yana» tavsif oynasini ochadi
   const drawStats = () => {
     if (!stats) return;
     const parts = [];
-    if (state.views !== null) parts.push(`<span>${socNum(state.views)} ${esc(t('soc.times'))}</span>`);
+    if (views() !== null) parts.push(`<span>${socNum(views())} ${esc(t('soc.times'))}</span>`);
     if (opts.addedAt) parts.push(`<span>${esc(socTime(opts.addedAt))}</span>`);
     else if (opts.year) parts.push(`<span>${opts.year}</span>`);
     stats.innerHTML = `<button type="button" class="mv-stats-btn" id="socMoreInfo">${parts.join('')}<b>${esc(t('soc.yana'))}</b></button>`;
@@ -174,10 +186,11 @@ function initSocial(m, part, opts = {}) {
         <div class="soc-sheet-body">
           <h4>${esc(opts.title || title(m))}</h4>
           <div class="soc-tiles">
-            ${tile(socFmt(state.likes), t('soc.likes'))}
-            ${tile(state.views !== null ? socNum(state.views) : '—', t('soc.viewsT'))}
+            ${tile(socFmt(likes()), t('soc.likes'))}
+            ${tile(views() !== null ? socNum(views()) : '—', t('soc.viewsT'))}
             ${d ? tile(d.getFullYear(), LANG === 'ru' ? `${d.getDate()} ${mo}` : `${d.getDate()}-${mo}`) : tile(opts.year || '—', t('soc.yearT'))}
           </div>
+          ${yt && yt.views ? `<p class="soc-yt-note">${SOC_ICONS.yt} ${esc(socNum(yt.views))} ${esc(t('soc.times'))} — ${esc(t('soc.ytViews'))}</p>` : ''}
           ${desc ? `<div class="soc-desc">${esc(desc)}</div>` : ''}
           ${(opts.info || []).length ? `
           <dl class="mv-info soc-info">
@@ -214,7 +227,7 @@ function initSocial(m, part, opts = {}) {
   const drawBar = () => {
     bar.innerHTML = `
       <div class="soc-rate${api ? '' : ' is-off'}">
-        <button type="button" class="soc-btn${state.mine === 1 ? ' is-on' : ''}" data-rate="1" aria-pressed="${state.mine === 1}" title="${esc(t('soc.like'))}">${SOC_ICONS.up}<b>${socFmt(state.likes)}</b></button>
+        <button type="button" class="soc-btn${state.mine === 1 ? ' is-on' : ''}" data-rate="1" aria-pressed="${state.mine === 1}" title="${esc(t('soc.like'))}">${SOC_ICONS.up}<b>${socFmt(likes())}</b></button>
         <i class="soc-sep"></i>
         <button type="button" class="soc-btn${state.mine === -1 ? ' is-on' : ''}" data-rate="-1" aria-pressed="${state.mine === -1}" title="${esc(t('soc.dislike'))}">${SOC_ICONS.down}<b>${socFmt(state.dislikes)}</b></button>
       </div>
@@ -257,7 +270,7 @@ function initSocial(m, part, opts = {}) {
 
   /* ---- pleyer panelida ham like/dislike (fonsiz, vaqt va «1x» orasida) ---- */
   const prateHTML = () => `
-    <button type="button" class="ytp-btn soc-pbtn${state.mine === 1 ? ' is-on' : ''}" data-prate="1" aria-label="${esc(t('soc.like'))}">${SOC_ICONS.up}<span>${socFmt(state.likes)}</span></button>
+    <button type="button" class="ytp-btn soc-pbtn${state.mine === 1 ? ' is-on' : ''}" data-prate="1" aria-label="${esc(t('soc.like'))}">${SOC_ICONS.up}<span>${socFmt(likes())}</span></button>
     <button type="button" class="ytp-btn soc-pbtn${state.mine === -1 ? ' is-on' : ''}" data-prate="-1" aria-label="${esc(t('soc.dislike'))}">${SOC_ICONS.down}<span>${socFmt(state.dislikes)}</span></button>`;
   const drawPlayerRate = () => {
     const pb = document.getElementById('playerBox');
@@ -326,7 +339,21 @@ function initSocial(m, part, opts = {}) {
       <div class="soc-list">
         ${list.length ? list.map(commentHTML).join('') : api ? `<p class="acc-muted soc-empty">${esc(t('soc.empty'))}</p>` : ''}
       </div>
-      ${state.comments.length > shown ? `<button class="btn btn-ghost soc-more" type="button" id="socMore">${esc(t('soc.more'))}</button>` : ''}`;
+      ${state.comments.length > shown ? `<button class="btn btn-ghost soc-more" type="button" id="socMore">${esc(t('soc.more'))}</button>` : ''}
+      ${yt && yt.comments && yt.comments.length ? `
+      <div class="soc-yt">
+        <div class="soc-yt-head">${SOC_ICONS.yt}<b>${esc(t('soc.ytComments'))}</b>${yt.commentCount ? `<span>${esc(socFmt(yt.commentCount))}</span>` : ''}</div>
+        <div class="soc-list">${yt.comments.map(c => `
+          <div class="soc-c is-yt">
+            ${c.avatar ? `<img class="soc-ava" src="${esc(c.avatar)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'soc-ava',textContent:'${esc((c.author.replace('@', '')[0] || '?').toUpperCase())}'}))">` : `<span class="soc-ava">${esc((c.author.replace('@', '')[0] || '?').toUpperCase())}</span>`}
+            <div class="soc-c-body">
+              <div class="soc-c-head"><b>${esc(c.author)}</b><small>${esc(c.time)}</small></div>
+              <p>${esc(c.text)}</p>
+              ${c.likes ? `<small class="soc-c-likes">${SOC_ICONS.up}${esc(socFmt(c.likes))}</small>` : ''}
+            </div>
+          </div>`).join('')}</div>
+        <a class="btn btn-ghost soc-more" href="https://www.youtube.com/watch?v=${ytId}" target="_blank" rel="noopener">${SOC_ICONS.yt}<span>${esc(t('soc.ytAll'))}</span></a>
+      </div>` : ''}`;
 
     const form = box.querySelector('#socForm');
     if (form) {
@@ -364,6 +391,12 @@ function initSocial(m, part, opts = {}) {
   drawStats();
   drawBar();
   drawComments();
+  if (ytId) {
+    fetch('https://dezocloud.uz/api/yt/info?v=' + ytId).then(r => r.ok ? r.json() : null).then(j => {
+      if (!j || typeof j.views !== 'number') return;
+      yt = j; drawStats(); drawBar(); drawComments();
+    }).catch(() => {});
+  }
   if (!api) return;
   socReq('GET', `/social?movie=${m.id}`)
     .then(j => { state = { ...state, ...j }; if (typeof j.views !== 'number') state.views = null; drawStats(); drawBar(); drawComments(); })

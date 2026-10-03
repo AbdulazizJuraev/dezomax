@@ -569,7 +569,9 @@ function renderMovie() {
     // tavsif va ma'lumotlar «…yana» oynasida (ruscha tavsif Wikipedia'dan kelishi mumkin — ochilganda olinadi)
     desc: () => (LANG === 'ru' && wikiText) || descOf(movie),
     info,
-    year: movie.year || null
+    year: movie.year || null,
+    // YouTube'dagi ko'rishlar, layklar va izohlar ham qo'shiladi (film YouTube'da bo'lsa — film, aks holda treyler)
+    video: movie.video || movie.trailer || ''
   });
 
   // ?play=1 bo'lsa pleyerga o'tamiz
