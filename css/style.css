@@ -6177,22 +6177,19 @@ html.tv-mode .row-nav { display: none !important; }
 .page-admin .adm-nav { background: #141822; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .adm-dup-item .acc-item-main small { white-space: normal; overflow-wrap: anywhere; }   /* ID va manba to'liq ko'rinsin */
 @media (max-width: 560px) { .adm-dup-item .btn { padding: 6px 10px; font-size: 12px; flex: none; } }
-/* Hamma kartalar 16:9 (foydalanuvchi so'rovi): tik (2:3) poster kesilmaydi — o'rtada to'liq (contain),
-   chetlarini o'sha rasmning xira nusxasi to'ldiradi. Keng muqovalilar (YouTube, konsert, cover) — to'g'ridan-to'g'ri. */
+/* «Seriallar» sahifasi (catalog.html?type=serial, body.is-serials): hamma kartalar 16:9.
+   Tik (2:3) poster kesilmaydi — o'rtada to'liq (contain), chetlarini o'sha rasmning xira nusxasi to'ldiradi.
+   Boshqa sahifalar (bosh sahifa, katalog, qidiruv) — odatdagidek. */
 .poster-blur { display: none; }
-.card .card-poster { aspect-ratio: 16 / 9; }
-.card-poster .poster-blur {
+.is-serials .grid .card .card-poster { aspect-ratio: 16 / 9; }
+.is-serials .grid .card-poster .poster-blur {
   display: block; position: absolute; inset: -10%; width: 120%; height: 120%; z-index: 1;
   object-fit: cover; filter: blur(16px) brightness(.5) saturate(1.2);
 }
-.card:not(.is-wide) .card-poster .poster-img { object-fit: contain; }
-.row .card, .row .card.is-wide { flex: 0 0 clamp(250px, 30vw, 360px); }
+.is-serials .grid .card:not(.is-wide) .card-poster .poster-img { object-fit: contain; }
+.is-serials .grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 @media (max-width: 640px) {
-  .row .card, .row .card.is-wide { flex-basis: min(250px, 72vw); }
-}
-.grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-@media (max-width: 640px) {
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .is-serials .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* ================= Admin: minimalizm =================

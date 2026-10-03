@@ -95,6 +95,9 @@ function update(pushUrl = true) {
 
   document.getElementById('count').textContent = resultsText(list.length);
 
+  // «Seriallar» sahifasi — kartalar 16:9 (css: .is-serials); boshqa sahifalar odatdagidek
+  document.body.classList.toggle('is-serials', state.type === 'serial');
+
   // Sarlavha
   const h = document.getElementById('pageTitle');
   if (state.q)                      h.textContent = `${t('search.results')}: "${state.q}"`;
