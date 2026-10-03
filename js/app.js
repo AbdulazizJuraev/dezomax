@@ -523,6 +523,14 @@ function initSeriesBanner(root, list) {
   restart();
 }
 
+/* Qatorda tik (2:3) va yotiq (16:9) kartalar yonma-yon turmasin: ko'pchiligi qanday bo'lsa — hammasi shunday.
+   Rasm kesilmaydi — sig'magan joyi o'sha rasmning xira nusxasi bilan to'ladi (css: .row-wide / .row-tall) */
+function rowShape(list) {
+  const wide = list.filter(m => m.franchise === 'konsert' || m.wide).length;
+  if (!wide || wide === list.length) return '';
+  return wide * 2 >= list.length ? ' row-wide' : ' row-tall';
+}
+
 function renderRows() {
   const box = document.getElementById('homeRows');
   if (!box) return;
@@ -561,7 +569,7 @@ function renderRows() {
           ${src.all ? `<a class="row-all" href="${src.all}">${t('row.seeAll')}</a>` : ''}
           <div class="row-nav" data-for="homeRow${i}"></div>
         </div>
-        <div class="row" id="homeRow${i}">${list.map(cardHTML).join('')}</div>
+        <div class="row${rowShape(list)}" id="homeRow${i}">${list.map(cardHTML).join('')}</div>
       </section>${ad}`;
   }).join('');
 

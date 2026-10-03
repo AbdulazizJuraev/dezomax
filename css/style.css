@@ -6227,3 +6227,18 @@ html.tv-mode .row-nav { display: none !important; }
 .page-admin .adm-stat .adm-stat-icon, .page-admin .adm-stat[data-stat] .adm-stat-icon { width: auto; height: auto; background: none; color: var(--text-faint); justify-content: start; }
 .page-admin .adm-stat b { font-weight: 700; }
 .page-admin .adm-stat small { font-weight: 500; color: var(--text-faint); }
+/* Bosh sahifa: aralash qatorda kartalar bir xil (app.js rowShape) — ko'pchiligi yotiq bo'lsa hammasi 16:9, tik bo'lsa 2:3.
+   Shakli to'g'ri kelmagan rasm kesilmaydi: o'rtada to'liq, chetlarida xira nusxasi. */
+.row-wide .card, .row-wide .card.is-wide { flex: 0 0 clamp(250px, 30vw, 360px); }
+.row-wide .card .card-poster { aspect-ratio: 16 / 9; }
+.row-tall .card, .row-tall .card.is-wide { flex: 0 0 clamp(140px, 17vw, 195px); }
+.row-tall .card .card-poster { aspect-ratio: 2 / 3; }
+@media (max-width: 640px) {
+  .row-wide .card, .row-wide .card.is-wide { flex-basis: min(260px, 76vw); }
+  .row-tall .card, .row-tall .card.is-wide { flex-basis: 138px; }
+}
+.row-wide .card:not(.is-wide) .poster-blur, .row-tall .card.is-wide .poster-blur {
+  display: block; position: absolute; inset: -10%; width: 120%; height: 120%; z-index: 1;
+  object-fit: cover; filter: blur(16px) brightness(.5) saturate(1.2);
+}
+.row-wide .card:not(.is-wide) .poster-img, .row-tall .card.is-wide .poster-img { object-fit: contain; }

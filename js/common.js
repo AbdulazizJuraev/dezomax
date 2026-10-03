@@ -197,8 +197,8 @@ function posterHTML(m) {
   if (!m.poster) return fallback;
 
   // «Seriallar» sahifasida kartalar 16:9 — tik (2:3) poster kesilmaydi: o'rtada to'liq, chetlarida xira nusxasi (css: .is-serials)
-  const blur = m.wide || m.franchise === 'konsert'
-    ? '' : `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">`;
+  // (bosh sahifadagi aralash qatorlarda ham — .row-wide / .row-tall; odatda yashirin)
+  const blur = `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">`;
   return fallback + blur +
     `<img class="poster-img" src="${esc(m.poster)}" alt="${esc(title(m))}" loading="lazy" onerror="this.remove()">`;
 }
