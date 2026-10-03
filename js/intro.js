@@ -54,7 +54,10 @@
   if (reduce || saveData) { logoAnim(); return; }
 
   el.classList.add('intro-video-mode');
-  el.innerHTML = '<video class="intro-video" src="images/intro/intro.mp4" poster="images/intro/intro-poster.jpg" playsinline preload="auto" muted></video>';
+  // telefon (tik ekran) — 9:16 video, kompyuter/televizor — 16:9; ikkalasi ham butun ekranni egallaydi
+  const tall = innerHeight > innerWidth;
+  const file = tall ? 'intro-portrait' : 'intro';
+  el.innerHTML = `<video class="intro-video" src="images/intro/${file}.mp4" poster="images/intro/${file}-poster.jpg" playsinline preload="auto" muted></video>`;
   const v = el.querySelector('video');
   let started = false;
   v.addEventListener('playing', () => { started = true; }, { once: true });

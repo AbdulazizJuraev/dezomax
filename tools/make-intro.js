@@ -2,8 +2,8 @@
    DezoMax — kirishdagi 3 soniyalik intro video: images/intro/intro.mp4 (+ intro-poster.jpg)
    ------------------------------------------------------------
    Kadrlar js/logo.js dagi logotip SVG'sidan chiziladi (sharp), ovoz kod bilan sintez qilinadi,
-   ffmpeg bilan H.264 + AAC MP4'ga yig'iladi. Video kvadrat (1080×1080) — telefonda ham,
-   kompyuterda ham to'liq ko'rinadi; cheti sayt foni (#07080c) bilan bir xil — chok bilinmaydi.
+   ffmpeg bilan H.264 + AAC MP4'ga yig'iladi. Ikki xil: intro.mp4 — yotiq 1920×1080 (kompyuter, televizor),
+   intro-portrait.mp4 — tik 1080×1920 (telefon); sayt ekranga qarab tanlaydi va butun ekranni egallaydi.
 
    0.00–0.65  qorong'ilikdan yorug'lik chizig'i markazga yugurib keladi (+ «vush»)
    0.62       chaqnash: logotip yorug'lik ichidan chiqadi (+ past «bum»)
@@ -29,7 +29,12 @@ const FFMPEG = require(path.join(MOBILE, 'ffmpeg-static'));
 
 const OUT_DIR = path.join(ROOT, 'images', 'intro');
 const TMP = path.join(require('os').tmpdir(), 'dzx-intro');
-const W = 1080, H = 1080, FPS = 30, DUR = 3, N = FPS * DUR, SR = 44100;
+let W = 1920, H = 1080, CX = 960, CY = 540, LOGO_PX = 1000;
+const VARIANTS = [
+  { file: 'intro.mp4', W: 1920, H: 1080, logo: 1000, poster: 'intro-poster.jpg' },
+  { file: 'intro-portrait.mp4', W: 1080, H: 1920, logo: 900, poster: 'intro-portrait-poster.jpg' }
+];
+const FPS = 30, DUR = 3, N = FPS * DUR, SR = 44100;
 
 /* ---------- logotip yo'llari (js/logo.js) ---------- */
 const ctx = { window: {}, document: { readyState: 'complete', querySelectorAll: () => [], addEventListener() {}, documentElement: {} },
@@ -47,13 +52,14 @@ const easeOut = x => 1 - Math.pow(1 - x, 3);
 const easeInOut = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 let seed = 7;
 const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-const sparks = Array.from({ length: 46 }, () => ({
-  x: 540 + (rnd() - 0.5) * 900, y: 540 + (rnd() - 0.5) * 260, vx: (rnd() - 0.5) * 70, vy: -20 - rnd() * 60,
+let sparks = [];
+const makeSparks = () => Array.from({ length: 46 }, () => ({
+  x: CX + (rnd() - 0.5) * LOGO_PX * 1.05, y: CY + (rnd() - 0.5) * 280, vx: (rnd() - 0.5) * 70, vy: -20 - rnd() * 60,
   r: 1.2 + rnd() * 2.6, t0: 0.65 + rnd() * 0.9, life: 1.0 + rnd() * 1.1, hue: rnd() < 0.6 ? '#7fd4ff' : '#ff7a93'
 }));
 
 function frameSVG(t) {
-  const logoW = 860, s0 = logoW / LOGO_W;
+  const logoW = LOGO_PX, s0 = logoW / LOGO_W;
   const appear = easeOut(seg(t, 0.55, 1.2));
   const scale = s0 * (1.28 - 0.28 * appear);
   const blur = 14 * (1 - appear);
@@ -65,7 +71,7 @@ function frameSVG(t) {
   // 1) yorug'lik chizig'i: markazga yuguradi, chaqnashda so'nadi
   const streakIn = easeOut(seg(t, 0.0, 0.62));
   const streakOp = (t < 0.62 ? seg(t, 0.0, 0.25) : 1 - seg(t, 0.62, 1.0)) * fadeAll;
-  const streakW = 40 + 1000 * streakIn;
+  const streakW = 40 + LOGO_PX * 1.15 * streakIn;
   // 2) chaqnash
   const flash = t < 0.62 ? 0 : Math.pow(1 - seg(t, 0.62, 1.35), 2);
   const glowR = 120 + 520 * easeOut(seg(t, 0.6, 1.4));
@@ -97,16 +103,16 @@ function frameSVG(t) {
   </defs>
   <rect width="${W}" height="${H}" fill="#07080c"/>
   <rect width="${W}" height="${H}" fill="url(#bg)" opacity="${fadeAll.toFixed(3)}"/>
-  <circle cx="540" cy="540" r="${glowR.toFixed(1)}" fill="url(#glow)" opacity="${(clamp(seg(t, 0.6, 1.0)) * fadeAll).toFixed(3)}"/>
+  <circle cx="${CX}" cy="${CY}" r="${glowR.toFixed(1)}" fill="url(#glow)" opacity="${(clamp(seg(t, 0.6, 1.0)) * fadeAll).toFixed(3)}"/>
   <g opacity="${streakOp.toFixed(3)}">
-    <rect x="${(540 - streakW / 2).toFixed(1)}" y="532" width="${streakW.toFixed(1)}" height="16" fill="url(#streak)" filter="url(#b8)"/>
-    <rect x="${(540 - streakW / 2).toFixed(1)}" y="538" width="${streakW.toFixed(1)}" height="4" fill="url(#streak)"/>
+    <rect x="${(CX - streakW / 2).toFixed(1)}" y="${CY - 8}" width="${streakW.toFixed(1)}" height="16" fill="url(#streak)" filter="url(#b8)"/>
+    <rect x="${(CX - streakW / 2).toFixed(1)}" y="${CY - 2}" width="${streakW.toFixed(1)}" height="4" fill="url(#streak)"/>
   </g>
-  <circle cx="540" cy="540" r="${(160 + 420 * (1 - flash)).toFixed(1)}" fill="url(#flash)" opacity="${flash.toFixed(3)}"/>
+  <circle cx="${CX}" cy="${CY}" r="${(160 + 420 * (1 - flash)).toFixed(1)}" fill="url(#flash)" opacity="${flash.toFixed(3)}"/>
   <g opacity="${logoOp.toFixed(3)}" filter="url(#b1)">
     <g transform="translate(${lx.toFixed(2)} ${ly.toFixed(2)}) scale(${scale.toFixed(5)})">${logoPaths('url(#blue)')}</g>
   </g>
-  ${sweep > 0 && sweep < 1 ? `<g mask="url(#logoMask)" opacity="${fadeAll.toFixed(3)}"><rect x="${sweepX.toFixed(1)}" y="300" width="220" height="480" fill="url(#shine)" transform="skewX(-20)"/></g>` : ''}
+  ${sweep > 0 && sweep < 1 ? `<g mask="url(#logoMask)" opacity="${fadeAll.toFixed(3)}"><rect x="0" y="0" width="220" height="480" fill="url(#shine)" transform="translate(${sweepX.toFixed(1)} ${CY - 240}) skewX(-20)"/></g>` : ''}
   ${sparkEls}
 </svg>`;
 }
@@ -157,20 +163,25 @@ function makeAudio() {
 }
 
 (async () => {
-  fs.rmSync(TMP, { recursive: true, force: true });
-  fs.mkdirSync(TMP, { recursive: true });
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  for (let f = 0; f < N; f++) {
-    await sharp(Buffer.from(frameSVG(f / FPS))).png().toFile(path.join(TMP, `f${String(f).padStart(3, '0')}.png`));
+  const wav = makeAudio();
+  for (const v of VARIANTS) {
+    W = v.W; H = v.H; CX = W / 2; CY = H / 2; LOGO_PX = v.logo;
+    seed = 7; sparks = makeSparks();
+    fs.rmSync(TMP, { recursive: true, force: true });
+    fs.mkdirSync(TMP, { recursive: true });
+    for (let f = 0; f < N; f++) {
+      await sharp(Buffer.from(frameSVG(f / FPS))).png().toFile(path.join(TMP, `f${String(f).padStart(3, '0')}.png`));
+    }
+    fs.writeFileSync(path.join(TMP, 'audio.wav'), wav);
+    const mp4 = path.join(OUT_DIR, v.file);
+    execFileSync(FFMPEG, ['-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', path.join(TMP, 'f%03d.png'), '-i', path.join(TMP, 'audio.wav'),
+      '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-profile:v', 'main', '-crf', '24', '-preset', 'slow', '-movflags', '+faststart',
+      '-c:a', 'aac', '-b:a', '96k', '-shortest', mp4]);
+    // birinchi kadr — video yuklanguncha fon
+    await sharp(path.join(TMP, 'f000.png')).jpeg({ quality: 70 }).toFile(path.join(OUT_DIR, v.poster));
+    // ko'rib chiqish uchun kadr (vaqtinchalik papkada)
+    fs.copyFileSync(path.join(TMP, 'f048.png'), path.join(require('os').tmpdir(), `dzx-intro-preview-${v.W}x${v.H}.png`));
+    console.log(`images/intro/${v.file} — ${v.W}×${v.H}, ${(fs.statSync(mp4).size / 1024).toFixed(0)} KB`);
   }
-  fs.writeFileSync(path.join(TMP, 'audio.wav'), makeAudio());
-  const mp4 = path.join(OUT_DIR, 'intro.mp4');
-  execFileSync(FFMPEG, ['-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', path.join(TMP, 'f%03d.png'), '-i', path.join(TMP, 'audio.wav'),
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-profile:v', 'main', '-crf', '24', '-preset', 'slow', '-movflags', '+faststart',
-    '-c:a', 'aac', '-b:a', '96k', '-shortest', mp4]);
-  // birinchi kadr — video yuklanguncha fon
-  await sharp(path.join(TMP, 'f000.png')).jpeg({ quality: 70 }).toFile(path.join(OUT_DIR, 'intro-poster.jpg'));
-  // ko'rib chiqish uchun bir nechta kadr
-  for (const f of [15, 24, 36, 50, 75]) fs.copyFileSync(path.join(TMP, `f${String(f).padStart(3, '0')}.png`), path.join(TMP, `preview-${f}.png`));
-  console.log(`images/intro/intro.mp4 — ${(fs.statSync(mp4).size / 1024).toFixed(0)} KB, ${N} kadr; ko'rish kadrlari: ${TMP}`);
 })().catch(e => { console.error(e); process.exit(1); });
