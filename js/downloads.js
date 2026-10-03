@@ -124,8 +124,55 @@ function playOffline(key) {
   };
   wrap.querySelector('.soc-sheet-x').addEventListener('click', close);
   const box = wrap.querySelector('#offBox');
-  mountVideo(box, Offline.localUrl(it), { poster: it.cover || it.poster || null, wide: !!it.cover, title: it.title });
-  box.querySelector('#vpCover')?.click();
+  const url = Offline.localUrl(it);
+  box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  // avval faylni tekshiramiz — ochilmasa, sababini aniq ko'rsatamiz (skrinshot bilan muammoni topish oson bo'lsin)
+  probeLocal(url).then(d => {
+    if (!wrap.isConnected) return;
+    if (!d.ok) return showOffError(box, d.reason, d.detail);
+    mountVideo(box, url, { poster: it.cover || it.poster || null, wide: !!it.cover, title: it.title,
+      onFail: () => showOffError(box, LANG === 'ru' ? 'Видео не открылось' : 'Video ochilmadi', d.detail) });
+    box.querySelector('#vpCover')?.click();
+    // 15 soniyada boshlanmasa — qotib qolgan deb hisoblaymiz
+    setTimeout(() => {
+      const v = box.querySelector('video');
+      if (wrap.isConnected && v && v.readyState < 2) showOffError(box, LANG === 'ru' ? 'Видео не загружается' : 'Video yuklanmayapti', `${d.detail} · readyState ${v.readyState}, error ${v.error?.code || '—'}`);
+    }, 15000);
+  });
+}
+
+/* Telefondagi faylning birinchi baytlarini o'qib, haqiqiy video ekanini tekshirish */
+async function probeLocal(url) {
+  const ru = LANG === 'ru';
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 8000);
+  try {
+    const r = await fetch(url, { headers: { Range: 'bytes=0-63' }, cache: 'no-store', signal: ctl.signal });
+    const type = r.headers.get('content-type') || '—';
+    const total = Number((r.headers.get('content-range') || '').split('/')[1]) || Number(r.headers.get('content-length')) || 0;
+    const size = total ? (total >= 1048576 ? Math.round(total / 1048576) + ' MB' : Math.round(total / 1024) + ' KB') : '?';
+    const b = new Uint8Array(await r.arrayBuffer()).slice(0, 64);
+    const ascii = String.fromCharCode(...b).replace(/[^\x20-\x7e]/g, '.');
+    const detail = `HTTP ${r.status} · ${type} · ${size} · «${ascii.slice(0, 16)}»`;
+    if (r.status === 404) return { ok: false, reason: ru ? 'Файл не найден на телефоне' : 'Fayl telefonda topilmadi — qayta yuklab oling', detail };
+    if (!r.ok) return { ok: false, reason: ru ? 'Приложение не отдаёт файл' : 'Ilova faylni bermayapti — ilovani yangilang', detail };
+    if (/^\s*<|<!doctype|<html/i.test(ascii)) return { ok: false, reason: ru ? 'Это не видео: вместо фильма сайт отдал страницу' : 'Bu video emas: manba sayt kino o‘rniga sahifa bergan. Bu kinoni o‘chirib, boshqa manbadan yuklang', detail };
+    if (total && total < 2 * 1048576) return { ok: false, reason: ru ? 'Файл скачан не полностью' : 'Fayl to‘liq yuklanmagan — o‘chirib, qayta yuklab oling', detail };
+    const isVideo = /ftyp|moov|mdat|webm|\x1aE\xdf\xa3/i.test(String.fromCharCode(...b));
+    return { ok: true, detail: detail + (isVideo ? '' : ' · format?') };
+  } catch (e) {
+    return { ok: false, reason: ru ? 'Приложение не отвечает при чтении файла' : 'Ilova faylni o‘qishda javob bermadi', detail: e.name === 'AbortError' ? '8 s kutildi' : String(e.message || e) };
+  } finally { clearTimeout(timer); }
+}
+
+function showOffError(box, reason, detail) {
+  if (typeof destroyVideo === 'function') destroyVideo();
+  box.innerHTML = `
+    <div class="offline-note">
+      <span class="offline-note-ico" aria-hidden="true">!</span>
+      <b>${esc(reason)}</b>
+      <p class="off-diag">${esc(detail || '')}</p>
+    </div>`;
 }
 
 /* ---------- Ishga tushirish ---------- */
