@@ -6095,3 +6095,13 @@ html.tv-mode .row-nav { display: none !important; }
 .intro.intro-video-mode { background: #07080c; overflow: hidden; }
 .intro-video { width: min(100vw, 100vh); height: min(100vw, 100vh); object-fit: contain; background: #07080c; }
 @media (orientation: landscape) { .intro-video { width: min(100vw, 125vh); height: min(100vw, 125vh); } }
+
+/* Akkaunt: Sevimlilar va Yuklab olinganlar — Qurilmalar/Promokodlar ostida katta kartochkalar */
+.acc-tile-fav { background: linear-gradient(135deg, #e11d48, #9f1239); border-color: transparent; color: #fff; }
+.acc-tile-dl { background: linear-gradient(135deg, #0891b2, #155e75); border-color: transparent; color: #fff; }
+.acc-tile-fav b, .acc-tile-dl b { max-width: 62%; overflow-wrap: break-word; line-height: 1.2; }
+.acc-tile-fav small, .acc-tile-dl small { color: rgba(255, 255, 255, .8); font-weight: 650; }
+.acc-tile-glyph { position: absolute; right: -6px; bottom: -8px; width: 92px; height: 92px; transform: rotate(-10deg); filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .35)); pointer-events: none; }
+.acc-tile-glyph svg { width: 100%; height: 100%; }
+.acc-tile-dl .acc-tile-glyph { transform: rotate(8deg); }
+@media (max-width: 520px) { .acc-tile-glyph { width: 78px; height: 78px; } }

@@ -409,8 +409,8 @@ const SECTION_LOOK = {
 };
 
 /* Oldingi "Yana" menyusidagi bo'limlar — endi akkaunt sahifasida */
-function sectionsHTML() {
-  const links = (typeof MORE_LINKS !== 'undefined' ? MORE_LINKS : []).filter(l => !l.sep && l.href !== 'account.html');
+function sectionsHTML(skip = []) {
+  const links = (typeof MORE_LINKS !== 'undefined' ? MORE_LINKS : []).filter(l => !l.sep && l.href !== 'account.html' && !skip.includes(l.href));
   const nFav = getFavs().length, nDl = getDownloads().length;
   return `
     <nav class="acc-sections" aria-label="${esc(t('nav.sections'))}">
@@ -593,6 +593,19 @@ function renderAccount() {
         <a class="acc-tile acc-tile-promo" href="#promo">
           <img class="acc-tile-hero" src="images/account/percent.webp" alt="" loading="lazy">
           <b>${t('acc.m.promo')}</b>
+        </a>
+      </div>
+
+      <div class="acc-tiles">
+        <a class="acc-tile acc-tile-fav" href="favorites.html">
+          <span class="acc-tile-glyph" aria-hidden="true">${SECTION_LOOK['favorites.html'].glyph}</span>
+          <b>${t('nav.favorites')}</b>
+          ${getFavs().length ? `<small>${getFavs().length} ${LANG === 'ru' ? 'шт.' : 'ta'}</small>` : ''}
+        </a>
+        <a class="acc-tile acc-tile-dl" href="downloads.html">
+          <span class="acc-tile-glyph" aria-hidden="true">${SECTION_LOOK['downloads.html'].glyph}</span>
+          <b>${t('nav.downloads')}</b>
+          ${getDownloads().length ? `<small>${getDownloads().length} ${LANG === 'ru' ? 'шт.' : 'ta'}</small>` : ''}
         </a>
       </div>
 
@@ -866,7 +879,7 @@ const SECTIONS = {
           <span class="acc-muted">${fmtDate(profile.createdAt)}</span>
         </div>
       </div>
-      ${sectionsHTML()}
+      ${sectionsHTML(['favorites.html', 'downloads.html'])}
       <nav class="acc-menu acc-more-menu">
         ${MORE_MENU.map(m => `
           <a class="acc-menu-item" href="#${m.id}">

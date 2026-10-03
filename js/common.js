@@ -503,8 +503,6 @@ const MORE_LINKS = [
   { href: 'downloads.html', icon: 'download', label: 'nav.downloads', badge: 'dl' },
   { href: 'plans.html',     icon: 'crown',    label: 'nav.plans' },
   { sep: true },
-  { href: 'catalog.html',               icon: 'grid', label: 'nav.catalog' },
-  { href: 'catalog.html?type=film',     icon: 'film', label: 'nav.films' },
   { href: 'catalog.html?type=serial',   icon: 'tv',   label: 'nav.series' },
   { href: 'catalog.html?type=multfilm', icon: 'grid', label: 'nav.cartoons' },
   { href: 'marvel.html',                icon: 'film', label: 'nav.marvel' }
