@@ -76,6 +76,8 @@ Object.assign(I18N.uz, {
   'acc.devLink': 'Bu qurilma hali akkauntingizga ulanmagan — shuning uchun boshqa qurilmalarda ko‘rinmaydi. Google bilan bir marta tasdiqlang:',
   'acc.devLinkBtn': 'Qurilmani ulash',
   'acc.devErr': 'Server bilan bog‘lanib bo‘lmadi:',
+  'acc.devOnline': 'Onlayn',
+  'acc.devNoInfo': 'Eski kirish — ma’lumot yo‘q. Tanimasangiz, chiqarib tashlang.',
   'acc.devicesLimit': 'Tarifingiz bo‘yicha bir vaqtda qurilmalar:',
   'acc.promoPh': 'Promokodni kiriting',
   'acc.activate': 'Faollashtirish',
@@ -194,6 +196,8 @@ Object.assign(I18N.ru, {
   'acc.devLink': 'Это устройство ещё не привязано к аккаунту — поэтому его не видно на других устройствах. Подтвердите один раз через Google:',
   'acc.devLinkBtn': 'Привязать устройство',
   'acc.devErr': 'Не удалось связаться с сервером:',
+  'acc.devOnline': 'В сети',
+  'acc.devNoInfo': 'Старый вход — нет данных. Если не узнаёте, отключите.',
   'acc.devicesLimit': 'Устройств одновременно по вашему тарифу:',
   'acc.promoPh': 'Введите промокод',
   'acc.activate': 'Активировать',
@@ -675,14 +679,20 @@ const thisDeviceList = me => {
 /* Qurilmalar ro'yxati: joriysi birinchi, qolganlarini «Chiqarish» mumkin */
 function devicesHTML(list) {
   const plan = ACC_PLANS[profile.plan] || ACC_PLANS.free;
+  const kind = d => t('acc.devT.' + (['desktop', 'tablet'].includes(d.type) ? d.type : 'phone'));
+  const known = d => d.os || d.app || d.model;
+  // oxirgi 10 daqiqada faol — «Onlayn»
+  const when = d => d.current || (d.lastSeen && Date.now() - d.lastSeen < 10 * 60000) ? `<span class="acc-dev-on">${t('acc.devOnline')}</span>`
+    : d.lastSeen ? `${t('acc.lastSeen')} ${fmtDate(d.lastSeen, true)}` : d.addedAt ? `${t('acc.devSince')} ${fmtDate(d.addedAt, true)}` : '';
   return `
     <p class="acc-muted">${t('acc.devicesLimit')} <b>${list.length} / ${plan.devices}</b></p>
     <div class="acc-list">${list.map(d => `
-      <div class="acc-item">
+      <div class="acc-item acc-dev">
         <span class="acc-item-icon">${d.type === 'desktop' ? AI.desktop : AI.phone}</span>
         <div class="acc-item-main">
-          <b>${d.os || d.app ? t('acc.devT.' + (['desktop', 'tablet'].includes(d.type) ? d.type : 'phone')) : t('acc.devUnknown')}</b>
-          <small>${esc([d.os, d.app].filter(Boolean).join(' · '))}${d.os || d.app ? ' · ' : ''}${d.current ? t('acc.thisDevice') : d.lastSeen ? `${t('acc.lastSeen')} ${fmtDate(d.lastSeen, true)}` : d.addedAt ? `${t('acc.devSince')} ${fmtDate(d.addedAt, true)}` : ''}</small>
+          <b>${known(d) ? esc(kind(d) + (d.model ? ' · ' + d.model : '')) : t('acc.devUnknown')}</b>
+          ${known(d) ? `<small>${esc([d.os, d.app].filter(Boolean).join(' · '))}${d.current ? ' · ' + t('acc.thisDevice') : ''}</small>` : `<small>${t('acc.devNoInfo')}</small>`}
+          ${when(d) || d.ip ? `<small class="acc-dev-meta">${[when(d), d.ip ? 'IP ' + esc(d.ip) : ''].filter(Boolean).join(' · ')}</small>` : ''}
         </div>
         ${d.current
           ? `<span class="acc-pill is-on">${t('acc.active')}</span>`

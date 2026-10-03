@@ -110,10 +110,24 @@ function deviceId() {
   return id;
 }
 
+const MODEL_KEY = 'dezomax_device_model';
+function uaModel(ua) {
+  const m = /Android [\d.]+; (?:[a-z]{2}[-_][a-z]{2}; )?([^;)]+?)(?: Build\/[^;)]*)?(?:; wv)?\)/i.exec(ua);
+  const v = m ? m[1].trim() : /iPhone/.test(ua) ? 'iPhone' : /iPad/.test(ua) ? 'iPad' : '';
+  return v && v !== 'K' && !/^Linux/i.test(v) ? v : '';    // «K» — Chrome yashirgan model
+}
+function deviceModel() { try { return localStorage.getItem(MODEL_KEY) || uaModel(navigator.userAgent); } catch { return uaModel(navigator.userAgent); } }
+const deviceModelReady = (async () => {
+  try {
+    const h = await navigator.userAgentData?.getHighEntropyValues?.(['model']);
+    if (h && h.model) localStorage.setItem(MODEL_KEY, h.model);
+  } catch {}
+})();
+
 function deviceInfo() {
   const ua = navigator.userAgent;
   // Android ilovasi YouTube uchun o'zini kompyuter brauzeri deb tanishtiradi (DezoMaxApp belgisi bilan)
-  if (/DezoMaxApp/.test(ua)) return { id: deviceId(), os: 'Android', app: 'DezoMax App', type: 'phone' };
+  if (/DezoMaxApp/.test(ua)) return { id: deviceId(), os: 'Android', app: 'DezoMax App', model: deviceModel(), type: 'phone' };
   const os = /Android/i.test(ua) ? 'Android'
     : /iPhone|iPad|iPod/i.test(ua) ? 'iOS'
     : /Windows/i.test(ua) ? 'Windows'
@@ -128,7 +142,7 @@ function deviceInfo() {
     : /Firefox\//.test(ua) ? 'Firefox'
     : /Safari\//.test(ua) ? 'Safari' : 'Browser';
   const type = /Mobi|Android|iPhone|iPod/i.test(ua) ? 'phone' : /iPad|Tablet/i.test(ua) ? 'tablet' : 'desktop';
-  return { id: deviceId(), os, app, type };
+  return { id: deviceId(), os, app, model: type === 'desktop' ? '' : deviceModel(), type };
 }
 
 /* ---------- Profil ---------- */
@@ -234,13 +248,14 @@ const Pay = {
   },
   /* Google ID token → server sessiya tokeni (kirishda bir marta) */
   async login(idToken) {
+    await deviceModelReady;
     const j = await this._req('POST', '/api/login', { idToken, device: deviceInfo() });
     try { localStorage.setItem(PAY_TOKEN_KEY, j.token); } catch {}
     return j;
   },
   me() { return this._req('GET', '/api/me'); },
   /* Qurilmalar serverda saqlanadi — telefon kompyuterni, kompyuter telefonni ko'radi */
-  devices() { return this._req('POST', '/api/device', { device: deviceInfo() }).then(j => j.devices || []); },
+  async devices() { await deviceModelReady; return this._req('POST', '/api/device', { device: deviceInfo() }).then(j => j.devices || []); },
   removeDevice(id) { return this._req('POST', '/api/devices/remove', { id }).then(j => j.devices || []); },
   order(amount) { return this._req('POST', '/api/order', { amount }); },
   spend(amount, plan, days) { return this._req('POST', '/api/spend', { amount, kind: 'plan', plan, days }); }
@@ -378,7 +393,7 @@ function renderAccountButtons() {
 const DEVICE_PING_KEY = 'dezomax_device_ping';
 async function pingDevice() {
   if (!Auth.user() || !Pay.hasSession()) return;
-  try { if (Date.now() - Number(localStorage.getItem(DEVICE_PING_KEY) || 0) < 30 * 60000) return; } catch {}
+  try { if (Date.now() - Number(localStorage.getItem(DEVICE_PING_KEY) || 0) < 5 * 60000) return; } catch {}
   try {
     await Pay.devices();
     try { localStorage.setItem(DEVICE_PING_KEY, String(Date.now())); } catch {}

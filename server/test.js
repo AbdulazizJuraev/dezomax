@@ -184,6 +184,9 @@ const comp = (o, prepId, amount, extra = {}) => {
   dl = (await call('POST', '/api/device', { token: old, body: { device: { id: 'dtab001', os: 'iOS', app: 'Safari', type: 'phone' } } })).json.devices;
   assert.ok(dl.find(d => d.current && d.id === 'dtab001' && d.os === 'iOS')); ok('eski sessiya qurilmasini keyin yozish mumkin');
   assert.equal((await call('GET', '/api/devices', { token: tk })).json.devices.every(d => d.id !== 'dpc0001'), true); ok('boshqa akkaunt qurilmalari ko‘rinmaydi');
+  dl = (await call('POST', '/api/device', { token: old, body: { device: { id: 'dtab001', os: 'Android', app: 'Chrome', model: 'SM-A515F', type: 'phone' } } })).json.devices;
+  const me1 = dl.find(d => d.current);
+  assert.equal(me1.model, 'SM-A515F'); assert.ok(me1.ip && me1.lastSeen); ok('qurilma modeli, IP va oxirgi faollik saqlanadi');
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();
 })().catch(er => { console.error('\nSINOV YIQILDI:', er.message); console.error(er.stack.split('\n').slice(1, 4).join('\n')); server.close(); process.exit(1); });

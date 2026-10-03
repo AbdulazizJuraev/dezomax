@@ -66,7 +66,7 @@ function openDb(file) {
     CREATE INDEX IF NOT EXISTS views_daily_day ON views_daily(day);
   `);
   // qurilmalar: har bir sessiya — bitta qurilma (eski bazalarga ustunlar qo'shiladi)
-  for (const col of ['device_id TEXT', 'device TEXT', 'created_at INTEGER', 'last_seen INTEGER']) {
+  for (const col of ['device_id TEXT', 'device TEXT', 'created_at INTEGER', 'last_seen INTEGER', 'ip TEXT']) {
     try { db.exec(`ALTER TABLE sessions ADD COLUMN ${col}`); } catch { /* ustun allaqachon bor */ }
   }
   return db;
@@ -99,10 +99,10 @@ function createApp(cfg, deps = {}) {
     upsertUser: db.prepare(`INSERT INTO users (uid, email, name, balance, created_at) VALUES (?, ?, ?, 0, ?)
                             ON CONFLICT(uid) DO UPDATE SET email = excluded.email, name = excluded.name`),
     addSession: db.prepare('INSERT INTO sessions (token_hash, uid, expires_at) VALUES (?, ?, ?)'),
-    session: db.prepare('SELECT uid, last_seen FROM sessions WHERE token_hash = ? AND expires_at > ?'),
+    session: db.prepare('SELECT uid, last_seen, ip FROM sessions WHERE token_hash = ? AND expires_at > ?'),
     setDevice: db.prepare('UPDATE sessions SET device_id = ?, device = ?, created_at = COALESCE(created_at, ?), last_seen = ? WHERE token_hash = ?'),
-    seen: db.prepare('UPDATE sessions SET last_seen = ? WHERE token_hash = ?'),
-    devices: db.prepare('SELECT token_hash, device_id, device, created_at, last_seen FROM sessions WHERE uid = ? AND expires_at > ? ORDER BY last_seen DESC'),
+    seen: db.prepare('UPDATE sessions SET last_seen = ?, ip = ? WHERE token_hash = ?'),
+    devices: db.prepare('SELECT token_hash, device_id, device, created_at, last_seen, ip FROM sessions WHERE uid = ? AND expires_at > ? ORDER BY last_seen DESC'),
     dropDevice: db.prepare('DELETE FROM sessions WHERE uid = ? AND (device_id = ? OR substr(token_hash, 1, 12) = ?) AND token_hash <> ?'),
     dropOld: db.prepare('DELETE FROM sessions WHERE expires_at <= ?'),
     addOrder: db.prepare('INSERT INTO orders (uid, amount, created_at) VALUES (?, ?, ?)'),
@@ -299,13 +299,15 @@ function createApp(cfg, deps = {}) {
   }
 
   /* --- Sessiya --- */
+  const ipOf = req => String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '').split(',')[0].trim().replace(/^::ffff:/, '').slice(0, 45);
   const authUser = req => {
     const m = /^Bearer\s+([\w-]{20,})$/.exec(req.headers.authorization || '');
     if (!m) return null;
     const th = sha256(m[1]);
     const s = q.session.get(th, now());
     if (!s) return null;
-    if (!s.last_seen || now() - s.last_seen > 300000) q.seen.run(now(), th);
+    const ip = ipOf(req);
+    if (!s.last_seen || now() - s.last_seen > 300000 || (ip && ip !== s.ip)) q.seen.run(now(), ip || s.ip || null, th);
     const u = q.user.get(s.uid);
     return u ? Object.assign(u, { th }) : null;
   };
@@ -314,7 +316,7 @@ function createApp(cfg, deps = {}) {
   const deviceOf = d => {
     if (!d || typeof d !== 'object' || !/^d[a-z0-9]{4,40}$/.test(String(d.id || ''))) return null;
     const clean = v => String(v || '').replace(/[^\w .\-]/g, '').trim().slice(0, 30);
-    return { id: String(d.id), os: clean(d.os), app: clean(d.app), type: ['desktop', 'tablet'].includes(d.type) ? d.type : 'phone' };
+    return { id: String(d.id), os: clean(d.os), app: clean(d.app), model: clean(d.model), type: ['desktop', 'tablet'].includes(d.type) ? d.type : 'phone' };
   };
   // bir qurilmadagi bir nechta sessiya — bitta qator (eng yangisi)
   const devicesOf = user => {
@@ -324,7 +326,7 @@ function createApp(cfg, deps = {}) {
       if (seen.has(key)) continue;
       seen.add(key);
       let d = {}; try { d = JSON.parse(r.device || '{}'); } catch {}
-      out.push({ id: key, os: d.os || '', app: d.app || '', type: d.type || 'phone', current: r.token_hash === user.th, addedAt: r.created_at || null, lastSeen: r.last_seen || null });
+      out.push({ id: key, os: d.os || '', app: d.app || '', model: d.model || '', type: d.type || 'phone', current: r.token_hash === user.th, addedAt: r.created_at || null, lastSeen: r.last_seen || null, ip: r.ip || '' });
     }
     return out.sort((a, b) => b.current - a.current || (b.lastSeen || 0) - (a.lastSeen || 0));
   };
@@ -415,6 +417,7 @@ function createApp(cfg, deps = {}) {
         const dev = deviceOf(b.device);
         q.setDevice.run(dev ? dev.id : null, dev ? JSON.stringify(dev) : null, now(), now(), th);
         if (dev) q.dropDevice.run(uid, dev.id, '-', th);
+        q.seen.run(now(), ipOf(req) || null, th);
         return send(res, 200, { token, uid, balance: q.user.get(uid).balance });
       }
 

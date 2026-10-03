@@ -6031,3 +6031,7 @@ img.soc-ava { object-fit: cover; padding: 0; background: var(--surface); }
 .acc-dev-link p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-dim); }
 .acc-dev-link .btn { display: inline-flex; align-items: center; gap: 8px; }
 .acc-dev-link .btn svg { width: 18px; height: 18px; }
+.acc-dev .acc-item-main small { display: block; }
+.acc-dev-meta { margin-top: 2px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.acc-dev-on { display: inline-flex; align-items: center; gap: 5px; color: #4ade80; font-weight: 650; }
+.acc-dev-on::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 3px rgba(74, 222, 128, .2); }
