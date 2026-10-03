@@ -373,6 +373,9 @@ function accountLabel(u) {
 
 function avatarHTML(u, cls = 'avatar') {
   if (!u) return `<span class="${cls} is-guest">${USER_ICON}</span>`;
+  // kirishda tanlangan personaj (Kattalar / Bolalar / Mehmon — js/role.js) — uning rasmi
+  const role = (readJSON(PROFILE_KEY(u.uid)) || {}).role;
+  if (/^(adult|child|guest)$/.test(role || '')) return `<span class="${cls} is-role role-pick-c-${role}"><img src="images/role/${role}.webp" alt=""></span>`;
   if (u.photo) return `<span class="${cls}"><img src="${esc(u.photo)}" alt="" referrerpolicy="no-referrer"></span>`;
   const src = u.name || u.email || '';
   const letter = src ? src.trim()[0].toUpperCase() : '';
@@ -406,3 +409,8 @@ setTimeout(pingDevice, 2500);
 document.addEventListener('DOMContentLoaded', renderAccountButtons);
 if (document.readyState !== 'loading') renderAccountButtons();
 document.addEventListener('langchange', renderAccountButtons);
+// personaj tanlanganda yoki profil o'zgarganda — tepadagi va pastki menyudagi rasm darhol yangilanadi
+document.addEventListener('profilechange', () => {
+  renderAccountButtons();
+  if (typeof renderTabbar === 'function' && document.querySelector('.tabbar')) renderTabbar();
+});

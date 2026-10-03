@@ -6088,3 +6088,6 @@ html.tv-mode .row-nav { display: none !important; }
 .off-player .offline-note { width: 100%; height: 100%; border-radius: 0; border: 0; box-shadow: none; justify-content: center; }
 .offline-note-ico { font-size: 30px; font-weight: 900; }
 .off-diag { font-family: ui-monospace, Consolas, monospace; font-size: 12px !important; color: var(--text-faint) !important; word-break: break-all; }
+/* akkaunt tugmasi: kirishda tanlangan personaj rasmi (js/auth.js avatarHTML) */
+.avatar.is-role img { object-fit: cover; transform: translateY(6%) scale(1.06); }
+.avatar.is-role.role-pick-c-guest img { transform: scale(.86); }
