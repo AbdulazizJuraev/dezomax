@@ -265,6 +265,7 @@ const ADM_ICONS = {
   media: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="15" height="14" rx="2.5"/><path d="M17.5 10l4-2.5v9l-4-2.5"/></svg>',
   gear:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>',
   upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>',
+  star:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8-4.3-4.1 5.9-.9z"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
 };
 
@@ -324,6 +325,19 @@ function formHTML(m = {}) {
         </div>
         ${field('Rollarda', `<input class="acc-input" name="cast" value="${val((m.cast || []).join(', '))}" placeholder="Aktyorlarni vergul bilan ajrating">`)}
       `)}
+
+      <div id="admMxBox"${m.franchise === 'marvel' ? '' : ' hidden'}>${section('star', 'Marvel sahifasi', `
+        <p class="adm-hint">Marvel bo‘limidagi film sahifasi uchun (marvel.html). Bo‘sh qoldirilgani — Wikidata’dagi ma’lumot ishlatiladi.</p>
+        <div class="adm-row adm-row-2">
+          ${field('Inglizcha nomi', `<input class="acc-input" name="mxEn" value="${val(mxOf(m).en)}" placeholder="Avengers: Endgame">`)}
+          ${field('Premyera sanasi', `<input class="acc-input" name="mxDate" type="date" value="${val(mxOf(m).date)}">`)}
+          ${field('Byudjet (mln $)', `<input class="acc-input" name="mxBudget" type="number" inputmode="decimal" min="0" step="0.1" value="${val(mxOf(m).budget ? mxOf(m).budget / 1e6 : '')}" placeholder="356">`)}
+          ${field('Kassa, butun dunyo (mln $)', `<input class="acc-input" name="mxGross" type="number" inputmode="decimal" min="0" step="0.1" value="${val(mxOf(m).gross ? mxOf(m).gross / 1e6 : '')}" placeholder="2797.5">`)}
+          ${field('Rasmiy treyler (YouTube)', `<input class="acc-input" name="mxYt" value="${val(mxOf(m).yt ? 'https://www.youtube.com/watch?v=' + mxOf(m).yt : '')}" placeholder="https://www.youtube.com/watch?v=...">`)}
+          ${field('Davomiyligi (daq.)', `<input class="acc-input" name="mxRuntime" type="number" inputmode="numeric" min="1" value="${val(mxOf(m).runtime)}" placeholder="181">`)}
+        </div>
+        <p class="adm-hint">Treyler faqat studiyaning o‘z kanalidan bo‘lsa (Marvel Entertainment, Marvel UK, 20th Century…) — saytda «Rasmiy treyler» deb yoziladi.</p>
+      `)}</div>
 
       ${section('tag', 'Janrlar', `
         <div class="adm-genres">
@@ -439,7 +453,29 @@ function readForm(form, old = {}) {
   const videos = ['1080p', '720p', '480p', '360p'].map(label => ({ label, url: s('q_' + label) })).filter(v => v.url);
   if (videos.length) m.videos = videos; else delete m.videos;
   if (!m.genres.length) m.genres = ['drama'];
+  // Marvel sahifasi ma'lumotlari (marvel.js: Wikidata ustidan ishlatiladi)
+  delete m.mx;
+  if (m.franchise === 'marvel') {
+    const mx = {};
+    if (s('mxEn')) mx.en = s('mxEn');
+    if (s('mxDate')) mx.date = s('mxDate');
+    if (num('mxBudget')) mx.budget = Math.round(num('mxBudget') * 1e6);
+    if (num('mxGross')) mx.gross = Math.round(num('mxGross') * 1e6);
+    if (num('mxRuntime')) mx.runtime = Math.round(num('mxRuntime'));
+    const ytv = (s('mxYt').match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
+    if (ytv) mx.yt = ytv;
+    // faqat Wikidata'dagidan farq qiladigan maydonlar saqlanadi
+    const base = (typeof MARVEL_INFO !== 'undefined' && MARVEL_INFO[m.id]) || {};
+    for (const k of Object.keys(mx)) if (mx[k] === base[k]) delete mx[k];
+    if (Object.keys(mx).length) m.mx = mx;
+  }
   return m;
+}
+
+/* Marvel ma'lumotlari: Wikidata (js/marvel-data.js) + admin'da kiritilgani (m.mx) */
+function mxOf(m) {
+  const base = (typeof MARVEL_INFO !== 'undefined' && m && MARVEL_INFO[m.id]) || {};
+  return { ...base, ...((m && m.mx) || {}) };
 }
 
 function bindForm(old) {
@@ -480,6 +516,7 @@ function bindForm(old) {
   form.coverUrl.addEventListener('change', () => setCover(form.coverUrl.value.trim()));
 
   bindTmdb(form, { setHeroImg, setCover });
+  form.franchise.addEventListener('change', () => { $('#admMxBox').hidden = form.franchise.value !== 'marvel'; });
   bindTranslate(form);
 
   // havolani tekshirish
@@ -537,7 +574,7 @@ function bindForm(old) {
 /* ---------- Ko'rinishlar: Bosh sahifa · Kinolar · Qo'shish/Tahrirlash ---------- */
 
 let view = 'home';          // 'home' | 'list' | 'form'
-let listFilter = 'all';     // 'all' | 'added' | 'edited' | 'hidden'
+let listFilter = 'all';     // 'all' | 'added' | 'edited' | 'hidden' | 'marvel'
 let listQuery = '';
 let commitsCache = null;    // oxirgi o'zgarishlar (GitHub commit tarixi)
 
@@ -746,16 +783,17 @@ function listItems() {
   if (listFilter === 'added') items = addedList();
   if (listFilter === 'edited') items = editedList();
   if (listFilter === 'hidden') items = items.filter(m => hiddenList.includes(m.id));
+  if (listFilter === 'marvel') items = items.filter(m => m.franchise === 'marvel');
   const q = norm(listQuery);
   if (q) items = items.filter(m => hayOf(m).includes(q));
   return items;
 }
 
 function renderListView() {
-  const counts = { all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length };
+  const counts = { all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length, marvel: allMovies().filter(m => m.franchise === 'marvel').length };
   $('#admView').innerHTML = `
     <div class="adm-filters">
-      ${[['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan']].map(([id, l]) =>
+      ${[['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel']].map(([id, l]) =>
         `<button type="button" data-filter="${id}" class="${listFilter === id ? 'is-active' : ''}">${l} <small>${counts[id]}</small></button>`).join('')}
     </div>
     <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
@@ -1251,6 +1289,77 @@ function bindPicker(root, getIds, setIds, rerender) {
 
 const delayText = s => +s >= 60 ? '1 daqiqa' : `${+s} soniya`;
 
+/* ---------- Sayt teglari (SEO): bosh sahifaning sarlavhasi, tavsifi va kalit so'zlari ----------
+   index.html ning o'ziga yoziladi (GitHub API) — qidiruv tizimlari JavaScript'siz ham ko'radi. */
+function seoSectionHTML() {
+  queueMicrotask(bindSeo);
+  return `
+    <section class="adm-sec" id="admSeo">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${ADM_ICONS.tag}</span><h3>Sayt teglari (SEO)</h3><small>bosh sahifa</small></div>
+      <p class="adm-hint">Google va Yandex’da sayt qanday ko‘rinishi: sarlavha (60 belgigacha), tavsif (160 belgigacha) va kalit so‘zlar (teglar). Kinolarning o‘z teglari — kino formasidagi «Boshqa nomlari».</p>
+      <div class="adm-field"><label class="adm-label" for="seoTitle">Sarlavha <small id="seoTitleN"></small></label>
+        <input class="acc-input" id="seoTitle" maxlength="90" placeholder="Yuklanmoqda…"></div>
+      <div class="adm-field"><label class="adm-label" for="seoDesc">Tavsif <small id="seoDescN"></small></label>
+        <textarea class="acc-input adm-text" id="seoDesc" rows="3" maxlength="300" placeholder="Yuklanmoqda…"></textarea></div>
+      <div class="adm-field"><label class="adm-label" for="seoKeys">Teglar (kalit so‘zlar, vergul bilan)</label>
+        <textarea class="acc-input adm-text" id="seoKeys" rows="3" placeholder="o‘zbek kino, onlayn kino, seriallar, uzbek kino 2026, tarjima kinolar"></textarea></div>
+      <div class="adm-tag-chips" id="seoChips"></div>
+      <p class="acc-error" id="seoErr" hidden></p>
+      <button class="btn btn-primary" type="button" id="seoSave" disabled>Teglarni saqlash</button>
+    </section>`;
+}
+
+const seoAttr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+const seoUnattr = s => String(s || '').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+
+async function bindSeo() {
+  const box = $('#admSeo');
+  if (!box) return;
+  const ti = $('#seoTitle'), de = $('#seoDesc'), ke = $('#seoKeys'), btn = $('#seoSave'), err = $('#seoErr');
+  const counts = () => {
+    $('#seoTitleN').textContent = `· ${ti.value.length}/60`;
+    $('#seoDescN').textContent = `· ${de.value.length}/160`;
+    const tags = ke.value.split(',').map(x => x.trim()).filter(Boolean);
+    $('#seoChips').innerHTML = tags.map(x => `<span class="adm-chip-sm">${esc(x)}</span>`).join('');
+  };
+  try {
+    const f = await getFile('index.html');
+    const html = b64decode(f.content);
+    ti.value = seoUnattr(html.match(/<title>([^<]*)<\/title>/)?.[1]);
+    de.value = seoUnattr(html.match(/<meta name="description" content="([^"]*)"/)?.[1]);
+    ke.value = seoUnattr(html.match(/<meta name="keywords" content="([^"]*)"/)?.[1]);
+    ti.placeholder = de.placeholder = '';
+    btn.disabled = false;
+    counts();
+  } catch (e) { err.textContent = friendlyError(e); err.hidden = false; return; }
+  [ti, de, ke].forEach(x => x.addEventListener('input', counts));
+
+  btn.addEventListener('click', () => {
+    const title = ti.value.trim(), desc = de.value.trim();
+    const keys = [...new Set(ke.value.split(',').map(x => x.trim()).filter(Boolean))].join(', ');
+    if (title.length < 5 || desc.length < 20) { err.textContent = 'Sarlavha va tavsifni to‘ldiring.'; err.hidden = false; return; }
+    err.hidden = true;
+    runAction(btn, async () => {
+      const f = await getFile('index.html');
+      let html = b64decode(f.content);
+      const set = (rx, line) => { html = rx.test(html) ? html.replace(rx, line) : html; };
+      set(/<title>[^<]*<\/title>/, `<title>${seoAttr(title)}</title>`);
+      set(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${seoAttr(desc)}">`);
+      set(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${seoAttr(title)}">`);
+      set(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${seoAttr(desc)}">`);
+      set(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${seoAttr(title)}">`);
+      set(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${seoAttr(desc)}">`);
+      if (/<meta name="keywords" content="[^"]*">/.test(html)) {
+        html = keys ? html.replace(/<meta name="keywords" content="[^"]*">/, `<meta name="keywords" content="${seoAttr(keys)}">`)
+                    : html.replace(/<meta name="keywords" content="[^"]*">\r?\n?/, '');
+      } else if (keys) {
+        html = html.replace(/(<meta name="description" content="[^"]*">)(\r?\n)/, `$1$2<meta name="keywords" content="${seoAttr(keys)}">$2`);
+      }
+      await putFile('index.html', b64encode(html), 'Sayt teglari (SEO) yangilandi', f.sha);
+    }, 'Teglar saqlandi — ~1 daqiqada saytda');
+  });
+}
+
 async function renderSiteView() {
   const box = $('#admView');
   if (!siteDraft) {
@@ -1259,7 +1368,7 @@ async function renderSiteView() {
   }
   const d = siteDraft;
 
-  box.innerHTML = `
+  box.innerHTML = seoSectionHTML() + `
     <section class="adm-sec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Katta slayder (karusel)</h3><small>${d.hero.ids.length} ta kino</small></div>
       <div class="adm-field">

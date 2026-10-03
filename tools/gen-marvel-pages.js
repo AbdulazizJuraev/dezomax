@@ -27,7 +27,12 @@ for (const f of ['js/data.js', 'js/data-custom.js', 'js/marvel-data.js']) {
 const INFO = ctx.MARVEL_INFO || {};
 const seen = new Set();
 const films = (ctx.MOVIES || []).filter(m => m && m.franchise === 'marvel' && m.type !== 'serial' && !seen.has(m.id) && seen.add(m.id))
-  .map(m => ({ m, info: INFO[m.id] || {} }));
+  .map(m => {
+    // admin'da kiritilgani (m.mx) Wikidata ustidan; admin treyleri «rasmiy» deb yozilmaydi
+    const wd = INFO[m.id] || {}, info = { ...wd, ...(m.mx || {}) };
+    if (m.mx && m.mx.yt && m.mx.yt !== wd.yt) delete info.ytCh;
+    return { m, info };
+  });
 
 // js/marvel.js dagi mxSlug bilan bir xil
 const slugOf = (m, info) => String(info.en || m.slug || m.id).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -65,12 +70,13 @@ function filmPage({ m, info }) {
   const cast = [...new Set([...(m.cast || []), ...(info.cast || [])])].slice(0, 12);
   const director = (info.director && info.director.length ? info.director : [m.director]).filter(Boolean).join(', ');
   const yt = info.yt || ytOf(m.trailer);
+  const official = !!(info.yt && info.ytCh);
   const slug = slugOf(m, info);
   const url = `${SITE}marvel/${slug}.html`;
   const image = abs(m.poster);
   const title = `${uz}${en ? ` (${en})` : ''}${year ? ` ${year}` : ''} — treyler, aktyorlar, byudjet | Marvel | DezoMax`;
   const money = [info.budget ? `byudjeti ${mln(info.budget)}` : '', info.gross ? `kassasi ${mln(info.gross)}` : ''].filter(Boolean).join(', ');
-  const desc = `${uz}${year ? ` (${year})` : ''} — Marvel filmi: ${info.yt ? 'rasmiy ' : ''}treyler, aktyorlar${cast.length ? ` (${cast.slice(0, 3).join(', ')})` : ''}${money ? `, ${money}` : ''}. ${m.desc && m.desc.uz ? m.desc.uz : ''}`.replace(/\s+/g, ' ').trim().slice(0, 300);
+  const desc = `${uz}${year ? ` (${year})` : ''} — Marvel filmi: ${official ? 'rasmiy ' : ''}treyler, aktyorlar${cast.length ? ` (${cast.slice(0, 3).join(', ')})` : ''}${money ? `, ${money}` : ''}. ${m.desc && m.desc.uz ? m.desc.uz : ''}`.replace(/\s+/g, ' ').trim().slice(0, 300);
   const ld = {
     '@context': 'https://schema.org', '@type': 'Movie', name: uz, url,
     ...(aka.length ? { alternateName: aka } : {}),
@@ -81,7 +87,7 @@ function filmPage({ m, info }) {
     ...(director ? { director: director.split(/,\s*/).map(n => ({ '@type': 'Person', name: n })) } : {}),
     ...(cast.length ? { actor: cast.map(n => ({ '@type': 'Person', name: n })) } : {}),
     productionCompany: { '@type': 'Organization', name: 'Marvel Studios' },
-    ...(yt ? { trailer: { '@type': 'VideoObject', name: `${en || uz} — ${info.yt ? 'official trailer' : 'trailer'}`, description: `${uz} treyleri`,
+    ...(yt ? { trailer: { '@type': 'VideoObject', name: `${en || uz} — ${official ? 'official trailer' : 'trailer'}`, description: `${uz} treyleri`,
       thumbnailUrl: `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`, embedUrl: `https://www.youtube.com/embed/${yt}`, ...(info.date ? { uploadDate: info.date } : {}) } } : {})
   };
   const facts = [
@@ -102,7 +108,7 @@ function filmPage({ m, info }) {
       ${m.desc && m.desc.uz ? `<p>${esc(m.desc.uz)}</p>` : ''}
       <dl>${facts.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
       ${cast.length ? `<h2>Aktyorlar</h2><ul class="seo-list">${cast.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
-      ${yt ? `<p><a class="btn btn-primary" href="https://www.youtube.com/watch?v=${yt}" target="_blank" rel="noopener">${info.yt ? 'Rasmiy treyler' : 'Treyler'} (YouTube)</a></p>` : ''}
+      ${yt ? `<p><a class="btn btn-primary" href="https://www.youtube.com/watch?v=${yt}" target="_blank" rel="noopener">${official ? 'Rasmiy treyler' : 'Treyler'} (YouTube)</a></p>` : ''}
     </div>
   </div>
 </div>`;

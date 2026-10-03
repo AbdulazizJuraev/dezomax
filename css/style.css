@@ -5874,3 +5874,4 @@ img.soc-ava { object-fit: cover; padding: 0; background: var(--surface); }
 .soc-c-likes svg { width: 14px; height: 14px; }
 .soc-yt-note { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; color: var(--text-dim); font-size: 13.5px; }
 .soc-yt .soc-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; }
+.adm-tag-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 14px; }

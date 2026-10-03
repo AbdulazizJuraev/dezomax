@@ -40,7 +40,10 @@ function mxFilms() {
   const seen = new Set();
   return all.filter(m => m && m.franchise === 'marvel' && m.type !== 'serial' && !seen.has(m.id) && seen.add(m.id))
     .map(m => {
-      const info = (typeof MARVEL_INFO !== 'undefined' && MARVEL_INFO[m.id]) || {};
+      // Wikidata (js/marvel-data.js) + admin'da kiritilgani (m.mx); admin treyler qo'ysa — «rasmiy» faqat Wikidata ro'yxatidagisi
+      const wd = (typeof MARVEL_INFO !== 'undefined' && MARVEL_INFO[m.id]) || {};
+      const info = { ...wd, ...(m.mx || {}) };
+      if (m.mx && m.mx.yt && m.mx.yt !== wd.yt) delete info.ytCh;
       const date = info.date || (m.year ? `${m.year}-12-31` : '');
       return { m, info, date, exact: !!info.date };
     })
@@ -108,7 +111,7 @@ function mxFilmHTML(f) {
   const { m, info } = f;
   // rasmiy treyler (studiya kanali, js/marvel-data.js) bo'lmasa — katalogdagi treyler, «rasmiy» deb yozilmaydi
   const yt = info.yt || mxYt(m.trailer);
-  const official = !!info.yt;
+  const official = !!(info.yt && info.ytCh);
   const ratio = info.budget && info.gross ? info.gross / info.budget : 0;
   // avval katalogdagi bosh rollar (tartibi to'g'ri), keyin Wikidata'dagi qolganlari
   const cast = [...new Set([...(m.cast || []), ...(info.cast || [])])].slice(0, 12);
