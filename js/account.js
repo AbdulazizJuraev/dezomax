@@ -670,6 +670,18 @@ async function logout() {
   renderLogin();
 }
 
+/* Telefon model kodi → savdo nomi (SM-S906B → Samsung Galaxy S22+): data/device-names.json, faqat shu sahifada yuklanadi */
+let deviceNamesP = null;
+const loadDeviceNames = () => deviceNamesP || (deviceNamesP = fetch('data/device-names.json').then(r => r.ok ? r.json() : {}).catch(() => ({})));
+function prettyModel(raw, names) {
+  const s = String(raw || '').trim();
+  if (!s || !names) return s;
+  const code = s.replace(/^\S+\s+(?=\S)/, '');            // ilova: «Samsung SM-S906B» → «SM-S906B»
+  const sm = /SM-[A-Z]\d{3,4}/i.exec(s);
+  return names[s] || names[code] || (sm && names[sm[0].toUpperCase()]) || s;
+}
+const withNames = async list => { const n = await loadDeviceNames(); return list.map(d => d.model ? { ...d, model: prettyModel(d.model, n) } : d); };
+
 /* serverga ulanmagan holat: faqat shu qurilma (profilda bo'lmasa — hozirgi ma'lumot) */
 const thisDeviceList = me => {
   const d = (profile.devices || []).find(x => x.id === me) || { ...deviceInfo(), lastSeen: Date.now() };
@@ -1006,16 +1018,16 @@ const BINDERS = {
       box.innerHTML = devicesHTML(list);
       box.querySelectorAll('[data-remove-device]').forEach(b => b.addEventListener('click', async () => {
         b.disabled = true;
-        try { draw(await Pay.removeDevice(b.dataset.removeDevice)); toast(t('acc.deviceRemoved')); }
+        try { draw(await withNames(await Pay.removeDevice(b.dataset.removeDevice))); toast(t('acc.deviceRemoved')); }
         catch (e) { b.disabled = false; toast(e.message || t('acc.errGeneric')); }
       }));
     };
-    try { draw(await Pay.devices()); }
+    try { draw(await withNames(await Pay.devices())); }
     catch (e) {
       // boshqa qurilmadan chiqarilgan — bu yerda ham akkauntdan chiqamiz
       if (e.code === 'auth') { await Auth.signOut(); profile = null; toast(t('acc.devKicked')); return renderLogin(); }
       const me = deviceId();
-      draw(thisDeviceList(me));
+      draw(await withNames(thisDeviceList(me)));
       box.insertAdjacentHTML('beforeend', `<p class="acc-error">${esc(t('acc.devErr') + ' ' + (e.message || e.code || '—'))}</p>`);
     }
   },
