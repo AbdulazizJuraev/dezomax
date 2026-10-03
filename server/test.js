@@ -194,6 +194,9 @@ const comp = (o, prepId, amount, extra = {}) => {
   dl = (await call('POST', '/api/device', { token: old, body: { device: { id: 'dtab001', os: 'Android', app: 'Chrome', model: 'SM-A515F', type: 'phone' } } })).json.devices;
   const me1 = dl.find(d => d.current);
   assert.equal(me1.model, 'SM-A515F'); assert.ok(me1.ip && me1.lastSeen); ok('qurilma modeli, IP va oxirgi faollik saqlanadi');
+  // --- DezoSignal narx proksisi (tarmoqqa chiqmasdan — faqat tekshiruv) ---
+  assert.equal((await call('GET', '/api/candles?symbol=AAPL&tf=2h')).status, 400); ok('narx proksisi: noto‘g‘ri tf — 400');
+  assert.equal((await call('GET', '/api/candles?symbol=%3Cx%3E&tf=1h')).status, 400); ok('narx proksisi: noto‘g‘ri symbol — 400');
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();
 })().catch(er => { console.error('\nSINOV YIQILDI:', er.message); console.error(er.stack.split('\n').slice(1, 4).join('\n')); server.close(); process.exit(1); });

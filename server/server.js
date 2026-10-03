@@ -87,6 +87,47 @@ function googleVerifier(clientId) {
 }
 
 /* ---------- Ilova ---------- */
+/* ---------- DezoSignal: Yahoo narx proksisi (/api/candles?symbol=EURUSD=X&tf=1h) ----------
+   Javob: { symbol, tf, candles: [[vaqt(ms), open, high, low, close, volume], ...] }, 30 s kesh. */
+const YAHOO_TF = { '15m': ['15m', '60d'], '1h': ['60m', '730d'], '4h': ['60m', '730d'], '1d': ['1d', '10y'] };
+const candleCache = new Map();
+async function yahooCandles(q) {
+  const symbol = String(q.get('symbol') || ''), tf = String(q.get('tf') || '1h');
+  if (!YAHOO_TF[tf]) return { error: 'tf: 15m, 1h, 4h yoki 1d', status: 400 };
+  if (!/^[A-Z0-9=.^-]{1,20}$/i.test(symbol)) return { error: 'symbol noto‘g‘ri', status: 400 };
+  const key = symbol + ':' + tf, hit = candleCache.get(key);
+  if (hit && Date.now() - hit.at < 30000) return hit.data;
+  const [interval, range] = YAHOO_TF[tf];
+  let j;
+  try {
+    const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=${interval}&range=${range}`,
+      { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }, signal: AbortSignal.timeout(15000) });
+    if (!r.ok) return { error: 'Yahoo ' + r.status, status: 502 };
+    j = await r.json();
+  } catch { return { error: 'Narx manbasi javob bermadi', status: 502 }; }
+  const res = j && j.chart && j.chart.result && j.chart.result[0];
+  if (!res || !res.timestamp) return { error: 'Ma’lumot topilmadi', status: 404 };
+  const qt = res.indicators.quote[0];
+  let rows = [];
+  res.timestamp.forEach((t, i) => {
+    if ([qt.open[i], qt.high[i], qt.low[i], qt.close[i]].some(v => v == null)) return;
+    rows.push([t * 1000, qt.open[i], qt.high[i], qt.low[i], qt.close[i], qt.volume[i] || 0]);
+  });
+  if (tf === '4h') {             // Yahoo'da 4 soatlik yo'q — soatlikdan yig'iladi
+    const ms = 4 * 3600000, out = [];
+    for (const c of rows) {
+      const t = Math.floor(c[0] / ms) * ms, last = out[out.length - 1];
+      if (last && last[0] === t) { last[2] = Math.max(last[2], c[2]); last[3] = Math.min(last[3], c[3]); last[4] = c[4]; last[5] += c[5]; }
+      else out.push([t, c[1], c[2], c[3], c[4], c[5]]);
+    }
+    rows = out;
+  }
+  const data = { symbol, tf, candles: rows.slice(-1000) };
+  candleCache.set(key, { at: Date.now(), data });
+  if (candleCache.size > 300) candleCache.delete(candleCache.keys().next().value);
+  return data;
+}
+
 function createApp(cfg, deps = {}) {
   const db = deps.db || openDb(cfg.dbFile || ':memory:');
   const verifyGoogle = deps.verifyGoogle || googleVerifier(cfg.googleClientId);
@@ -373,6 +414,15 @@ function createApp(cfg, deps = {}) {
     if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
     try {
       if (path === '/health') return send(res, 200, { ok: true });
+
+      // DezoSignal (abdulazizjuraev.github.io/dezosignal): forex, oltin, aksiyalar narxi.
+      // Yahoo brauzerga to'g'ridan-to'g'ri bermaydi (CORS) — shu yerdan o'tadi. Faqat ochiq narx o'qiladi.
+      if (path === '/api/candles' && req.method === 'GET') {
+        if (limited(req, 'candles', 120)) return send(res, 429, { error: 'Ko‘p so‘rov' });
+        const r = await (deps.candles || yahooCandles)(url.searchParams);
+        if (!r.error) res.setHeader('Cache-Control', 'public, max-age=20');
+        return send(res, r.error ? r.status || 502 : 200, r.error ? { error: r.error } : r);
+      }
 
       if (path === '/click/prepare' || path === '/click/complete') {
         if (req.method !== 'POST') return send(res, 405, { error: 'POST kerak' });
