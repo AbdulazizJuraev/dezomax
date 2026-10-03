@@ -5,6 +5,35 @@
    Qayta yig'ish: scratchpad/build-logo.js (SVG o'zgarsa shu skript qayta ishga tushiriladi).
    ============================================================ */
 
+/* Ilovada (DezoMaxApp) JavaScript xatosi bo'lsa — ekranning pastida qizil yozuv: xato matni va fayl:qator.
+   Telefonda sahifa bo'sh qolsa, skrinshotdan sababni topish uchun (kompyuterda ko'rinmaydi). */
+(function () {
+  if (!/DezoMaxApp/.test(navigator.userAgent) && !/[?&]debug=1/.test(location.search)) return;
+  const shown = new Set();
+  const show = (msg, src) => {
+    const text = String(msg || 'xato').slice(0, 300) + (src ? ' — ' + src : '');
+    if (shown.has(text) || shown.size > 4) return;
+    shown.add(text);
+    const put = () => {
+      let box = document.getElementById('dzxErr');
+      if (!box) {
+        box = document.createElement('div');
+        box.id = 'dzxErr';
+        box.style.cssText = 'position:fixed;left:8px;right:8px;bottom:8px;z-index:2147483647;padding:10px 12px;border-radius:12px;background:#7f1d1d;color:#fff;font:12px/1.45 monospace;white-space:pre-wrap;word-break:break-all;max-height:40vh;overflow:auto';
+        box.addEventListener('click', () => box.remove());
+        document.body.appendChild(box);
+      }
+      box.textContent += (box.textContent ? '\n\n' : 'XATO (skrinshot qilib yuboring):\n') + text;
+    };
+    document.body ? put() : addEventListener('DOMContentLoaded', put);
+  };
+  addEventListener('error', e => {
+    if (e.target && e.target !== window && e.target.src) return show('Yuklanmadi: ' + e.target.src.split('/').pop());
+    show(e.message, (e.filename || '').split('/').pop() + ':' + e.lineno + ':' + e.colno);
+  }, true);
+  addEventListener('unhandledrejection', e => show('Promise: ' + ((e.reason && (e.reason.stack || e.reason.message)) || e.reason)));
+})();
+
 (function () {
   let n = 0;
 
