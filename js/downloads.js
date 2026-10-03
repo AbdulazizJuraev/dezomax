@@ -127,10 +127,10 @@ function playOffline(key) {
   const url = Offline.localUrl(it);
   box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
   // avval faylni tekshiramiz — ochilmasa, sababini aniq ko'rsatamiz (skrinshot bilan muammoni topish oson bo'lsin)
-  probeLocal(url).then(d => {
+  Promise.all([probeLocal(url), offPoster(it)]).then(([d, poster]) => {
     if (!wrap.isConnected) return;
     if (!d.ok) return showOffError(box, d.reason, d.detail);
-    mountVideo(box, url, { poster: it.cover || it.poster || null, wide: !!it.cover, title: it.title,
+    mountVideo(box, url, { poster, wide: false, title: it.title,
       onFail: () => {
         const v = box.querySelector('video');
         const err = v && v.error ? ` · MediaError ${v.error.code}: ${v.error.message || ''}` : '';
@@ -143,6 +143,18 @@ function playOffline(key) {
       if (wrap.isConnected && v && v.readyState < 2) showOffError(box, LANG === 'ru' ? 'Видео не загружается' : 'Video yuklanmayapti', `${d.detail} · readyState ${v.readyState}, error ${v.error?.code || '—'}`);
     }, 15000);
   });
+}
+
+/* Pleyer muqovasi — kinoning o'z posteri (internetsiz ham ko'rinsin):
+   1) ilova telefonga saqlagan nusxa (/_dzx_offline/<fayl>.jpg, 7.1+), 2) saytdagi poster (sw.js saqlagan).
+   Keng «cover» ishlatilmaydi — u ko'pincha treylerning YouTube rasmi, rasm bo'lmasa YouTube kulrang belgi beradi. */
+async function offPoster(it) {
+  const local = Offline.localUrl(it) + '.jpg';
+  try {
+    const r = await fetch(local, { cache: 'no-store' });
+    if (r.ok && /^image\//.test(r.headers.get('content-type') || '')) return local;
+  } catch {}
+  return it.poster || it.cover || null;
 }
 
 /* Telefondagi faylning birinchi baytlarini o'qib, haqiqiy video ekanini tekshirish */
