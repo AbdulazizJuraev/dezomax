@@ -5885,3 +5885,4 @@ img.soc-ava { object-fit: cover; padding: 0; background: var(--surface); }
 .adm-ch-prog { height: 6px; margin-top: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
 .adm-ch-prog i { display: block; height: 100%; background: var(--grad); border-radius: 999px; transition: width .4s; }
 .adm-ch-note { color: var(--text-dim); }
+.adm-stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }

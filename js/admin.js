@@ -683,7 +683,8 @@ function renderHome() {
     ['film', 'Saytdagi kinolar', visible.length, 'all'],
     ['plus', 'Qo‘shilgan', addedList().length, 'added'],
     ['edit', 'Tahrirlangan', editedList().length, 'edited'],
-    ['eyeOff', 'Yashirilgan', hiddenList.length, 'hidden']
+    ['eyeOff', 'Yashirilgan', hiddenList.length, 'hidden'],
+    ['yt', 'Kanallardan (YouTube)', channelIds().size, 'channels']
   ];
   const fullUz = visible.filter(m => m.video && (m.audio === 'uz' || m.franchise === 'uzbek')).length;
   const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 6);
@@ -781,22 +782,26 @@ function itemHTML(m) {
     </div>`;
 }
 
+/* Rasmiy YouTube kanallaridan kelgan kinolar (js/data-channels.js) — admin tahrirlasa ham shu yerda sanaladi */
+const channelIds = () => new Set((typeof CHANNEL_MOVIES !== 'undefined' ? CHANNEL_MOVIES : []).map(m => m.id));
+
 function listItems() {
   let items = allMovies();
   if (listFilter === 'added') items = addedList();
   if (listFilter === 'edited') items = editedList();
   if (listFilter === 'hidden') items = items.filter(m => hiddenList.includes(m.id));
   if (listFilter === 'marvel') items = items.filter(m => m.franchise === 'marvel');
+  if (listFilter === 'channels') { const ids = channelIds(); items = items.filter(m => ids.has(m.id)); }
   const q = norm(listQuery);
   if (q) items = items.filter(m => hayOf(m).includes(q));
   return items;
 }
 
 function renderListView() {
-  const counts = { all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length, marvel: allMovies().filter(m => m.franchise === 'marvel').length };
+  const counts = { all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length, marvel: allMovies().filter(m => m.franchise === 'marvel').length, channels: channelIds().size };
   $('#admView').innerHTML = `
     <div class="adm-filters">
-      ${[['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel']].map(([id, l]) =>
+      ${[['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel'], ['channels', 'Kanallardan']].map(([id, l]) =>
         `<button type="button" data-filter="${id}" class="${listFilter === id ? 'is-active' : ''}">${l} <small>${counts[id]}</small></button>`).join('')}
     </div>
     <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
