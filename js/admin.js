@@ -364,7 +364,7 @@ function formHTML(m = {}) {
           ${field('Nomi (ruscha)', `<input class="acc-input" name="titleRu" value="${val(m.title?.ru)}" placeholder="Интерстеллар">`)}
         </div>
         ${field('Boshqa nomlari', `<input class="acc-input" name="tags" value="${val((m.tags || []).join(', '))}" placeholder="Vergul bilan: Qasoskorlar: Intiho, Avengers: Endgame, Мстители 4">`)}
-        <p class="adm-hint">Odamlar kinoni qanday nom bilan qidirishi mumkin bo‘lsa — hammasini yozing (inglizcha, boshqa tarjima, qism raqami). Sahifada «Boshqa nomlari» bo‘lib chiqadi, sayt qidiruvi, Google va Yandex shu nomlar bilan ham topadi.</p>
+        <p class="adm-hint">Qidiruv va Google/Yandex uchun boshqa nomlar.</p>
         <div class="adm-row adm-row-4">
           ${field('Turi', `<select class="acc-input" name="type">${['film', 'serial', 'multfilm'].map(x => `<option value="${x}"${m.type === x ? ' selected' : ''}>${typeName(x)}</option>`).join('')}</select>`)}
           ${field('Yili', `<input class="acc-input" name="year" type="number" inputmode="numeric" min="1900" max="2100" value="${val(m.year)}" placeholder="2024">`)}
@@ -384,7 +384,7 @@ function formHTML(m = {}) {
       `)}
 
       <div id="admMxBox"${m.franchise === 'marvel' ? '' : ' hidden'}>${section('star', 'Marvel sahifasi', `
-        <p class="adm-hint">Marvel bo‘limidagi film sahifasi uchun (marvel.html). Bo‘sh qoldirilgani — Wikidata’dagi ma’lumot ishlatiladi.</p>
+        <p class="adm-hint">Bo‘sh qolsa — Wikidata ma’lumoti.</p>
         <div class="adm-row adm-row-2">
           ${field('Inglizcha nomi', `<input class="acc-input" name="mxEn" value="${val(mxOf(m).en)}" placeholder="Avengers: Endgame">`)}
           ${field('Premyera sanasi', `<input class="acc-input" name="mxDate" type="date" value="${val(mxOf(m).date)}">`)}
@@ -393,7 +393,7 @@ function formHTML(m = {}) {
           ${field('Rasmiy treyler (YouTube)', `<input class="acc-input" name="mxYt" value="${val(mxOf(m).yt ? 'https://www.youtube.com/watch?v=' + mxOf(m).yt : '')}" placeholder="https://www.youtube.com/watch?v=...">`)}
           ${field('Davomiyligi (daq.)', `<input class="acc-input" name="mxRuntime" type="number" inputmode="numeric" min="1" value="${val(mxOf(m).runtime)}" placeholder="181">`)}
         </div>
-        <p class="adm-hint">Treyler faqat studiyaning o‘z kanalidan bo‘lsa (Marvel Entertainment, Marvel UK, 20th Century…) — saytda «Rasmiy treyler» deb yoziladi.</p>
+        <p class="adm-hint">Studiyaning o‘z kanalidan bo‘lsa — «Rasmiy treyler».</p>
       `)}</div>
 
       ${section('tag', 'Janrlar', `
@@ -421,7 +421,7 @@ function formHTML(m = {}) {
           <div class="adm-cover-prev" id="admCoverPrev">${m.cover ? `<img src="${esc(m.cover)}" alt="" onerror="this.remove()">` : '<span>16:9</span>'}</div>
           <div class="adm-cover-body">
             <label class="adm-label">Pleyer muqovasi (keng rasm)</label>
-            <p class="adm-hint">Video boshlanishidan oldin pleyerda turadigan rasm. Bo‘sh qolsa — treyler rasmi yoki poster.</p>
+            <p class="adm-hint">Bo‘sh qolsa — treyler rasmi yoki poster.</p>
             <label class="adm-drop adm-drop-sm">
               <input type="file" name="coverFile" accept="image/*">
               <span class="adm-drop-icon">${ADM_ICONS.upload}</span>
@@ -953,7 +953,7 @@ function tmdbSectionHTML(m) {
     <section class="adm-sec adm-tmdb" id="tmdbBox">
       <div class="adm-sec-head"><span class="adm-sec-icon">${ICONS.search}</span><h3>Avtomatik to‘ldirish</h3><small>TMDB</small></div>
       ${key ? `
-        <p class="adm-hint">Nomini yozing va ro‘yxatdan to‘g‘ri kinoni tanlang — ma’lumotlar, poster va treyler o‘zi to‘ldiriladi. Saqlashdan oldin tekshirib chiqing.</p>
+        <p class="adm-hint">Nomini yozib, kinoni tanlang.</p>
         <div class="adm-tmdb-row">
           <input class="acc-input" id="tmdbQ" type="search" value="${esc(m.title?.uz || '')}" placeholder="Kino nomi — masalan: Inception yoki Qizil oyna" autocomplete="off">
           <select class="acc-input" id="tmdbType"><option value="multi">Hammasi</option><option value="movie">Film</option><option value="tv">Serial</option></select>
@@ -962,7 +962,7 @@ function tmdbSectionHTML(m) {
         <p class="acc-error" id="tmdbErr" hidden></p>
         <div class="adm-tmdb-res" id="tmdbRes"></div>
         <div class="adm-tmdb-foot"><button class="acc-link" type="button" id="tmdbKeyReset">Kalitni o‘zgartirish</button><span>Ma’lumotlar: The Movie Database (TMDB)</span></div>` : `
-        <p class="adm-hint">Kino nomini yozsangiz — poster, syujet, janr, yil va aktyorlar o‘zi to‘ldiriladi. Buning uchun bir marta bepul TMDB kaliti kerak:</p>
+        <p class="adm-hint">Avtomatik to‘ldirish uchun bepul TMDB kaliti kerak:</p>
         <ol class="adm-steps">
           <li><a href="https://www.themoviedb.org/signup" target="_blank" rel="noopener">themoviedb.org</a> saytida ro‘yxatdan o‘ting (email tasdiqlanadi)</li>
           <li><a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Settings → API</a> sahifasida «Create» → «Developer» ni tanlang, shartlarga rozilik bering</li>
@@ -974,7 +974,7 @@ function tmdbSectionHTML(m) {
           <button class="btn btn-primary" type="button" id="tmdbKeySave">Saqlash</button>
         </div>
         <p class="acc-error" id="tmdbErr" hidden></p>
-        <p class="adm-hint">Kalit faqat shu qurilmada saqlanadi, saytga yozilmaydi.</p>`}
+        <p class="adm-hint">Kalit faqat shu qurilmada saqlanadi.</p>`}
     </section>`;
 }
 
@@ -1377,7 +1377,7 @@ function seoSectionHTML() {
   return `
     <section class="adm-sec" id="admSeo">
       <div class="adm-sec-head"><span class="adm-sec-icon">${ADM_ICONS.tag}</span><h3>Sayt teglari (SEO)</h3><small>bosh sahifa</small></div>
-      <p class="adm-hint">Google va Yandex’da sayt qanday ko‘rinishi: sarlavha (60 belgigacha), tavsif (160 belgigacha) va kalit so‘zlar (teglar). Kinolarning o‘z teglari — kino formasidagi «Boshqa nomlari».</p>
+      <p class="adm-hint">Sarlavha — 60, tavsif — 160 belgigacha.</p>
       <div class="adm-field"><label class="adm-label" for="seoTitle">Sarlavha <small id="seoTitleN"></small></label>
         <input class="acc-input" id="seoTitle" maxlength="90" placeholder="Yuklanmoqda…"></div>
       <div class="adm-field"><label class="adm-label" for="seoDesc">Tavsif <small id="seoDescN"></small></label>
@@ -1850,7 +1850,7 @@ function renderGroupsView() {
         <div class="adm-cover-prev is-tall" id="grpPosterPrev">${d.posterFile ? `<img src="${esc(URL.createObjectURL(d.posterFile))}" alt="">` : d.poster ? `<img src="${esc(d.poster)}" alt="" onerror="this.remove()">` : '<span>2:3</span>'}</div>
         <div class="adm-cover-body">
           <label class="adm-label">Asosiy poster (tik rasm)</label>
-          <p class="adm-hint">Katalog, qidiruv va bosh sahifadagi guruh kartasining rasmi. Bo‘sh qolsa — guruh kartasining hozirgi posteri.</p>
+          <p class="adm-hint">Bo‘sh qolsa — hozirgi poster.</p>
           <label class="adm-drop adm-drop-sm">
             <input type="file" id="grpPosterFile" accept="image/*">
             <span class="adm-drop-icon">${ADM_ICONS.upload}</span>
@@ -1863,7 +1863,7 @@ function renderGroupsView() {
         <div class="adm-cover-prev" id="grpCoverPrev">${d.coverFile ? `<img src="${esc(URL.createObjectURL(d.coverFile))}" alt="">` : d.cover ? `<img src="${esc(d.cover)}" alt="" onerror="this.remove()">` : '<span>16:9</span>'}</div>
         <div class="adm-cover-body">
           <label class="adm-label">Pleyer muqovasi (keng rasm)</label>
-          <p class="adm-hint">Har bir qism boshlanishidan oldin pleyerda turadigan rasm.</p>
+          <p class="adm-hint">Qism boshlanishidan oldingi rasm.</p>
           <label class="adm-drop adm-drop-sm">
             <input type="file" id="grpCoverFile" accept="image/*">
             <span class="adm-drop-icon">${ADM_ICONS.upload}</span>
@@ -2046,7 +2046,7 @@ function grpLangsHTML(d) {
   return `
       <div class="adm-field adm-langs">
         <label class="adm-label">Ovoz tillari</label>
-        <p class="adm-hint">Tilni tanlang — shu tildagi har bir qism videosining havolasi ko‘rinadi. Saytda pleyer tepasida bayroq bo‘lib chiqadi, tomoshabin bosib tilni almashtiradi.</p>
+        <p class="adm-hint">Har bir til — pleyerda bayroq bo‘lib chiqadi.</p>
         <div class="adm-lang-main">
           <label for="grpLangMain">Asosiy videolar tili</label>
           <select class="acc-input" id="grpLangMain">
@@ -2068,7 +2068,7 @@ function grpLangsHTML(d) {
               : `<input class="acc-input" data-glurl="${id}" value="${esc(d.langs?.[id]?.[tab] || '')}" placeholder="${esc(name(tab))} video havolasi: https://..." inputmode="url" autocomplete="off">`}</div>`;
           }).join('')}
         </div>
-        ${!main && d.ids.some(id => Object.values(d.langs?.[id] || {}).some(Boolean)) ? '<p class="adm-hint">Asosiy videolar tilini belgilang — aks holda saytda ular «Asl nusxa» bo‘lib turadi.</p>' : ''}
+        ${!main && d.ids.some(id => Object.values(d.langs?.[id] || {}).some(Boolean)) ? '<p class="adm-hint">Asosiy videolar tilini belgilang.</p>' : ''}
       </div>`;
 }
 
@@ -2165,7 +2165,7 @@ async function renderChannelsView() {
   box.innerHTML = `
     <section class="adm-sec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>YouTube kanallari</h3><small>${chState.channels.length} ta</small></div>
-      <p class="adm-hint">Kanalda yangi qism, serial yoki treyler chiqsa — «Yangilash» ni bosing: yangilari saytga qo‘shiladi, borlari yangilanadi. Videolar YouTube pleyeri orqali ko‘rsatiladi (yuklab olinmaydi), ko‘rishlar va reklama kanal egasida qoladi.</p>
+      <p class="adm-hint">Yangi videolar uchun — «Yangilash».</p>
       <div class="acc-list">${chState.channels.map(c => `
         <div class="acc-item adm-item adm-ch">
           <span class="adm-ch-ico">${NAV_ICONS.yt}</span>
@@ -2184,7 +2184,7 @@ async function renderChannelsView() {
 
     <section class="adm-sec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Kinostudiyalar</h3><small>rasmiy kanal — rasmiy treylerlar</small></div>
-      <p class="acc-muted adm-note"><span>Studiyani bosing — uning rasmiy kanali pastdagi formaga yoziladi. Tasdiqlab «Tekshirish va qo‘shish» ni bosing: treylerlari yuklanadi va studiya bosh sahifadagi «Kinostudiyalar» qatorida paydo bo‘ladi.</span></p>
+      <p class="acc-muted adm-note"><span>Studiyani tanlab, «Tekshirish va qo‘shish».</span></p>
       <div class="adm-studios">${STUDIOS.map(x => {
         const on = chState.channels.some(c => c.franchise === x.key);
         return `<button type="button" class="adm-studio${on ? ' is-on' : ''}" data-studio="${x.key}" style="--studio:${x.bg}" ${on ? 'disabled' : ''}>
@@ -2729,14 +2729,12 @@ function renderDupView() {
     box.innerHTML = `
       ${coll.ids.size ? `<section class="adm-sec adm-warn">
         <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.shield}</span><h3>Bir xil ID’li yozuvlar</h3><small>${coll.ids.size} ta ID</small></div>
-        <p class="adm-hint">${coll.copies ? `<b>${coll.copies} ta</b> aynan bir xil nusxa (ortiqchasi olib tashlanadi)` : ''}${coll.copies && coll.clashes ? ', ' : ''}${coll.clashes ? `<b>${coll.clashes} ta</b> boshqa kino eski ID bilan yozilgan (yangi ID beriladi, hech biri yo‘qolmaydi)` : ''}.
-          Bu yozuvlarni yashirib bo‘lmaydi (yashirish ID bo‘yicha) — avval tuzating, keyin ular ham dublikat tekshiruviga tushadi.</p>
+        <p class="adm-hint">${coll.copies ? `${coll.copies} ta nusxa` : ''}${coll.copies && coll.clashes ? ', ' : ''}${coll.clashes ? `${coll.clashes} ta kino eski ID bilan` : ''} — hech biri yo‘qolmaydi.</p>
         <button class="btn btn-primary" type="button" id="dupFixIds">ID’larni tuzatish</button>
       </section>` : ''}
       <section class="adm-sec">
         <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.copy}</span><h3>Dublikatlar</h3><small>${groups.length} ta guruh · ${extraAll} ta ortiqcha</small></div>
-        <p class="adm-hint">Saytda ishlayotgan (videosi bor, yashirilmagan) kinolar tekshirildi. <b>Aniq</b> — bir xil video. <b>Ehtimoliy</b> — bir xil nom, tur va yil: ko‘rib chiqib tasdiqlang.
-          Ortiqchalari o‘chirilmaydi — <b>yashiriladi</b>, kerak bo‘lsa «Kinolar → Yashirilgan» dan qaytarasiz. Qaysi biri qolishini o‘zingiz tanlashingiz mumkin.</p>
+        <p class="adm-hint"><b>Aniq</b> — bir xil video, <b>ehtimoliy</b> — bir xil nom. Ortiqchasi yashiriladi, qaytarish mumkin.</p>
         ${extra ? `<button class="btn btn-primary" type="button" id="dupAllExact">Aniq dublikatlarni yashirish (${extra} ta)</button>` : ''}
       </section>
       ${groups.length ? `<div class="adm-dups">${groups.slice(0, dupState.shown).map(dupGroupHTML).join('')}</div>
@@ -2753,7 +2751,7 @@ function dupGroupHTML(g) {
   return `
     <section class="adm-sec adm-dup" data-dup="${g.key}">
       <div class="adm-dup-head"><span class="adm-state ${g.exact ? 'is-hide' : 'is-edit'}">${g.exact ? 'Aniq · bir xil video' : 'Ehtimoliy · bir xil nom'}</span><small>${g.items.length} ta</small></div>
-      ${parts ? '<p class="adm-dup-warn">Videolari har xil va ketma-ket qo‘shilgan — 1- va 2-qism bo‘lishi mumkin. «Ko‘rish» bilan tekshiring.</p>' : ''}
+      ${parts ? '<p class="adm-dup-warn">1- va 2-qism bo‘lishi mumkin.</p>' : ''}
       ${g.items.map(m => `
         <label class="acc-item adm-item adm-dup-item">
           <input type="radio" name="keep-${g.key}" value="${m.id}" ${m.id === g.keep ? 'checked' : ''}>
@@ -2821,7 +2819,7 @@ async function renderBackupView() {
   box.innerHTML = `
     <section class="adm-sec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.shield}</span><h3>Zaxira va tiklash</h3><small>kinolar fayli</small></div>
-      <p class="acc-muted adm-note">${NAV_ICONS.info || ''}<span>Har bir saqlash alohida nusxa bo‘lib qoladi. Biror kino yo‘qolsa — kerakli vaqtni tanlab, «Sanash» bilan tekshiring va «Tiklash»ni bosing.
+      <p class="acc-muted adm-note">${NAV_ICONS.info || ''}<span>Har bir saqlash — alohida nusxa. «Sanash» bilan tekshirib, «Tiklash».
         GitHub’dagi qo‘riqchi ham bittadan ko‘p kino yo‘qolsa, avvalgi holatni o‘zi qaytaradi.</span></p>
       <p class="adm-bk-now" id="bkNow">Hozir: <b>${customList.length}</b> ta qo‘shilgan/tahrirlangan, <b>${hiddenList.length}</b> ta yashirilgan</p>
       <div id="bkList"><div class="mt-loading"><i></i><i></i><i></i></div></div>
