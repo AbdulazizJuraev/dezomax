@@ -196,7 +196,10 @@ function posterHTML(m) {
 
   if (!m.poster) return fallback;
 
-  return fallback +
+  // keng (16:9) muqova oddiy posterlar orasida 2:3 kartaga joylanadi — orqasida xira nusxasi (css: .poster-blur)
+  const blur = m.wide || m.franchise === 'konsert'
+    ? `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">` : '';
+  return fallback + blur +
     `<img class="poster-img" src="${esc(m.poster)}" alt="${esc(title(m))}" loading="lazy" onerror="this.remove()">`;
 }
 
