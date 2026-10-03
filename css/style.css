@@ -6091,3 +6091,7 @@ html.tv-mode .row-nav { display: none !important; }
 /* akkaunt tugmasi: kirishda tanlangan personaj rasmi (js/auth.js avatarHTML) */
 .avatar.is-role img { object-fit: cover; transform: translateY(6%) scale(1.06); }
 .avatar.is-role.role-pick-c-guest img { transform: scale(.86); }
+/* intro video (js/intro.js, images/intro/intro.mp4): kvadrat video ekran markazida, cheti fon bilan bir xil */
+.intro.intro-video-mode { background: #07080c; overflow: hidden; }
+.intro-video { width: min(100vw, 100vh); height: min(100vw, 100vh); object-fit: contain; background: #07080c; }
+@media (orientation: landscape) { .intro-video { width: min(100vw, 125vh); height: min(100vw, 125vh); } }
