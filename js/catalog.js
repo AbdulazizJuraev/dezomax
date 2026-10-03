@@ -11,7 +11,8 @@ const state = {
   genre:     params.get('genre') || 'all',
   franchise: params.get('franchise') || 'all',
   watch:     params.get('watch') || 'all',        // all | uz | trailer
-  sort:      params.get('sort') || 'new'
+  sort:      params.get('sort') || 'new',
+  studio:    params.get('studio') || ''            // kinostudiya — faqat rasmiy kanaldan kelgan treylerlar (js/common.js STUDIOS)
 };
 
 const WATCH = [['uz', 'watch.filterUz'], ['trailer', 'watch.filterTrailer']];
@@ -61,6 +62,7 @@ function filtered() {
     if (state.type !== 'all' && m.type !== state.type) return false;
     if (state.genre !== 'all' && !m.genres.includes(state.genre)) return false;
     if (state.franchise !== 'all' && m.franchise !== state.franchise) return false;
+    if (state.studio && (m.franchise !== state.studio || !m.ch)) return false;
     if (state.watch !== 'all' && watchStatus(m) !== state.watch) return false;
     return !hit || hit(hayOf(m));
   });
@@ -97,6 +99,7 @@ function update(pushUrl = true) {
   const h = document.getElementById('pageTitle');
   if (state.q)                      h.textContent = `${t('search.results')}: "${state.q}"`;
   else if (state.watch !== 'all')   h.textContent = t(state.watch === 'uz' ? 'watch.filterUz' : 'watch.filterTrailer');
+  else if (state.studio && typeof studioOf === 'function' && studioOf(state.studio)) h.textContent = studioOf(state.studio).name + (LANG === 'ru' ? ' — официальные трейлеры' : ' — rasmiy treylerlar');
   else if (state.franchise !== 'all') h.textContent = t('row.' + state.franchise);
   else if (state.type !== 'all')    h.textContent = typeName(state.type);
   else if (state.genre !== 'all')   h.textContent = genreName(state.genre);
@@ -108,6 +111,7 @@ function update(pushUrl = true) {
     if (state.type !== 'all') p.set('type', state.type);
     if (state.genre !== 'all') p.set('genre', state.genre);
     if (state.franchise !== 'all') p.set('franchise', state.franchise);
+    if (state.studio) p.set('studio', state.studio);
     if (state.watch !== 'all') p.set('watch', state.watch);
     if (state.sort !== 'new') p.set('sort', state.sort);
     const url = p.toString() ? '?' + p : location.pathname;

@@ -2156,6 +2156,16 @@ async function renderChannelsView() {
     </section>
 
     <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Kinostudiyalar</h3><small>rasmiy kanal — rasmiy treylerlar</small></div>
+      <p class="acc-muted adm-note"><span>Studiyani bosing — uning rasmiy kanali pastdagi formaga yoziladi. Tasdiqlab «Tekshirish va qo‘shish» ni bosing: treylerlari yuklanadi va studiya bosh sahifadagi «Kinostudiyalar» qatorida paydo bo‘ladi.</span></p>
+      <div class="adm-studios">${STUDIOS.map(x => {
+        const on = chState.channels.some(c => c.franchise === x.key);
+        return `<button type="button" class="adm-studio${on ? ' is-on' : ''}" data-studio="${x.key}" style="--studio:${x.bg}" ${on ? 'disabled' : ''}>
+          <span class="adm-studio-logo">${x.logo}</span><span>${esc(x.name)}</span><small>${on ? '✓ qo‘shilgan' : 'Qo‘shish'}</small></button>`;
+      }).join('')}</div>
+    </section>
+
+    <section class="adm-sec" id="chAddSec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.plus}</span><h3>Kanal qo‘shish</h3><small>faqat rasmiy (✓) kanallar</small></div>
       <div class="adm-field"><label class="adm-label" for="chUrl">Kanal havolasi</label>
         <input class="acc-input" id="chUrl" placeholder="https://www.youtube.com/@kanal" inputmode="url" autocomplete="off"></div>
@@ -2163,7 +2173,7 @@ async function renderChannelsView() {
         <div class="adm-field"><label class="adm-label" for="chKind">Nima olinadi</label>
           <select class="acc-input" id="chKind">${Object.entries(CH_KINDS).map(([k, l]) => `<option value="${k}">${l}</option>`).join('')}</select></div>
         <div class="adm-field"><label class="adm-label" for="chFr">Bo‘lim</label>
-          <select class="acc-input" id="chFr">${[['uzbek', 'O‘zbek kino'], ['', 'Yo‘q'], ['marvel', 'Marvel'], ['dc', 'DC'], ['konsert', 'Konsert'], ['dorama', 'Koreys doramasi'], ['anime', 'Anime'], ['hind', 'Hind kino']].map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div>
+          <select class="acc-input" id="chFr">${[['uzbek', 'O‘zbek kino'], ['', 'Yo‘q'], ...STUDIOS.map(x => [x.key, x.name + ' (studiya)']), ['konsert', 'Konsert'], ['dorama', 'Koreys doramasi'], ['anime', 'Anime'], ['hind', 'Hind kino']].map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div>
       </div>
       <label class="adm-rights"><input type="checkbox" id="chRights"><span>Bu kanal kontent egasining rasmiy kanali (studiya, telekanal, distribyutor) va uning videolarini saytda ko‘rsatish mumkin.</span></label>
       <p class="acc-error" id="chErr" hidden></p>
@@ -2171,6 +2181,15 @@ async function renderChannelsView() {
     </section>`;
 
   box.querySelectorAll('[data-chsync]').forEach(b => b.addEventListener('click', () => syncChannel(chState.channels.find(c => c.key === b.dataset.chsync))));
+  // studiya tugmasi — formani to'ldiradi (rasmiy kanal, «Treylerlar», bo'lim — studiya)
+  box.querySelectorAll('[data-studio]').forEach(b => b.addEventListener('click', () => {
+    const x = STUDIOS.find(y => y.key === b.dataset.studio);
+    $('#chUrl').value = x.channel;
+    if ([...$('#chKind').options].some(o => o.value === 'trailers')) $('#chKind').value = 'trailers';
+    $('#chFr').value = x.key;
+    $('#chAddSec').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    toast(`«${x.name}» — rasmiy ekanini tasdiqlab, «Tekshirish va qo‘shish» ni bosing`);
+  }));
   box.querySelectorAll('[data-chdel]').forEach(b => b.addEventListener('click', () => {
     const c = chState.channels.find(x => x.key === b.dataset.chdel);
     if (!confirm(`«${c.name}» kanali va uning ${count(c.key)} ta kinosi saytdan olib tashlansinmi? (YouTube’dagi videolarga tegilmaydi)`)) return;

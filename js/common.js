@@ -507,6 +507,35 @@ const MORE_LINKS = [
   { href: 'catalog.html?type=multfilm', icon: 'grid', label: 'nav.cartoons' }
 ];
 
+/* ---------- Kinostudiyalar ----------
+   Har bir studiya — o'zining RASMIY YouTube kanali (admin → «Kanallar» → «Studiyalar»da bir bosishda qo'shiladi,
+   «Yangilash» rasmiy treylerlarni olib keladi; franchise = key). Bosh sahifadagi «Kinostudiyalar» qatorida
+   faqat treylerlari bor studiyalar ko'rinadi. Logotiplar — oddiy matnli belgilar (studiya nomini ko'rsatish uchun). */
+const STUDIOS = [
+  { key: 'marvel', name: 'Marvel Studios', href: 'marvel.html', channel: 'https://www.youtube.com/@marvel', bg: '#5c0a10',
+    logo: '<svg viewBox="0 0 120 44"><rect width="120" height="44" rx="3" fill="#ec1d24"/><text x="60" y="34" text-anchor="middle" font-family="Oswald,Impact,Arial Narrow,sans-serif" font-weight="700" font-size="34" fill="#fff" letter-spacing="-1">MARVEL</text></svg>' },
+  { key: 'dc', name: 'DC Studios', channel: 'https://www.youtube.com/@dc', bg: '#0b2a6b',
+    logo: '<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#0476f2"/><circle cx="30" cy="30" r="23" fill="none" stroke="#fff" stroke-width="2.5"/><text x="30" y="39" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="24" fill="#fff" letter-spacing="-1">DC</text></svg>' },
+  { key: 'pixar', name: 'Pixar', channel: 'https://www.youtube.com/@Pixar', bg: '#1d2a3a',
+    logo: '<svg viewBox="0 0 150 44"><text x="75" y="35" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="38" fill="#fff" letter-spacing="3">PIXAR</text></svg>' },
+  { key: 'disney', name: 'Walt Disney Studios', channel: 'https://www.youtube.com/@disney', bg: '#0a1f4d',
+    logo: '<svg viewBox="0 0 150 50"><path d="M12 40 Q75 -6 138 34" fill="none" stroke="#9fd2ff" stroke-width="2.5" stroke-linecap="round"/><text x="75" y="42" text-anchor="middle" font-family="Brush Script MT,Segoe Script,cursive" font-size="34" fill="#fff">Disney</text></svg>' },
+  { key: 'warner', name: 'Warner Bros. Pictures', channel: 'https://www.youtube.com/@WarnerBrosPictures', bg: '#0c2a52',
+    logo: '<svg viewBox="0 0 60 66"><path d="M6 6 Q30 0 54 6 L50 46 Q30 64 30 64 Q30 64 10 46 Z" fill="#1c64c8" stroke="#c9a54a" stroke-width="3"/><text x="30" y="40" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="24" fill="#f3d27a">WB</text></svg>' },
+  { key: 'universal', name: 'Universal Pictures', channel: 'https://www.youtube.com/@UniversalPictures', bg: '#081a33',
+    logo: '<svg viewBox="0 0 160 60"><circle cx="80" cy="30" r="26" fill="#123e7a"/><path d="M58 22 Q80 14 102 22 M56 32 Q80 24 104 32 M60 41 Q80 35 100 41" stroke="#4aa3ff" stroke-width="1.6" fill="none"/><text x="80" y="36" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="17" fill="#fff" letter-spacing="2">UNIVERSAL</text></svg>' },
+  { key: 'sony', name: 'Sony Pictures', channel: 'https://www.youtube.com/@SonyPictures', bg: '#1a1a1a',
+    logo: '<svg viewBox="0 0 160 50"><text x="80" y="30" text-anchor="middle" font-family="Times New Roman,serif" font-weight="700" font-size="30" fill="#fff" letter-spacing="4">SONY</text><text x="80" y="46" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#bbb" letter-spacing="5">PICTURES</text></svg>' },
+  { key: 'lucasfilm', name: 'Lucasfilm · Star Wars', channel: 'https://www.youtube.com/@starwars', bg: '#000000',
+    logo: '<svg viewBox="0 0 160 60"><text x="80" y="28" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="24" fill="none" stroke="#ffe81f" stroke-width="1.6" letter-spacing="2">STAR</text><text x="80" y="54" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="24" fill="none" stroke="#ffe81f" stroke-width="1.6" letter-spacing="2">WARS</text></svg>' },
+  { key: 'dreamworks', name: 'DreamWorks Animation', channel: 'https://www.youtube.com/@DreamWorks', bg: '#0c2c5c',
+    logo: '<svg viewBox="0 0 170 50"><path d="M20 38 a10 10 0 0 1 10 -16" fill="none" stroke="#ffd36b" stroke-width="2"/><text x="95" y="33" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="28" fill="#fff">DreamWorks</text></svg>' },
+  { key: 'paramount', name: 'Paramount Pictures', channel: 'https://www.youtube.com/@ParamountPictures', bg: '#0a2a6b',
+    logo: '<svg viewBox="0 0 160 60"><path d="M30 46 L62 12 L80 30 L98 12 L130 46 Z" fill="#2a6fdb"/><text x="80" y="57" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="17" fill="#fff">Paramount</text></svg>' }
+];
+const studioOf = key => STUDIOS.find(s => s.key === key) || null;
+const studioHref = s => s.href || 'catalog.html?studio=' + s.key;
+
 /* Qaysi bo'lim ochiq turganini aniqlaymiz */
 function activeTab() {
   const page = /\/kino\//.test(location.pathname) ? 'kino' : location.pathname.split('/').pop() || 'index.html';   // kino/*.html — tools/gen-pages.js

@@ -6117,3 +6117,17 @@ html.tv-mode .row-nav { display: none !important; }
 .studio-name { font-size: 13px; font-weight: 650; color: rgba(255,255,255,.7); letter-spacing: .02em; }
 .studio-card.is-marvel { background: radial-gradient(120% 140% at 50% 0%, #5c0a10, #1a0507 65%); border-color: rgba(236,29,36,.35); }
 @media (max-width: 640px) { .studio-card { width: 200px; border-radius: 14px; } .studio-name { font-size: 12px; } }
+
+/* Kinostudiyalar: har studiya o'z rangida (--studio) */
+.studio-card { background: radial-gradient(120% 140% at 50% 0%, var(--studio, #1b2233), #07080c 70%); }
+.studio-logo svg { max-height: 74px; }
+/* Admin → Kanallar → Kinostudiyalar */
+.adm-studios { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.adm-studio { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 10px; border-radius: 14px; color: #fff; text-align: center; font-size: 13px; font-weight: 650;
+  border: 1px solid rgba(255,255,255,.1); background: radial-gradient(120% 140% at 50% 0%, var(--studio, #1b2233), #0b0e15 75%); }
+.adm-studio:hover:not(:disabled) { border-color: rgba(255,255,255,.3); }
+.adm-studio:disabled { opacity: .7; cursor: default; }
+.adm-studio small { font-size: 11.5px; color: #6cc4f2; }
+.adm-studio.is-on small { color: #4ade80; }
+.adm-studio-logo { height: 44px; display: grid; place-items: center; }
+.adm-studio-logo svg { height: 44px; width: auto; max-width: 120px; }

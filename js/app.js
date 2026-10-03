@@ -438,7 +438,7 @@ const ROW_SOURCES = {
   popular:  { title: 'row.popular',  all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) - rt(a)).slice(0, 10) },   // TOP 10 — js: initTop10
   series:   { title: 'row.series',   all: 'catalog.html?type=serial',     list: () => MOVIES.filter(m => m.type === 'serial').slice(0, 24) },
   cartoons: { title: 'row.cartoons', all: 'catalog.html?type=multfilm',   list: () => MOVIES.filter(m => m.type === 'multfilm').slice(0, 24) },
-  studios:  { title: 'row.studios',  all: null,                           list: () => STUDIOS },   // js: studiosHTML
+  studios:  { title: 'row.studios',  all: null,                           list: () => studiosShown() },   // js: studiosHTML
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
@@ -573,21 +573,18 @@ function renderRows() {
   else clearInterval(sbTimer);
 }
 
-/* ---------- Kinostudiyalar: logotipli kartochkalar ----------
-   Har bir studiya — rasmiy ma'lumot sahifasi (treylerlar, aktyorlar, byudjet). Yangi studiya qo'shish:
-   shu ro'yxatga { id, name, href, cls, logo } (logo — oq SVG yoki matn). */
-const STUDIOS = [
-  { id: 'marvel', name: 'Marvel Studios', href: 'marvel.html', cls: 'is-marvel',
-    logo: '<svg viewBox="0 0 120 44" aria-hidden="true"><rect width="120" height="44" rx="3" fill="#ec1d24"/><text x="60" y="34" text-anchor="middle" font-family="Oswald,Impact,Arial Narrow,sans-serif" font-weight="700" font-size="34" fill="#fff" letter-spacing="-1">MARVEL</text></svg>' }
-];
+/* ---------- Kinostudiyalar (ro'yxat — js/common.js STUDIOS) ----------
+   Marvel — o'z sahifasi; qolganlari — rasmiy kanaldan kelgan treylerlari bo'lsa ko'rinadi. */
+const studiosShown = () => STUDIOS.filter(s => s.href || MOVIES.some(m => m.franchise === s.key && m.ch));
 
 function studiosHTML(title) {
-  if (!STUDIOS.length) return '';
+  const list = studiosShown();
+  if (!list.length) return '';
   return `
     <section class="section studios">
       <div class="section-head"><i class="bar"></i><h2>${esc(title)}</h2></div>
-      <div class="row studios-row">${STUDIOS.map(s => `
-        <a class="studio-card ${s.cls || ''}" href="${s.href}" aria-label="${esc(s.name)}">
+      <div class="row studios-row">${list.map(s => `
+        <a class="studio-card is-${s.key}" href="${studioHref(s)}" style="--studio:${s.bg}" aria-label="${esc(s.name)}">
           <span class="studio-logo">${s.logo}</span>
           <span class="studio-name">${esc(s.name)}</span>
         </a>`).join('')}
