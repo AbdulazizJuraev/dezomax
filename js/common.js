@@ -67,10 +67,9 @@ function partsOf(m) {
   return real.length ? real : list;
 }
 
-/* ---------- Faqat to'liq film qo'shilgan kinolar ko'rinadi ----------
-   Treyler turgan (film qo'shilmagan) kinolar saytda yashiriladi. Admin orqali kinoga video
-   qo'shilsa, u avtomatik paydo bo'ladi. Ma'lumot o'chmaydi — faqat ro'yxatlardan chiqariladi.
-   Admin sahifasida hammasi ko'rinadi (video qo'shish uchun); movie.html — to'g'ridan-to'g'ri havola. */
+/* ---------- Saytda ko'rinadigan kinolar ----------
+   Filmi yoki treyleri bor hamma kino ko'rinadi (Marvel treylerlari ham — kartada «Treyler» belgisi).
+   Na videosi, na treyleri bo'lmagan yozuvlar (bo'sh katalog kartalari) ro'yxatlardan chiqariladi. */
 function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
 (function () {
   try {
@@ -81,7 +80,8 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
     if (admin || page === 'movie.html' || page === 'marvel.html' || window.DZX_ID) return;
     // guruh kartasining o'zida video bo'lmasa ham, qismlaridan birida bo'lsa — ko'rinadi
     for (let i = MOVIES.length - 1; i >= 0; i--) {
-      if (!hasFilm(MOVIES[i]) && !partsOf(MOVIES[i]).some(hasFilm)) MOVIES.splice(i, 1);
+      const m = MOVIES[i];
+      if (!hasFilm(m) && !String(m.trailer || '').trim() && !partsOf(m).some(hasFilm)) MOVIES.splice(i, 1);
     }
 
     // "Bola" rolidagi foydalanuvchilar: katalog/qidiruv/bosh sahifada faqat multfilmlar ko'rinadi

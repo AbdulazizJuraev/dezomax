@@ -145,10 +145,7 @@ function mxFilmHTML(f) {
 
         ${yt ? `
         <h2 class="mx-h2" id="mxTrailer">${official ? mx('trailer') : mx('trailerPlain')}</h2>
-        <div class="mx-trailer" data-yt="${yt}">
-          <img src="https://i.ytimg.com/vi/${yt}/hqdefault.jpg" alt="" loading="lazy">
-          <button type="button" class="mx-trailer-play" aria-label="${esc(mx('play'))}">${ICONS.play}</button>
-        </div>` : ''}
+        <div class="player-wrap mx-trailer" id="mxPlayer" data-yt="${yt}"></div>` : ''}
 
         ${cast.length ? `
         <h2 class="mx-h2">${mx('cast')}</h2>
@@ -184,18 +181,13 @@ function mxRender() {
     c.href = 'https://dezomax.uz/' + mxHref(f);
   }
 
-  // treyler — bosilganda YouTube pleyeri (oldindan yuklanmaydi)
-  root.querySelector('.mx-trailer')?.addEventListener('click', e => {
-    const box = e.currentTarget;
-    box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${box.dataset.yt}?autoplay=1&rel=0&modestbranding=1"
-      allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${esc(mx('trailer'))}"></iframe>`;
-    box.classList.add('is-on');
-  }, { once: true });
+  // treyler — saytning o'z pleyerida (js/ytplayer.js: o'z tugmalari, tezlik, to'liq ekran)
+  const pl = root.querySelector('#mxPlayer');
+  if (pl && typeof mountYouTube === 'function') mountYouTube(pl, 'https://www.youtube.com/watch?v=' + pl.dataset.yt, { title: f ? title(f.m) : '' });
   root.querySelector('.mx-play')?.addEventListener('click', e => {
     e.preventDefault();
-    const tr = root.querySelector('.mx-trailer');
-    tr.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    tr.click();
+    pl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    pl?.querySelector('#ytpCover')?.click();
   });
 }
 
