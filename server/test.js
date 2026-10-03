@@ -169,6 +169,21 @@ const comp = (o, prepId, amount, extra = {}) => {
   assert.deepEqual((await call('GET', '/top?days=30')).json.items[0], { movie: 77, views: 1 }); ok('TOP oylik');
   assert.equal((await call('GET', '/top?days=all')).json.days, 'all'); ok('TOP hamma vaqt');
   assert.equal((await call('GET', '/top?days=5')).json.days, 1); ok('TOP: noma’lum davr — kunlik');
+  // --- qurilmalar ---
+  const pc = (await call('POST', '/api/login', { body: { idToken: 'ok:dv', device: { id: 'dpc0001', os: 'Windows', app: 'Chrome', type: 'desktop' } } })).json.token;
+  const ph = (await call('POST', '/api/login', { body: { idToken: 'ok:dv', device: { id: 'dph0001', os: 'Android', app: 'DezoMax App<script>', type: 'phone' } } })).json.token;
+  let dl = (await call('GET', '/api/devices', { token: pc })).json.devices;
+  assert.equal(dl.length, 2); assert.ok(dl[0].current && dl[0].id === 'dpc0001'); assert.equal(dl[1].app, 'DezoMax Appscript'); ok('ikki qurilma ko‘rinadi, joriysi birinchi, nom tozalangan');
+  const ph2 = (await call('POST', '/api/login', { body: { idToken: 'ok:dv', device: { id: 'dph0001', os: 'Android', app: 'DezoMax App', type: 'phone' } } })).json.token;
+  assert.equal((await call('GET', '/api/devices', { token: ph2 })).json.devices.length, 2); ok('o‘sha qurilmadan qayta kirish — yangi qator emas');
+  assert.equal((await call('GET', '/api/me', { token: ph })).status, 401); ok('qayta kirishda shu qurilmaning eski sessiyasi yopildi');
+  assert.equal((await call('POST', '/api/devices/remove', { token: pc, body: { id: 'dpc0001' } })).status, 400); ok('joriy qurilmani o‘chirib bo‘lmaydi');
+  dl = (await call('POST', '/api/devices/remove', { token: pc, body: { id: 'dph0001' } })).json.devices;
+  assert.equal(dl.length, 1); assert.equal((await call('GET', '/api/me', { token: ph2 })).status, 401); ok('telefon akkauntdan chiqarildi');
+  const old = (await call('POST', '/api/login', { body: { idToken: 'ok:dv' } })).json.token;   // qurilma ma'lumotisiz (eski sayt)
+  dl = (await call('POST', '/api/device', { token: old, body: { device: { id: 'dtab001', os: 'iOS', app: 'Safari', type: 'phone' } } })).json.devices;
+  assert.ok(dl.find(d => d.current && d.id === 'dtab001' && d.os === 'iOS')); ok('eski sessiya qurilmasini keyin yozish mumkin');
+  assert.equal((await call('GET', '/api/devices', { token: tk })).json.devices.every(d => d.id !== 'dpc0001'), true); ok('boshqa akkaunt qurilmalari ko‘rinmaydi');
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();
 })().catch(er => { console.error('\nSINOV YIQILDI:', er.message); console.error(er.stack.split('\n').slice(1, 4).join('\n')); server.close(); process.exit(1); });

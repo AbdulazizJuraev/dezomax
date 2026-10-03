@@ -65,7 +65,11 @@ Object.assign(I18N.uz, {
   'acc.thisDevice': 'Shu qurilma',
   'acc.lastSeen': 'Oxirgi faollik:',
   'acc.removeDevice': 'Chiqarish',
-  'acc.deviceRemoved': 'Qurilma o‘chirildi',
+  'acc.deviceRemoved': 'Qurilma akkauntdan chiqarildi',
+  'acc.devUnknown': 'Qurilma (eski kirish)',
+  'acc.devSince': 'Kirgan:',
+  'acc.devLocal': 'Boshqa qurilmalarni ko‘rish uchun akkauntdan chiqib, qayta kiring.',
+  'acc.devKicked': 'Bu qurilma akkauntdan chiqarilgan. Qayta kiring.',
   'acc.devicesLimit': 'Tarifingiz bo‘yicha bir vaqtda qurilmalar:',
   'acc.promoPh': 'Promokodni kiriting',
   'acc.activate': 'Faollashtirish',
@@ -173,7 +177,11 @@ Object.assign(I18N.ru, {
   'acc.thisDevice': 'Это устройство',
   'acc.lastSeen': 'Последняя активность:',
   'acc.removeDevice': 'Отключить',
-  'acc.deviceRemoved': 'Устройство удалено',
+  'acc.deviceRemoved': 'Устройство отключено от аккаунта',
+  'acc.devUnknown': 'Устройство (старый вход)',
+  'acc.devSince': 'Вход:',
+  'acc.devLocal': 'Чтобы видеть другие устройства, выйдите и войдите снова.',
+  'acc.devKicked': 'Это устройство отключено от аккаунта. Войдите снова.',
   'acc.devicesLimit': 'Устройств одновременно по вашему тарифу:',
   'acc.promoPh': 'Введите промокод',
   'acc.activate': 'Активировать',
@@ -646,6 +654,25 @@ async function logout() {
   renderLogin();
 }
 
+/* Qurilmalar ro'yxati: joriysi birinchi, qolganlarini «Chiqarish» mumkin */
+function devicesHTML(list) {
+  const plan = ACC_PLANS[profile.plan] || ACC_PLANS.free;
+  return `
+    <p class="acc-muted">${t('acc.devicesLimit')} <b>${list.length} / ${plan.devices}</b></p>
+    <div class="acc-list">${list.map(d => `
+      <div class="acc-item">
+        <span class="acc-item-icon">${d.type === 'desktop' ? AI.desktop : AI.phone}</span>
+        <div class="acc-item-main">
+          <b>${d.os || d.app ? esc([d.os, d.app].filter(Boolean).join(' · ')) : t('acc.devUnknown')}</b>
+          <small>${d.current ? t('acc.thisDevice') : d.lastSeen ? `${t('acc.lastSeen')} ${fmtDate(d.lastSeen, true)}` : d.addedAt ? `${t('acc.devSince')} ${fmtDate(d.addedAt, true)}` : ''}</small>
+        </div>
+        ${d.current
+          ? `<span class="acc-pill is-on">${t('acc.active')}</span>`
+          : `<button class="btn btn-ghost btn-sm" type="button" data-remove-device="${esc(d.id)}">${t('acc.removeDevice')}</button>`}
+      </div>`).join('')}
+    </div>`;
+}
+
 const emptyBox = (title, hint, action = '') => `
   <div class="acc-empty">${ICONS.empty || ''}<b>${title}</b>${hint ? `<p>${hint}</p>` : ''}${action}</div>`;
 
@@ -721,23 +748,10 @@ const SECTIONS = {
   },
 
   devices() {
+    if (Pay.hasSession()) return `<div id="accDevices"><div class="mt-loading"><i></i><i></i><i></i></div></div>`;
     const me = deviceId();
-    const plan = ACC_PLANS[profile.plan] || ACC_PLANS.free;
-    const list = [...(profile.devices || [])].sort((a, b) => (b.id === me) - (a.id === me) || b.lastSeen - a.lastSeen);
-    return `
-      <p class="acc-muted">${t('acc.devicesLimit')} <b>${list.length} / ${plan.devices}</b></p>
-      <div class="acc-list">${list.map(d => `
-        <div class="acc-item">
-          <span class="acc-item-icon">${d.type === 'desktop' ? AI.desktop : AI.phone}</span>
-          <div class="acc-item-main">
-            <b>${esc(d.os)} · ${esc(d.app)}</b>
-            <small>${d.id === me ? t('acc.thisDevice') : `${t('acc.lastSeen')} ${fmtDate(d.lastSeen, true)}`}</small>
-          </div>
-          ${d.id === me
-            ? `<span class="acc-pill is-on">${t('acc.active')}</span>`
-            : `<button class="btn btn-ghost btn-sm" type="button" data-remove-device="${esc(d.id)}">${t('acc.removeDevice')}</button>`}
-        </div>`).join('')}
-      </div>`;
+    const list = [...(profile.devices || [])].filter(d => d.id === me).map(d => ({ ...d, current: true }));
+    return devicesHTML(list) + `<p class="acc-muted acc-dev-note">${t('acc.devLocal')}</p>`;
   },
 
   promo() {
@@ -931,11 +945,24 @@ const BINDERS = {
     });
   },
 
-  devices(p) {
-    p.querySelectorAll('[data-remove-device]').forEach(b => b.addEventListener('click', () => {
-      profile.devices = profile.devices.filter(d => d.id !== b.dataset.removeDevice);
-      rerender(t('acc.deviceRemoved'));
-    }));
+  async devices(p) {
+    const box = p.querySelector('#accDevices');
+    if (!box) return;
+    const draw = list => {
+      box.innerHTML = devicesHTML(list);
+      box.querySelectorAll('[data-remove-device]').forEach(b => b.addEventListener('click', async () => {
+        b.disabled = true;
+        try { draw(await Pay.removeDevice(b.dataset.removeDevice)); toast(t('acc.deviceRemoved')); }
+        catch (e) { b.disabled = false; toast(e.message || t('acc.errGeneric')); }
+      }));
+    };
+    try { draw(await Pay.devices()); }
+    catch (e) {
+      // boshqa qurilmadan chiqarilgan — bu yerda ham akkauntdan chiqamiz
+      if (e.code === 'auth') { await Auth.signOut(); profile = null; toast(t('acc.devKicked')); return renderLogin(); }
+      const me = deviceId();
+      draw([...(profile.devices || [])].filter(d => d.id === me).map(d => ({ ...d, current: true })));
+    }
   },
 
   promo(p) {

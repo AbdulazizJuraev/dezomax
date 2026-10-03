@@ -234,11 +234,14 @@ const Pay = {
   },
   /* Google ID token → server sessiya tokeni (kirishda bir marta) */
   async login(idToken) {
-    const j = await this._req('POST', '/api/login', { idToken });
+    const j = await this._req('POST', '/api/login', { idToken, device: deviceInfo() });
     try { localStorage.setItem(PAY_TOKEN_KEY, j.token); } catch {}
     return j;
   },
   me() { return this._req('GET', '/api/me'); },
+  /* Qurilmalar serverda saqlanadi — telefon kompyuterni, kompyuter telefonni ko'radi */
+  devices() { return this._req('POST', '/api/device', { device: deviceInfo() }).then(j => j.devices || []); },
+  removeDevice(id) { return this._req('POST', '/api/devices/remove', { id }).then(j => j.devices || []); },
   order(amount) { return this._req('POST', '/api/order', { amount }); },
   spend(amount, plan, days) { return this._req('POST', '/api/spend', { amount, kind: 'plan', plan, days }); }
 };
@@ -369,6 +372,19 @@ function renderAccountButtons() {
     if (location.pathname.endsWith('account.html')) a.classList.add('is-active');
   });
 }
+
+const DEVICE_PING_KEY = 'dezomax_device_ping';
+async function pingDevice() {
+  if (!Auth.user() || !Pay.hasSession()) return;
+  try { if (Date.now() - Number(localStorage.getItem(DEVICE_PING_KEY) || 0) < 30 * 60000) return; } catch {}
+  try {
+    await Pay.devices();
+    try { localStorage.setItem(DEVICE_PING_KEY, String(Date.now())); } catch {}
+  } catch (e) {
+    if (e.code === 'auth') { await Auth.signOut(); if (location.pathname.endsWith('account.html')) location.reload(); }
+  }
+}
+setTimeout(pingDevice, 2500);
 
 document.addEventListener('DOMContentLoaded', renderAccountButtons);
 if (document.readyState !== 'loading') renderAccountButtons();

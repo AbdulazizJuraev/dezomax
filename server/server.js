@@ -18,6 +18,9 @@
      POST /api/react   {movie, value}       1 — like, -1 — dislike, 0 — bekor qilish   (Bearer token)
      POST /api/comment {movie, text}        izoh yozish                                 (Bearer token)
      POST /api/comment/delete {id}          o'z izohini (admin — istalganini) o'chirish (Bearer token)
+     POST /api/device {device}              shu qurilmani akkauntga yozish + qurilmalar ro'yxati (Bearer token)
+     GET  /api/devices                      akkauntga kirgan barcha qurilmalar                  (Bearer token)
+     POST /api/devices/remove {id}          boshqa qurilmani akkauntdan chiqarish               (Bearer token)
      GET  /health
    ============================================================ */
 
@@ -62,6 +65,10 @@ function openDb(file) {
     CREATE TABLE IF NOT EXISTS views_daily (movie_id INTEGER NOT NULL, day INTEGER NOT NULL, n INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (movie_id, day));
     CREATE INDEX IF NOT EXISTS views_daily_day ON views_daily(day);
   `);
+  // qurilmalar: har bir sessiya — bitta qurilma (eski bazalarga ustunlar qo'shiladi)
+  for (const col of ['device_id TEXT', 'device TEXT', 'created_at INTEGER', 'last_seen INTEGER']) {
+    try { db.exec(`ALTER TABLE sessions ADD COLUMN ${col}`); } catch { /* ustun allaqachon bor */ }
+  }
   return db;
 }
 
@@ -92,7 +99,11 @@ function createApp(cfg, deps = {}) {
     upsertUser: db.prepare(`INSERT INTO users (uid, email, name, balance, created_at) VALUES (?, ?, ?, 0, ?)
                             ON CONFLICT(uid) DO UPDATE SET email = excluded.email, name = excluded.name`),
     addSession: db.prepare('INSERT INTO sessions (token_hash, uid, expires_at) VALUES (?, ?, ?)'),
-    session: db.prepare('SELECT uid FROM sessions WHERE token_hash = ? AND expires_at > ?'),
+    session: db.prepare('SELECT uid, last_seen FROM sessions WHERE token_hash = ? AND expires_at > ?'),
+    setDevice: db.prepare('UPDATE sessions SET device_id = ?, device = ?, created_at = COALESCE(created_at, ?), last_seen = ? WHERE token_hash = ?'),
+    seen: db.prepare('UPDATE sessions SET last_seen = ? WHERE token_hash = ?'),
+    devices: db.prepare('SELECT token_hash, device_id, device, created_at, last_seen FROM sessions WHERE uid = ? AND expires_at > ? ORDER BY last_seen DESC'),
+    dropDevice: db.prepare('DELETE FROM sessions WHERE uid = ? AND (device_id = ? OR substr(token_hash, 1, 12) = ?) AND token_hash <> ?'),
     dropOld: db.prepare('DELETE FROM sessions WHERE expires_at <= ?'),
     addOrder: db.prepare('INSERT INTO orders (uid, amount, created_at) VALUES (?, ?, ?)'),
     order: db.prepare('SELECT * FROM orders WHERE id = ?'),
@@ -291,8 +302,31 @@ function createApp(cfg, deps = {}) {
   const authUser = req => {
     const m = /^Bearer\s+([\w-]{20,})$/.exec(req.headers.authorization || '');
     if (!m) return null;
-    const s = q.session.get(sha256(m[1]), now());
-    return s ? q.user.get(s.uid) : null;
+    const th = sha256(m[1]);
+    const s = q.session.get(th, now());
+    if (!s) return null;
+    if (!s.last_seen || now() - s.last_seen > 300000) q.seen.run(now(), th);
+    const u = q.user.get(s.uid);
+    return u ? Object.assign(u, { th }) : null;
+  };
+
+  /* --- Qurilmalar (akkauntga kirgan joylar) --- */
+  const deviceOf = d => {
+    if (!d || typeof d !== 'object' || !/^d[a-z0-9]{4,40}$/.test(String(d.id || ''))) return null;
+    const clean = v => String(v || '').replace(/[^\w .\-]/g, '').trim().slice(0, 30);
+    return { id: String(d.id), os: clean(d.os), app: clean(d.app), type: d.type === 'desktop' ? 'desktop' : 'phone' };
+  };
+  // bir qurilmadagi bir nechta sessiya — bitta qator (eng yangisi)
+  const devicesOf = user => {
+    const seen = new Set(), out = [];
+    for (const r of q.devices.all(user.uid, now())) {
+      const key = r.device_id || 's' + r.token_hash.slice(0, 12);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      let d = {}; try { d = JSON.parse(r.device || '{}'); } catch {}
+      out.push({ id: key, os: d.os || '', app: d.app || '', type: d.type || 'phone', current: r.token_hash === user.th, addedAt: r.created_at || null, lastSeen: r.last_seen || null });
+    }
+    return out.sort((a, b) => b.current - a.current || (b.lastSeen || 0) - (a.lastSeen || 0));
   };
 
   /* --- Oddiy tezlik cheklovi (IP bo'yicha, daqiqada) --- */
@@ -376,8 +410,11 @@ function createApp(cfg, deps = {}) {
         const uid = 'google_' + g.sub;
         q.upsertUser.run(uid, g.email, g.name, now());
         q.dropOld.run(now());
-        const token = crypto.randomBytes(32).toString('base64url');
-        q.addSession.run(sha256(token), uid, now() + SESSION_MS);
+        const token = crypto.randomBytes(32).toString('base64url'), th = sha256(token);
+        q.addSession.run(th, uid, now() + SESSION_MS);
+        const dev = deviceOf(b.device);
+        q.setDevice.run(dev ? dev.id : null, dev ? JSON.stringify(dev) : null, now(), now(), th);
+        if (dev) q.dropDevice.run(uid, dev.id, '-', th);
         return send(res, 200, { token, uid, balance: q.user.get(uid).balance });
       }
 
@@ -433,6 +470,28 @@ function createApp(cfg, deps = {}) {
           if (c.uid !== user.uid && !admins.has(user.uid)) return send(res, 403, { error: 'Faqat o‘z izohingizni o‘chira olasiz' });
           q.hideComment.run(c.id);
           return send(res, 200, { ok: true });
+        }
+
+        if (path === '/api/device' && req.method === 'POST') {
+          const b = await readBody(req).catch(() => ({}));
+          const dev = deviceOf(b.device);
+          if (dev) {
+            q.setDevice.run(dev.id, JSON.stringify(dev), now(), now(), user.th);
+            q.dropDevice.run(user.uid, dev.id, '-', user.th);   // shu qurilmaning eski sessiyalari
+          }
+          return send(res, 200, { devices: devicesOf(user) });
+        }
+        if (path === '/api/devices' && req.method === 'GET') {
+          return send(res, 200, { devices: devicesOf(user) });
+        }
+        if (path === '/api/devices/remove' && req.method === 'POST') {
+          const b = await readBody(req).catch(() => ({}));
+          const id = String(b.id || '');
+          if (!/^[\w-]{4,41}$/.test(id)) return send(res, 400, { error: 'Noto‘g‘ri so‘rov' });
+          const cur = devicesOf(user).find(d => d.current);
+          if (cur && cur.id === id) return send(res, 400, { error: 'Bu qurilmadan «Chiqish» tugmasi bilan chiqing' });
+          q.dropDevice.run(user.uid, id, id, user.th);
+          return send(res, 200, { devices: devicesOf(user) });
         }
 
         if (path === '/api/me' && req.method === 'GET') {
