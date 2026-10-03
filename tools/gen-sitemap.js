@@ -29,6 +29,7 @@ for (const m of [...byId.values()]) {
 
 // qidiruv uchun tayyor sahifalari bor filmlar — kino/<slug>.html (tools/gen-pages.js)
 const SEO = require('./gen-pages.js').pages;
+const MARVEL = require('./gen-marvel-pages.js').pages;
 
 const today = new Date().toISOString().slice(0, 10);
 const day = ts => ts ? new Date(ts).toISOString().slice(0, 10) : today;
@@ -53,9 +54,12 @@ const movies = [...byId.values()]
     ? { loc: `${SITE}kino/${SEO[m.id]}.html`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: '0.9' }
     : { loc: `${SITE}movie.html?id=${m.id}`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: m.video ? '0.8' : '0.5' });
 
+// Marvel filmlari — marvel/<nom>.html (tools/gen-marvel-pages.js)
+const marvel = Object.values(MARVEL).map(slug => ({ loc: `${SITE}marvel/${slug}.html`, lastmod: today, freq: 'monthly', pr: '0.7' }));
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...pages, ...movies].map(u => `  <url>
+${[...pages, ...marvel, ...movies].map(u => `  <url>
     <loc>${u.loc.replace(/&/g, '&amp;')}</loc>
     <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.freq}</changefreq>

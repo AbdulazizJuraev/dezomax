@@ -5861,3 +5861,4 @@ html.soc-lock { overflow: hidden; }
 .mx-cast-av { position: relative; overflow: hidden; width: 48px; height: 48px; }
 .mx-cast-av img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
 .mx-cast li { padding: 8px 12px 8px 8px; }
+.mx-aka { margin-top: 6px; color: var(--text-faint); font-size: 13px; line-height: 1.5; }

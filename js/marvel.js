@@ -4,7 +4,7 @@
    rasmiy treyler, aktyorlar, rejissyor, chiqish sanasi, byudjet va kassa daromadi.
    Ro'yxat, poster, treyler va tavsif — js/data.js (franchise: 'marvel');
    sana, aktyorlar, byudjet, kassa — js/marvel-data.js (Wikidata, tools/fetch-marvel.js).
-   URL: marvel.html — ro'yxat, marvel.html?id=40 — film
+   URL: marvel.html — ro'yxat, marvel/<nom>.html — film (tools/gen-marvel-pages.js tayyorlaydi, window.MX_ID)
    ============================================================ */
 
 const MX_TXT = {
@@ -60,6 +60,9 @@ function mxMoney(n) {
   if (n >= 1e9) return `$${(n / 1e9).toFixed(2).replace(/\.?0+$/, '')} ${mx('mlrd')}`;
   return `$${Math.round(n / 1e6)} ${mx('mln')}`;
 }
+/* Film sahifasining nomi: inglizcha nomidan (tools/gen-marvel-pages.js ham xuddi shunday) */
+const mxSlug = (m, info) => String((info && info.en) || m.slug || m.id).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const mxHref = f => `marvel/${mxSlug(f.m, f.info)}.html`;
 const mxYt = url => (String(url || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/) || [])[1] || '';
 
 /* ---------- Ro'yxat ---------- */
@@ -69,7 +72,7 @@ function mxListHTML() {
   const out = films.filter(f => f.date <= mxToday);
   const total = out.reduce((s, f) => s + (f.info.gross || 0), 0);
   const card = f => `
-    <a class="mx-card" href="marvel.html?id=${f.m.id}" data-mx="${f.m.id}">
+    <a class="mx-card" href="${mxHref(f)}">
       <span class="mx-poster">${posterHTML(f.m)}</span>
       <b>${esc(title(f.m))}</b>
       <small>${esc(mxDate(f, true))}</small>
@@ -91,6 +94,13 @@ function mxListHTML() {
       <h2 class="mx-h2">${soon.length ? mx('out') : mx('all')}</h2>
       <div class="mx-grid">${out.map(card).join('')}</div>
     </div>`;
+}
+
+/* Boshqa nomlari (teglar): ruscha, inglizcha va katalogdagi teglar — qidiruvda shular bilan ham topiladi */
+function mxAka(f) {
+  const own = title(f.m).toLowerCase();
+  return [...new Set([f.m.title.uz, f.m.title.ru, f.info.en, ...(f.m.tags || [])])]
+    .filter(x => x && x.length > 2 && x.toLowerCase() !== own && !/^(marvel|dc|tez orada|скоро)$/i.test(x));
 }
 
 /* ---------- Film ---------- */
@@ -115,6 +125,7 @@ function mxFilmHTML(f) {
             <span class="mx-logo mx-logo-sm">MARVEL STUDIOS</span>
             <h1>${esc(title(m))}</h1>
             ${info.en && info.en !== title(m) ? `<div class="mx-en">${esc(info.en)}</div>` : ''}
+            ${mxAka(f).length ? `<div class="mx-aka">${LANG === 'ru' ? 'Также известен как' : 'Boshqa nomlari'}: ${esc(mxAka(f).join(' · '))}</div>` : ''}
             <dl class="mx-facts">
               ${f.exact || m.year ? `<div><dt>${mx('release')}</dt><dd>${esc(mxDate(f))}</dd></div>` : ''}
               ${runtime ? `<div><dt>${mx('runtime')}</dt><dd>${runtime} ${mx('min')}</dd></div>` : ''}
@@ -155,14 +166,23 @@ function mxFilmHTML(f) {
 /* ---------- Chizish ---------- */
 function mxRender() {
   const root = document.getElementById('marvel');
-  const id = Number(new URLSearchParams(location.search).get('id'));
+  const id = Number(window.MX_ID || new URLSearchParams(location.search).get('id'));
   const f = id ? mxFilms().find(x => x.m.id === id) : null;
   if (id && !f) {
     root.innerHTML = `<div class="wrap mx-body"><p class="mx-empty">${mx('notFound')}</p><a class="btn btn-primary" href="marvel.html">${mx('back')}</a></div>`;
     return;
   }
   root.innerHTML = f ? mxFilmHTML(f) : mxListHTML();
-  document.title = f ? `${title(f.m)} — Marvel | DezoMax` : `${mx('title')} — ${mx('sub').toLowerCase()} | DezoMax`;
+  // tayyor sahifalarning sarlavhasi qidiruv uchun yozilgan — o'zbekchada o'zgartirmaymiz
+  if (!(LANG === 'uz' && (window.MX_ID || (!f && !id)))) {
+    document.title = f ? `${title(f.m)} — Marvel | DezoMax` : `${mx('title')} — ${mx('sub').toLowerCase()} | DezoMax`;
+  }
+  // marvel.html?id=N (eski havola) — asosiy manzil tayyor sahifa
+  if (f) {
+    let c = document.head.querySelector('link[rel="canonical"]');
+    if (!c) { c = document.createElement('link'); c.rel = 'canonical'; document.head.appendChild(c); }
+    c.href = 'https://dezomax.uz/' + mxHref(f);
+  }
 
   // treyler — bosilganda YouTube pleyeri (oldindan yuklanmaydi)
   root.querySelector('.mx-trailer')?.addEventListener('click', e => {
@@ -177,21 +197,8 @@ function mxRender() {
     tr.scrollIntoView({ behavior: 'smooth', block: 'center' });
     tr.click();
   });
-  // ro'yxat ↔ film: sahifani qayta yuklamasdan
-  root.querySelectorAll('[data-mx]').forEach(a => a.addEventListener('click', e => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey) return;
-    e.preventDefault();
-    history.pushState(null, '', a.getAttribute('href'));
-    mxRender(); window.scrollTo(0, 0);
-  }));
-  root.querySelector('[data-mx-back]')?.addEventListener('click', e => {
-    e.preventDefault();
-    history.pushState(null, '', 'marvel.html');
-    mxRender(); window.scrollTo(0, 0);
-  });
 }
 
-window.addEventListener('popstate', mxRender);
 document.addEventListener('langchange', mxRender);
 initLayout();
 mxRender();
