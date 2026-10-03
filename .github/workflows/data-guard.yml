@@ -1,0 +1,62 @@
+# Ma'lumot qo'riqchisi: kinolar fayllaridan ko'p yozuv yo'qolsa yoki fayl buzilsa — oldingi holat avtomatik qaytariladi
+# (tools/data-guard.js). 2026-10-03 da admin xatosi 980 ta kinoni o'chirgandan keyin qo'shildi.
+name: data-guard
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - js/data-custom.js
+      - js/data-channels.js
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: data-guard
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Tekshirish
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: node tools/data-guard.js
+
+      - name: Qaytarish (kerak bo'lsa)
+        id: restore
+        run: |
+          RESTORED=$(node -e "console.log(require('./guard-result.json').restored.join(' '))")
+          if [ -z "$RESTORED" ]; then echo "done=0" >> "$GITHUB_OUTPUT"; exit 0; fi
+          git config user.name "dezomax-guard"
+          git config user.email "dezomax-guard@users.noreply.github.com"
+          git add $RESTORED
+          git commit -m "Qo'riqchi: kinolar fayli tiklandi (ko'p yozuv yo'qolgan edi)" -m "$(node -e "console.log(require('./guard-result.json').report)")"
+          for i in 1 2 3 4 5; do
+            git pull --rebase -q origin main && git push -q origin HEAD:main && break
+            sleep 5
+          done
+          echo "done=1" >> "$GITHUB_OUTPUT"
+
+      - name: Ogohlantirish (issue — egasiga email)
+        if: steps.restore.outputs.done == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Qo'riqchi kinolar faylini tikladi" \
+            --body "$(node -e "console.log(require('./guard-result.json').report)")
+
+          Sabab bo'lgan commit: ${{ github.sha }}
+          Hech narsa qilish shart emas — oldingi holat saytga qaytarildi. Agar ko'p kinoni ataylab o'chirgan bo'lsangiz, commit xabariga [guard-skip] qo'shing."

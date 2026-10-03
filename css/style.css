@@ -6067,3 +6067,20 @@ html.tv-mode body { padding-bottom: 0; }
 @media (min-width: 1200px) { html.tv-mode { font-size: 17px; } }
 /* qator strelkalari televizorda kerak emas — pult bilan kartochkalarning o'zi suriladi */
 html.tv-mode .row-nav { display: none !important; }
+
+/* Admin → Zaxira (renderBackupView) */
+.adm-nav { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+@media (max-width: 640px) { .adm-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.adm-bk-now { margin: 0 0 12px; font-size: 14px; color: var(--text-dim); }
+.adm-bk-list { display: flex; flex-direction: column; gap: 8px; }
+.adm-bk { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.adm-bk.is-guard { border-color: rgba(250, 204, 21, .45); background: linear-gradient(135deg, rgba(250, 204, 21, .08), var(--surface) 60%); }
+.adm-bk-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.adm-bk-main b { font-size: 14px; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-bk-main small { font-size: 12px; color: var(--text-faint); }
+.adm-bk-count { color: var(--text-dim) !important; font-weight: 600; }
+.adm-bk-count i { font-style: normal; }
+.adm-bk-count .is-less { color: #f87171; }
+.adm-bk-count .is-more { color: #4ade80; }
+.adm-bk-cur { color: #4cb8f0; font-weight: 700; }
+@media (max-width: 520px) { .adm-bk { flex-direction: column; align-items: stretch; } }

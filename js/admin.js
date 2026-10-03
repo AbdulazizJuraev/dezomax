@@ -48,9 +48,9 @@ async function gh(path, opts = {}) {
 const b64encode = str => btoa(unescape(encodeURIComponent(str)));
 const b64decode = b64 => decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
 
-async function getFile(path) {
+async function getFile(path, ref = GH.branch) {
   try {
-    const f = await gh(`/contents/${path}?ref=${GH.branch}&t=${Date.now()}`);
+    const f = await gh(`/contents/${path}?ref=${encodeURIComponent(ref)}&t=${Date.now()}`);
     // GitHub 1 MB dan katta faylning matnini bermaydi (content bo'sh, encoding 'none') — git blob orqali o'qiymiz.
     // 2026-10-03: shu sabab data-custom.js «bo'sh» deb o'qilib, 980 ta kino ustidan yozib yuborilgan edi.
     if (f && f.type === 'file' && f.size > 0 && (!f.content || f.encoding === 'none')) {
@@ -121,20 +121,39 @@ async function saveCustom(mutate, message) {
     await loadCustom();
     const hidden = [...hiddenList];
     const next = mutate(structuredClone(customList), hidden);
-    // himoya: bitta saqlashda ro'yxatning yarmidan ko'pi yo'qolsa — bu xato, yozmaymiz
-    if (customList.length > 40 && next.length < customList.length / 2) {
-      throw new Error(`Saqlash to‘xtatildi: ${customList.length} ta kinodan ${next.length} tasi qolardi. Sahifani yangilab, qayta urining.`);
+    // himoya: admin'dagi har bir amal ko'pi bilan BITTA yozuvni olib tashlaydi (o'chirish / asliga qaytarish).
+    // Bittadan ko'p yo'qolsa — bu xato (2026-10-03 da shunday 980 ta kino o'chgan edi), yozmaymiz.
+    // (GitHub'dagi qo'riqchi ham tekshiradi — tools/data-guard.js)
+    if (next.length < customList.length - 1 || hidden.length < hiddenList.length - 1) {
+      throw new Error(`Saqlash to‘xtatildi: ${customList.length} ta kinodan ${next.length} tasi qolardi. Hech narsa o‘zgarmadi — sahifani yangilab, qayta urining.`);
+    }
+    const ids = new Set(next.map(m => m.id));
+    if ([...customList].some(m => !ids.has(m.id)) && next.length > customList.length) {
+      throw new Error('Saqlash to‘xtatildi: ro‘yxatdagi kinolar almashib ketdi. Sahifani yangilab, qayta urining.');
     }
     try {
       const res = await putFile(DATA_PATH, b64encode(buildDataFile(next, hidden)), message, dataSha);
       dataSha = res.content.sha;
       customList = next;
       hiddenList = hidden;
+      verifySaved(next.length);
       return;
     } catch (e) {
       if (e.status !== 409 || attempt) throw e;
     }
   }
+}
+
+/* Saqlangandan keyin GitHub'dan qayta o'qib, kinolar soni to'g'riligini tekshiramiz (fonda).
+   Mos kelmasa — ekranda ogohlantirish (qo'riqchi baribir tiklaydi, lekin egasi bilishi kerak). */
+async function verifySaved(expected) {
+  try {
+    const f = await getFile(DATA_PATH);
+    if (!f || f.sha !== dataSha) return;          // boshqa saqlash ulgurgan yoki kesh — solishtirmaymiz
+    const m = b64decode(f.content).match(/\/\*DATA\*\/([\s\S]*?)\/\*END\*\//);
+    const n = m ? JSON.parse(m[1]).length : -1;
+    if (n !== expected && n !== -1 && n < expected) toast(`Diqqat: saqlangandan keyin ${expected} o‘rniga ${n} ta kino ko‘rindi. Admin → Zaxira bo‘limini tekshiring.`, true);
+  } catch {}
 }
 
 /* ---------- Poster: siqish va yuklash ---------- */
@@ -594,6 +613,7 @@ let listQuery = '';
 let commitsCache = null;    // oxirgi o'zgarishlar (GitHub commit tarixi)
 
 const NAV_ICONS = {
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/></svg>',
   bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5L4.5 13.5H12l-1 8 8.5-11H12z"/></svg>',
   yt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>',
   gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>',
@@ -670,6 +690,7 @@ function renderMain() {
       <button type="button" data-view="notify" class="${view === 'notify' ? 'is-active' : ''}">${NAV_ICONS.bell}<span>Xabar</span></button>
       <button type="button" data-view="tg" class="${view === 'tg' ? 'is-active' : ''}">${NAV_ICONS.tg}<span>Telegram</span></button>
       <button type="button" data-view="channels" class="${view === 'channels' ? 'is-active' : ''}">${NAV_ICONS.yt}<span>Kanallar</span></button>
+      <button type="button" data-view="backup" class="${view === 'backup' ? 'is-active' : ''}">${NAV_ICONS.shield}<span>Zaxira</span></button>
     </nav>
     <div id="admView"></div>`;
 
@@ -687,6 +708,7 @@ function renderMain() {
   else if (view === 'tg') renderTgView();
   else if (view === 'channels') renderChannelsView();
   else if (view === 'groups') renderGroupsView();
+  else if (view === 'backup') renderBackupView();
   else renderFormView();
 }
 
@@ -2490,6 +2512,85 @@ async function boot() {
     }
     $('#admin').innerHTML = `<p class="acc-error">Yuklab bo‘lmadi: ${esc(e.message)}</p>`;
   }
+}
+
+/* ---------- Zaxira: kinolar faylining avvalgi holatlari va tiklash ----------
+   Har bir saqlash GitHub'da alohida nusxa (commit) bo'lib qoladi. Bu yerda oxirgi 40 tasi ko'rinadi:
+   «Sanash» — o'sha paytda nechta kino bo'lgani, «Tiklash» — o'sha holatni qaytarish.
+   GitHub'dagi qo'riqchi (tools/data-guard.js) ko'p kino yo'qolsa o'zi ham tiklaydi. */
+const bkCounts = new Map();     // commit sha → { custom, hidden, text }
+
+async function versionAt(sha) {
+  if (bkCounts.has(sha)) return bkCounts.get(sha);
+  const f = await getFile(DATA_PATH, sha);
+  const text = f ? b64decode(f.content) : '';
+  const m = text.match(/\/\*DATA\*\/([\s\S]*?)\/\*END\*\//);
+  const h = text.match(/\/\*HIDDEN\*\/([\s\S]*?)\/\*ENDHIDDEN\*\//);
+  const v = { custom: m ? JSON.parse(m[1]).length : null, hidden: h ? JSON.parse(h[1]).length : 0, text: m ? text : '' };
+  bkCounts.set(sha, v);
+  return v;
+}
+
+async function renderBackupView() {
+  const box = $('#admView');
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.shield}</span><h3>Zaxira va tiklash</h3><small>kinolar fayli</small></div>
+      <p class="acc-muted adm-note">${NAV_ICONS.info || ''}<span>Har bir saqlash alohida nusxa bo‘lib qoladi. Biror kino yo‘qolsa — kerakli vaqtni tanlab, «Sanash» bilan tekshiring va «Tiklash»ni bosing.
+        GitHub’dagi qo‘riqchi ham bittadan ko‘p kino yo‘qolsa, avvalgi holatni o‘zi qaytaradi.</span></p>
+      <p class="adm-bk-now" id="bkNow">Hozir: <b>${customList.length}</b> ta qo‘shilgan/tahrirlangan, <b>${hiddenList.length}</b> ta yashirilgan</p>
+      <div id="bkList"><div class="mt-loading"><i></i><i></i><i></i></div></div>
+    </section>`;
+  let list;
+  try {
+    list = await gh(`/commits?path=${encodeURIComponent(DATA_PATH)}&sha=${GH.branch}&per_page=40&t=${Date.now()}`);
+  } catch (e) { $('#bkList').innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
+  const cur = customList.length;
+  const row = (c, i) => {
+    const v = bkCounts.get(c.sha);
+    const guard = /^Qo'riqchi|dezomax-guard/i.test(c.commit.message + ' ' + (c.commit.author?.name || ''));
+    const diff = v && v.custom != null ? v.custom - cur : null;
+    return `
+      <div class="adm-bk${guard ? ' is-guard' : ''}" data-sha="${c.sha}">
+        <div class="adm-bk-main">
+          <b>${esc(c.commit.message.split('\n')[0])}</b>
+          <small>${fmtDateTime(c.commit.author?.date)} · ${esc(c.commit.author?.name || '')}${i === 0 ? ' · <span class="adm-bk-cur">hozirgi holat</span>' : ''}</small>
+          ${v ? `<small class="adm-bk-count">${v.custom == null ? 'Fayl o‘qilmaydi (buzilgan)' : `${v.custom} ta kino, ${v.hidden} ta yashirilgan${diff ? ` <i class="${diff < 0 ? 'is-less' : 'is-more'}">(${diff > 0 ? '+' : ''}${diff} hozirgiga nisbatan)</i>` : ''}`}</small>` : ''}
+        </div>
+        <div class="adm-actions">
+          ${v ? '' : `<button class="btn btn-ghost btn-sm" type="button" data-bk-count>Sanash</button>`}
+          ${i === 0 ? '' : `<button class="btn btn-ghost btn-sm" type="button" data-bk-restore>Tiklash</button>`}
+        </div>
+      </div>`;
+  };
+  const draw = () => {
+    $('#bkList').innerHTML = `<div class="adm-bk-list">${list.map(row).join('')}</div>`;
+    $('#bkList').querySelectorAll('[data-bk-count]').forEach(b => b.addEventListener('click', async () => {
+      b.disabled = true; b.textContent = '…';
+      try { await versionAt(b.closest('[data-sha]').dataset.sha); draw(); }
+      catch (e) { b.disabled = false; b.textContent = 'Sanash'; toast(friendlyError(e), true); }
+    }));
+    $('#bkList').querySelectorAll('[data-bk-restore]').forEach(b => b.addEventListener('click', async () => {
+      const sha = b.closest('[data-sha]').dataset.sha;
+      const c = list.find(x => x.sha === sha);
+      b.disabled = true;
+      try {
+        const v = await versionAt(sha);
+        if (v.custom == null) { toast('Bu nusxa buzilgan — uni tiklab bo‘lmaydi', true); b.disabled = false; return; }
+        await loadCustom();
+        const when = fmtDateTime(c.commit.author?.date);
+        if (!confirm(`${when} dagi holat tiklansinmi?\n\nHozir: ${customList.length} ta kino → tiklangandan keyin: ${v.custom} ta.\nShu vaqtdan keyin qilingan o‘zgarishlar bekor bo‘ladi (ular ham shu ro‘yxatda nusxa bo‘lib qoladi).`)) { b.disabled = false; return; }
+        // [guard-skip] — ataylab tiklash, qo'riqchi to'xtatmasin
+        const res = await putFile(DATA_PATH, b64encode(v.text), `Zaxiradan tiklandi: ${when} holati (${v.custom} ta kino) [guard-skip]`, dataSha);
+        dataSha = res.content.sha;
+        await loadCustom();
+        commitsCache = null;
+        toast(`Tiklandi: ${customList.length} ta kino — saytda ~1 daqiqada`);
+        renderBackupView();
+      } catch (e) { b.disabled = false; toast(friendlyError(e), true); }
+    }));
+  };
+  draw();
 }
 
 initLayout();
