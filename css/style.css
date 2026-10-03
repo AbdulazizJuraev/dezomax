@@ -6143,3 +6143,23 @@ html.tv-mode .row-nav { display: none !important; }
 .studio-card.is-soon { cursor: default; filter: saturate(.55); opacity: .72; }
 .studio-card.is-soon:hover { transform: none; box-shadow: none; border-color: rgba(255,255,255,.08); }
 .studio-soon { position: absolute; top: 10px; right: 10px; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; font-style: normal; color: #fff; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.18); }
+
+/* ---------- Admin → Dublikatlar ---------- */
+.adm-dups { display: grid; gap: 12px; }
+.adm-dup-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.adm-dup-head small { color: var(--text-faint); }
+.adm-dup-item { cursor: pointer; align-items: center; flex-wrap: nowrap; gap: 10px; border: 1px solid transparent; border-radius: 12px; }
+.adm-dup-item input { accent-color: #22c55e; width: 18px; height: 18px; flex: none; }
+.adm-dup-item .acc-item-main { min-width: 0; flex: 1; }
+.adm-dup-item .acc-item-main b, .adm-dup-item .acc-item-main small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-dup-item.is-keep { border-color: rgba(34, 197, 94, .45); background: rgba(34, 197, 94, .06); }
+.adm-dup-item:not(.is-keep) { opacity: .7; }
+.adm-dup-tag { flex: none; font-size: 11px; font-weight: 700; color: var(--text-faint); }
+.adm-dup-item.is-keep .adm-dup-tag { color: #22c55e; }
+.adm-dup .adm-actions { margin-top: 10px; }
+.adm-more { width: 100%; margin-top: 12px; }
+@media (max-width: 560px) {
+  .adm-dup-item .btn { display: none; }
+}
+.adm-dup-warn { margin: 0 0 8px; font-size: 12.5px; color: #fbbf24; }
+.adm-warn { border-color: rgba(251, 191, 36, .35); }

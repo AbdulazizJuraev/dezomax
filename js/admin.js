@@ -132,7 +132,7 @@ async function ensureFreshAdmin() {
   } catch (e) { if (/eskirgan/.test(e.message)) throw e; }
 }
 
-async function saveCustom(mutate, message) {
+async function saveCustom(mutate, message, opts = {}) {
   await ensureFreshAdmin();
   for (let attempt = 0; attempt < 2; attempt++) {
     await loadCustom();
@@ -145,10 +145,12 @@ async function saveCustom(mutate, message) {
     // himoya: admin'dagi har bir amal ko'pi bilan BITTA yozuvni olib tashlaydi (o'chirish / asliga qaytarish).
     // Bittadan ko'p yo'qolsa — bu xato (2026-10-03 da shunday 980 ta kino o'chgan edi), yozmaymiz.
     // (GitHub'dagi qo'riqchi ham tekshiradi — tools/data-guard.js)
-    if (next.length < customList.length - 1 || hidden.length < hiddenList.length - 1) {
+    const ids = new Set(next.map(m => m.id));
+    // opts.dropCopies — Dublikatlar: faqat AYNAN bir xil nusxalar olib tashlanadi; har bir id ro'yxatda qolishi shart
+    const copiesOnly = opts.dropCopies && customList.every(m => ids.has(m.id));
+    if ((!copiesOnly && next.length < customList.length - 1) || hidden.length < hiddenList.length - 1) {
       throw new Error(`Saqlash to‘xtatildi: ${customList.length} ta kinodan ${next.length} tasi qolardi. Hech narsa o‘zgarmadi — sahifani yangilab, qayta urining.`);
     }
-    const ids = new Set(next.map(m => m.id));
     if ([...customList].some(m => !ids.has(m.id)) && next.length > customList.length) {
       throw new Error('Saqlash to‘xtatildi: ro‘yxatdagi kinolar almashib ketdi. Sahifani yangilab, qayta urining.');
     }
@@ -634,6 +636,7 @@ let listQuery = '';
 let commitsCache = null;    // oxirgi o'zgarishlar (GitHub commit tarixi)
 
 const NAV_ICONS = {
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M16 8V5.5A2.5 2.5 0 0 0 13.5 3h-8A2.5 2.5 0 0 0 3 5.5v8A2.5 2.5 0 0 0 5.5 16H8"/></svg>',
   shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/></svg>',
   bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5L4.5 13.5H12l-1 8 8.5-11H12z"/></svg>',
   yt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>',
@@ -707,6 +710,7 @@ function renderMain() {
       <button type="button" data-view="list" class="${view === 'list' ? 'is-active' : ''}">${NAV_ICONS.list}<span>Kinolar</span></button>
       <button type="button" data-view="form" class="${view === 'form' && !editingId ? 'is-active' : ''}">${NAV_ICONS.plus}<span>Qo‘shish</span></button>
       <button type="button" data-view="groups" class="${view === 'groups' ? 'is-active' : ''}">${NAV_ICONS.group}<span>Guruhlar</span></button>
+      <button type="button" data-view="dups" class="${view === 'dups' ? 'is-active' : ''}">${NAV_ICONS.copy}<span>Dublikatlar</span></button>
       <button type="button" data-view="site" class="${view === 'site' ? 'is-active' : ''}">${NAV_ICONS.gear}<span>Sayt</span></button>
       <button type="button" data-view="notify" class="${view === 'notify' ? 'is-active' : ''}">${NAV_ICONS.bell}<span>Xabar</span></button>
       <button type="button" data-view="tg" class="${view === 'tg' ? 'is-active' : ''}">${NAV_ICONS.tg}<span>Telegram</span></button>
@@ -730,6 +734,7 @@ function renderMain() {
   else if (view === 'channels') renderChannelsView();
   else if (view === 'groups') renderGroupsView();
   else if (view === 'backup') renderBackupView();
+  else if (view === 'dups') renderDupView();
   else renderFormView();
 }
 
@@ -837,6 +842,7 @@ function itemHTML(m) {
         ${base
           ? `${edited ? `<button class="btn btn-ghost btn-sm" type="button" data-restore="${m.id}">Asliga qaytarish</button>` : ''}
              <button class="btn btn-ghost btn-sm${hidden ? '' : ' adm-del'}" type="button" data-hide="${m.id}">${hidden ? 'Ko‘rsatish' : 'Yashirish'}</button>`
+          : hidden ? `<button class="btn btn-ghost btn-sm" type="button" data-hide="${m.id}">Ko‘rsatish</button>`
           : `<button class="btn btn-ghost btn-sm adm-del" type="button" data-del="${m.id}">O‘chirish</button>`}
       </div>
     </div>`;
@@ -2587,6 +2593,227 @@ async function versionAt(sha) {
   const v = { custom: m ? JSON.parse(m[1]).length : null, hidden: h ? JSON.parse(h[1]).length : 0, text: m ? text : '' };
   bkCounts.set(sha, v);
   return v;
+}
+
+/* ---------- Dublikatlar: saytda ishlayotgan (videosi bor, yashirilmagan) kinolar ichida takrorlar ----------
+   Aniq — bir xil video (YouTube ID yoki bir xil havola). Ehtimoliy — bir xil nom (uz/ru/«A / B» qismlari, shovqin so'zlarsiz),
+   bir xil tur, yili mos (yoki biri yo'q), davomiyligi yaqin. Ortiqchalari O'CHIRILMAYDI — yashiriladi (Kinolar → Yashirilgan → Ko'rsatish).
+   Qaysi biri qoladi: ma'lumoti to'liqrog'i (poster, tavsif, yil, janr, o'zbekcha, aktyorlar), teng bo'lsa — eskirog'i (kichik ID). */
+const DUP_IGNORE = 'dzx_dup_ignore';
+const DUP_NOISE = new Set(['uzbek', 'ozbek', 'uzbekcha', 'ozbekcha', 'tilida', 'tarjima', 'tarjimasi', 'kino', 'kinolar', 'kinosi', 'film', 'filmi', 'filmlar',
+  'multfilm', 'multfilmi', 'serial', 'seriali', 'hd', 'fullhd', 'full', '720p', '1080p', '4k', 'premyera', 'yangi', 'jahon', 'ujas', 'uzhas',
+  'treyler', 'trailer', 'official', 'smotret', 'onlayn', 'online', 'na', 'v', 'horoshem', 'kachestve', 'barcha', 'qismlar', 'nomi', 'kinoning']);
+let dupState = { shown: 40 };
+
+function dupVideoKey(m) {
+  const v = String(m.video || '').trim();
+  if (!v) return '';
+  const yt = v.match(/(?:[?&]v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);
+  if (yt) return 'yt:' + yt[1];
+  try { const u = new URL(v); return 'u:' + u.host.replace(/^www\./, '') + u.pathname.replace(/\/+$/, '') + u.search; } catch { return 'u:' + v; }
+}
+function dupTitles(m) {
+  const raw = [m.title?.uz, m.title?.ru].filter(Boolean).flatMap(t => String(t).split(/\s+\/\s+|\s+\|\s+/));
+  const out = new Set();
+  for (const t of raw) {
+    // qavs ichidagi «2-qism» saqlanadi (qismlar dublikat emas), yillar olib tashlanadi — yil alohida solishtiriladi
+    const words = norm(t).replace(/[​-‏﻿]/g, '').replace(/\b(19[0-9]{2}|20[0-9]{2})\b/g, ' ')
+      .replace(/[^\p{L}\p{N}]+/gu, ' ').split(' ').filter(w => w && !DUP_NOISE.has(w));
+    const key = words.join(' ');
+    // juda umumiy nomlar («kodi», «1») bo'yicha birlashtirilmaydi
+    if (key.replace(/\s/g, '').length >= 4 && !/^(kino )?kodi?$|^qism|^\d+$/.test(key)) out.add(key);
+  }
+  return [...out];
+}
+function dupScore(m) {
+  return (m.poster ? 3 : 0) + ((m.desc?.uz || '').length > 40 ? 2 : 0) + (m.year ? 1 : 0) + ((m.genres || []).length ? 1 : 0)
+    + (m.audio === 'uz' ? 2 : 0) + ((m.cast || []).length ? 1 : 0) + (m.duration ? 1 : 0);
+}
+
+/* Bir xil ID'li bir nechta yozuv (Telegram importidagi xato). Yashirish ID bo'yicha ishlaydi — avval shularni tuzatish kerak.
+   copies — aynan bir xil nusxalar (ortiqchasi olib tashlanadi), clashes — turli kinolar bir ID'da (keyingisiga yangi ID). */
+function idCollisions() {
+  const by = new Map();
+  for (const m of addedList()) { if (!by.has(m.id)) by.set(m.id, []); by.get(m.id).push(m); }
+  let copies = 0, clashes = 0;
+  const ids = [];
+  for (const [id, list] of by) {
+    if (list.length < 2) continue;
+    ids.push(id);
+    const seen = new Set();
+    for (const m of list) { const s = JSON.stringify(m); if (seen.has(s)) copies++; else { if (seen.size) clashes++; seen.add(s); } }
+  }
+  return { ids: new Set(ids), copies, clashes };
+}
+
+function fixIdCollisions(list) {
+  let free = nextId();
+  const byId = new Map();                 // id → shu id'dagi saqlangan nusxalar (JSON)
+  const out = [];
+  for (const m of list) {
+    if (isBase(m.id)) { out.push(m); continue; }
+    const s = JSON.stringify(m), seen = byId.get(m.id);
+    if (!seen) { byId.set(m.id, new Set([s])); out.push(m); continue; }
+    if (seen.has(s)) continue;            // aynan nusxa — olib tashlanadi
+    seen.add(s);
+    out.push({ ...m, id: free++ });       // boshqa kino — yangi ID
+  }
+  return out;
+}
+
+function findDuplicates(skipIds = new Set()) {
+  const items = allMovies().filter(m => hasFilm(m) && !hiddenList.includes(m.id) && !skipIds.has(m.id) && !(Array.isArray(m.parts) && m.parts.length > 1));
+  const parent = new Map(items.map(m => [m.id, m.id]));
+  const find = x => { while (parent.get(x) !== x) { parent.set(x, parent.get(parent.get(x))); x = parent.get(x); } return x; };
+  const why = new Map();      // ildiz → 'video' | 'title'
+  const join = (a, b, reason) => {
+    const ra = find(a.id), rb = find(b.id);
+    if (ra === rb) return;
+    parent.set(rb, ra);
+    const r = why.get(ra) === 'video' || why.get(rb) === 'video' || reason === 'video' ? 'video' : 'title';
+    why.set(ra, r);
+  };
+  // 1) bir xil video
+  const byVideo = new Map();
+  for (const m of items) {
+    const k = dupVideoKey(m);
+    if (!k) continue;
+    if (byVideo.has(k)) join(byVideo.get(k), m, 'video'); else byVideo.set(k, m);
+  }
+  // 2) bir xil nom + tur, yili va davomiyligi mos
+  const byTitle = new Map();
+  for (const m of items) for (const t of dupTitles(m)) {
+    const k = (m.type || 'film') + '|' + t;
+    if (!byTitle.has(k)) byTitle.set(k, []);
+    byTitle.get(k).push(m);
+  }
+  const fits = (a, b) => (!a.year || !b.year || a.year === b.year)
+    && (!a.duration || !b.duration || Math.abs(a.duration - b.duration) <= Math.max(a.duration, b.duration) * 0.15);
+  for (const list of byTitle.values()) {
+    if (list.length < 2 || list.length > 12) continue;          // 12 dan ko'p bir xil nom — umumiy so'z, dublikat emas
+    // ketma-ket qo'shilgan, videolari har xil 3+ yozuv — serial qismlari («LOKI» × 7), dublikat emas
+    const vids = new Set(list.map(dupVideoKey)), idsSorted = list.map(m => m.id).sort((a, b) => a - b);
+    if (list.length >= 3 && vids.size === list.length && idsSorted[idsSorted.length - 1] - idsSorted[0] < list.length * 3) continue;
+    for (let i = 0; i < list.length; i++) for (let j = i + 1; j < list.length; j++) if (fits(list[i], list[j])) join(list[i], list[j], 'title');
+  }
+  const groups = new Map();
+  for (const m of items) {
+    const r = find(m.id);
+    if (!groups.has(r)) groups.set(r, []);
+    groups.get(r).push(m);
+  }
+  let ignore = [];
+  try { ignore = JSON.parse(localStorage.getItem(DUP_IGNORE) || '[]'); } catch {}
+  return [...groups.entries()].filter(([, g]) => g.length > 1).map(([r, g]) => {
+    g.sort((a, b) => dupScore(b) - dupScore(a) || a.id - b.id);
+    return { key: g.map(m => m.id).sort((a, b) => a - b).join(','), exact: why.get(r) === 'video', items: g, keep: g[0].id };
+  }).filter(x => !ignore.includes(x.key))
+    .sort((a, b) => b.exact - a.exact || b.items.length - a.items.length);
+}
+
+function dupHost(m) {
+  const k = dupVideoKey(m);
+  return k.startsWith('yt:') ? 'YouTube' : k.slice(2).split('/')[0];
+}
+
+function renderDupView() {
+  const box = $('#admView');
+  box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  setTimeout(() => {                                      // hisoblash bir oz vaqt oladi — avval yuklanish ko'rinsin
+    if (view !== 'dups') return;
+    const coll = idCollisions();
+    const groups = findDuplicates(coll.ids);
+    dupState.groups = groups;
+    const exact = groups.filter(g => g.exact), extra = exact.reduce((s, g) => s + g.items.length - 1, 0);
+    const extraAll = groups.reduce((s, g) => s + g.items.length - 1, 0);
+    box.innerHTML = `
+      ${coll.ids.size ? `<section class="adm-sec adm-warn">
+        <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.shield}</span><h3>Bir xil ID’li yozuvlar</h3><small>${coll.ids.size} ta ID</small></div>
+        <p class="adm-hint">${coll.copies ? `<b>${coll.copies} ta</b> aynan bir xil nusxa (ortiqchasi olib tashlanadi)` : ''}${coll.copies && coll.clashes ? ', ' : ''}${coll.clashes ? `<b>${coll.clashes} ta</b> boshqa kino eski ID bilan yozilgan (yangi ID beriladi, hech biri yo‘qolmaydi)` : ''}.
+          Bu yozuvlarni yashirib bo‘lmaydi (yashirish ID bo‘yicha) — avval tuzating, keyin ular ham dublikat tekshiruviga tushadi.</p>
+        <button class="btn btn-primary" type="button" id="dupFixIds">ID’larni tuzatish</button>
+      </section>` : ''}
+      <section class="adm-sec">
+        <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.copy}</span><h3>Dublikatlar</h3><small>${groups.length} ta guruh · ${extraAll} ta ortiqcha</small></div>
+        <p class="adm-hint">Saytda ishlayotgan (videosi bor, yashirilmagan) kinolar tekshirildi. <b>Aniq</b> — bir xil video. <b>Ehtimoliy</b> — bir xil nom, tur va yil: ko‘rib chiqib tasdiqlang.
+          Ortiqchalari o‘chirilmaydi — <b>yashiriladi</b>, kerak bo‘lsa «Kinolar → Yashirilgan» dan qaytarasiz. Qaysi biri qolishini o‘zingiz tanlashingiz mumkin.</p>
+        ${extra ? `<button class="btn btn-primary" type="button" id="dupAllExact">Aniq dublikatlarni yashirish (${extra} ta)</button>` : ''}
+      </section>
+      ${groups.length ? `<div class="adm-dups">${groups.slice(0, dupState.shown).map(dupGroupHTML).join('')}</div>
+        ${groups.length > dupState.shown ? `<button class="btn btn-ghost adm-more" type="button" id="dupMore">Yana ${groups.length - dupState.shown} ta guruh</button>` : ''}`
+        : '<section class="adm-sec"><p class="acc-muted">Dublikat topilmadi 🎉</p></section>'}`;
+    bindDupView();
+  }, 30);
+}
+
+function dupGroupHTML(g) {
+  const ids = g.items.map(m => m.id);
+  // videolari har xil va ketma-ket qo'shilgan — 1- va 2-qism bo'lishi mumkin
+  const parts = !g.exact && new Set(g.items.map(dupVideoKey)).size === g.items.length && Math.max(...ids) - Math.min(...ids) < g.items.length * 2;
+  return `
+    <section class="adm-sec adm-dup" data-dup="${g.key}">
+      <div class="adm-dup-head"><span class="adm-state ${g.exact ? 'is-hide' : 'is-edit'}">${g.exact ? 'Aniq · bir xil video' : 'Ehtimoliy · bir xil nom'}</span><small>${g.items.length} ta</small></div>
+      ${parts ? '<p class="adm-dup-warn">Videolari har xil va ketma-ket qo‘shilgan — 1- va 2-qism bo‘lishi mumkin. «Ko‘rish» bilan tekshiring.</p>' : ''}
+      ${g.items.map(m => `
+        <label class="acc-item adm-item adm-dup-item">
+          <input type="radio" name="keep-${g.key}" value="${m.id}" ${m.id === g.keep ? 'checked' : ''}>
+          <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+          <span class="acc-item-main"><b>${esc(m.title?.uz || '')}</b>
+            <small>${[m.year, typeName(m.type), m.audio === 'uz' ? 'O‘zbekcha' : '', dupHost(m), `ID ${m.id}`].filter(Boolean).map(esc).join(' · ')}</small></span>
+          <span class="adm-dup-tag"></span>
+          <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
+        </label>`).join('')}
+      <div class="adm-actions">
+        <button class="btn btn-primary btn-sm" type="button" data-duphide="${g.key}">Qolganini yashirish</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-dupskip="${g.key}">Dublikat emas</button>
+      </div>
+    </section>`;
+}
+
+function bindDupView() {
+  const byKey = new Map(dupState.groups.map(g => [g.key, g]));
+  const keepOf = g => +(document.querySelector(`input[name="keep-${g.key}"]:checked`)?.value || g.keep);
+  const hideIds = (ids, msg, btn) => runAction(btn, () => saveCustom((list, hidden) => {
+    for (const id of ids) if (!hidden.includes(id)) hidden.push(id);
+    return list;
+  }, msg), `${ids.length} ta dublikat yashirildi`).then(() => { if (view === 'dups') renderDupView(); });
+
+  $('#dupMore')?.addEventListener('click', () => { dupState.shown += 40; renderDupView(); });
+  $('#dupFixIds')?.addEventListener('click', e => {
+    const c = idCollisions();
+    if (!confirm(`${c.copies} ta aynan nusxa olib tashlansin, ${c.clashes} ta kinoga yangi ID berilsinmi?`)) return;
+    // [guard-skip]: nusxalar olib tashlanadi — GitHub qo'riqchisi buni yo'qotish deb o'ylamasin (saveCustom o'zi tekshiradi: har bir ID qoladi)
+    runAction(e.currentTarget, () => saveCustom(list => fixIdCollisions(list),
+      `Bir xil ID’lar tuzatildi: ${c.copies} ta nusxa olib tashlandi, ${c.clashes} ta kinoga yangi ID${c.copies > 1 ? ' [guard-skip]' : ''}`,
+      { dropCopies: true }), 'ID’lar tuzatildi').then(() => { if (view === 'dups') renderDupView(); });
+  });
+  $('#dupAllExact')?.addEventListener('click', e => {
+    const ids = dupState.groups.filter(g => g.exact).flatMap(g => g.items.filter(m => m.id !== keepOf(g)).map(m => m.id));
+    if (!confirm(`${ids.length} ta aniq dublikat (bir xil video) saytdan yashirilsinmi? Har guruhdan bittasi qoladi. Keyin qaytarish mumkin.`)) return;
+    hideIds(ids, `Dublikatlar yashirildi: ${ids.length} ta (bir xil video)`, e.currentTarget);
+  });
+  document.querySelectorAll('[data-duphide]').forEach(b => b.addEventListener('click', () => {
+    const g = byKey.get(b.dataset.duphide), keep = keepOf(g);
+    const ids = g.items.filter(m => m.id !== keep).map(m => m.id);
+    const k = g.items.find(m => m.id === keep);
+    if (!confirm(`«${k.title.uz}» (ID ${keep}) qoladi, qolgan ${ids.length} tasi yashirilsinmi?`)) return;
+    hideIds(ids, `Dublikat yashirildi: ${k.title.uz} (${ids.join(', ')})`, b);
+  }));
+  document.querySelectorAll('[data-dupskip]').forEach(b => b.addEventListener('click', () => {
+    let ignore = [];
+    try { ignore = JSON.parse(localStorage.getItem(DUP_IGNORE) || '[]'); } catch {}
+    ignore.push(b.dataset.dupskip);
+    try { localStorage.setItem(DUP_IGNORE, JSON.stringify(ignore.slice(-2000))); } catch {}
+    b.closest('.adm-dup').remove();
+    toast('Bu guruh endi ko‘rsatilmaydi');
+  }));
+  // tanlangan («qoladi») belgisi
+  const paintKeep = sec => sec.querySelectorAll('.adm-dup-item').forEach(l => {
+    const on = l.querySelector('input').checked;
+    l.classList.toggle('is-keep', on);
+    l.querySelector('.adm-dup-tag').textContent = on ? 'Qoladi' : 'Yashiriladi';
+  });
+  document.querySelectorAll('.adm-dup').forEach(sec => { paintKeep(sec); sec.addEventListener('change', () => paintKeep(sec)); });
 }
 
 async function renderBackupView() {
