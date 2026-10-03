@@ -28,6 +28,114 @@ const YT_ICONS = {
   cast:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v2h2a2 2 0 0 0-2-2z"/><path d="M3 14v2a4 4 0 0 1 4 4h2a6 6 0 0 0-6-6z"/><rect x="3" y="4" width="18" height="13" rx="2"/></svg>'
 };
 
+/* ---------- Umumiy panel (YouTube va o'z pleyerimiz uchun bir xil) ----------
+   Tepada: nom va ⚙ sozlamalar (tezlik, sifat, ekranni to'ldirish). O'rtada: «10 · play · 10».
+   Pastda: davomiylik, oq chiziq, dumaloq play/ovoz, vaqt tabletkasi, like/dislike (js/social.js → #vpRate)
+   va katta ekran. Video ustiga bir bosish — panel, ikki bosish — ±10 s. */
+const VP_SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
+const VP_ICONS = {
+  rew: '<svg viewBox="0 0 24 24"><path d="M11 6.5v11L3.5 12zM20 6.5v11L12.5 12z" fill="currentColor"/></svg>',
+  ffw: '<svg viewBox="0 0 24 24"><path d="M4 6.5v11l7.5-5.5zM13 6.5v11l7.5-5.5z" fill="currentColor"/></svg>'
+};
+
+/* o: { title, qualities: sifat tugmalari HTML (bo'lmasa bo'lim yashirin, keyin to'ldiriladi), cast: true — Chromecast tugmasi } */
+function vpUiHTML(o = {}) {
+  return `
+      <div class="vp-flash" id="vpFlash" aria-hidden="true"></div>
+      <div class="vp-ui" id="vpBar" hidden>
+        <div class="vp-top">
+          <span class="vp-title">${esc(o.title || '')}</span>
+          <button class="vp-ico" id="vpGear" type="button" aria-label="${esc(t('player.quality'))}" aria-expanded="false">${YT_ICONS.gear}</button>
+        </div>
+        <div class="vp-menu" id="vpMenu" hidden>
+          <div class="vp-menu-sec"><small>${LANG === 'ru' ? 'Скорость' : 'Tezlik'}</small>
+            <div class="vp-menu-chips" id="vpSpeeds">${VP_SPEEDS.map(s => `<button type="button" data-speed="${s}" class="${s === 1 ? 'is-active' : ''}">${s === 1 ? (LANG === 'ru' ? 'Обычная' : 'Oddiy') : s + 'x'}</button>`).join('')}</div></div>
+          <div class="vp-menu-sec" id="vpQRow"${o.qualities ? '' : ' hidden'}><small>${esc(t('player.quality'))} <span id="vpQNow"></span></small>
+            <div class="vp-menu-chips" id="vpQChips">${o.qualities || ''}</div></div>
+          <button class="vp-menu-row" id="vpFit" type="button">${YT_ICONS.fill}<span>${LANG === 'ru' ? 'Заполнить экран' : 'Ekranni to‘ldirish'}</span></button>
+        </div>
+        <div class="vp-mid">
+          <button class="vp-skip" id="vpBack" type="button" aria-label="-10s">${VP_ICONS.rew}<span>10</span></button>
+          <button class="vp-center" id="vpPlay" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
+          <button class="vp-skip" id="vpFwd" type="button" aria-label="+10s"><span>10</span>${VP_ICONS.ffw}</button>
+        </div>
+        <div class="vp-bottom">
+          <span class="vp-left" id="vpLeft"></span>
+          <input class="vp-seek" id="vpSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="seek">
+          <div class="vp-row">
+            <button class="vp-circ" id="vpPlay2" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
+            <span class="vp-volwrap">
+              <button class="vp-circ" id="vpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
+              <input class="vp-vol" id="vpVol" type="range" min="0" max="100" value="100" aria-label="volume">
+            </span>
+            <span class="vp-pill vp-times"><span id="vpTime">0:00</span><i></i><span id="vpDur">0:00</span></span>
+            <span class="vp-gap"></span>
+            <span class="vp-pill vp-right">
+              <span class="vp-rate" id="vpRate"></span>
+              ${o.cast ? `<button class="vp-ico" id="vpCast" type="button" hidden aria-label="${esc(t('player.cast'))}">${YT_ICONS.cast}</button>` : ''}
+              <button class="vp-ico" id="vpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
+            </span>
+          </div>
+        </div>
+      </div>`;
+}
+
+/* Panel tugmalarini ulash. p: { toggle, jump(d), speed(r), wake, hide, paused() } → { menuOpen() } */
+function vpBindUi(box, clickEl, p) {
+  const $ = s => box.querySelector(s);
+  $('#vpPlay').addEventListener('click', () => { p.toggle(); p.wake(); });
+  $('#vpPlay2').addEventListener('click', () => { p.toggle(); p.wake(); });
+  $('#vpBack').addEventListener('click', () => { p.jump(-10); p.wake(); });
+  $('#vpFwd').addEventListener('click', () => { p.jump(10); p.wake(); });
+  $('#vpFs').addEventListener('click', () => ytToggleFullscreen(box));
+  $('#vpFit').addEventListener('click', () => {
+    const fill = box.classList.toggle('ytp-fill');
+    $('#vpFit').classList.toggle('is-active', fill);
+    $('#vpFit').querySelector('svg').outerHTML = fill ? YT_ICONS.fit : YT_ICONS.fill;
+  });
+
+  // ⚙ sozlamalar oynasi
+  const menu = $('#vpMenu');
+  const setMenu = open => { menu.hidden = !open; $('#vpGear').setAttribute('aria-expanded', open); box.classList.toggle('vp-menu-open', open); };
+  $('#vpGear').addEventListener('click', e => { e.stopPropagation(); setMenu(menu.hidden); p.wake(); });
+  menu.addEventListener('click', e => e.stopPropagation());
+  box.addEventListener('click', e => { if (menu.isConnected && !menu.hidden && !e.target.closest('#vpMenu, #vpGear')) setMenu(false); });
+  $('#vpSpeeds').addEventListener('click', e => {
+    const b = e.target.closest('[data-speed]');
+    if (!b) return;
+    p.speed(+b.dataset.speed);
+    $('#vpSpeeds').querySelectorAll('button').forEach(x => x.classList.toggle('is-active', x === b));
+  });
+
+  // bir marta bosish — panelni ko'rsatadi/yashiradi (pauza qilmaydi);
+  // ikki marta: o'ng yarmida +10 s, chap yarmida −10 s (har keyingi tez bosish yana 10 s)
+  let tapT = null, lastTap = 0, skipSum = 0, flashT;
+  const flash = right => {
+    const el = $('#vpFlash');
+    skipSum = el.classList.contains(right ? 'is-right' : 'is-left') && el.classList.contains('is-on') ? skipSum + 10 : 10;
+    el.className = 'vp-flash is-on ' + (right ? 'is-right' : 'is-left');
+    el.innerHTML = right ? `<b>${skipSum}</b>${VP_ICONS.ffw}` : `${VP_ICONS.rew}<b>${skipSum}</b>`;
+    clearTimeout(flashT);
+    flashT = setTimeout(() => el.classList.remove('is-on'), 650);
+  };
+  clickEl.addEventListener('click', e => {
+    const now = Date.now();
+    const r = box.getBoundingClientRect(), right = e.clientX > r.left + r.width / 2;
+    if (now - lastTap < 300) {
+      clearTimeout(tapT); tapT = null; lastTap = now;
+      p.jump(right ? 10 : -10); flash(right);
+      return;
+    }
+    lastTap = now;
+    tapT = setTimeout(() => {
+      tapT = null;
+      if (p.paused() || box.classList.contains('ytp-idle')) p.wake();
+      else p.hide();
+    }, 300);
+  });
+  return { menuOpen: () => !menu.hidden };
+}
+
 /* ---------- Video sifati ----------
    Tanlov localStorage'da saqlanadi (akkaunt sozlamalaridagi "Video sifati" ham shu kalitni o'zgartiradi).
    YouTube IFrame API'da sifat faqat "tavsiya" sifatida beriladi — YouTube internet tezligiga
@@ -114,14 +222,13 @@ function mountYouTube(box, url, opts = {}) {
   const poster = opts.poster || `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
   const fallback = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
   box.classList.add('ytp');
+  box.classList.remove('vp', 'vp-paused', 'is-paused', 'ytp-idle', 'ytp-fill');
 
   box.innerHTML = `
     <div class="ytp-stage">
       <div class="ytp-crop"><div class="ytp-frame" id="ytpFrame"></div></div>
+      <div class="ytp-shade" id="ytpShade" hidden></div>
       <div class="ytp-click" id="ytpClick" hidden></div>
-      <button class="ytp-pause" id="ytpPause" type="button" hidden aria-label="${esc(t('player.play'))}">
-        <span class="ytp-big">${YT_ICONS.play}</span>
-      </button>
       <button class="ytp-cover" id="ytpCover" type="button" aria-label="${esc(t('player.play'))}">
         <img src="${esc(poster)}" alt="" data-fallback="${fallback}" onerror="if(this.dataset.fallback&&this.src!==this.dataset.fallback){this.src=this.dataset.fallback}else{this.remove()}">
         <span class="ytp-cover-shade"></span>
@@ -130,27 +237,11 @@ function mountYouTube(box, url, opts = {}) {
       </button>
       <div class="ytp-msg" id="ytpMsg" hidden></div>
     </div>
-    <div class="ytp-bar" id="ytpBar" hidden>
-      <button class="ytp-btn" id="ytpPlay" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
-      <button class="ytp-btn ytp-hide-sm" id="ytpBack" type="button" aria-label="-10s">${YT_ICONS.back}</button>
-      <button class="ytp-btn ytp-hide-sm" id="ytpFwd" type="button" aria-label="+10s">${YT_ICONS.fwd}</button>
-      <span class="ytp-time" id="ytpTime">0:00</span>
-      <input class="ytp-seek" id="ytpSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="seek">
-      <span class="ytp-time" id="ytpDur">0:00</span>
-      <button class="ytp-btn" id="ytpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
-      <input class="ytp-vol ytp-hide-sm" id="ytpVol" type="range" min="0" max="100" value="100" aria-label="volume">
-      <button class="ytp-btn ytp-q" id="ytpQ" type="button" aria-label="${esc(t('player.quality'))}">${YT_ICONS.gear}<b class="ytp-q-label" id="ytpQLabel" hidden></b></button>
-      <button class="ytp-btn ytp-fit" id="ytpFit" type="button" aria-label="zoom">${YT_ICONS.fill}</button>
-      <button class="ytp-btn" id="ytpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
-    </div>
-    <div class="ytp-qrow" role="group" aria-label="${esc(t('player.quality'))}">
-      <span class="ytp-qrow-label">${YT_ICONS.gear}${esc(t('player.quality'))}</span>
-      <div class="ytp-qrow-chips">
-        ${QUALITIES.filter(q => q.id !== '240').map(q => `
-          <button type="button" class="ytp-qchip${q.id === getQuality() ? ' is-active' : ''}" data-qchip="${q.id}">${esc(q.label || t('player.qAuto'))}</button>`).join('')}
-      </div>
-      <span class="ytp-qrow-now" id="ytpQNow"></span>
-    </div>`;
+    ${vpUiHTML({
+      title: opts.title,
+      qualities: QUALITIES.filter(q => q.id !== '240').map(q =>
+        `<button type="button" class="${q.id === getQuality() ? 'is-active' : ''}" data-qchip="${q.id}">${esc(q.label || t('player.qAuto'))}</button>`).join('')
+    })}`;
 
   const $ = s => box.querySelector(s);
   // opts.preroll — kino oldidan reklama (js/ads.js); tugagach film boshlanadi
@@ -241,14 +332,16 @@ function ytOnState(box, id, st) {
   // Muqova video haqiqatan boshlanguncha turadi — yuklanish paytidagi YouTube ekrani ko'rinmasin
   if (st === S.PLAYING) {
     $('#ytpCover').hidden = true;
-    $('#ytpBar').hidden = false;
+    $('#vpBar').hidden = false;
     $('#ytpMsg').hidden = true;
     $('#ytpClick').hidden = false;
   }
-  // Pauzada YouTube o'z panelini chiqaradi — ustiga o'zimizning ijro tugmasi
-  $('#ytpPause').hidden = st !== S.PAUSED;
-  $('#ytpPlay').innerHTML = st === S.PLAYING ? YT_ICONS.pause : YT_ICONS.play;
+  // Pauzada YouTube o'z tavsiyalarini chiqaradi — ustidan xira parda (bosish o'tib ketadi)
+  $('#ytpShade').hidden = st !== S.PAUSED;
+  const running = st === S.PLAYING || st === S.BUFFERING;
+  $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = running ? YT_ICONS.pause : YT_ICONS.play;
   box.classList.toggle('is-paused', st === S.PAUSED);
+  box.classList.toggle('vp-paused', !running);
   ytWake(box);
 
   if (st === S.ENDED) {
@@ -279,25 +372,26 @@ function ytShowMsg(box, id, text) {
 
 function ytBindBar(box, player) {
   const $ = s => box.querySelector(s);
-  const seek = $('#ytpSeek'), vol = $('#ytpVol');
+  const seek = $('#vpSeek'), vol = $('#vpVol');
 
   const safe = fn => { try { return fn(); } catch { return 0; } };
-
-  $('#ytpPlay').addEventListener('click', () => {
-    // bufer paytida ham "ijroda" hisoblanadi — aks holda pauza bosilganda qayta play bo'lib qolardi
-    const st = safe(() => player.getPlayerState());
-    const running = st === YT.PlayerState.PLAYING || st === YT.PlayerState.BUFFERING;
-    running ? player.pauseVideo() : player.playVideo();
-  });
-
+  // bufer paytida ham "ijroda" hisoblanadi — aks holda pauza bosilganda qayta play bo'lib qolardi
+  const running = () => { const st = safe(() => player.getPlayerState()); return st === YT.PlayerState.PLAYING || st === YT.PlayerState.BUFFERING; };
+  const toggle = () => (running() ? player.pauseVideo() : player.playVideo());
   const jump = d => player.seekTo(Math.max(0, safe(() => player.getCurrentTime()) + d), true);
-  $('#ytpBack').addEventListener('click', () => jump(-10));
-  $('#ytpFwd').addEventListener('click', () => jump(10));
+
+  box._vpUi = vpBindUi(box, $('#ytpClick'), {
+    toggle, jump,
+    speed: r => { try { player.setPlaybackRate(r); } catch {} },
+    wake: () => ytWake(box),
+    hide: () => { clearTimeout(box._idleT); box.classList.add('ytp-idle'); },
+    paused: () => !running()
+  });
 
   seek.addEventListener('input', () => {
     ytActive && (ytActive.seeking = true);
     const dur = safe(() => player.getDuration());
-    $('#ytpTime').textContent = fmtTime(dur * seek.value / 1000);
+    $('#vpTime').textContent = fmtTime(dur * seek.value / 1000);
   });
   seek.addEventListener('change', () => {
     const dur = safe(() => player.getDuration());
@@ -307,10 +401,11 @@ function ytBindBar(box, player) {
 
   const syncMute = () => {
     const muted = safe(() => player.isMuted());
-    $('#ytpMute').innerHTML = muted ? YT_ICONS.mute : YT_ICONS.vol;
+    $('#vpMute').innerHTML = muted ? YT_ICONS.mute : YT_ICONS.vol;
     box.classList.toggle('is-muted', !!muted);
+    vol.style.setProperty('--p', (muted ? 0 : vol.value) + '%');
   };
-  $('#ytpMute').addEventListener('click', () => {
+  $('#vpMute').addEventListener('click', () => {
     safe(() => player.isMuted()) ? player.unMute() : player.mute();
     setTimeout(syncMute, 60);
   });
@@ -320,77 +415,29 @@ function ytBindBar(box, player) {
     setTimeout(syncMute, 60);
   });
 
-  // Video ustiga bosish — pauza/davom, ikki marta — katta ekran.
-  // Katta ekranda panel yashiringan bo'lsa, birinchi bosish faqat panelni ko'rsatadi.
-  $('#ytpClick').addEventListener('click', () => {
-    if (ytIsFull(box) && box.classList.contains('ytp-idle')) { ytWake(box); return; }
-    $('#ytpPlay').click();
-    ytWake(box);
-  });
-  $('#ytpClick').addEventListener('dblclick', () => ytToggleFullscreen(box));
-  $('#ytpPause').addEventListener('click', () => player.playVideo());
-
-  $('#ytpFs').addEventListener('click', () => ytToggleFullscreen(box));
-
-  // Sifat menyusi
-  const closeQ = () => box.querySelector('.ytp-qmenu')?.remove();
-  $('#ytpQ').addEventListener('click', e => {
-    e.stopPropagation();
-    if (box.querySelector('.ytp-qmenu')) return closeQ();
-    const cur = getQuality();
-    const now = YT_Q_LABEL[safe(() => player.getPlaybackQuality())];
-    const menu = document.createElement('div');
-    menu.className = 'ytp-qmenu';
-    menu.innerHTML = `
-      <div class="ytp-qmenu-title">${esc(t('player.quality'))}</div>
-      ${QUALITIES.map(q => `
-        <button type="button" data-q="${q.id}" class="${q.id === cur ? 'is-active' : ''}">
-          <span>${esc(q.label || t('player.qAuto'))}${q.id === 'auto' && now ? ` <small>(${t('player.qNow')} ${now})</small>` : q.tag ? ` <small>${q.tag}</small>` : ''}</span>
-        </button>`).join('')}
-      <p class="ytp-qmenu-note">${esc(t('player.qNote'))}</p>`;
-    $('#ytpBar').appendChild(menu);
-    ytWake(box);
-    menu.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', ev => {
-      ev.stopPropagation();
-      closeQ();
-      ytApplyQuality(b.dataset.q);
-      syncQ();
-    }));
-  });
-  document.addEventListener('click', e => { if (!e.target.closest('.ytp-qmenu')) closeQ(); });
-
+  // ⚙ ichidagi «Sifat»: hozir haqiqatda qaysi sifat o'ynayapti
   const syncQ = () => {
-    const label = $('#ytpQLabel');
     const now = YT_Q_LABEL[safe(() => player.getPlaybackQuality())];
-    const sel = QUALITIES.find(x => x.id === getQuality());
-    const text = now ? now.replace('p', '') : (sel.label ? sel.label.replace('p', '') : '');
-    label.textContent = /^(1080|1440|4K)$/.test(text) ? 'HD+' : /^720$/.test(text) ? 'HD' : text;
-    label.hidden = !label.textContent;
-    // pleyer ostidagi qatorda — hozir haqiqatda qaysi sifat o'ynayapti
-    const nowEl = box.querySelector('#ytpQNow');
-    if (nowEl) nowEl.textContent = now ? `${t('player.qNow')}: ${now}` : '';
+    const nowEl = $('#vpQNow');
+    if (nowEl) nowEl.textContent = now ? `· ${t('player.qNow')} ${now}` : '';
   };
 
-  $('#ytpFit').addEventListener('click', () => {
-    const fill = box.classList.toggle('ytp-fill');
-    $('#ytpFit').innerHTML = fill ? YT_ICONS.fit : YT_ICONS.fill;
-    ytWake(box);
-  });
-
-  // Katta ekranda sichqoncha/barmoq harakati — panel ko'rinadi, 3 s dan keyin yashirinadi
+  // Sichqoncha/barmoq harakati — panel ko'rinadi, 3 s dan keyin yashirinadi
   ['mousemove', 'touchstart'].forEach(ev => box.addEventListener(ev, () => ytWake(box), { passive: true }));
-  $('#ytpBar').addEventListener('input', () => ytWake(box));
+  box.addEventListener('mouseleave', () => { if (ytActive?.player === player && running() && !box._vpUi?.menuOpen()) box.classList.add('ytp-idle'); });
+  $('#vpBar').addEventListener('input', () => ytWake(box));
 
   // Klaviatura: probel — pauza, strelkalar — 10 s
   box.tabIndex = 0;
   box.addEventListener('keydown', e => {
+    if (ytActive?.player !== player) return;
     if (e.target.tagName === 'INPUT') return;
-    if (e.code === 'Space' || e.code === 'KeyK') { e.preventDefault(); $('#ytpPlay').click(); }
+    if (e.code === 'Space' || e.code === 'KeyK') { e.preventDefault(); toggle(); }
     if (e.code === 'ArrowLeft') { e.preventDefault(); jump(-10); }
     if (e.code === 'ArrowRight') { e.preventDefault(); jump(10); }
     if (e.code === 'Escape' && box.classList.contains('ytp-pseudo-fs')) ytToggleFullscreen(box);
-    if (e.code === 'KeyF') $('#ytpFs').click();
-    if (e.code === 'KeyM') $('#ytpMute').click();
+    if (e.code === 'KeyF') ytToggleFullscreen(box);
+    if (e.code === 'KeyM') $('#vpMute').click();
   });
 
   ytActive.timer = setInterval(() => {
@@ -399,9 +446,9 @@ function ytBindBar(box, player) {
     if (dur > 0 && !ytActive.seeking) {
       seek.value = Math.round(cur / dur * 1000);
       seek.style.setProperty('--p', (cur / dur * 100) + '%');
-      $('#ytpTime').textContent = fmtTime(cur);
+      $('#vpTime').textContent = fmtTime(cur);
     }
-    $('#ytpDur').textContent = fmtTime(dur);
+    $('#vpDur').textContent = $('#vpLeft').textContent = fmtTime(dur);
     syncMute();
     syncQ();
   }, 500);
@@ -445,10 +492,9 @@ function ytIsFull(box) {
 function ytWake(box) {
   box.classList.remove('ytp-idle');
   clearTimeout(box._idleT);
-  if (!ytIsFull(box)) return;
   box._idleT = setTimeout(() => {
-    const st = ytActive?.player?.getPlayerState?.();
-    if (ytIsFull(box) && st === 1) box.classList.add('ytp-idle');
+    const st = ytActive?.box === box ? ytActive.player?.getPlayerState?.() : null;
+    if (st === 1 && !box._vpUi?.menuOpen()) box.classList.add('ytp-idle');
   }, 3000);
 }
 

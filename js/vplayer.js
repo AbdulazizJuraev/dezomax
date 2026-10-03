@@ -10,11 +10,7 @@
 
 let vpActive = null;   // { box, video, hls, timer }
 
-const VP_SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
-const VP_ICONS = {
-  rew: '<svg viewBox="0 0 24 24"><path d="M11 6.5v11L3.5 12zM20 6.5v11L12.5 12z" fill="currentColor"/></svg>',
-  ffw: '<svg viewBox="0 0 24 24"><path d="M4 6.5v11l7.5-5.5zM13 6.5v11l7.5-5.5z" fill="currentColor"/></svg>'
-};
+// VP_SPEEDS, VP_ICONS, vpUiHTML, vpBindUi — js/ytplayer.js (YouTube pleyeri bilan umumiy panel)
 
 function destroyVideo() {
   if (!vpActive) return;
@@ -50,7 +46,6 @@ function mountVideo(box, url, opts = {}) {
       <video class="vp-video" playsinline preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
       <div class="ytp-click" id="vpClick" hidden></div>
       <div class="vp-spinner" id="vpSpin" hidden><i></i></div>
-      <div class="vp-flash" id="vpFlash" aria-hidden="true"></div>
       <button class="ytp-cover" id="vpCover" type="button" aria-label="${esc(t('player.play'))}">
         ${!opts.poster ? ''
           // albom (keng) rasm — butun ekranni egallaydi; tik poster — xira fon ustida o'rtada
@@ -61,43 +56,7 @@ function mountVideo(box, url, opts = {}) {
         ${opts.title ? `<span class="ytp-cover-title">${esc(opts.title)}</span>` : ''}
       </button>
       <div class="ytp-msg" id="vpMsg" hidden></div>
-      <!-- Panel video ustida: tepada nom va sozlamalar, o'rtada ±10 s va play, pastda chiziq va tugmalar -->
-      <div class="vp-ui" id="vpBar" hidden>
-        <div class="vp-top">
-          <span class="vp-title">${esc(opts.title || '')}</span>
-          <button class="vp-ico" id="vpGear" type="button" aria-label="${esc(t('player.quality'))}" aria-expanded="false">${YT_ICONS.gear}</button>
-        </div>
-        <div class="vp-menu" id="vpMenu" hidden>
-          <div class="vp-menu-sec"><small>${LANG === 'ru' ? 'Скорость' : 'Tezlik'}</small>
-            <div class="vp-menu-chips" id="vpSpeeds">${VP_SPEEDS.map(s => `<button type="button" data-speed="${s}" class="${s === 1 ? 'is-active' : ''}">${s === 1 ? (LANG === 'ru' ? 'Обычная' : 'Oddiy') : s + 'x'}</button>`).join('')}</div></div>
-          <div class="vp-menu-sec" id="vpQRow" hidden><small>${esc(t('player.quality'))} <span id="vpQNow"></span></small>
-            <div class="vp-menu-chips" id="vpQChips"></div></div>
-          <button class="vp-menu-row" id="vpFit" type="button">${YT_ICONS.fill}<span>${LANG === 'ru' ? 'Заполнить экран' : 'Ekranni to‘ldirish'}</span></button>
-        </div>
-        <div class="vp-mid">
-          <button class="vp-skip" id="vpBack" type="button" aria-label="-10s">${VP_ICONS.rew}<span>10</span></button>
-          <button class="vp-center" id="vpPlay" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
-          <button class="vp-skip" id="vpFwd" type="button" aria-label="+10s"><span>10</span>${VP_ICONS.ffw}</button>
-        </div>
-        <div class="vp-bottom">
-          <span class="vp-left" id="vpLeft"></span>
-          <input class="vp-seek" id="vpSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="seek">
-          <div class="vp-row">
-            <button class="vp-circ" id="vpPlay2" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
-            <span class="vp-volwrap">
-              <button class="vp-circ" id="vpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
-              <input class="vp-vol" id="vpVol" type="range" min="0" max="100" value="100" aria-label="volume">
-            </span>
-            <span class="vp-pill vp-times"><span id="vpTime">0:00</span><i></i><span id="vpDur">0:00</span></span>
-            <span class="vp-gap"></span>
-            <span class="vp-pill vp-right">
-              <span class="vp-rate" id="vpRate"></span>
-              <button class="vp-ico" id="vpCast" type="button" hidden aria-label="${esc(t('player.cast'))}">${YT_ICONS.cast}</button>
-              <button class="vp-ico" id="vpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
-            </span>
-          </div>
-        </div>
-      </div>
+      ${vpUiHTML({ title: opts.title, cast: true })}
     </div>`;
 
   const $ = s => box.querySelector(s);
@@ -225,66 +184,22 @@ function mountVideo(box, url, opts = {}) {
   /* ---- tugmalar ---- */
   const toggle = () => (video.paused ? video.play() : video.pause());
   const jump = d => { video.currentTime = Math.max(0, Math.min((video.duration || 0), video.currentTime + d)); };
-  $('#vpPlay').addEventListener('click', () => { toggle(); wake(); });
-  $('#vpPlay2').addEventListener('click', () => { toggle(); wake(); });
-  $('#vpBack').addEventListener('click', () => { jump(-10); wake(); });
-  $('#vpFwd').addEventListener('click', () => { jump(10); wake(); });
+  const ui = vpBindUi(box, $('#vpClick'), {
+    toggle, jump,
+    speed: r => { video.playbackRate = r; },
+    wake: () => wake(),
+    hide: () => { clearTimeout(idleT); box.classList.add('ytp-idle'); },
+    paused: () => video.paused
+  });
   $('#vpMute').addEventListener('click', () => { video.muted = !video.muted; });
   $('#vpVol').addEventListener('input', e => { video.volume = +e.target.value / 100; video.muted = video.volume === 0; });
   const volFill = () => $('#vpVol').style.setProperty('--p', (video.muted ? 0 : video.volume * 100) + '%');
   onV('volumechange', volFill); volFill();
 
-  /* ---- sozlamalar (tishli g'ildirak): tezlik, sifat, ekranni to'ldirish ---- */
-  const menu = $('#vpMenu');
-  const setMenu = open => { menu.hidden = !open; $('#vpGear').setAttribute('aria-expanded', open); box.classList.toggle('vp-menu-open', open); };
-  $('#vpGear').addEventListener('click', e => { e.stopPropagation(); setMenu(menu.hidden); wake(); });
-  menu.addEventListener('click', e => e.stopPropagation());
-  box.addEventListener('click', e => { if (!menu.hidden && !e.target.closest('#vpMenu, #vpGear')) setMenu(false); });
-  $('#vpSpeeds').addEventListener('click', e => {
-    const b = e.target.closest('[data-speed]');
-    if (!b) return;
-    video.playbackRate = +b.dataset.speed;
-    $('#vpSpeeds').querySelectorAll('button').forEach(x => x.classList.toggle('is-active', x === b));
-  });
-
   let seeking = false;
   const seek = $('#vpSeek');
   seek.addEventListener('input', () => { seeking = true; $('#vpTime').textContent = fmtTime((video.duration || 0) * seek.value / 1000); });
   seek.addEventListener('change', () => { video.currentTime = (video.duration || 0) * seek.value / 1000; seeking = false; });
-
-  // video ustiga bosish: katta ekranda panel yashiringan bo'lsa — faqat ko'rsatadi
-  // video ustiga bir marta bosish — faqat panelni ko'rsatadi/yashiradi (pauza qilmaydi);
-  // ikki marta bosish: o'ng yarmida +10 s, chap yarmida −10 s (har keyingi tez bosish yana 10 s)
-  let tapT = null, lastTap = 0, skipSum = 0, flashT;
-  const flash = right => {
-    const el = $('#vpFlash');
-    skipSum = el.classList.contains(right ? 'is-right' : 'is-left') && el.classList.contains('is-on') ? skipSum + 10 : 10;
-    el.className = 'vp-flash is-on ' + (right ? 'is-right' : 'is-left');
-    el.innerHTML = right ? `<b>${skipSum}</b>${VP_ICONS.ffw}` : `${VP_ICONS.rew}<b>${skipSum}</b>`;
-    clearTimeout(flashT);
-    flashT = setTimeout(() => el.classList.remove('is-on'), 650);
-  };
-  $('#vpClick').addEventListener('click', e => {
-    const now = Date.now();
-    const r = box.getBoundingClientRect(), right = e.clientX > r.left + r.width / 2;
-    if (now - lastTap < 300) {
-      clearTimeout(tapT); tapT = null; lastTap = now;
-      jump(right ? 10 : -10); flash(right);
-      return;
-    }
-    lastTap = now;
-    tapT = setTimeout(() => {
-      tapT = null;
-      if (video.paused || box.classList.contains('ytp-idle')) wake();
-      else { clearTimeout(idleT); box.classList.add('ytp-idle'); }
-    }, 300);
-  });
-  $('#vpFs').addEventListener('click', () => ytToggleFullscreen(box));
-  $('#vpFit').addEventListener('click', () => {
-    const fill = box.classList.toggle('ytp-fill');
-    $('#vpFit').classList.toggle('is-active', fill);
-    $('#vpFit').querySelector('svg').outerHTML = fill ? YT_ICONS.fit : YT_ICONS.fill;
-  });
 
   /* ---- Televizorga ulash (faqat Android ilovada, Chromecast topilganda) ---- */
   const DezoCast = window.Capacitor?.isNativePlatform?.() ? window.Capacitor.Plugins?.DezoCast : null;
@@ -314,11 +229,11 @@ function mountVideo(box, url, opts = {}) {
     box.classList.remove('ytp-idle');
     clearTimeout(idleT);
     idleT = setTimeout(() => {
-      if (!video.paused && menu.hidden) box.classList.add('ytp-idle');
+      if (!video.paused && !ui.menuOpen()) box.classList.add('ytp-idle');
     }, 3000);
   }
   ['mousemove', 'touchstart'].forEach(ev => box.addEventListener(ev, wake, { passive: true }));
-  box.addEventListener('mouseleave', () => { if (live() && !video.paused && menu.hidden) box.classList.add('ytp-idle'); });
+  box.addEventListener('mouseleave', () => { if (live() && !video.paused && !ui.menuOpen()) box.classList.add('ytp-idle'); });
 
   box.tabIndex = 0;
   box.addEventListener('keydown', e => {
