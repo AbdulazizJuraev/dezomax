@@ -6025,3 +6025,9 @@ img.soc-ava { object-fit: cover; padding: 0; background: var(--surface); }
 .adm-ch-prog i { display: block; height: 100%; background: var(--grad); border-radius: 999px; transition: width .4s; }
 .adm-ch-note { color: var(--text-dim); }
 .adm-stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+
+/* Akkaunt → Qurilmalar: serverga ulanmagan qurilma uchun «Qurilmani ulash» */
+.acc-dev-link { margin-top: 14px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.acc-dev-link p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-dim); }
+.acc-dev-link .btn { display: inline-flex; align-items: center; gap: 8px; }
+.acc-dev-link .btn svg { width: 18px; height: 18px; }

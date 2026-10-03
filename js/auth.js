@@ -311,7 +311,9 @@ const Auth = {
   async _finish(user, idToken) {
     user.at = Date.now();
     // to'lov serveriga kirish (balans, Click). Server o'chiq/yo'q bo'lsa — sayt baribir ishlayveradi
-    if (Pay.enabled() && idToken) { try { await Pay.login(idToken); } catch (e) { console.warn('pay login', e.message); } }
+    Pay.lastError = '';
+    if (Pay.enabled() && !idToken) Pay.lastError = 'Google token kelmadi';
+    if (Pay.enabled() && idToken) { try { await Pay.login(idToken); } catch (e) { Pay.lastError = e.message || String(e); console.warn('pay login', e.message); } }
     writeJSON(AUTH_USER_KEY, user);
     // keyingi safar tezkor kirish uchun Google akkaunt eslab qolinadi
     writeJSON(AUTH_LAST_KEY, { method: 'google', email: user.email, name: user.name || '', photo: user.photo || '' });

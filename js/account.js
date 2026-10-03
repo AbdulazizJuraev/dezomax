@@ -70,6 +70,12 @@ Object.assign(I18N.uz, {
   'acc.devSince': 'Kirgan:',
   'acc.devLocal': 'Boshqa qurilmalarni ko‘rish uchun akkauntdan chiqib, qayta kiring.',
   'acc.devKicked': 'Bu qurilma akkauntdan chiqarilgan. Qayta kiring.',
+  'acc.devT.desktop': 'Kompyuter',
+  'acc.devT.phone': 'Telefon',
+  'acc.devT.tablet': 'Planshet',
+  'acc.devLink': 'Bu qurilma hali akkauntingizga ulanmagan — shuning uchun boshqa qurilmalarda ko‘rinmaydi. Google bilan bir marta tasdiqlang:',
+  'acc.devLinkBtn': 'Qurilmani ulash',
+  'acc.devErr': 'Server bilan bog‘lanib bo‘lmadi:',
   'acc.devicesLimit': 'Tarifingiz bo‘yicha bir vaqtda qurilmalar:',
   'acc.promoPh': 'Promokodni kiriting',
   'acc.activate': 'Faollashtirish',
@@ -182,6 +188,12 @@ Object.assign(I18N.ru, {
   'acc.devSince': 'Вход:',
   'acc.devLocal': 'Чтобы видеть другие устройства, выйдите и войдите снова.',
   'acc.devKicked': 'Это устройство отключено от аккаунта. Войдите снова.',
+  'acc.devT.desktop': 'Компьютер',
+  'acc.devT.phone': 'Телефон',
+  'acc.devT.tablet': 'Планшет',
+  'acc.devLink': 'Это устройство ещё не привязано к аккаунту — поэтому его не видно на других устройствах. Подтвердите один раз через Google:',
+  'acc.devLinkBtn': 'Привязать устройство',
+  'acc.devErr': 'Не удалось связаться с сервером:',
   'acc.devicesLimit': 'Устройств одновременно по вашему тарифу:',
   'acc.promoPh': 'Введите промокод',
   'acc.activate': 'Активировать',
@@ -654,6 +666,12 @@ async function logout() {
   renderLogin();
 }
 
+/* serverga ulanmagan holat: faqat shu qurilma (profilda bo'lmasa — hozirgi ma'lumot) */
+const thisDeviceList = me => {
+  const d = (profile.devices || []).find(x => x.id === me) || { ...deviceInfo(), lastSeen: Date.now() };
+  return [{ ...d, current: true }];
+};
+
 /* Qurilmalar ro'yxati: joriysi birinchi, qolganlarini «Chiqarish» mumkin */
 function devicesHTML(list) {
   const plan = ACC_PLANS[profile.plan] || ACC_PLANS.free;
@@ -663,8 +681,8 @@ function devicesHTML(list) {
       <div class="acc-item">
         <span class="acc-item-icon">${d.type === 'desktop' ? AI.desktop : AI.phone}</span>
         <div class="acc-item-main">
-          <b>${d.os || d.app ? esc([d.os, d.app].filter(Boolean).join(' · ')) : t('acc.devUnknown')}</b>
-          <small>${d.current ? t('acc.thisDevice') : d.lastSeen ? `${t('acc.lastSeen')} ${fmtDate(d.lastSeen, true)}` : d.addedAt ? `${t('acc.devSince')} ${fmtDate(d.addedAt, true)}` : ''}</small>
+          <b>${d.os || d.app ? t('acc.devT.' + (['desktop', 'tablet'].includes(d.type) ? d.type : 'phone')) : t('acc.devUnknown')}</b>
+          <small>${esc([d.os, d.app].filter(Boolean).join(' · '))}${d.os || d.app ? ' · ' : ''}${d.current ? t('acc.thisDevice') : d.lastSeen ? `${t('acc.lastSeen')} ${fmtDate(d.lastSeen, true)}` : d.addedAt ? `${t('acc.devSince')} ${fmtDate(d.addedAt, true)}` : ''}</small>
         </div>
         ${d.current
           ? `<span class="acc-pill is-on">${t('acc.active')}</span>`
@@ -750,8 +768,15 @@ const SECTIONS = {
   devices() {
     if (Pay.hasSession()) return `<div id="accDevices"><div class="mt-loading"><i></i><i></i><i></i></div></div>`;
     const me = deviceId();
-    const list = [...(profile.devices || [])].filter(d => d.id === me).map(d => ({ ...d, current: true }));
-    return devicesHTML(list) + `<p class="acc-muted acc-dev-note">${t('acc.devLocal')}</p>`;
+    const list = thisDeviceList(me);
+    if (!Pay.enabled()) return devicesHTML(list) + `<p class="acc-muted acc-dev-note">${t('acc.devLocal')}</p>`;
+    return devicesHTML(list) + `
+      <div class="acc-card acc-dev-link">
+        <p>${t('acc.devLink')}</p>
+        <p class="acc-error" id="devErr"${Pay.lastError ? '' : ' hidden'}>${Pay.lastError ? esc(t('acc.devErr') + ' ' + Pay.lastError) : ''}</p>
+        <div class="acc-gbtn" id="devGsi" hidden></div>
+        <button class="btn btn-primary" id="devLinkBtn" type="button">${AI.google}<span>${t('acc.devLinkBtn')}</span></button>
+      </div>`;
   },
 
   promo() {
@@ -946,6 +971,25 @@ const BINDERS = {
   },
 
   async devices(p) {
+    const link = p.querySelector('#devLinkBtn');
+    if (link) {
+      const err = p.querySelector('#devErr');
+      const fail = m => { err.textContent = t('acc.devErr') + ' ' + m; err.hidden = false; };
+      const done = async () => { profile = await Auth.loadProfile(); if (Pay.hasSession()) renderAccount(); else fail(Pay.lastError || '—'); };
+      if (!Auth.native) {
+        // saytda — Google'ning o'z tugmasi (popup)
+        const g = p.querySelector('#devGsi');
+        g.hidden = false; link.hidden = true;
+        Auth.renderGoogleButton(g, done, e => fail(e?.message || e)).catch(() => { g.hidden = true; link.hidden = false; });
+      }
+      link.addEventListener('click', async () => {
+        link.disabled = true;
+        try { await Auth.signInGoogle(); await done(); }
+        catch (e) { if (!/cancel/i.test(String(e?.message))) fail(e?.message || e?.code || '—'); }
+        finally { link.disabled = false; }
+      });
+      return;
+    }
     const box = p.querySelector('#accDevices');
     if (!box) return;
     const draw = list => {
@@ -961,7 +1005,8 @@ const BINDERS = {
       // boshqa qurilmadan chiqarilgan — bu yerda ham akkauntdan chiqamiz
       if (e.code === 'auth') { await Auth.signOut(); profile = null; toast(t('acc.devKicked')); return renderLogin(); }
       const me = deviceId();
-      draw([...(profile.devices || [])].filter(d => d.id === me).map(d => ({ ...d, current: true })));
+      draw(thisDeviceList(me));
+      box.insertAdjacentHTML('beforeend', `<p class="acc-error">${esc(t('acc.devErr') + ' ' + (e.message || e.code || '—'))}</p>`);
     }
   },
 

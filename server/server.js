@@ -314,7 +314,7 @@ function createApp(cfg, deps = {}) {
   const deviceOf = d => {
     if (!d || typeof d !== 'object' || !/^d[a-z0-9]{4,40}$/.test(String(d.id || ''))) return null;
     const clean = v => String(v || '').replace(/[^\w .\-]/g, '').trim().slice(0, 30);
-    return { id: String(d.id), os: clean(d.os), app: clean(d.app), type: d.type === 'desktop' ? 'desktop' : 'phone' };
+    return { id: String(d.id), os: clean(d.os), app: clean(d.app), type: ['desktop', 'tablet'].includes(d.type) ? d.type : 'phone' };
   };
   // bir qurilmadagi bir nechta sessiya — bitta qator (eng yangisi)
   const devicesOf = user => {
