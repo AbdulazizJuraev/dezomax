@@ -504,8 +504,7 @@ const MORE_LINKS = [
   { href: 'plans.html',     icon: 'crown',    label: 'nav.plans' },
   { sep: true },
   { href: 'catalog.html?type=serial',   icon: 'tv',   label: 'nav.series' },
-  { href: 'catalog.html?type=multfilm', icon: 'grid', label: 'nav.cartoons' },
-  { href: 'marvel.html',                icon: 'film', label: 'nav.marvel' }
+  { href: 'catalog.html?type=multfilm', icon: 'grid', label: 'nav.cartoons' }
 ];
 
 /* Qaysi bo'lim ochiq turganini aniqlaymiz */

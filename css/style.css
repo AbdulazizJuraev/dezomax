@@ -6105,3 +6105,15 @@ html.tv-mode .row-nav { display: none !important; }
 .acc-tile-glyph svg { width: 100%; height: 100%; }
 .acc-tile-dl .acc-tile-glyph { transform: rotate(8deg); }
 @media (max-width: 520px) { .acc-tile-glyph { width: 78px; height: 78px; } }
+
+/* Bosh sahifa → Kinostudiyalar (js/app.js studiosHTML) */
+.studios-row { gap: 14px; }
+.studio-card { position: relative; flex: 0 0 auto; width: 260px; aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  border-radius: 18px; overflow: hidden; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.08);
+  background: radial-gradient(120% 120% at 50% 0%, #1b2233, #0b0e15 70%); transition: transform .2s, border-color .2s, box-shadow .2s; }
+.studio-card:hover, .studio-card:focus-visible { transform: translateY(-3px); border-color: rgba(255,255,255,.25); box-shadow: 0 14px 34px rgba(0,0,0,.45); }
+.studio-logo { width: 62%; display: grid; place-items: center; }
+.studio-logo svg { width: 100%; height: auto; filter: drop-shadow(0 6px 14px rgba(0,0,0,.4)); }
+.studio-name { font-size: 13px; font-weight: 650; color: rgba(255,255,255,.7); letter-spacing: .02em; }
+.studio-card.is-marvel { background: radial-gradient(120% 140% at 50% 0%, #5c0a10, #1a0507 65%); border-color: rgba(236,29,36,.35); }
+@media (max-width: 640px) { .studio-card { width: 200px; border-radius: 14px; } .studio-name { font-size: 12px; } }

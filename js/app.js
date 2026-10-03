@@ -438,6 +438,7 @@ const ROW_SOURCES = {
   popular:  { title: 'row.popular',  all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) - rt(a)).slice(0, 10) },   // TOP 10 — js: initTop10
   series:   { title: 'row.series',   all: 'catalog.html?type=serial',     list: () => MOVIES.filter(m => m.type === 'serial').slice(0, 24) },
   cartoons: { title: 'row.cartoons', all: 'catalog.html?type=multfilm',   list: () => MOVIES.filter(m => m.type === 'multfilm').slice(0, 24) },
+  studios:  { title: 'row.studios',  all: null,                           list: () => STUDIOS },   // js: studiosHTML
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
@@ -525,7 +526,11 @@ function initSeriesBanner(root, list) {
 function renderRows() {
   const box = document.getElementById('homeRows');
   if (!box) return;
-  const rows = (SITE_CFG.rows && SITE_CFG.rows.length) ? SITE_CFG.rows : DEFAULT_ROWS;
+  let rows = (SITE_CFG.rows && SITE_CFG.rows.length) ? SITE_CFG.rows : DEFAULT_ROWS;
+  if (!rows.some(r => r.source === 'studios')) {
+    const at = rows.findIndex(r => r.source === 'popular');
+    rows = [...rows.slice(0, at + 1), { source: 'studios', visible: true }, ...rows.slice(at + 1)];
+  }
 
   let shown = 0, seriesList = null, hasTop = false;
   box.innerHTML = rows.map((row, i) => {
@@ -536,6 +541,7 @@ function renderRows() {
     // har 3 qatordan keyin reklama joyi (js/ads.js; reklama ID'lari bo'lmasa — ko'rinmaydi)
     const ad = ++shown % 3 === 0 ? `<div class="ad-slot" data-ad-slot="home"></div>` : '';
     const title = (row.title && (row.title[LANG] || row.title.uz)) || (src.title ? t(src.title) : '');
+    if (row.source === 'studios') return studiosHTML(title) + ad;
     if (row.source === 'popular' && !hasTop) {
       hasTop = true;
       return top10HTML(title) + ad;
@@ -565,6 +571,28 @@ function renderRows() {
   if (hasTop) initTop10(box);
   if (seriesList) initSeriesBanner(box, seriesList);
   else clearInterval(sbTimer);
+}
+
+/* ---------- Kinostudiyalar: logotipli kartochkalar ----------
+   Har bir studiya — rasmiy ma'lumot sahifasi (treylerlar, aktyorlar, byudjet). Yangi studiya qo'shish:
+   shu ro'yxatga { id, name, href, cls, logo } (logo — oq SVG yoki matn). */
+const STUDIOS = [
+  { id: 'marvel', name: 'Marvel Studios', href: 'marvel.html', cls: 'is-marvel',
+    logo: '<svg viewBox="0 0 120 44" aria-hidden="true"><rect width="120" height="44" rx="3" fill="#ec1d24"/><text x="60" y="34" text-anchor="middle" font-family="Oswald,Impact,Arial Narrow,sans-serif" font-weight="700" font-size="34" fill="#fff" letter-spacing="-1">MARVEL</text></svg>' }
+];
+
+function studiosHTML(title) {
+  if (!STUDIOS.length) return '';
+  return `
+    <section class="section studios">
+      <div class="section-head"><i class="bar"></i><h2>${esc(title)}</h2></div>
+      <div class="row studios-row">${STUDIOS.map(s => `
+        <a class="studio-card ${s.cls || ''}" href="${s.href}" aria-label="${esc(s.name)}">
+          <span class="studio-logo">${s.logo}</span>
+          <span class="studio-name">${esc(s.name)}</span>
+        </a>`).join('')}
+      </div>
+    </section>`;
 }
 
 /* ---------- TOP 10: eng ko'p ko'rilganlar (kunlik / haftalik / oylik) ----------
