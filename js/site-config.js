@@ -21,11 +21,11 @@ const SITE_CONFIG = /*CONFIG*/{
   },
   "rows": [
     {
-      "source": "series",
+      "source": "popular",
       "visible": true
     },
     {
-      "source": "popular",
+      "source": "series",
       "visible": true
     },
     {
