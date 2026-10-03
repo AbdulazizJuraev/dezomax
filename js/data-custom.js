@@ -5747,14 +5747,15 @@ const CUSTOM_MOVIES = /*DATA*/[
     "poster": "images/iron-man.jpg",
     "trailer": "https://www.youtube.com/watch?v=i_IIxuHAClc",
     "video": "http://topfilm.info/3/tarjima_kinolar/Temir_Odam_360.mp4",
-    "featured": false,
+    "featured": true,
     "addedAt": 1790162448269,
-    "updatedAt": 1791005227644,
+    "updatedAt": 1791005922152,
     "year": 2008,
     "duration": 126,
     "rating": 7.9,
     "director": "Jon Favreau",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "audio": "uz"
   },
   {
     "id": 2613,
