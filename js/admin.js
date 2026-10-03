@@ -579,6 +579,7 @@ let listQuery = '';
 let commitsCache = null;    // oxirgi o'zgarishlar (GitHub commit tarixi)
 
 const NAV_ICONS = {
+  bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5L4.5 13.5H12l-1 8 8.5-11H12z"/></svg>',
   yt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>',
   gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>',
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3.5l9 7"/><path d="M5.5 9.5V20h13V9.5"/></svg>',
@@ -680,6 +681,7 @@ function renderHome() {
   const all = allMovies();
   const visible = all.filter(m => !hiddenList.includes(m.id));
   const stats = [
+    ['bolt', 'Faol kinolar', activeList().length, 'active'],
     ['film', 'Saytdagi kinolar', visible.length, 'all'],
     ['plus', 'Qo‘shilgan', addedList().length, 'added'],
     ['edit', 'Tahrirlangan', editedList().length, 'edited'],
@@ -784,9 +786,16 @@ function itemHTML(m) {
 
 /* Rasmiy YouTube kanallaridan kelgan kinolar (js/data-channels.js) — admin tahrirlasa ham shu yerda sanaladi */
 const channelIds = () => new Set((typeof CHANNEL_MOVIES !== 'undefined' ? CHANNEL_MOVIES : []).map(m => m.id));
+/* Faol kinolar — qo'shilgan, tahrirlangan va kanallardan kelganlar (yashirilganlarsiz), har biri bir marta */
+function activeList() {
+  const ids = channelIds();
+  for (const m of customList) ids.add(m.id);
+  return allMovies().filter(m => ids.has(m.id) && !hiddenList.includes(m.id));
+}
 
 function listItems() {
   let items = allMovies();
+  if (listFilter === 'active') items = activeList();
   if (listFilter === 'added') items = addedList();
   if (listFilter === 'edited') items = editedList();
   if (listFilter === 'hidden') items = items.filter(m => hiddenList.includes(m.id));
@@ -798,10 +807,10 @@ function listItems() {
 }
 
 function renderListView() {
-  const counts = { all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length, marvel: allMovies().filter(m => m.franchise === 'marvel').length, channels: channelIds().size };
+  const counts = { active: activeList().length, all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length, marvel: allMovies().filter(m => m.franchise === 'marvel').length, channels: channelIds().size };
   $('#admView').innerHTML = `
     <div class="adm-filters">
-      ${[['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel'], ['channels', 'Kanallardan']].map(([id, l]) =>
+      ${[['active', 'Faol'], ['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel'], ['channels', 'Kanallardan']].map(([id, l]) =>
         `<button type="button" data-filter="${id}" class="${listFilter === id ? 'is-active' : ''}">${l} <small>${counts[id]}</small></button>`).join('')}
     </div>
     <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">

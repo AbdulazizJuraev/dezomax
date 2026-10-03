@@ -4336,9 +4336,13 @@ img, video, iframe { max-width: 100%; }
 .adm-stat-icon svg { width: 17px; height: 17px; }
 .adm-stat b { font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
 .adm-stat small { font-size: 12px; color: var(--text-dim); font-weight: 600; }
-.adm-stat:nth-child(2) .adm-stat-icon { background: rgba(22, 163, 74, .16); color: #6ee7a0; }
-.adm-stat:nth-child(3) .adm-stat-icon { background: rgba(245, 158, 11, .16); color: #fbbf24; }
-.adm-stat:nth-child(4) .adm-stat-icon { background: rgba(248, 113, 113, .14); color: #f87171; }
+.adm-stat[data-stat="added"] .adm-stat-icon { background: rgba(22, 163, 74, .16); color: #6ee7a0; }
+.adm-stat[data-stat="edited"] .adm-stat-icon { background: rgba(245, 158, 11, .16); color: #fbbf24; }
+.adm-stat[data-stat="hidden"] .adm-stat-icon { background: rgba(248, 113, 113, .14); color: #f87171; }
+/* Faol kinolar — qo'shilgan + tahrirlangan + kanallardan */
+.adm-stat[data-stat="active"] { border-color: rgba(167, 139, 250, .35); background: linear-gradient(135deg, rgba(139, 92, 246, .16), var(--surface) 70%); }
+.adm-stat[data-stat="active"] .adm-stat-icon { background: rgba(139, 92, 246, .18); color: #c4b5fd; }
+.adm-stat[data-stat="active"]:hover { border-color: rgba(167, 139, 250, .6); }
 
 .adm-quick { display: flex; gap: 8px; flex-wrap: wrap; }
 .adm-quick .btn { gap: 8px; }
