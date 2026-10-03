@@ -116,9 +116,30 @@ if (typeof MOVIES !== 'undefined') {
 
 /* Yozish; boshqa joyda o'zgargan bo'lsa (409) — qayta o'qib, o'zgarishni qayta qo'llaymiz.
    mutate(list, hidden) — ro'yxatni qaytaradi, hidden massivini joyida o'zgartiradi */
+/* Admin sahifa uzoq ochiq qolsa, xotirada ESKI kod ishlaydi (2026-10-03: eski kod 1095 ta kinoni 400 taga almashtirgan).
+   Saqlashdan oldin saytdagi versiya bilan solishtiramiz — yangisi chiqqan bo'lsa, sahifa yangilanadi. */
+async function ensureFreshAdmin() {
+  const mine = ([...document.scripts].map(s => s.src).find(s => /\/js\/admin\.js\?v=/.test(s)) || '').match(/v=(\d+)/)?.[1];
+  if (!mine) return;
+  try {
+    const html = await (await fetch(`admin.html?t=${Date.now()}`, { cache: 'no-store' })).text();
+    const live = html.match(/js\/admin\.js\?v=(\d+)/)?.[1];
+    if (live && live !== mine) {
+      toast('Admin panelning yangi versiyasi chiqqan — sahifa yangilanmoqda. Keyin qayta urining.', true);
+      setTimeout(() => location.reload(), 1200);
+      throw new Error('Admin panel eskirgan — yangilanmoqda, keyin qayta urining.');
+    }
+  } catch (e) { if (/eskirgan/.test(e.message)) throw e; }
+}
+
 async function saveCustom(mutate, message) {
+  await ensureFreshAdmin();
   for (let attempt = 0; attempt < 2; attempt++) {
     await loadCustom();
+    // sahifa ochilganda yuklangan ro'yxat (js/data-custom.js) — GitHub'dan o'qilgani undan ancha kam bo'lsa, o'qishda xato bor
+    if (typeof CUSTOM_MOVIES !== 'undefined' && CUSTOM_MOVIES.length > 20 && customList.length < CUSTOM_MOVIES.length / 2) {
+      throw new Error(`Saqlash to‘xtatildi: GitHub’dan ${customList.length} ta kino o‘qildi, saytda esa ${CUSTOM_MOVIES.length} ta. Sahifani yangilab, qayta urining.`);
+    }
     const hidden = [...hiddenList];
     const next = mutate(structuredClone(customList), hidden);
     // himoya: admin'dagi har bir amal ko'pi bilan BITTA yozuvni olib tashlaydi (o'chirish / asliga qaytarish).
