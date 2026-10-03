@@ -50,7 +50,16 @@ const b64decode = b64 => decodeURIComponent(escape(atob(b64.replace(/\n/g, '')))
 
 async function getFile(path) {
   try {
-    return await gh(`/contents/${path}?ref=${GH.branch}&t=${Date.now()}`);
+    const f = await gh(`/contents/${path}?ref=${GH.branch}&t=${Date.now()}`);
+    // GitHub 1 MB dan katta faylning matnini bermaydi (content bo'sh, encoding 'none') — git blob orqali o'qiymiz.
+    // 2026-10-03: shu sabab data-custom.js «bo'sh» deb o'qilib, 980 ta kino ustidan yozib yuborilgan edi.
+    if (f && f.type === 'file' && f.size > 0 && (!f.content || f.encoding === 'none')) {
+      const b = await gh(`/git/blobs/${f.sha}`);
+      if (!b || !b.content) throw new Error(`${path} o‘qilmadi (${f.size} bayt)`);
+      f.content = b.content;
+      f.encoding = b.encoding;
+    }
+    return f;
   } catch (e) {
     if (e.status === 404) return null;
     throw e;
@@ -75,6 +84,8 @@ async function loadCustom() {
   const text = b64decode(f.content);
   const m = text.match(/\/\*DATA\*\/([\s\S]*?)\/\*END\*\//);
   const h = text.match(/\/\*HIDDEN\*\/([\s\S]*?)\/\*ENDHIDDEN\*\//);
+  // fayl bor-u, ro'yxat topilmadi — bo'sh deb hisoblamaymiz (aks holda saqlashda hamma kino o'chib ketadi)
+  if (!m && f.size > 0) throw new Error('data-custom.js o‘qilmadi — saqlash to‘xtatildi. Sahifani yangilab, qayta urining.');
   customList = m ? JSON.parse(m[1]) : [];
   hiddenList = h ? JSON.parse(h[1]) : [];
 }
@@ -110,6 +121,10 @@ async function saveCustom(mutate, message) {
     await loadCustom();
     const hidden = [...hiddenList];
     const next = mutate(structuredClone(customList), hidden);
+    // himoya: bitta saqlashda ro'yxatning yarmidan ko'pi yo'qolsa — bu xato, yozmaymiz
+    if (customList.length > 40 && next.length < customList.length / 2) {
+      throw new Error(`Saqlash to‘xtatildi: ${customList.length} ta kinodan ${next.length} tasi qolardi. Sahifani yangilab, qayta urining.`);
+    }
     try {
       const res = await putFile(DATA_PATH, b64encode(buildDataFile(next, hidden)), message, dataSha);
       dataSha = res.content.sha;
