@@ -621,6 +621,24 @@ document.addEventListener('langchange', () => {
    Ochilgan sahifalar, kod va posterlar telefonda saqlanadi — internet yo'qolsa ham sayt/ilova ochiladi.
    Internet yo'q paytda tepada ogohlantirish va «Yuklab olinganlar»ga havola chiqadi. */
 const IS_APP = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+
+/* Televizor rejimi (pult bilan boshqarish — js/tvmode.js): Smart TV brauzeri / Tizen ilovasi o'zi aniqlanadi;
+   ?tv=1 — majburan yoqish (kompyuterda sinash uchun), ?tv=0 — o'chirish. Tanlov shu qurilmada eslab qolinadi. */
+const IS_TV = (() => {
+  try {
+    const q = new URLSearchParams(location.search).get('tv');
+    if (q === '1' || q === '0') localStorage.setItem('dzx_tv', q);
+    const saved = localStorage.getItem('dzx_tv');
+    if (saved) return saved === '1';
+  } catch (e) {}
+  return /Tizen|SMART-TV|SmartTV|Web0S|webOS|NetCast|HbbTV|BRAVIA|VIDAA|AFTB|AFTS|AFTT/i.test(navigator.userAgent);
+})();
+if (IS_TV) {
+  document.documentElement.classList.add('tv-mode');
+  const s = document.createElement('script');
+  s.src = 'js/tvmode.js?v=' + ((document.querySelector('script[src*="js/common.js"]')?.src.match(/v=(\d+)/) || [])[1] || '1');
+  document.head.appendChild(s);
+}
 (function () {
   try {
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {

@@ -6047,3 +6047,23 @@ img.soc-ava { object-fit: cover; padding: 0; background: var(--surface); }
 .offline-note-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 /* kino sahifasida pleyer o'rnida */
 .player-wrap > .offline-note { width: 100%; height: 100%; border-radius: 0; border: 0; box-shadow: none; justify-content: center; background: radial-gradient(circle at 50% 40%, #13202e, #07090d 70%); }
+
+/* ---------------- Televizor rejimi (js/tvmode.js): pult bilan tanlangan element yaqqol ko'rinsin ---------------- */
+html.tv-mode { cursor: none; scroll-behavior: smooth; }
+html.tv-mode :focus { outline: none; }
+html.tv-mode :focus-visible, html.tv-mode a:focus, html.tv-mode button:focus, html.tv-mode [tabindex]:focus, html.tv-mode input:focus {
+  outline: 4px solid #4cb8f0; outline-offset: 4px; border-radius: 12px; box-shadow: 0 0 0 10px rgba(76, 184, 240, .18), 0 12px 40px rgba(0, 0, 0, .55);
+}
+html.tv-mode .card { transition: transform .18s ease; }
+html.tv-mode .card:focus { transform: scale(1.08); z-index: 3; position: relative; outline-offset: 2px; }
+html.tv-mode .card:focus .card-overlay { opacity: 1; }
+/* pleyer tugmalari: fokus — oq halqa */
+html.tv-mode .vp-ui button:focus, html.tv-mode .vp-ui input:focus { outline: 3px solid #fff; outline-offset: 3px; box-shadow: none; }
+html.tv-mode .player-wrap.ytp:focus { outline: none; box-shadow: none; }
+/* televizorda pastki telefon menyusi kerak emas */
+html.tv-mode .tabbar { display: none !important; }
+html.tv-mode body { padding-bottom: 0; }
+/* katta ekranda o'qish uchun matn biroz kattaroq */
+@media (min-width: 1200px) { html.tv-mode { font-size: 17px; } }
+/* qator strelkalari televizorda kerak emas — pult bilan kartochkalarning o'zi suriladi */
+html.tv-mode .row-nav { display: none !important; }

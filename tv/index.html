@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>DezoMax</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #07080c; color: #e8ecf3; font-family: "Samsung One", "SamsungOne", Arial, sans-serif; overflow: hidden; }
+  .box { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 28px; }
+  .logo { font-size: 96px; font-weight: 900; letter-spacing: -.02em; }
+  .logo b { color: #38b6ff; }
+  .spin { width: 64px; height: 64px; border-radius: 50%; border: 6px solid rgba(255,255,255,.15); border-top-color: #38b6ff; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  h1 { margin: 0; font-size: 44px; }
+  p { margin: 0; max-width: 1100px; font-size: 30px; line-height: 1.5; color: #9aa4b5; }
+  button { margin-top: 12px; padding: 22px 56px; border: 0; border-radius: 999px; font-size: 30px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #0a93dc, #0668a8); }
+  button:focus { outline: 6px solid #fff; outline-offset: 6px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">DEZO<b>MAX</b></div>
+  <div class="spin" id="spin"></div>
+  <div id="off" hidden>
+    <h1>Internet yo‘q</h1>
+    <p>DezoMax’ni ko‘rish uchun televizorni internetga ulang (Sozlamalar → Umumiy → Tarmoq), keyin «Qayta urinish» tugmasini bosing.</p>
+    <button type="button" id="retry">Qayta urinish</button>
+  </div>
+</div>
+<script>
+  /* Sayt televizor rejimida ochiladi (?tv=1 → js/tvmode.js: pult bilan boshqarish).
+     Ilova o'zi kichkina — kinolar, dizayn va yangilanishlar saytdan keladi. */
+  var SITE = 'https://dezomax.uz/?tv=1';
+
+  // pultning media tugmalari (Play/Pause, ⏪, ⏩) — sayt ichida ham ishlashi uchun
+  try {
+    ['MediaPlayPause', 'MediaPlay', 'MediaPause', 'MediaStop', 'MediaRewind', 'MediaFastForward']
+      .forEach(function (k) { try { tizen.tvinputdevice.registerKey(k); } catch (e) {} });
+  } catch (e) {}
+
+  function open() {
+    document.getElementById('spin').hidden = false;
+    document.getElementById('off').hidden = true;
+    if (navigator.onLine === false) return offline();
+    // internet borligini tekshiramiz (aks holda televizor bo'sh xato oynasini ko'rsatadi)
+    var img = new Image(), done = false;
+    var t = setTimeout(function () { if (!done) { done = true; offline(); } }, 12000);
+    img.onload = function () { if (done) return; done = true; clearTimeout(t); location.replace(SITE); };
+    img.onerror = function () { if (done) return; done = true; clearTimeout(t); offline(); };
+    img.src = 'https://dezomax.uz/favicon.ico?t=' + Date.now();
+  }
+  function offline() {
+    document.getElementById('spin').hidden = true;
+    document.getElementById('off').hidden = false;
+    document.getElementById('retry').focus();
+  }
+  document.getElementById('retry').addEventListener('click', open);
+  document.addEventListener('keydown', function (e) {
+    if (e.keyCode === 13 && document.activeElement && document.activeElement.id === 'retry') open();
+    if (e.keyCode === 10009) { try { tizen.application.getCurrentApplication().exit(); } catch (er) {} }
+  });
+  window.addEventListener('online', open);
+  open();
+</script>
+</body>
+</html>
