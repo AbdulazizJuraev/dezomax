@@ -3505,6 +3505,3506 @@ const CUSTOM_MOVIES = /*DATA*/[
     "size": 1117546610,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 3081,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 9-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 9-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1Y_SoL7Y7zdS?s=gUixGemSrviVSY-ZhPSneH8a",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gUixGemSrviVSY-ZhPSneH8a",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 52,
+    "size": 1278040614,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3082,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 8-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 8-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/MGvtsvkIySO6?s=QxRvBQPU9ry4Chs1afxLYMAR",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/QxRvBQPU9ry4Chs1afxLYMAR",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 60,
+    "size": 1230822692,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3083,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 7-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 7-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/M83hHGxOsY-g?s=_wurh7EMOw4ZhJCkYU-kdHU_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/_wurh7EMOw4ZhJCkYU-kdHU_",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 59,
+    "size": 1060810065,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3084,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 6-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 6-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/E7De8_4kYwoR?s=myBs_LCaoxtdcf4Utyv23qen",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/myBs_LCaoxtdcf4Utyv23qen",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 54,
+    "size": 1007712959,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3085,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 5-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 5-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GzD1wgRIAxfI?s=u-Z6viLk_ckL-94v_pAQvYS-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/u-Z6viLk_ckL-94v_pAQvYS-",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 57,
+    "size": 850346711,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3086,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 4-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 4-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ijGAv-yvG0RV?s=28vpSamSjCS2strf91_J8tzw",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/28vpSamSjCS2strf91_J8tzw",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 50,
+    "size": 1057843626,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3087,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 3-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 3-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/K6mjg-_3Ke2J?s=u7Tt5sSLG5NdNotXRmuUpYu2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/u7Tt5sSLG5NdNotXRmuUpYu2",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 60,
+    "size": 998688098,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3088,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 2-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 2-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Xsq_EVLJqej9?s=cDPhu95BQI89m1n0582xgYoT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/cDPhu95BQI89m1n0582xgYoT",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 56,
+    "size": 1151906650,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3089,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 1-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n5-mavsum 1-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/BNkJeK-NwA4H?s=eYjM0YyNY7_ppEMQAO3-Bo4p",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eYjM0YyNY7_ppEMQAO3-Bo4p",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 52,
+    "size": 855500617,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3090,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 10-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay\n4-mavsum finali 👇",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 10-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay\n4-mavsum finali 👇"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/L926jXA_Foqh?s=dOCtfGn1H0O1H8v21md0q2CD",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/dOCtfGn1H0O1H8v21md0q2CD",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 65,
+    "size": 1146776732,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3091,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 9-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 9-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/HadjjU_8CfRm?s=Fkw_cMmRvRbIX82vGbqZ1laC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Fkw_cMmRvRbIX82vGbqZ1laC",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 51,
+    "size": 979207206,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3092,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 8-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 8-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/veVvFxo55A5E?s=mRBMx9jENmscunV_f1bozt0T",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mRBMx9jENmscunV_f1bozt0T",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 52,
+    "size": 885156388,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3093,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 7-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 7-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/xQGejTTHF5aV?s=oAFP9s7NBoM1N59jL65C9kpi",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/oAFP9s7NBoM1N59jL65C9kpi",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 51,
+    "size": 865873788,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3094,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 6-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 6-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/v0fYQXabyohK?s=gnWz4swFSkFH2vz_hKL8YDdP",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gnWz4swFSkFH2vz_hKL8YDdP",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 51,
+    "size": 892306358,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3095,
+    "slug": "taxtlar-oyini-game-of-thrones",
+    "type": "film",
+    "title": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)",
+      "ru": "##Taxtlar oʻyini (Game of thrones)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 5-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay",
+      "ru": "##Taxtlar oʻyini (Game of thrones)\n4-mavsum 5-qism\n\n🇺🇿Uzbek tilida (tv dublaj)\n🏇1080p BluRay"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Pz4f3tq_5mU9?s=jIlIIOi729g1Obqg_ZoHBJUH",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/jIlIIOi729g1Obqg_ZoHBJUH",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 53,
+    "size": 898383566,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3096,
+    "slug": "olja",
+    "type": "film",
+    "title": {
+      "uz": "O'lja",
+      "ru": "O'lja"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "O'lja",
+      "ru": "O'lja"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/MpK76-upovdy?s=TC-iuYe3Ahfzj9vUZVWoR2sK",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/TC-iuYe3Ahfzj9vUZVWoR2sK",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 93,
+    "size": 1962618381,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3097,
+    "slug": "terminator-5-genezis",
+    "type": "film",
+    "title": {
+      "uz": "« Terminator-5: Genezis",
+      "ru": "« Terminator-5: Genezis"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "« Terminator-5: Genezis",
+      "ru": "« Terminator-5: Genezis"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mdJKOElN6X_a?s=Yyh3brPpI367_1PTooCZ_tGh",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Yyh3brPpI367_1PTooCZ_tGh",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 126,
+    "size": 1558469415,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3098,
+    "slug": "gullagan-oy-qotillari",
+    "type": "film",
+    "title": {
+      "uz": "GULLAGAN OY QOTILLARI",
+      "ru": "GULLAGAN OY QOTILLARI"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 GULLAGAN OY QOTILLARI\n\n1920-yillarda Oklahomadagi oseyj qabilasi hindulari o‘z yerlaridan neft topilishi ortidan juda boyib ketishadi. \n\nUlarning boyligini qo‘lga kiritishni istagan yirik fermer Uilyam Xeyl jiyan Ernest Berkhartni boy hindu qizi Molli Kaylga uylantiradi. Shundan so‘ng, Mollining oila a’zolari va qabila vakillari birin-ketin sirli ravishda o‘ldirila boshlaydi. \n\nFQB (Federal Qidiruv Byurosi) surishtiruv o‘tkazib, barcha qotilliklar ortida neft boyligiga ega chiqmoqchi bo‘lgan Uilyam Xeyl va xiyonatkor turmush o‘rtoq Ernest turganini fosh qiladi.\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: ",
+      "ru": "📺 GULLAGAN OY QOTILLARI\n\n1920-yillarda Oklahomadagi oseyj qabilasi hindulari o‘z yerlaridan neft topilishi ortidan juda boyib ketishadi. \n\nUlarning boyligini qo‘lga kiritishni istagan yirik fermer Uilyam Xeyl jiyan Ernest Berkhartni boy hindu qizi Molli Kaylga uylantiradi. Shundan so‘ng, Mollining oila a’zolari va qabila vakillari birin-ketin sirli ravishda o‘ldirila boshlaydi. \n\nFQB (Federal Qidiruv Byurosi) surishtiruv o‘tkazib, barcha qotilliklar ortida neft boyligiga ega chiqmoqchi bo‘lgan Uilyam Xeyl va xiyonatkor turmush o‘rtoq Ernest turganini fosh qiladi.\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: "
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/qRajqfodjcX2?s=6CgBRwYtGj5Pd6MSN_SN1AlW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/6CgBRwYtGj5Pd6MSN_SN1AlW",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 210,
+    "size": 1688851564,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3099,
+    "slug": "sher-zarbasi-premyera",
+    "type": "film",
+    "title": {
+      "uz": "SHER ZARBASI (Premyera)",
+      "ru": "SHER ZARBASI (Premyera)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 SHER ZARBASI (Premyera)\n\nBosh qahramon Jo rafiqasining jinoyatini o'z bo'yniga olib, 4 yil qamoqda o'tiradi.\n\nOzodlikka chiqqach, u o'g'li og'ir xastalik (o'sma) bilan kasallanganini va unga qimmat operatsiya kerakligini biladi.\n\nPul topish uchun Jo 100 000 dollar mukofot qo'yilgan, qoidalarsiz shafqatsiz jangovar turnirga qatnashishga majbur bo'ladi.\n\nU qattiq tayyorgarlik ko'rib, o'g'lining hayoti uchun dunyoning eng xavfli jangchilariga qarshi maydonga tushadi\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: Jangari, Drama\n📆 Premyera: 2026-yil",
+      "ru": "📺 SHER ZARBASI (Premyera)\n\nBosh qahramon Jo rafiqasining jinoyatini o'z bo'yniga olib, 4 yil qamoqda o'tiradi.\n\nOzodlikka chiqqach, u o'g'li og'ir xastalik (o'sma) bilan kasallanganini va unga qimmat operatsiya kerakligini biladi.\n\nPul topish uchun Jo 100 000 dollar mukofot qo'yilgan, qoidalarsiz shafqatsiz jangovar turnirga qatnashishga majbur bo'ladi.\n\nU qattiq tayyorgarlik ko'rib, o'g'lining hayoti uchun dunyoning eng xavfli jangchilariga qarshi maydonga tushadi\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: Jangari, Drama\n📆 Premyera: 2026-yil"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/J2CmDKia5_5u?s=shMRX-kvwMyP_YWVVg7naZDe",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/shMRX-kvwMyP_YWVVg7naZDe",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 91,
+    "size": 737646902,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3100,
+    "slug": "qahr-soqmogi",
+    "type": "film",
+    "title": {
+      "uz": "QAHR SO'QMOG'I",
+      "ru": "QAHR SO'QMOG'I"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 QAHR SO'QMOG'I\n\nSobiq chegarachi Sergey Markov odamlardan uzoqda, deyarli yolg'izlikda hayot kechiradi.\n\nUning qizi Tojikiston tog'larida bedarak yo'qolib qoladi. Qizini qutqarish uchun Sergey o'z yoshligi o'tgan, 1998-yilda xizmat qilgan tojik-afg'on chegarasiga qaytishga majbur bo'ladi.\n\nQizini qidirish jarayonida u nafaqat jinoiy guruhlar bilan to'qnashadi, balki o'tmishdagi \"arvohlar\" — eski dushmanlar, xiyonat va bitmagan yaralar bilan yuzma-yuz keladi.\n\nFilmda detektiv unsurlar, mistik savollar va shafqatsiz qasos mavzulari uyg'unlashib ketgan.\n🇷🇺 Davlati: Rossiya\n🎥 Janr: Jangari, ",
+      "ru": "📺 QAHR SO'QMOG'I\n\nSobiq chegarachi Sergey Markov odamlardan uzoqda, deyarli yolg'izlikda hayot kechiradi.\n\nUning qizi Tojikiston tog'larida bedarak yo'qolib qoladi. Qizini qutqarish uchun Sergey o'z yoshligi o'tgan, 1998-yilda xizmat qilgan tojik-afg'on chegarasiga qaytishga majbur bo'ladi.\n\nQizini qidirish jarayonida u nafaqat jinoiy guruhlar bilan to'qnashadi, balki o'tmishdagi \"arvohlar\" — eski dushmanlar, xiyonat va bitmagan yaralar bilan yuzma-yuz keladi.\n\nFilmda detektiv unsurlar, mistik savollar va shafqatsiz qasos mavzulari uyg'unlashib ketgan.\n🇷🇺 Davlati: Rossiya\n🎥 Janr: Jangari, "
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/U44mBcq-x5SV?s=gc_4hWvaH57JDxnDTTYSiPVb",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gc_4hWvaH57JDxnDTTYSiPVb",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 90,
+    "size": 643812128,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3101,
+    "slug": "yolgiz-jangchi-premyera",
+    "type": "film",
+    "title": {
+      "uz": "YOLG'IZ JANGCHI (Premyera)",
+      "ru": "YOLG'IZ JANGCHI (Premyera)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 YOLG'IZ JANGCHI (Premyera)\n\nSirlarga boy o'tmishga ega sobiq maxsus kuchlar jangchisi kichik bir shaharchaga keladi. Shaharcha aholisi shafqatsiz jinoiy guruh boshlig'i va korrupsioner sherif zulmi ostida yashayotgan bo'ladi. Bosh qahramon o'z gunohlarini yuvish va adolat o'rnatish uchun bu to'daga qarshi bir o'zi shafqatsiz urush boshlaydi.\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: Jangari, Triller\n📆 Premyera: 2026-yil",
+      "ru": "📺 YOLG'IZ JANGCHI (Premyera)\n\nSirlarga boy o'tmishga ega sobiq maxsus kuchlar jangchisi kichik bir shaharchaga keladi. Shaharcha aholisi shafqatsiz jinoiy guruh boshlig'i va korrupsioner sherif zulmi ostida yashayotgan bo'ladi. Bosh qahramon o'z gunohlarini yuvish va adolat o'rnatish uchun bu to'daga qarshi bir o'zi shafqatsiz urush boshlaydi.\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: Jangari, Triller\n📆 Premyera: 2026-yil"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/H_ASf7jWwoTn?s=rESR0j_GVlOHcPqCnL-RDFBn",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/rESR0j_GVlOHcPqCnL-RDFBn",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 95,
+    "size": 666615678,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3102,
+    "slug": "majburiy-sheriklar-premyera",
+    "type": "film",
+    "title": {
+      "uz": "MAJBURIY SHERIKLAR (Premyera)",
+      "ru": "MAJBURIY SHERIKLAR (Premyera)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 MAJBURIY SHERIKLAR (Premyera)\n\nNarkotiklarga qarshi kurash detektivi Xvang Chun Sik yirik jinoyatchini ushlagan kunining o'zida uning sobiq xotini o'g'irlab ketiladi. Ayolni qutqarish uchun u o'zining mutlaqo aksi bo'lgan odam — ayolning hozirgi eri, veterinar Li Min Sok bilan hamkorlik qilishga majbur bo'ladi. Bir-birini yoqtirmaydigan ikki er rashk va kelishmovchiliklarni chetga surib, xavfli va kulgili qutqaruv operatsiyasini boshlashadi.\n\n🇰🇷 Davlati: Janubiy Koreya\n🎥 Janr: Jangari, Komediya\n📆 Premyera: 2026-yil\n⭐️ Reyting IMDB: 6.2/10",
+      "ru": "📺 MAJBURIY SHERIKLAR (Premyera)\n\nNarkotiklarga qarshi kurash detektivi Xvang Chun Sik yirik jinoyatchini ushlagan kunining o'zida uning sobiq xotini o'g'irlab ketiladi. Ayolni qutqarish uchun u o'zining mutlaqo aksi bo'lgan odam — ayolning hozirgi eri, veterinar Li Min Sok bilan hamkorlik qilishga majbur bo'ladi. Bir-birini yoqtirmaydigan ikki er rashk va kelishmovchiliklarni chetga surib, xavfli va kulgili qutqaruv operatsiyasini boshlashadi.\n\n🇰🇷 Davlati: Janubiy Koreya\n🎥 Janr: Jangari, Komediya\n📆 Premyera: 2026-yil\n⭐️ Reyting IMDB: 6.2/10"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/f9xYc-uSxXfT?s=e8Iq4wTAFcdVJo_LcSZhS6jH",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/e8Iq4wTAFcdVJo_LcSZhS6jH",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 110,
+    "size": 1097128601,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3103,
+    "slug": "olim-chehrasi",
+    "type": "film",
+    "title": {
+      "uz": "O'LIM CHEHRASI",
+      "ru": "O'LIM CHEHRASI"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 O'LIM CHEHRASI\n\nVideoplatformada taqiqlangan va shafqatsiz videolarni oʻchiruvchi ayol moderator.\n\nU tarmoqda 1978-yilgi original filmdagi oʻlim sahnalarini aniq takrorlayotgan sirli videolarga duch keladi.\n\nModerator videolarni oʻrganar ekan, ularning qayeri sahnalashtirilgan tomosha va qayeri haqiqiy qotillik ekanligini ajratolmay qoladi va dahshatli oʻyin ichiga tushib qoladi.\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: Qo'rqinchli, Saspens\n📆 Premyera: 2026-yil",
+      "ru": "📺 O'LIM CHEHRASI\n\nVideoplatformada taqiqlangan va shafqatsiz videolarni oʻchiruvchi ayol moderator.\n\nU tarmoqda 1978-yilgi original filmdagi oʻlim sahnalarini aniq takrorlayotgan sirli videolarga duch keladi.\n\nModerator videolarni oʻrganar ekan, ularning qayeri sahnalashtirilgan tomosha va qayeri haqiqiy qotillik ekanligini ajratolmay qoladi va dahshatli oʻyin ichiga tushib qoladi.\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: Qo'rqinchli, Saspens\n📆 Premyera: 2026-yil"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/KsuzS18eq2R1?s=e4daVxR3KHQRwFYMXOWGlLLC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/e4daVxR3KHQRwFYMXOWGlLLC",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 97,
+    "size": 691931502,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3104,
+    "slug": "to-liq-talqinda",
+    "type": "film",
+    "title": {
+      "uz": "Toʼliq talqinda",
+      "ru": "Toʼliq talqinda"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Toʼliq talqinda ☝️✅",
+      "ru": "Toʼliq talqinda ☝️✅"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/CqtSuh8Hyh7h?s=mXKw7HN-K5yFS32GR5R7VP7Q",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mXKw7HN-K5yFS32GR5R7VP7Q",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 1,
+    "size": 2826996,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3105,
+    "slug": "aqn9tqmnvfmkr-kbhauuxttwrha3m6xykqn1lna-xkk8ovvpbpq44vefehwd",
+    "type": "film",
+    "title": {
+      "uz": "AQN9tQmnvfMcR cbhAUUxTtWrha3M6xYcqN1LNA XCK8oVvpbPq44vEFeHwDI7X",
+      "ru": "AQN9tQmnvfMcR cbhAUUxTtWrha3M6xYcqN1LNA XCK8oVvpbPq44vEFeHwDI7X"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "",
+      "ru": ""
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/qFQSr68xZwqZ?s=mp9pSHuVa7HNk36_ev7fVOc_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mp9pSHuVa7HNk36_ev7fVOc_",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 1,
+    "size": 4950259,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3106,
+    "slug": "ouk-strit-kochasining-oxiri-premyera",
+    "type": "film",
+    "title": {
+      "uz": "OUK STRIT KO'CHASINING OXIRI (Premyera)",
+      "ru": "OUK STRIT KO'CHASINING OXIRI (Premyera)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "📺 OUK STRIT KO'CHASINING OXIRI (Premyera)\n\n1982-yilda tinchgina Oak Street mahallasi sirli kosmik anomaliya sababli boshqa vaqt va noma'lum makonga ko'chib qoladi. \n\nTashqi dunyodan uzilib qolgan Plattlar oilasi o'z uylari atrofida yura davri dinozavrlari yurganini ko'rib, vahshiy yirtqichlar orasida omon qolish va uyga qaytish yo'lini izlashga majbur bo'ladi.\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: Ilmiy Fantastika, Sarguzasht\n📆 Premyera: 2026-yil\n⭐️ Reyting IMDB: 6.3/10",
+      "ru": "📺 OUK STRIT KO'CHASINING OXIRI (Premyera)\n\n1982-yilda tinchgina Oak Street mahallasi sirli kosmik anomaliya sababli boshqa vaqt va noma'lum makonga ko'chib qoladi. \n\nTashqi dunyodan uzilib qolgan Plattlar oilasi o'z uylari atrofida yura davri dinozavrlari yurganini ko'rib, vahshiy yirtqichlar orasida omon qolish va uyga qaytish yo'lini izlashga majbur bo'ladi.\n\n🇺🇸 Davlati: AQSH\n🎥 Janr: Ilmiy Fantastika, Sarguzasht\n📆 Premyera: 2026-yil\n⭐️ Reyting IMDB: 6.3/10"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/gfFgqU0fCUiu?s=gRakM5Zayq83OG5XmhWGGjxE",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gRakM5Zayq83OG5XmhWGGjxE",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 94,
+    "size": 970124989,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3107,
+    "slug": "nomi-jonli-gazab",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Jonli g’azab",
+      "ru": "Nomi: Jonli g’azab"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Jonli g’azab\n\n🗓️ Yili: 2026\n📹 Sifati: 1080p | Full HD\n⭐️ IMDb: 7.5/10\n🌍 Davlati: GonKong, Xitoy\n🇺🇿 Tili: O’zbek tilida\n🎭 Janri: , , \n----------------------",
+      "ru": "🎬 Nomi: Jonli g’azab\n\n🗓️ Yili: 2026\n📹 Sifati: 1080p | Full HD\n⭐️ IMDb: 7.5/10\n🌍 Davlati: GonKong, Xitoy\n🇺🇿 Tili: O’zbek tilida\n🎭 Janri: , , \n----------------------"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/a80S7spwAWIs?s=QIVJXvlTr0ndAgdQK-GDTFXk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/QIVJXvlTr0ndAgdQK-GDTFXk",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 107,
+    "size": 2262826445,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3108,
+    "slug": "ruxshunos-139-songi-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 139 SO'NGI QSIM",
+      "ru": "RUXSHUNOS 139 SO'NGI QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 139 SO'NGI QSIM",
+      "ru": "RUXSHUNOS 139 SO'NGI QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/yQZv1fmhOsVe?s=JNDuedQjJ_WL2TuNIKcS7sVG",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/JNDuedQjJ_WL2TuNIKcS7sVG",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 40,
+    "size": 182604768,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3109,
+    "slug": "ruxshunos-138-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 138 QSIM",
+      "ru": "RUXSHUNOS 138 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 138 QSIM",
+      "ru": "RUXSHUNOS 138 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/8gt3frd3cQKm?s=AsUNKCdEGSteHHRM24bJsRcT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/AsUNKCdEGSteHHRM24bJsRcT",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 144678809,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3110,
+    "slug": "ruxshunos-137-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 137 QSIM",
+      "ru": "RUXSHUNOS 137 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 137 QSIM",
+      "ru": "RUXSHUNOS 137 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/lIPHyNDvWX3X?s=OMrwjo-vZXVmSfmsFKrv_7Tq",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/OMrwjo-vZXVmSfmsFKrv_7Tq",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 40,
+    "size": 169607782,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3111,
+    "slug": "ruxshunos-136-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 136 QSIM",
+      "ru": "RUXSHUNOS 136 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 136 QSIM",
+      "ru": "RUXSHUNOS 136 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ei2tmemOJNdQ?s=drX-fxFhhLZZ5rKspwYgsKB4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/drX-fxFhhLZZ5rKspwYgsKB4",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 40,
+    "size": 166751640,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3112,
+    "slug": "ruxshunos-135-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 135 QSIM",
+      "ru": "RUXSHUNOS 135 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 135 QSIM",
+      "ru": "RUXSHUNOS 135 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/erU35tF89q3Y?s=LJxvKjr8mRMn4b97xSgY4hcL",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/LJxvKjr8mRMn4b97xSgY4hcL",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 40,
+    "size": 178505836,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3113,
+    "slug": "ruxshunos-134-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 134 QSIM",
+      "ru": "RUXSHUNOS 134 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 134 QSIM",
+      "ru": "RUXSHUNOS 134 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/oa5IbxnH-61v?s=151wve0aDMzfnQf8iWeDS_dC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/151wve0aDMzfnQf8iWeDS_dC",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 178814910,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3114,
+    "slug": "ruxshunos-133-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 133 QSIM",
+      "ru": "RUXSHUNOS 133 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 133 QSIM",
+      "ru": "RUXSHUNOS 133 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/h-b0dY1pQdqd?s=ac8RsJ8U4NvQomNT4fv_CZZ9",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ac8RsJ8U4NvQomNT4fv_CZZ9",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 155502594,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3115,
+    "slug": "ruxshunos-132-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 132 QSIM",
+      "ru": "RUXSHUNOS 132 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 132 QSIM",
+      "ru": "RUXSHUNOS 132 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/8UBOfoOzwfkF?s=b6-2DDU20K_ix2dN12pFCDvS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/b6-2DDU20K_ix2dN12pFCDvS",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 181106582,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3116,
+    "slug": "ruxshunos-131-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 131 QSIM",
+      "ru": "RUXSHUNOS 131 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 131 QSIM",
+      "ru": "RUXSHUNOS 131 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/3-vcJYqdwGli?s=ExpFpzAw6Q1VfiKIKFuLjfQs",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ExpFpzAw6Q1VfiKIKFuLjfQs",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 167716445,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3117,
+    "slug": "ruxshunos-130-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 130 QSIM",
+      "ru": "RUXSHUNOS 130 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 130 QSIM",
+      "ru": "RUXSHUNOS 130 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/j_hm8PbhuAcb?s=ulZVUx8yQG4KkAkIdd55a2Ii",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ulZVUx8yQG4KkAkIdd55a2Ii",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 203567974,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3118,
+    "slug": "ruxshunos-129-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 129 QSIM",
+      "ru": "RUXSHUNOS 129 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 129 QSIM",
+      "ru": "RUXSHUNOS 129 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1NheY3keJMBM?s=_IsvGAmNNUFtXbAD_KRRAwH4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/_IsvGAmNNUFtXbAD_KRRAwH4",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 197943876,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3119,
+    "slug": "ruxshunos-128-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 128 QSIM",
+      "ru": "RUXSHUNOS 128 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 128 QSIM",
+      "ru": "RUXSHUNOS 128 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ecNW0tt99Osw?s=VUUlnlmAMcfLb7IUji2HpKFC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/VUUlnlmAMcfLb7IUji2HpKFC",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 195603181,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3120,
+    "slug": "ruxshunos-127-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 127 QSIM",
+      "ru": "RUXSHUNOS 127 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 127 QSIM",
+      "ru": "RUXSHUNOS 127 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/OQSs50Vykbbb?s=YBHc3TrjbUf_Ma8wcUqcxogM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/YBHc3TrjbUf_Ma8wcUqcxogM",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 213329299,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3121,
+    "slug": "ruxshunos-126-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 126 QSIM",
+      "ru": "RUXSHUNOS 126 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 126 QSIM",
+      "ru": "RUXSHUNOS 126 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Ya91dF22MW-C?s=mUz2I6C2zO_PdB5VUtmYiSDA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mUz2I6C2zO_PdB5VUtmYiSDA",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 171738443,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3122,
+    "slug": "ruxshunos-125-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 125 QSIM",
+      "ru": "RUXSHUNOS 125 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 125 QSIM",
+      "ru": "RUXSHUNOS 125 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/bn5Te6A90HV2?s=xsOM_GaiNW0WL3FmBhVRSR-s",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/xsOM_GaiNW0WL3FmBhVRSR-s",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 208580079,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3123,
+    "slug": "ruxshunos-124-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 124 QSIM",
+      "ru": "RUXSHUNOS 124 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 124 QSIM",
+      "ru": "RUXSHUNOS 124 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Tl5WJpzsvxk8?s=jJHmIWNU2jhAIV7Cd-UqUSP-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/jJHmIWNU2jhAIV7Cd-UqUSP-",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 174621888,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3124,
+    "slug": "ruxshunos-123-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 123 QSIM",
+      "ru": "RUXSHUNOS 123 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 123 QSIM",
+      "ru": "RUXSHUNOS 123 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nBy6MY7psWqL?s=A3x1WiwAguX6OjOr0Dq1X4aV",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/A3x1WiwAguX6OjOr0Dq1X4aV",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 194269438,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3125,
+    "slug": "ruxshunos-122-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 122 QSIM",
+      "ru": "RUXSHUNOS 122 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 122 QSIM",
+      "ru": "RUXSHUNOS 122 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DXbjcLoXlwbc?s=JObDoglcm2__JuQmb-n8W2J1",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/JObDoglcm2__JuQmb-n8W2J1",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 200368745,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3126,
+    "slug": "ruxshunos-121-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 121 QSIM",
+      "ru": "RUXSHUNOS 121 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 121 QSIM",
+      "ru": "RUXSHUNOS 121 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GMRoOnV0QWzt?s=njMvxBh0eUNvlNS70i4ZRiZS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/njMvxBh0eUNvlNS70i4ZRiZS",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 230328324,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3127,
+    "slug": "ruxshunos-120-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 120 QSIM",
+      "ru": "RUXSHUNOS 120 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 120 QSIM",
+      "ru": "RUXSHUNOS 120 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Efx1CgoDvlbw?s=Qjf3LOBT-OV6C4fvCpG3vEcd",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Qjf3LOBT-OV6C4fvCpG3vEcd",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 317520318,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3128,
+    "slug": "ruxshunos-119-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 119 QSIM",
+      "ru": "RUXSHUNOS 119 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 119 QSIM",
+      "ru": "RUXSHUNOS 119 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mRrJzSI7zAYs?s=uMPGPu6EMv2Cgn87dE6aDOGv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/uMPGPu6EMv2Cgn87dE6aDOGv",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 215255978,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3129,
+    "slug": "ruxshunos-118-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 118 QSIM",
+      "ru": "RUXSHUNOS 118 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 118 QSIM",
+      "ru": "RUXSHUNOS 118 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/bpqb0587xqyP?s=Sr9Zzpt_BTxz-XBlwxvZ3OTX",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Sr9Zzpt_BTxz-XBlwxvZ3OTX",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 191590670,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3130,
+    "slug": "ruxshunos-117-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 117 QSIM",
+      "ru": "RUXSHUNOS 117 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 117 QSIM",
+      "ru": "RUXSHUNOS 117 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GwuFPRY8Nyez?s=XCCXbMTFo2OSynMQIwz8W3CT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XCCXbMTFo2OSynMQIwz8W3CT",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 213567439,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3131,
+    "slug": "ruxshunos-116-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 116 QSIM",
+      "ru": "RUXSHUNOS 116 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 116 QSIM",
+      "ru": "RUXSHUNOS 116 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PU1wzed9D46P?s=SwvFITt_WVRhGS2JKOqf4Ln8",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/SwvFITt_WVRhGS2JKOqf4Ln8",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 202269511,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3132,
+    "slug": "ruxshunos-115-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 115 QSIM",
+      "ru": "RUXSHUNOS 115 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 115 QSIM",
+      "ru": "RUXSHUNOS 115 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Xf7kS1xa2i40?s=n-wUjuj8zESNFT-qDb_ObgTh",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/n-wUjuj8zESNFT-qDb_ObgTh",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 205059524,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3133,
+    "slug": "ruxshunos-114-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 114 QSIM",
+      "ru": "RUXSHUNOS 114 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 114 QSIM",
+      "ru": "RUXSHUNOS 114 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YTgnquLc3z9r?s=lwuC0PxCHgJdW5DH2FlvIjNo",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/lwuC0PxCHgJdW5DH2FlvIjNo",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 200549764,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3134,
+    "slug": "ruxshunos-113-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 113 QSIM",
+      "ru": "RUXSHUNOS 113 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 113 QSIM",
+      "ru": "RUXSHUNOS 113 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/lDx1knDs_e_u?s=D5KKsRX_qLrQLi61iXswZbyC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/D5KKsRX_qLrQLi61iXswZbyC",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 189025919,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3135,
+    "slug": "ruxshunos-112-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 112 QSIM",
+      "ru": "RUXSHUNOS 112 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 112 QSIM",
+      "ru": "RUXSHUNOS 112 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/6ovFu5udn5Uh?s=vt8R2SFmQsH8HUDTUWdLD_jS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/vt8R2SFmQsH8HUDTUWdLD_jS",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 40,
+    "size": 157352758,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3136,
+    "slug": "ruxshunos-111-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 111 QSIM",
+      "ru": "RUXSHUNOS 111 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 111 QSIM",
+      "ru": "RUXSHUNOS 111 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ld_Z7u88ay8F?s=EmbgJrKvORIzHkg4Z8g6qxlQ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/EmbgJrKvORIzHkg4Z8g6qxlQ",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 202255806,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3137,
+    "slug": "ruxshunos-110-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 110 QSIM",
+      "ru": "RUXSHUNOS 110 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 110 QSIM",
+      "ru": "RUXSHUNOS 110 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/hVVmfBzG2KXW?s=qTGCzb68I5pKNR-TX4gYNN2s",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qTGCzb68I5pKNR-TX4gYNN2s",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 194860168,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3138,
+    "slug": "ruxshunos-109-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 109 QSIM",
+      "ru": "RUXSHUNOS 109 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 109 QSIM",
+      "ru": "RUXSHUNOS 109 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_hirQIwO0ee-?s=AUocpijJBg2cQZu0uLvBpan2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/AUocpijJBg2cQZu0uLvBpan2",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 212955848,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3139,
+    "slug": "ruxshunos-108-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 108 QSIM",
+      "ru": "RUXSHUNOS 108 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 108 QSIM",
+      "ru": "RUXSHUNOS 108 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/WV5Pf95TcpQG?s=3EAy43XFV1M2-vCNM1OsEAhb",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/3EAy43XFV1M2-vCNM1OsEAhb",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 195732615,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3140,
+    "slug": "ruxshunos-107-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 107 QSIM",
+      "ru": "RUXSHUNOS 107 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 107 QSIM",
+      "ru": "RUXSHUNOS 107 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DEHSHZm7PgGD?s=pmUJEvN3wjX68dMk2WZ5WZVO",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/pmUJEvN3wjX68dMk2WZ5WZVO",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 204963622,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3141,
+    "slug": "ruxshunos-106-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 106 QSIM",
+      "ru": "RUXSHUNOS 106 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 106 QSIM",
+      "ru": "RUXSHUNOS 106 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ZBHEMvH2El9M?s=CXOr-TsWvjpZ_cUggx1W9rcX",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/CXOr-TsWvjpZ_cUggx1W9rcX",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 183531467,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3142,
+    "slug": "ruxshunos-105-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 105 QSIM",
+      "ru": "RUXSHUNOS 105 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 105 QSIM",
+      "ru": "RUXSHUNOS 105 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/9ynTdEx6Y4Xp?s=YiZSGtrRVs7_jEdk7Q_2bXHW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/YiZSGtrRVs7_jEdk7Q_2bXHW",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 198378636,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3143,
+    "slug": "ruxshunos-104-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 104 QSIM",
+      "ru": "RUXSHUNOS 104 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 104 QSIM",
+      "ru": "RUXSHUNOS 104 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/UsHduE47ONzr?s=6lPPTRYyFp_OVWTymVIapqJV",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/6lPPTRYyFp_OVWTymVIapqJV",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 184732935,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3144,
+    "slug": "ruxshunos-103-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 103 QSIM",
+      "ru": "RUXSHUNOS 103 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 103 QSIM",
+      "ru": "RUXSHUNOS 103 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/RW77CliEjkHe?s=xWrnldfhHrFH_nehpgjCDMJT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/xWrnldfhHrFH_nehpgjCDMJT",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 190402311,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3145,
+    "slug": "ruxshunos-102-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 102 QSIM",
+      "ru": "RUXSHUNOS 102 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 102 QSIM",
+      "ru": "RUXSHUNOS 102 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/OOgN5RXdRCgX?s=OGHYlio2uBYCCnOhuaSrbnn5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/OGHYlio2uBYCCnOhuaSrbnn5",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 204273304,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3146,
+    "slug": "ruxshunos-101-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 101 QSIM",
+      "ru": "RUXSHUNOS 101 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 101 QSIM",
+      "ru": "RUXSHUNOS 101 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/lbm16kMZcwp8?s=8tu8kiHZAFr9qAkzXaCWwmnr",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/8tu8kiHZAFr9qAkzXaCWwmnr",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 193692427,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3147,
+    "slug": "ruxshunos-100-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 100 QSIM",
+      "ru": "RUXSHUNOS 100 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 100 QSIM",
+      "ru": "RUXSHUNOS 100 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/6jdi3X-vO9x9?s=MEbjBW-usJ_PJRavGecveHsz",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/MEbjBW-usJ_PJRavGecveHsz",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 206452457,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3148,
+    "slug": "ruxshunos-99-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 99 QSIM",
+      "ru": "RUXSHUNOS 99 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 99 QSIM",
+      "ru": "RUXSHUNOS 99 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Xfykspjzhd8m?s=G9wObqDk7XsHaWjkjHHOt8Dy",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/G9wObqDk7XsHaWjkjHHOt8Dy",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 215890271,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3149,
+    "slug": "ruxshunos-98-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 98 QSIM",
+      "ru": "RUXSHUNOS 98 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 98 QSIM",
+      "ru": "RUXSHUNOS 98 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/3o8Vyn5XP685?s=9aP85QyU6aMGLL1PWFz_Onex",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/9aP85QyU6aMGLL1PWFz_Onex",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 220900303,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3150,
+    "slug": "ruxshunos-97-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 97 QSIM",
+      "ru": "RUXSHUNOS 97 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 97 QSIM",
+      "ru": "RUXSHUNOS 97 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/FAQdskk-Mh8w?s=rS1nJa7LGyFnCtJ15BEoleL0",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/rS1nJa7LGyFnCtJ15BEoleL0",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 213550128,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3151,
+    "slug": "ruxshunos-96-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 96 QSIM",
+      "ru": "RUXSHUNOS 96 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 96 QSIM",
+      "ru": "RUXSHUNOS 96 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Eaa4JCy3EBsu?s=PFb6r56hHX1490a4EokMXhXc",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/PFb6r56hHX1490a4EokMXhXc",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 201810428,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3152,
+    "slug": "ruxshunos-95-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 95 QSIM",
+      "ru": "RUXSHUNOS 95 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 95 QSIM",
+      "ru": "RUXSHUNOS 95 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/0smZLWTaLVIo?s=VLOJcmUdRCn8G6bgQUPrF4N4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/VLOJcmUdRCn8G6bgQUPrF4N4",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 221422546,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3153,
+    "slug": "ruxshunos-94-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 94 QSIM",
+      "ru": "RUXSHUNOS 94 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 94 QSIM",
+      "ru": "RUXSHUNOS 94 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/drQH-7lBXA-d?s=ToHQtwyrBBy2htUnxAUVX_Ji",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ToHQtwyrBBy2htUnxAUVX_Ji",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 201674431,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3154,
+    "slug": "ruxshunos-93-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 93 QSIM",
+      "ru": "RUXSHUNOS 93 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 93 QSIM",
+      "ru": "RUXSHUNOS 93 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_Lu_APSUR-Z6?s=F9fhB9i07Z5DpNb3ORjqBaFF",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/F9fhB9i07Z5DpNb3ORjqBaFF",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 208384114,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3155,
+    "slug": "ruxshunos-92-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 92 QSIM",
+      "ru": "RUXSHUNOS 92 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 92 QSIM",
+      "ru": "RUXSHUNOS 92 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/5S59f6dOsmCt?s=IOL5oXTSKrvf5x6OO0oK5rN2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/IOL5oXTSKrvf5x6OO0oK5rN2",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 212345348,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3156,
+    "slug": "ruxshunos-91-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 91 QSIM",
+      "ru": "RUXSHUNOS 91 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 91 QSIM",
+      "ru": "RUXSHUNOS 91 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_4sAbZtbrc2L?s=Zwe0p7HmKX6LVj-22ByfKQYq",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Zwe0p7HmKX6LVj-22ByfKQYq",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 206539793,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3157,
+    "slug": "ruxshunos-90-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 90 QSIM",
+      "ru": "RUXSHUNOS 90 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 90 QSIM",
+      "ru": "RUXSHUNOS 90 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/SrPaV-DLfNNI?s=h07Ojm69VVPuBj2kle1gFpox",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/h07Ojm69VVPuBj2kle1gFpox",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 218976384,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3158,
+    "slug": "ruxshunos-89-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 89 QSIM",
+      "ru": "RUXSHUNOS 89 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 89 QSIM",
+      "ru": "RUXSHUNOS 89 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DAmGKz9vo4Sn?s=BtlZjXLfUSm3bXE8oPEH5OD_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/BtlZjXLfUSm3bXE8oPEH5OD_",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 214300648,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3159,
+    "slug": "ruxshunos-88-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 88 QSIM",
+      "ru": "RUXSHUNOS 88 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 88 QSIM",
+      "ru": "RUXSHUNOS 88 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/p5p-EgYvDIkc?s=2m3Jd0lXlTumSqS3x54D4gBh",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2m3Jd0lXlTumSqS3x54D4gBh",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 198094798,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3160,
+    "slug": "ruxshunos-87-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 87 QSIM",
+      "ru": "RUXSHUNOS 87 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 87 QSIM",
+      "ru": "RUXSHUNOS 87 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/NtqWLSL2tiL9?s=ahraK8KtOrHK9qVIw5J6oTMR",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ahraK8KtOrHK9qVIw5J6oTMR",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 180494988,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3161,
+    "slug": "ruxshunos-86-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 86 QSIM",
+      "ru": "RUXSHUNOS 86 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 86 QSIM",
+      "ru": "RUXSHUNOS 86 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/WlyRFk2YLKHp?s=Jk7YT9Jygs5nNPkLm2xEGrZ6",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Jk7YT9Jygs5nNPkLm2xEGrZ6",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 179381982,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3162,
+    "slug": "ruxshunos-85-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 85 QSIM",
+      "ru": "RUXSHUNOS 85 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 85 QSIM",
+      "ru": "RUXSHUNOS 85 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GRFR4rUxpMz4?s=Oft7R6GhpaLUJaYN50G1VPKB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Oft7R6GhpaLUJaYN50G1VPKB",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 37,
+    "size": 144728104,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3163,
+    "slug": "ruxshunos-84-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 84 QSIM",
+      "ru": "RUXSHUNOS 84 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 84 QSIM",
+      "ru": "RUXSHUNOS 84 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/I2BbG9k8MPh_?s=msIUeIg8oITMAovIDcVJC6kh",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/msIUeIg8oITMAovIDcVJC6kh",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 165560536,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3164,
+    "slug": "ruxshunos-83-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 83 QSIM",
+      "ru": "RUXSHUNOS 83 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 83 QSIM",
+      "ru": "RUXSHUNOS 83 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PTV7zarwZaon?s=Y1ndEjBIxka2xJJ5Bh3pMxFf",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Y1ndEjBIxka2xJJ5Bh3pMxFf",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 177293784,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3165,
+    "slug": "ruxshunos-82-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 82 QSIM",
+      "ru": "RUXSHUNOS 82 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 82 QSIM",
+      "ru": "RUXSHUNOS 82 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/i7ei4c9VPShD?s=LPScALxW8vASsWB23zTtqXQS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/LPScALxW8vASsWB23zTtqXQS",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 192906785,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3166,
+    "slug": "ruxshunos-81-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 81 QSIM",
+      "ru": "RUXSHUNOS 81 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 81 QSIM",
+      "ru": "RUXSHUNOS 81 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/tOI6k_7QmB4R?s=xZOenM9CS46Z0jE9v8qZj48X",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/xZOenM9CS46Z0jE9v8qZj48X",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 171857123,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3167,
+    "slug": "ruxshunos-80-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 80 QSIM",
+      "ru": "RUXSHUNOS 80 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 80 QSIM",
+      "ru": "RUXSHUNOS 80 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ruXE5ouZ2vcW?s=3zkgL2_-ZOJTR_H1p3c4gt7l",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/3zkgL2_-ZOJTR_H1p3c4gt7l",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 201380600,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3168,
+    "slug": "ruxshunos-79-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 79 QSIM",
+      "ru": "RUXSHUNOS 79 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 79 QSIM",
+      "ru": "RUXSHUNOS 79 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/7ag-890fQ44u?s=AqlXzW4Nxk6EjJhhH9EBLT2L",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/AqlXzW4Nxk6EjJhhH9EBLT2L",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 183535717,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3169,
+    "slug": "ruxshunos-78-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 78 QSIM",
+      "ru": "RUXSHUNOS 78 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 78 QSIM",
+      "ru": "RUXSHUNOS 78 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/6lanoX3304wE?s=FCHlAjtJmSHghz3Agi82qleQ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/FCHlAjtJmSHghz3Agi82qleQ",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 176473922,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3170,
+    "slug": "ruxshunos-77-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 77 QSIM",
+      "ru": "RUXSHUNOS 77 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 77 QSIM",
+      "ru": "RUXSHUNOS 77 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/m9K4iNrBKIkN?s=XdSGduBMJ-0xqF7x4hI4zsK_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XdSGduBMJ-0xqF7x4hI4zsK_",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 172493241,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3171,
+    "slug": "ruxshunos-76-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 76 QSIM",
+      "ru": "RUXSHUNOS 76 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 76 QSIM",
+      "ru": "RUXSHUNOS 76 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/e6K9Y5LP-8po?s=4Yh30VJAItzhl7B76Fk2Jpet",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/4Yh30VJAItzhl7B76Fk2Jpet",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 191193275,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3172,
+    "slug": "ruxshunos-75-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 75 QSIM",
+      "ru": "RUXSHUNOS 75 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 75 QSIM",
+      "ru": "RUXSHUNOS 75 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Bmgf7gaSDsRW?s=51CVMDWSTxZLkwfqlFmaCHvl",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/51CVMDWSTxZLkwfqlFmaCHvl",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 162334674,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3173,
+    "slug": "ruxshunos-74-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 74 QSIM",
+      "ru": "RUXSHUNOS 74 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 74 QSIM",
+      "ru": "RUXSHUNOS 74 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_4vwfnPSwgOA?s=EjP32BZrp5Pyq2YEPN2XHTvP",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/EjP32BZrp5Pyq2YEPN2XHTvP",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 198692130,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3174,
+    "slug": "ruxshunos-73-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 73 QSIM",
+      "ru": "RUXSHUNOS 73 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 73 QSIM",
+      "ru": "RUXSHUNOS 73 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/tAaIM6bz-hta?s=Qlfylep7RyIcbB6fQRj4NAex",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Qlfylep7RyIcbB6fQRj4NAex",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 41,
+    "size": 229873719,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3175,
+    "slug": "ruxshunos-72-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 72 QSIM",
+      "ru": "RUXSHUNOS 72 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 72 QSIM",
+      "ru": "RUXSHUNOS 72 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/G2Vo_2CqD_jV?s=L3GLoiuj-6WolNW_aFsLz83b",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/L3GLoiuj-6WolNW_aFsLz83b",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 31,
+    "size": 158913960,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3176,
+    "slug": "ruxshunos-71-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 71 QSIM",
+      "ru": "RUXSHUNOS 71 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 71 QSIM",
+      "ru": "RUXSHUNOS 71 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/sCzrEY0w7vyE?s=8Z5Yuce-ajenV5ZNy-DFt_ye",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/8Z5Yuce-ajenV5ZNy-DFt_ye",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 197901156,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3177,
+    "slug": "ruxshunos-70-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 70 QSIM",
+      "ru": "RUXSHUNOS 70 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 70 QSIM",
+      "ru": "RUXSHUNOS 70 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/MuDcsl8IE5SR?s=DNXz-vBMqH_XqkjcFBrUiaty",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/DNXz-vBMqH_XqkjcFBrUiaty",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 43,
+    "size": 196421972,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3178,
+    "slug": "ruxshunos-69-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 69 QSIM",
+      "ru": "RUXSHUNOS 69 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 69 QSIM",
+      "ru": "RUXSHUNOS 69 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Npuf6PYykWVI?s=MGkSy2LAp6_YJhdOPamrVo01",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/MGkSy2LAp6_YJhdOPamrVo01",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 185436770,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3179,
+    "slug": "ruxshunos-68-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 68 QSIM",
+      "ru": "RUXSHUNOS 68 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 68 QSIM",
+      "ru": "RUXSHUNOS 68 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/JnWfIw3UnQCW?s=ZtA0yfu_F0dJr5b99H6xeM57",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ZtA0yfu_F0dJr5b99H6xeM57",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 42,
+    "size": 195300234,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3180,
+    "slug": "ruxshunos-67-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 67 QSIM",
+      "ru": "RUXSHUNOS 67 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 67 QSIM",
+      "ru": "RUXSHUNOS 67 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/W6udE8gN2LO6?s=aPLCi8ZyaF-GnpQWJF25HYgC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/aPLCi8ZyaF-GnpQWJF25HYgC",
+    "featured": false,
+    "addedAt": 1791033886592,
+    "updatedAt": 1791033886592,
+    "duration": 40,
+    "size": 149815408,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[]/*ENDHIDDEN*/;
