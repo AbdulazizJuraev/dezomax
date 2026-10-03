@@ -7005,6 +7005,3506 @@ const CUSTOM_MOVIES = /*DATA*/[
     "size": 149815408,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 3181,
+    "slug": "ruxshunos-66-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 66 QSIM",
+      "ru": "RUXSHUNOS 66 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 66 QSIM",
+      "ru": "RUXSHUNOS 66 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/obJP-P_vi5W0?s=L6XPRhA5znNf_7uQ6zI53X-Q",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/L6XPRhA5znNf_7uQ6zI53X-Q",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 42,
+    "size": 208298530,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3182,
+    "slug": "ruxshunos-65-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 65 QSIM",
+      "ru": "RUXSHUNOS 65 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 65 QSIM",
+      "ru": "RUXSHUNOS 65 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/P9abZiruwa24?s=iQWi71KyshYjdBztIH7HNKCA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/iQWi71KyshYjdBztIH7HNKCA",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 41,
+    "size": 187931925,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3183,
+    "slug": "ruxshunos-64-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 64 QSIM",
+      "ru": "RUXSHUNOS 64 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 64 QSIM",
+      "ru": "RUXSHUNOS 64 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/iXZQHa_LYuvx?s=eF9xrR92l28ZqdVU7wB8u8xk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eF9xrR92l28ZqdVU7wB8u8xk",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 41,
+    "size": 172260320,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3184,
+    "slug": "ruxshunos-63-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 63 QSIM",
+      "ru": "RUXSHUNOS 63 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 63 QSIM",
+      "ru": "RUXSHUNOS 63 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/g_L4KxGlgIMP?s=LtEVCcq1xRzwa3Kt-wrppZ8_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/LtEVCcq1xRzwa3Kt-wrppZ8_",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 39,
+    "size": 146674756,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3185,
+    "slug": "ruxshunos-62-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 62 QSIM",
+      "ru": "RUXSHUNOS 62 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 62 QSIM",
+      "ru": "RUXSHUNOS 62 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/fkeqV7WhPBns?s=jgj2ecOOkLshNHM22Te_P9Ln",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/jgj2ecOOkLshNHM22Te_P9Ln",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 41,
+    "size": 183151808,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3186,
+    "slug": "ruxshunos-61-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 61 QSIM",
+      "ru": "RUXSHUNOS 61 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 61 QSIM",
+      "ru": "RUXSHUNOS 61 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GPcTZgPL0jEi?s=DVjRNO81XeRVjWJVm9xjBGEk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/DVjRNO81XeRVjWJVm9xjBGEk",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 41,
+    "size": 180069725,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3187,
+    "slug": "ruxshunos-60-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 60 QSIM",
+      "ru": "RUXSHUNOS 60 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 60 QSIM",
+      "ru": "RUXSHUNOS 60 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2bwOwwjaERJ3?s=qlQR18p4WT5BEZHw0FY3FN8n",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qlQR18p4WT5BEZHw0FY3FN8n",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 41,
+    "size": 183112801,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3188,
+    "slug": "ruxshunos-59-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 59 QSIM",
+      "ru": "RUXSHUNOS 59 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 59 QSIM",
+      "ru": "RUXSHUNOS 59 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/NDLMrgthZ7eY?s=0vtSpT8iN80LN3wtduFmKxkQ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/0vtSpT8iN80LN3wtduFmKxkQ",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 41,
+    "size": 233544007,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3189,
+    "slug": "ruxshunos-58-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 58 QSIM",
+      "ru": "RUXSHUNOS 58 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 58 QSIM",
+      "ru": "RUXSHUNOS 58 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/u8mSO2ESeubq?s=XUxh53609Nx_4Sd8yiePt-Z7",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XUxh53609Nx_4Sd8yiePt-Z7",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 39,
+    "size": 168491291,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3190,
+    "slug": "ruxshunos-57-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 57 QSIM",
+      "ru": "RUXSHUNOS 57 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 57 QSIM",
+      "ru": "RUXSHUNOS 57 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DzwLP2fxUHqD?s=73NmSY8JE0Z93wn1G9Gniw3M",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/73NmSY8JE0Z93wn1G9Gniw3M",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 40,
+    "size": 202025825,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3191,
+    "slug": "ruxshunos-56-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 56 QSIM",
+      "ru": "RUXSHUNOS 56 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 56 QSIM",
+      "ru": "RUXSHUNOS 56 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/gkxXNRHZJ979?s=2_AKaWKKIgiqXbT-komhmv8g",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2_AKaWKKIgiqXbT-komhmv8g",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 39,
+    "size": 177346744,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3192,
+    "slug": "ruxshunos-55-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 55 QSIM",
+      "ru": "RUXSHUNOS 55 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 55 QSIM",
+      "ru": "RUXSHUNOS 55 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/4ap28zmCT6xn?s=Z2fFuKeVSuXbEr5qQa5En-mA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Z2fFuKeVSuXbEr5qQa5En-mA",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 43,
+    "size": 229101291,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3193,
+    "slug": "ruxshunos-54-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 54 QSIM",
+      "ru": "RUXSHUNOS 54 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 54 QSIM",
+      "ru": "RUXSHUNOS 54 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/cGlslXUV8meQ?s=K-cKhoW806IXk1-s625YPJH2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/K-cKhoW806IXk1-s625YPJH2",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 40,
+    "size": 170450632,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3194,
+    "slug": "ruxshunos-53-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 53 QSIM",
+      "ru": "RUXSHUNOS 53 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 53 QSIM",
+      "ru": "RUXSHUNOS 53 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/OsrqBh4N6tZS?s=Hq-H-dq6yfdLY6yaDIcclkrY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Hq-H-dq6yfdLY6yaDIcclkrY",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 42,
+    "size": 226820881,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3195,
+    "slug": "ruxshunos-52-qsim",
+    "type": "film",
+    "title": {
+      "uz": "RUXSHUNOS 52 QSIM",
+      "ru": "RUXSHUNOS 52 QSIM"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "RUXSHUNOS 52 QSIM",
+      "ru": "RUXSHUNOS 52 QSIM"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/lccZkS82I0oi?s=Oiwc7DfAB_ZoRBquFbgAsWTC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Oiwc7DfAB_ZoRBquFbgAsWTC",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 36,
+    "size": 184714082,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3196,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟱",
+      "ru": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟱"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟱 \n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2017\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟱 \n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2017\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/IR1xYYfX-Pzv?s=swZzwaiQHnrgwRazxkMq-x1a",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/swZzwaiQHnrgwRazxkMq-x1a",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 129,
+    "size": 1435897846,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3197,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟰",
+      "ru": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟰"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟰\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2011\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟰\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2011\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vJ3YvVsEZ4ki?s=oDAoxHKRgcftw-GmW89npNqH",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/oDAoxHKRgcftw-GmW89npNqH",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 124,
+    "size": 1377293655,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3198,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟯",
+      "ru": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟯"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟯\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2007\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟯\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2007\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Nb-CJkdY8Jb-?s=XHTEWzNzdboLo3UUQ34rDdS4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XHTEWzNzdboLo3UUQ34rDdS4",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 144,
+    "size": 1566603418,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3199,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟮",
+      "ru": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟮"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟮\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2006\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟮\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2006\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vgpFEYx9ejSn?s=te4Gw5xwcXHfQB5N-t3qtXJk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/te4Gw5xwcXHfQB5N-t3qtXJk",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 139,
+    "size": 1545388261,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3200,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟭",
+      "ru": "𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟭"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟭\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2003\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "💀\n𝗞𝗮𝗿𝗶𝗯 𝗗𝗲𝗻𝗴𝗶𝘇𝗶 𝗤𝗮𝗿𝗼𝗾𝗰𝗵𝗶𝗹𝗮𝗿𝗶 𝟭\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2003\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-QKNj-RKQFaE?s=j7m_99w9vO4AsPM09BN_TK27",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/j7m_99w9vO4AsPM09BN_TK27",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 133,
+    "size": 1481074652,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3201,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗔𝘃𝗮𝘁𝗮𝗿 𝟮 (𝘀𝘂𝘃 𝘆𝗼'𝗹𝗶)",
+      "ru": "𝗔𝘃𝗮𝘁𝗮𝗿 𝟮 (𝘀𝘂𝘃 𝘆𝗼'𝗹𝗶)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "👽\n𝗔𝘃𝗮𝘁𝗮𝗿 𝟮 (𝘀𝘂𝘃 𝘆𝗼'𝗹𝗶)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2022\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "👽\n𝗔𝘃𝗮𝘁𝗮𝗿 𝟮 (𝘀𝘂𝘃 𝘆𝗼'𝗹𝗶)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2022\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/3SuVnrxYZZMh?s=wZhWmHltRiPg1qaV4oK3eKgd",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/wZhWmHltRiPg1qaV4oK3eKgd",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 193,
+    "size": 1992333948,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3202,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗔𝘃𝗮𝘁𝗮𝗿 𝟭",
+      "ru": "𝗔𝘃𝗮𝘁𝗮𝗿 𝟭"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "👽\n𝗔𝘃𝗮𝘁𝗮𝗿 𝟭\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2009\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "👽\n𝗔𝘃𝗮𝘁𝗮𝗿 𝟭\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2009\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/62zccd1FXyLh?s=CF7h5Rhhf1oOkLb9miJH9qr6",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/CF7h5Rhhf1oOkLb9miJH9qr6",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 178,
+    "size": 1568674658,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3203,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "\"𝗚'𝗮𝗿𝗼𝘆𝗶𝗯 𝗯𝗼𝗹𝗮𝗹𝗮𝗿 𝘂𝘆𝗶\"",
+      "ru": "\"𝗚'𝗮𝗿𝗼𝘆𝗶𝗯 𝗯𝗼𝗹𝗮𝗹𝗮𝗿 𝘂𝘆𝗶\""
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🧚‍♀️\n\"𝗚'𝗮𝗿𝗼𝘆𝗶𝗯 𝗯𝗼𝗹𝗮𝗹𝗮𝗿 𝘂𝘆𝗶\"\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2016\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🧚‍♀️\n\"𝗚'𝗮𝗿𝗼𝘆𝗶𝗯 𝗯𝗼𝗹𝗮𝗹𝗮𝗿 𝘂𝘆𝗶\"\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2016\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1cFQssXWQieW?s=gqKH7iXzXzPhtKBdDRDYb-6C",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gqKH7iXzXzPhtKBdDRDYb-6C",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 117,
+    "size": 733272807,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3204,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐞𝐫 𝐯𝐚 𝐚𝐣𝐚𝐥 𝐭𝐮𝐡𝐟𝐚𝐬𝐢",
+      "ru": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐞𝐫 𝐯𝐚 𝐚𝐣𝐚𝐥 𝐭𝐮𝐡𝐟𝐚𝐬𝐢"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐞𝐫 𝐯𝐚 𝐚𝐣𝐚𝐥 𝐭𝐮𝐡𝐟𝐚𝐬𝐢 \n𝟏-𝐟𝐚𝐬𝐥 𝟐-𝐪𝐢𝐬𝐦\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2011\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐞𝐫 𝐯𝐚 𝐚𝐣𝐚𝐥 𝐭𝐮𝐡𝐟𝐚𝐬𝐢 \n𝟏-𝐟𝐚𝐬𝐥 𝟐-𝐪𝐢𝐬𝐦\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2011\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/9ChK9Vt0Ifxu?s=yfL7omoAYoZGNeJeoEW928OJ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/yfL7omoAYoZGNeJeoEW928OJ",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 125,
+    "size": 425888545,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3205,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐞𝐫 𝐯𝐚 𝐚𝐣𝐚𝐥 𝐭𝐮𝐡𝐟𝐚𝐬𝐢",
+      "ru": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐞𝐫 𝐯𝐚 𝐚𝐣𝐚𝐥 𝐭𝐮𝐡𝐟𝐚𝐬𝐢"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐞𝐫 𝐯𝐚 𝐚𝐣𝐚𝐥 𝐭𝐮𝐡𝐟𝐚𝐬𝐢 \n𝟏-𝐟𝐚𝐬𝐥 𝟏-𝐪𝐢𝐬𝐦\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2010\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐞𝐫 𝐯𝐚 𝐚𝐣𝐚𝐥 𝐭𝐮𝐡𝐟𝐚𝐬𝐢 \n𝟏-𝐟𝐚𝐬𝐥 𝟏-𝐪𝐢𝐬𝐦\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2010\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/3Wqztbyh1kov?s=jkTaJJ7WVRVXqa5vD420k0FM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/jkTaJJ7WVRVXqa5vD420k0FM",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 139,
+    "size": 429463374,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3206,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐭𝐢𝐥𝐬𝐢𝐦 𝐬𝐡𝐚𝐡𝐳𝐨𝐝𝐚 𝟔",
+      "ru": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐭𝐢𝐥𝐬𝐢𝐦 𝐬𝐡𝐚𝐡𝐳𝐨𝐝𝐚 𝟔"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐭𝐢𝐥𝐬𝐢𝐦 𝐬𝐡𝐚𝐡𝐳𝐨𝐝𝐚 𝟔\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶:AQSH \n𝗦𝗮𝗻𝗮𝘀𝗶: 2009\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐭𝐢𝐥𝐬𝐢𝐦 𝐬𝐡𝐚𝐡𝐳𝐨𝐝𝐚 𝟔\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶:AQSH \n𝗦𝗮𝗻𝗮𝘀𝗶: 2009\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vR48XsP46YLO?s=1vGTpSfDK6gm5oOPOS0Lw_CM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/1vGTpSfDK6gm5oOPOS0Lw_CM",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 145,
+    "size": 449271474,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3207,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 \"𝐟𝐞𝐧𝐢𝐤𝐬\" 𝐣𝐚𝐦𝐢𝐲𝐚𝐭𝐢 𝟓",
+      "ru": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 \"𝐟𝐞𝐧𝐢𝐤𝐬\" 𝐣𝐚𝐦𝐢𝐲𝐚𝐭𝐢 𝟓"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 \"𝐟𝐞𝐧𝐢𝐤𝐬\" 𝐣𝐚𝐦𝐢𝐲𝐚𝐭𝐢 𝟓\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2007\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 \"𝐟𝐞𝐧𝐢𝐤𝐬\" 𝐣𝐚𝐦𝐢𝐲𝐚𝐭𝐢 𝟓\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2007\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Ej4L16yFAbG0?s=HWRp993oEKJ1vUxAGAsTP5C2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/HWRp993oEKJ1vUxAGAsTP5C2",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 131,
+    "size": 434443566,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3208,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐚𝐥𝐚𝐧𝐠𝐚 𝐤𝐮𝐛𝐨𝐠𝐢 𝟒",
+      "ru": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐚𝐥𝐚𝐧𝐠𝐚 𝐤𝐮𝐛𝐨𝐠𝐢 𝟒"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐚𝐥𝐚𝐧𝐠𝐚 𝐤𝐮𝐛𝐨𝐠𝐢 𝟒\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2005\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐚𝐥𝐚𝐧𝐠𝐚 𝐤𝐮𝐛𝐨𝐠𝐢 𝟒\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2005\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/jZcuI1qqn--7?s=zD5ISQIi0VUgoTCHDnEV8hwp",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/zD5ISQIi0VUgoTCHDnEV8hwp",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 157,
+    "size": 487095405,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3209,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐚𝐬𝐤𝐚𝐛𝐚𝐧 𝐦𝐚𝐱𝐛𝐮𝐬𝐢 𝟑",
+      "ru": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐚𝐬𝐤𝐚𝐛𝐚𝐧 𝐦𝐚𝐱𝐛𝐮𝐬𝐢 𝟑"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐚𝐬𝐤𝐚𝐛𝐚𝐧 𝐦𝐚𝐱𝐛𝐮𝐬𝐢 𝟑\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2004\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐚𝐬𝐤𝐚𝐛𝐚𝐧 𝐦𝐚𝐱𝐛𝐮𝐬𝐢 𝟑\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2004\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/t-8rIeJydxhi?s=Jp0KELyqS52e7XxdcQF96al4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Jp0KELyqS52e7XxdcQF96al4",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 133,
+    "size": 411987779,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3210,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐦𝐚𝐱𝐟𝐢𝐲 𝐡𝐮𝐣𝐫𝐚 𝟐",
+      "ru": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐦𝐚𝐱𝐟𝐢𝐲 𝐡𝐮𝐣𝐫𝐚 𝟐"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐦𝐚𝐱𝐟𝐢𝐲 𝐡𝐮𝐣𝐫𝐚 𝟐\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶:AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2002\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐦𝐚𝐱𝐟𝐢𝐲 𝐡𝐮𝐣𝐫𝐚 𝟐\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶:AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2002\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Jk-pnF6sOJvD?s=IWLAeZKG2sJ7UuCTQUwB2Mwf",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/IWLAeZKG2sJ7UuCTQUwB2Mwf",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 149,
+    "size": 462358183,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3211,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐡𝐢𝐤𝐦𝐚𝐭𝐥𝐚𝐫 𝐭𝐨𝐬𝐡𝐢 𝟏",
+      "ru": "𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐡𝐢𝐤𝐦𝐚𝐭𝐥𝐚𝐫 𝐭𝐨𝐬𝐡𝐢 𝟏"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐡𝐢𝐤𝐦𝐚𝐭𝐥𝐚𝐫 𝐭𝐨𝐬𝐡𝐢 𝟏\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2001\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🔮\n𝐆𝐚𝐫𝐫𝐢 𝐏𝐨𝐭𝐭𝐞𝐫 𝐯𝐚 𝐡𝐢𝐤𝐦𝐚𝐭𝐥𝐚𝐫 𝐭𝐨𝐬𝐡𝐢 𝟏\n\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2001\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/TqmhU3OFR6Rz?s=2nfTNYExUvaNokH9hf35xSQz",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2nfTNYExUvaNokH9hf35xSQz",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 152,
+    "size": 472460438,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3212,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟯",
+      "ru": "𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟯"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦍\n𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟯\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2017\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦍\n𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟯\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2017\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/0A1UWXjVIjom?s=0K0oS4z01aV-Rc4MSiV5Eb1t",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/0K0oS4z01aV-Rc4MSiV5Eb1t",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 134,
+    "size": 499466545,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3213,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟮",
+      "ru": "𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟮"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦍\n𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟮\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2014\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦍\n𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟮\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2014\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ZcDVA87OTqPE?s=2rhUuF1ewfz-GCvoSonM_jSi",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2rhUuF1ewfz-GCvoSonM_jSi",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 119,
+    "size": 422054502,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3214,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟭",
+      "ru": "𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟭"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦍\n𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟭\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2011\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦍\n𝗠𝗮𝘆𝗺𝘂𝗻𝗹𝗮𝗿 𝘀𝗮𝘆𝗼𝗿𝗮𝘀𝗶 𝟭\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2011\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vZOb3PAbNy4m?s=DheMmw5JNx74Ex9vSbE0OVo6",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/DheMmw5JNx74Ex9vSbE0OVo6",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 99,
+    "size": 387853142,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3215,
+    "slug": "odin-doma-6",
+    "type": "film",
+    "title": {
+      "uz": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟲 (Один Дома 6)",
+      "ru": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟲 (Один Дома 6)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟲 (Один Дома 6)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2021\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟲 (Один Дома 6)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2021\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/eDK-VXyUmIlH?s=g8bwTZuIHib9XW8_XAr7ya7G",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/g8bwTZuIHib9XW8_XAr7ya7G",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 93,
+    "size": 468266335,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3216,
+    "slug": "odin-doma-5",
+    "type": "film",
+    "title": {
+      "uz": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟱 (Один Дома 5)",
+      "ru": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟱 (Один Дома 5)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟱 (Один Дома 5)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2012\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟱 (Один Дома 5)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2012\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_hBs1LQaJk2k?s=M3TNoBPGLmlhCxfQysP8XxwH",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/M3TNoBPGLmlhCxfQysP8XxwH",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 82,
+    "size": 322344138,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3217,
+    "slug": "odin-doma-4",
+    "type": "film",
+    "title": {
+      "uz": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟰 (Один Дома 4)",
+      "ru": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟰 (Один Дома 4)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟰 (Один Дома 4)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2002\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟰 (Один Дома 4)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2002\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/7Tp9wOw0LKhc?s=AYIH_vWp1S7fddTXEXG29eO3",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/AYIH_vWp1S7fddTXEXG29eO3",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 80,
+    "size": 315522867,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3218,
+    "slug": "odin-doma-3",
+    "type": "film",
+    "title": {
+      "uz": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟯 (Один Дома 3)",
+      "ru": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟯 (Один Дома 3)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟯 (Один Дома 3)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 1997\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟯 (Один Дома 3)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 1997\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/s3WW136wzCyB?s=lrXGpHwc6cDBaJBozzfVmdyz",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/lrXGpHwc6cDBaJBozzfVmdyz",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 90,
+    "size": 340864992,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3219,
+    "slug": "odin-doma-2",
+    "type": "film",
+    "title": {
+      "uz": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟮 (Один Дома 2)",
+      "ru": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟮 (Один Дома 2)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟮 (Один Дома 2)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 1992\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟮 (Один Дома 2)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 1992\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/NsdJaSEKz6Iq?s=sPL8CZrADcFrGpZxMlP1w4sU",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/sPL8CZrADcFrGpZxMlP1w4sU",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 120,
+    "size": 778723710,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3220,
+    "slug": "odin-doma-1",
+    "type": "film",
+    "title": {
+      "uz": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟭 (Один Дома 1)",
+      "ru": "𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟭 (Один Дома 1)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟭 (Один Дома 1)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 1990\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🤩\n𝗨𝘆𝗱𝗮 𝗬𝗼𝗹𝗴'𝗶𝘇 𝟭 (Один Дома 1)\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 1990\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GipdlE-ICtaL?s=oDx40Eu7mMFPpbrzYc9xOXTG",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/oDx40Eu7mMFPpbrzYc9xOXTG",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 103,
+    "size": 666035164,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3221,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟯",
+      "ru": "𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟯"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🧩\n𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟯\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2018\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🧩\n𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟯\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2018\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ULs-xSQE7vm0?s=W_tKlb98FJ-E1ktkTxQqZW8m",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/W_tKlb98FJ-E1ktkTxQqZW8m",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 136,
+    "size": 1009424078,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3222,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟮",
+      "ru": "𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟮"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🧩\n𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟮\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2015\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🧩\n𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟮\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2015\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YUMMgzAvd1Xh?s=mejOY5ysOPWLmAsFtApI8F14",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mejOY5ysOPWLmAsFtApI8F14",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 124,
+    "size": 790972438,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3223,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟭",
+      "ru": "𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟭"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🧩\n𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟭\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2014\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🧩\n𝗟𝗮𝗯𝗶𝗿𝗶𝗻𝘁 𝘆𝘂𝗴𝘂𝗿𝘂𝘃𝗰𝗵𝗶𝘀𝗶 𝟭\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2014\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/WprNKa6SlaSN?s=2hNwOm5rsdeWtI67HuRuIgIA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2hNwOm5rsdeWtI67HuRuIgIA",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 108,
+    "size": 591865539,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3224,
+    "slug": "demetr-shaytonning-songgi-sayohati",
+    "type": "film",
+    "title": {
+      "uz": "Demetr: Shaytonning so'nggi sayohati",
+      "ru": "Demetr: Shaytonning so'nggi sayohati"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "👿\nDemetr: Shaytonning so'nggi sayohati.\n\nDavlati: AQSH\nSanasi: 2023\nTili: O'zbek tilida (Tarjima)\nJanr: / / / \n\nKanalimizga obuna bo'ling🔔",
+      "ru": "👿\nDemetr: Shaytonning so'nggi sayohati.\n\nDavlati: AQSH\nSanasi: 2023\nTili: O'zbek tilida (Tarjima)\nJanr: / / / \n\nKanalimizga obuna bo'ling🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2AelAkt4JFfQ?s=qKOAYBV6In6hiDyNzJDTfjL-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qKOAYBV6In6hiDyNzJDTfjL-",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 118,
+    "size": 955909130,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3225,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟴-𝗤𝗶𝘀𝗺",
+      "ru": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟴-𝗤𝗶𝘀𝗺"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟴-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟴-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/j3spBp7m9zAT?s=ymUDCu2unK2sjWkt4mC92-0P",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ymUDCu2unK2sjWkt4mC92-0P",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 50,
+    "size": 225074704,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3226,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟳-𝗤𝗶𝘀𝗺",
+      "ru": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟳-𝗤𝗶𝘀𝗺"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟳-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟳-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/bHhuo1sg8vjy?s=506SjBEjnXjWoXB7uln3wpti",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/506SjBEjnXjWoXB7uln3wpti",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 58,
+    "size": 206381712,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3227,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟲-𝗤𝗶𝘀𝗺",
+      "ru": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟲-𝗤𝗶𝘀𝗺"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟲-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟲-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ooIReA-oaah1?s=cwlCFmZQMeCo7pc3Cps-qCCN",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/cwlCFmZQMeCo7pc3Cps-qCCN",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 54,
+    "size": 245756520,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3228,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟱-𝗤𝗶𝘀𝗺",
+      "ru": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟱-𝗤𝗶𝘀𝗺"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟱-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟱-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/eqWNlejzjXVW?s=uI07GWF0vrt1WbIPsVIFdbi5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/uI07GWF0vrt1WbIPsVIFdbi5",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 51,
+    "size": 196534884,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3229,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟰-𝗤𝗶𝘀𝗺",
+      "ru": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟰-𝗤𝗶𝘀𝗺"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟰-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟰-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/zJMy1uKrlrl8?s=Weu-79ddJ3Z5LkZqgUilyXz1",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Weu-79ddJ3Z5LkZqgUilyXz1",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 63,
+    "size": 237675477,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3230,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟯-𝗤𝗶𝘀𝗺",
+      "ru": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟯-𝗤𝗶𝘀𝗺"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟯-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟯-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/UwVmiA6io053?s=Qw4AoGG5pQ5DHYP-MPpMPD1f",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Qw4AoGG5pQ5DHYP-MPpMPD1f",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 58,
+    "size": 206855377,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3231,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟮-𝗤𝗶𝘀𝗺",
+      "ru": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟮-𝗤𝗶𝘀𝗺"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟮-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟮-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1JFVNwRpL-8t?s=k7uf5lgC0NwVaSQE1lGjAhzT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/k7uf5lgC0NwVaSQE1lGjAhzT",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 55,
+    "size": 222986324,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3232,
+    "slug": "kino",
+    "type": "film",
+    "title": {
+      "uz": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟭-𝗤𝗶𝘀𝗺",
+      "ru": "𝗩𝗔𝗡 𝗣𝗜𝗦 𝟭-𝗤𝗶𝘀𝗺"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟭-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔",
+      "ru": "🦾\n𝗩𝗔𝗡 𝗣𝗜𝗦 𝟭-𝗤𝗶𝘀𝗺\n𝗗𝗮𝘃𝗹𝗮𝘁𝗶: AQSH\n𝗦𝗮𝗻𝗮𝘀𝗶: 2023\n𝗧𝗶𝗹𝗶: O'zbek tilida (Tarjima)\n𝗝𝗮𝗻𝗿𝗶: / / / \n\n𝗸𝗮𝗻𝗮𝗹𝗶𝗺𝗶𝘇𝗴𝗮 𝗼𝗯𝘂𝗻𝗮 𝗯𝗼𝗹𝗶𝗻𝗴🔔"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1zCwVXPx_gmH?s=kBo9MV3iarv8DSdhzBYhv0An",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/kBo9MV3iarv8DSdhzBYhv0An",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 64,
+    "size": 308775426,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3233,
+    "slug": "nomi-65-million-yil-avval",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: 65 million yil avval",
+      "ru": "Nomi: 65 million yil avval"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Nomi: 65 million yil avval\n\n🍿Sifati: 480p HD\n📆Yili: 2023-yil\n🇺🇸Davlati: AQSh\n🗣Tarjima: O'zbek tilida\n🎭Janri: , ,",
+      "ru": "🎬Nomi: 65 million yil avval\n\n🍿Sifati: 480p HD\n📆Yili: 2023-yil\n🇺🇸Davlati: AQSh\n🗣Tarjima: O'zbek tilida\n🎭Janri: , ,"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/65MgOOUPAoVH?s=Z9vMPtjZbmvo7VRTo68SLjEh",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Z9vMPtjZbmvo7VRTo68SLjEh",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 93,
+    "size": 725672167,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3234,
+    "slug": "kino-nomi-sheriklar",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Sheriklar",
+      "ru": "# Kino Nomi: Sheriklar"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Sheriklar\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri: Jangari fantastic\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 26424\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Sheriklar\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri: Jangari fantastic\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 26424\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mCYHQ5klH5pl?s=RxUM-F4149A48lXk9KzYIQPB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/RxUM-F4149A48lXk9KzYIQPB",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 163,
+    "size": 1254881481,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3235,
+    "slug": "nomi-qarol-2",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Qarol 2",
+      "ru": "Nomi: Qarol 2"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Nomi: Qarol 2\n➖➖➖➖➖➖➖➖➖➖\n🇺🇿Tili: O'zbek tilida\n📀Sifati: 1080P Full HD\n🇷🇺Davlat: Rossiya \n📆Yili: 2024-yil\n🎞️Janri:",
+      "ru": "🎬Nomi: Qarol 2\n➖➖➖➖➖➖➖➖➖➖\n🇺🇿Tili: O'zbek tilida\n📀Sifati: 1080P Full HD\n🇷🇺Davlat: Rossiya \n📆Yili: 2024-yil\n🎞️Janri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/xi9NLQfW3QtU?s=5SgxonNVx87Di_j3M3E_exzp",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/5SgxonNVx87Di_j3M3E_exzp",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 115,
+    "size": 1941985635,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3236,
+    "slug": "xitoylik-savdogar",
+    "type": "film",
+    "title": {
+      "uz": "➺ Xitoylik Savdogar",
+      "ru": "➺ Xitoylik Savdogar"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 ➺ Xitoylik Savdogar \n🇺🇿 ➺ O'zbek Tilida\n🌍 ➺ Xitoy filmi\n⚔ ➺ Jangari, Triller",
+      "ru": "🎬 ➺ Xitoylik Savdogar \n🇺🇿 ➺ O'zbek Tilida\n🌍 ➺ Xitoy filmi\n⚔ ➺ Jangari, Triller"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/tDQ8m504yVZo?s=TwTadt35CGY6No-cBj4CUtKP",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/TwTadt35CGY6No-cBj4CUtKP",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 110,
+    "size": 725679204,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3237,
+    "slug": "nomi-fortuna-operatsiyasi",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Fortuna operatsiyasi",
+      "ru": "Nomi: Fortuna operatsiyasi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Nomi: Fortuna operatsiyasi\n➖➖➖➖➖➖➖➖➖➖\n🌍Tili: Oʻzbek Tilida \n📀Sifati: 480P Mobile HD\n🌏Davlat: AQSH, Xitoy \n📆Yili: 2022-yil\n🎞️Janri:",
+      "ru": "🎬Nomi: Fortuna operatsiyasi\n➖➖➖➖➖➖➖➖➖➖\n🌍Tili: Oʻzbek Tilida \n📀Sifati: 480P Mobile HD\n🌏Davlat: AQSH, Xitoy \n📆Yili: 2022-yil\n🎞️Janri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/IjzGYBG4zAcW?s=-pSsX6IjujssxdtnU81Axe4L",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/-pSsX6IjujssxdtnU81Axe4L",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 114,
+    "size": 514411442,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3238,
+    "slug": "nomi-snayperlar",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Snayperlar",
+      "ru": "Nomi: Snayperlar"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Nomi: Snayperlar\n🇺🇿Tili: O'zbek Tilida\n📀Sifati 480P HD\n🌏Davlat: Koreya\n📆Yili: 2021-yil\n🎞️Janri:",
+      "ru": "🎬Nomi: Snayperlar\n🇺🇿Tili: O'zbek Tilida\n📀Sifati 480P HD\n🌏Davlat: Koreya\n📆Yili: 2021-yil\n🎞️Janri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/iaHinzHhgf04?s=A9bjKdWcZlpT228ei1QlK2TD",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/A9bjKdWcZlpT228ei1QlK2TD",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 95,
+    "size": 690826763,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3239,
+    "slug": "nomi-qarol",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Qarol",
+      "ru": "Nomi: Qarol"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Nomi: Qarol\n🇺🇿Tili: O'zbek Tilida\n📅Yili: 2020\n🌏Davlati: Rossiya\n🎞Sifati: 480p\n🎭Janri: Komediya",
+      "ru": "🎬Nomi: Qarol\n🇺🇿Tili: O'zbek Tilida\n📅Yili: 2020\n🌏Davlati: Rossiya\n🎞Sifati: 480p\n🎭Janri: Komediya"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-utcQRlLot6B?s=8AAn_soZTd1bvEndv40mHqJ9",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/8AAn_soZTd1bvEndv40mHqJ9",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 97,
+    "size": 797242272,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3240,
+    "slug": "nojentelmencha-ishlar-vazirligi-18-2024-720p-ozbek-tilida",
+    "type": "film",
+    "title": {
+      "uz": "#▷ \"Nojentelmencha ishlar vazirligi\" 18+ (2024) (720p) O'zbek Tilida",
+      "ru": "#▷ \"Nojentelmencha ishlar vazirligi\" 18+ (2024) (720p) O'zbek Tilida"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#▷ \"Nojentelmencha ishlar vazirligi\" 18+ (2024) (720p) O'zbek Tilida\n\nJanri: Jangari, Drama, Harbiy, Tarixiy\n❗️Eng yangi Tarjima Kinolar \nVa Seriallar⁠⁠⁠⁠⁠ 👉 \n🗂 Yuklash: 4161\n\n\n🤖 Bizning bot:",
+      "ru": "#▷ \"Nojentelmencha ishlar vazirligi\" 18+ (2024) (720p) O'zbek Tilida\n\nJanri: Jangari, Drama, Harbiy, Tarixiy\n❗️Eng yangi Tarjima Kinolar \nVa Seriallar⁠⁠⁠⁠⁠ 👉 \n🗂 Yuklash: 4161\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/MDAt_EGyqTUi?s=uyOiSedA_eNIvU9xs8ZxAvO8",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/uyOiSedA_eNIvU9xs8ZxAvO8",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 120,
+    "size": 1790231118,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3241,
+    "slug": "songi-samuray-tarixiy-jangari-kino-ozbek-tilida-2003",
+    "type": "film",
+    "title": {
+      "uz": "So'ngi samuray (Tarixiy jangari kino, O'zbek tilida) 2003",
+      "ru": "So'ngi samuray (Tarixiy jangari kino, O'zbek tilida) 2003"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 So'ngi samuray (Tarixiy jangari kino, O'zbek tilida) 2003",
+      "ru": "🎞 So'ngi samuray (Tarixiy jangari kino, O'zbek tilida) 2003"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1BUFUZ5TgpYt?s=_8TsSiaHnw11qYT0qURBA-mh",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/_8TsSiaHnw11qYT0qURBA-mh",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 133,
+    "size": 399206345,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3242,
+    "slug": "red-2",
+    "type": "film",
+    "title": {
+      "uz": "Red 2",
+      "ru": "Red 2"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥 Red 2 \n🌍 Davlati: AQSH\n🔛 Davomiyligi: 1:40:27\n🇺🇿 Tarjima: O'zbek Tilida\n📽 Janri: Jangari\n\n📡 𝙺𝚊𝚗𝚊𝚕𝚒𝚖𝚒𝚣 ➣👇",
+      "ru": "🎥 Red 2 \n🌍 Davlati: AQSH\n🔛 Davomiyligi: 1:40:27\n🇺🇿 Tarjima: O'zbek Tilida\n📽 Janri: Jangari\n\n📡 𝙺𝚊𝚗𝚊𝚕𝚒𝚖𝚒𝚣 ➣👇"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/hQrWZ9qCd_mf?s=mU_qvlH3N-Yc4lQBQECwaX7A",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mU_qvlH3N-Yc4lQBQECwaX7A",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 104,
+    "size": 382033399,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3243,
+    "slug": "red",
+    "type": "film",
+    "title": {
+      "uz": "Red",
+      "ru": "Red"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥 Red \n🌍 Davlati: AQSH\n🔛 Davomiyligi: 1:43:54\n🇺🇿 Tarjima: O'zbek Tilida\n📽 Janri: Jangari\n\n📡 𝙺𝚊𝚗𝚊𝚕𝚒𝚖𝚒𝚣 ➣👇",
+      "ru": "🎥 Red \n🌍 Davlati: AQSH\n🔛 Davomiyligi: 1:43:54\n🇺🇿 Tarjima: O'zbek Tilida\n📽 Janri: Jangari\n\n📡 𝙺𝚊𝚗𝚊𝚕𝚒𝚖𝚒𝚣 ➣👇"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/MwD3xk19DUA3?s=L-rcHO4eLDSFQl5PiCHjlTNf",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/L-rcHO4eLDSFQl5PiCHjlTNf",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 104,
+    "size": 395863709,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3244,
+    "slug": "nomi-lochin-ovi",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Lochin ovi",
+      "ru": "Nomi: Lochin ovi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Nomi: Lochin ovi\n➖➖➖➖➖➖➖➖➖➖\n🌍Tili: Oʻzbek Tilida \n📀Sifati: 480P Mobile HD\n🌏Davlat: AQSH \n📆Yili: 2014-yil\n🎞️Janri:",
+      "ru": "🎬Nomi: Lochin ovi\n➖➖➖➖➖➖➖➖➖➖\n🌍Tili: Oʻzbek Tilida \n📀Sifati: 480P Mobile HD\n🌏Davlat: AQSH \n📆Yili: 2014-yil\n🎞️Janri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ogiDX-E1gLOA?s=FXLI4DX70esi5uHfnIwuFbVK",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/FXLI4DX70esi5uHfnIwuFbVK",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 101,
+    "size": 656016845,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3245,
+    "slug": "uch-bahodir-va-taxtdagi-ot",
+    "type": "film",
+    "title": {
+      "uz": "\"Uch bahodir va taxtdagi ot\"",
+      "ru": "\"Uch bahodir va taxtdagi ot\""
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬\"Uch bahodir va taxtdagi ot\"\n🇺🇿 O'zbek Tilida \n🌍 Davlat: Rossiya\n📀 Sifati : 480p\n📆 Yili : 2021\n⏳ Davomiyligi: 1s | 27 minut\n🎞️ Janri :",
+      "ru": "🎬\"Uch bahodir va taxtdagi ot\"\n🇺🇿 O'zbek Tilida \n🌍 Davlat: Rossiya\n📀 Sifati : 480p\n📆 Yili : 2021\n⏳ Davomiyligi: 1s | 27 minut\n🎞️ Janri :"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/kYEcwbypE5pb?s=euvCckNGGIj-PrxfxO6JnXdQ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/euvCckNGGIj-PrxfxO6JnXdQ",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 88,
+    "size": 481634376,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3246,
+    "slug": "premyera",
+    "type": "film",
+    "title": {
+      "uz": "PREMYERA",
+      "ru": "PREMYERA"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🔥PREMYERA🔥\n\n🎬 Nomi: QONLI REJA (2022)\n🌎 Davlati: AQSH\n💽 Formati: HD (720)\nMobile HD (480p)\n🇺🇿 Tili: O'zbekcha\n🎭 Janri: \n⏳ Davomiyligi: 1s | 27 minut",
+      "ru": "🔥PREMYERA🔥\n\n🎬 Nomi: QONLI REJA (2022)\n🌎 Davlati: AQSH\n💽 Formati: HD (720)\nMobile HD (480p)\n🇺🇿 Tili: O'zbekcha\n🎭 Janri: \n⏳ Davomiyligi: 1s | 27 minut"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GEalC73SSH_i?s=yavsX5qk_TRfYGeW2cZXVluC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/yavsX5qk_TRfYGeW2cZXVluC",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 88,
+    "size": 554277179,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3247,
+    "slug": "nomi-qilichboz-2020",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Qilichboz (2020)",
+      "ru": "Nomi: Qilichboz (2020)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi: Qilichboz (2020) \n ➖➖➖➖➖➖➖\n🌎 Davlati: Koreya\n💽 Formati: 720p, HD\n🇺🇿 Tili: O'zbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 1s 28 minut\n\n♻️Do'stlarga ulashing\n👉🏻 Kanalga ulanish:\n👇👇👇👇👇👇👇👇\n🎥Войенный фильм",
+      "ru": "🎬 Nomi: Qilichboz (2020) \n ➖➖➖➖➖➖➖\n🌎 Davlati: Koreya\n💽 Formati: 720p, HD\n🇺🇿 Tili: O'zbek tilida\n🎭 Janri: \n⏳ Davomiyligi: 1s 28 minut\n\n♻️Do'stlarga ulashing\n👉🏻 Kanalga ulanish:\n👇👇👇👇👇👇👇👇\n🎥Войенный фильм"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YlZ-UhT32Hk9?s=qNt9en74mjaKOfJyveGF1FxI",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qNt9en74mjaKOfJyveGF1FxI",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 88,
+    "size": 920291496,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3248,
+    "slug": "pablo-eskobar",
+    "type": "film",
+    "title": {
+      "uz": "Pablo Eskobar",
+      "ru": "Pablo Eskobar"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Pablo Eskobar\n\nTili: oʻzbek tilida\nJanri: jangari hayotiy\nSifati: 720p\nDavlati: AQSh\nYili:",
+      "ru": "Pablo Eskobar\n\nTili: oʻzbek tilida\nJanri: jangari hayotiy\nSifati: 720p\nDavlati: AQSh\nYili:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mDL1AIubwi5A?s=EewtbCZz_YUYVnwmUUEKx1lj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/EewtbCZz_YUYVnwmUUEKx1lj",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 104,
+    "size": 912684336,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3249,
+    "slug": "shamol-jangchisi",
+    "type": "film",
+    "title": {
+      "uz": "Shamol jangchisi",
+      "ru": "Shamol jangchisi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥 Shamol jangchisi\n📹 Sifati: HD 480p\n📆 Yil: 2004\n🎞 Janr: Jangari, Drama, Tarixiy\n🇺🇸 Davlat: Janubiy Koreya\n🇺🇿 Tarjima: O'zbek tilida\nPS: Film kesilmagan orginal holda",
+      "ru": "🎥 Shamol jangchisi\n📹 Sifati: HD 480p\n📆 Yil: 2004\n🎞 Janr: Jangari, Drama, Tarixiy\n🇺🇸 Davlat: Janubiy Koreya\n🇺🇿 Tarjima: O'zbek tilida\nPS: Film kesilmagan orginal holda"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AcI-IyKbcxZT?s=crrCQ09Cp6dTKh6tGmbsnT-k",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/crrCQ09Cp6dTKh6tGmbsnT-k",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 121,
+    "size": 849366455,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3250,
+    "slug": "jonivorlar-qiroli-2018",
+    "type": "film",
+    "title": {
+      "uz": "➺ Jonivorlar qiroli (2018)",
+      "ru": "➺ Jonivorlar qiroli (2018)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 ➺ Jonivorlar qiroli (2018)\n🇺🇿 ➺ O'zbek Tilida [480p/HD]\n🌍 ➺ Davlati: Pokiston\n⚔️ ➺ Janri: Oilaviy, Komediya",
+      "ru": "🎬 ➺ Jonivorlar qiroli (2018)\n🇺🇿 ➺ O'zbek Tilida [480p/HD]\n🌍 ➺ Davlati: Pokiston\n⚔️ ➺ Janri: Oilaviy, Komediya"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nzkhZOqoqrdS?s=L6pSkUvnGx-rSmmyOhykkWYv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/L6pSkUvnGx-rSmmyOhykkWYv",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 94,
+    "size": 532808048,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3251,
+    "slug": "kino-nomi-gerakl",
+    "type": "film",
+    "title": {
+      "uz": "Kino Nomi: Gerakl",
+      "ru": "Kino Nomi: Gerakl"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Kino Nomi: Gerakl\n➖➖➖➖➖➖\n🌐 Davlati: Aqsh\n⏱ Davomligi: 1:31:36\n⏳ Hajmi: 566.5 MB\n🖥 Formati: HD 720p\n📻 Janri: Jangari Fantastik Sarguzasht\n➖➖➖➖➖➖",
+      "ru": "🎞 Kino Nomi: Gerakl\n➖➖➖➖➖➖\n🌐 Davlati: Aqsh\n⏱ Davomligi: 1:31:36\n⏳ Hajmi: 566.5 MB\n🖥 Formati: HD 720p\n📻 Janri: Jangari Fantastik Sarguzasht\n➖➖➖➖➖➖"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/GjlnZRGDkLdk?s=_91XsSCWxMHQfAkieYaxQb0N",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/_91XsSCWxMHQfAkieYaxQb0N",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 92,
+    "size": 593971374,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3252,
+    "slug": "maxsus-kuchlar-guruhi",
+    "type": "film",
+    "title": {
+      "uz": "Maxsus kuchlar guruhi",
+      "ru": "Maxsus kuchlar guruhi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Maxsus kuchlar guruhi \n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2011\n🎞️Janri : Jangari Harbiy \n👥Bosh rollarda : Jimon Xounsou, Diane Kruger, Benoit Magimel, Denis Manochet",
+      "ru": "🎬Maxsus kuchlar guruhi \n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2011\n🎞️Janri : Jangari Harbiy \n👥Bosh rollarda : Jimon Xounsou, Diane Kruger, Benoit Magimel, Denis Manochet"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/tpzTQcEmtEON?s=c2OzceK64nyWUCBrdS3MRTJt",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/c2OzceK64nyWUCBrdS3MRTJt",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 99,
+    "size": 829709825,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3253,
+    "slug": "kino-nomi-qotil-va-himoyachi",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Qotil va himoyachi",
+      "ru": "# Kino Nomi: Qotil va himoyachi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Qotil va himoyachi\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 463091\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Qotil va himoyachi\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 463091\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Wko3jz0qR5Jn?s=Ksqgq5A6xAgj2uWnRBGQB4ej",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Ksqgq5A6xAgj2uWnRBGQB4ej",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 96,
+    "size": 670495024,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3254,
+    "slug": "kino-nomi-chegarasiz-3",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Chegarasiz 3",
+      "ru": "# Kino Nomi: Chegarasiz 3"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Chegarasiz 3\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 510707\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Chegarasiz 3\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 510707\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/69CaDmMjK-UV?s=kNYata7wxIjMerMljfMVYLRG",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/kNYata7wxIjMerMljfMVYLRG",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 132,
+    "size": 1147143614,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3255,
+    "slug": "kino-nomi-songi-bahodir",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: So'ngi bahodir",
+      "ru": "# Kino Nomi: So'ngi bahodir"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: So'ngi bahodir\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Sarguzasht\n⛔️| Ko'rish Kategoriyasi: 12+\n\n🔰| Kanal: \n🗂 Yuklash: 449191\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: So'ngi bahodir\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Sarguzasht\n⛔️| Ko'rish Kategoriyasi: 12+\n\n🔰| Kanal: \n🗂 Yuklash: 449191\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/yV0cnIOV8sy_?s=iTkmzyAdYWmvYIr5rTNpXV3S",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/iTkmzyAdYWmvYIr5rTNpXV3S",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 108,
+    "size": 1040787449,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3256,
+    "slug": "kino-nomi-eltuvchi",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Eltuvchi",
+      "ru": "# Kino Nomi: Eltuvchi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Eltuvchi\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Jangari sarguzasht\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 464744\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Eltuvchi\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Jangari sarguzasht\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 464744\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/SLjree1jRFQ_?s=XzG5sWSEuuAigNrD2QahIwm4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XzG5sWSEuuAigNrD2QahIwm4",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 86,
+    "size": 668193002,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3257,
+    "slug": "kino-nomi-yirtqich-4",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Yirtqich 4",
+      "ru": "# Kino Nomi: Yirtqich 4"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Yirtqich 4\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 1080p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 495359\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Yirtqich 4\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 1080p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 495359\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/18SkXEtRcyMn?s=aZ-BSgtPxHgx3zs_Vf_-dEuA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/aZ-BSgtPxHgx3zs_Vf_-dEuA",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 106,
+    "size": 1243948853,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3258,
+    "slug": "kino-nomi-jinoyat-shahri-4",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Jinoyat shahri 4",
+      "ru": "# Kino Nomi: Jinoyat shahri 4"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Jinoyat shahri 4\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: Ts format\n🎞️| Janri:Jangari triller\n⛔️| Ko'rish Kategoriyasi: 18+\n\n🔰| Kanal: \n🗂 Yuklash: 5129\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Jinoyat shahri 4\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: Ts format\n🎞️| Janri:Jangari triller\n⛔️| Ko'rish Kategoriyasi: 18+\n\n🔰| Kanal: \n🗂 Yuklash: 5129\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/wqc0K2c5NOUP?s=rz6zSCjE6eE2R59-30mpqVVr",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/rz6zSCjE6eE2R59-30mpqVVr",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 103,
+    "size": 1187551166,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3259,
+    "slug": "kino-nomi-asalarichi",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Asalarichi",
+      "ru": "# Kino Nomi: Asalarichi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Asalarichi\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari sarguzasht\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 446716\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Asalarichi\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari sarguzasht\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 446716\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nBXDmG724E1R?s=D9qhWQjsh40zIg_9zlnDqQDk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/D9qhWQjsh40zIg_9zlnDqQDk",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 106,
+    "size": 1214754261,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3260,
+    "slug": "kino-nomi-eltuvchi",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Eltuvchi",
+      "ru": "# Kino Nomi: Eltuvchi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Eltuvchi\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Jangari sarguzasht\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 436545\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Eltuvchi\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Jangari sarguzasht\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 436545\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/WHhF3T8_lhj6?s=t4HBeaqqrVj9WD3WmHTS2JH2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/t4HBeaqqrVj9WD3WmHTS2JH2",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 86,
+    "size": 668193002,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3261,
+    "slug": "kino-nomi-jinoyat-izidan",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Jinoyat izidan",
+      "ru": "# Kino Nomi: Jinoyat izidan"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Jinoyat izidan\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Janagari triller\n⛔️| Ko'rish Kategoriyasi: 16\n\n🔰| Kanal: \n🗂 Yuklash: 495208\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Jinoyat izidan\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Janagari triller\n⛔️| Ko'rish Kategoriyasi: 16\n\n🔰| Kanal: \n🗂 Yuklash: 495208\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/J4407l6scLm1?s=fy2H1Cs7MCCYH41Tx-xfNDoq",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/fy2H1Cs7MCCYH41Tx-xfNDoq",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 87,
+    "size": 587937297,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3262,
+    "slug": "kino-nomi-chegarasizlar-4",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Chegarasizlar 4",
+      "ru": "# Kino Nomi: Chegarasizlar 4"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Chegarasizlar 4\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 18+\n\n🔰| Kanal: \n🗂 Yuklash: 494359\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Chegarasizlar 4\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 18+\n\n🔰| Kanal: \n🗂 Yuklash: 494359\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/imWPqIU4dwYG?s=74HNMlHc1TD7DoM__HiRBK0a",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/74HNMlHc1TD7DoM__HiRBK0a",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 99,
+    "size": 1218116399,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3263,
+    "slug": "kino-nomi-red",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Red",
+      "ru": "# Kino Nomi: Red"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Red\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 469046\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Red\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Jangari\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 469046\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vUhktd5uH3ue?s=kjnzhNc90yG1xH8kn2b2Yx5z",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/kjnzhNc90yG1xH8kn2b2Yx5z",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 104,
+    "size": 652719125,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3264,
+    "slug": "kino-nomi-red-2",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Red 2",
+      "ru": "# Kino Nomi: Red 2"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Red 2\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 1080p\n🎞️| Janri:Jangari triller\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 187389\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Red 2\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 1080p\n🎞️| Janri:Jangari triller\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 187389\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YDD7GJ61ZNXH?s=kfncgMcmRKdUDy634_CicQ1d",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/kfncgMcmRKdUDy634_CicQ1d",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 109,
+    "size": 1639507502,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3265,
+    "slug": "kino-nomi-farzand",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Farzand",
+      "ru": "# Kino Nomi: Farzand"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Farzand\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 1080p\n🎞️| Janri:Kriminal\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 304227\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Farzand\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 1080p\n🎞️| Janri:Kriminal\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 304227\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/gRCDWoAfPP_W?s=pYfykxdu75HoN8iH6o2MzGJp",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/pYfykxdu75HoN8iH6o2MzGJp",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 118,
+    "size": 2489797192,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3266,
+    "slug": "kino-nomi-forrest-gamp",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Forrest gamp",
+      "ru": "# Kino Nomi: Forrest gamp"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Forrest gamp\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Sarguzasht\n⛔️| Ko'rish Kategoriyasi: 0\n\n🔰| Kanal: \n🗂 Yuklash: 484183\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Forrest gamp\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 480p\n🎞️| Janri:Sarguzasht\n⛔️| Ko'rish Kategoriyasi: 0\n\n🔰| Kanal: \n🗂 Yuklash: 484183\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/g2PMoGL5PMeS?s=iSW0HjSiwDRi_3rww0AsAZSK",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/iSW0HjSiwDRi_3rww0AsAZSK",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 142,
+    "size": 617265973,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3267,
+    "slug": "kino-nomi-jinoyatchilar-shahri-3",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Jinoyatchilar shahri 3",
+      "ru": "# Kino Nomi: Jinoyatchilar shahri 3"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Jinoyatchilar shahri 3\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari kriminal\n⛔️| Ko'rish Kategoriyasi: 18+\n\n🔰| Kanal: \n🗂 Yuklash: 346231\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Jinoyatchilar shahri 3\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: 720p\n🎞️| Janri:Jangari kriminal\n⛔️| Ko'rish Kategoriyasi: 18+\n\n🔰| Kanal: \n🗂 Yuklash: 346231\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/CevdA8FM7x7k?s=vRQWWSv86MwVcDtZQWM1hXh6",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/vRQWWSv86MwVcDtZQWM1hXh6",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 105,
+    "size": 1047691783,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3268,
+    "slug": "kino-nomi-maymunlar-sayyorasi-4",
+    "type": "film",
+    "title": {
+      "uz": "# Kino Nomi: Maymunlar sayyorasi 4",
+      "ru": "# Kino Nomi: Maymunlar sayyorasi 4"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿| Kino Nomi: Maymunlar sayyorasi 4\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: Ts format\n🎞️| Janri:Sarguzasht\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 16997\n\n\n🤖 Bizning bot:",
+      "ru": "#🍿| Kino Nomi: Maymunlar sayyorasi 4\n➖➖➖➖➖➖➖➖➖➖➖➖\n🇺🇿| Tili: O'zbek tilida\n💾| Sifati: Ts format\n🎞️| Janri:Sarguzasht\n⛔️| Ko'rish Kategoriyasi: 16+\n\n🔰| Kanal: \n🗂 Yuklash: 16997\n\n\n🤖 Bizning bot:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/V7MuAm-Ta8M_?s=X58Pr7wvA2xl-NHN2AROGXaB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/X58Pr7wvA2xl-NHN2AROGXaB",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 134,
+    "size": 1069342527,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3269,
+    "slug": "ajal-poygasi-3-2013",
+    "type": "film",
+    "title": {
+      "uz": "➺ Ajal Poygasi 3 (2013)",
+      "ru": "➺ Ajal Poygasi 3 (2013)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 ➺ Ajal Poygasi 3 (2013)\n🇺🇿 ➺ Rus tilida [480]\n🌍 ➺ Davlati: AQSH, Germaniya, B.Britaniya\n⚔ ➺ Janri: 🎄",
+      "ru": "🎬 ➺ Ajal Poygasi 3 (2013)\n🇺🇿 ➺ Rus tilida [480]\n🌍 ➺ Davlati: AQSH, Germaniya, B.Britaniya\n⚔ ➺ Janri: 🎄"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/S0gyJWBZixXZ?s=eFK0DHEpY1lena1Bs-RPF5RS",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eFK0DHEpY1lena1Bs-RPF5RS",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 105,
+    "size": 501532959,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3270,
+    "slug": "ajal-poygasi-2",
+    "type": "film",
+    "title": {
+      "uz": "Ajal Poygasi 2",
+      "ru": "Ajal Poygasi 2"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Ajal Poygasi 2\n-----------------------------------------------------\n‣ Davlat: AQSH Germaniya B.Britaniya\n‣ Janr: jangari triller poyga\n‣ Til: o'zbek tilida\n‣ Sifat: 720p",
+      "ru": "Ajal Poygasi 2\n-----------------------------------------------------\n‣ Davlat: AQSH Germaniya B.Britaniya\n‣ Janr: jangari triller poyga\n‣ Til: o'zbek tilida\n‣ Sifat: 720p"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/e6KE-tIhVrOZ?s=E18kpVQF1R18rd73cn092CM4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/E18kpVQF1R18rd73cn092CM4",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 100,
+    "size": 678882865,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3271,
+    "slug": "sherlokk-holmes-2009",
+    "type": "film",
+    "title": {
+      "uz": "Sherlock Holmes (2009)",
+      "ru": "Sherlock Holmes (2009)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "| \nSherlock Holmes (2009)\nBoshrolda: Robert Downey JR\nRus Tilida HD",
+      "ru": "| \nSherlock Holmes (2009)\nBoshrolda: Robert Downey JR\nRus Tilida HD"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/oaO-YL0Uw6_Z?s=qB0fZhbctisuCjP-oQcHBZxD",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qB0fZhbctisuCjP-oQcHBZxD",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 129,
+    "size": 429947483,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3272,
+    "slug": "qora-libosli-odamlar-4",
+    "type": "film",
+    "title": {
+      "uz": "Qora libosli odamlar 4",
+      "ru": "Qora libosli odamlar 4"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Qora libosli odamlar 4",
+      "ru": "Qora libosli odamlar 4"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/V1CGAKt7Siac?s=nZho-sEHDREJey7Tkg-Yt0Ym",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/nZho-sEHDREJey7Tkg-Yt0Ym",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 101,
+    "size": 511507195,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3273,
+    "slug": "ravan-2011",
+    "type": "film",
+    "title": {
+      "uz": "Ravan (2011)",
+      "ru": "Ravan (2011)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Ravan (2011)\nO'zbek Tilida [360p HD]\nDavlati: Hindiston, AQSH\nJanri: ,",
+      "ru": "Ravan (2011)\nO'zbek Tilida [360p HD]\nDavlati: Hindiston, AQSH\nJanri: ,"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/d-lQHBYTcgnr?s=oTLvSpv-dIh-hEa2FplnE8V-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/oTLvSpv-dIh-hEa2FplnE8V-",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 127,
+    "size": 459841897,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3274,
+    "slug": "agent-007-oltin-barmoq-1964",
+    "type": "film",
+    "title": {
+      "uz": "Agent 007: Oltin barmoq (1964)",
+      "ru": "Agent 007: Oltin barmoq (1964)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Agent 007: Oltin barmoq (1964)\nO'zbek Tilida [480p/HD]\nDavlati: Buyuk Britaniya\nJanri: ,",
+      "ru": "Agent 007: Oltin barmoq (1964)\nO'zbek Tilida [480p/HD]\nDavlati: Buyuk Britaniya\nJanri: ,"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/rsRrLX8KaHqM?s=Oh8xj0nXaTpOpV29dz0sn74y",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Oh8xj0nXaTpOpV29dz0sn74y",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 100,
+    "size": 487187760,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3275,
+    "slug": "nomi-karib-dengizi-qaroqchilari-qora-marvarid-tavqi-lanati",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Karib dengizi qaroqchilari Qora Marvarid tavqi lan'ati",
+      "ru": "Nomi: Karib dengizi qaroqchilari Qora Marvarid tavqi lan'ati"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Nomi: Karib dengizi qaroqchilari Qora Marvarid tavqi lan'ati\nTili: Ózbekcha\nDavlat: Buyuk Britaniya\nJanri:",
+      "ru": "Nomi: Karib dengizi qaroqchilari Qora Marvarid tavqi lan'ati\nTili: Ózbekcha\nDavlat: Buyuk Britaniya\nJanri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/6cQDNapAGgF-?s=ZqXZjjxScGxar7nuqEselZnn",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ZqXZjjxScGxar7nuqEselZnn",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 143,
+    "size": 557284726,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3276,
+    "slug": "qudalar-2018",
+    "type": "film",
+    "title": {
+      "uz": "Qudalar (2018)",
+      "ru": "Qudalar (2018)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Qudalar (2018)\nO'zbek Tilida [720p/HD]\nDavlati: Qozog'iston\nJanri:",
+      "ru": "Qudalar (2018)\nO'zbek Tilida [720p/HD]\nDavlati: Qozog'iston\nJanri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/xPj0_EKr898X?s=hka5EIra55k7BR8czNsWhnUy",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/hka5EIra55k7BR8czNsWhnUy",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 92,
+    "size": 489013606,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3277,
+    "slug": "ummon-qarida-2-2019",
+    "type": "film",
+    "title": {
+      "uz": "Ummon Qarida 2 (2019)",
+      "ru": "Ummon Qarida 2 (2019)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Ummon Qarida 2 (2019)\nO'zbek Tilida [Full/HD]\nDavlati: AQSH\nJanri: ʻrqinchli,",
+      "ru": "Ummon Qarida 2 (2019)\nO'zbek Tilida [Full/HD]\nDavlati: AQSH\nJanri: ʻrqinchli,"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/F3ociDebWMJl?s=ZSqNjUW9VWp_2C15gtkgSvdM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ZSqNjUW9VWp_2C15gtkgSvdM",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 87,
+    "size": 952642410,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3278,
+    "slug": "nomi-jolli",
+    "type": "film",
+    "title": {
+      "uz": "Nomi :Jolli",
+      "ru": "Nomi :Jolli"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Nomi :Jolli \nTili :ᴏ'ᴢʙᴇᴋ ᴛɪʟɪᴅᴀ\nsɪғᴀᴛɪ: 360p \n546ᴍʙ\nJanri :#Sarguzasht",
+      "ru": "Nomi :Jolli \nTili :ᴏ'ᴢʙᴇᴋ ᴛɪʟɪᴅᴀ\nsɪғᴀᴛɪ: 360p \n546ᴍʙ\nJanri :#Sarguzasht"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/pW_m1D4AHfp5?s=nmLoWVE3NhyadOxllxZxadd3",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/nmLoWVE3NhyadOxllxZxadd3",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 126,
+    "size": 572521575,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3279,
+    "slug": "film-nomi-pakana-oshiq-ozbek-tilida",
+    "type": "film",
+    "title": {
+      "uz": "Filм noмi: Pakana Oshiq (O'zbek tilida)",
+      "ru": "Filм noмi: Pakana Oshiq (O'zbek tilida)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Filм noмi: Pakana Oshiq (O'zbek tilida)\nsifaтi: HD\nтili: Uzbek tilida\nкorisн: 6+\n Janri:",
+      "ru": "Filм noмi: Pakana Oshiq (O'zbek tilida)\nsifaтi: HD\nтili: Uzbek tilida\nкorisн: 6+\n Janri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/P3LAUmQtHumK?s=Ku-d2_3g3eCGuDq4m60X5GAv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Ku-d2_3g3eCGuDq4m60X5GAv",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 124,
+    "size": 864601849,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 3280,
+    "slug": "tasavvur-2018",
+    "type": "film",
+    "title": {
+      "uz": "Tasavvur (2018)",
+      "ru": "Tasavvur (2018)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Tasavvur (2018)\nO'zbek Tilida [720p/HD]\nDavlati: AQSH\nJanri: , ,",
+      "ru": "Tasavvur (2018)\nO'zbek Tilida [720p/HD]\nDavlati: AQSH\nJanri: , ,"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ZaDXn4-3TkBR?s=PJtvY64g0FgVVIuQw6e0Zn-W",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/PJtvY64g0FgVVIuQw6e0Zn-W",
+    "featured": false,
+    "addedAt": 1791037218961,
+    "updatedAt": 1791037218961,
+    "duration": 99,
+    "size": 521575854,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[]/*ENDHIDDEN*/;
