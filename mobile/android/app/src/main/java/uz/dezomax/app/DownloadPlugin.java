@@ -163,25 +163,15 @@ public class DownloadPlugin extends Plugin {
             return new WebResourceResponse("video/mp4", null, 416, "Range Not Satisfiable", headers, null);
         }
         try {
+            // Faylni BOSHIDAN beramiz: Android WebView (Chromium) so'rovdagi Range'ni o'zi qo'llaydi — oqimni
+            // so'ralgan joyga o'zi suradi (skip) va hajmini available() dan oladi (Capacitor ham shunday qiladi).
+            // 7.2 gacha biz ham surardik — ikki marta surilib, faylning o'rtasidan so'ralganda xato chiqardi
+            // va pleyer videoni ocholmasdi (2026-10-03, telefonda: «seek ? TypeError»).
             InputStream in = new FileInputStream(f);
-            long skipped = 0;
-            while (skipped < start) { long s = in.skip(start - skipped); if (s <= 0) break; skipped += s; }
-            final long len = end - start + 1;
-            InputStream limited = new InputStream() {
-                long left = len;
-                @Override public int read() throws IOException { if (left <= 0) return -1; int b = in.read(); if (b >= 0) left--; return b; }
-                @Override public int read(byte[] b, int off, int n) throws IOException {
-                    if (left <= 0) return -1;
-                    int r = in.read(b, off, (int) Math.min(n, left));
-                    if (r > 0) left -= r;
-                    return r;
-                }
-                @Override public void close() throws IOException { in.close(); }
-            };
-            headers.put("Content-Length", String.valueOf(len));
+            headers.put("Content-Length", String.valueOf(end - start + 1));
             if (partial) headers.put("Content-Range", "bytes " + start + "-" + end + "/" + size);
             String mime = name.endsWith(".webm") ? "video/webm" : "video/mp4";
-            return new WebResourceResponse(mime, null, partial ? 206 : 200, partial ? "Partial Content" : "OK", headers, limited);
+            return new WebResourceResponse(mime, null, partial ? 206 : 200, partial ? "Partial Content" : "OK", headers, in);
         } catch (IOException e) {
             return new WebResourceResponse("text/plain", "utf-8", 500, "Error", headers, null);
         }
