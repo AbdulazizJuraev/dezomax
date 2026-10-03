@@ -196,9 +196,9 @@ function posterHTML(m) {
 
   if (!m.poster) return fallback;
 
-  // keng (16:9) muqova oddiy posterlar orasida 2:3 kartaga joylanadi — orqasida xira nusxasi (css: .poster-blur)
+  // kartalar 16:9 — tik (2:3) poster kesilmaydi: o'rtada to'liq, chetlarida xira nusxasi (css: .card-poster .poster-blur)
   const blur = m.wide || m.franchise === 'konsert'
-    ? `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">` : '';
+    ? '' : `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">`;
   return fallback + blur +
     `<img class="poster-img" src="${esc(m.poster)}" alt="${esc(title(m))}" loading="lazy" onerror="this.remove()">`;
 }
@@ -263,10 +263,12 @@ function cardHTML(m) {
   const meta = [m.year, m.type === 'serial' && m.seasons ? seasonsText(m.seasons) : genreName(m.genres[0])]
     .filter(Boolean).join('<i class="dot"></i>');
 
+  // hamma kartalar 16:9: keng muqovasi (cover) bo'lsa — o'sha, bo'lmasa poster xira fon ustida
+  const wide = m.franchise === 'konsert' || m.wide || !!m.cover;
   return `
-  <a class="card reveal${m.franchise === 'konsert' || m.wide ? ' is-wide' : ''}" href="${movieHref(m)}">
+  <a class="card reveal${wide ? ' is-wide' : ''}" href="${movieHref(m)}">
     <div class="card-poster">
-      ${posterHTML(m)}
+      ${posterHTML(m.cover && !m.wide ? { ...m, poster: m.cover, wide: true } : m)}
       <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
       ${m.rating ? `<div class="badge-rating">${ICONS.star}${m.rating.toFixed(1)}</div>` : ''}
       <div class="badge-type">${typeName(m.type)}</div>
