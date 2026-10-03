@@ -131,7 +131,11 @@ function playOffline(key) {
     if (!wrap.isConnected) return;
     if (!d.ok) return showOffError(box, d.reason, d.detail);
     mountVideo(box, url, { poster: it.cover || it.poster || null, wide: !!it.cover, title: it.title,
-      onFail: () => showOffError(box, LANG === 'ru' ? 'Видео не открылось' : 'Video ochilmadi', d.detail) });
+      onFail: () => {
+        const v = box.querySelector('video');
+        const err = v && v.error ? ` · MediaError ${v.error.code}: ${v.error.message || ''}` : '';
+        showOffError(box, LANG === 'ru' ? 'Видео не открылось' : 'Video ochilmadi', d.detail + err);
+      } });
     box.querySelector('#vpCover')?.click();
     // 15 soniyada boshlanmasa — qotib qolgan deb hisoblaymiz
     setTimeout(() => {
@@ -159,7 +163,21 @@ async function probeLocal(url) {
     if (/^\s*<|<!doctype|<html/i.test(ascii)) return { ok: false, reason: ru ? 'Это не видео: вместо фильма сайт отдал страницу' : 'Bu video emas: manba sayt kino o‘rniga sahifa bergan. Bu kinoni o‘chirib, boshqa manbadan yuklang', detail };
     if (total && total < 2 * 1048576) return { ok: false, reason: ru ? 'Файл скачан не полностью' : 'Fayl to‘liq yuklanmagan — o‘chirib, qayta yuklab oling', detail };
     const isVideo = /ftyp|moov|mdat|webm|\x1aE\xdf\xa3/i.test(String.fromCharCode(...b));
-    return { ok: true, detail: detail + (isVideo ? '' : ' · format?') };
+    // surish (seek) tekshiruvi: 0..256K bo'lagidagi 100000-baytdan 64 bayt == alohida so'ralgan 100000..100063 bo'lmog'i kerak;
+    // oxirgi 64 bayt ham kelishi kerak. Mos kelmasa — ilova faylni noto'g'ri joydan beryapti (pleyer shuning uchun ochmaydi)
+    let seek = '';
+    try {
+      const get = async range => {
+        const rr = await fetch(url, { headers: { Range: 'bytes=' + range }, cache: 'no-store', signal: ctl.signal });
+        return { s: rr.status, cr: rr.headers.get('content-range') || '', b: new Uint8Array(await rr.arrayBuffer()) };
+      };
+      const A = await get('0-262143'), B = await get('100000-100063');
+      const same = B.b.length === 64 && B.b.every((x, i) => x === A.b[100000 + i]);
+      let tail = '';
+      if (total > 1000) { const C = await get(`${total - 64}-${total - 1}`); tail = ` · oxiri ${C.s}/${C.b.length}b`; }
+      seek = ` · seek ${same ? 'OK' : `XATO (${B.s} ${B.b.length}b ${B.cr})`}${tail}`;
+    } catch (e) { seek = ` · seek ? (${e.name})`; }
+    return { ok: true, detail: detail + seek + (isVideo ? '' : ' · format?') };
   } catch (e) {
     return { ok: false, reason: ru ? 'Приложение не отвечает при чтении файла' : 'Ilova faylni o‘qishda javob bermadi', detail: e.name === 'AbortError' ? '8 s kutildi' : String(e.message || e) };
   } finally { clearTimeout(timer); }
