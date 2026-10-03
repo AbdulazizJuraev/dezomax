@@ -29324,7 +29324,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790984049104
   }
 ]/*END*/;
-const HIDDEN_MOVIES = /*HIDDEN*/[21]/*ENDHIDDEN*/;
+const HIDDEN_MOVIES = /*HIDDEN*/[21,7338617]/*ENDHIDDEN*/;
 
 if (typeof MOVIES !== 'undefined') {
   window.BASE_MOVIES = MOVIES.slice();        // admin sahifa asl ro'yxatni ko'rishi uchun
