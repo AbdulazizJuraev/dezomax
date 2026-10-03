@@ -5875,3 +5875,13 @@ img.soc-ava { object-fit: cover; padding: 0; background: var(--surface); }
 .soc-yt-note { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; color: var(--text-dim); font-size: 13.5px; }
 .soc-yt .soc-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; }
 .adm-tag-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 14px; }
+
+/* Admin → Kanallar (js/admin.js renderChannelsView) */
+.adm-nav { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+@media (max-width: 640px) { .adm-nav { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.adm-ch-ico { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(255, 0, 51, .14); color: #ff3355; flex: none; }
+.adm-ch-ico svg { width: 22px; height: 22px; }
+.adm-ch .acc-item-main small a { color: var(--accent); }
+.adm-ch-prog { height: 6px; margin-top: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.adm-ch-prog i { display: block; height: 100%; background: var(--grad); border-radius: 999px; transition: width .4s; }
+.adm-ch-note { color: var(--text-dim); }

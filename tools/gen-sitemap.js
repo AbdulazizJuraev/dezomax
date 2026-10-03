@@ -16,7 +16,7 @@ const SITE = 'https://dezomax.uz/';
 // data.js va data-custom.js ni brauzerdagidek ketma-ket bajaramiz (MOVIES massivi)
 const ctx = { console, window: {}, document: { write() {} }, location: { pathname: '/' } };
 vm.createContext(ctx);
-for (const f of ['js/data.js', 'js/data-rizanova.js', 'js/data-custom.js']) {
+for (const f of ['js/data.js', 'js/data-channels.js', 'js/data-custom.js']) {
   const src = fs.readFileSync(path.join(root, f), 'utf8').replace(/^(const|let) /gm, 'var ');
   try { vm.runInContext(src, ctx, { filename: f }); } catch (e) { console.warn(`${f}: ${e.message}`); }
 }

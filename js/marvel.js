@@ -43,7 +43,7 @@ function mxFilms() {
       // Wikidata (js/marvel-data.js) + admin'da kiritilgani (m.mx); admin treyler qo'ysa — «rasmiy» faqat Wikidata ro'yxatidagisi
       const wd = (typeof MARVEL_INFO !== 'undefined' && MARVEL_INFO[m.id]) || {};
       const info = { ...wd, ...(m.mx || {}) };
-      if (m.mx && m.mx.yt && m.mx.yt !== wd.yt) delete info.ytCh;
+      if (m.mx && m.mx.yt && m.mx.yt !== wd.yt && !m.mx.ytCh) delete info.ytCh;   // kanaldan kelgani (mx.ytCh) — rasmiy
       const date = info.date || (m.year ? `${m.year}-12-31` : '');
       return { m, info, date, exact: !!info.date };
     })

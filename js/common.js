@@ -56,7 +56,7 @@ const PART_MOVIES = new Map();  // ro'yxatlardan chiqarilgan qismlar (id -> kino
 
 /* Guruh kartasining qismlari tartibda (guruh bo'lmasa — bo'sh ro'yxat) */
 function partsOf(m) {
-  // ixcham qismlar (YouTube kanal seriallari, js/data-rizanova.js): eps: [[youtubeId, daqiqa], ...]
+  // ixcham qismlar (YouTube kanal seriallari, js/data-channels.js): eps: [[youtubeId, daqiqa], ...]
   if (m && Array.isArray(m.eps) && m.eps.length) {
     return m.eps.map(([yt, min]) => ({ id: m.id, title: m.title, video: 'https://www.youtube.com/watch?v=' + yt, cover: 'https://i.ytimg.com/vi/' + yt + '/maxresdefault.jpg', duration: min || undefined, source: m.source, audio: m.audio }));
   }

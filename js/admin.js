@@ -579,6 +579,7 @@ let listQuery = '';
 let commitsCache = null;    // oxirgi o'zgarishlar (GitHub commit tarixi)
 
 const NAV_ICONS = {
+  yt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>',
   gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>',
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3.5l9 7"/><path d="M5.5 9.5V20h13V9.5"/></svg>',
   list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
@@ -652,6 +653,7 @@ function renderMain() {
       <button type="button" data-view="site" class="${view === 'site' ? 'is-active' : ''}">${NAV_ICONS.gear}<span>Sayt</span></button>
       <button type="button" data-view="notify" class="${view === 'notify' ? 'is-active' : ''}">${NAV_ICONS.bell}<span>Xabar</span></button>
       <button type="button" data-view="tg" class="${view === 'tg' ? 'is-active' : ''}">${NAV_ICONS.tg}<span>Telegram</span></button>
+      <button type="button" data-view="channels" class="${view === 'channels' ? 'is-active' : ''}">${NAV_ICONS.yt}<span>Kanallar</span></button>
     </nav>
     <div id="admView"></div>`;
 
@@ -667,6 +669,7 @@ function renderMain() {
   else if (view === 'site') renderSiteView();
   else if (view === 'notify') renderNotifyView();
   else if (view === 'tg') renderTgView();
+  else if (view === 'channels') renderChannelsView();
   else if (view === 'groups') renderGroupsView();
   else renderFormView();
 }
@@ -2022,6 +2025,170 @@ async function dc(path, opts = {}) {
 const onSite = url => !!url && customList.some(m => m.video === url);
 const fmtDur = s => { if (!s) return ''; s = Math.round(s); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h} soat ${m} daq.` : `${m || 1} daq.`; };
 const fmtSize = b => b >= 1073741824 ? (b / 1073741824).toFixed(1) + ' GB' : Math.max(1, Math.round(b / 1048576)) + ' MB';
+
+/* ---------- Kanallar: rasmiy YouTube kanallaridan seriallar va filmlar ----------
+   js/data-channels.js: CHANNELS (kanallar ro'yxati) + CHANNEL_MOVIES (ularning kinolari, ch: kanal kaliti).
+   «Yangilash» — DezoCloud kanal playlistlarini o'qiydi (fonda, 1–3 daqiqa), yangi qism/serial/film qo'shiladi,
+   borlari yangilanadi; hech narsa o'chirilmaydi (vaqtincha ko'rinmagan playlist yo'qolmasin).
+   Videolar yuklab olinmaydi — sayt YouTube pleyeri orqali ko'rsatadi. Faqat tasdiqlangan (✓) kanallar. */
+const CH_PATH = 'js/data-channels.js';
+let chState = null;           // { channels, items, sha }
+let chBusy = null;            // { key, done, total, note }
+const CH_KINDS = { series: 'Seriallar va filmlar (playlistlar)', trailers: 'Rasmiy treylerlar (Marvel kabi)' };
+
+async function loadChannels() {
+  const f = await getFile(CH_PATH);
+  if (!f) { chState = { channels: [], items: [], sha: null }; return; }
+  const text = b64decode(f.content);
+  const part = (a, b) => JSON.parse(text.slice(text.indexOf(a) + a.length, text.indexOf(b)));
+  chState = { channels: part('/*CHANNELS*/', '/*ENDCHANNELS*/'), items: part('/*CHDATA*/', '/*ENDCHDATA*/'), sha: f.sha };
+}
+function buildChannelsFile(channels, items) {
+  return `/* DezoMax — rasmiy YouTube kanallaridan seriallar va filmlar (admin → «Kanallar» yozadi, qo'lda o'zgartirmang).
+   Videolar YouTube pleyeri orqali ko'rsatiladi — yuklab olinmaydi. Qismlar ixcham: eps [[youtubeId, daqiqa], ...]. */
+var CHANNELS = /*CHANNELS*/${JSON.stringify(channels)}/*ENDCHANNELS*/;
+var CHANNEL_MOVIES = /*CHDATA*/[
+${items.map(m => JSON.stringify(m)).join(',\n')}
+]/*ENDCHDATA*/;
+if (typeof MOVIES !== 'undefined') for (var i = 0; i < CHANNEL_MOVIES.length; i++) MOVIES.push(CHANNEL_MOVIES[i]);
+`;
+}
+async function saveChannels(mutate, message) {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    await loadChannels();
+    const next = mutate({ channels: structuredClone(chState.channels), items: chState.items.slice() });
+    try {
+      const res = await putFile(CH_PATH, b64encode(buildChannelsFile(next.channels, next.items)), message, chState.sha);
+      chState = { ...next, sha: res.content.sha };
+      return;
+    } catch (e) { if (e.status !== 409 || attempt) throw e; }
+  }
+}
+const chNorm = s => String(s || '').toLowerCase().replace(/[‘’'`ʻ]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+
+async function renderChannelsView() {
+  const box = $('#admView');
+  if (!dcKey()) {
+    box.innerHTML = `
+      <section class="adm-sec">
+        <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>Kanallar</h3></div>
+        <p class="acc-muted">Kanallarni yangilash DezoCloud orqali ishlaydi. Avval «Telegram» bo‘limida DezoCloud’ga ulaning (bir marta).</p>
+        <button class="btn btn-primary" type="button" id="chToTg">DezoCloud’ga ulash</button>
+      </section>`;
+    $('#chToTg').addEventListener('click', () => go('tg'));
+    return;
+  }
+  if (!chState) {
+    box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+    try { await loadChannels(); } catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
+    if (view !== 'channels') return;
+  }
+  const count = key => chState.items.filter(m => m.ch === key).length;
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>YouTube kanallari</h3><small>${chState.channels.length} ta</small></div>
+      <p class="adm-hint">Kanalda yangi qism, serial yoki treyler chiqsa — «Yangilash» ni bosing: yangilari saytga qo‘shiladi, borlari yangilanadi. Videolar YouTube pleyeri orqali ko‘rsatiladi (yuklab olinmaydi), ko‘rishlar va reklama kanal egasida qoladi.</p>
+      <div class="acc-list">${chState.channels.map(c => `
+        <div class="acc-item adm-item adm-ch">
+          <span class="adm-ch-ico">${NAV_ICONS.yt}</span>
+          <div class="acc-item-main"><b>${esc(c.name)}</b>
+            <small>${esc(CH_KINDS[c.kind] || c.kind)} · ${count(c.key)} ta · ${c.updatedAt ? 'yangilangan: ' + new Date(c.updatedAt).toLocaleString('uz') : 'hali yangilanmagan'}</small>
+            <small><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url.replace('https://www.', ''))}</a></small>
+            ${chBusy && chBusy.key === c.key ? `<div class="adm-ch-prog"><i style="width:${chBusy.total ? Math.round(chBusy.done / chBusy.total * 100) : 5}%"></i></div><small class="adm-ch-note">${chBusy.total ? `${chBusy.done}/${chBusy.total} · ` : ''}${esc(chBusy.note || 'Kanal o‘qilmoqda…')}</small>` : ''}
+          </div>
+          <div class="adm-actions">
+            <button class="btn btn-primary btn-sm" type="button" data-chsync="${esc(c.key)}" ${chBusy ? 'disabled' : ''}>Yangilash</button>
+            <button class="btn btn-ghost btn-sm adm-del" type="button" data-chdel="${esc(c.key)}" ${chBusy ? 'disabled' : ''}>O‘chirish</button>
+          </div>
+        </div>`).join('') || '<p class="acc-muted">Hozircha kanal yo‘q.</p>'}
+      </div>
+    </section>
+
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.plus}</span><h3>Kanal qo‘shish</h3><small>faqat rasmiy (✓) kanallar</small></div>
+      <div class="adm-field"><label class="adm-label" for="chUrl">Kanal havolasi</label>
+        <input class="acc-input" id="chUrl" placeholder="https://www.youtube.com/@kanal" inputmode="url" autocomplete="off"></div>
+      <div class="adm-row adm-row-2">
+        <div class="adm-field"><label class="adm-label" for="chKind">Nima olinadi</label>
+          <select class="acc-input" id="chKind">${Object.entries(CH_KINDS).map(([k, l]) => `<option value="${k}">${l}</option>`).join('')}</select></div>
+        <div class="adm-field"><label class="adm-label" for="chFr">Bo‘lim</label>
+          <select class="acc-input" id="chFr">${[['uzbek', 'O‘zbek kino'], ['', 'Yo‘q'], ['marvel', 'Marvel'], ['dc', 'DC'], ['konsert', 'Konsert'], ['dorama', 'Koreys doramasi'], ['anime', 'Anime'], ['hind', 'Hind kino']].map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div>
+      </div>
+      <label class="adm-rights"><input type="checkbox" id="chRights"><span>Bu kanal kontent egasining rasmiy kanali (studiya, telekanal, distribyutor) va uning videolarini saytda ko‘rsatish mumkin.</span></label>
+      <p class="acc-error" id="chErr" hidden></p>
+      <button class="btn btn-primary" type="button" id="chAdd" ${chBusy ? 'disabled' : ''}>Tekshirish va qo‘shish</button>
+    </section>`;
+
+  box.querySelectorAll('[data-chsync]').forEach(b => b.addEventListener('click', () => syncChannel(chState.channels.find(c => c.key === b.dataset.chsync))));
+  box.querySelectorAll('[data-chdel]').forEach(b => b.addEventListener('click', () => {
+    const c = chState.channels.find(x => x.key === b.dataset.chdel);
+    if (!confirm(`«${c.name}» kanali va uning ${count(c.key)} ta kinosi saytdan olib tashlansinmi? (YouTube’dagi videolarga tegilmaydi)`)) return;
+    runAction(b, () => saveChannels(st => ({ channels: st.channels.filter(x => x.key !== c.key), items: st.items.filter(m => m.ch !== c.key) }), `Kanal olib tashlandi: ${c.name}`), 'Kanal olib tashlandi');
+  }));
+  $('#chAdd').addEventListener('click', async e => {
+    const err = $('#chErr'), btn = e.currentTarget;
+    const show = m => { err.textContent = m; err.hidden = !m; };
+    let url = $('#chUrl').value.trim();
+    if (/^@[\w.-]+$/.test(url)) url = 'https://www.youtube.com/' + url;
+    url = url.replace(/^https?:\/\/(m\.)?youtube\.com/i, 'https://www.youtube.com').replace(/[?#].*$/, '').replace(/\/(videos|playlists|featured|about|shorts|streams)\/?$/, '').replace(/\/+$/, '');
+    if (!/^https:\/\/www\.youtube\.com\/(@[\w.-]+|channel\/UC[\w-]{22}|c\/[\w.-]+)$/.test(url)) return show('YouTube kanal havolasini kiriting: https://www.youtube.com/@kanal');
+    if (!$('#chRights').checked) return show('Kanal rasmiy ekanini tasdiqlang.');
+    show(''); btn.disabled = true; btn.textContent = 'Tekshirilmoqda…';
+    try {
+      const info = await dc('/api/yt/channel?url=' + encodeURIComponent(url));
+      if (!info.verified) throw new Error(`«${info.name}» kanali YouTube’da tasdiqlanmagan (✓ yo‘q) — faqat rasmiy kanallar qo‘shiladi.`);
+      if (chState.channels.some(c => c.url === info.url || c.id === info.id)) throw new Error('Bu kanal allaqachon ro‘yxatda — «Yangilash» ni bosing.');
+      const key = (info.url.match(/@([\w.-]+)/)?.[1] || info.id).toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 20) || 'ch' + Date.now();
+      const ch = { key, id: info.id, name: info.name, url: info.url, kind: $('#chKind').value, franchise: $('#chFr').value, prefix: key.slice(0, 6), updatedAt: null, count: 0 };
+      await saveChannels(st => ({ channels: [...st.channels, ch], items: st.items }), `Kanal qo‘shildi: ${ch.name}`);
+      toast(`«${ch.name}» qo‘shildi (${info.subs || ''} obunachi) — videolari yuklanmoqda…`);
+      syncChannel(ch);
+    } catch (ex) { show(ex.status ? ex.message : friendlyError(ex)); btn.disabled = false; btn.textContent = 'Tekshirish va qo‘shish'; }
+  });
+}
+
+async function syncChannel(ch) {
+  if (!ch || chBusy) return;
+  chBusy = { key: ch.key, done: 0, total: 0, note: '' };
+  if (view === 'channels') renderChannelsView();
+  try {
+    const { job } = await dc('/api/yt/sync', { method: 'POST', body: JSON.stringify({ url: ch.url, kind: ch.kind, franchise: ch.franchise, prefix: ch.prefix }) });
+    let j;
+    for (;;) {
+      await new Promise(r => setTimeout(r, 3000));
+      j = await dc('/api/yt/sync/' + job);
+      Object.assign(chBusy, { done: j.done, total: j.total, note: j.note });
+      if (view === 'channels') renderChannelsView();
+      if (j.state !== 'run') break;
+    }
+    if (j.state === 'error') throw new Error(j.error);
+    // saytda allaqachon bor kinolar (boshqa manbadan) takrorlanmaydi
+    // (katalog kutubxonasidagi videosiz kartalar hisobga olinmaydi — faqat saytda ko'rinadiganlar)
+    const others = allMovies().filter(m => !m.ch && (hasFilm(m) || m.franchise === 'marvel'));
+    const known = new Set(others.flatMap(m => [m.title?.uz, m.title?.ru, ...(m.tags || [])]).filter(Boolean).map(chNorm));
+    if (typeof MARVEL_INFO !== 'undefined') Object.values(MARVEL_INFO).forEach(x => x.en && known.add(chNorm(x.en)));
+    let added = 0, updated = 0;
+    await saveChannels(st => {
+      const items = st.items.slice();
+      const byId = new Map(items.map((m, i) => [m.id, i]));
+      for (const m of j.items || []) {
+        const it = { ...m, ch: ch.key };
+        if (byId.has(m.id)) { items[byId.get(m.id)] = it; updated++; continue; }
+        if (known.has(chNorm(m.title.uz)) || (m.mx && known.has(chNorm(m.mx.en)))) continue;
+        items.push(it); byId.set(m.id, items.length - 1); added++;
+      }
+      const channels = st.channels.map(c => c.key === ch.key ? { ...c, name: j.channel?.name || c.name, updatedAt: Date.now(), count: items.filter(m => m.ch === ch.key).length } : c);
+      return { channels, items };
+    }, `Kanal yangilandi: ${ch.name}`);
+    commitsCache = null;
+    toast(added ? `${ch.name}: ${added} ta yangi, ${updated} ta yangilandi — ~1 daqiqada saytda` : `${ch.name}: yangi video yo‘q (${updated} ta tekshirildi)`);
+  } catch (e) {
+    toast(e.message || 'Yangilanmadi', true);
+  } finally {
+    chBusy = null;
+    if (view === 'channels') renderChannelsView();
+  }
+}
 
 async function renderTgView() {
   const box = $('#admView');

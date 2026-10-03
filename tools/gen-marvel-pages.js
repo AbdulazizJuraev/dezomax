@@ -20,7 +20,7 @@ const DIR = path.join(root, 'marvel');
 
 const ctx = { console, window: {}, document: { write() {} }, location: { pathname: '/' } };
 vm.createContext(ctx);
-for (const f of ['js/data.js', 'js/data-custom.js', 'js/marvel-data.js']) {
+for (const f of ['js/data.js', 'js/data-channels.js', 'js/data-custom.js', 'js/marvel-data.js']) {
   const src = fs.readFileSync(path.join(root, f), 'utf8').replace(/^(const|let) /gm, 'var ');
   try { vm.runInContext(src, ctx, { filename: f }); } catch (e) { console.warn(`${f}: ${e.message}`); }
 }
@@ -30,7 +30,7 @@ const films = (ctx.MOVIES || []).filter(m => m && m.franchise === 'marvel' && m.
   .map(m => {
     // admin'da kiritilgani (m.mx) Wikidata ustidan; admin treyleri «rasmiy» deb yozilmaydi
     const wd = INFO[m.id] || {}, info = { ...wd, ...(m.mx || {}) };
-    if (m.mx && m.mx.yt && m.mx.yt !== wd.yt) delete info.ytCh;
+    if (m.mx && m.mx.yt && m.mx.yt !== wd.yt && !m.mx.ytCh) delete info.ytCh;
     return { m, info };
   });
 
