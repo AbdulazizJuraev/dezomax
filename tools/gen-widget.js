@@ -28,7 +28,7 @@ for (const m of all) if (Array.isArray(m.parts) && m.parts.length > 1) for (cons
 const clean = s => String(s || '').replace(/[\p{Extended_Pictographic}\u{FE0F}]/gu, '').replace(/^[#\s.,:-]+/, '').replace(/\s{2,}/g, ' ').trim();
 const seen = new Set(), seenTitle = new Set();
 const list = all
-  .filter(m => String(m.video || '').trim() && m.franchise !== 'konsert')
+  .filter(m => String(m.video || '').trim() && m.franchise !== 'konsert' && m.franchise !== 'tahlil')
   .sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0) || (b.year || 0) - (a.year || 0) || b.id - a.id)
   .map(m => byId.get(parentOf.get(m.id)) || m)
   .filter(m => m.poster && m.title && !seen.has(m.id) && seen.add(m.id))

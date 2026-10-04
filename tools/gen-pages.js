@@ -61,7 +61,7 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&a
 const noEmoji = s => String(s || '').replace(/[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}\u{FE0F}\u{200D}]/gu, '').replace(/[ \t]{2,}/g, ' ').trim();
 const genre = id => (GENRES.find(g => g.id === id) || {}).uz || id;
 const abs = p => p ? new URL(p, SITE).href : '';
-const TYPE = { film: 'Film', serial: 'Serial', multfilm: 'Multfilm' };
+const TYPE = { film: 'Film', serial: 'Serial', multfilm: 'Multfilm', tahlil: 'Tahlil' };
 
 function similar(m) {
   return list

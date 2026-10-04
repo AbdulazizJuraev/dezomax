@@ -2170,7 +2170,7 @@ async function renderChannelsView() {
         <div class="acc-item adm-item adm-ch">
           <span class="adm-ch-ico">${NAV_ICONS.yt}</span>
           <div class="acc-item-main"><b>${esc(c.name)}</b>
-            <small>${esc(CH_KINDS[c.kind] || c.kind)} · ${count(c.key)} ta · ${c.updatedAt ? 'yangilangan: ' + new Date(c.updatedAt).toLocaleString('uz') : 'hali yangilanmagan'}</small>
+            <small>${esc(CH_KINDS[c.kind] || (c.kind === 'playlist' ? 'Ruxsat berilgan playlist' : c.kind))} · ${count(c.key)} ta · ${c.updatedAt ? 'yangilangan: ' + new Date(c.updatedAt).toLocaleString('uz') : 'hali yangilanmagan'}</small>
             <small><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url.replace('https://www.', ''))}</a></small>
             ${chBusy && chBusy.key === c.key ? `<div class="adm-ch-prog"><i style="width:${chBusy.total ? Math.round(chBusy.done / chBusy.total * 100) : 5}%"></i></div><small class="adm-ch-note">${chBusy.total ? `${chBusy.done}/${chBusy.total} · ` : ''}${esc(chBusy.note || 'Kanal o‘qilmoqda…')}</small>` : ''}
           </div>
@@ -2244,11 +2244,102 @@ async function renderChannelsView() {
   });
 }
 
+/* ---------- Ruxsat berilgan YouTube ma'lumotlari (to'lov serveri: server/server.js → /api/yt/playlist, /api/yt/meta) ----------
+   - kind 'playlist' kanallar (egasi ruxsat bergan playlist, masalan FarZidGuy «Kino Tahlil») — yangi videolar shu yerda qo'shiladi
+   - rasmiy o'zbek kanallari — yangi kino/serial kanal egasining video tavsifidan to'ldiriladi (mazmun, yil, janr, rejissyor, rollar)
+   tools/fetch-yt-meta.js bilan bir xil natija. */
+const YT_SERVER = 'https://pay.2-29-60-133.sslip.io';
+async function ytApi(p) {
+  const r = await fetch(YT_SERVER + p);
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || 'Server javob bermadi');
+  return j;
+}
+const ytStableId = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return 7000000 + (h % 1000000); };
+const ytSlug = s => s.toLowerCase().replace(/[‘’'`ʻ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'video';
+const ytMinutes = len => { const p = String(len).split(':').map(Number); if (!p.length || p.some(isNaN)) return 0; const s = p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0); return Math.max(1, Math.round(s / 60)); };
+const ytUz = s => String(s).replace(/([oOgG])['‘’`ʻ]/g, '$1‘').replace(/['`ʻ]/g, '’');
+function ytVideoTitle(raw) {
+  const parts = String(raw).replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').split(/\s*\|\s*/).map(p => p.replace(/\s{2,}/g, ' ').trim())
+    .filter(p => p && !/^o['‘’`ʻ]?zbek tilida$/i.test(p));
+  return parts.map(p => {
+    const letters = p.replace(/[^\p{L}]/gu, '');
+    if (letters && letters === letters.toUpperCase()) p = p.toLowerCase();
+    return ytUz(p.replace(/(^|[.!?:]\s+|\s[-–—]\s+)(\p{L})/gu, (m, a, b) => a + b.toUpperCase()));
+  }).join(' — ');
+}
+function applyYtMeta(m, meta) {
+  const it = { ...m, meta: 1 };
+  if (!meta || meta.error) return it;
+  const generic = !it.desc || /kanalidagi|kanalidan/.test(it.desc.uz || '');
+  if (meta.summary && meta.summary.length > 40 && generic) it.desc = { uz: ytUz(meta.summary), ru: it.desc?.ru || it.desc?.uz || '' };
+  if (!it.year && meta.year) it.year = meta.year;
+  if (meta.genres?.length && (!it.genres?.length || (it.genres.length === 1 && it.genres[0] === 'drama'))) it.genres = meta.genres;
+  if (meta.cast?.length && !(it.cast || []).length) it.cast = meta.cast.map(ytUz);
+  if (meta.director && !it.director) it.director = ytUz(meta.director);
+  if (meta.writer && !it.writer) it.writer = ytUz(meta.writer);
+  return it;
+}
+const ytFirstVideo = m => (m.eps && m.eps[0] && m.eps[0][0]) || (String(m.video || '').match(/[?&]v=([\w-]{11})/) || [])[1];
+
+/* yangi kelgan (hali to'ldirilmagan) kinolar — bir yangilashda ko'pi bilan 30 ta, qolgani keyingi safar */
+async function enrichChannel(ch, limit = 30) {
+  const todo = chState.items.filter(m => m.ch === ch.key && !m.meta).slice(0, limit);
+  const got = new Map();
+  for (const [k, m] of todo.entries()) {
+    Object.assign(chBusy, { done: k, total: todo.length, note: `Ma’lumot: ${m.title?.uz || ''}` });
+    if (view === 'channels') renderChannelsView();
+    const vid = ytFirstVideo(m);
+    if (!vid) continue;
+    try { got.set(m.id, await ytApi('/api/yt/meta?v=' + vid)); } catch { /* keyingi safar */ }
+  }
+  if (!got.size) return 0;
+  await saveChannels(st => ({ channels: st.channels, items: st.items.map(m => got.has(m.id) ? applyYtMeta(m, got.get(m.id)) : m) }),
+    `Ma’lumot to‘ldirildi: ${ch.name} (${got.size} ta)`);
+  return got.size;
+}
+
+/* egasi ruxsat bergan playlist — yangi videolar qo'shiladi (bir safarda ko'pi bilan 40 ta) */
+async function syncPlaylist(ch) {
+  chBusy.note = 'Playlist o‘qilmoqda…';
+  if (view === 'channels') renderChannelsView();
+  const pl = await ytApi('/api/yt/playlist?list=' + encodeURIComponent(ch.playlist));
+  const have = new Set(chState.items.filter(m => m.ch === ch.key).map(m => m.id));
+  const fresh = pl.items.map((v, k) => ({ v, k, id: ytStableId(`${ch.prefix}:${v.id}`) })).filter(x => !have.has(x.id)).slice(0, 40);
+  const add = [];
+  for (const [n, { v, k, id }] of fresh.entries()) {
+    Object.assign(chBusy, { done: n, total: fresh.length, note: v.title });
+    if (view === 'channels') renderChannelsView();
+    let meta = {};
+    try { meta = await ytApi('/api/yt/meta?v=' + v.id); } catch {}
+    const t = ytVideoTitle(v.title);
+    add.push({
+      id, slug: `${ch.prefix}-${ytSlug(t)}`, type: ch.type || 'tahlil', franchise: ch.franchise, audio: 'uz',
+      title: { uz: t, ru: t }, genres: [], ...(meta.year ? { year: meta.year } : {}),
+      country: { uz: 'O‘zbekiston', ru: 'Узбекистан' }, cast: [],
+      desc: { uz: meta.summary && meta.summary.length > 30 ? ytUz(meta.summary) : `«${t}» — ${ch.name} kanalidagi kino tahlili, o‘zbek tilida.`, ru: `«${t}» — разбор фильма на узбекском языке с канала ${ch.name}.` },
+      colors: ['#1a2a4a', '#070a12'],
+      poster: `https://i.ytimg.com/vi/${v.id}/hq720.jpg`, wide: true, cover: `https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`,
+      trailer: '', video: `https://www.youtube.com/watch?v=${v.id}`, duration: ytMinutes(v.len) || meta.duration || 0,
+      source: { name: ch.name, url: ch.url }, featured: false,
+      addedAt: meta.published ? Date.parse(meta.published) : Date.now() - k * 60000, meta: 1, ch: ch.key,
+    });
+  }
+  await saveChannels(st => {
+    const ids = new Set(st.items.map(m => m.id));
+    const items = [...st.items, ...add.filter(m => !ids.has(m.id))];
+    return { items, channels: st.channels.map(c => c.key === ch.key ? { ...c, updatedAt: Date.now(), count: items.filter(m => m.ch === ch.key).length } : c) };
+  }, `Playlist yangilandi: ${ch.name}${add.length ? ` (+${add.length})` : ''}`);
+  commitsCache = null;
+  toast(add.length ? `${ch.name}: ${add.length} ta yangi video — ~1 daqiqada saytda` : `${ch.name}: yangi video yo‘q`);
+}
+
 async function syncChannel(ch) {
   if (!ch || chBusy) return;
   chBusy = { key: ch.key, done: 0, total: 0, note: '' };
   if (view === 'channels') renderChannelsView();
   try {
+    if (ch.kind === 'playlist') { await syncPlaylist(ch); return; }
     const { job } = await dc('/api/yt/sync', { method: 'POST', body: JSON.stringify({ url: ch.url, kind: ch.kind, franchise: ch.franchise, prefix: ch.prefix }) });
     let j;
     for (;;) {
@@ -2274,6 +2365,8 @@ async function syncChannel(ch) {
       // DreamWorks treylerlari Universal kanalida (studio.via) — yangilarini Universal oladi, bu yerda faqat borlari yangilanadi
       const shared = studio && studio.via;
       const KEEP = ['title', 'desc', 'tags', 'year', 'cast', 'director', 'genres', 'type', 'wd', 'slug', 'colors', 'id'];
+      // video tavsifidan to'ldirilganlar (meta) — DezoCloud'ning qisqa matni ustidan yozilmaydi
+      const KEEP_META = ['desc', 'year', 'cast', 'director', 'writer', 'genres', 'meta'];
       // skript yozgan treylerlarning ID'si boshqacha — bir xil YouTube video bo'lsa, o'sha yozuv yangilanadi
       const byTrailer = new Map(items.map((m, i) => [m.ch === ch.key && m.trailer, i]));
       for (const m of j.items || []) {
@@ -2286,6 +2379,7 @@ async function syncChannel(ch) {
         if (byId.has(m.id)) {
           const old = items[byId.get(m.id)];
           if (studio) KEEP.forEach(k => { if (old[k] !== undefined) it[k] = old[k]; });
+          else if (old.meta) KEEP_META.forEach(k => { if (old[k] !== undefined) it[k] = old[k]; });
           items[byId.get(m.id)] = it; updated++; continue;
         }
         if (shared) continue;
@@ -2297,6 +2391,11 @@ async function syncChannel(ch) {
     }, `Kanal yangilandi: ${ch.name}`);
     commitsCache = null;
     toast(added ? `${ch.name}: ${added} ta yangi, ${updated} ta yangilandi — ~1 daqiqada saytda` : `${ch.name}: yangi video yo‘q (${updated} ta tekshirildi)`);
+    // seriallar/filmlar kanali — yangilari kanal egasining video tavsifidan to'ldiriladi
+    if (ch.kind === 'series') {
+      try { const n = await enrichChannel(ch); if (n) toast(`${ch.name}: ${n} ta kinoga ma’lumot qo‘shildi (yil, janr, rollar)`); }
+      catch (e) { toast('Ma’lumot to‘ldirilmadi: ' + (e.message || ''), true); }
+    }
   } catch (e) {
     toast(e.message || 'Yangilanmadi', true);
   } finally {

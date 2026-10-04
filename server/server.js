@@ -87,6 +87,103 @@ function googleVerifier(clientId) {
 }
 
 /* ---------- Ilova ---------- */
+/* ---------- YouTube: ruxsat berilgan kanallar uchun (DezoMax admin → «Kanallar») ----------
+   /api/yt/playlist?list=PL…  — playlist videolari [{ id, title, len }]
+   /api/yt/meta?v=ID          — kanal egasi video ostiga yozgan tavsifdan: mazmun, rejissyor, ssenariy, rollarda,
+                                 janrlar (nomidagi «| Drama | Detektiv»), yil. Faqat ochiq sahifa o'qiladi, video yuklanmaydi. */
+const YT_HEAD = {
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36',
+  'Accept-Language': 'en-US,en;q=0.9',
+  Cookie: 'SOCS=CAI; CONSENT=YES+1',
+};
+function ytPageJson(html, name) {
+  const i = html.indexOf(name + ' = ');
+  if (i < 0) return null;
+  const s = i + name.length + 3;
+  for (const end of [';</script>', ';var ']) {
+    const e = html.indexOf(end, s);
+    if (e > 0) { try { return JSON.parse(html.slice(s, e)); } catch { /* keyingisi */ } }
+  }
+  return null;
+}
+async function ytPlaylist(listId) {
+  if (!/^(PL|UU|OL)[\w-]{10,60}$/.test(String(listId || ''))) return { error: 'list noto‘g‘ri', status: 400 };
+  const html = await (await fetch(`https://www.youtube.com/playlist?list=${listId}&hl=en`, { headers: YT_HEAD, signal: AbortSignal.timeout(20000) })).text();
+  const cfg = { key: html.match(/"INNERTUBE_API_KEY":"([^"]+)"/)?.[1], ver: html.match(/"INNERTUBE_CLIENT_VERSION":"([^"]+)"/)?.[1] };
+  const take = d => {
+    const out = [];
+    (function walk(o) {
+      if (!o || typeof o !== 'object') return;
+      if (o.playlistVideoRenderer) {
+        const r = o.playlistVideoRenderer;
+        out.push({ id: r.videoId, title: r.title?.runs?.[0]?.text || r.title?.simpleText || '', len: r.lengthText?.simpleText || '' });
+        return;
+      }
+      if (o.lockupViewModel && o.lockupViewModel.contentId) {
+        const l = o.lockupViewModel, img = JSON.stringify(l.contentImage || {});
+        out.push({ id: l.contentId, title: l.metadata?.lockupMetadataViewModel?.title?.content || '', len: img.match(/"text":"(\d+:\d\d(?::\d\d)?)"/)?.[1] || '' });
+        return;
+      }
+      for (const k in o) walk(o[k]);
+    })(d);
+    return out;
+  };
+  const data = ytPageJson(html, 'ytInitialData');
+  if (!data) return { error: 'Playlist topilmadi', status: 404 };
+  const items = take(data);
+  let tok = JSON.stringify(data).match(/"continuationCommand":\{"token":"([^"]+)"/)?.[1], n = 0;
+  while (tok && cfg.key && n++ < 10) {
+    const r = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${cfg.key}`, {
+      method: 'POST', headers: { ...YT_HEAD, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(20000),
+      body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: cfg.ver, hl: 'en' } }, continuation: tok }),
+    });
+    if (!r.ok) break;
+    const j = await r.json(), add = take(j);
+    if (!add.length) break;
+    items.push(...add);
+    tok = JSON.stringify(j).match(/"continuationCommand":\{"token":"([^"]+)"/)?.[1];
+  }
+  const seen = new Set();
+  return { list: listId, items: items.filter(x => x.id && !/^\[(private|deleted)/i.test(x.title) && !seen.has(x.id) && seen.add(x.id)) };
+}
+const YT_GENRES = [[/melodrama/i, 'romance'], [/drama/i, 'drama'], [/komediya|comedy/i, 'comedy'], [/detektiv|detective/i, 'detective'],
+  [/triller|thriller/i, 'thriller'], [/jangari|boevik|action/i, 'action'], [/oilaviy|family/i, 'family'], [/tarixiy|histor/i, 'history'],
+  [/fantastik|fantasy/i, 'fantasy'], [/qo['‘’]rqinchli|horror|uzhas/i, 'horror'], [/sarguzasht|adventure/i, 'adventure']];
+async function ytMeta(id) {
+  if (!/^[\w-]{11}$/.test(String(id || ''))) return { error: 'v noto‘g‘ri', status: 400 };
+  const html = await (await fetch(`https://www.youtube.com/watch?v=${id}&hl=en`, { headers: YT_HEAD, signal: AbortSignal.timeout(20000) })).text();
+  const pr = ytPageJson(html, 'ytInitialPlayerResponse');
+  const d = pr && pr.videoDetails;
+  if (!d) return { error: 'Video topilmadi', status: 404 };
+  const text = String(d.shortDescription || '');
+  const line = re => (text.match(re) || [])[1];
+  const clean = s => String(s || '').replace(/https?:\/\/\S+/g, '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200B}]/gu, '').replace(/\s+/g, ' ').trim();
+  const people = s => clean(s).split(/\s*[,;]\s*/).map(x => x.replace(/\s*(va boshqalar|и другие)\.?$/i, '').trim()).filter(x => x && x.length < 40).slice(0, 10);
+  // mazmun — rollar/ijodkorlar/havolalardan oldingi qism
+  const stop = text.search(/^\s*(ssenariy|rejiss|postanovkachi|rollarda|bosh rollarda|operator|prodyuser|obuna|subscribe|ilovani|instagram|telegram|#)/im);
+  const summary = clean((stop > 0 ? text.slice(0, stop) : text.split(/\n\s*\n/)[0]).replace(/#\S+/g, '')).slice(0, 700);
+  const titleParts = String(d.title || '').split(/\s*[|]\s*/).slice(1).join(' ');
+  const pub = pr.microformat?.playerMicroformatRenderer?.publishDate || '';
+  const year = +(String(d.title).match(/\b(19[5-9]\d|20[0-3]\d)\b/) || [])[1] || +pub.slice(0, 4) || 0;
+  return {
+    id, title: d.title || '', channel: d.author || '', duration: Math.round((+d.lengthSeconds || 0) / 60),
+    summary, year, published: pub,
+    director: people(line(/(?:postanovkachi-)?rejiss[eyo]+r[i]?\s*[:\-–]\s*(.+)/i)).join(', '),
+    writer: people(line(/ssenariy(?:\s*muallifi)?\s*[:\-–]\s*(.+)/i)).join(', '),
+    cast: people(line(/(?:bosh\s+)?rollarda\s*[:\-–]\s*(.+)/i)),
+    genres: [...new Set(YT_GENRES.filter(([re]) => re.test(titleParts)).map(([, g]) => g))].slice(0, 3),
+  };
+}
+const ytCache = new Map();
+async function ytCached(key, fn) {
+  const hit = ytCache.get(key);
+  if (hit && Date.now() - hit.at < 6 * 3600000) return hit.data;
+  let data;
+  try { data = await fn(); } catch { data = { error: 'YouTube javob bermadi', status: 502 }; }
+  if (!data.error) { ytCache.set(key, { at: Date.now(), data }); if (ytCache.size > 2000) ytCache.delete(ytCache.keys().next().value); }
+  return data;
+}
+
 /* ---------- DezoSignal: Yahoo narx proksisi (/api/candles?symbol=EURUSD=X&tf=1h) ----------
    Javob: { symbol, tf, candles: [[vaqt(ms), open, high, low, close, volume], ...] }, 30 s kesh. */
 const YAHOO_TF = { '15m': ['15m', '60d'], '1h': ['60m', '730d'], '4h': ['60m', '730d'], '1d': ['1d', '10y'] };
@@ -417,6 +514,13 @@ function createApp(cfg, deps = {}) {
 
       // DezoSignal (abdulazizjuraev.github.io/dezosignal): forex, oltin, aksiyalar narxi.
       // Yahoo brauzerga to'g'ridan-to'g'ri bermaydi (CORS) — shu yerdan o'tadi. Faqat ochiq narx o'qiladi.
+      if ((path === '/api/yt/playlist' || path === '/api/yt/meta') && req.method === 'GET') {
+        if (limited(req, 'ytmeta', 90)) return send(res, 429, { error: 'Ko‘p so‘rov' });
+        const r = path.endsWith('playlist')
+          ? await ytCached('pl:' + url.searchParams.get('list'), () => ytPlaylist(url.searchParams.get('list')))
+          : await ytCached('v:' + url.searchParams.get('v'), () => ytMeta(url.searchParams.get('v')));
+        return send(res, r.error ? r.status || 502 : 200, r.error ? { error: r.error } : r);
+      }
       if (path === '/api/candles' && req.method === 'GET') {
         if (limited(req, 'candles', 120)) return send(res, 429, { error: 'Ko‘p so‘rov' });
         const r = await (deps.candles || yahooCandles)(url.searchParams);
@@ -587,7 +691,7 @@ function createApp(cfg, deps = {}) {
   return { handler, db, clickPrepare, clickComplete };
 }
 
-module.exports = { createApp, openDb, googleVerifier, md5 };
+module.exports = { createApp, openDb, googleVerifier, md5, ytPlaylist, ytMeta };
 
 /* ---------- Ishga tushirish ---------- */
 if (require.main === module) {

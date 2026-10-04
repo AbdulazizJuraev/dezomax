@@ -126,6 +126,7 @@ const I18N = {
     'row.dc': 'DC olami',
     'row.uzbek': 'O‘zbek kinolari',
     'row.konsert': 'Konsertlar',
+    'row.tahlil': 'Kino tahlillari',
     'row.dorama': 'Koreys doramalari',
     'row.anime': 'Anime',
     'row.hind': 'Hind kinolari',
@@ -153,6 +154,7 @@ const I18N = {
     'type.film': 'Film',
     'type.serial': 'Serial',
     'type.multfilm': 'Multfilm',
+    'type.tahlil': 'Tahlil',
 
     'movie.watchNow': 'Hozir ko‘rish',
     'movie.trailer': 'Treyler',
@@ -330,6 +332,7 @@ const I18N = {
     'row.dc': 'Вселенная DC',
     'row.uzbek': 'Узбекские фильмы',
     'row.konsert': 'Концерты',
+    'row.tahlil': 'Разборы фильмов',
     'row.dorama': 'Корейские дорамы',
     'row.anime': 'Аниме',
     'row.hind': 'Индийское кино',
@@ -357,6 +360,7 @@ const I18N = {
     'type.film': 'Фильм',
     'type.serial': 'Сериал',
     'type.multfilm': 'Мультфильм',
+    'type.tahlil': 'Разбор',
 
     'movie.watchNow': 'Смотреть сейчас',
     'movie.trailer': 'Трейлер',

@@ -465,6 +465,7 @@ function renderMovie() {
     [t('movie.country'), countryOf(movie)],
     [partNo ? (LANG === 'ru' ? 'Серии' : 'Qismlar') : movie.type === 'serial' ? t('movie.seasons') : t('movie.duration'), durationText(partNo ? group : movie)],
     [t('movie.director'), movie.director],
+    [LANG === 'ru' ? 'Сценарий' : 'Ssenariy', movie.writer],      // rasmiy kanal tavsifidan (tools/fetch-yt-meta.js)
     [t('movie.rating'), movie.rating ? movie.rating.toFixed(1) + ' / 10' : '']
   ].filter(([, v]) => v && v !== '—');
 

@@ -426,9 +426,11 @@ const libRow = fr => MOVIES.filter(m => m.franchise === fr && m.poster).slice(0,
 
 const ROW_SOURCES = {
   uzbek:    { title: 'row.uzbek',    all: 'catalog.html?watch=uz',        list: () => MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)).slice(0, 30) },   // qolgani — «Hammasi»
+  // kino tahlillari — ruxsat berilgan kanallardan (tools/fetch-yt-meta.js), yangisi oldin
+  tahlil:   { title: 'row.tahlil',   all: 'catalog.html?franchise=tahlil', list: () => MOVIES.filter(m => m.franchise === 'tahlil').sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)).slice(0, 24) },
   konsert:  { title: 'row.konsert',  all: 'catalog.html?franchise=konsert', list: () => MOVIES.filter(m => m.franchise === 'konsert').sort((a, b) => yr(b) - yr(a)) },
   trending: { title: 'row.trending', all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) * (yr(b) >= 2014 ? 1.1 : 1) - rt(a) * (yr(a) >= 2014 ? 1.1 : 1)).slice(0, 14) },
-  new:      { title: 'row.new',      all: null,                           list: () => [...MOVIES].filter(m => yr(m) && m.franchise !== 'konsert' && m.poster && (m.trailer || m.video)).sort((a, b) => yr(b) - yr(a)).slice(0, 14) },
+  new:      { title: 'row.new',      all: null,                           list: () => [...MOVIES].filter(m => yr(m) && m.franchise !== 'konsert' && m.franchise !== 'tahlil' && m.poster && (m.trailer || m.video)).sort((a, b) => yr(b) - yr(a)).slice(0, 14) },
   dorama:   { title: 'row.dorama',   all: 'catalog.html?franchise=dorama', list: () => libRow('dorama') },
   anime:    { title: 'row.anime',    all: 'catalog.html?franchise=anime',  list: () => libRow('anime') },
   hind:     { title: 'row.hind',     all: 'catalog.html?franchise=hind',   list: () => libRow('hind') },
@@ -442,7 +444,7 @@ const ROW_SOURCES = {
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
-const DEFAULT_ROWS = ['popular', 'uzbek', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
+const DEFAULT_ROWS = ['popular', 'uzbek', 'konsert', 'tahlil', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
   .map(source => ({ source, visible: true }));
 
 /* ---------- «Seriallar» banneri: hamma seriallar bitta katta banner ostida ----------
@@ -596,6 +598,10 @@ function renderRows() {
   const box = document.getElementById('homeRows');
   if (!box) return;
   let rows = (SITE_CFG.rows && SITE_CFG.rows.length) ? SITE_CFG.rows : DEFAULT_ROWS;
+  if (!rows.some(r => r.source === 'tahlil')) {
+    const at = rows.findIndex(r => r.source === 'konsert');
+    rows = [...rows.slice(0, at + 1), { source: 'tahlil', visible: true }, ...rows.slice(at + 1)];
+  }
   if (!rows.some(r => r.source === 'studios')) {
     const at = rows.findIndex(r => r.source === 'popular');
     rows = [...rows.slice(0, at + 1), { source: 'studios', visible: true }, ...rows.slice(at + 1)];
