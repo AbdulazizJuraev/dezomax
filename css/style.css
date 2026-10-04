@@ -6269,3 +6269,7 @@ html.tv-mode .row-nav { display: none !important; }
 }
 .cw-card:hover .cw-del, .cw-del:focus-visible { opacity: 1; }
 @media (hover: none) { .cw-del { opacity: .85; } }
+/* YouTube pauzada: iframe'ning o'z «Play» belgisi va «More videos» paneli ko'rinmasin — videoning muqovasi bilan to'liq yopiladi
+   (js/ytplayer.js → ytOnState). Muqova 4:3 bo'lsa ham qora chiziqlari cover bilan kesiladi. */
+.ytp-shade { background: #05060a center / cover no-repeat; }
+.ytp-shade::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(5, 6, 10, .75), rgba(5, 6, 10, .35) 55%, rgba(5, 6, 10, .55)); }

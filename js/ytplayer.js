@@ -336,8 +336,14 @@ function ytOnState(box, id, st) {
     $('#ytpMsg').hidden = true;
     $('#ytpClick').hidden = false;
   }
-  // Pauzada YouTube o'z tavsiyalarini chiqaradi — ustidan xira parda (bosish o'tib ketadi)
-  $('#ytpShade').hidden = st !== S.PAUSED;
+  // Pauzada YouTube o'z katta «Play» belgisi va tavsiyalarini chiqaradi — videoning muqovasi bilan to'liq yopamiz
+  // (faqat bizning tugmalar ko'rinadi; bosish o'tib ketadi)
+  const shade = $('#ytpShade');
+  if (st === S.PAUSED && !shade.dataset.bg) {
+    shade.dataset.bg = '1';
+    shade.style.backgroundImage = `url('https://i.ytimg.com/vi/${id}/hqdefault.jpg')`;
+  }
+  shade.hidden = st !== S.PAUSED;
   const running = st === S.PLAYING || st === S.BUFFERING;
   $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = running ? YT_ICONS.pause : YT_ICONS.play;
   box.classList.toggle('is-paused', st === S.PAUSED);
