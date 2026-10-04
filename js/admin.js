@@ -2304,8 +2304,13 @@ async function syncPlaylist(ch) {
   chBusy.note = 'Playlist o‘qilmoqda…';
   if (view === 'channels') renderChannelsView();
   const pl = await ytApi('/api/yt/playlist?list=' + encodeURIComponent(ch.playlist));
+  // haqiqiy shortslar — kanalning «Shorts» bo'limidan; ular bo'limga emas, js/data-shorts.js ga (shorts.html lentasi)
+  let shorts = null;
+  if (ch.shorts && ch.id) { chBusy.note = 'Shorts o‘qilmoqda…'; shorts = (await ytApi('/api/yt/shorts?ch=' + encodeURIComponent(ch.id))).items; }
+  const shortIds = new Set((shorts || []).map(x => x.id));
   const have = new Set(chState.items.filter(m => m.ch === ch.key).map(m => m.id));
-  const fresh = pl.items.map((v, k) => ({ v, k, id: ytStableId(`${ch.prefix}:${v.id}`) })).filter(x => !have.has(x.id)).slice(0, 40);
+  const fresh = pl.items.map((v, k) => ({ v, k, id: ytStableId(`${ch.prefix}:${v.id}`) }))
+    .filter(x => !have.has(x.id) && x.v.len && !shortIds.has(x.v.id)).slice(0, 40);
   const add = [];
   for (const [n, { v, k, id }] of fresh.entries()) {
     Object.assign(chBusy, { done: n, total: fresh.length, note: v.title });
@@ -2330,8 +2335,39 @@ async function syncPlaylist(ch) {
     const items = [...st.items, ...add.filter(m => !ids.has(m.id))];
     return { items, channels: st.channels.map(c => c.key === ch.key ? { ...c, updatedAt: Date.now(), count: items.filter(m => m.ch === ch.key).length } : c) };
   }, `Playlist yangilandi: ${ch.name}${add.length ? ` (+${add.length})` : ''}`);
+  let newShorts = 0;
+  if (shorts) newShorts = await saveShorts(ch, shorts, new Map(pl.items.map(v => [v.id, v.len])));
   commitsCache = null;
-  toast(add.length ? `${ch.name}: ${add.length} ta yangi video — ~1 daqiqada saytda` : `${ch.name}: yangi video yo‘q`);
+  toast(add.length || newShorts ? `${ch.name}: ${add.length} ta yangi video, ${newShorts} ta yangi shorts — ~1 daqiqada saytda` : `${ch.name}: yangi video yo‘q`);
+}
+
+/* js/data-shorts.js — shu kanal shortslari yangilanadi (boshqa kanallarnikiga tegilmaydi). Natija: yangi shortslar soni */
+const SHORTS_PATH = 'js/data-shorts.js';
+function ytShortTitle(raw) {
+  let t = String(raw).replace(/#[\p{L}\p{N}_]+/gu, '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim();
+  const letters = t.replace(/[^\p{L}]/gu, '');
+  if (letters && letters === letters.toUpperCase()) t = t.toLowerCase();
+  t = t.replace(/(^|[.!?]\s+)(\p{L})/gu, (m, a, b) => a + b.toUpperCase()).replace(/[\s|\-–—:]+$/, '');
+  return ytUz(t || String(raw).trim());
+}
+async function saveShorts(ch, shorts, lenOf) {
+  const secs = len => { const p = String(len || '').split(':').map(Number); return p.some(isNaN) ? 0 : p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0); };
+  const f = await getFile(SHORTS_PATH);
+  let cur = [];
+  if (f) {
+    const m = b64decode(f.content).match(/\/\*SHORTS\*\/([\s\S]*?)\/\*ENDSHORTS\*\//);
+    if (!m) throw new Error('data-shorts.js o‘qilmadi — saqlanmadi');
+    cur = JSON.parse(m[1]);
+  }
+  const mine = shorts.map(v => ({ id: v.id, t: ytShortTitle(v.title), ch: ch.key, n: ch.name, u: ch.url, s: secs(lenOf.get(v.id)) }));
+  // himoya: YouTube bir martada kam qaytarsa ham avvalgilari o'chmaydi
+  const keepOld = cur.filter(x => x.ch === ch.key && !mine.some(y => y.id === x.id));
+  const next = [...mine, ...keepOld, ...cur.filter(x => x.ch !== ch.key)];
+  const added = mine.filter(x => !cur.some(y => y.id === x.id)).length;
+  if (!added && next.length === cur.length) return 0;
+  const body = `/* DezoMax Shorts — ruxsat berilgan kanallarning qisqa videolari (tools/fetch-yt-meta.js, admin → «Kanallar» yozadi).\n   YouTube pleyeri orqali ko'rsatiladi (shorts.html). id — YouTube video ID, t — nomi, s — soniya. */\nvar SHORTS = /*SHORTS*/[\n${next.map(x => JSON.stringify(x)).join(',\n')}\n]/*ENDSHORTS*/;\n`;
+  await putFile(SHORTS_PATH, b64encode(body), `Shorts yangilandi: ${ch.name}${added ? ` (+${added})` : ''}`, f && f.sha);
+  return added;
 }
 
 async function syncChannel(ch) {

@@ -15,7 +15,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { ytPlaylist, ytMeta } = require('../server/server.js');
+const { ytPlaylist, ytMeta, ytShorts } = require('../server/server.js');
 
 const root = path.join(__dirname, '..');
 const CH_PATH = path.join(root, 'js', 'data-channels.js');
@@ -23,14 +23,15 @@ const CH_PATH = path.join(root, 'js', 'data-channels.js');
 // ruxsat berilgan playlistlar (egasining roziligi bilan)
 const PLAYLISTS = [
   { key: 'farzidguy', id: 'UC40y8Eqvoans8S-n8bBqoOw', name: 'FarZidGuy', url: 'https://www.youtube.com/@FarZidGuy',
-    playlist: 'PLEBV6zj8ajJi1bQXV4NyUSdDKUeXv9RnF', franchise: 'tahlil', type: 'tahlil', prefix: 'fz',
-    permission: 'Kanal egasi «Kino Tahlil» videolarini saytda ko‘rsatishga ruxsat bergan (2026-10-04)' },
+    playlist: 'UU40y8Eqvoans8S-n8bBqoOw', shorts: true, franchise: 'tahlil', type: 'tahlil', prefix: 'fz',
+    permission: 'Kanal egasi videolari va shortslarini saytda ko‘rsatishga ruxsat bergan (2026-10-04)' },
 ];
 const META_CHANNELS = ['rizanova', 'uzbekkinoofficial'];
 
 const stableId = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return 7000000 + (h % 1000000); };
 const slug = s => s.toLowerCase().replace(/[‘’'`ʻ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'video';
 const minutes = len => { const p = String(len).split(':').map(Number); if (!p.length || p.some(isNaN)) return 0; const s = p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0); return Math.max(1, Math.round(s / 60)); };
+const seconds = len => { const p = String(len).split(':').map(Number); return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0); };
 const uzQuotes = s => s.replace(/([oOgG])['‘’`ʻ]/g, '$1‘').replace(/['`ʻ]/g, '’');
 
 /* «TEMIR ODAM 2 (2010) | TO'LIQ TAHLIL | YASHIRIN BELGILAR» → «Temir odam 2 (2010) — To‘liq tahlil — Yashirin belgilar» */
@@ -44,6 +45,15 @@ function videoTitle(raw) {
     return uzQuotes(p);
   };
   return parts.map(fix).join(' — ');
+}
+
+/* Shorts nomi: heshteglar va emojilarsiz, KATTA HARFLAR — oddiy («ENG KUCHLI BOLG'A #marvel» → «Eng kuchli bolg‘a») */
+function shortTitle(raw) {
+  let t = String(raw).replace(/#[\p{L}\p{N}_]+/gu, '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim();
+  const letters = t.replace(/[^\p{L}]/gu, '');
+  if (letters && letters === letters.toUpperCase()) t = t.toLowerCase();
+  t = t.replace(/(^|[.!?]\s+)(\p{L})/gu, (m, a, b) => a + b.toUpperCase()).replace(/[\s|\-–—:]+$/, '');   // oxiridagi «|», «-»
+  return uzQuotes(t || String(raw).trim());
 }
 
 async function pool(list, n, fn) {
@@ -71,38 +81,56 @@ if (typeof MOVIES !== 'undefined') for (var i = 0; i < CHANNEL_MOVIES.length; i+
   const before = items.length;
   const byId = new Map(items.map((m, i) => [m.id, i]));
 
-  /* 1) playlistlar */
+  /* 1) playlistlar — kanal yuklamalari (UU…) kanaldagi tartibda: uzunlari → bo'lim, ≤ 3 daqiqa → Shorts (js/data-shorts.js) */
+  const shortsAll = [];
   if (want === 'all' || want === 'playlists') for (const pl of PLAYLISTS) {
     const r = await ytPlaylist(pl.playlist);
     if (r.error) { console.warn(pl.name, r.error); continue; }
-    console.log(`${pl.name}: ${r.items.length} ta video — ma'lumot o'qilmoqda…`);
-    const now = Date.now();
-    await pool(r.items, 4, async (v, k) => {
+    const base = Date.now();
+    // haqiqiy shortslar — kanalning «Shorts» bo'limidan (qisqa oddiy videolar shorts emas)
+    const sh = pl.shorts ? await ytShorts(pl.id) : { items: [] };
+    if (sh.error) { console.warn(pl.name, 'shorts:', sh.error); continue; }
+    const shortIds = new Set(sh.items.map(x => x.id)), lenOf = new Map(r.items.map(v => [v.id, v.len]));
+    const longs = [], shorts = sh.items.map(v => ({ v: { ...v, len: lenOf.get(v.id) || '' } }));
+    r.items.forEach((v, k) => { if (v.len && !shortIds.has(v.id)) longs.push({ v, k }); });
+    // avval bo'limga tushib qolgan shortslar olib tashlanadi
+    for (let i = items.length - 1; i >= 0; i--) if (items[i].ch === pl.key && shortIds.has(String(items[i].video).split('v=')[1])) items.splice(i, 1);
+    byId.clear(); items.forEach((m, i) => byId.set(m.id, i));
+    console.log(`${pl.name}: ${r.items.length} ta yuklama — ${longs.length} ta video, ${shorts.length} ta shorts`);
+    await pool(longs, 6, async ({ v, k }) => {
       const id = stableId(`${pl.prefix}:${v.id}`);
-      if (byId.has(id) && items[byId.get(id)].meta) return;               // allaqachon bor
-      let meta = {};
-      try { meta = await ytMeta(v.id); } catch {}
+      const old = byId.has(id) ? items[byId.get(id)] : null;
       const t = videoTitle(v.title);
-      const summary = meta.summary && meta.summary.length > 30 ? uzQuotes(meta.summary) : '';
       // eski videolarda HD muqova yo'q (404 + kulrang rasm) — hqdefault har doim bor
-      const hd = await fetch(`https://i.ytimg.com/vi/${v.id}/hq720.jpg`, { method: 'HEAD' }).then(r => r.status !== 404).catch(() => true);
+      const hd = old ? /hq720/.test(old.poster) : await fetch(`https://i.ytimg.com/vi/${v.id}/hq720.jpg`, { method: 'HEAD' }).then(x => x.status !== 404).catch(() => true);
+      let meta = {};
+      if (!old && process.env.META) { try { meta = await ytMeta(v.id); } catch {} }   // YouTube tez cheklaydi — faqat META=1 bilan
+      const summary = meta.summary && meta.summary.length > 30 ? uzQuotes(meta.summary) : '';
       const it = {
         id, slug: `${pl.prefix}-${slug(t)}`, type: pl.type, franchise: pl.franchise, audio: 'uz',
         title: { uz: t, ru: t }, genres: [], ...(meta.year ? { year: meta.year } : {}),
         country: { uz: 'O‘zbekiston', ru: 'Узбекистан' }, cast: [],
-        desc: { uz: summary || `«${t}» — ${pl.name} kanalidagi kino tahlili, o‘zbek tilida.`, ru: `«${t}» — разбор фильма на узбекском языке с канала ${pl.name}.` },
+        desc: { uz: summary || `«${t}» — ${pl.name} kanalidagi video, o‘zbek tilida.`, ru: `«${t}» — видео на узбекском языке с канала ${pl.name}.` },
         colors: ['#1a2a4a', '#070a12'],
         poster: `https://i.ytimg.com/vi/${v.id}/${hd ? 'hq720' : 'hqdefault'}.jpg`, wide: true, cover: `https://i.ytimg.com/vi/${v.id}/${hd ? 'maxresdefault' : 'sddefault'}.jpg`,
         trailer: '', video: `https://www.youtube.com/watch?v=${v.id}`, duration: minutes(v.len) || meta.duration || 0,
         source: { name: pl.name, url: pl.url }, featured: false,
-        addedAt: meta.published ? Date.parse(meta.published) : now - k * 60000,   // tartib — playlistdagidek (yangisi oldin)
+        ...(old ? { desc: old.desc, ...(old.year ? { year: old.year } : {}) } : {}),
+        addedAt: base - k * 1000,             // tartib — kanaldagidek (yangisi birinchi)
         meta: 1, ch: pl.key,
       };
-      if (byId.has(id)) items[byId.get(id)] = it; else { items.push(it); byId.set(id, items.length - 1); }
+      if (old) items[byId.get(id)] = it; else { items.push(it); byId.set(id, items.length - 1); }
     });
-    const entry = { key: pl.key, id: pl.id, name: pl.name, url: pl.url, kind: 'playlist', playlist: pl.playlist, franchise: pl.franchise,
-      type: pl.type, prefix: pl.prefix, permission: pl.permission, updatedAt: Date.now(), count: items.filter(m => m.ch === pl.key).length };
+    for (const { v } of shorts) shortsAll.push({ id: v.id, t: shortTitle(v.title), ch: pl.key, n: pl.name, u: pl.url, s: v.len ? seconds(v.len) : 0 });
+    const entry = { key: pl.key, id: pl.id, name: pl.name, url: pl.url, kind: 'playlist', playlist: pl.playlist, shorts: !!pl.shorts,
+      franchise: pl.franchise, type: pl.type, prefix: pl.prefix, permission: pl.permission, updatedAt: Date.now(),
+      count: items.filter(m => m.ch === pl.key).length };
     channels = channels.some(c => c.key === pl.key) ? channels.map(c => c.key === pl.key ? { ...c, ...entry } : c) : [...channels, entry];
+  }
+  if (shortsAll.length) {
+    fs.writeFileSync(path.join(root, 'js', 'data-shorts.js'),
+      `/* DezoMax Shorts — ruxsat berilgan kanallarning qisqa videolari (tools/fetch-yt-meta.js, admin → «Kanallar» yozadi).\n   YouTube pleyeri orqali ko'rsatiladi (shorts.html). id — YouTube video ID, t — nomi, s — soniya. */\nvar SHORTS = /*SHORTS*/[\n${shortsAll.map(x => JSON.stringify(x)).join(',\n')}\n]/*ENDSHORTS*/;\n`);
+    console.log(`js/data-shorts.js — ${shortsAll.length} ta shorts`);
   }
 
   /* 2) rasmiy o'zbek kanallari — tavsifdan ma'lumot */

@@ -75,7 +75,9 @@ function filtered() {
   };
 
   // posteri borlar oldinda (kutubxonadagi ba'zi kinolarda muqova yo'q)
-  const by = sorters[state.sort] || sorters.new;
+  // kanal videolari (kino tahlillari) — kanaldagi tartibda, yangisi birinchi
+  const by = state.franchise === 'tahlil' && state.sort === 'new' ? (a, b) => (b.addedAt || 0) - (a.addedAt || 0)
+    : sorters[state.sort] || sorters.new;
   return list.sort((a, b) => (!!b.poster - !!a.poster) || by(a, b));
 }
 

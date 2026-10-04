@@ -146,6 +146,44 @@ async function ytPlaylist(listId) {
   const seen = new Set();
   return { list: listId, items: items.filter(x => x.id && !/^\[(private|deleted)/i.test(x.title) && !seen.has(x.id) && seen.add(x.id)) };
 }
+/* Kanalning «Shorts» bo'limi (haqiqiy tik shortslar) — [{ id, title }], yangisi birinchi */
+async function ytShorts(channelId) {
+  if (!/^UC[\w-]{22}$/.test(String(channelId || ''))) return { error: 'ch noto‘g‘ri', status: 400 };
+  const html = await (await fetch(`https://www.youtube.com/channel/${channelId}/shorts?hl=en`, { headers: YT_HEAD, signal: AbortSignal.timeout(20000) })).text();
+  const cfg = { key: html.match(/"INNERTUBE_API_KEY":"([^"]+)"/)?.[1], ver: html.match(/"INNERTUBE_CLIENT_VERSION":"([^"]+)"/)?.[1] };
+  const take = d => {
+    const out = [];
+    (function walk(o) {
+      if (!o || typeof o !== 'object') return;
+      if (o.shortsLockupViewModel) {
+        const s = o.shortsLockupViewModel, js = JSON.stringify(s);
+        const id = js.match(/"videoId":"([\w-]{11})"/)?.[1];
+        if (id) out.push({ id, title: s.overlayMetadata?.primaryText?.content || s.accessibilityText || '' });
+        return;
+      }
+      if (o.reelItemRenderer) { out.push({ id: o.reelItemRenderer.videoId, title: o.reelItemRenderer.headline?.simpleText || '' }); return; }
+      for (const k in o) walk(o[k]);
+    })(d);
+    return out;
+  };
+  const data = ytPageJson(html, 'ytInitialData');
+  if (!data) return { error: 'Kanal topilmadi', status: 404 };
+  const items = take(data);
+  let tok = JSON.stringify(data).match(/"continuationCommand":\{"token":"([^"]+)"/)?.[1], n = 0;
+  while (tok && cfg.key && n++ < 20) {
+    const r = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${cfg.key}`, {
+      method: 'POST', headers: { ...YT_HEAD, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(20000),
+      body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: cfg.ver, hl: 'en' } }, continuation: tok }),
+    });
+    if (!r.ok) break;
+    const j = await r.json(), add = take(j);
+    if (!add.length) break;
+    items.push(...add);
+    tok = JSON.stringify(j).match(/"continuationCommand":\{"token":"([^"]+)"/)?.[1];
+  }
+  const seen = new Set();
+  return { channel: channelId, items: items.filter(x => x.id && !seen.has(x.id) && seen.add(x.id)) };
+}
 const YT_GENRES = [[/melodrama/i, 'romance'], [/drama/i, 'drama'], [/komediya|comedy/i, 'comedy'], [/detektiv|detective/i, 'detective'],
   [/triller|thriller/i, 'thriller'], [/jangari|boevik|action/i, 'action'], [/oilaviy|family/i, 'family'], [/tarixiy|histor/i, 'history'],
   [/fantastik|fantasy/i, 'fantasy'], [/qo['‘’]rqinchli|horror|uzhas/i, 'horror'], [/sarguzasht|adventure/i, 'adventure']];
@@ -514,10 +552,12 @@ function createApp(cfg, deps = {}) {
 
       // DezoSignal (abdulazizjuraev.github.io/dezosignal): forex, oltin, aksiyalar narxi.
       // Yahoo brauzerga to'g'ridan-to'g'ri bermaydi (CORS) — shu yerdan o'tadi. Faqat ochiq narx o'qiladi.
-      if ((path === '/api/yt/playlist' || path === '/api/yt/meta') && req.method === 'GET') {
+      if ((path === '/api/yt/playlist' || path === '/api/yt/meta' || path === '/api/yt/shorts') && req.method === 'GET') {
         if (limited(req, 'ytmeta', 90)) return send(res, 429, { error: 'Ko‘p so‘rov' });
         const r = path.endsWith('playlist')
           ? await ytCached('pl:' + url.searchParams.get('list'), () => ytPlaylist(url.searchParams.get('list')))
+          : path.endsWith('shorts')
+          ? await ytCached('sh:' + url.searchParams.get('ch'), () => ytShorts(url.searchParams.get('ch')))
           : await ytCached('v:' + url.searchParams.get('v'), () => ytMeta(url.searchParams.get('v')));
         return send(res, r.error ? r.status || 502 : 200, r.error ? { error: r.error } : r);
       }
@@ -691,7 +731,7 @@ function createApp(cfg, deps = {}) {
   return { handler, db, clickPrepare, clickComplete };
 }
 
-module.exports = { createApp, openDb, googleVerifier, md5, ytPlaylist, ytMeta };
+module.exports = { createApp, openDb, googleVerifier, md5, ytPlaylist, ytMeta, ytShorts };
 
 /* ---------- Ishga tushirish ---------- */
 if (require.main === module) {

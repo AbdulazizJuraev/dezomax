@@ -537,6 +537,25 @@ function rowShape(list) {
   return wide * 2 >= list.length ? ' row-wide' : ' row-tall';
 }
 
+/* ---------- «Shorts» qatori (js/data-shorts.js) — tik kartalar, bosilsa shorts.html lentasi shu shortdan ---------- */
+const SHORTS_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.8 9.6l-1.3-.6 1.2-.6c2-1 2.8-3.4 1.8-5.4S16.1.2 14.1 1.2L5.8 5.4C4.4 6.1 3.6 7.6 3.7 9.1c.1 1.5 1 2.8 2.4 3.4l1.3.6-1.2.6c-2 1-2.8 3.4-1.8 5.4s3.4 2.8 5.4 1.8l8.3-4.2c1.4-.7 2.2-2.2 2.1-3.7-.1-1.5-1-2.8-2.4-3.4zM10 15V9l5 3-5 3z"/></svg>';
+function shortsRowHTML() {
+  const list = typeof SHORTS !== 'undefined' ? SHORTS.slice(0, 24) : [];
+  if (!list.length) return '';
+  return `
+    <section class="section shorts">
+      <div class="section-head"><span class="shorts-head-ic">${SHORTS_ICON}</span><h2>Shorts</h2>
+        <a class="row-all" href="shorts.html">${t('row.seeAll')}</a><div class="row-nav" data-for="shortsRow"></div></div>
+      <div class="row shorts-row" id="shortsRow">${list.map(s => `
+        <a class="short-card" href="shorts.html#${s.id}" aria-label="${esc(s.t)}">
+          <img src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" loading="lazy" decoding="async">
+          <span class="short-ic">${SHORTS_ICON}</span>
+          <span>${esc(s.t)}</span>
+        </a>`).join('')}
+      </div>
+    </section>`;
+}
+
 /* ---------- «Ko'rishni davom ettiring» ----------
    Kino sahifasi to'liq film qayerda to'xtaganini saqlaydi (js/movie.js → dezomax_watch_history).
    Bosh sahifaning eng tepasida: qizil chiziq, qolgan vaqt; bosilsa — o'sha joydan davom etadi; × — qatordan olib tashlash. */
@@ -619,7 +638,7 @@ function renderRows() {
     if (row.source === 'studios') return studiosHTML(title) + ad;
     if (row.source === 'popular' && !hasTop) {
       hasTop = true;
-      return top10HTML(title) + ad;
+      return top10HTML(title) + shortsRowHTML() + ad;      // Shorts — mashhur kinolardan keyin (targ'ib)
     }
     if (row.source === 'series' && !seriesList) {
       seriesList = list;
