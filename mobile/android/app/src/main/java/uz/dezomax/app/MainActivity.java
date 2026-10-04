@@ -83,7 +83,9 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(CastPlugin.class);
         registerPlugin(AdsPlugin.class);
         registerPlugin(DownloadPlugin.class);
+        registerPlugin(WidgetPlugin.class);
         super.onCreate(savedInstanceState);
+        openFromWidget(getIntent(), 400);
 
         WebView webView = getBridge() != null ? getBridge().getWebView() : null;
 
@@ -192,6 +194,25 @@ public class MainActivity extends BridgeActivity {
                     new String[]{ Manifest.permission.CAMERA }, 7002);
             }
         }
+    }
+
+    /* Bosh ekran vidjeti bosilganda — o'sha sahifa (kino, qidiruv, yuklanganlar...). DzxWidgets.open */
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        openFromWidget(intent, 0);
+    }
+
+    private void openFromWidget(android.content.Intent intent, long delay) {
+        if (intent == null) return;
+        String path = intent.getStringExtra(DzxWidgets.EXTRA_PATH);
+        if (path == null || path.isEmpty() || !path.matches("[\\w./?=&%-]+")) return;
+        intent.removeExtra(DzxWidgets.EXTRA_PATH);       // ekran burilganda qayta ochilmasin
+        WebView webView = getBridge() != null ? getBridge().getWebView() : null;
+        if (webView == null) return;
+        // birinchi ochilishda — ilova o'z bosh sahifasini yuklashni boshlagandan keyin
+        webView.postDelayed(() -> webView.loadUrl(DzxWidgets.BASE + path), delay);
     }
 
     /* Tepadagi chekinish (soat qatori / kamera qirqimi) balandligini sahifaga beramiz:

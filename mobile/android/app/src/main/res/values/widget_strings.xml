@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="w_new">Yangi kinolar</string>
+    <string name="w_new_desc">DezoMax’ga oxirgi qo‘shilgan kinolar</string>
+    <string name="w_continue">Davom ettirish</string>
+    <string name="w_continue_desc">Oxirgi ko‘rgan kinoingiz — to‘xtagan joydan</string>
+    <string name="w_quick">Tezkor tugmalar</string>
+    <string name="w_quick_desc">Ochish, qidiruv, yuklanganlar, sevimlilar</string>
+    <string name="w_all">DezoMax</string>
+    <string name="w_all_desc">Yangi kinolar va tezkor tugmalar</string>
+</resources>

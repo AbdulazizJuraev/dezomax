@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DezoMax bosh ekran vidjeti — Davom ettirish (DzxWidgets.java) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wcRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="8dp">
+    <ImageView
+        android:id="@+id/wcPoster"
+        android:layout_width="42dp"
+        android:layout_height="63dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/widget_poster_empty"
+        android:contentDescription="@null" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/wcLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/w_continue"
+            android:textColor="#FF8B95A7"
+            android:textSize="11sp" />
+        <TextView
+            android:id="@+id/wcTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#FFE8EDF5"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+        <ProgressBar
+            android:id="@+id/wcBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="6dp"
+            android:max="1000"
+            android:progressTint="#FFE11D48"
+            android:progressBackgroundTint="#FF3A4256" />
+        <TextView
+            android:id="@+id/wcTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textColor="#FF8B95A7"
+            android:textSize="11sp" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="6dp"
+        android:padding="7dp"
+        android:background="@drawable/widget_btn_bg"
+        android:src="@drawable/ic_w_play"
+        android:contentDescription="@string/w_continue" />
+</LinearLayout>

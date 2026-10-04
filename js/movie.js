@@ -122,6 +122,7 @@ function ytThumbFix(img) {
 }
 
 function mountPlayer(url) {
+  window.dzxNowUrl = url;              // «Davom ettirish» (pastda) — faqat to'liq film kuzatiladi, treyler emas
   const box = document.getElementById('playerBox');
   const link = document.getElementById('playerExternal');
   const { html, external } = embedFor(url);
@@ -657,12 +658,56 @@ function mountBgTrailer() {
   document.addEventListener('pointerdown', onDown, true);
 }
 
+/* ---------- Davom ettirish: qayerda to'xtagani ----------
+   To'liq film o'ynayotganda har 10 soniyada joyi saqlanadi (dezomax_last_watch) va ilovaga beriladi —
+   telefon bosh ekranidagi «Davom ettirish» vidjeti (native DzxWidget plagini). &t=SONIYA bilan ochilsa —
+   o'sha joydan davom etadi. */
+const LAST_WATCH_KEY = 'dezomax_last_watch';
+function nowPlaying() {
+  try {
+    if (typeof vpActive !== 'undefined' && vpActive && vpActive.video) {
+      const v = vpActive.video;
+      return { cur: v.currentTime || 0, dur: v.duration || 0, playing: !v.paused, seek: s => { v.currentTime = s; } };
+    }
+    if (typeof ytActive !== 'undefined' && ytActive && ytActive.player && ytActive.player.getCurrentTime) {
+      const p = ytActive.player;
+      return { cur: p.getCurrentTime() || 0, dur: p.getDuration() || 0, playing: p.getPlayerState() === 1, seek: s => p.seekTo(s, true) };
+    }
+  } catch {}
+  return null;
+}
+function trackWatch() {
+  if (!group || !movie || !hasFilm(movie)) return;
+  let resumeAt = Math.max(0, Math.floor(+qp.get('t') || 0)), lastSaved = 0;
+  const abs = p => p ? new URL(p, 'https://abdulazizjuraev.github.io/dezomax/').href : '';
+  setInterval(() => {
+    if (window.dzxNowUrl !== movie.video) return;
+    const n = nowPlaying();
+    if (!n || !n.playing) return;
+    if (resumeAt) { if (n.dur > resumeAt + 5) n.seek(resumeAt); resumeAt = 0; return; }
+    if (n.dur < 300 || n.cur < 30 || Date.now() - lastSaved < 10000) return;
+    lastSaved = Date.now();
+    const done = n.cur > n.dur - 90;              // oxirigacha ko'rildi — vidjetdan olinadi
+    const data = {
+      id: group.id, part: partNo || 0,
+      title: title(group) + (partNo ? ` · ${partLabel(partNo)}` : ''),
+      poster: abs(wideCover(movie) || movie.poster || group.poster),
+      wide: !!wideCover(movie),
+      t: Math.floor(n.cur), dur: Math.floor(n.dur), done, at: Date.now(),
+      path: `movie.html?id=${group.id}${partNo ? `&part=${partNo}` : ''}&play=1&t=${Math.floor(n.cur)}`,
+    };
+    try { localStorage.setItem(LAST_WATCH_KEY, JSON.stringify(data)); } catch {}
+    try { window.Capacitor?.Plugins?.DzxWidget?.setContinue(data); } catch {}
+  }, 1000);
+}
+
 /* ---------- Ishga tushirish ---------- */
 
 initLayout();
 renderMovie();
 wikiDesc();
 mountBgTrailer();
+trackWatch();
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.addEventListener('langchange', () => {

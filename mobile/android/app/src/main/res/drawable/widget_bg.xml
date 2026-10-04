@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vidjet foni: to'q, burchaklari yumaloq -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#EE14181F" />
+    <corners android:radius="20dp" />
+</shape>

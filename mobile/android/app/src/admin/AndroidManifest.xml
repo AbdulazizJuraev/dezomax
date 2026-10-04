@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Admin ilovasi: bosh ekran vidjetlari kerak emas (ular saytni ochadi) -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <receiver android:name="uz.dezomax.app.WidgetNew" tools:node="remove" />
+        <receiver android:name="uz.dezomax.app.WidgetContinue" tools:node="remove" />
+        <receiver android:name="uz.dezomax.app.WidgetQuick" tools:node="remove" />
+        <receiver android:name="uz.dezomax.app.WidgetAll" tools:node="remove" />
+    </application>
+</manifest>
