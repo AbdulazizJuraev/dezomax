@@ -105,10 +105,13 @@ final class DzxWidgets {
         try { return new JSONArray(cached == null ? "[]" : cached); } catch (Throwable e) { return new JSONArray(); }
     }
 
-    /* Poster: 2:3, burchaklari yumaloq; keng (16:9) rasm — to'q fonda o'rtada. Faylda keshlanadi. */
+    /* Kino rasmi kartaga (w×h, burchaklari yumaloq), faylda keshlanadi:
+       - videoning qora chiziqlari (letterbox) kesiladi;
+       - shakli kartaga yaqin bo'lsa — to'ldirib, o'rtasidan; juda farq qilsa (tik poster yotiq kartada) —
+         orqada o'sha rasm kattalashtirilib xiralashtirilgan, ustida rasmning o'zi to'liq. */
     static Bitmap poster(Context c, String url, boolean wide, int w, int h) {
         if (url == null || url.isEmpty()) return null;
-        File f = new File(c.getCacheDir(), "w_" + Integer.toHexString(url.hashCode()) + "_" + w + "x" + h + ".png");
+        File f = new File(c.getCacheDir(), "w3_" + Integer.toHexString(url.hashCode()) + "_" + w + "x" + h + ".png");
         if (f.exists()) {
             Bitmap b = BitmapFactory.decodeFile(f.getAbsolutePath());
             if (b != null) return b;
@@ -122,31 +125,64 @@ final class DzxWidgets {
             while (o.outWidth / (sample * 2) >= w && o.outHeight / (sample * 2) >= h) sample *= 2;
             o = new BitmapFactory.Options();
             o.inSampleSize = sample;
-            Bitmap src = BitmapFactory.decodeByteArray(data, 0, data.length, o);
-            if (src == null) return null;
+            Bitmap raw = BitmapFactory.decodeByteArray(data, 0, data.length, o);
+            if (raw == null) return null;
+            Bitmap src = trimDark(raw);
             Bitmap out = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             Canvas cv = new Canvas(out);
-            float r = w * 0.08f;
+            float r = Math.min(w, h) * 0.12f;
             Path clip = new Path();
             clip.addRoundRect(new RectF(0, 0, w, h), r, r, Path.Direction.CW);
             cv.clipPath(clip);
             cv.drawColor(0xFF1A1F2B);
             Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
             float sw = src.getWidth(), sh = src.getHeight();
-            if (wide || sw > sh) {
-                float k = w / sw;                         // eni bo'yicha, o'rtada
-                float dh = sh * k, top = (h - dh) / 2f;
-                cv.drawBitmap(src, null, new RectF(0, top, w, top + dh), paint);
-            } else {
+            float ratio = (sw / sh) / ((float) w / h);
+            if (ratio > 0.7f && ratio < 1.45f) {
                 float k = Math.max(w / sw, h / sh);       // to'ldirib, o'rtadan
                 float cw = w / k, ch = h / k;
                 int l = Math.round((sw - cw) / 2f), t = Math.round((sh - ch) / 2f);
                 cv.drawBitmap(src, new Rect(l, t, l + Math.round(cw), t + Math.round(ch)), new RectF(0, 0, w, h), paint);
+            } else {
+                Bitmap tiny = Bitmap.createScaledBitmap(src, Math.max(4, Math.round(sw / 24f)), Math.max(4, Math.round(sh / 24f)), true);
+                float kb = Math.max(w / (float) tiny.getWidth(), h / (float) tiny.getHeight());
+                float bw = tiny.getWidth() * kb, bh = tiny.getHeight() * kb;
+                cv.drawBitmap(tiny, null, new RectF((w - bw) / 2f, (h - bh) / 2f, (w + bw) / 2f, (h + bh) / 2f), paint);
+                tiny.recycle();
+                cv.drawColor(0x66000000);
+                float k = Math.min(w / sw, h / sh);       // to'liq, o'rtada
+                float dw = sw * k, dh = sh * k;
+                cv.drawBitmap(src, null, new RectF((w - dw) / 2f, (h - dh) / 2f, (w + dw) / 2f, (h + dh) / 2f), paint);
             }
-            src.recycle();
+            if (src != raw) src.recycle();
+            raw.recycle();
             try (FileOutputStream fo = new FileOutputStream(f)) { out.compress(Bitmap.CompressFormat.PNG, 100, fo); }
             return out;
         } catch (Throwable e) { return null; }
+    }
+
+    /* Rasm chetidagi qora chiziqlarni (video letterbox) kesish — har tomondan ko'pi bilan 30% */
+    private static Bitmap trimDark(Bitmap b) {
+        int w = b.getWidth(), h = b.getHeight();
+        int top = 0, bottom = h - 1, left = 0, right = w - 1;
+        while (top < h * 0.3 && dark(b, true, top, w, h)) top++;
+        while (bottom > h * 0.7 && dark(b, true, bottom, w, h)) bottom--;
+        while (left < w * 0.3 && dark(b, false, left, w, h)) left++;
+        while (right > w * 0.7 && dark(b, false, right, w, h)) right--;
+        if (top < 3 && left < 3 && h - 1 - bottom < 3 && w - 1 - right < 3) return b;
+        return Bitmap.createBitmap(b, left, top, right - left + 1, bottom - top + 1);
+    }
+
+    private static boolean dark(Bitmap b, boolean row, int at, int w, int h) {
+        int n = 24, sum = 0, max = 0;
+        for (int i = 0; i < n; i++) {
+            int x = row ? (int) ((i + 0.5f) * w / n) : at, y = row ? at : (int) ((i + 0.5f) * h / n);
+            int p = b.getPixel(x, y);
+            int lum = (((p >> 16) & 0xff) * 3 + ((p >> 8) & 0xff) * 6 + (p & 0xff)) / 10;
+            sum += lum;
+            max = Math.max(max, lum);
+        }
+        return sum / n < 20 && max < 60;
     }
 
     static String time(int s) {
@@ -160,6 +196,7 @@ final class DzxWidgets {
     private static final int[] POSTER = { R.id.wPoster1, R.id.wPoster2, R.id.wPoster3 };
     private static final int[] PTITLE = { R.id.wTitle1, R.id.wTitle2, R.id.wTitle3 };
     private static final int[] PCELL = { R.id.wCell1, R.id.wCell2, R.id.wCell3 };
+    private static final int[] PSUB = { R.id.wSub1, R.id.wSub2, R.id.wSub3 };
 
     static RemoteViews build(Context c, int kind) {
         switch (kind) {
@@ -178,9 +215,10 @@ final class DzxWidgets {
             if (m == null) { v.setViewVisibility(PCELL[i], View.INVISIBLE); continue; }
             v.setViewVisibility(PCELL[i], View.VISIBLE);
             v.setTextViewText(PTITLE[i], m.optString("title"));
-            Bitmap b = poster(c, m.optString("poster"), m.optBoolean("wide"), 240, 360);
+            v.setTextViewText(PSUB[i], m.optString("sub"));
+            Bitmap b = poster(c, m.optString("poster"), m.optBoolean("wide"), 320, 180);   // ro'yxat: 16:9
             if (b != null) v.setImageViewBitmap(POSTER[i], b);
-            else v.setImageViewResource(POSTER[i], R.drawable.widget_poster_empty);
+            else v.setImageViewResource(POSTER[i], R.drawable.widget_thumb_empty);
             v.setOnClickPendingIntent(PCELL[i], open(c, m.optString("path", "index.html"), 110 + i));
         }
     }

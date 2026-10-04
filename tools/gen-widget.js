@@ -41,6 +41,7 @@ const list = all
     title: clean(m.title.uz || m.title.ru).slice(0, 40),
     poster: new URL(m.poster, SITE).href,
     wide: !!m.wide,
+    sub: [m.year, { film: 'Film', serial: 'Serial', multfilm: 'Multfilm' }[m.type] || 'Film', m.audio === 'uz' ? 'O‘zbekcha' : ''].filter(Boolean).join(' · '),
     path: `movie.html?id=${m.id}`,
   }));
 
