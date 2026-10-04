@@ -531,6 +531,63 @@ function rowShape(list) {
   return wide * 2 >= list.length ? ' row-wide' : ' row-tall';
 }
 
+/* ---------- «Ko'rishni davom ettiring» ----------
+   Kino sahifasi to'liq film qayerda to'xtaganini saqlaydi (js/movie.js → dezomax_watch_history).
+   Bosh sahifaning eng tepasida: qizil chiziq, qolgan vaqt; bosilsa — o'sha joydan davom etadi; × — qatordan olib tashlash. */
+const WATCH_HISTORY_KEY = 'dezomax_watch_history';
+function watchHistory() {
+  try {
+    const hidden = typeof HIDDEN_MOVIES !== 'undefined' ? HIDDEN_MOVIES : [];
+    return JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY) || '[]')
+      .filter(x => x && x.id && x.dur > 0 && !x.done && !hidden.includes(x.id))
+      .map(x => ({ x, m: MOVIES.find(m => m.id === x.id) }))
+      .filter(o => o.m)
+      .slice(0, 12);
+  } catch { return []; }
+}
+function continueHTML() {
+  const list = watchHistory();
+  if (!list.length) return '';
+  const ru = LANG === 'ru';
+  const left = s => { const m = Math.max(1, Math.round(s / 60)); return m >= 60 ? `${Math.floor(m / 60)} ${ru ? 'ч' : 'soat'} ${m % 60} ${ru ? 'мин' : 'daq'}` : `${m} ${ru ? 'мин' : 'daq.'}`; };
+  return `
+    <section class="section cw" id="cwSection">
+      <div class="section-head"><i class="bar"></i><h2>${ru ? 'Продолжить просмотр' : 'Ko‘rishni davom ettiring'}</h2><div class="row-nav" data-for="cwRow"></div></div>
+      <div class="row row-wide" id="cwRow">${list.map(({ x, m }) => {
+        const pct = Math.min(100, Math.max(2, x.t / x.dur * 100));
+        const part = x.part && typeof partLabel === 'function' ? partLabel(x.part) : x.part ? `${x.part}-qism` : '';
+        return `
+        <div class="card cw-card${m.franchise === 'konsert' || m.wide ? ' is-wide' : ''}">
+          <a class="cw-link" href="${esc(x.path || `movie.html?id=${m.id}`)}">
+            <div class="card-poster">
+              ${posterHTML(m)}
+              <div class="card-overlay is-on"><div class="card-play">${ICONS.play}</div></div>
+              <div class="cw-bar"><i style="width:${pct.toFixed(1)}%"></i></div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">${esc(title(m))}</h3>
+              <div class="card-meta">${[part, `${left(x.dur - x.t)} ${ru ? 'осталось' : 'qoldi'}`].filter(Boolean).join('<i class="dot"></i>')}</div>
+            </div>
+          </a>
+          <button class="cw-del" type="button" data-cw-del="${m.id}" aria-label="${ru ? 'Убрать' : 'Olib tashlash'}">×</button>
+        </div>`;
+      }).join('')}</div>
+    </section>`;
+}
+function bindContinue(box) {
+  box.querySelectorAll('[data-cw-del]').forEach(b => b.addEventListener('click', e => {
+    e.preventDefault();
+    const id = +b.dataset.cwDel;
+    try {
+      const hist = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY) || '[]').filter(x => x && x.id !== id);
+      localStorage.setItem(WATCH_HISTORY_KEY, JSON.stringify(hist));
+    } catch {}
+    const card = b.closest('.cw-card');
+    card.remove();
+    if (!document.querySelector('#cwRow .cw-card')) document.getElementById('cwSection')?.remove();
+  }));
+}
+
 function renderRows() {
   const box = document.getElementById('homeRows');
   if (!box) return;
@@ -541,7 +598,7 @@ function renderRows() {
   }
 
   let shown = 0, seriesList = null, hasTop = false;
-  box.innerHTML = rows.map((row, i) => {
+  box.innerHTML = continueHTML() + rows.map((row, i) => {
     const src = ROW_SOURCES[row.source] || ROW_SOURCES.custom;
     if (row.visible === false) return '';
     const list = src.list(row);
@@ -574,6 +631,7 @@ function renderRows() {
   }).join('');
 
   if (typeof Ads !== 'undefined') Ads.fill(box);
+  bindContinue(box);
   observeReveals(box);
   initRowNav();
   if (hasTop) initTop10(box);
@@ -718,4 +776,14 @@ document.addEventListener('langchange', () => {
   renderHero();
   renderRows();
   applyI18n();
+});
+
+/* kino sahifasidan orqaga qaytilganda sahifa keshdan ochiladi — «Ko'rishni davom ettiring» yangilansin */
+addEventListener('pageshow', e => {
+  if (!e.persisted) return;
+  const box = document.getElementById('homeRows');
+  if (!box) return;
+  document.getElementById('cwSection')?.remove();
+  const html = continueHTML();
+  if (html) { box.insertAdjacentHTML('afterbegin', html); bindContinue(box); initRowNav(); }
 });

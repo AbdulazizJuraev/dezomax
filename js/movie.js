@@ -666,6 +666,7 @@ function mountBgTrailer() {
    telefon bosh ekranidagi «Davom ettirish» vidjeti (native DzxWidget plagini). &t=SONIYA bilan ochilsa —
    o'sha joydan davom etadi. */
 const LAST_WATCH_KEY = 'dezomax_last_watch';
+const WATCH_HISTORY_KEY = 'dezomax_watch_history';   // js/app.js — «Ko'rishni davom ettiring» qatori
 function nowPlaying() {
   try {
     if (typeof vpActive !== 'undefined' && vpActive && vpActive.video) {
@@ -700,6 +701,13 @@ function trackWatch() {
       path: `movie.html?id=${group.id}${partNo ? `&part=${partNo}` : ''}&play=1&t=${Math.floor(n.cur)}`,
     };
     try { localStorage.setItem(LAST_WATCH_KEY, JSON.stringify(data)); } catch {}
+    // bosh sahifadagi «Ko'rishni davom ettiring» qatori uchun — oxirgi 20 ta (oxirigacha ko'rilgani olib tashlanadi)
+    try {
+      const key = `${data.id}:${data.part}`;
+      let hist = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY) || '[]').filter(x => x && `${x.id}:${x.part}` !== key && x.id !== data.id);
+      if (!done) hist.unshift(data);
+      localStorage.setItem(WATCH_HISTORY_KEY, JSON.stringify(hist.slice(0, 20)));
+    } catch {}
     try { window.Capacitor?.Plugins?.DzxWidget?.setContinue(data); } catch {}
   }, 1000);
 }
