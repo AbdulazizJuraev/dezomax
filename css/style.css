@@ -6346,3 +6346,14 @@ html.tv-mode .row-nav { display: none !important; }
 .short-card .short-ic { position: absolute; top: 8px; right: 8px; z-index: 1; width: 22px; height: 22px; color: #fff; filter: drop-shadow(0 1px 3px rgba(0,0,0,.6)); }
 .shorts-head-ic { width: 22px; height: 22px; color: #ff2d55; margin-right: -2px; }
 @media (max-width: 640px) { .shorts-row .short-card { flex-basis: 128px; } }
+/* Shorts: YouTube pleyeri slaydni balandligi bo'yicha to'liq to'ldiradi (yonlari ozgina kesiladi — YouTube Shorts kabi),
+   tepadagi va pastdagi YouTube panellari (sarlavha, kanal) slayddan tashqarida qoladi.
+   Video haqiqatan o'ynay boshlaguncha va pauzada — muqova (YouTube'ning aylanuvchi va Play belgilari ko'rinmaydi) */
+.sh-slide { container-type: size; }
+.sh-frame { z-index: 0; overflow: hidden; }
+.sh-frame iframe {
+  left: 50%; right: auto; top: -72px; transform: translateX(-50%);
+  width: max(100cqw, calc(100cqh * 9 / 16)); height: calc(100cqh + 144px); max-width: none; max-height: none;
+}
+.sh-thumb { z-index: 1; transition: opacity .25s; }
+.sh-slide.is-live:not(.is-paused) .sh-thumb { opacity: 0; }

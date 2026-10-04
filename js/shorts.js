@@ -62,11 +62,27 @@
       `&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"` +
       ` allow="autoplay; encrypted-media; picture-in-picture" title="${esc(list[i].t)}"></iframe>`;
     sl.classList.add('is-playing');
+    sl.classList.remove('is-live');
+    // YouTube holatini eshitamiz: video haqiqatan o'ynay boshlaganda muqova olinadi (is-live)
+    const fr = sl.querySelector('iframe');
+    fr.addEventListener('load', () => {
+      try { fr.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: i, channel: 'widget' }), '*'); } catch {}
+    });
     try { history.replaceState(null, '', '#' + id); } catch {}
     // keyingi shortning muqovasi oldindan
     const next = slides[i + 1] && slides[i + 1].querySelector('.sh-thumb');
     if (next) next.loading = 'eager';
   }
+
+  addEventListener('message', e => {
+    if (!/youtube(-nocookie)?\.com$/.test(String(e.origin).replace(/^https?:\/\/(www\.)?/, ''))) return;
+    let d;
+    try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+    const st = d && (d.event === 'onStateChange' ? d.info : d.info && d.info.playerState);
+    if (st === undefined || st === null) return;
+    const sl = slides.find(s => { const f = s.querySelector('iframe'); return f && f.contentWindow === e.source; });
+    if (sl && st === 1) sl.classList.add('is-live');     // 1 — o'ynayapti
+  });
 
   const io = new IntersectionObserver(entries => {
     for (const e of entries) if (e.isIntersecting && e.intersectionRatio >= 0.6) activate(+e.target.dataset.i);
@@ -77,6 +93,13 @@
     const sl = e.target.closest('.sh-slide');
     if (!sl) return;
     if (e.target.closest('.sh-tap')) {
+      // avtomatik boshlanmagan bo'lsa (brauzer ruxsat bermagan) — birinchi bosish ishga tushiradi, ovoz bilan
+      if (!sl.classList.contains('is-live')) {
+        sl.classList.remove('is-paused');
+        send(sl, 'playVideo');
+        if (muted) { muted = false; send(sl, 'unMute'); paintSound(); }
+        return;
+      }
       const paused = sl.classList.toggle('is-paused');
       send(sl, paused ? 'pauseVideo' : 'playVideo');
       if (!paused && muted) { muted = false; send(sl, 'unMute'); paintSound(); }   // birinchi bosish — ovoz ham yoqiladi
