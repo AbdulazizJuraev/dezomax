@@ -4964,11 +4964,11 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#070e1c"
     ],
     "poster": "images/the-avengers.jpg",
-    "trailer": "https://kinolar.tv/07e12638-85b0-4ea8-aff0-b412402b0d04",
+    "trailer": "https://www.youtube.com/watch?v=eOrNdBpGMv8",
     "video": "https://kinolar.tv/07e12638-85b0-4ea8-aff0-b412402b0d04",
     "featured": false,
     "addedAt": 1790170530090,
-    "updatedAt": 1790705038066,
+    "updatedAt": 1791108278988,
     "year": 2012,
     "duration": 143,
     "rating": 8,
@@ -40348,6 +40348,89 @@ const CUSTOM_MOVIES = /*DATA*/[
     "size": 898383566,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 2118,
+    "slug": "star-wars-episode-vii-the-force-awakens",
+    "year": 2015,
+    "type": "film",
+    "title": {
+      "uz": "Yulduzlar jangi: Kuchning uygʻonishi",
+      "ru": "Звёздные войны: Пробуждение силы"
+    },
+    "genres": [
+      "action",
+      "scifi",
+      "fantasy"
+    ],
+    "duration": 138,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "J. J. Abrams",
+    "cast": [
+      "Carrie Fisher",
+      "Harrison Ford",
+      "Mark Hamill",
+      "Adam Driver"
+    ],
+    "desc": {
+      "uz": "«Yulduzlar jangi: Kuchning uygʻonishi» — 2015-yilgi AQSh filmi. Rejissyor: J. J. Abrams. Rollarda: Carrie Fisher, Harrison Ford, Mark Hamill. Saytda rasmiy treyleri bor.",
+      "ru": "«Звёздные войны: Пробуждение силы» — эпическая космическая опера, производства Lucasfilm и Bad Robot Productions, снятая Дж."
+    },
+    "tags": [
+      "Star Wars: Episode VII – The Force Awakens"
+    ],
+    "colors": [
+      "hsl(140 45% 28%)",
+      "hsl(160 50% 7%)"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/a/a2/Star_Wars_The_Force_Awakens_Theatrical_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "trailer": "https://www.youtube.com/watch?v=-QnjzSPZFZw",
+    "video": "",
+    "addedAt": 1791108278988
+  },
+  {
+    "id": 1001388653,
+    "slug": "pacific-rim",
+    "year": 2013,
+    "type": "film",
+    "title": {
+      "uz": "Tinch okeani boʻlaklari",
+      "ru": "Тихоокеанский рубеж"
+    },
+    "genres": [
+      "action",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh, Meksika",
+      "ru": "США, Мексика"
+    },
+    "cast": [
+      "Charlie Hunnam",
+      "Idris Elba",
+      "Rinko Kikuchi"
+    ],
+    "desc": {
+      "uz": "«Tinch okeani boʻlaklari» — 2013-yilgi AQSh, Meksika filmi. Rejissyor: Guillermo del Toro. Rollarda: Charlie Hunnam, Idris Elba, Rinko Kikuchi.",
+      "ru": "«Тихоокеанский рубеж» — фильм 2013 года (США, Мексика). Режиссёр: Guillermo del Toro. В ролях: Charlie Hunnam, Idris Elba, Rinko Kikuchi."
+    },
+    "colors": [
+      "hsl(223 45% 28%)",
+      "hsl(243 50% 7%)"
+    ],
+    "trailer": "https://www.youtube.com/watch?v=IUm7F4SwBFU",
+    "video": "",
+    "duration": 131,
+    "director": "Guillermo del Toro",
+    "tags": [
+      "Pacific Rim"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/f/f3/Pacific_Rim_FilmPoster.jpeg",
+    "wiki": "Тихоокеанский рубеж",
+    "addedAt": 1791108278989
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21,7338617,3865,14,3713,3868,70,1028840385,3866,3867,3869,3870,3871,3872,3873,3874,3875,3876,3877,3878,3879,3880,3881,3882,3883,3884,3885,3886,3887,3888,3889,3890,3891,3892,3893,3894,3895,3896,3897,3898,3899,3900,3901,3902,3903,3904,3905,3906,3907,3908,3909,3910,3911,3912,3369,3370,3371,3372,3373,3374,3375,3376,63,3437,3444,3430,3495,7412247,3447,3460,3740,3473,3659,3696,3714]/*ENDHIDDEN*/;

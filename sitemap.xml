@@ -542,7 +542,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=33</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1415,6 +1415,12 @@
     <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/movie.html?id=2118</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dezomax.uz/movie.html?id=2132</loc>
@@ -10467,6 +10473,12 @@
   <url>
     <loc>https://dezomax.uz/movie.html?id=1001176076</loc>
     <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/movie.html?id=1001388653</loc>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
