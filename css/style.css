@@ -6273,3 +6273,19 @@ html.tv-mode .row-nav { display: none !important; }
    (js/ytplayer.js → ytOnState). Muqova 4:3 bo'lsa ham qora chiziqlari cover bilan kesiladi. */
 .ytp-shade { background: #05060a center / cover no-repeat; }
 .ytp-shade::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(5, 6, 10, .75), rgba(5, 6, 10, .35) 55%, rgba(5, 6, 10, .55)); }
+/* O'rtadagi Play/Pauza: to'q to'liq dumaloq fon — telefon brauzerida YouTube video boshlanganda/davom etganda
+   iframe ichida o'z pauza belgisini 2–3 soniya ko'rsatadi; u bizning tugma ostida butunlay yopiladi */
+.player-wrap.ytp .vp-center {
+  width: 104px; height: 104px; background: rgba(8, 10, 15, .94);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .08), 0 6px 24px rgba(0, 0, 0, .45);
+}
+.player-wrap.ytp .vp-center svg { width: 58px; height: 58px; filter: none; }
+.player-wrap.ytp:not(.vp-paused) .vp-center { opacity: 1; }
+@media (max-width: 640px) {
+  .player-wrap.ytp .vp-center { width: 84px; height: 84px; }
+  .player-wrap.ytp .vp-center svg { width: 46px; height: 46px; }
+}
+@media (max-width: 380px) {
+  .player-wrap.ytp .vp-center { width: 76px; height: 76px; }
+  .player-wrap.ytp .vp-center svg { width: 40px; height: 40px; }
+}
