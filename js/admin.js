@@ -1561,9 +1561,21 @@ async function renderSiteView() {
           return o;
         })
       };
+      // kutubxonadan tanlangan kinolar (saytda hali yo'q) — saytga ham qo'shiladi (rasmiy treyleri bilan),
+      // aks holda sayt ularni topa olmaydi va slayderda/qatorda ko'rinmaydi
+      const wanted = [...d.hero.ids, ...d.rows.flatMap(r => r.source === 'custom' ? r.ids || [] : [])];
+      const siteIds = window.SITE_BASE_IDS || new Set();
+      const copies = [...new Set(wanted)].filter(id => !siteIds.has(id) && !customList.some(m => m.id === id))
+        .map(id => allMovies().find(m => m.id === id)).filter(Boolean)
+        .map(m => ({ ...structuredClone(m), addedAt: Date.now() }));
+      if (copies.length) {
+        btn.textContent = 'Kinolar saytga qo‘shilmoqda...';
+        await saveCustom(list => [...list, ...copies.filter(c => !list.some(m => m.id === c.id))],
+          `Slayder/qator uchun kutubxonadan saytga qo‘shildi: ${copies.map(m => m.title?.uz).join(', ')}`);
+      }
       await saveConfig(clean, 'Sayt sozlamalari o‘zgartirildi: slayder va qatorlar');
       commitsCache = null;
-      toast('Saqlandi. Saytda 1–2 daqiqada ko‘rinadi.');
+      toast(copies.length ? `Saqlandi. ${copies.length} ta kino kutubxonadan saytga qo‘shildi. Saytda 1–2 daqiqada ko‘rinadi.` : 'Saqlandi. Saytda 1–2 daqiqada ko‘rinadi.');
     } catch (ex) {
       err.textContent = friendlyError(ex); err.hidden = false;
     } finally {

@@ -12,8 +12,9 @@ const featured = adminHeroIds && adminHeroIds.length
   : MOVIES.filter(m => m.featured)
       .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
       .slice(0, 10);   // standart slayder juda uzun bo'lib ketmasin
-// Slayderda faqat video: treyleri (YouTube) bor kinolar qoladi. Bittasi ham bo'lmasa — hammasi
-if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+// Standart slayderda faqat video: treyleri (YouTube) bor kinolar qoladi. Admin o'zi tanlagan bo'lsa — hammasi
+// (YouTube treyleri yo'qlari — rasm bilan: muqova yoki poster)
+if (!(adminHeroIds && adminHeroIds.length) && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const withVideo = featured.filter(m => /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]{11}/.test(String(m.trailer || '')));
   if (withVideo.length) featured.splice(0, featured.length, ...withVideo);
 }
@@ -37,7 +38,8 @@ function renderHero() {
     // Boshqa filmlarda poster kichik (220px) — o'rniga rasmiy treyler muqovasi (1280×720)
     const ytId = (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
-    const wideSrc = imgBig(uzArt) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null);
+    const wideSrc = imgBig(uzArt) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null)
+      || imgBig(m.cover) || imgBig(m.poster) || null;          // treyleri yo'q — muqova yoki poster
     const wideArt = !!wideSrc;
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">

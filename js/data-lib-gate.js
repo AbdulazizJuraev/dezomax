@@ -4,6 +4,8 @@
 (function () {
   var page = location.pathname.split('/').pop() || 'index.html';
   if (page !== 'admin.html') return;
+  // kutubxona qo'shilishidan oldin — saytda ko'rinadigan kinolar (admin: kutubxonadan slayderga tanlansa, saytga ham qo'shiladi)
+  window.SITE_BASE_IDS = new Set(MOVIES.map(function (m) { return m.id; }));
   var s = document.currentScript && document.currentScript.src;
   if (!s) return;
   document.write('<script src="' + s.replace(/data-lib-gate\.js/, 'data-lib.js') + '"><\/script>');
