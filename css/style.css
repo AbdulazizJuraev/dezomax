@@ -6242,3 +6242,15 @@ html.tv-mode .row-nav { display: none !important; }
   object-fit: cover; filter: blur(16px) brightness(.5) saturate(1.2);
 }
 .row-wide .card:not(.is-wide) .poster-img, .row-tall .card.is-wide .poster-img { object-fit: contain; }
+/* Pastki menyu — shaffof «shisha»: orqadagi kartalar xira ko'rinib turadi, yozuvlar o'qiladi */
+@media (max-width: 900px) {
+  .tabbar {
+    background: rgba(18, 21, 30, .38);
+    backdrop-filter: blur(22px) saturate(1.8);
+    -webkit-backdrop-filter: blur(22px) saturate(1.8);
+    border-color: rgba(255, 255, 255, .12);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .08);
+  }
+  .tabbar-item { text-shadow: 0 1px 6px rgba(0, 0, 0, .55); }
+  .tabbar-item svg { filter: drop-shadow(0 1px 4px rgba(0, 0, 0, .5)); }
+}
