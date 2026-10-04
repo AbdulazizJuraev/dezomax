@@ -192,6 +192,16 @@ const ytWebp = src => String(src || '').replace(/^https:\/\/i\.ytimg\.com\/vi\/(
 function imgSmall(src) { const k = String(src || '').split('?')[0]; return (typeof THUMBS !== 'undefined' && THUMBS[k]) || (src ? ytWebp(src) : src); }
 function imgBig(src) { const k = String(src || '').split('?')[0]; return (typeof THUMBS_BIG !== 'undefined' && THUMBS_BIG[k]) || (src ? ytWebp(src) : src); }
 
+/* Eski YouTube videolarida katta muqova (hq720/maxresdefault) yo'q — YouTube kulrang «…» rasm (120×90) qaytaradi.
+   Shunda har doim bor hqdefault'ga o'tamiz (4:3, kartada qora chiziqlari kesilib 16:9 ko'rinadi). Xira fon ham shunga. */
+function ytThumbFallback(img) {
+  if (!img || img.naturalWidth > 120 || !/i\.ytimg\.com\/vi(_webp)?\/[\w-]{11}\/(hq720|maxresdefault|sddefault)\./.test(img.src)) return;
+  const to = img.src.replace(/(hq720|maxresdefault|sddefault)\./, 'hqdefault.');
+  img.src = to;
+  const blur = img.parentElement && img.parentElement.querySelector('.poster-blur');
+  if (blur) blur.src = to;
+}
+
 function posterHTML(m) {
   const [c1, c2] = m.colors || ['#2a3142', '#0d1018'];
 
@@ -210,7 +220,7 @@ function posterHTML(m) {
   // (bosh sahifadagi aralash qatorlarda ham — .row-wide / .row-tall; odatda yashirin)
   const blur = `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">`;
   return fallback + blur +
-    `<img class="poster-img" src="${esc(m.poster)}" alt="${esc(title(m))}" loading="lazy" onerror="this.remove()">`;
+    `<img class="poster-img" src="${esc(m.poster)}" alt="${esc(title(m))}" loading="lazy" onload="ytThumbFallback(this)" onerror="this.remove()">`;
 }
 
 /* Orqa fon (hero va kino sahifasi uchun) */

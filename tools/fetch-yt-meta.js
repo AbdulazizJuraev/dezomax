@@ -84,13 +84,15 @@ if (typeof MOVIES !== 'undefined') for (var i = 0; i < CHANNEL_MOVIES.length; i+
       try { meta = await ytMeta(v.id); } catch {}
       const t = videoTitle(v.title);
       const summary = meta.summary && meta.summary.length > 30 ? uzQuotes(meta.summary) : '';
+      // eski videolarda HD muqova yo'q (404 + kulrang rasm) — hqdefault har doim bor
+      const hd = await fetch(`https://i.ytimg.com/vi/${v.id}/hq720.jpg`, { method: 'HEAD' }).then(r => r.status !== 404).catch(() => true);
       const it = {
         id, slug: `${pl.prefix}-${slug(t)}`, type: pl.type, franchise: pl.franchise, audio: 'uz',
         title: { uz: t, ru: t }, genres: [], ...(meta.year ? { year: meta.year } : {}),
         country: { uz: 'O‘zbekiston', ru: 'Узбекистан' }, cast: [],
         desc: { uz: summary || `«${t}» — ${pl.name} kanalidagi kino tahlili, o‘zbek tilida.`, ru: `«${t}» — разбор фильма на узбекском языке с канала ${pl.name}.` },
         colors: ['#1a2a4a', '#070a12'],
-        poster: `https://i.ytimg.com/vi/${v.id}/hq720.jpg`, wide: true, cover: `https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`,
+        poster: `https://i.ytimg.com/vi/${v.id}/${hd ? 'hq720' : 'hqdefault'}.jpg`, wide: true, cover: `https://i.ytimg.com/vi/${v.id}/${hd ? 'maxresdefault' : 'sddefault'}.jpg`,
         trailer: '', video: `https://www.youtube.com/watch?v=${v.id}`, duration: minutes(v.len) || meta.duration || 0,
         source: { name: pl.name, url: pl.url }, featured: false,
         addedAt: meta.published ? Date.parse(meta.published) : now - k * 60000,   // tartib — playlistdagidek (yangisi oldin)
