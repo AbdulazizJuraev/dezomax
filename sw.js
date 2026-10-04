@@ -83,7 +83,8 @@ self.addEventListener('fetch', e => {
   // internet yo'q — saqlangan nusxa (aynan shu sahifa; boshqa sahifaga «almashtirib» yuborilmaydi)
   if (req.mode === 'navigate') {
     if (!same || self.navigator.onLine !== false) return;
-    e.respondWith(offlinePage(req, url));
+    // ba'zi telefonlar internet bo'lsa ham «yo'q» deydi — avval haqiqiy tarmoq, ishlamasa saqlangan nusxa
+    e.respondWith(fetch(req).catch(() => offlinePage(req, url)));
     return;
   }
 

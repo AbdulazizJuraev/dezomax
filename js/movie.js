@@ -160,11 +160,14 @@ function mountPlayer(url) {
     if (link) link.hidden = true;
     return;
   }
-  if (!navigator.onLine && typeof offlineNoticeHTML === 'function') {
+  if (!navigator.onLine && !window.dzxNetOk && typeof offlineNoticeHTML === 'function') {
     box.innerHTML = offlineNoticeHTML();
     box.querySelector('[data-offline-close]')?.remove();
     addEventListener('online', () => location.reload(), { once: true });
     if (link) link.hidden = true;
+    // ba'zi telefonlar internet bo'lsa ham «yo'q» deydi — tekshiramiz, tarmoq ishlasa pleyer qaytadi
+    fetch(`data/widget.json?ping=${Date.now()}`, { method: 'HEAD', cache: 'no-store' })
+      .then(() => { window.dzxNetOk = true; mountPlayer(url); }).catch(() => {});
     return;
   }
 

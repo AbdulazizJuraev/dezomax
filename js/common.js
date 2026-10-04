@@ -692,9 +692,16 @@ if (IS_TV) {
     }
   } catch (e) {}
 
-  const bar = () => {
+  const bar = async () => {
     let el = document.getElementById('offlineBar');
-    if (navigator.onLine) { el?.remove(); document.documentElement.classList.remove('is-offline'); return; }
+    let offline = !navigator.onLine;
+    // ba'zi telefon brauzerlari (4G/Wi-Fi almashganda, VPN bilan) internet bo'lsa ham «yo'q» deydi — haqiqiy so'rov bilan tekshiramiz
+    // (data/ — sw.js ushlamaydi, to'g'ridan-to'g'ri tarmoqqa boradi)
+    if (offline) {
+      try { await fetch(`data/widget.json?ping=${Date.now()}`, { method: 'HEAD', cache: 'no-store' }); offline = false; window.dzxNetOk = true; } catch { window.dzxNetOk = false; }
+      el = document.getElementById('offlineBar');
+    }
+    if (!offline) { el?.remove(); document.documentElement.classList.remove('is-offline'); return; }
     document.documentElement.classList.add('is-offline');
     if (el) return;
     el = document.createElement('div');
@@ -723,7 +730,7 @@ if (IS_TV) {
   /* Internet yo'q paytda kinoga kirmoqchi bo'lsa — «Internetni yoqing» oynasi.
      Telefonga yuklab olingan kino bo'lsa — «Yuklab olinganlar»ga (u yerda internetsiz o'ynaydi). */
   document.addEventListener('click', e => {
-    if (navigator.onLine) return;
+    if (navigator.onLine || window.dzxNetOk) return;      // dzxNetOk — tekshiruvda tarmoq ishladi (yuqorida)
     const a = e.target.closest && e.target.closest('a[href]');
     if (!a) return;
     const href = a.getAttribute('href') || '';
