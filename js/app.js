@@ -589,6 +589,7 @@ function continueHTML() {
             <div class="card-poster">
               ${posterHTML(m)}
               <div class="card-overlay is-on"><div class="card-play">${ICONS.play}</div></div>
+              <span class="card-dur">${fmtClock(x.dur)}</span>
               <div class="cw-bar"><i style="width:${pct.toFixed(1)}%"></i></div>
             </div>
             <div class="card-body">

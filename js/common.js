@@ -248,25 +248,24 @@ function watchStatus(m) {
   return m.trailer ? 'trailer' : 'none';
 }
 
-/* Kartadagi davomiylik: «1 soat 52 daq» / «45 daq»; serial — «30 qism» */
-function watchLenText(m) {
-  const ru = LANG === 'ru';
+/* Davomiylik — YouTube kabi muqovaning o'ng pastki burchagida: «1:52:00», «45:00»; serial — «30 qism» */
+const fmtClock = sec => {
+  sec = Math.max(0, Math.round(sec));
+  const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60, p = n => String(n).padStart(2, '0');
+  return h ? `${h}:${p(m)}:${p(s)}` : `${m}:${p(s)}`;
+};
+function durPillHTML(m) {
   const eps = (m.eps && m.eps.length) || (Array.isArray(m.parts) && m.parts.length > 1 ? m.parts.length : 0);
-  if (m.type === 'serial' && eps) return `${eps} ${ru ? 'серий' : 'qism'}`;
+  if (m.type === 'serial' && eps) return `<span class="card-dur">${eps} ${LANG === 'ru' ? 'серий' : 'qism'}</span>`;
   const d = Math.round(+m.duration || 0);
-  if (!d) return '';
-  const h = Math.floor(d / 60), min = d % 60;
-  return h ? `${h} ${ru ? 'ч' : 'soat'}${min ? ` ${min} ${ru ? 'мин' : 'daq'}` : ''}` : `${min} ${ru ? 'мин' : 'daq'}`;
+  return d && hasFilm(m) ? `<span class="card-dur">${fmtClock(d * 60)}</span>` : '';
 }
 
 function watchBadgeHTML(m) {
   const st = watchStatus(m);
   if (st === 'uz')      return `<div class="badge-watch is-uz">${ICONS.play}${t('watch.uz')}</div>`;
-  // to'liq film — «To'liq film» yozuvi o'rniga davomiyligi (serialda — qismlar soni); noma'lum bo'lsa belgisiz
-  if (st === 'full') {
-    const len = watchLenText(m);
-    return len ? `<div class="badge-watch is-full is-len">${ICONS.play}${len}</div>` : '';
-  }
+  // to'liq film — alohida yozuvsiz: davomiyligi YouTube kabi o'ng pastki burchakda (durPillHTML)
+  if (st === 'full') return '';
   if (st === 'trailer') return `<div class="badge-watch is-trailer">${t('watch.trailer')}</div>`;
   return '';
 }
@@ -310,6 +309,7 @@ function cardHTML(m) {
       ${m.rating ? `<div class="badge-rating">${ICONS.star}${m.rating.toFixed(1)}</div>` : ''}
       <div class="badge-type">${typeName(m.type)}</div>
       ${watchBadgeHTML(m)}
+      ${durPillHTML(m)}
     </div>
     <div class="card-body">
       <h3 class="card-title">${esc(title(m))}</h3>

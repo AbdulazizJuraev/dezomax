@@ -6401,3 +6401,11 @@ html.tv-mode .row-nav { display: none !important; }
 .sh-sheet-form .acc-input { flex: 1; height: 42px; }
 .sh-sheet-form span { flex: 1; }
 .sh-sheet-form .sh-btn { background: var(--accent, #0a93dc); width: 42px; height: 42px; }
+/* Davomiylik — YouTube kabi: muqovaning o'ng pastki burchagida qora yorliq («1:52:00», «30 qism») */
+.card-dur {
+  position: absolute; right: 7px; bottom: 7px; z-index: 3; pointer-events: none;
+  background: rgba(0, 0, 0, .8); color: #fff; font-size: 12px; font-weight: 600; line-height: 1;
+  padding: 4px 6px; border-radius: 6px; font-variant-numeric: tabular-nums; letter-spacing: .01em;
+}
+.cw-card .card-dur { bottom: 11px; }            /* qizil chiziq ustida */
+@media (max-width: 640px) { .card-dur { font-size: 11px; padding: 3px 5px; right: 6px; bottom: 6px; } }
