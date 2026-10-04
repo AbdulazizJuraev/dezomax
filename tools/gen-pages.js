@@ -65,7 +65,7 @@ const TYPE = { film: 'Film', serial: 'Serial', multfilm: 'Multfilm', tahlil: 'Ta
 
 function similar(m) {
   return list
-    .filter(x => x !== m && !x._trailer === !m._trailer)   // treylerlar — treylerlar bilan, filmlar — filmlar bilan
+    .filter(x => x !== m && !x._trailer === !m._trailer && (x.franchise === 'tahlil') === (m.franchise === 'tahlil'))   // treylerlar — treylerlar bilan, filmlar — filmlar bilan
     .map(x => ({ x, s: (x.genres || []).filter(g => (m.genres || []).includes(g)).length + (m.franchise && x.franchise === m.franchise ? 3 : 0) + (x.audio === m.audio ? 1 : 0) }))
     .filter(o => o.s > 0)
     .sort((a, b) => b.s - a.s || (b.x.year || 0) - (a.x.year || 0))
@@ -154,7 +154,7 @@ function moviePage(m) {
 
 function indexPage() {
   const url = `${SITE}kino/index.html`;
-  const films = list.filter(m => !m._trailer);
+  const films = list.filter(m => !m._trailer && m.franchise !== 'tahlil');   // ro'yxat — kinolar (tahlil videolari o'z sahifasida)
   const sorted = [...films].sort((a, b) => (b.year || 0) - (a.year || 0) || String(a.title.uz).localeCompare(String(b.title.uz)));
   const title = 'O‘zbek kinolari va filmlar onlayn — barcha filmlar ro‘yxati | DezoMax';
   const desc = `DezoMax’dagi ${films.length} ta film: o‘zbek kinolari, komediya, drama va konsertlar — bepul onlayn ko‘ring.`;

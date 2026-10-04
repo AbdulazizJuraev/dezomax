@@ -70,6 +70,10 @@ function partsOf(m) {
 /* ---------- Saytda ko'rinadigan kinolar ----------
    Filmi yoki treyleri bor hamma kino ko'rinadi (Marvel treylerlari ham — kartada «Treyler» belgisi).
    Na videosi, na treyleri bo'lmagan yozuvlar (bo'sh katalog kartalari) ro'yxatlardan chiqariladi. */
+/* Kanal videolari (kino tahlillari — FarZidGuy va h.k.) kino emas: faqat o'z bo'limida («Kino tahlillari»),
+   bosh sahifa pastida va qidiruvda kinolardan keyin; katalog, «O'xshash kinolar», TOP-10 — faqat kinolar */
+const isExtraVideo = m => !!m && m.franchise === 'tahlil';
+
 function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
 (function () {
   try {

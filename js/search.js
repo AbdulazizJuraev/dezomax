@@ -71,7 +71,8 @@ function searchMovies(query) {
     const score = matchesQ(titles, q) ? (titles.startsWith(q) ? 3 : 2) : matchesQ(rest, q) ? 1 : 0;
     return { m, score };
   }).filter(x => x.score)
-    .sort((a, b) => b.score - a.score || (!!b.m.poster - !!a.m.poster) || (b.m.year || 0) - (a.m.year || 0))
+    // kinolar birinchi, kanal videolari (tahlillar) — ulardan keyin
+    .sort((a, b) => (isExtraVideo(a.m) - isExtraVideo(b.m)) || b.score - a.score || (!!b.m.poster - !!a.m.poster) || (b.m.year || 0) - (a.m.year || 0))
     .map(x => x.m);
 }
 

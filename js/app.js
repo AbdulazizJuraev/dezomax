@@ -444,7 +444,7 @@ const ROW_SOURCES = {
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
-const DEFAULT_ROWS = ['popular', 'uzbek', 'konsert', 'tahlil', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
+const DEFAULT_ROWS = ['popular', 'uzbek', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
   .map(source => ({ source, visible: true }));
 
 /* ---------- «Seriallar» banneri: hamma seriallar bitta katta banner ostida ----------
@@ -617,10 +617,9 @@ function renderRows() {
   const box = document.getElementById('homeRows');
   if (!box) return;
   let rows = (SITE_CFG.rows && SITE_CFG.rows.length) ? SITE_CFG.rows : DEFAULT_ROWS;
-  if (!rows.some(r => r.source === 'tahlil')) {
-    const at = rows.findIndex(r => r.source === 'konsert');
-    rows = [...rows.slice(0, at + 1), { source: 'tahlil', visible: true }, ...rows.slice(at + 1)];
-  }
+  // sayt — kino sayt: kanal videolari (Shorts va «Kino tahlillari») doim eng oxirida, kino qatorlaridan keyin
+  const tahlilRow = rows.find(r => r.source === 'tahlil') || { source: 'tahlil', visible: true };
+  rows = [...rows.filter(r => r.source !== 'tahlil'), tahlilRow];
   if (!rows.some(r => r.source === 'studios')) {
     const at = rows.findIndex(r => r.source === 'popular');
     rows = [...rows.slice(0, at + 1), { source: 'studios', visible: true }, ...rows.slice(at + 1)];
@@ -638,8 +637,10 @@ function renderRows() {
     if (row.source === 'studios') return studiosHTML(title) + ad;
     if (row.source === 'popular' && !hasTop) {
       hasTop = true;
-      return top10HTML(title) + shortsRowHTML() + ad;      // Shorts — mashhur kinolardan keyin (targ'ib)
+      return top10HTML(title) + ad;
     }
+    // Shorts — «Kino tahlillari» bilan birga, sahifa oxirida
+    const pre = row.source === 'tahlil' ? shortsRowHTML() : '';
     if (row.source === 'series' && !seriesList) {
       seriesList = list;
       return seriesBannerHTML(list, `
@@ -648,7 +649,7 @@ function renderRows() {
           ${src.all ? `<a class="row-all" href="${src.all}">${t('row.seeAll')}</a>` : ''}
         </div>`) + ad;
     }
-    return `
+    return `${pre}
       <section class="section">
         <div class="section-head">
           <i class="bar"></i><h2>${esc(title)}</h2>
@@ -753,10 +754,11 @@ async function loadTop10(root) {
   if (!row) return;
   const byId = new Map(MOVIES.map(m => [m.id, m]));
   const days = topDays;
-  const real = (await topIds(days)).map(id => byId.get(id)).filter(Boolean);
+  // TOP-10 — faqat kinolar (kanal videolari ko'p ko'rilsa ham kirmaydi)
+  const real = (await topIds(days)).map(id => byId.get(id)).filter(m => m && !isExtraVideo(m));
   if (days !== topDays) return;   // boshqa tab tanlandi
   // kam bo'lsa — hamma vaqtdagi ko'rishlar, keyin reyting bo'yicha to'ldiramiz
-  const all = real.length < 10 ? (await topIds('all')).map(id => byId.get(id)).filter(Boolean) : [];
+  const all = real.length < 10 ? (await topIds('all')).map(id => byId.get(id)).filter(m => m && !isExtraVideo(m)) : [];
   const list = [...new Set([...real, ...all, ...ROW_SOURCES.popular.list()])].slice(0, 10);
   root.querySelector('#t10Kicker').hidden = !real.length;
   row.innerHTML = t10CardsHTML(list);

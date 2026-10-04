@@ -62,6 +62,7 @@ function filtered() {
     if (state.type !== 'all' && m.type !== state.type) return false;
     if (state.genre !== 'all' && !m.genres.includes(state.genre)) return false;
     if (state.franchise !== 'all' && m.franchise !== state.franchise) return false;
+    if (state.franchise !== 'tahlil' && isExtraVideo(m)) return false;      // katalog — kinolar (tahlillar o'z bo'limida)
     if (state.studio && (m.franchise !== state.studio || !m.ch)) return false;
     if (state.watch !== 'all' && watchStatus(m) !== state.watch) return false;
     return !hit || hit(hayOf(m));
