@@ -187,8 +187,10 @@ const norm = s => String(s).toLowerCase()
    Rasm yuklanmasa (o'chirilgan/nomi noto'g'ri) — gradient poster ko'rinib qoladi. */
 /* Rasmning yengil WebP nusxasi (tools/make-thumbs.js → js/thumbs.js): kichik — kartalar (400 px),
    katta — slayder va banner fonlari (1280 px). Nusxa bo'lmasa — asl rasm. */
-function imgSmall(src) { const k = String(src || '').split('?')[0]; return (typeof THUMBS !== 'undefined' && THUMBS[k]) || src; }
-function imgBig(src) { const k = String(src || '').split('?')[0]; return (typeof THUMBS_BIG !== 'undefined' && THUMBS_BIG[k]) || src; }
+// YouTube muqovasi: JPG o'rniga o'sha rasmning WebP varianti — sifat bir xil, hajmi ~2 barobar kichik (330 → 180 KB)
+const ytWebp = src => String(src || '').replace(/^https:\/\/i\.ytimg\.com\/vi\/([\w-]{11})\/(hq720|maxresdefault|sddefault|hqdefault)\.jpg$/, 'https://i.ytimg.com/vi_webp/$1/$2.webp');
+function imgSmall(src) { const k = String(src || '').split('?')[0]; return (typeof THUMBS !== 'undefined' && THUMBS[k]) || (src ? ytWebp(src) : src); }
+function imgBig(src) { const k = String(src || '').split('?')[0]; return (typeof THUMBS_BIG !== 'undefined' && THUMBS_BIG[k]) || (src ? ytWebp(src) : src); }
 
 function posterHTML(m) {
   const [c1, c2] = m.colors || ['#2a3142', '#0d1018'];

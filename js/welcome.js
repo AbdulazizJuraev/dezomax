@@ -88,7 +88,7 @@
   const byRating = (a, b) => (b.rating || 0) - (a.rating || 0);
   const isFantastic = m => m.genres.some(g => g === 'scifi' || g === 'fantasy');
   const fantastic = localPosters.filter(isFantastic).sort(byRating);
-  const posters = [...fantastic, ...localPosters.filter(m => !isFantastic(m)).sort(byRating)].map(m => m.poster);
+  const posters = [...fantastic, ...localPosters.filter(m => !isFantastic(m)).sort(byRating)].map(m => typeof imgSmall === "function" ? imgSmall(m.poster) : m.poster);   // yengil WebP nusxa (js/thumbs.js)
   /* 2-slayddagi katta kartochka — fantastik kino (reyting bo'yicha eng yuqorisi) */
   const heroPoster = (fantastic[0] || localPosters[0] || {}).poster;
   const colOf = (k) => {                       // 3 ustun: har birida 8 ta poster

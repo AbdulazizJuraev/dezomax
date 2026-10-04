@@ -37,7 +37,7 @@ function renderHero() {
     // Boshqa filmlarda poster kichik (220px) — o'rniga rasmiy treyler muqovasi (1280×720)
     const ytId = (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
-    const wideSrc = imgBig(uzArt) || (ytId ? `https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg` : null);
+    const wideSrc = imgBig(uzArt) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null);
     const wideArt = !!wideSrc;
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
@@ -75,7 +75,7 @@ function renderHero() {
         if (i > 0) bg.style.backgroundImage = bg.style.backgroundImage.replace(/maxresdefault/, tries[i]);
       };
       img.onerror = () => { if (i < tries.length - 1) test(i + 1); else drop(); };
-      img.src = `https://i.ytimg.com/vi/${id}/${tries[i]}.jpg`;
+      img.src = `https://i.ytimg.com/vi_webp/${id}/${tries[i]}.webp`;   // fon bilan bir xil fayl — ikki marta yuklanmaydi
     };
     test(0);
   });
@@ -451,8 +451,8 @@ const DEFAULT_ROWS = ['popular', 'uzbek', 'konsert', 'trending', 'new', 'dorama'
 const SB_MS = 6000;
 let sbTimer = 0;
 const sbYt = m => (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
-const sbArt = m => imgBig(m.cover) || (m.poster && m.poster.startsWith('images/uz/') && m.poster) ||
-  (sbYt(m) ? `https://i.ytimg.com/vi/${sbYt(m)}/maxresdefault.jpg` : imgBig(m.poster));
+const sbArt = m => imgBig(m.cover) || (m.poster && m.poster.startsWith('images/uz/') && imgBig(m.poster)) ||
+  (sbYt(m) ? imgBig(`https://i.ytimg.com/vi/${sbYt(m)}/maxresdefault.jpg`) : imgBig(m.poster));
 
 function seriesBannerHTML(list, head) {
   return `
@@ -460,7 +460,7 @@ function seriesBannerHTML(list, head) {
       ${head}
       <div class="sb" data-sb>
         <div class="sb-stage">
-          ${list.map((m, i) => `<img class="sb-bg${i ? '' : ' is-on'}" src="${esc(sbArt(m) || '')}" alt="" decoding="async">`).join('')}
+          ${list.map((m, i) => `<img class="sb-bg${i ? '' : ' is-on'}" ${i ? 'data-src' : 'src'}="${esc(sbArt(m) || '')}" alt="" decoding="async">`).join('')}
         </div>
         <div class="sb-info"></div>
         ${list.length > 1 ? `<div class="sb-thumbs">
@@ -505,8 +505,12 @@ function initSeriesBanner(root, list) {
     if (img.complete) fix();
   });
 
+  // fonlar faqat kerak bo'lganda yuklanadi (har biri ~300 KB): joriy va keyingisi
+  const load = b => { if (b && b.dataset.src) { b.src = b.dataset.src; delete b.dataset.src; } };
+  setTimeout(() => load(bgs[1]), 2500);
   const show = i => {
     cur = (i + list.length) % list.length;
+    load(bgs[cur]); load(bgs[(cur + 1) % bgs.length]);
     bgs.forEach((b, k) => b.classList.toggle('is-on', k === cur));
     thumbs.forEach((b, k) => b.classList.toggle('is-on', k === cur));
     info.innerHTML = sbInfoHTML(list[cur], list.length);
