@@ -47,9 +47,18 @@ function videoTitle(raw) {
   return parts.map(fix).join(' — ');
 }
 
+/* Faqat kinoga oid shortslar (2026-10-04 foydalanuvchi so'rovi): nomi yoki heshteglarida kino/film/qahramon bo'lsa.
+   Memlar, «Diqqat savol», belgisiz «To'liq video kanalda» — qo'shilmaydi. js/admin.js da ham xuddi shu ro'yxat. */
+const MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|deseptikon|decepticon|optimus|praym|prime|megatron|bumblebee|bambilbi|drift|lockdown|shockwave|starscream|wheeljack|devastator|crosshairs|kogman|cogman|sentinal|sentinel|iron ?hide|wrekker|\bdc\b|#dc|supermen|superman|betmen|batman|flash|wonder ?woman|temir odam|iron ?man|#thor|\btor\b|torga|loki|wanda|vijin|vision|altron|ultron|kang\b|odin|tanos|thanos|selestial|celestial|ikaris|cheksizlik tosh|kuch tosh|yulduzlar lordi|spider|o.rgimchak|wednesday|uenzdey|deyneris|daenerys|taxtlar|\bfilm|kino|premyera|oskar|oscar|aktyor|multfilm|makvin|mcqueen|jekson bo.ron|mortal kombat|call of duty|dedpul|deadpool|momaqaldiroq|thunderbolt|tay ?lung|kung ?fu|afsonaviy uchlik|adolat liga|justice league|qizil.?jodugar|venom|joker|star ?wars|yulduzlar jang|harry ?pot|garri ?pot|bolg.a|mjolnir/i;
+
 /* Shorts nomi: heshteglar va emojilarsiz, KATTA HARFLAR — oddiy («ENG KUCHLI BOLG'A #marvel» → «Eng kuchli bolg‘a») */
 function shortTitle(raw) {
   let t = String(raw).replace(/#[\p{L}\p{N}_]+/gu, '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim();
+  // «To'liq video YouTube kanalda #qasoskorlar» — nomi hech narsa demaydi: heshtegdan mavzu olinadi («Qasoskorlar»)
+  if (/^to.?.?liq video/i.test(t)) {
+    const tag = (String(raw).match(/#[\p{L}\p{N}_]+/gu) || []).map(h => h.slice(1)).find(h => !/^(farzidguy|shorts?|mem|meme|battle|kimkuchli)$/i.test(h));
+    if (tag) t = tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase();
+  }
   const letters = t.replace(/[^\p{L}]/gu, '');
   if (letters && letters === letters.toUpperCase()) t = t.toLowerCase();
   t = t.replace(/(^|[.!?]\s+)(\p{L})/gu, (m, a, b) => a + b.toUpperCase()).replace(/[\s|\-–—:]+$/, '');   // oxiridagi «|», «-»
@@ -91,7 +100,7 @@ if (typeof MOVIES !== 'undefined') for (var i = 0; i < CHANNEL_MOVIES.length; i+
     const sh = pl.shorts ? await ytShorts(pl.id) : { items: [] };
     if (sh.error) { console.warn(pl.name, 'shorts:', sh.error); continue; }
     const shortIds = new Set(sh.items.map(x => x.id)), lenOf = new Map(r.items.map(v => [v.id, v.len]));
-    const longs = [], shorts = sh.items.map(v => ({ v: { ...v, len: lenOf.get(v.id) || '' } }));
+    const longs = [], shorts = sh.items.filter(v => MOVIE_RX.test(v.title)).map(v => ({ v: { ...v, len: lenOf.get(v.id) || '' } }));
     r.items.forEach((v, k) => { if (v.len && !shortIds.has(v.id)) longs.push({ v, k }); });
     // avval bo'limga tushib qolgan shortslar olib tashlanadi
     for (let i = items.length - 1; i >= 0; i--) if (items[i].ch === pl.key && shortIds.has(String(items[i].video).split('v=')[1])) items.splice(i, 1);

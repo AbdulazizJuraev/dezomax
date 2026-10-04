@@ -2343,8 +2343,15 @@ async function syncPlaylist(ch) {
 
 /* js/data-shorts.js — shu kanal shortslari yangilanadi (boshqa kanallarnikiga tegilmaydi). Natija: yangi shortslar soni */
 const SHORTS_PATH = 'js/data-shorts.js';
+// faqat kinoga oid shortslar — tools/fetch-yt-meta.js dagi MOVIE_RX bilan bir xil
+const SHORTS_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|deseptikon|decepticon|optimus|praym|prime|megatron|bumblebee|bambilbi|drift|lockdown|shockwave|starscream|wheeljack|devastator|crosshairs|kogman|cogman|sentinal|sentinel|iron ?hide|wrekker|\bdc\b|#dc|supermen|superman|betmen|batman|flash|wonder ?woman|temir odam|iron ?man|#thor|\btor\b|torga|loki|wanda|vijin|vision|altron|ultron|kang\b|odin|tanos|thanos|selestial|celestial|ikaris|cheksizlik tosh|kuch tosh|yulduzlar lordi|spider|o.rgimchak|wednesday|uenzdey|deyneris|daenerys|taxtlar|\bfilm|kino|premyera|oskar|oscar|aktyor|multfilm|makvin|mcqueen|jekson bo.ron|mortal kombat|call of duty|dedpul|deadpool|momaqaldiroq|thunderbolt|tay ?lung|kung ?fu|afsonaviy uchlik|adolat liga|justice league|qizil.?jodugar|venom|joker|star ?wars|yulduzlar jang|harry ?pot|garri ?pot|bolg.a|mjolnir/i;
 function ytShortTitle(raw) {
   let t = String(raw).replace(/#[\p{L}\p{N}_]+/gu, '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim();
+  // «To'liq video YouTube kanalda #qasoskorlar» — heshtegdan mavzu («Qasoskorlar»)
+  if (/^to.?.?liq video/i.test(t)) {
+    const tag = (String(raw).match(/#[\p{L}\p{N}_]+/gu) || []).map(h => h.slice(1)).find(h => !/^(farzidguy|shorts?|mem|meme|battle|kimkuchli)$/i.test(h));
+    if (tag) t = tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase();
+  }
   const letters = t.replace(/[^\p{L}]/gu, '');
   if (letters && letters === letters.toUpperCase()) t = t.toLowerCase();
   t = t.replace(/(^|[.!?]\s+)(\p{L})/gu, (m, a, b) => a + b.toUpperCase()).replace(/[\s|\-–—:]+$/, '');
@@ -2359,7 +2366,7 @@ async function saveShorts(ch, shorts, lenOf) {
     if (!m) throw new Error('data-shorts.js o‘qilmadi — saqlanmadi');
     cur = JSON.parse(m[1]);
   }
-  const mine = shorts.map(v => ({ id: v.id, t: ytShortTitle(v.title), ch: ch.key, n: ch.name, u: ch.url, s: secs(lenOf.get(v.id)) }));
+  const mine = shorts.filter(v => SHORTS_MOVIE_RX.test(v.title)).map(v => ({ id: v.id, t: ytShortTitle(v.title), ch: ch.key, n: ch.name, u: ch.url, s: secs(lenOf.get(v.id)) }));
   // himoya: YouTube bir martada kam qaytarsa ham avvalgilari o'chmaydi
   const keepOld = cur.filter(x => x.ch === ch.key && !mine.some(y => y.id === x.id));
   const next = [...mine, ...keepOld, ...cur.filter(x => x.ch !== ch.key)];
