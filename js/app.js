@@ -37,7 +37,7 @@ function renderHero() {
     // Boshqa filmlarda poster kichik (220px) — o'rniga rasmiy treyler muqovasi (1280×720)
     const ytId = (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
-    const wideSrc = uzArt || (ytId ? `https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg` : null);
+    const wideSrc = imgBig(uzArt) || (ytId ? `https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg` : null);
     const wideArt = !!wideSrc;
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
@@ -451,8 +451,8 @@ const DEFAULT_ROWS = ['popular', 'uzbek', 'konsert', 'trending', 'new', 'dorama'
 const SB_MS = 6000;
 let sbTimer = 0;
 const sbYt = m => (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
-const sbArt = m => m.cover || (m.poster && m.poster.startsWith('images/uz/') && m.poster) ||
-  (sbYt(m) ? `https://i.ytimg.com/vi/${sbYt(m)}/maxresdefault.jpg` : m.poster);
+const sbArt = m => imgBig(m.cover) || (m.poster && m.poster.startsWith('images/uz/') && m.poster) ||
+  (sbYt(m) ? `https://i.ytimg.com/vi/${sbYt(m)}/maxresdefault.jpg` : imgBig(m.poster));
 
 function seriesBannerHTML(list, head) {
   return `
@@ -465,7 +465,7 @@ function seriesBannerHTML(list, head) {
         <div class="sb-info"></div>
         ${list.length > 1 ? `<div class="sb-thumbs">
           ${list.map((m, i) => `<button type="button" class="sb-thumb${i ? '' : ' is-on'}" data-i="${i}" aria-label="${esc(title(m))}">
-            ${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async">` : `<span>${esc(title(m))}</span>`}</button>`).join('')}
+            ${m.poster ? `<img src="${esc(imgSmall(m.poster))}" alt="" loading="lazy" decoding="async">` : `<span>${esc(title(m))}</span>`}</button>`).join('')}
         </div>` : ''}
       </div>
     </section>`;

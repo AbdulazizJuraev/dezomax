@@ -185,6 +185,11 @@ const norm = s => String(s).toLowerCase()
 
 /* Poster: rasm ustida, orqasida gradient zaxira.
    Rasm yuklanmasa (o'chirilgan/nomi noto'g'ri) — gradient poster ko'rinib qoladi. */
+/* Rasmning yengil WebP nusxasi (tools/make-thumbs.js → js/thumbs.js): kichik — kartalar (400 px),
+   katta — slayder va banner fonlari (1280 px). Nusxa bo'lmasa — asl rasm. */
+function imgSmall(src) { const k = String(src || '').split('?')[0]; return (typeof THUMBS !== 'undefined' && THUMBS[k]) || src; }
+function imgBig(src) { const k = String(src || '').split('?')[0]; return (typeof THUMBS_BIG !== 'undefined' && THUMBS_BIG[k]) || src; }
+
 function posterHTML(m) {
   const [c1, c2] = m.colors || ['#2a3142', '#0d1018'];
 
@@ -195,6 +200,9 @@ function posterHTML(m) {
     </div>`;
 
   if (!m.poster) return fallback;
+  // saytdagi katta poster fayllari o'rniga kichik WebP nusxa (js/thumbs.js, tools/make-thumbs.js) — sahifa tez ochiladi
+  const thumb = imgSmall(m.poster);
+  if (thumb !== m.poster) m = { ...m, poster: thumb };
 
   // «Seriallar» sahifasida kartalar 16:9 — tik (2:3) poster kesilmaydi: o'rtada to'liq, chetlarida xira nusxasi (css: .is-serials)
   // (bosh sahifadagi aralash qatorlarda ham — .row-wide / .row-tall; odatda yashirin)

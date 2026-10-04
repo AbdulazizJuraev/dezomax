@@ -34,3 +34,6 @@ require('./gen-sitemap.js');
 
 // Ilova vidjeti uchun yangi kinolar (data/widget.json)
 require('./gen-widget.js');
+
+// Poster kichik nusxalari (images/w/*.webp, js/thumbs.js) — yangi posterlar uchun
+require('./make-thumbs.js');
