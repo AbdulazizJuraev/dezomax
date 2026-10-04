@@ -22,7 +22,31 @@
     sound: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>',
     share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
     play: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>',
+    like: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3zM7 10l4-8a3 3 0 0 1 3 3v4h5.5a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 18.1 21H7"/></svg>',
+    dislike: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-3zM17 14l-4 8a3 3 0 0 1-3-3v-4H4.5a2 2 0 0 1-2-2.3l1.4-8A2 2 0 0 1 5.9 3H17"/></svg>',
+    comment: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.2L4 21l1.8-5.1A8 8 0 1 1 21 12z"/></svg>',
+    close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>',
   };
+  const T = ru
+    ? { like: 'Нравится', dislike: 'Не нравится', comments: 'Комментарии', share: 'Поделиться', sound: 'Звук', login: 'Войдите, чтобы оценить или написать', loginBtn: 'Войти', ph: 'Напишите комментарий…', empty: 'Пока нет комментариев — будьте первым', yt: 'Комментарии YouTube', off: 'Временно недоступно', short: 'Слишком коротко' }
+    : { like: 'Yoqdi', dislike: 'Yoqmadi', comments: 'Izohlar', share: 'Ulashish', sound: 'Ovoz', login: 'Baho berish va izoh yozish uchun kiring', loginBtn: 'Kirish', ph: 'Fikringizni yozing…', empty: 'Hali izoh yo‘q — birinchi bo‘lib yozing', yt: 'YouTube izohlari', off: 'Vaqtincha ishlamayapti', short: 'Izoh juda qisqa' };
+  const fmtN = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n || 0);
+
+  /* Baho va izohlar — saytning o'z tizimi (to'lov serveri: /social, /api/react, /api/comment, js/social.js bilan bir xil).
+     Server kinolarni raqamli ID bilan taniydi — short uchun YouTube ID'dan barqaror raqam (9 000 000 000 + xesh). */
+  const API = typeof PAY_API !== 'undefined' && PAY_API ? String(PAY_API).replace(/\/+$/, '') : '';
+  const token = () => (typeof Pay !== 'undefined' && Pay.token ? Pay.token() : '');
+  const sid = yid => { let h = 2166136261; for (const c of 'short:' + yid) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return 9e9 + h % 1e9; };
+  async function req(method, path, body) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (token()) headers.Authorization = 'Bearer ' + token();
+    const r = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw Object.assign(new Error(j.error || 'xato'), { status: r.status });
+    return j;
+  }
+  const social = {};          // yid → { likes, dislikes, mine, total, comments, yt }
 
   feed.innerHTML = list.map((s, i) => `
     <section class="sh-slide" data-i="${i}" data-id="${s.id}">
@@ -30,15 +54,14 @@
       <div class="sh-frame"></div>
       <button class="sh-tap" type="button" aria-label="${ru ? 'Пауза / воспроизвести' : 'Pauza / davom ettirish'}"><span class="sh-paused">${ICON.play}</span></button>
       <div class="sh-info">
-        <div class="sh-chrow">
-          <a class="sh-ch" href="${esc(s.u)}" target="_blank" rel="noopener">${esc(handle(s.u))}</a>
-          <a class="sh-sub" href="${esc(s.u)}?sub_confirmation=1" target="_blank" rel="noopener">${ru ? 'Подписаться' : 'Obuna bo‘lish'}</a>
-        </div>
+        <a class="sh-ch" href="${esc(s.u)}" target="_blank" rel="noopener">${esc(handle(s.u))}</a>
         <p class="sh-title">${esc(s.t)}</p>
       </div>
       <div class="sh-actions">
-        <button class="sh-btn sh-sound" type="button" aria-label="${ru ? 'Звук' : 'Ovoz'}">${ICON.muted}</button>
-        <button class="sh-btn sh-share" type="button" aria-label="${ru ? 'Поделиться' : 'Ulashish'}">${ICON.share}</button>
+        <button class="sh-act sh-like" type="button" aria-label="${T.like}"><span class="sh-btn">${ICON.like}</span><b data-n="like">${T.like}</b></button>
+        <button class="sh-act sh-dislike" type="button" aria-label="${T.dislike}"><span class="sh-btn">${ICON.dislike}</span><b data-n="dislike">${T.dislike}</b></button>
+        <button class="sh-act sh-comments" type="button" aria-label="${T.comments}"><span class="sh-btn">${ICON.comment}</span><b data-n="comments">0</b></button>
+        <button class="sh-act sh-share" type="button" aria-label="${T.share}"><span class="sh-btn">${ICON.share}</span><b>${T.share}</b></button>
       </div>
     </section>`).join('');
 
@@ -49,7 +72,89 @@
     const f = slide && slide.querySelector('iframe');
     if (f && f.contentWindow) f.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
   };
-  const paintSound = () => feed.querySelectorAll('.sh-sound').forEach(b => { b.innerHTML = muted ? ICON.muted : ICON.sound; });
+  // ovoz — bitta umumiy tugma (tepada o'ngda)
+  const soundBtn = document.createElement('button');
+  soundBtn.className = 'sh-sound';
+  soundBtn.type = 'button';
+  soundBtn.setAttribute('aria-label', T.sound);
+  document.body.appendChild(soundBtn);
+  const paintSound = () => { soundBtn.innerHTML = muted ? ICON.muted : ICON.sound; };
+  paintSound();
+  soundBtn.addEventListener('click', () => {
+    const sl = slides[active];
+    muted = !muted;
+    send(sl, muted ? 'mute' : 'unMute');
+    if (!muted) send(sl, 'playVideo');
+    paintSound();
+  });
+
+  /* ---------- baho va izohlar ---------- */
+  function paintSocial(i) {
+    const sl = slides[i], s = social[list[i].id];
+    if (!sl || !s) return;
+    const yt = s.yt || {};
+    sl.querySelector('[data-n="like"]').textContent = (s.likes || 0) + (yt.likes || 0) ? fmtN((s.likes || 0) + (yt.likes || 0)) : T.like;
+    sl.querySelector('[data-n="dislike"]').textContent = s.dislikes ? fmtN(s.dislikes) : T.dislike;
+    sl.querySelector('[data-n="comments"]').textContent = fmtN((s.total || 0) + (yt.commentCount || 0));
+    sl.querySelector('.sh-like').classList.toggle('is-on', s.mine === 1);
+    sl.querySelector('.sh-dislike').classList.toggle('is-on', s.mine === -1);
+  }
+  function loadSocial(i) {
+    const yid = list[i].id;
+    if (social[yid]) { paintSocial(i); return; }
+    social[yid] = { likes: 0, dislikes: 0, mine: 0, total: 0, comments: [], yt: null };
+    if (API) req('GET', `/social?movie=${sid(yid)}`).then(j => { Object.assign(social[yid], j); paintSocial(i); if (sheetFor === i) drawSheet(); }).catch(() => { social[yid].down = true; });
+    fetch('https://dezocloud.uz/api/yt/info?v=' + yid).then(r => r.ok ? r.json() : null)
+      .then(j => { if (j && typeof j.views === 'number') { social[yid].yt = j; paintSocial(i); if (sheetFor === i) drawSheet(); } }).catch(() => {});
+  }
+  async function react(i, value) {
+    const yid = list[i].id, s = social[yid];
+    if (!API || !s || s.down) return toastMsg(T.off);
+    if (!token()) return openSheet(i);                        // kirish taklifi — izohlar panelida
+    const v = s.mine === value ? 0 : value;
+    try { Object.assign(s, await req('POST', '/api/react', { movie: sid(yid), value: v })); paintSocial(i); }
+    catch (e) { toastMsg(e.status === 401 ? T.login : (e.message || T.off)); }
+  }
+  const toastMsg = m => { if (typeof toast === 'function') toast(m); else alert(m); };
+
+  // izohlar paneli (pastdan chiqadi)
+  const sheet = document.createElement('div');
+  sheet.className = 'sh-sheet';
+  sheet.hidden = true;
+  sheet.innerHTML = `<div class="sh-sheet-bg" data-close></div><div class="sh-sheet-box" role="dialog" aria-label="${T.comments}">
+      <div class="sh-sheet-head"><b>${T.comments}</b><small id="shSheetN"></small><button class="sh-btn" type="button" data-close aria-label="×">${ICON.close}</button></div>
+      <div class="sh-sheet-list" id="shSheetList"></div>
+      <form class="sh-sheet-form" id="shSheetForm"></form>
+    </div>`;
+  document.body.appendChild(sheet);
+  let sheetFor = -1;
+  const timeAgo = at => { const m = Math.max(0, Math.round((Date.now() - at) / 60000)); return m < 1 ? (ru ? 'только что' : 'hozirgina') : m < 60 ? `${m} ${ru ? 'мин' : 'daq. oldin'}` : m < 1440 ? `${Math.round(m / 60)} ${ru ? 'ч' : 'soat oldin'}` : `${Math.round(m / 1440)} ${ru ? 'дн' : 'kun oldin'}`; };
+  function drawSheet() {
+    const s = social[list[sheetFor].id] || {}, yt = s.yt || {};
+    sheet.querySelector('#shSheetN').textContent = fmtN((s.total || 0) + (yt.commentCount || 0));
+    const own = (s.comments || []).map(c => `<div class="sh-c"><span class="sh-c-av">${esc((c.name || '?').charAt(0).toUpperCase())}</span><div><b>${esc(c.name)}</b> <small>${timeAgo(c.at)}</small><p>${esc(c.text)}</p></div></div>`).join('');
+    const ytc = (yt.comments || []).map(c => `<div class="sh-c"><img class="sh-c-av" src="${esc(c.avatar || '')}" alt="" loading="lazy" onerror="this.remove()"><div><b>${esc(c.author)}</b> <small>${esc(c.time || '')}</small><p>${esc(c.text)}</p>${c.likes ? `<small class="sh-c-like">${ICON.like}${fmtN(c.likes)}</small>` : ''}</div></div>`).join('');
+    sheet.querySelector('#shSheetList').innerHTML = (own || (!ytc ? `<p class="sh-c-empty">${T.empty}</p>` : '')) + (ytc ? `<p class="sh-c-sec">${T.yt}</p>${ytc}` : '');
+    sheet.querySelector('#shSheetForm').innerHTML = token()
+      ? `<input class="acc-input" name="text" maxlength="1000" placeholder="${T.ph}" autocomplete="off"><button class="sh-btn" type="submit" aria-label="${T.comments}">${ICON.send}</button>`
+      : `<span>${T.login}</span><a class="btn btn-primary btn-sm" href="account.html">${T.loginBtn}</a>`;
+  }
+  function openSheet(i) { sheetFor = i; drawSheet(); sheet.hidden = false; requestAnimationFrame(() => sheet.classList.add('is-open')); }
+  function closeSheet() { sheet.classList.remove('is-open'); setTimeout(() => { sheet.hidden = true; }, 250); }
+  sheet.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeSheet(); });
+  sheet.querySelector('#shSheetForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const inp = e.currentTarget.querySelector('input'), text = (inp.value || '').trim();
+    if (text.length < 2) return toastMsg(T.short);
+    const yid = list[sheetFor].id, s = social[yid];
+    inp.disabled = true;
+    try {
+      const c = await req('POST', '/api/comment', { movie: sid(yid), text });
+      s.comments = [c, ...(s.comments || [])]; s.total = (s.total || 0) + 1;
+      inp.value = ''; drawSheet(); paintSocial(sheetFor);
+    } catch (err) { toastMsg(err.message || T.off); }
+    finally { const i2 = sheet.querySelector('#shSheetForm input'); if (i2) { i2.disabled = false; i2.focus(); } }
+  });
 
   function activate(i) {
     if (i === active) return;
@@ -62,6 +167,7 @@
       `&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"` +
       ` allow="autoplay; encrypted-media; picture-in-picture" title="${esc(list[i].t)}"></iframe>`;
     sl.classList.add('is-playing');
+    loadSocial(i);
     sl.classList.remove('is-live');
     // YouTube holatini eshitamiz: video haqiqatan o'ynay boshlaganda muqova olinadi (is-live)
     const fr = sl.querySelector('iframe');
@@ -105,13 +211,9 @@
       if (!paused && muted) { muted = false; send(sl, 'unMute'); paintSound(); }   // birinchi bosish — ovoz ham yoqiladi
       return;
     }
-    if (e.target.closest('.sh-sound')) {
-      muted = !muted;
-      send(sl, muted ? 'mute' : 'unMute');
-      if (!muted) send(sl, 'playVideo');
-      paintSound();
-      return;
-    }
+    if (e.target.closest('.sh-like')) return react(+sl.dataset.i, 1);
+    if (e.target.closest('.sh-dislike')) return react(+sl.dataset.i, -1);
+    if (e.target.closest('.sh-comments')) return openSheet(+sl.dataset.i);
     if (e.target.closest('.sh-share')) {
       const url = `${location.origin}${location.pathname}#${sl.dataset.id}`;
       if (navigator.share) navigator.share({ title: list[+sl.dataset.i].t, url }).catch(() => {});
