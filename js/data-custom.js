@@ -77146,6 +77146,3506 @@ const CUSTOM_MOVIES = /*DATA*/[
     "size": 646953046,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 4962,
+    "slug": "tik-tok-kity-2002-2021",
+    "type": "film",
+    "title": {
+      "uz": "Tik Tok City (2002//2021)",
+      "ru": "Tik Tok City (2002//2021)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Tik Tok City (2002//2021) \n\n🇺🇿O'zbek Tilida (Gobliddin Dublyaj😂)",
+      "ru": "🎬Tik Tok City (2002//2021) \n\n🇺🇿O'zbek Tilida (Gobliddin Dublyaj😂)"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/kjdgQO_S46dH?s=4beVvau-BGSe1hGt64roz2iy",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/4beVvau-BGSe1hGt64roz2iy",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 78,
+    "size": 794019972,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4963,
+    "slug": "tezlik-zavqi-720p",
+    "type": "film",
+    "title": {
+      "uz": "Tezlik zavqi 720p",
+      "ru": "Tezlik zavqi 720p"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Tezlik zavqi | 720p\n📀 Hajmi: 969 MB",
+      "ru": "Tezlik zavqi | 720p\n📀 Hajmi: 969 MB"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/wBqUricZ48tw?s=3yvQzDKOj_AL4NLoHNb0bOaV",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/3yvQzDKOj_AL4NLoHNb0bOaV",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 122,
+    "size": 1016928992,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4964,
+    "slug": "kino-nomi-12-yil-qullikda-b-f",
+    "type": "film",
+    "title": {
+      "uz": "# Kino nomi: \"12 yil qullikda\" b/f",
+      "ru": "# Kino nomi: \"12 yil qullikda\" b/f"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "#🍿 Kino nomi: \"12 yil qullikda\" b/f\n------------------------------------------------------------------\n‣ Davlat: AQSH\n‣ Chiqarilgan yil: 2013\n‣ Janr: drama, biografiya\n‣ Til: o'zbek tilida\n‣ Sifat: 720p / 480p",
+      "ru": "#🍿 Kino nomi: \"12 yil qullikda\" b/f\n------------------------------------------------------------------\n‣ Davlat: AQSH\n‣ Chiqarilgan yil: 2013\n‣ Janr: drama, biografiya\n‣ Til: o'zbek tilida\n‣ Sifat: 720p / 480p"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ExAHOXXqexgn?s=dG0Esk5GbRu4v0k9eZZUjaPH",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/dG0Esk5GbRu4v0k9eZZUjaPH",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 134,
+    "size": 977464232,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4965,
+    "slug": "kino-nomi-hind-kino-sahooo",
+    "type": "film",
+    "title": {
+      "uz": "Kino nomi: Hind kino: Sahooo",
+      "ru": "Kino nomi: Hind kino: Sahooo"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🍿 Kino nomi: Hind kino: Sahooo",
+      "ru": "🍿 Kino nomi: Hind kino: Sahooo"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/zezvW6UsV9tQ?s=sQWAvB5aWuT6mDXX0C4NUnNc",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/sQWAvB5aWuT6mDXX0C4NUnNc",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 150,
+    "size": 552467208,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4966,
+    "slug": "nomi-qogirchoq",
+    "type": "film",
+    "title": {
+      "uz": "Nomi: Qo'g'irchoq",
+      "ru": "Nomi: Qo'g'irchoq"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Nomi: Qo'g'irchoq\n➖➖➖➖➖➖➖\n🇺🇿Tili: O'zbek tilida \n📀Sifati: 480P Mobile HD\n🌏Davlat: Hindiston \n📆Yili: 2022-yil\n🎞️Janri:",
+      "ru": "🎬Nomi: Qo'g'irchoq\n➖➖➖➖➖➖➖\n🇺🇿Tili: O'zbek tilida \n📀Sifati: 480P Mobile HD\n🌏Davlat: Hindiston \n📆Yili: 2022-yil\n🎞️Janri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/OoFdjbtrJxfV?s=tjmz0HRohHGkMUQ6iHlQk7z_",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/tjmz0HRohHGkMUQ6iHlQk7z_",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 134,
+    "size": 693020518,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4967,
+    "slug": "poyga-2-2013",
+    "type": "film",
+    "title": {
+      "uz": "➺ Poyga 2 (2013)",
+      "ru": "➺ Poyga 2 (2013)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 ➺ Poyga 2 (2013) \n🇺🇿 ➺ O'zbek Tilida [480p/HD]\n🌍 ➺ Davlati: Hindiston\n⚔ ➺ Janri: Jangari, Triller, Melodrama",
+      "ru": "🎬 ➺ Poyga 2 (2013) \n🇺🇿 ➺ O'zbek Tilida [480p/HD]\n🌍 ➺ Davlati: Hindiston\n⚔ ➺ Janri: Jangari, Triller, Melodrama"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/KKx0cRbjltaN?s=dMqORi03q19nm4Uxg89BkOhW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/dMqORi03q19nm4Uxg89BkOhW",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 121,
+    "size": 639608809,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4968,
+    "slug": "need-for-speed-tezlik-zavqi-2014-ozbek-tilida",
+    "type": "film",
+    "title": {
+      "uz": "Need For Speed: Tezlik Zavqi (2014) O'zbek Tilida",
+      "ru": "Need For Speed: Tezlik Zavqi (2014) O'zbek Tilida"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Need For Speed: Tezlik Zavqi (2014) O'zbek Tilida",
+      "ru": "Need For Speed: Tezlik Zavqi (2014) O'zbek Tilida"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-rYeOSLdTLPg?s=RlegrWMWasfyoQL-zffZK865",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/RlegrWMWasfyoQL-zffZK865",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 122,
+    "size": 1016928730,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4969,
+    "slug": "hd",
+    "type": "film",
+    "title": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AHsW0ayDph_i?s=0Axalp339Ye9nuLpzYZpXSZP",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/0Axalp339Ye9nuLpzYZpXSZP",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 90,
+    "size": 1148269960,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4970,
+    "slug": "hd",
+    "type": "film",
+    "title": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/s4TaO3NWgVbE?s=j7kbyYh9uAfBvANzTgnk426x",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/j7kbyYh9uAfBvANzTgnk426x",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 133,
+    "size": 1289586396,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4971,
+    "slug": "hd",
+    "type": "film",
+    "title": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/b3Fm750HeMOu?s=XZc_gQQZ6tLbLlg0PK-2YN74",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XZc_gQQZ6tLbLlg0PK-2YN74",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 114,
+    "size": 1019366842,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4972,
+    "slug": "hd",
+    "type": "film",
+    "title": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🆕 HD",
+      "ru": "🆕 HD"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/RWpnbgjvYaKJ?s=8y4xn38riLaVRQKIMSOoN3MW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/8y4xn38riLaVRQKIMSOoN3MW",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 107,
+    "size": 1767846558,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4973,
+    "slug": "hd",
+    "type": "film",
+    "title": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🆕 HD",
+      "ru": "🆕 HD"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/71STNRZ5-jQm?s=bv9L1mrwNJ0t0pA3JSPNYx-t",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/bv9L1mrwNJ0t0pA3JSPNYx-t",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 127,
+    "size": 1225796857,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4974,
+    "slug": "hd",
+    "type": "film",
+    "title": {
+      "uz": "HD",
+      "ru": "HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🆕 HD",
+      "ru": "🆕 HD"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/UNKhR0F5L99F?s=KaGRkZH4A-TbaWwnU49XzRN5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/KaGRkZH4A-TbaWwnU49XzRN5",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 156,
+    "size": 1500045897,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4975,
+    "slug": "yoqolgan-qiz-480p",
+    "type": "film",
+    "title": {
+      "uz": "Yo'qolgan qiz 480p",
+      "ru": "Yo'qolgan qiz 480p"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Yo'qolgan qiz 480p\n(Uzmovi.com)\n🗂 Yuklash: 11080\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:",
+      "ru": "Yo'qolgan qiz 480p\n(Uzmovi.com)\n🗂 Yuklash: 11080\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/dzJhZU6VbgeM?s=kYryZDIzykGVckXHSU3cEEAr",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/kYryZDIzykGVckXHSU3cEEAr",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 92,
+    "size": 445546491,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4976,
+    "slug": "men-afsonaman",
+    "type": "film",
+    "title": {
+      "uz": "Men Afsonaman",
+      "ru": "Men Afsonaman"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Men Afsonaman\n💽 Sifati: HD\n🇺🇿 Tili: O'zbek\n💾 MANBA: Asilmedia.net\n🗂 Yuklash: 1074\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:",
+      "ru": "🎬 Men Afsonaman\n💽 Sifati: HD\n🇺🇿 Tili: O'zbek\n💾 MANBA: Asilmedia.net\n🗂 Yuklash: 1074\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/rI5-1kmXol2I?s=oztp0_m35ehDv8Za1uRe3FuT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/oztp0_m35ehDv8Za1uRe3FuT",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 100,
+    "size": 807377934,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4977,
+    "slug": "yer-osti-ajdarlari-720p-ozbek-tilida-asilmedia-net",
+    "type": "film",
+    "title": {
+      "uz": "Yer osti ajdarlari 720p O'zbek tilida (asilmedia.net)",
+      "ru": "Yer osti ajdarlari 720p O'zbek tilida (asilmedia.net)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Yer osti ajdarlari 720p O'zbek tilida (asilmedia.net)\n🗂 Yuklash: 8894\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:",
+      "ru": "Yer osti ajdarlari 720p O'zbek tilida (asilmedia.net)\n🗂 Yuklash: 8894\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/vvL5FAB9FE19?s=1gaMU3gdAnjLxCTdh5ieClXv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/1gaMU3gdAnjLxCTdh5ieClXv",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 135,
+    "size": 1125944394,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4978,
+    "slug": "mening-zaminim-720p-asilmedia-net",
+    "type": "film",
+    "title": {
+      "uz": "Mening zaminim 720p (Asilmedia.net)",
+      "ru": "Mening zaminim 720p (Asilmedia.net)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Mening zaminim 720p (Asilmedia.net)\n🗂 Yuklash: 433\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:",
+      "ru": "Mening zaminim 720p (Asilmedia.net)\n🗂 Yuklash: 433\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/fiC7wRiCPoCh?s=oeLWc7PlSqMSF-4EWquT-K-7",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/oeLWc7PlSqMSF-4EWquT-K-7",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 95,
+    "size": 809175403,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4979,
+    "slug": "kod-8-720p-asilmedia-net",
+    "type": "film",
+    "title": {
+      "uz": "Kod 8 (720p) Asilmedia.net",
+      "ru": "Kod 8 (720p) Asilmedia.net"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Kod 8 (720p) Asilmedia.net\n🗂 Yuklash: 2545\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:",
+      "ru": "Kod 8 (720p) Asilmedia.net\n🗂 Yuklash: 2545\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/dA6ZMNjJgG47?s=4QVz6s2bXU47xRgq-JNlc22H",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/4QVz6s2bXU47xRgq-JNlc22H",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 79,
+    "size": 495734785,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4980,
+    "slug": "qurbonlik",
+    "type": "film",
+    "title": {
+      "uz": "Qurbonlik",
+      "ru": "Qurbonlik"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Qurbonlik \n\nTili: oʻzbek tilida\nJanri: drama qoʻrqinchli Horror \nSifati: 720p",
+      "ru": "Qurbonlik \n\nTili: oʻzbek tilida\nJanri: drama qoʻrqinchli Horror \nSifati: 720p"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/kP5dPrkYofSy?s=NbgJjc9z_ddwntTK6LHgtjUA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/NbgJjc9z_ddwntTK6LHgtjUA",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 88,
+    "size": 459447481,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4981,
+    "slug": "birinchi-oyinga-tayyor-720p",
+    "type": "film",
+    "title": {
+      "uz": "Birinchi o'yinga tayyor 720p",
+      "ru": "Birinchi o'yinga tayyor 720p"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Birinchi o'yinga tayyor 720p\n🗂 Yuklash: 1269\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:",
+      "ru": "Birinchi o'yinga tayyor 720p\n🗂 Yuklash: 1269\n\nAsosiy Kanalimiz: \nSeriallar: \nKino kanalimiz:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/lK77IkPrpVdD?s=sMqjViZMSy4DlEU_cQsljKyr",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/sMqjViZMSy4DlEU_cQsljKyr",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 140,
+    "size": 1316415745,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4982,
+    "slug": "betmen-muqaddima",
+    "type": "film",
+    "title": {
+      "uz": "Betmen: Muqaddima",
+      "ru": "Betmen: Muqaddima"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Betmen: Muqaddima \n🕖Yili 2008\n🇺🇸 AQSH filmi\n🇺🇿 O'zbek tilida\n🤖Sifati 1080p",
+      "ru": "🎬 Betmen: Muqaddima \n🕖Yili 2008\n🇺🇸 AQSH filmi\n🇺🇿 O'zbek tilida\n🤖Sifati 1080p"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1XCEffBsP_yX?s=Vvbj4SRGk10QRQPA9ak2KZfB",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Vvbj4SRGk10QRQPA9ak2KZfB",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 152,
+    "size": 1514211924,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4983,
+    "slug": "shoushenkdan-qochish",
+    "type": "film",
+    "title": {
+      "uz": "Shoushenkdan Qochish",
+      "ru": "Shoushenkdan Qochish"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Shoushenkdan Qochish \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1994 \n🎞️Janri : Super Drama Detektiv \n👥Bosh rollarda : Robins, Morgan \n\nIMDB reytingi bo'yicha butun davrlardagi eng yaxshi film Deya tan olingan 9.4 ⭐",
+      "ru": "🎬Shoushenkdan Qochish \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1994 \n🎞️Janri : Super Drama Detektiv \n👥Bosh rollarda : Robins, Morgan \n\nIMDB reytingi bo'yicha butun davrlardagi eng yaxshi film Deya tan olingan 9.4 ⭐"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nn1c6SB3SfjM?s=fEYMdv68Y48dxK7C9paWJVFD",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/fEYMdv68Y48dxK7C9paWJVFD",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 117,
+    "size": 576387027,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4984,
+    "slug": "nomi-muqaddima",
+    "type": "film",
+    "title": {
+      "uz": "Nomi:Muqaddima",
+      "ru": "Nomi:Muqaddima"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Nomi:Muqaddima\n➖➖➖➖➖➖➖\n🇺🇿Tili: o'zbek tilida \n📀Sifati: Mobile HD\n🌏Davlat:  AQSh Buyuk Britaniya\n📆Yili: 2010-yil\n🎞️Janri:",
+      "ru": "🎬Nomi:Muqaddima\n➖➖➖➖➖➖➖\n🇺🇿Tili: o'zbek tilida \n📀Sifati: Mobile HD\n🌏Davlat:  AQSh Buyuk Britaniya\n📆Yili: 2010-yil\n🎞️Janri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/qS_wZh97Lvoy?s=QLkrr6jrKDGf5_Cb8nVe9hpa",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/QLkrr6jrKDGf5_Cb8nVe9hpa",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 121,
+    "size": 463674534,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4985,
+    "slug": "super-premyera",
+    "type": "film",
+    "title": {
+      "uz": "SUPER PREMYERA",
+      "ru": "SUPER PREMYERA"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "SUPER PREMYERA🔥🔥🔥\n\n🎬 \"G'arbiy frontda o'zgarish yo'q\"\n🇺🇿 O'zbek tilida\n📆 2022-yil 28-oktabr\n💿 HD FORMATDA (720p)\n🎞 Janri: Harbiy, Drama.\n🎥 Rejissor: Edvard Berger.\n🎭 Bosh rollarda: Richard Tomas, Donald Plezens, Ernest Borgnayn.",
+      "ru": "SUPER PREMYERA🔥🔥🔥\n\n🎬 \"G'arbiy frontda o'zgarish yo'q\"\n🇺🇿 O'zbek tilida\n📆 2022-yil 28-oktabr\n💿 HD FORMATDA (720p)\n🎞 Janri: Harbiy, Drama.\n🎥 Rejissor: Edvard Berger.\n🎭 Bosh rollarda: Richard Tomas, Donald Plezens, Ernest Borgnayn."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/4sthYN7RIuQN?s=DDOtHiRwoCwfDTH5S4wBC7x-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/DDOtHiRwoCwfDTH5S4wBC7x-",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 148,
+    "size": 1231854481,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4986,
+    "slug": "super-premyera",
+    "type": "film",
+    "title": {
+      "uz": "SUPER PREMYERA",
+      "ru": "SUPER PREMYERA"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "SUPER PREMYERA🔥🔥🔥\n\n🎬 \"Lal Sinx\"\n🇺🇿 O'zbek tilida\n📆 2022-yil 11-avgust\n💿 HD FORMATDA (720p)\n🎞 Janri: Romantika, Drama.\n🎥 Rejissor: Advait Chandan.\n🎭 Bosh rollarda: Xan, Xan, Kapur.",
+      "ru": "SUPER PREMYERA🔥🔥🔥\n\n🎬 \"Lal Sinx\"\n🇺🇿 O'zbek tilida\n📆 2022-yil 11-avgust\n💿 HD FORMATDA (720p)\n🎞 Janri: Romantika, Drama.\n🎥 Rejissor: Advait Chandan.\n🎭 Bosh rollarda: Xan, Xan, Kapur."
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/cWf1yeVvvs9q?s=xqyKLj911cHT-WhHZ3dgfQxc",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/xqyKLj911cHT-WhHZ3dgfQxc",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 158,
+    "size": 1405566381,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4987,
+    "slug": "joker",
+    "type": "film",
+    "title": {
+      "uz": "Joker",
+      "ru": "Joker"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Joker \n🇺🇿O'zbek tilida \n📆Yili 2019 \n📀HD FORMATDA (720p)\n🎞️Janri : Drama, Kriminal \n👥Bosh rolda : Xoaking \n\nIMDB 8.5⭐",
+      "ru": "🎬Joker \n🇺🇿O'zbek tilida \n📆Yili 2019 \n📀HD FORMATDA (720p)\n🎞️Janri : Drama, Kriminal \n👥Bosh rolda : Xoaking \n\nIMDB 8.5⭐"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/RA3NSmX-tMtz?s=NRZ-PMSANkWElqcQVsq3jlV5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/NRZ-PMSANkWElqcQVsq3jlV5",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 109,
+    "size": 662549937,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4988,
+    "slug": "choqintirgan-ota-3",
+    "type": "film",
+    "title": {
+      "uz": "Cho'qintirgan Ota 3",
+      "ru": "Cho'qintirgan Ota 3"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Cho'qintirgan Ota 3 \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1990\n🎞️Janri : Drama kriminal \n👥Bosh rollarda : Al , Diane Keaton, Talia Shire",
+      "ru": "🎬Cho'qintirgan Ota 3 \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1990\n🎞️Janri : Drama kriminal \n👥Bosh rollarda : Al , Diane Keaton, Talia Shire"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/e17SzbB1DyYO?s=rMcwqn-3KLelT-ivwGYaB2mH",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/rMcwqn-3KLelT-ivwGYaB2mH",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 170,
+    "size": 660690604,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4989,
+    "slug": "choqintirgan-ota-2",
+    "type": "film",
+    "title": {
+      "uz": "Cho'qintirgan Ota 2",
+      "ru": "Cho'qintirgan Ota 2"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Cho'qintirgan Ota 2\n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1974\n🎞️Janri : Drama kriminal \n👥Bosh rollarda : Al , De Niro, Diane Keaton, Robert Duvall, John Casale",
+      "ru": "🎬Cho'qintirgan Ota 2\n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1974\n🎞️Janri : Drama kriminal \n👥Bosh rollarda : Al , De Niro, Diane Keaton, Robert Duvall, John Casale"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/QqUGHSosSSjC?s=lYt6L2flUv7oy5xEgnPPW5qW",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/lYt6L2flUv7oy5xEgnPPW5qW",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 202,
+    "size": 779608383,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4990,
+    "slug": "choqintirgan-ota",
+    "type": "film",
+    "title": {
+      "uz": "Cho'qintirgan Ota",
+      "ru": "Cho'qintirgan Ota"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Cho'qintirgan Ota \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1972\n🎞️Janri : Drama kriminal \n👥Bosh rollarda : Al , Diane Keaton, Marlon Brando, Robert Duvall, Talia Shire",
+      "ru": "🎬Cho'qintirgan Ota \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1972\n🎞️Janri : Drama kriminal \n👥Bosh rollarda : Al , Diane Keaton, Marlon Brando, Robert Duvall, Talia Shire"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Zkrg9a34z1Gj?s=E75sEiDQROc-7lFY7iJI4k6a",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/E75sEiDQROc-7lFY7iJI4k6a",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 177,
+    "size": 767476409,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4991,
+    "slug": "vijdon-amri",
+    "type": "film",
+    "title": {
+      "uz": "Vijdon amri",
+      "ru": "Vijdon amri"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Vijdon amri \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 2016 \n🎞️Janri : Jangari,Harbiy, Drama \n👥Bosh rolda : Endryu Garfild \n\nIMDB 8.1⭐",
+      "ru": "🎬Vijdon amri \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 2016 \n🎞️Janri : Jangari,Harbiy, Drama \n👥Bosh rolda : Endryu Garfild \n\nIMDB 8.1⭐"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nMJbG7XWVEnO?s=MUk6U8uN-0MRdX7S9HsqPN5H",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/MUk6U8uN-0MRdX7S9HsqPN5H",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 139,
+    "size": 904752640,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4992,
+    "slug": "yomgir-odami",
+    "type": "film",
+    "title": {
+      "uz": "Yomg'ir odami",
+      "ru": "Yomg'ir odami"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Yomg'ir odami \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1988\n🎞️Janri : Sarguzasht Drama komediya \n👥Bosh rollarda : Tom , Dustin Hoffman \n\nIMDB 8 ⭐",
+      "ru": "🎬Yomg'ir odami \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 1988\n🎞️Janri : Sarguzasht Drama komediya \n👥Bosh rollarda : Tom , Dustin Hoffman \n\nIMDB 8 ⭐"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/SgPwUlYzXWtt?s=o1iKcaSQozSxHPC_wV3jypbU",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/o1iKcaSQozSxHPC_wV3jypbU",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 114,
+    "size": 844412020,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4993,
+    "slug": "taksi-haydovchisi",
+    "type": "film",
+    "title": {
+      "uz": "Taksi Haydovchisi",
+      "ru": "Taksi Haydovchisi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Taksi Haydovchisi \n🇷🇺Rus Tilida \n📀Sifati Hd \n📆Yili 1976\n🎞️Janri : Drama Kriminal \n👥Bosh rolda : De Niro \n\nIMDB 8.3⭐\n\n↪️@Jangari_Fantastik_KinolarHD",
+      "ru": "🎬Taksi Haydovchisi \n🇷🇺Rus Tilida \n📀Sifati Hd \n📆Yili 1976\n🎞️Janri : Drama Kriminal \n👥Bosh rolda : De Niro \n\nIMDB 8.3⭐\n\n↪️@Jangari_Fantastik_KinolarHD"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/sTwm3B9iHOOF?s=CF4Tgr22DDvB6p7_qKfD4plk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/CF4Tgr22DDvB6p7_qKfD4plk",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 114,
+    "size": 987843550,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4994,
+    "slug": "qotillik-huquqi",
+    "type": "film",
+    "title": {
+      "uz": "Qotillik Huquqi",
+      "ru": "Qotillik Huquqi"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Qotillik Huquqi\n🇺🇿O'zbek tilida\n📀Sifati 480p \n📆Yili 2008 \n🎞️Janri : Kriminal Detektiv Drama \n👥Bosh rollarda : De Niro, Al , Karla Gudjina",
+      "ru": "🎬Qotillik Huquqi\n🇺🇿O'zbek tilida\n📀Sifati 480p \n📆Yili 2008 \n🎞️Janri : Kriminal Detektiv Drama \n👥Bosh rollarda : De Niro, Al , Karla Gudjina"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mZnvpRBB7UYq?s=-NYJw1WDy-CLe_mLeAV2bPF5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/-NYJw1WDy-CLe_mLeAV2bPF5",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 89,
+    "size": 415927293,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4995,
+    "slug": "raqiblar-toqnashuv",
+    "type": "film",
+    "title": {
+      "uz": "Raqiblar - To'qnashuv",
+      "ru": "Raqiblar - To'qnashuv"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Raqiblar - To'qnashuv \n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 1995\n🎞️Janri : Jangari, Kriminal, Drama \n👥Bosh rollarda : Al , De Niro, Val Kilmer, Natali Portman",
+      "ru": "🎬Raqiblar - To'qnashuv \n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 1995\n🎞️Janri : Jangari, Kriminal, Drama \n👥Bosh rollarda : Al , De Niro, Val Kilmer, Natali Portman"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/JG3rvavGqal5?s=BmOomw_FNuJIIoVuE7d1AXid",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/BmOomw_FNuJIIoVuE7d1AXid",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 158,
+    "size": 929216579,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4996,
+    "slug": "irlandiyalik",
+    "type": "film",
+    "title": {
+      "uz": "Irlandiyalik",
+      "ru": "Irlandiyalik"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Irlandiyalik \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 2019\n🎞️Janri : Drama kriminal \n👥Bosh rollarda : Al , De Niro, Joe Peski",
+      "ru": "🎬Irlandiyalik \n🇺🇿O'zbek tilida \n📀Sifati 720p \n📆Yili 2019\n🎞️Janri : Drama kriminal \n👥Bosh rollarda : Al , De Niro, Joe Peski"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/S2oTs7Gy6ihw?s=dcXVHKidNK8r1WTHVUuXhE6w",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/dcXVHKidNK8r1WTHVUuXhE6w",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 209,
+    "size": 819027265,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4997,
+    "slug": "uyqusiz-tun-detektiv-tarjima-ozbek-tilida-2017-hd",
+    "type": "film",
+    "title": {
+      "uz": "Uyqusiz tun (Detektiv tarjima, o'zbek tilida) 2017 HD",
+      "ru": "Uyqusiz tun (Detektiv tarjima, o'zbek tilida) 2017 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Uyqusiz tun (Detektiv tarjima, o'zbek tilida) 2017 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Uyqusiz tun (Detektiv tarjima, o'zbek tilida) 2017 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/5Mmn4hx4dZGj?s=XJEXW5Np4K0yXa3BfckaBajg",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XJEXW5Np4K0yXa3BfckaBajg",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 88,
+    "size": 826886212,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4998,
+    "slug": "toklar-urushi-tarjima-ozbek-tilida-2017",
+    "type": "film",
+    "title": {
+      "uz": "Toklar urushi (Tarjima, o'zbek tilida) 2017",
+      "ru": "Toklar urushi (Tarjima, o'zbek tilida) 2017"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Toklar urushi (Tarjima, o'zbek tilida) 2017\n\n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Toklar urushi (Tarjima, o'zbek tilida) 2017\n\n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/RVnRkw0mEuKt?s=_UkaxBB1M7DKLL8XtPN-G8Ns",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/_UkaxBB1M7DKLL8XtPN-G8Ns",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 96,
+    "size": 449245393,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4999,
+    "slug": "otda-yonmas-5-detektiv-ozbek-tilida-2013-hd",
+    "type": "film",
+    "title": {
+      "uz": "O'tda yonmas 5 (Detektiv, o'zbek tilida) 2013 HD",
+      "ru": "O'tda yonmas 5 (Detektiv, o'zbek tilida) 2013 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 O'tda yonmas 5 (Detektiv, o'zbek tilida) 2013 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 O'tda yonmas 5 (Detektiv, o'zbek tilida) 2013 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Y41V9-Le0cUN?s=C_DLWfGVnLXdiKNwTqQGGstG",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/C_DLWfGVnLXdiKNwTqQGGstG",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 94,
+    "size": 886917238,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5000,
+    "slug": "tahdid-detektiv-ozbek-tilida-2020-hd",
+    "type": "film",
+    "title": {
+      "uz": "Tahdid (Detektiv, o'zbek tilida) 2020 HD",
+      "ru": "Tahdid (Detektiv, o'zbek tilida) 2020 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Tahdid (Detektiv, o'zbek tilida) 2020 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Tahdid (Detektiv, o'zbek tilida) 2020 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/QFYY5HbAHsQ1?s=l9jaeDljPdOSw7K3Yxsezes5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/l9jaeDljPdOSw7K3Yxsezes5",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 91,
+    "size": 857421382,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5001,
+    "slug": "xavf-yoqasida-longtangdagi-jang-jangari-ozbek-tilida-2019-hd",
+    "type": "film",
+    "title": {
+      "uz": "Xavf yoqasida: Longtangdagi Jang (Jangari, o'zbek tilida) 2019 HD",
+      "ru": "Xavf yoqasida: Longtangdagi Jang (Jangari, o'zbek tilida) 2019 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Xavf yoqasida: Longtangdagi Jang (Jangari, o'zbek tilida) 2019 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Xavf yoqasida: Longtangdagi Jang (Jangari, o'zbek tilida) 2019 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/1SEW28UY1HAU?s=9JEJdCry0AY2TJkJu-b5Dtkr",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/9JEJdCry0AY2TJkJu-b5Dtkr",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 104,
+    "size": 982947214,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5002,
+    "slug": "josus-eva-detektiv-ozbek-tilida-2020-hd",
+    "type": "film",
+    "title": {
+      "uz": "Josus Eva (Detektiv, o'zbek tilida) 2020 HD",
+      "ru": "Josus Eva (Detektiv, o'zbek tilida) 2020 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Josus Eva (Detektiv, o'zbek tilida) 2020 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Josus Eva (Detektiv, o'zbek tilida) 2020 HD\n \n📌 Ko'rish, Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/rfN-9H7Pl-Fk?s=PPIEZvJUCr3iyfcr_e1gkqOi",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/PPIEZvJUCr3iyfcr_e1gkqOi",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 90,
+    "size": 849928146,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5003,
+    "slug": "ota-havfli-uzbek-tilida",
+    "type": "film",
+    "title": {
+      "uz": "O'ta Havfli (uzbek tilida)",
+      "ru": "O'ta Havfli (uzbek tilida)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 O'ta Havfli (uzbek tilida)\n➖➖➖\n⏳ Davomiyligi: 1s I 49 min\n🗓 425 MB\n💽 Turi: \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 O'ta Havfli (uzbek tilida)\n➖➖➖\n⏳ Davomiyligi: 1s I 49 min\n🗓 425 MB\n💽 Turi: \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/JPiSFtzPADiM?s=kpeQeAqfmhSbNZ_GLEvR0Giy",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/kpeQeAqfmhSbNZ_GLEvR0Giy",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 109,
+    "size": 446048228,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5004,
+    "slug": "gozal-va-xavfli-detektiv-tarjima-ozbek-tilida-2019-hd",
+    "type": "film",
+    "title": {
+      "uz": "Go'zal va Xavfli (Detektiv tarjima, O'zbek tilida) 2019 HD",
+      "ru": "Go'zal va Xavfli (Detektiv tarjima, O'zbek tilida) 2019 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Go'zal va Xavfli (Detektiv tarjima, O'zbek tilida) 2019 HD\n\n✅Yaxshi kino ekan, mazza qilib ko'rdim. Sizlarga ham tavsiya qilamiz. \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Go'zal va Xavfli (Detektiv tarjima, O'zbek tilida) 2019 HD\n\n✅Yaxshi kino ekan, mazza qilib ko'rdim. Sizlarga ham tavsiya qilamiz. \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/nc_6y_vwXQbO?s=w_-CCfoJNk-AkvYKmtIuiseE",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/w_-CCfoJNk-AkvYKmtIuiseE",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 93,
+    "size": 877437169,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5005,
+    "slug": "tabiat-kuchi-tarjima-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Tabiat kuchi (Tarjima, O'zbek tilida) 2020",
+      "ru": "Tabiat kuchi (Tarjima, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Tabiat kuchi (Tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Tabiat kuchi (Tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AdeVA-nly15Z?s=PdbN3itFQNA_O4K_faOB0ZxT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/PdbN3itFQNA_O4K_faOB0ZxT",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 86,
+    "size": 388839734,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5006,
+    "slug": "yakuniy-hisob-detektiv-tarjima-ozbek-tilida-2018",
+    "type": "film",
+    "title": {
+      "uz": "YAKUNIY Hisob (Detektiv Tarjima, O'zbek tilida) 2018",
+      "ru": "YAKUNIY Hisob (Detektiv Tarjima, O'zbek tilida) 2018"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 YAKUNIY Hisob (Detektiv Tarjima, O'zbek tilida) 2018\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 YAKUNIY Hisob (Detektiv Tarjima, O'zbek tilida) 2018\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/3CnB1ZLtXgJ_?s=fi2Z1iesuReUUsOB9ApOs8Jb",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/fi2Z1iesuReUUsOB9ApOs8Jb",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 97,
+    "size": 422483805,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5007,
+    "slug": "eski-hisob-kitob-detektiv-tarjima-ozbek-tilida-2019-hd",
+    "type": "film",
+    "title": {
+      "uz": "Eski hisob-kitob (Detektiv tarjima, O'zbek tilida) 2019 HD",
+      "ru": "Eski hisob-kitob (Detektiv tarjima, O'zbek tilida) 2019 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Eski hisob-kitob (Detektiv tarjima, O'zbek tilida) 2019 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Eski hisob-kitob (Detektiv tarjima, O'zbek tilida) 2019 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/YXPx6QguJS1D?s=6dIQJKDbj2cjCzyH6KZPG9xO",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/6dIQJKDbj2cjCzyH6KZPG9xO",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 91,
+    "size": 854751559,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5008,
+    "slug": "hamisha-haq-detektiv-tarjima-ozbek-tilida-2019-hd",
+    "type": "film",
+    "title": {
+      "uz": "Hamisha Haq (Detektiv tarjima, O'zbek tilida) 2019 HD",
+      "ru": "Hamisha Haq (Detektiv tarjima, O'zbek tilida) 2019 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Hamisha Haq (Detektiv tarjima, O'zbek tilida) 2019 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Hamisha Haq (Detektiv tarjima, O'zbek tilida) 2019 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Xc6iK7_2yoTf?s=PzEtsmsaLVy6O4Si24-FgjE1",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/PzEtsmsaLVy6O4Si24-FgjE1",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 93,
+    "size": 878112216,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5009,
+    "slug": "urushning-15-daqiqasi-tarjima-ozbek-tilida-2019",
+    "type": "film",
+    "title": {
+      "uz": "Urushning 15 daqiqasi (Tarjima, O'zbek tilida) 2019",
+      "ru": "Urushning 15 daqiqasi (Tarjima, O'zbek tilida) 2019"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Urushning 15 daqiqasi (Tarjima, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Urushning 15 daqiqasi (Tarjima, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DqDP4-973tYp?s=3YdAu4eaZEshXuJT01oPPeKb",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/3YdAu4eaZEshXuJT01oPPeKb",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 94,
+    "size": 402962848,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5010,
+    "slug": "kollektorlar-2-detektiv-tarjima-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Kollektorlar 2 (Detektiv tarjima, O'zbek tilida) 2020",
+      "ru": "Kollektorlar 2 (Detektiv tarjima, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Kollektorlar 2 (Detektiv tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Kollektorlar 2 (Detektiv tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/dHLWyQHudrLc?s=Bw_dpIOqNqnPkVOCf0L6UD-4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Bw_dpIOqNqnPkVOCf0L6UD-4",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 94,
+    "size": 812534009,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5011,
+    "slug": "lukas-jangari-tarjima-ozbek-tilida-2018",
+    "type": "film",
+    "title": {
+      "uz": "Lukas (Jangari tarjima, O'zbek tilida) 2018",
+      "ru": "Lukas (Jangari tarjima, O'zbek tilida) 2018"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Lukas (Jangari tarjima, O'zbek tilida) 2018\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Lukas (Jangari tarjima, O'zbek tilida) 2018\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/DBNgUQsqxeXf?s=D1egX4AzRACe1m4PntjEQr0X",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/D1egX4AzRACe1m4PntjEQr0X",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 82,
+    "size": 401060404,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5012,
+    "slug": "47-samuray-tarjima-ozbek-tilida-2013",
+    "type": "film",
+    "title": {
+      "uz": "47 Samuray (Tarjima, O'zbek tilida) 2013",
+      "ru": "47 Samuray (Tarjima, O'zbek tilida) 2013"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 47 Samuray (Tarjima, O'zbek tilida) 2013\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 47 Samuray (Tarjima, O'zbek tilida) 2013\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/SS2hofiMsL5g?s=unS_81-iot3qgGjL9f6VyEBR",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/unS_81-iot3qgGjL9f6VyEBR",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 111,
+    "size": 461606679,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5013,
+    "slug": "snayper-intiho-detektiv-tarjima-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Snayper: Intiho (Detektiv tarjima, O'zbek tilida) 2020",
+      "ru": "Snayper: Intiho (Detektiv tarjima, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Snayper: Intiho (Detektiv tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Snayper: Intiho (Detektiv tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/PpYQm7E3CPMW?s=UlF4QJELYSv0cOL8dK0krBgN",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/UlF4QJELYSv0cOL8dK0krBgN",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 92,
+    "size": 394252686,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5014,
+    "slug": "uddalab-bolmas-topshiriq-3-detektiv-tarjima-ozbek-tilida-200",
+    "type": "film",
+    "title": {
+      "uz": "Uddalab bo'lmas topshiriq 3 (Detektiv tarjima, O'zbek tilida) 2006",
+      "ru": "Uddalab bo'lmas topshiriq 3 (Detektiv tarjima, O'zbek tilida) 2006"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Uddalab bo'lmas topshiriq 3 (Detektiv tarjima, O'zbek tilida) 2006\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Uddalab bo'lmas topshiriq 3 (Detektiv tarjima, O'zbek tilida) 2006\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/oes6DRInMhLQ?s=0dwJSmkRDx9Zc62eBuMW29bk",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/0dwJSmkRDx9Zc62eBuMW29bk",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 116,
+    "size": 465961320,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5015,
+    "slug": "qora-va-kok-detektiv-tarjima-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Qora va Ko'k (Detektiv tarjima, O'zbek tilida) 2020",
+      "ru": "Qora va Ko'k (Detektiv tarjima, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Qora va Ko'k (Detektiv tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Qora va Ko'k (Detektiv tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/LwReVEdXK14l?s=-TaUbr92rc0clxGbxOQIt4x2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/-TaUbr92rc0clxGbxOQIt4x2",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 100,
+    "size": 428007073,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5016,
+    "slug": "tongacha-omon-qolish-detektiv-tarjima-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Tongacha omon qolish (Detektiv tarjima, O'zbek tilida) 2020",
+      "ru": "Tongacha omon qolish (Detektiv tarjima, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Tongacha omon qolish (Detektiv tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Tongacha omon qolish (Detektiv tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AZtXAek13bC2?s=UGcweiY_m1lpmcy8vlAmFagC",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/UGcweiY_m1lpmcy8vlAmFagC",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 83,
+    "size": 371551818,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5017,
+    "slug": "dadamning-uyi-komediya-tarjima-ozbek-tilida-2015",
+    "type": "film",
+    "title": {
+      "uz": "Dadamning uyi (Komediya, Tarjima, O'zbek tilida) 2015",
+      "ru": "Dadamning uyi (Komediya, Tarjima, O'zbek tilida) 2015"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Dadamning uyi (Komediya, Tarjima, O'zbek tilida) 2015\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Dadamning uyi (Komediya, Tarjima, O'zbek tilida) 2015\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/EhF6crmkD0Yx?s=lwwXJ319ZoEt3tx-l3xvcmF2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/lwwXJ319ZoEt3tx-l3xvcmF2",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 87,
+    "size": 375013466,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5018,
+    "slug": "snayper-meros-detektiv-tarjima-ozbek-tilida-2014",
+    "type": "film",
+    "title": {
+      "uz": "Snayper: Meros (Detektiv Tarjima, O'zbek tilida) 2014",
+      "ru": "Snayper: Meros (Detektiv Tarjima, O'zbek tilida) 2014"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Snayper: Meros (Detektiv Tarjima, O'zbek tilida) 2014\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Snayper: Meros (Detektiv Tarjima, O'zbek tilida) 2014\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/cMWW8Y9A7aXx?s=vTum_sb6-V7NXCpKN1YcjHsf",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/vTum_sb6-V7NXCpKN1YcjHsf",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 95,
+    "size": 400778975,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5019,
+    "slug": "kovboy-ozga-sayyoralikka-qarshi-jangari-ozbek-tilida-2011",
+    "type": "film",
+    "title": {
+      "uz": "Kovboy o'zga sayyoralikka qarshi (Jangari, O'zbek tilida) 2011",
+      "ru": "Kovboy o'zga sayyoralikka qarshi (Jangari, O'zbek tilida) 2011"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞Kovboy o'zga sayyoralikka qarshi (Jangari, O'zbek tilida) 2011\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞Kovboy o'zga sayyoralikka qarshi (Jangari, O'zbek tilida) 2011\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ddg0S8GQJDJS?s=UbDpTsgM1CwYKbyNE0_yUcIh",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/UbDpTsgM1CwYKbyNE0_yUcIh",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 126,
+    "size": 399804343,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5020,
+    "slug": "tunnel-hayot-uchun-xavfli-tarjima-ozbek-tilida-2019",
+    "type": "film",
+    "title": {
+      "uz": "Tunnel: Hayot uchun xavfli (Tarjima, O'zbek tilida) 2019",
+      "ru": "Tunnel: Hayot uchun xavfli (Tarjima, O'zbek tilida) 2019"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Tunnel: Hayot uchun xavfli (Tarjima, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Tunnel: Hayot uchun xavfli (Tarjima, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AGfeW29Z43sB?s=TUzXvpj5qiMOE-guJDVumiBx",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/TUzXvpj5qiMOE-guJDVumiBx",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 99,
+    "size": 387964029,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5021,
+    "slug": "jinoyat-izidan-detektiv-tarjima-ozbek-tilida-2016",
+    "type": "film",
+    "title": {
+      "uz": "Jinoyat izidan (Detektiv tarjima, O'zbek tilida) 2016",
+      "ru": "Jinoyat izidan (Detektiv tarjima, O'zbek tilida) 2016"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Jinoyat izidan (Detektiv tarjima, O'zbek tilida) 2016\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Jinoyat izidan (Detektiv tarjima, O'zbek tilida) 2016\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/xgehbkwkehoj?s=w1lvb1EmOkmC3pDNGMC10bkM",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/w1lvb1EmOkmC3pDNGMC10bkM",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 86,
+    "size": 368148311,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5022,
+    "slug": "s-w-a-t-farishtalar-shahri-maxsus-kuchlari-tarjima-ozbek-til",
+    "type": "film",
+    "title": {
+      "uz": "S.W.A.T Farishtalar shahri maxsus kuchlari (Tarjima, O'zbek tilida)",
+      "ru": "S.W.A.T Farishtalar shahri maxsus kuchlari (Tarjima, O'zbek tilida)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 S.W.A.T Farishtalar shahri maxsus kuchlari (Tarjima, O'zbek tilida) \n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 S.W.A.T Farishtalar shahri maxsus kuchlari (Tarjima, O'zbek tilida) \n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/C-gg7Gpvmt8y?s=5yDoAKDq_YslQ_LOkv93bW6V",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/5yDoAKDq_YslQ_LOkv93bW6V",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 107,
+    "size": 923257852,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5023,
+    "slug": "suv-ostida-tarjima-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Suv Ostida (Tarjima, O'zbek tilida) 2020",
+      "ru": "Suv Ostida (Tarjima, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Suv Ostida (Tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Suv Ostida (Tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mMbAcn0Nr9N9?s=uUJoZDHQd5VYrg376u4Ih2g2",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/uUJoZDHQd5VYrg376u4Ih2g2",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 87,
+    "size": 343244367,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5024,
+    "slug": "ogrilik-rejasi-detektiv-tarjima-ozbek-tilida",
+    "type": "film",
+    "title": {
+      "uz": "O'g'rilik rejasi (Detektiv Tarjima, O'zbek tilida)",
+      "ru": "O'g'rilik rejasi (Detektiv Tarjima, O'zbek tilida)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 O'g'rilik rejasi (Detektiv Tarjima, O'zbek tilida) \n \n\n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻",
+      "ru": "🎞 O'g'rilik rejasi (Detektiv Tarjima, O'zbek tilida) \n \n\n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/90bIsDubQNtx?s=qq2k63CkNRwdo05yiHbI0t_C",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/qq2k63CkNRwdo05yiHbI0t_C",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 80,
+    "size": 347757727,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5025,
+    "slug": "serjio-tarjima-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Serjio (Tarjima, O'zbek tilida) 2020",
+      "ru": "Serjio (Tarjima, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Serjio (Tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻",
+      "ru": "🎞 Serjio (Tarjima, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/d-fREcERSAfp?s=Q6IFdH7ljO1nPTlZ9qjIIRJZ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Q6IFdH7ljO1nPTlZ9qjIIRJZ",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 104,
+    "size": 406614739,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5026,
+    "slug": "avanpost-fontastik-jangari-film-ozbek-tilida-2019",
+    "type": "film",
+    "title": {
+      "uz": "Avanpost (Fontastik jangari film, O'zbek tilida) 2019",
+      "ru": "Avanpost (Fontastik jangari film, O'zbek tilida) 2019"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Avanpost (Fontastik jangari film, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻",
+      "ru": "🎞 Avanpost (Fontastik jangari film, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/LjOSA-M3AG_q?s=mUL6Bk8ETmu_Kwq5cuV2pXez",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/mUL6Bk8ETmu_Kwq5cuV2pXez",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 121,
+    "size": 474999519,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5027,
+    "slug": "uddalab-bolmas-topshiriq-2-detektiv-film-ozbek-tilida-2000",
+    "type": "film",
+    "title": {
+      "uz": "Uddalab bo'lmas topshiriq 2 (Detektiv film, O'zbek tilida) 2000",
+      "ru": "Uddalab bo'lmas topshiriq 2 (Detektiv film, O'zbek tilida) 2000"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Uddalab bo'lmas topshiriq 2 (Detektiv film, O'zbek tilida) 2000\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻",
+      "ru": "🎞 Uddalab bo'lmas topshiriq 2 (Detektiv film, O'zbek tilida) 2000\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/hdGhBfrsMHxc?s=nYaZZg61pmKQYvrf7jqZf96Q",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/nYaZZg61pmKQYvrf7jqZf96Q",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 110,
+    "size": 472715033,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5028,
+    "slug": "jazolash-detektiv-film-ozbek-tilida-2018",
+    "type": "film",
+    "title": {
+      "uz": "Jazolash (Detektiv film, O'zbek tilida) 2018",
+      "ru": "Jazolash (Detektiv film, O'zbek tilida) 2018"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Jazolash (Detektiv film, O'zbek tilida) 2018\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻",
+      "ru": "🎞 Jazolash (Detektiv film, O'zbek tilida) 2018\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/ovAXdH5xbHhQ?s=YUfSBEEvacjXTomVL6E_huOY",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/YUfSBEEvacjXTomVL6E_huOY",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 86,
+    "size": 388153070,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5029,
+    "slug": "shoshqaloqlar-oilasi-turk-kinosi-ozbek-tilida-2018",
+    "type": "film",
+    "title": {
+      "uz": "Shoshqaloqlar oilasi (Turk kinosi, O'zbek tilida) 2018",
+      "ru": "Shoshqaloqlar oilasi (Turk kinosi, O'zbek tilida) 2018"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Shoshqaloqlar oilasi (Turk kinosi, O'zbek tilida) 2018\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻",
+      "ru": "🎞 Shoshqaloqlar oilasi (Turk kinosi, O'zbek tilida) 2018\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nBizga qo'shiling👉🏻"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/b6kXg9WCBeHT?s=2ZXsWV9-JJzL6KBnlphXp5sy",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/2ZXsWV9-JJzL6KBnlphXp5sy",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 108,
+    "size": 408105514,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5030,
+    "slug": "ajal-poygasi-detektiv-ozbek-tilida-2008",
+    "type": "film",
+    "title": {
+      "uz": "Ajal Poygasi (Detektiv, O'zbek tilida) 2008",
+      "ru": "Ajal Poygasi (Detektiv, O'zbek tilida) 2008"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Ajal Poygasi (Detektiv, O'zbek tilida) 2008\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Ajal Poygasi (Detektiv, O'zbek tilida) 2008\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/c8Yd_WfTqHea?s=gFN-TlCGdpWkhFkqxS9oZPxG",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/gFN-TlCGdpWkhFkqxS9oZPxG",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 102,
+    "size": 439451292,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5031,
+    "slug": "metin-odam-detektiv-ozbek-tilida-2000",
+    "type": "film",
+    "title": {
+      "uz": "Metin Odam (Detektiv, O'zbek tilida) 2000",
+      "ru": "Metin Odam (Detektiv, O'zbek tilida) 2000"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Metin Odam (Detektiv, O'zbek tilida) 2000\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Metin Odam (Detektiv, O'zbek tilida) 2000\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Fjx-kDQ74Yr0?s=JvWMKOOJs4GM-qeW7id0Oqy3",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/JvWMKOOJs4GM-qeW7id0Oqy3",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 103,
+    "size": 441272878,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5032,
+    "slug": "parvoz-rejasi-detektiv-ozbek-tilida-2005-hd",
+    "type": "film",
+    "title": {
+      "uz": "Parvoz rejasi (Detektiv, O'zbek tilida) 2005 HD",
+      "ru": "Parvoz rejasi (Detektiv, O'zbek tilida) 2005 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Parvoz rejasi (Detektiv, O'zbek tilida) 2005 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Parvoz rejasi (Detektiv, O'zbek tilida) 2005 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/l6bvBmdlQa_Z?s=NkEXsz2nAjKqTUN-eoFpmjb1",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/NkEXsz2nAjKqTUN-eoFpmjb1",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 92,
+    "size": 794309724,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5033,
+    "slug": "piligrim-rossiya-filmi-detektiv-ozbek-tilida-2019-hd",
+    "type": "film",
+    "title": {
+      "uz": "Piligrim (Rossiya filmi, detektiv, O'zbek tilida) 2019 HD",
+      "ru": "Piligrim (Rossiya filmi, detektiv, O'zbek tilida) 2019 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Piligrim (Rossiya filmi, detektiv, O'zbek tilida) 2019 HD \n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Piligrim (Rossiya filmi, detektiv, O'zbek tilida) 2019 HD \n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/lolHMfetGY8i?s=bH_OLzgqUBpyVklGEBenHX6o",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/bH_OLzgqUBpyVklGEBenHX6o",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 92,
+    "size": 800967310,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5034,
+    "slug": "daydi-detektiv-hind-kino-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Daydi (Detektiv hind kino, O'zbek tilida) 2020",
+      "ru": "Daydi (Detektiv hind kino, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Daydi (Detektiv hind kino, O'zbek tilida) 2020 \n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Daydi (Detektiv hind kino, O'zbek tilida) 2020 \n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/TUjd6CIAmriT?s=Kd423dpbgZtlIBS2TzvjRI7o",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Kd423dpbgZtlIBS2TzvjRI7o",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 113,
+    "size": 486466126,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5035,
+    "slug": "ronin-detektiv-ozbek-tilida-1998",
+    "type": "film",
+    "title": {
+      "uz": "Ronin (Detektiv, O'zbek tilida) 1998",
+      "ru": "Ronin (Detektiv, O'zbek tilida) 1998"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Ronin (Detektiv, O'zbek tilida) 1998 \n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Ronin (Detektiv, O'zbek tilida) 1998 \n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/A77NEoqXoU7y?s=Q1iyjl5bDvUaslgDgeffIM5Y",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Q1iyjl5bDvUaslgDgeffIM5Y",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 116,
+    "size": 505974858,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5036,
+    "slug": "romeo-olishi-kerak-detektiv-ozbek-tilida-2000-hd",
+    "type": "film",
+    "title": {
+      "uz": "Romeo o'lishi kerak (Detektiv, O'zbek tilida) 2000 HD",
+      "ru": "Romeo o'lishi kerak (Detektiv, O'zbek tilida) 2000 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Romeo o'lishi kerak (Detektiv, O'zbek tilida) 2000 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Romeo o'lishi kerak (Detektiv, O'zbek tilida) 2000 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Kz6d3GjctPt8?s=1iLe7NZM9er0Y7GuIdhgXtQ5",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/1iLe7NZM9er0Y7GuIdhgXtQ5",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 110,
+    "size": 953158410,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5037,
+    "slug": "uddaburon-jentelmenlar-jangari-tarjima-ozbek-tilida-2003",
+    "type": "film",
+    "title": {
+      "uz": "Uddaburon jentelmenlar (Jangari, Tarjima, O'zbek tilida) 2003",
+      "ru": "Uddaburon jentelmenlar (Jangari, Tarjima, O'zbek tilida) 2003"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Uddaburon jentelmenlar (Jangari, Tarjima, O'zbek tilida) 2003\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Uddaburon jentelmenlar (Jangari, Tarjima, O'zbek tilida) 2003\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/a0eWjlCZ4LPO?s=shja7OdvhSBPnJUzp78FUDS1",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/shja7OdvhSBPnJUzp78FUDS1",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 98,
+    "size": 407350500,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5038,
+    "slug": "izhorsiz-muhabbat-hind-kino-ozbek-tilida-1997",
+    "type": "film",
+    "title": {
+      "uz": "Izhorsiz muhabbat (Hind kino, O'zbek tilida) 1997",
+      "ru": "Izhorsiz muhabbat (Hind kino, O'zbek tilida) 1997"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Izhorsiz muhabbat (Hind kino, O'zbek tilida) 1997\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Izhorsiz muhabbat (Hind kino, O'zbek tilida) 1997\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/t6Tkm5QFWAT5?s=-iUbI4NjJ99uwIn8w1vYpJDv",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/-iUbI4NjJ99uwIn8w1vYpJDv",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 155,
+    "size": 630245099,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5039,
+    "slug": "uchinchi-chegara-jangari-film-ozbek-tilida-2019",
+    "type": "film",
+    "title": {
+      "uz": "Uchinchi chegara (Jangari film, O'zbek tilida) 2019",
+      "ru": "Uchinchi chegara (Jangari film, O'zbek tilida) 2019"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Uchinchi chegara (Jangari film, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Uchinchi chegara (Jangari film, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/7HRdgZ33p7UP?s=WsP6JPrDEtgjPF9p_0YPsY8f",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/WsP6JPrDEtgjPF9p_0YPsY8f",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 117,
+    "size": 475086022,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5040,
+    "slug": "13-soat-bengozining-sirli-askarlari-jangari-kino-ozbek-tilid",
+    "type": "film",
+    "title": {
+      "uz": "13 soat: Beng'ozining sirli askarlari (jangari kino, O'zbek tilida) 2015 HD",
+      "ru": "13 soat: Beng'ozining sirli askarlari (jangari kino, O'zbek tilida) 2015 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 13 soat: Beng'ozining sirli askarlari (jangari kino, O'zbek tilida) 2015 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 13 soat: Beng'ozining sirli askarlari (jangari kino, O'zbek tilida) 2015 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/QUtHLav58TeY?s=Cgyp25ISEQn4IqkOTivroZe-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/Cgyp25ISEQn4IqkOTivroZe-",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 137,
+    "size": 1084802570,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5041,
+    "slug": "maqsadsiz-urush-birodarlik-jangari-kino-ozbek-tilida-2019",
+    "type": "film",
+    "title": {
+      "uz": "Maqsadsiz Urush / Birodarlik (Jangari kino, O'zbek tilida) 2019",
+      "ru": "Maqsadsiz Urush / Birodarlik (Jangari kino, O'zbek tilida) 2019"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Maqsadsiz Urush / Birodarlik (Jangari kino, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Maqsadsiz Urush / Birodarlik (Jangari kino, O'zbek tilida) 2019\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/uNlfGhdejMzr?s=HDCjbS1ia461L9bEJCpqMYnp",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/HDCjbS1ia461L9bEJCpqMYnp",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 106,
+    "size": 462972392,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5042,
+    "slug": "qotil-2-barchaga-qarshi-detektiv-kino-ozbek-tilida-2018-hd",
+    "type": "film",
+    "title": {
+      "uz": "Qotil 2: Barchaga qarshi (Detektiv kino, O'zbek tilida) 2018 HD",
+      "ru": "Qotil 2: Barchaga qarshi (Detektiv kino, O'zbek tilida) 2018 HD"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Qotil 2: Barchaga qarshi (Detektiv kino, O'zbek tilida) 2018 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Qotil 2: Barchaga qarshi (Detektiv kino, O'zbek tilida) 2018 HD\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/2nT7I6DmKETB?s=3rlOqqkbh4plaJ5gqlZozLoK",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/3rlOqqkbh4plaJ5gqlZozLoK",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 112,
+    "size": 974861387,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5043,
+    "slug": "qotil-detektiv-ozbek-tilida-2015",
+    "type": "film",
+    "title": {
+      "uz": "QOTIL (Detektiv, O'zbek tilida) 2015",
+      "ru": "QOTIL (Detektiv, O'zbek tilida) 2015"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 QOTIL (Detektiv, O'zbek tilida) 2015\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 QOTIL (Detektiv, O'zbek tilida) 2015\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/4jXKYKTUf6fG?s=CThUzTje-oFh71sqB3xV650d",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/CThUzTje-oFh71sqB3xV650d",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 110,
+    "size": 480544834,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5044,
+    "slug": "haqiqiy-yolgon-detektiv-ozbek-tilida-1994",
+    "type": "film",
+    "title": {
+      "uz": "Haqiqiy yolg'on (Detektiv, O'zbek tilida) 1994",
+      "ru": "Haqiqiy yolg'on (Detektiv, O'zbek tilida) 1994"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Haqiqiy yolg'on (Detektiv, O'zbek tilida) 1994\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Haqiqiy yolg'on (Detektiv, O'zbek tilida) 1994\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/BQazTHnZA_Bn?s=D4_7EHjPyyxkb4eHVusaHkA-",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/D4_7EHjPyyxkb4eHVusaHkA-",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 131,
+    "size": 551623978,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5045,
+    "slug": "vikinglar-jangari-fontastika-ozbek-tilida-2014",
+    "type": "film",
+    "title": {
+      "uz": "VIKINGLAR (Jangari, fontastika, O'zbek tilida) 2014",
+      "ru": "VIKINGLAR (Jangari, fontastika, O'zbek tilida) 2014"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 VIKINGLAR (Jangari, fontastika, O'zbek tilida) 2014\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 VIKINGLAR (Jangari, fontastika, O'zbek tilida) 2014\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/A3gU9mKr6zrz?s=fUZaQcTbuq5lm8K-SrtZcXHA",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/fUZaQcTbuq5lm8K-SrtZcXHA",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 90,
+    "size": 375320292,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5046,
+    "slug": "dushman-ortidan-jangari-ozbek-tilida-2020",
+    "type": "film",
+    "title": {
+      "uz": "Dushman Ortidan (Jangari, O'zbek tilida) 2020",
+      "ru": "Dushman Ortidan (Jangari, O'zbek tilida) 2020"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎞 Dushman Ortidan (Jangari, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar",
+      "ru": "🎞 Dushman Ortidan (Jangari, O'zbek tilida) 2020\n \n📌 Ko'rish va Ko'chirish 🎞 👇🏻\n \n\nTezkor xabarlar l Tarjima kinolar"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/9ieJLOReIqOK?s=yXKSBnKBZg5fRVZj4htWootq",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/yXKSBnKBZg5fRVZj4htWootq",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 86,
+    "size": 387210819,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5047,
+    "slug": "nomi-maymunlar-qiroli-3",
+    "type": "film",
+    "title": {
+      "uz": "Nomi :Maymunlar Qiroli 3",
+      "ru": "Nomi :Maymunlar Qiroli 3"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Nomi‍:Maymunlar Qiroli 3 \n ➖➖➖\n🌎 Davlati: \n💽 Formati: Full HD\n🇺🇸 Tili: Uzbekcha\n🎭 Janri: \n🗳Hajmi: 441MB\n\n\n💎Kanalimizga a'zo bo'lishni unutmang!!!💎",
+      "ru": "🎬 Nomi‍:Maymunlar Qiroli 3 \n ➖➖➖\n🌎 Davlati: \n💽 Formati: Full HD\n🇺🇸 Tili: Uzbekcha\n🎭 Janri: \n🗳Hajmi: 441MB\n\n\n💎Kanalimizga a'zo bo'lishni unutmang!!!💎"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/bRkde1DhDnmN?s=80-SQTC-J0szejZgNqkOnSng",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/80-SQTC-J0szejZgNqkOnSng",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 98,
+    "size": 463299277,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5048,
+    "slug": "forsaj-10",
+    "type": "film",
+    "title": {
+      "uz": "\"FORSAJ 10",
+      "ru": "\"FORSAJ 10"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 \"FORSAJ 10\n📹 Filmning ilk rasmiy katta treyleri .\n🇺🇿 O‘zbek tilida.\n💿HD FORMATDA.\n📆 Film 2021- yil \n🎭 Bosh rollarda: Vin Dizel, Sharlez Teron, Jon Sina, Mishel Rodrigez.\n\n👇👇👇👇👇\nT.me/jangari_tarjima_kino",
+      "ru": "🎬 \"FORSAJ 10\n📹 Filmning ilk rasmiy katta treyleri .\n🇺🇿 O‘zbek tilida.\n💿HD FORMATDA.\n📆 Film 2021- yil \n🎭 Bosh rollarda: Vin Dizel, Sharlez Teron, Jon Sina, Mishel Rodrigez.\n\n👇👇👇👇👇\nT.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-aSyy5PiHrZf?s=ZT2Q4EbiFCLOFi6iOlrP7Wkh",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ZT2Q4EbiFCLOFi6iOlrP7Wkh",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 4,
+    "size": 17415273,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5049,
+    "slug": "gerakl-2",
+    "type": "film",
+    "title": {
+      "uz": "Gerakl 2",
+      "ru": "Gerakl 2"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 Gerakl 2 \n\n🇺🇿 Uzbek Tilida\nKanalga obuna bòling⤵\nt.me/jangari_tarjima_kino",
+      "ru": "🎬 Gerakl 2 \n\n🇺🇿 Uzbek Tilida\nKanalga obuna bòling⤵\nt.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/gTM7GVB-6C9m?s=5Xq6ANs660NxtiMmaQRxudeT",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/5Xq6ANs660NxtiMmaQRxudeT",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 82,
+    "size": 597227300,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5050,
+    "slug": "aqlsiz-maks-2015-ozbek-tilida",
+    "type": "film",
+    "title": {
+      "uz": "➺ Aqlsiz Maks 2015 (Oʻzbek tilida)",
+      "ru": "➺ Aqlsiz Maks 2015 (Oʻzbek tilida)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 ➺ Aqlsiz Maks 2015 (Oʻzbek tilida) \n\n ✅ OBUNA BO'LING🔥⤵️\n✅ Подпишись🔥⤵️\n\n📡 ᴋᴀɴᴀʟ ➣ 👉 t.me/jangari_tarjima_kino",
+      "ru": "🎬 ➺ Aqlsiz Maks 2015 (Oʻzbek tilida) \n\n ✅ OBUNA BO'LING🔥⤵️\n✅ Подпишись🔥⤵️\n\n📡 ᴋᴀɴᴀʟ ➣ 👉 t.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-blw00KSFvEP?s=4_xsRXQw_ctu3rhKNElbwvOZ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/4_xsRXQw_ctu3rhKNElbwvOZ",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 121,
+    "size": 684412199,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5051,
+    "slug": "tezlik-zavqi-2014",
+    "type": "film",
+    "title": {
+      "uz": "➺ Tezlik Zavqi (2014)",
+      "ru": "➺ Tezlik Zavqi (2014)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 ➺ Tezlik Zavqi (2014) t.me/jangari_tarjima_kino\n🇺🇿 ➺ O'zbek Tilida [720p]\n🌍 ➺ Davlati: AQSH\n⚔️ ➺ Janri: Jangari, Triller, Kriminal\n\n📡➺Kanal: t.me/jangari_tarjima_kino",
+      "ru": "🎬 ➺ Tezlik Zavqi (2014) t.me/jangari_tarjima_kino\n🇺🇿 ➺ O'zbek Tilida [720p]\n🌍 ➺ Davlati: AQSH\n⚔️ ➺ Janri: Jangari, Triller, Kriminal\n\n📡➺Kanal: t.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/FNubBluRmGLl?s=w0SGjhPSe0s-TGoHNZOyoUUw",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/w0SGjhPSe0s-TGoHNZOyoUUw",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 130,
+    "size": 588271248,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5052,
+    "slug": "taksi-1",
+    "type": "film",
+    "title": {
+      "uz": "➺ Taksi 1",
+      "ru": "➺ Taksi 1"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬 ➺ Taksi 1\n🇺🇿 ➺ O'zbek Tilida [720p]\n🌍 ➺ Davlati: Italia\n⚔️ ➺ Janri: Jangari, Kamedya,\nPoyga\n\n📡➺Kanal: t.me/jangari_tarjima_kino",
+      "ru": "🎬 ➺ Taksi 1\n🇺🇿 ➺ O'zbek Tilida [720p]\n🌍 ➺ Davlati: Italia\n⚔️ ➺ Janri: Jangari, Kamedya,\nPoyga\n\n📡➺Kanal: t.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/K99jdQYvQWUx?s=r-G8M5BX9eSCP2iWeh8z1m3U",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/r-G8M5BX9eSCP2iWeh8z1m3U",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 81,
+    "size": 323732707,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5053,
+    "slug": "forsaj-xobbs-va-shou",
+    "type": "film",
+    "title": {
+      "uz": "Forsaj - Xobbs va Shou",
+      "ru": "Forsaj - Xobbs va Shou"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Forsaj - Xobbs va Shou \n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2019 \n🎞️Janri : Jangari Fantastika \n👥Bosh rollarda : Jonson, Jeyson , Elba, \nT.me/jangari_tarjima_kino",
+      "ru": "🎬Forsaj - Xobbs va Shou \n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2019 \n🎞️Janri : Jangari Fantastika \n👥Bosh rollarda : Jonson, Jeyson , Elba, \nT.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-2R_P51b2g9e?s=_lxXEBgJ0Kq1ZWPvWrYGcHRD",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/_lxXEBgJ0Kq1ZWPvWrYGcHRD",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 129,
+    "size": 507010957,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5054,
+    "slug": "forsaj-8",
+    "type": "film",
+    "title": {
+      "uz": "Forsaj 8",
+      "ru": "Forsaj 8"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Forsaj 8\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2017 \n🎞️Janri : Jangari Fantastika Kriminal \n👥Bosh rollarda : Vin Dizel, Dueyn Jonson, Sharlze Teron, \nKanalda barcha qismi bor\nT.me/jangari_tarjima_kino",
+      "ru": "🎬Forsaj 8\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2017 \n🎞️Janri : Jangari Fantastika Kriminal \n👥Bosh rollarda : Vin Dizel, Dueyn Jonson, Sharlze Teron, \nKanalda barcha qismi bor\nT.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/-OH8QvtfOPmR?s=eDRJecEUhBDwOol8QbIAIQeg",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/eDRJecEUhBDwOol8QbIAIQeg",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 124,
+    "size": 596676348,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5055,
+    "slug": "forsaj-7",
+    "type": "film",
+    "title": {
+      "uz": "Forsaj 7",
+      "ru": "Forsaj 7"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Forsaj 7\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2015\n🎞️Janri : Jangari, Kriminal\n👥Bosh rollarda : Pol , Vin ,#Dueyn Jonson, Jeyson \n\n T.me/jangari_tarjima_kino",
+      "ru": "🎬Forsaj 7\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2015\n🎞️Janri : Jangari, Kriminal\n👥Bosh rollarda : Pol , Vin ,#Dueyn Jonson, Jeyson \n\n T.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/VeYT2d676FSz?s=U5gLTIYNj7E-6B593rIoid4l",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/U5gLTIYNj7E-6B593rIoid4l",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 130,
+    "size": 463882080,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5056,
+    "slug": "forsaj-6",
+    "type": "film",
+    "title": {
+      "uz": "Forsaj 6",
+      "ru": "Forsaj 6"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Forsaj 6\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2013\n🎞️Janri : Jangari, Kriminal\n👥Bosh rollarda : Pol , Vin ,#Dueyn Jonson, Tayres , Luk Evans, Gal \n\nT.me/jangari_tarjima_kino",
+      "ru": "🎬Forsaj 6\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2013\n🎞️Janri : Jangari, Kriminal\n👥Bosh rollarda : Pol , Vin ,#Dueyn Jonson, Tayres , Luk Evans, Gal \n\nT.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/_RFXlMgwsXrh?s=R1kv6mr6kiPj-dLte_b3upJq",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/R1kv6mr6kiPj-dLte_b3upJq",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 123,
+    "size": 467098084,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5057,
+    "slug": "forsaj-5",
+    "type": "film",
+    "title": {
+      "uz": "Forsaj 5",
+      "ru": "Forsaj 5"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Forsaj 5\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2011\n🎞️Janri : Jangari, Kriminal\n👥Bosh rollarda : Pol , Vin ,#Dueyn Jonson, Tayres ,Jordana Brevster, Elsa \nT.me/jangari_tarjima_kino",
+      "ru": "🎬Forsaj 5\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2011\n🎞️Janri : Jangari, Kriminal\n👥Bosh rollarda : Pol , Vin ,#Dueyn Jonson, Tayres ,Jordana Brevster, Elsa \nT.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/szbOAmPdJtqZ?s=XAKEIHN9E2JE9siwrLT9Oxdw",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/XAKEIHN9E2JE9siwrLT9Oxdw",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 124,
+    "size": 467003980,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5058,
+    "slug": "yosh-18",
+    "type": "film",
+    "title": {
+      "uz": "Yosh=18+",
+      "ru": "Yosh=18+"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Yosh=18+\n🎬Forsaj 4\n🇷🇺Rus Tilida \n📀Sifati 480p \n📆Yili 2009\n🎞️Janri : Jangari, Kriminal\n👥Bosh rollarda : Pol , Vin ,Jordana Brevste\nT.me/jangari_tarjima_kino",
+      "ru": "Yosh=18+\n🎬Forsaj 4\n🇷🇺Rus Tilida \n📀Sifati 480p \n📆Yili 2009\n🎞️Janri : Jangari, Kriminal\n👥Bosh rollarda : Pol , Vin ,Jordana Brevste\nT.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Fel_ak71eysG?s=r01hthqxWXokbRlvp8tqdy9L",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/r01hthqxWXokbRlvp8tqdy9L",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 107,
+    "size": 690033515,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5059,
+    "slug": "forsaj-3",
+    "type": "film",
+    "title": {
+      "uz": "Forsaj 3",
+      "ru": "Forsaj 3"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Forsaj 3\n🇷🇺Rus Tilida \n📀Sifati 480p \n📆Yili 2006\n🎞️Janri : Kriminal, Triller \n👥Bosh rollarda : Lukas Blek, Sung Kang\n\n T.me/jangari_tarjima_kino",
+      "ru": "🎬Forsaj 3\n🇷🇺Rus Tilida \n📀Sifati 480p \n📆Yili 2006\n🎞️Janri : Kriminal, Triller \n👥Bosh rollarda : Lukas Blek, Sung Kang\n\n T.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/VPoahk1GUkt3?s=HRXguJkStb1-Bc4K3z5wvbcj",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/HRXguJkStb1-Bc4K3z5wvbcj",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 104,
+    "size": 621569001,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5060,
+    "slug": "yosh-18",
+    "type": "film",
+    "title": {
+      "uz": "Yosh=18+",
+      "ru": "Yosh=18+"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Yosh=18+\n🎬Forsaj 2\n🇷🇺Rus Tilida \n📀Sifati Hd \n📆Yili 2003\n🎞️Janri : Kriminal, Triller \n👥Bosh rollarda : Pol , Tayres \n\n T.me/jangari_tarjima_kino",
+      "ru": "Yosh=18+\n🎬Forsaj 2\n🇷🇺Rus Tilida \n📀Sifati Hd \n📆Yili 2003\n🎞️Janri : Kriminal, Triller \n👥Bosh rollarda : Pol , Tayres \n\n T.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/43zcoSxeN2VH?s=ysz81yfE0PvU1tVhoXI4-kCq",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/ysz81yfE0PvU1tVhoXI4-kCq",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 108,
+    "size": 759560066,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 5061,
+    "slug": "forsaj-1",
+    "type": "film",
+    "title": {
+      "uz": "Forsaj 1",
+      "ru": "Forsaj 1"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎬Forsaj 1\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2001 \n🎞️Janri : Kriminal, Triller \n👥Bosh rollarda : Pol , Vin ,Jordana Brevster \n\nT.me/jangari_tarjima_kino",
+      "ru": "🎬Forsaj 1\n🇺🇿O'zbek tilida \n📀Sifati 480p \n📆Yili 2001 \n🎞️Janri : Kriminal, Triller \n👥Bosh rollarda : Pol , Vin ,Jordana Brevster \n\nT.me/jangari_tarjima_kino"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/mez8sNv3_lpn?s=HQ46qZ9lGfSBs1A7mMdOOHy4",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/HQ46qZ9lGfSBs1A7mMdOOHy4",
+    "featured": false,
+    "addedAt": 1791209693662,
+    "updatedAt": 1791209693662,
+    "duration": 107,
+    "size": 407291513,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21,7338617,3865,14,3713,3868,70,1028840385,3866,3867,3869,3870,3871,3872,3873,3874,3875,3876,3877,3878,3879,3880,3881,3882,3883,3884,3885,3886,3887,3888,3889,3890,3891,3892,3893,3894,3895,3896,3897,3898,3899,3900,3901,3902,3903,3904,3905,3906,3907,3908,3909,3910,3911,3912,3369,3370,3371,3372,3373,3374,3375,3376,63,3437,3444,3430,3495,7412247,3447,3460,3740,3473,3659,3696,3714,4587,4591,4607,4716,4718,4272,4274,4280,4281,3750,4614,4699,4686,4748,4757,4595,4662,4715,4594,4700,4745]/*ENDHIDDEN*/;
