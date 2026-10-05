@@ -1100,17 +1100,17 @@ const CUSTOM_MOVIES = /*DATA*/[
     ],
     "poster": "images/spirited-away.png",
     "trailer": "https://www.youtube.com/watch?v=bgxiTkAlQrw",
-    "video": "https://iv.okcdn.ru/i?r=BDFSTM1h2o92P_v-s8DgGlgYie117TfYy5Gq0chBlNXq8qY_4CIrgWuPLQmWM8jm8P0&fn=external_8",
+    "video": "",
     "featured": false,
     "addedAt": 1790665790283,
-    "updatedAt": 1790665790283,
+    "updatedAt": 1791197120227,
+    "tags": [
+      "Spirited Away"
+    ],
     "year": 2001,
     "duration": 125,
     "rating": 8.6,
-    "director": "Hayao Miyazaki",
-    "tags": [
-      "Spirited Away"
-    ]
+    "director": "Hayao Miyazaki"
   },
   {
     "id": 1124457266,
