@@ -70006,6 +70006,146 @@ const CUSTOM_MOVIES = /*DATA*/[
     "size": 718124162,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 4758,
+    "slug": "film-nomi-vanda-vijin-9-qism",
+    "type": "film",
+    "title": {
+      "uz": "Film Nomi: Vanda Vijin (9-qism)",
+      "ru": "Film Nomi: Vanda Vijin (9-qism)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥Film Nomi: Vanda Vijin (9-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri:jangari sarguzasht\nMarvel_uz_prikol",
+      "ru": "🎥Film Nomi: Vanda Vijin (9-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri:jangari sarguzasht\nMarvel_uz_prikol"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/AuPy23Qm5iSP?s=FU9hebB6XnYiD1ZD329VTCDZ",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/FU9hebB6XnYiD1ZD329VTCDZ",
+    "featured": false,
+    "addedAt": 1791203186489,
+    "updatedAt": 1791203186489,
+    "duration": 47,
+    "size": 704815373,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4759,
+    "slug": "film-nomi-vanda-vijin-9-qism",
+    "type": "film",
+    "title": {
+      "uz": "Film Nomi: Vanda Vijin (9-qism)",
+      "ru": "Film Nomi: Vanda Vijin (9-qism)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥Film Nomi: Vanda Vijin (9-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri: jangari",
+      "ru": "🎥Film Nomi: Vanda Vijin (9-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri: jangari"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/v2QCmFvcefU1?s=pZxgC7fN-oyclfj8e5CFRO1S",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/pZxgC7fN-oyclfj8e5CFRO1S",
+    "featured": false,
+    "addedAt": 1791203186489,
+    "updatedAt": 1791203186489,
+    "duration": 47,
+    "size": 704815373,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4760,
+    "slug": "film-nomi-vanda-vijin-7-qism",
+    "type": "film",
+    "title": {
+      "uz": "Film Nomi: Vanda Vijin (7-qism)",
+      "ru": "Film Nomi: Vanda Vijin (7-qism)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥Film Nomi: Vanda Vijin (7-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri: jangari",
+      "ru": "🎥Film Nomi: Vanda Vijin (7-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 720p HD\n🎭Janri: jangari"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/zDB3E9BXDE63?s=33Koiy05SNa0bnX3O6RsAzZb",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/33Koiy05SNa0bnX3O6RsAzZb",
+    "featured": false,
+    "addedAt": 1791203186489,
+    "updatedAt": 1791203186489,
+    "duration": 35,
+    "size": 455039871,
+    "year": 2026,
+    "audio": "uz"
+  },
+  {
+    "id": 4761,
+    "slug": "film-nomi-vanda-vijin-8-qism",
+    "type": "film",
+    "title": {
+      "uz": "Film Nomi: Vanda Vijin (8-qism)",
+      "ru": "Film Nomi: Vanda Vijin (8-qism)"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "—",
+      "ru": "—"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "🎥Film Nomi: Vanda Vijin (8-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 420p HD\n🎭Janri:",
+      "ru": "🎥Film Nomi: Vanda Vijin (8-qism)\n🇺🇿 Tili: O'zbek tilida\n📆Yili: 2021\n💾Sifaтi: 420p HD\n🎭Janri:"
+    },
+    "colors": [
+      "#2a3142",
+      "#0d1018"
+    ],
+    "poster": "https://dezocloud.uz/t/Tyn4jwJuvHRB?s=wUVLtoGfjqvcgbL99tPE6ha8",
+    "trailer": "",
+    "video": "https://dezocloud.uz/s/wUVLtoGfjqvcgbL99tPE6ha8",
+    "featured": false,
+    "addedAt": 1791203186489,
+    "updatedAt": 1791203186489,
+    "duration": 43,
+    "size": 161989333,
+    "year": 2026,
+    "audio": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21,7338617,3865,14,3713,3868,70,1028840385,3866,3867,3869,3870,3871,3872,3873,3874,3875,3876,3877,3878,3879,3880,3881,3882,3883,3884,3885,3886,3887,3888,3889,3890,3891,3892,3893,3894,3895,3896,3897,3898,3899,3900,3901,3902,3903,3904,3905,3906,3907,3908,3909,3910,3911,3912,3369,3370,3371,3372,3373,3374,3375,3376,63,3437,3444,3430,3495,7412247,3447,3460,3740,3473,3659,3696,3714]/*ENDHIDDEN*/;
