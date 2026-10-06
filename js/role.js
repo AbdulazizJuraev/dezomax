@@ -54,7 +54,7 @@ function rolePickFilms() {
   try {
     const ids = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG?.hero?.ids) || [];
     let pool = ids.map(id => MOVIES.find(m => m.id === id)).filter(Boolean);
-    if (typeof heroAutoFill === 'function') pool = [...pool, ...heroAutoFill(pool)];
+    if (typeof heroCompose === 'function') pool = heroCompose(pool);
     if (pool.length < 4) pool = [...pool, ...MOVIES.filter(m => m.featured && !pool.includes(m))];
     pool = pool.filter(m => rpArt(m));
     for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }

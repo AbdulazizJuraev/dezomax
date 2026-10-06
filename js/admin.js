@@ -1199,9 +1199,8 @@ function tmdbTitledPoster(images, fallback) {
 async function heroAutoPosters(ids, btn) {
   const note = $('#admHeroPostersNote');
   if (!tmdbKey()) { toast('Avval TMDB kalitini kiriting: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
-  // admin tanlaganlari + sayt o'zi qo'shadigan slaydlar (js/common.js heroAutoFill) — slayderdagi hammasi
-  const picked = ids.map(currentMovie).filter(Boolean).slice(0, 15);
-  const all = [...picked, ...heroAutoFill(picked).map(m => currentMovie(m.id) || m)];
+  // slayderdagi hammasi (js/common.js heroCompose): admin tanlaganlari + rasmiy o'zbek filmlari
+  const all = heroCompose(ids.map(currentMovie).filter(Boolean)).map(m => currentMovie(m.id) || m);
   const todo = all.filter(m => m && !m.vposter);
   if (!todo.length) { toast('Slayderdagi hamma kinoning posteri bor'); return; }
   btn.disabled = true;
@@ -1543,7 +1542,7 @@ async function renderSiteView() {
         <small class="acc-muted">3 soniyadan 1 daqiqagacha. Treyler undan qisqa bo‘lsa, tugashi bilan keyingi slaydga o‘tadi.</small>
       </div>
       <label class="adm-label">Slayderdagi kinolar (tartib bo‘yicha)</label>
-      <div id="admHeroPicker">${pickerHTML('hero', d.hero.ids, 15)}</div>
+      <div id="admHeroPicker">${pickerHTML('hero', d.hero.ids, 25)}</div>
       <div class="adm-actions" style="margin-top:12px">
         <button class="btn btn-ghost" type="button" id="admHeroPosters">Rasmiy posterlarni qo‘yish (TMDB)</button>
       </div>

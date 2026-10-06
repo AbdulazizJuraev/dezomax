@@ -8,15 +8,15 @@ const SITE_CFG = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) || {};
 // Slayder: admin tanlagan kinolar, aks holda «featured» belgilanganlar (o'zbekcha to'liq filmlar birinchi)
 const adminHeroIds = SITE_CFG.hero && Array.isArray(SITE_CFG.hero.ids) ? SITE_CFG.hero.ids : null;
 const featured = adminHeroIds && adminHeroIds.length
-  ? adminHeroIds.map(id => MOVIES.find(m => m.id === id)).filter(Boolean).slice(0, 15)
+  ? adminHeroIds.map(id => MOVIES.find(m => m.id === id)).filter(Boolean)
   : MOVIES.filter(m => m.featured)
       .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
       .slice(0, 10);   // standart slayder juda uzun bo'lib ketmasin
-// Slayder — faqat rasmlar (treyler videolari sahifani sekinlashtirardi). Kamida HERO_MIN ta slayd:
-// admin tanlaganlari birinchi, qolgani rasmiy manbalardan — studiyalarning yangi treylerlari va rasmiy kanallardagi
-// o'zbek filmlari (navbat bilan). Rasm faqat joriy va keyingi slayd uchun yuklanadi (heroLoadBg).
+// Slayder — faqat rasmlar (treyler videolari sahifani sekinlashtirardi), faqat to'liq filmlar (treylerlar chiqmaydi):
+// admin tanlaganlari (25 tagacha) + har 4 tasidan keyin rasmiy kanaldagi o'zbek filmi.
+// Rasm faqat joriy va keyingi slayd uchun yuklanadi (heroLoadBg).
 const HERO_VIDEO = false;
-featured.push(...heroAutoFill(featured));     // js/common.js — admin ham shu ro'yxatni ishlatadi (rasmiy posterlar)
+featured.splice(0, featured.length, ...heroCompose(featured));   // js/common.js — faqat to'liq filmlar, har 5 tadan 1 tasi o'zbek filmi
 let heroIndex = 0;
 let heroTimer = null;
 let heroSound = false;   // treyler ovozi (foydalanuvchi tugmani bosguncha o'chiq)

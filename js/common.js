@@ -74,21 +74,22 @@ function partsOf(m) {
    bosh sahifa pastida va qidiruvda kinolardan keyin; katalog, «O'xshash kinolar», TOP-10 — faqat kinolar */
 const isExtraVideo = m => !!m && m.franchise === 'tahlil';
 
-/* Bosh sahifa slayderi kamida HERO_MIN ta: admin tanlaganlaridan keyin rasmiy manbalardan — studiyalarning yangi
-   treylerlari va rasmiy kanallardagi o'zbek filmlari (navbat bilan). js/app.js (slayder) va admin («Rasmiy posterlar») ishlatadi. */
-const HERO_MIN = 25;
-function heroAutoFill(picked) {
+/* Bosh sahifa slayderi: admin tanlagan kinolar (25 tagacha) — faqat to'liq filmlar, treylerlar chiqmaydi.
+   Har 4 ta kinodan keyin 1 ta rasmiy kanaldagi o'zbek filmi qo'shiladi (har 5 ta slayddan 1 tasi).
+   Sayt o'zi faqat qonuniy kontent qo'shadi — rasmiy kanallardagi o'zbek filmlari. Admin hech narsa tanlamagan bo'lsa — 5 ta shunday film.
+   js/app.js (slayder), js/role.js («Kim tomosha qiladi?» foni) va admin («Rasmiy posterlar») ishlatadi. */
+const HERO_MAX = 25;
+function heroCompose(picked) {
+  const films = picked.filter(m => m && watchStatus(m) !== 'trailer').slice(0, HERO_MAX);
+  const have = new Set(films.map(m => m.id));
+  const newest = (x, y) => (y.year || 0) - (x.year || 0) || (y.addedAt || 0) - (x.addedAt || 0);
+  const uz = MOVIES.filter(m => (m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial') && m.type === 'film' && !have.has(m.id)
+    && m.meta && m.desc && (m.desc.uz || '').length > 60).sort(newest);
+  if (!films.length) return uz.slice(0, 5);
   const out = [];
-  if (picked.length >= HERO_MIN) return out;
-  const have = new Set(picked.map(m => m.id));
-  const ytOk = m => /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]{11}/.test(String(m.trailer || m.video || ''));
-  const newest = (a, b) => (b.year || 0) - (a.year || 0) || (b.addedAt || 0) - (a.addedAt || 0);
-  const studio = MOVIES.filter(m => m.ch && m.ch !== 'rizanova' && m.ch !== 'uzbekkinoofficial' && !isExtraVideo(m) && ytOk(m) && m.year >= 2024).sort(newest);
-  const uzOfficial = MOVIES.filter(m => (m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial') && m.type === 'film' && m.meta && m.desc && (m.desc.uz || '').length > 60).sort(newest);
-  for (let i = 0; picked.length + out.length < HERO_MIN && (i < studio.length || i < uzOfficial.length); i++) {
-    for (const m of [studio[i], uzOfficial[i]]) if (m && !have.has(m.id) && picked.length + out.length < HERO_MIN) { have.add(m.id); out.push(m); }
-  }
-  return out;
+  let u = 0;
+  films.forEach((m, i) => { out.push(m); if (i % 4 === 3 && uz[u] && out.length < HERO_MAX) out.push(uz[u++]); });
+  return out.slice(0, HERO_MAX);
 }
 
 function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
