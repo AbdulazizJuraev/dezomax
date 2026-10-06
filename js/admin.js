@@ -1038,7 +1038,7 @@ function bindTmdb(form, { setHeroImg, setCover }) {
     res.querySelectorAll('.adm-tmdb-item').forEach(x => x.classList.toggle('is-on', x === btn));
     showErr('');
     try {
-      const d = await tmdb(`/${type}/${id}`, { language: 'ru-RU', append_to_response: 'credits,videos,translations', include_video_language: 'ru,en,null' });
+      const d = await tmdb(`/${type}/${id}`, { language: 'ru-RU', append_to_response: 'credits,videos,translations,images', include_video_language: 'ru,en,null', include_image_language: 'uz,ru,en,null' });
       fillFromTmdb(form, type, d, { setHeroImg, setCover });
       form._tmdb = { id, type };
       res.innerHTML = `<p class="adm-tmdb-ok">✓ «${esc(d.title || d.name)}» ma’lumotlari formaga yozildi — tekshirib, saqlang.</p>`;
@@ -1096,7 +1096,12 @@ function fillFromTmdb(form, type, d, { setHeroImg, setCover }) {
   if (!d.overview && en.overview) autoTranslate(form, 'descRu', 'en', en.overview);
 
   if (d.poster_path) { form.posterUrl.value = `${TMDB_IMG}w500${d.poster_path}`; setHeroImg(form.posterUrl.value); }
-  if (d.backdrop_path) { form.coverUrl.value = `${TMDB_IMG}w1280${d.backdrop_path}`; setCover(form.coverUrl.value); }
+  // muqova (bosh sahifa slayderi) — rasmiy gorizontal poster: kino nomi yozilgan backdrop (o'zbekcha/ruscha/inglizcha),
+  // eng yuqori baholangani; bunday yo'q bo'lsa — oddiy backdrop (nomsiz kadr)
+  const titled = (d.images?.backdrops || []).filter(b => ['uz', 'ru', 'en'].includes(b.iso_639_1) && b.width >= 1280)
+    .sort((a, b) => ['uz', 'ru', 'en'].indexOf(a.iso_639_1) - ['uz', 'ru', 'en'].indexOf(b.iso_639_1) || (b.vote_average || 0) - (a.vote_average || 0));
+  const backdrop = titled[0]?.file_path || d.backdrop_path;
+  if (backdrop) { form.coverUrl.value = `${TMDB_IMG}w1280${backdrop}`; setCover(form.coverUrl.value); }
 
   // rasmiy treyler (YouTube): ruscha bo'lsa — ruscha, bo'lmasa inglizcha
   const vids = (d.videos?.results || []).filter(v => v.site === 'YouTube' && v.official !== false && /Trailer|Teaser/.test(v.type));
