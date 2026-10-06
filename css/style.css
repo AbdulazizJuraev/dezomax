@@ -6566,3 +6566,15 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
   #hero.hero-v2 .is-vert .hv2-vp { display: block; top: calc(var(--header-h, 64px) + 28px); bottom: 44px; right: 7%; left: auto; width: auto; aspect-ratio: 2 / 3; }
   #hero.hero-v2 .hero-slide.is-active.is-vert .hv2-vp { transform: none; }
 }
+
+/* «Kim tomosha qiladi?» → Mehmon → yosh toifasi */
+.role-pick-age { display: grid; place-items: center; background: linear-gradient(145deg, #0a93dc, #1b3f8f); }
+.role-pick-age b { font-size: 30px; font-weight: 700; color: #fff; letter-spacing: -.01em; }
+.role-pick-back { align-self: flex-start; margin-top: 22px; padding: 10px 16px; border: 1px solid rgba(255,255,255,.18); border-radius: 12px; background: rgba(255,255,255,.06); color: rgba(255,255,255,.8); font-size: 16px; cursor: pointer; }
+.role-pick-back:hover { background: rgba(255,255,255,.12); }
+.role-pick.is-age .role-pick-film { display: none; }
+.role-pick.is-age .role-pick-avatars { gap: 16px; }
+.role-pick.is-age .role-pick-circle { width: 78px; height: 78px; }
+.role-pick.is-age .role-pick-age b { font-size: 22px; }
+.role-pick.is-age .role-pick-av b { font-size: 24px; }
+.role-pick.is-age .role-pick-av small { font-size: 15px; }

@@ -14,7 +14,14 @@ Object.assign(I18N.uz, {
   'role.child': 'Bolalar',
   'role.childSub': 'Faqat multfilmlar ko‘rinadi',
   'role.guest': 'Mehmon',
-  'role.guestSub': 'Bepul tarifda ko‘rish'
+  'role.guestSub': 'Yoshingizga mos kinolar',
+  'role.ageTitle': 'Yoshingizni tanlang',
+  'role.years': 'yosh',
+  'role.age0': 'Multfilmlar va oilaviy kinolar',
+  'role.age7': 'Qo‘rqinchli, triller va jinoyat kinolarisiz',
+  'role.age13': 'Qo‘rqinchli kinolarsiz',
+  'role.age18': 'Barcha kinolar',
+  'role.back': 'Orqaga'
 });
 Object.assign(I18N.ru, {
   'role.title': 'Кто будет смотреть?',
@@ -24,7 +31,14 @@ Object.assign(I18N.ru, {
   'role.child': 'Дети',
   'role.childSub': 'Показываются только мультфильмы',
   'role.guest': 'Гость',
-  'role.guestSub': 'Просмотр на бесплатном тарифе'
+  'role.guestSub': 'Фильмы по вашему возрасту',
+  'role.ageTitle': 'Выберите возраст',
+  'role.years': 'лет',
+  'role.age0': 'Мультфильмы и семейное кино',
+  'role.age7': 'Без ужасов, триллеров и криминала',
+  'role.age13': 'Без фильмов ужасов',
+  'role.age18': 'Все фильмы',
+  'role.back': 'Назад'
 });
 
 const ROLE_ICONS = {
@@ -134,8 +148,35 @@ function showRolePicker(profile) {
     document.body.appendChild(el);
     document.documentElement.classList.add('welcome-lock');
     const stopBackdrop = startRoleBackdrop(el, films);
-    el.querySelectorAll('[data-role]').forEach(b => b.addEventListener('click', async () => {
+    const box = el.querySelector('.role-pick-box');
+    const firstStep = box.innerHTML;
+    const prevRole = profile?.role, prevAge = profile?.guestAge;
+    // «Mehmon» — keyingi qadam: yosh toifasi (kontent shunga mos saralanadi — js/common.js)
+    const guestStep = () => new Promise(res => {
+      el.classList.add('is-age');
+      const ages = [['0', '0–6', t('role.age0')], ['7', '7–12', t('role.age7')], ['13', '13–17', t('role.age13')], ['18', '18+', t('role.age18')]];
+      box.innerHTML = `
+        <img class="role-pick-logo" src="images/logo/logo.png" alt="DezoMax">
+        <h1>${esc(t('role.ageTitle'))}</h1>
+        <div class="role-pick-avatars">
+          ${ages.map(([v, label, sub]) => `
+            <button type="button" class="role-pick-av${profile?.guestAge === v ? ' is-last' : ''}" data-age="${v}">
+              <span class="role-pick-circle role-pick-age"><b>${label}</b></span>
+              <span class="role-pick-text"><b>${esc(label === '18+' ? '18+' : label + ' ' + t('role.years'))}</b><small>${esc(sub)}</small></span>
+            </button>`).join('')}
+        </div>
+        <button type="button" class="role-pick-back">← ${esc(t('role.back'))}</button>`;
+      box.querySelectorAll('[data-age]').forEach(x => x.addEventListener('click', () => res(x.dataset.age)));
+      box.querySelector('.role-pick-back').addEventListener('click', () => res(null));
+    });
+    const bindRoles = () => box.querySelectorAll('[data-role]').forEach(b => b.addEventListener('click', async () => {
       if (el.classList.contains('is-out')) return;
+      if (b.dataset.role === 'guest') {
+        const age = await guestStep();
+        el.classList.remove('is-age');
+        if (age === null) { box.innerHTML = firstStep; bindRoles(); return; }
+        profile.guestAge = age;
+      }
       profile.role = b.dataset.role;
       try { await Auth.saveProfile(profile); } catch {}
       try { sessionStorage.setItem('dezomax_role_asked', '1'); } catch {}
@@ -143,7 +184,13 @@ function showRolePicker(profile) {
       document.documentElement.classList.remove('welcome-lock');
       setTimeout(() => { stopBackdrop(); el.remove(); }, 300);
       resolve();
+      // saralash (bola / mehmon yoshi) sahifa yuklanganda qo'llanadi — tanlov o'zgargan bo'lsa sahifa yangilanadi
+      if (prevRole !== profile.role || prevAge !== profile.guestAge) {
+        const p = location.pathname.split('/').pop() || 'index.html';
+        if (/^(index|catalog|search)\.html$/.test(p)) setTimeout(() => location.reload(), 320);
+      }
     }));
+    bindRoles();
   });
 }
 

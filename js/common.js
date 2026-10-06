@@ -113,6 +113,21 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
       if (p && p.role === 'child') {
         for (let i = MOVIES.length - 1; i >= 0; i--) if (MOVIES[i].type !== 'multfilm') MOVIES.splice(i, 1);
       }
+      // "Mehmon" — tanlagan yosh toifasi bo'yicha (js/role.js): kinolarda yosh chegarasi yo'q — janr bo'yicha,
+      // kinoga yosh (m.age) kiritilgan bo'lsa — u ham hisobga olinadi
+      if (p && p.role === 'guest' && p.guestAge && p.guestAge !== '18') {
+        const age = +p.guestAge;
+        const BAN = age < 7 ? ['horror', 'thriller', 'crime', 'war', 'romance', 'detective']
+          : age < 13 ? ['horror', 'thriller', 'crime', 'war'] : ['horror'];
+        const ok = m => {
+          if (m.age && +m.age > age) return false;
+          const g = m.genres || [];
+          if (g.some(x => BAN.includes(x))) return false;
+          if (age < 7) return m.type === 'multfilm' || g.includes('animation') || g.includes('family');
+          return true;
+        };
+        for (let i = MOVIES.length - 1; i >= 0; i--) if (!ok(MOVIES[i])) MOVIES.splice(i, 1);
+      }
     }
   } catch (e) {}
 })();
