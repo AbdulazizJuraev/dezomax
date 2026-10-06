@@ -6642,3 +6642,11 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .page-admin .adm-item .btn-sm { padding: 6px 11px; font-size: 13px; min-height: 0; border-radius: 9px; }
 .adm-nav.adm-nav2 button { height: auto !important; min-height: 0 !important; }
 .adm-nav.adm-nav2 button span, .adm-nav.adm-nav2 button svg { flex-shrink: 0; }
+/* yopishqoq menyu — to'liq fon (orqasidan kartalar ko'rinib, ustma-ust tushmasin), header ostiga tegib turadi */
+.adm-nav.adm-nav2 {
+  top: var(--header-h) !important;
+  background: var(--bg, #07080c) !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  margin-left: -16px; margin-right: -16px; padding: 0 16px !important;
+}
+.adm-more-menu { position: sticky; top: calc(var(--header-h) + 62px); box-shadow: 0 16px 40px rgba(0, 0, 0, .5); }
