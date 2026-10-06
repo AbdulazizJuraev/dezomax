@@ -1074,7 +1074,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 57800,
       "type": "movie"
-    }
+    },
+    "vposter": "https://image.tmdb.org/t/p/w780/bZRHz4bV5WHVlpLjmYbrkOAQhyT.jpg"
   },
   {
     "id": 2176,
@@ -1191,7 +1192,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790943122993,
     "year": 2002,
     "duration": 81,
-    "director": "Chris Wedge, Carlos Saldanha"
+    "director": "Chris Wedge, Carlos Saldanha",
+    "vposter": "https://image.tmdb.org/t/p/w780/8aIfrY4k8TpchETMMblRZpBgPKo.jpg",
+    "tmdb": {
+      "id": 425,
+      "type": "movie"
+    }
   },
   {
     "id": 2894,
@@ -21567,7 +21573,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "year": 2026,
     "audio": "uz",
     "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354-cover.jpg",
-    "lang": "uz"
+    "lang": "uz",
+    "vposter": "https://image.tmdb.org/t/p/w780/AjVecMJdv9GffRVhKP2IRoWtaQL.jpg",
+    "tmdb": {
+      "id": 312381,
+      "type": "tv"
+    }
   },
   {
     "id": 3355,
