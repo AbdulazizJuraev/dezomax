@@ -8,7 +8,7 @@ const SITE_CFG = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) || {};
 // Slayder: admin tanlagan kinolar, aks holda «featured» belgilanganlar (o'zbekcha to'liq filmlar birinchi)
 const adminHeroIds = SITE_CFG.hero && Array.isArray(SITE_CFG.hero.ids) ? SITE_CFG.hero.ids : null;
 const featured = adminHeroIds && adminHeroIds.length
-  ? adminHeroIds.map(id => MOVIES.find(m => m.id === id)).filter(Boolean)
+  ? adminHeroIds.map(heroMovie).filter(Boolean)
   : MOVIES.filter(m => m.featured)
       .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
       .slice(0, 10);   // standart slayder juda uzun bo'lib ketmasin
@@ -52,6 +52,7 @@ function renderHero() {
     const art = HERO_VIDEO ? null : vArt || wideSrc || ownPoster;
     const wideArt = !!wideSrc;
     const isTrailer = watchStatus(m) === 'trailer';
+    const noVideo = watchStatus(m) === 'none';      // admin slayderga qo'ygan, lekin videosi yo'q — kino sahifasiga olib boradi
     // Dizayn (foydalanuvchi maketi): rasm butun slaydni qoplaydi; chap pastda katta nom, ostida janr · yil · davlat;
     // ko'k «Ko'rish» + «Ulashish»; o'ng pastda nuqtalar
     if (art) {
@@ -68,7 +69,7 @@ function renderHero() {
             <h1>${esc(title(m))}</h1>
             ${meta ? `<p class="hv2-meta">${meta}</p>` : ''}
             <div class="hero-actions">
-              <a class="hv2-watch" href="movie.html?id=${m.id}&play=1">${isTrailer ? (ru ? 'Трейлер' : 'Treyler') : (ru ? 'Смотреть' : 'Ko‘rish')}</a>
+              <a class="hv2-watch" href="movie.html?id=${m.id}${noVideo ? '' : '&play=1'}">${noVideo ? (ru ? 'Подробнее' : 'Batafsil') : isTrailer ? (ru ? 'Трейлер' : 'Treyler') : (ru ? 'Смотреть' : 'Ko‘rish')}</a>
               <button class="hv2-share" type="button" data-share="${m.id}" aria-label="${ru ? 'Поделиться' : 'Ulashish'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
             </div>
           </div>

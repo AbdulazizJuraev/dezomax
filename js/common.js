@@ -79,6 +79,11 @@ const isExtraVideo = m => !!m && m.franchise === 'tahlil';
    rasmiy kanallardagi 5 ta o'zbek filmi (slayder bo'sh qolmasin).
    js/app.js (slayder), js/role.js («Kim tomosha qiladi?» foni) va admin («Rasmiy posterlar») ishlatadi. */
 const HERO_MAX = 25;
+/* Slayder kinosi: saytdagi ro'yxatda bo'lmasa ham (videosiz kartalar ro'yxatdan olib tashlanadi) — admin qo'shgan nusxasidan.
+   Admin o'zi tanlagan kino slayderda albatta chiqadi (videosi yo'q bo'lsa — «Batafsil») */
+const heroMovie = id => MOVIES.find(m => m.id === id)
+  || (typeof CUSTOM_MOVIES !== 'undefined' && CUSTOM_MOVIES.find(m => m.id === id))
+  || (window.BASE_MOVIES && window.BASE_MOVIES.find(m => m.id === id)) || null;
 
 /* Bolalar rejimi: «Bolalar» roli yoki «Mehmon → 0–6 yosh» (js/role.js) */
 function kidsMode() {
@@ -90,7 +95,7 @@ function kidsMode() {
 }
 /* Bolalar slayderi: admin → Sayt → «Bolalar slayderi» (hero.kidsIds); tanlanmagan bo'lsa — YouTube'dagi multfilmlar */
 function kidsHero(kidsIds) {
-  const picked = (kidsIds || []).map(id => MOVIES.find(m => m.id === id)).filter(m => m && watchStatus(m) !== 'trailer');
+  const picked = (kidsIds || []).map(heroMovie).filter(m => m && watchStatus(m) !== 'trailer');
   if (picked.length) return picked.slice(0, HERO_MAX);
   return MOVIES.filter(m => m.type === 'multfilm' && /youtube\.com|youtu\.be/.test(m.video || '')).slice(0, HERO_MAX);
 }
