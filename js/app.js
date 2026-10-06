@@ -52,13 +52,17 @@ function renderHero() {
       || imgBig(m.cover) || imgBig(m.poster) || null;          // treyleri yo'q — muqova yoki poster
     // kinoning o'z rasmiy posteri bo'lsa (YouTube kadri emas) — posterning o'zi: o'rtada aniq, orqada xira nusxasi.
     // Treyler kadri kesilganda g'alati chiqardi. Studiya treylerlari va o'zbek filmlarining YouTube muqovasi — o'zi dizayn qilingan.
+    // Gorizontal (16:9) rasm — kesilmasdan to'liq ko'rinadi, orqada shu rasmning xira nusxasi butun slaydni to'ldiradi.
+    // Gorizontal rasmi yo'q kinoda — o'zining tik posteri xuddi shunday.
     const ownPoster = !uzArt && !HERO_VIDEO && m.poster && !/i\.ytimg\.com/.test(m.poster) ? imgBig(m.poster) || m.poster : null;
-    const wideArt = !!wideSrc && !ownPoster;
+    const art = HERO_VIDEO ? null : wideSrc || ownPoster;
+    const land = !!wideSrc;
+    const wideArt = !!wideSrc;
     // rasm darhol emas — slayd navbati kelganda yuklanadi (heroLoadBg): 25 ta katta rasm birdaniga yuklanmasin
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
-      ${ownPoster ? `<div class="hero-bg hero-pbg" style="background-image:${backdropCSS(m)}" data-bg="${esc(ownPoster)}"></div>
-      <div class="hero-poster"><img data-src="${esc(ownPoster)}" alt="${esc(title(m))}" onerror="this.parentNode.remove()"></div>` : `
+      ${art ? `<div class="hero-bg hero-pbg" style="background-image:${backdropCSS(m)}" data-bg="${esc(art)}"></div>
+      <div class="hero-poster${land ? ' is-land' : ''}"><img data-src="${esc(art)}" alt="${esc(title(m))}" onerror="this.parentNode.remove()"></div>` : `
       <div class="hero-bg${wideArt ? ' is-wide' : ''}${ytId && HERO_VIDEO && !matchMedia('(prefers-reduced-motion: reduce)').matches ? ' video-only' : ''}" style="background-image:${backdropCSS(m)}"${wideArt ? ` data-bg="${esc(wideSrc)}"` : ''}></div>
       ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}`}
       <div class="hero-inner">
@@ -100,12 +104,12 @@ function heroLoadBg(i) {
   if (!featured.length) return;
   const slide = document.querySelector(`.hero-slide[data-i="${(i + featured.length) % featured.length}"]`);
   const pimg = slide && slide.querySelector('.hero-poster img[data-src]');
-  if (pimg && !pimg.src) pimg.src = pimg.dataset.src;
   const bg = slide && slide.querySelector('.hero-bg[data-bg]');
   if (!bg || bg.dataset.loaded) return;
   bg.dataset.loaded = '1';
   const base = bg.style.backgroundImage;
-  const set = url => { bg.style.backgroundImage = `url('${url}'), ${base}`; };
+  // xira fon va o'rtadagi rasm — bitta fayl (ikki marta yuklanmaydi)
+  const set = url => { bg.style.backgroundImage = `url('${url}'), ${base}`; if (pimg) pimg.src = url; };
   const src = bg.dataset.bg;
   const yt = (src.match(/i\.ytimg\.com\/vi(?:_webp)?\/([\w-]{11})\//) || [])[1];
   if (!yt) { set(src); return; }
