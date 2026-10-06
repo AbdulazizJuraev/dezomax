@@ -202,7 +202,10 @@ async function ytMeta(id) {
   const summary = clean((stop > 0 ? text.slice(0, stop) : text.split(/\n\s*\n/)[0]).replace(/#\S+/g, '')).slice(0, 700);
   const titleParts = String(d.title || '').split(/\s*[|]\s*/).slice(1).join(' ');
   const pub = pr.microformat?.playerMicroformatRenderer?.publishDate || '';
-  const year = +(String(d.title).match(/\b(19[5-9]\d|20[0-3]\d)\b/) || [])[1] || +pub.slice(0, 4) || 0;
+  // yil — faqat nomda yoki tavsifda aniq yozilgan bo'lsa («(2012)», «2012-yil», «Yili: 2012»).
+  // Yuklangan sana kinoning yili emas (eski filmlar kanalga keyin yuklanadi) — published alohida qaytadi.
+  const year = +(String(d.title).match(/\b(19[5-9]\d|20[0-3]\d)\b/) || [])[1]
+    || +(text.match(/\((19[5-9]\d|20[0-3]\d)\)|\b(19[5-9]\d|20[0-3]\d)\s*-?\s*(?:yil|йил|год)|(?:yili|йили|год)\s*[:\-–]?\s*(19[5-9]\d|20[0-3]\d)/i) || []).slice(1).find(Boolean) || 0;
   return {
     id, title: d.title || '', channel: d.author || '', duration: Math.round((+d.lengthSeconds || 0) / 60),
     summary, year, published: pub,

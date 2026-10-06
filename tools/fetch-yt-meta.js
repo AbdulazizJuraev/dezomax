@@ -10,7 +10,9 @@
 
    Ishlatish:  node tools/fetch-yt-meta.js            (hammasi)
                node tools/fetch-yt-meta.js playlists  (faqat playlistlar)
-               node tools/fetch-yt-meta.js meta       (faqat ma'lumot to'ldirish)
+               node tools/fetch-yt-meta.js meta [N]   (faqat ma'lumot to'ldirish, bir safarda N ta — standart 100)
+               node tools/fetch-yt-meta.js years [N]  (to'ldirilganlarning yilini qayta tekshirish — avval yuklangan sana yil deb olingan)
+   YouTube bir IP'dan ko'p so'rovni bloklaydi («not a bot») — so'rovlar ketma-ket, oraliq bilan; ketma-ket 5 xato bo'lsa to'xtaydi.
    ============================================================ */
 
 const fs = require('fs');
@@ -144,16 +146,21 @@ if (typeof MOVIES !== 'undefined') for (var i = 0; i < CHANNEL_MOVIES.length; i+
 
   /* 2) rasmiy o'zbek kanallari — tavsifdan ma'lumot */
   if (want === 'all' || want === 'meta') {
-    const todo = items.filter(m => META_CHANNELS.includes(m.ch) && !m.meta);
-    console.log(`Ma'lumot to'ldirish: ${todo.length} ta kino/serial`);
-    let ok = 0;
-    await pool(todo, 2, async m => {
+    const limit = +process.argv[3] || 100;
+    const all = items.filter(m => META_CHANNELS.includes(m.ch) && !m.meta);
+    const todo = all.slice(0, limit);
+    console.log(`Ma'lumot to'ldirish: ${todo.length} / ${all.length} ta kino/serial`);
+    let ok = 0, fails = 0;
+    await pool(todo, 1, async m => {
+      if (fails >= 5) return;                                       // YouTube blokladi — keyinroq davom etamiz
       const vid = (m.eps && m.eps[0] && m.eps[0][0]) || (String(m.video).match(/[?&]v=([\w-]{11})/) || [])[1];
       if (!vid) return;
+      await new Promise(r => setTimeout(r, 2500));
       let meta;
-      try { meta = await ytMeta(vid); } catch { return; }
-      if (!meta || meta.error) return;
-      const i = byId.get(m.id), it = { ...items[i] };
+      try { meta = await ytMeta(vid); } catch { meta = null; }
+      if (!meta || meta.error) { fails++; return; }
+      fails = 0;
+      const i = byId.get(m.id), it = { ...items[i], yearOk: 1 };
       const generic = !it.desc || /kanalidagi|kanalidan/.test(it.desc.uz || '');
       if (meta.summary && meta.summary.length > 40 && generic) it.desc = { uz: uzQuotes(meta.summary), ru: it.desc?.ru || it.desc?.uz || '' };
       if (!it.year && meta.year) it.year = meta.year;
@@ -165,7 +172,29 @@ if (typeof MOVIES !== 'undefined') for (var i = 0; i < CHANNEL_MOVIES.length; i+
       items[i] = it; ok++;
       if (ok % 50 === 0) process.stdout.write(`${ok}…`);
     });
-    console.log(`\n${ok} ta to'ldirildi`);
+    console.log(`\n${ok} ta to'ldirildi${fails >= 5 ? ' — YouTube blokladi, keyinroq qayta ishga tushiring' : ''}`);
+  }
+
+  // yillarni qayta tekshirish: avval ytMeta yuklangan sanani yil deb qaytarardi — endi faqat nom/tavsifda yozilgan yil
+  if (want === 'years') {
+    const limit = +process.argv[3] || 100;
+    const todo = items.filter(m => META_CHANNELS.includes(m.ch) && m.meta && m.year >= 2016 && !m.yearOk).slice(0, limit);
+    console.log(`Yillarni tekshirish: ${todo.length} ta`);
+    let fixed = 0, fails = 0;
+    await pool(todo, 1, async m => {
+      if (fails >= 5) return;
+      const vid = (m.eps && m.eps[0] && m.eps[0][0]) || (String(m.video).match(/[?&]v=([\w-]{11})/) || [])[1];
+      if (!vid) return;
+      await new Promise(r => setTimeout(r, 2500));
+      let meta;
+      try { meta = await ytMeta(vid); } catch { meta = null; }
+      if (!meta || meta.error) { fails++; return; }
+      fails = 0;
+      const i = byId.get(m.id), it = { ...items[i], yearOk: 1 };
+      if (meta.year !== it.year) { if (meta.year) it.year = meta.year; else delete it.year; fixed++; }
+      items[i] = it;
+    });
+    console.log(`${fixed} ta kinoning yili tuzatildi${fails >= 5 ? ' — YouTube blokladi, keyinroq qayta ishga tushiring' : ''}`);
   }
 
   fs.writeFileSync(CH_PATH, buildChannelsFile(channels, items));
