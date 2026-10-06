@@ -33,6 +33,31 @@ function loadHlsLib() {
 }
 
 /* box — .player-wrap; opts: { poster, title, qualities: [{label, url}] } */
+/* DezoMax belgisi — admin → Boshqa → «LogoVidio» sozlamasi (js/site-config.js → SITE_CONFIG.logo).
+   pos: br|bl|tr|tl, size: pleyer enining %, bg: black|white|none, opacity: 30–100, mode: idle|always, enabled */
+const LOGO_DEFAULT = { enabled: true, pos: 'br', size: 17, bg: 'black', opacity: 100, mode: 'idle' };
+function logoSettings(over) {
+  const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG && SITE_CONFIG.logo) || {};
+  return { ...LOGO_DEFAULT, ...cfg, ...(over || {}) };
+}
+function applyBrandStyle(img, box, over) {
+  if (!img) return;
+  const L = logoSettings(over);
+  const set = (k, v) => img.style.setProperty(k, v, 'important');
+  img.hidden = !L.enabled;
+  img.src = 'images/logo/logo.png';
+  // oq fonda: oq «DEZO» qora bo'ladi, ko'k «MAX» ko'kligicha qoladi
+  img.style.setProperty('filter', L.bg === 'white' ? 'invert(1) hue-rotate(180deg)' : 'none', 'important');
+  const v = L.pos[0] === 't' ? 'top' : 'bottom', h = L.pos[1] === 'l' ? 'left' : 'right';
+  ['top', 'bottom', 'left', 'right'].forEach(k => set(k, 'auto'));
+  set(v, v === 'top' ? '4%' : '4.5%'); set(h, '3%');
+  set('width', `${Math.min(40, Math.max(5, +L.size || 17))}%`);
+  set('background', L.bg === 'white' ? '#000' : L.bg === 'none' ? 'transparent' : '#000');   // oq fon: filtr teskari qiladi — #000 → oq
+  set('padding', L.bg === 'none' ? '0' : '6px 10px');
+  img.style.setProperty('--brand-op', String(Math.min(100, Math.max(30, +L.opacity || 100)) / 100));
+  if (box) box.classList.toggle('vp-brand-always', L.mode === 'always');
+}
+
 function mountVideo(box, url, opts = {}) {
   if (typeof destroyYouTube === 'function') destroyYouTube();
   destroyVideo();
@@ -160,6 +185,7 @@ function mountVideo(box, url, opts = {}) {
   $('#vpCover').addEventListener('click', start);
   // DezoMax belgisi bosilsa — hech narsa bo'lmaydi (pauza ham, boshqaruv ham ochilmaydi)
   const brand = box.querySelector('.vp-brand');
+  applyBrandStyle(brand, box);
   ['click', 'dblclick', 'pointerdown', 'pointerup', 'mousedown', 'mouseup', 'mousemove', 'touchstart', 'touchend', 'contextmenu'].forEach(ev =>
     brand.addEventListener(ev, e => { e.stopPropagation(); if (ev !== 'touchstart' && ev !== 'pointerdown') e.preventDefault(); }, { passive: false }));
 

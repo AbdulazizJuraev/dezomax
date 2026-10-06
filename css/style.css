@@ -6727,3 +6727,13 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 /* belgi foni — to'liq qora (shaffof emas), belgining o'zi ham to'liq yorqin */
 .vp-brand { background: #000 !important; }
 .ytp-idle .vp-brand { opacity: 1 !important; }
+/* LogoVidio sozlamalari (js/vplayer.js applyBrandStyle): shaffoflik va «doim ko'rinsin» */
+.ytp-idle .vp-brand { opacity: var(--brand-op, 1) !important; }
+.vp-brand-always .vp-brand { opacity: var(--brand-op, 1) !important; pointer-events: auto !important; }
+.vp-brand { min-width: 0 !important; max-width: none !important; }
+
+/* Admin → LogoVidio: jonli namuna (16:9 kadr + belgi) */
+.adm-logo-prev { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #111 center / cover no-repeat; }
+.adm-logo-img { position: absolute; height: auto; border-radius: 9px; box-sizing: content-box; pointer-events: none; transition: all .2s ease; }
+.adm-lg-on { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.page-admin .adm-seg { display: flex; flex-wrap: wrap; gap: 6px; }

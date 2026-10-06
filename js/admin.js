@@ -700,7 +700,7 @@ function renderMain() {
   // Minimal menyu: 4 ta asosiy bo'lim + «Boshqa» (kam ishlatiladiganlari ochiladigan ro'yxatda)
   const PRIMARY = [['home', 'home', 'Bosh sahifa'], ['list', 'list', 'Kinolar'], ['form', 'plus', 'Qo‘shish'], ['site', 'gear', 'Sayt']];
   const MORE = [['channels', 'yt', 'Kanallar'], ['groups', 'group', 'Guruhlar'], ['dups', 'copy', 'Dublikatlar'], ['broken', 'bolt', 'Ishlamaydi'],
-    ['notify', 'bell', 'Xabar'], ['tg', 'tg', 'Telegram'], ['backup', 'shield', 'Zaxira']];
+    ['notify', 'bell', 'Xabar'], ['tg', 'tg', 'Telegram'], ['backup', 'shield', 'Zaxira'], ['logo', 'film', 'LogoVidio']];
   const isOn = v => view === v && (v !== 'form' || !editingId);
   const inMore = MORE.find(x => x[0] === view);
   $('#admin').innerHTML = `
@@ -753,6 +753,7 @@ function renderMain() {
   else if (view === 'backup') renderBackupView();
   else if (view === 'dups') renderDupView();
   else if (view === 'broken') renderBrokenView();
+  else if (view === 'logo') renderLogoView();
   else renderFormView();
 }
 
@@ -1379,7 +1380,22 @@ async function loadConfig() {
   const def = defaultConfig();
   siteDraft = {
     hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, kidsIds: cfg?.hero?.kidsIds || [], delay: Math.min(60, Math.max(3, +cfg?.hero?.delay || 7)) },
-    rows: cfg?.rows?.length ? cfg.rows.map(r => ({ title: { uz: '', ru: '' }, visible: true, ...r })) : def.rows
+    rows: cfg?.rows?.length ? cfg.rows.map(r => ({ title: { uz: '', ru: '' }, visible: true, ...r })) : def.rows,
+    logo: { ...ADM_LOGO_DEFAULT, ...(cfg?.logo || {}) }
+  };
+}
+
+/* Saqlanadigan sozlama (js/site-config.js): slayder, qatorlar va LogoVidio */
+function cleanSiteConfig(d) {
+  return {
+    hero: { ids: d.hero.ids, ...((d.hero.kidsIds || []).length ? { kidsIds: d.hero.kidsIds } : {}), delay: d.hero.delay },
+    rows: d.rows.map(r => {
+      const o = { source: r.source, visible: r.visible !== false };
+      if (r.title?.uz || r.title?.ru) o.title = { uz: r.title.uz || '', ru: r.title.ru || '' };
+      if (r.source === 'custom') o.ids = r.ids || [];
+      return o;
+    }),
+    logo: { ...ADM_LOGO_DEFAULT, ...(d.logo || {}) }
   };
 }
 
@@ -1674,15 +1690,7 @@ async function renderSiteView() {
     err.hidden = true;
     btn.disabled = true; btn.textContent = 'Saqlanmoqda...';
     try {
-      const clean = {
-        hero: { ids: d.hero.ids, ...((d.hero.kidsIds || []).length ? { kidsIds: d.hero.kidsIds } : {}), delay: d.hero.delay },
-        rows: d.rows.map(r => {
-          const o = { source: r.source, visible: r.visible !== false };
-          if (r.title?.uz || r.title?.ru) o.title = { uz: r.title.uz || '', ru: r.title.ru || '' };
-          if (r.source === 'custom') o.ids = r.ids || [];
-          return o;
-        })
-      };
+      const clean = cleanSiteConfig(d);
       // kutubxonadan tanlangan kinolar (saytda hali yo'q) — saytga ham qo'shiladi (rasmiy treyleri bilan),
       // aks holda sayt ularni topa olmaydi va slayderda/qatorda ko'rinmaydi
       const wanted = [...d.hero.ids, ...(d.hero.kidsIds || []), ...d.rows.flatMap(r => r.source === 'custom' ? r.ids || [] : [])];
@@ -1704,6 +1712,79 @@ async function renderSiteView() {
       btn.disabled = false; btn.textContent = 'Saytga saqlash';
     }
   });
+}
+
+/* ---------- LogoVidio: sayt pleyeridagi DezoMax belgisi (js/vplayer.js applyBrandStyle) ----------
+   Joyi, kattaligi, foni, shaffofligi va qachon ko'rinishi — jonli namunada ko'rinadi, «Saqlash» → js/site-config.js (logo).
+   YouTube pleyerida qo'yilmaydi (YouTube qoidalari pleyer ustiga belgi qo'yishni taqiqlaydi). */
+const ADM_LOGO_DEFAULT = { enabled: true, pos: 'br', size: 17, bg: 'black', opacity: 100, mode: 'idle' };
+
+function admLogoStyle(img, L) {
+  const set = (k, v) => img.style.setProperty(k, v, 'important');
+  img.hidden = !L.enabled;
+  img.src = 'images/logo/logo.png';
+  // oq fonda: oq «DEZO» qora bo'ladi, ko'k «MAX» ko'kligicha qoladi
+  img.style.setProperty('filter', L.bg === 'white' ? 'invert(1) hue-rotate(180deg)' : 'none', 'important');
+  const v = L.pos[0] === 't' ? 'top' : 'bottom', h = L.pos[1] === 'l' ? 'left' : 'right';
+  ['top', 'bottom', 'left', 'right'].forEach(k => set(k, 'auto'));
+  set(v, v === 'top' ? '4%' : '4.5%'); set(h, '3%');
+  set('width', `${L.size}%`);
+  set('background', L.bg === 'white' ? '#000' : L.bg === 'none' ? 'transparent' : '#000');   // oq fon: filtr teskari qiladi — #000 → oq
+  set('padding', L.bg === 'none' ? '0' : '6px 10px');
+  set('opacity', String(L.opacity / 100));
+}
+
+async function renderLogoView() {
+  const box = $('#admView');
+  if (!siteDraft) {
+    box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+    try { await loadConfig(); } catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
+  }
+  const L = siteDraft.logo;
+  const sample = allMovies().find(m => m.slug === 'bek-va-lola') || allMovies().find(m => m.cover);
+  const seg = (key, opts) => `<div class="adm-seg" data-lg="${key}">${opts.map(([v, t]) => `<button type="button" data-v="${v}">${t}</button>`).join('')}</div>`;
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><h3>LogoVidio</h3><small>sayt pleyeri</small></div>
+      <div class="adm-logo-prev" style="background-image:url('${esc(sample?.cover || sample?.poster || '')}')"><img class="adm-logo-img" alt="DezoMax"></div>
+      <label class="adm-lg-on"><input type="checkbox" id="lgOn" ${L.enabled ? 'checked' : ''}> Belgi yoqilgan</label>
+      <label class="adm-label">Joyi</label>
+      ${seg('pos', [['tl', '↖ Chap tepa'], ['tr', '↗ O‘ng tepa'], ['bl', '↙ Chap past'], ['br', '↘ O‘ng past']])}
+      <label class="adm-label">Kattaligi: <b id="lgSizeV"></b></label>
+      <input class="adm-range" type="range" id="lgSize" min="5" max="40" step="1" value="${L.size}">
+      <label class="adm-label">Fon</label>
+      ${seg('bg', [['black', 'Qora'], ['white', 'Oq'], ['none', 'Fonsiz']])}
+      <label class="adm-label">Ko‘rinishi (shaffoflik): <b id="lgOpV"></b></label>
+      <input class="adm-range" type="range" id="lgOp" min="30" max="100" step="5" value="${L.opacity}">
+      <label class="adm-label">Qachon ko‘rinadi</label>
+      ${seg('mode', [['idle', 'Boshqaruv yashiringanda'], ['always', 'Doim']])}
+      <p class="acc-error" id="lgErr" hidden></p>
+      <div class="adm-actions"><button class="btn btn-primary" type="button" id="lgSave">Saqlash</button><button class="btn btn-ghost" type="button" id="lgReset">Standart</button></div>
+      <small class="acc-muted">Sayt pleyerida o‘ynaydigan videolarga qo‘llanadi. YouTube videolariga qo‘yilmaydi — YouTube qoidalari pleyer ustiga belgi qo‘yishni taqiqlaydi.</small>
+    </section>`;
+  const img = box.querySelector('.adm-logo-img');
+  const paint = () => {
+    admLogoStyle(img, L);
+    $('#lgSizeV').textContent = L.size + '%';
+    $('#lgOpV').textContent = L.opacity + '%';
+    box.querySelectorAll('[data-lg]').forEach(g => g.querySelectorAll('button').forEach(b => b.classList.toggle('is-active', String(L[g.dataset.lg]) === b.dataset.v)));
+  };
+  box.querySelectorAll('[data-lg] button').forEach(b => b.addEventListener('click', () => { L[b.closest('[data-lg]').dataset.lg] = b.dataset.v; paint(); }));
+  $('#lgOn').addEventListener('change', e => { L.enabled = e.target.checked; paint(); });
+  $('#lgSize').addEventListener('input', e => { L.size = +e.target.value; paint(); });
+  $('#lgOp').addEventListener('input', e => { L.opacity = +e.target.value; paint(); });
+  $('#lgReset').addEventListener('click', () => { Object.assign(L, ADM_LOGO_DEFAULT); renderLogoView(); });
+  $('#lgSave').addEventListener('click', async e => {
+    const btn = e.currentTarget, err = $('#lgErr');
+    btn.disabled = true; btn.textContent = 'Saqlanmoqda...'; err.hidden = true;
+    try {
+      await saveConfig(cleanSiteConfig(siteDraft), 'LogoVidio: pleyer belgisi sozlamasi o‘zgartirildi');
+      commitsCache = null;
+      toast('Saqlandi. Saytda 1–2 daqiqada ko‘rinadi.');
+    } catch (ex) { err.textContent = friendlyError(ex); err.hidden = false; }
+    finally { btn.disabled = false; btn.textContent = 'Saqlash'; }
+  });
+  paint();
 }
 
 /* ---------- Bildirishnomalar (DezoMax ilovasiga) ----------
