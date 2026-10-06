@@ -7,6 +7,258 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 5063,
+    "slug": "bek-va-lola",
+    "type": "multfilm",
+    "audio": "uz",
+    "title": {
+      "uz": "Bek va Lola",
+      "ru": "Бек ва Лола"
+    },
+    "genres": [
+      "animation",
+      "family",
+      "comedy"
+    ],
+    "year": 2023,
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Bek va Lola» — aka-singil Bek va Lolaning sarguzashtlari haqidagi o‘zbek multserial. Har bir qismda bolalar gigiyena, yo‘l harakati, kasblar, bayramlar va do‘stlik haqida qiziqarli tarzda o‘rganadi. Rasmiy «Bek va Lola» YouTube kanalidan, egasining ruxsati bilan.",
+      "ru": "«Бек ва Лола» — узбекский мультсериал о приключениях брата и сестры. С официального YouTube-канала «Bek va Lola» с разрешения владельца."
+    },
+    "colors": [
+      "#1d4e89",
+      "#0a1626"
+    ],
+    "poster": "https://i.ytimg.com/vi/oLP2GYWVCzo/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/oLP2GYWVCzo/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=zt-onoQ3cCo",
+    "eps": [
+      [
+        "zt-onoQ3cCo",
+        4
+      ],
+      [
+        "uWp8QDBECio",
+        7
+      ],
+      [
+        "0SNmQet5Nys",
+        4
+      ],
+      [
+        "L7EWaWv8JQI",
+        4
+      ],
+      [
+        "n0TMTQ3ik74",
+        5
+      ],
+      [
+        "R4tef0CP93w",
+        6
+      ],
+      [
+        "wBlWy0qweIs",
+        5
+      ],
+      [
+        "5sjDInDlDeU",
+        4
+      ],
+      [
+        "If-I1ZSnTRk",
+        4
+      ],
+      [
+        "sB24ZokEp78",
+        5
+      ],
+      [
+        "Qn_dbcrW-cg",
+        4
+      ],
+      [
+        "ss4WU9xt1bs",
+        5
+      ],
+      [
+        "yLmsxzLpv2s",
+        5
+      ],
+      [
+        "P9qNn89Q4J0",
+        5
+      ],
+      [
+        "vFFZWjaedn4",
+        5
+      ],
+      [
+        "2hlrZGekaMk",
+        5
+      ],
+      [
+        "oQugfkIqasY",
+        5
+      ],
+      [
+        "zR6oqEaFNGA",
+        4
+      ],
+      [
+        "dBx_Duj2KCA",
+        5
+      ],
+      [
+        "-S5h3cDUs9o",
+        4
+      ],
+      [
+        "nmlhBRwkCxc",
+        5
+      ],
+      [
+        "8csO3NsMQ9Y",
+        5
+      ],
+      [
+        "ApZVo_mL7Ng",
+        5
+      ],
+      [
+        "idw79gBXEEY",
+        4
+      ],
+      [
+        "nh7nJHyeWWA",
+        5
+      ],
+      [
+        "BZ0JXuh8194",
+        5
+      ],
+      [
+        "uGStNgOPEKU",
+        5
+      ],
+      [
+        "q3a94CUbBKQ",
+        4
+      ],
+      [
+        "HFfXt6bTm6E",
+        3
+      ],
+      [
+        "dYHfcBcC0sI",
+        4
+      ],
+      [
+        "xYYoyouH5gs",
+        4
+      ],
+      [
+        "R5Bpf6p3m0U",
+        4
+      ],
+      [
+        "DKWex7ytL14",
+        6
+      ],
+      [
+        "And6ahevmRY",
+        6
+      ],
+      [
+        "33JWCv6pS_8",
+        3
+      ],
+      [
+        "1wv-47Y1Yt0",
+        5
+      ],
+      [
+        "3DHqhbSLQcQ",
+        4
+      ],
+      [
+        "dae-VhKOhVg",
+        4
+      ],
+      [
+        "yTf0a6aQiSI",
+        4
+      ],
+      [
+        "UATKdcN2GKA",
+        4
+      ],
+      [
+        "3R5iWHyzH2s",
+        3
+      ],
+      [
+        "bwvR2f_AZSU",
+        4
+      ],
+      [
+        "eF5jIm0NPxM",
+        3
+      ],
+      [
+        "g7Km27hLJ5E",
+        4
+      ],
+      [
+        "5GUn9gZk5tg",
+        4
+      ],
+      [
+        "QCVd1f_5uJQ",
+        3
+      ],
+      [
+        "n6GIKKfTJ0w",
+        4
+      ],
+      [
+        "BQy49Y12YDo",
+        4
+      ],
+      [
+        "ho_YOvyAEQU",
+        4
+      ],
+      [
+        "ss8FkX4WU_w",
+        3
+      ],
+      [
+        "dGuAL6XyaS0",
+        4
+      ],
+      [
+        "oLP2GYWVCzo",
+        4
+      ]
+    ],
+    "source": {
+      "name": "Bek va Lola",
+      "url": "https://www.youtube.com/@bekvalola"
+    },
+    "permission": "Kanal egasi multfilmlarini saytda ko‘rsatishga ruxsat bergan (2026-10-06)",
+    "featured": false,
+    "addedAt": 1791308128723,
+    "updatedAt": 1791308128723
+  },
+  {
     "id": 5062,
     "slug": "nu-pogodi-barcha-qismlar",
     "type": "multfilm",
