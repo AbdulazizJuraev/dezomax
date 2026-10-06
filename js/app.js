@@ -48,23 +48,45 @@ function renderHero() {
     // Boshqa filmlarda poster kichik (220px) — o'rniga rasmiy treyler muqovasi (1280×720)
     const ytId = (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
-    const wideSrc = imgBig(uzArt) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null)
-      || imgBig(m.cover) || imgBig(m.poster) || null;          // treyleri yo'q — muqova yoki poster
+    // admin'da qo'yilgan muqova (gorizontal rasm) birinchi — keyin treyler rasmi; treyleri yo'q — poster
+    const wideSrc = imgBig(uzArt) || imgBig(m.cover) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null)
+      || imgBig(m.poster) || null;
     // kinoning o'z rasmiy posteri bo'lsa (YouTube kadri emas) — posterning o'zi: o'rtada aniq, orqada xira nusxasi.
     // Treyler kadri kesilganda g'alati chiqardi. Studiya treylerlari va o'zbek filmlarining YouTube muqovasi — o'zi dizayn qilingan.
     // Gorizontal (16:9) rasm — kesilmasdan to'liq ko'rinadi, orqada shu rasmning xira nusxasi butun slaydni to'ldiradi.
     // Gorizontal rasmi yo'q kinoda — o'zining tik posteri xuddi shunday.
     const ownPoster = !uzArt && !HERO_VIDEO && m.poster && !/i\.ytimg\.com/.test(m.poster) ? imgBig(m.poster) || m.poster : null;
     const art = HERO_VIDEO ? null : wideSrc || ownPoster;
-    const land = !!wideSrc;
     const wideArt = !!wideSrc;
-    // rasm darhol emas — slayd navbati kelganda yuklanadi (heroLoadBg): 25 ta katta rasm birdaniga yuklanmasin
+    const isTrailer = watchStatus(m) === 'trailer';
+    // Dizayn (foydalanuvchi maketi): rasm butun slaydni qoplaydi; chap pastda katta nom, ostida janr · yil · davlat;
+    // ko'k «Ko'rish» + «Ulashish»; o'ng pastda nuqtalar
+    if (art) {
+      const ru = LANG === 'ru';
+      const meta = [...(m.genres || []).slice(0, 2).map(genreName), m.year, m.age ? `${m.age}+` : '', m.country && (m.country[LANG] || m.country.uz)]
+        .filter(Boolean).map(x => esc(String(x))).join(', ');
+      return `
+    <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
+      <div class="hero-bg hv2-bg" style="background-image:${backdropCSS(m)}" data-bg="${esc(art)}"></div>
+      <div class="hero-inner">
+        <div class="wrap">
+          <div class="hero-content">
+            <h1>${esc(title(m))}</h1>
+            ${meta ? `<p class="hv2-meta">${meta}</p>` : ''}
+            <div class="hero-actions">
+              <a class="hv2-watch" href="movie.html?id=${m.id}&play=1">${isTrailer ? (ru ? 'Трейлер' : 'Treyler') : (ru ? 'Смотреть' : 'Ko‘rish')}</a>
+              <button class="hv2-share" type="button" data-share="${m.id}" aria-label="${ru ? 'Поделиться' : 'Ulashish'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    }
+    // treyler videolari rejimi (HERO_VIDEO) yoki rasmi yo'q kino
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
-      ${art ? `<div class="hero-bg hero-pbg" style="background-image:${backdropCSS(m)}" data-bg="${esc(art)}"></div>
-      <div class="hero-poster${land ? ' is-land' : ''}"><img data-src="${esc(art)}" alt="${esc(title(m))}" onerror="this.parentNode.remove()"></div>` : `
       <div class="hero-bg${wideArt ? ' is-wide' : ''}${ytId && HERO_VIDEO && !matchMedia('(prefers-reduced-motion: reduce)').matches ? ' video-only' : ''}" style="background-image:${backdropCSS(m)}"${wideArt ? ` data-bg="${esc(wideSrc)}"` : ''}></div>
-      ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}`}
+      ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
       <div class="hero-inner">
         <div class="wrap">
           <div class="hero-content">
@@ -83,6 +105,7 @@ function renderHero() {
   }).join('');
 
   hero.insertAdjacentHTML('afterbegin', slides);
+  hero.classList.toggle('hero-v2', !HERO_VIDEO);
 
   heroLoadBg(heroIndex);
   heroLoadBg(heroIndex + 1);
@@ -94,6 +117,7 @@ function renderHero() {
   dots.querySelectorAll('button').forEach(b => {
     b.addEventListener('click', () => { goToSlide(+b.dataset.i); restartHeroTimer(); });
   });
+  heroDotsWindow();
   updateCounter();
 }
 
@@ -173,8 +197,28 @@ function goToSlide(i) {
     b.classList.toggle('is-active', +b.dataset.i === heroIndex));
   heroLoadBg(heroIndex);
   heroLoadBg(heroIndex + 1);      // keyingisi oldindan — almashganda rasm tayyor turadi
+  heroDotsWindow();
   updateCounter();
 }
+
+/* Nuqtalar: 25 ta slaydda ham ixcham — joriy slayd atrofidagi 7 tasi ko'rinadi */
+function heroDotsWindow() {
+  const btns = [...document.querySelectorAll('.hero-dots button')], W = 7;
+  if (btns.length <= W) return;
+  const start = Math.max(0, Math.min(heroIndex - 3, btns.length - W));
+  btns.forEach((b, k) => { b.hidden = k < start || k >= start + W; });
+}
+
+/* «Ulashish» — telefonda tizim oynasi, kompyuterda havola nusxalanadi */
+document.addEventListener('click', async e => {
+  const b = e.target.closest('.hv2-share');
+  if (!b) return;
+  const m = MOVIES.find(x => x.id === +b.dataset.share);
+  if (!m) return;
+  const url = new URL(`movie.html?id=${m.id}`, location.href).href;
+  if (navigator.share) { try { await navigator.share({ title: `${title(m)} — DezoMax`, url }); return; } catch (er) { if (er && er.name === 'AbortError') return; } }
+  try { await navigator.clipboard.writeText(url); b.classList.add('is-done'); setTimeout(() => b.classList.remove('is-done'), 1500); } catch {}
+});
 
 /* ---------- Slayd: faqat rasmiy treylerdan 7 soniyalik sahna (ovozsiz), rasm yo'q ---------- */
 
