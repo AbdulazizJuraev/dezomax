@@ -4525,7 +4525,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790255593124,
     "year": 2007,
     "duration": 133,
-    "director": "David Yates"
+    "director": "David Yates",
+    "vposter": "https://image.tmdb.org/t/p/w780/AvftUghR5CZT1VCYbWATs01Et1M.jpg",
+    "tmdb": {
+      "id": 675,
+      "type": "movie"
+    }
   },
   {
     "id": 2044,
@@ -4613,7 +4618,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790255477336,
     "year": 2004,
     "duration": 141,
-    "director": "Alfonso Cuarón"
+    "director": "Alfonso Cuarón",
+    "vposter": "https://image.tmdb.org/t/p/w780/mncDize7FLO9RBovXKZ7LefUkbu.jpg",
+    "tmdb": {
+      "id": 673,
+      "type": "movie"
+    }
   },
   {
     "id": 2039,
