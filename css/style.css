@@ -6737,3 +6737,7 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .adm-logo-img { position: absolute; height: auto; border-radius: 9px; box-sizing: content-box; pointer-events: none; transition: all .2s ease; }
 .adm-lg-on { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .page-admin .adm-seg { display: flex; flex-wrap: wrap; gap: 6px; }
+/* belgi — saytning yangi «DEZO MAX» SVG logosi (js/logo.js) */
+.vp-brand, .adm-logo-img { display: block; line-height: 0; }
+.vp-brand[hidden], .adm-logo-img[hidden] { display: none !important; }
+.vp-brand svg, .vp-brand img, .adm-logo-img svg, .adm-logo-img img { display: block; width: 100%; height: auto; }

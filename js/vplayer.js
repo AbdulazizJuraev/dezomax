@@ -45,7 +45,6 @@ function applyBrandStyle(img, box, over) {
   const L = logoSettings(over);
   const set = (k, v) => img.style.setProperty(k, v, 'important');
   img.hidden = !L.enabled;
-  img.src = 'images/logo/logo.png';
   // oq fonda: oq «DEZO» qora bo'ladi, ko'k «MAX» ko'kligicha qoladi
   img.style.setProperty('filter', L.bg === 'white' ? 'invert(1) hue-rotate(180deg)' : 'none', 'important');
   const v = L.pos[0] === 't' ? 'top' : 'bottom', h = L.pos[1] === 'l' ? 'left' : 'right';
@@ -69,7 +68,7 @@ function mountVideo(box, url, opts = {}) {
   box.innerHTML = `
     <div class="ytp-stage vp-stage">
       <video class="vp-video" playsinline preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-      <img class="vp-brand" src="images/logo/logo.png" alt="" aria-hidden="true" draggable="false">   <!-- DezoMax belgisi — pleyer ustida (videoga yopishtirilmaydi) -->
+      <span class="vp-brand" aria-hidden="true">${window.dezoLogoSVG ? window.dezoLogoSVG() : '<img src="images/logo/logo.png" alt="" draggable="false">'}</span>   <!-- DezoMax belgisi — pleyer ustida (videoga yopishtirilmaydi) -->
 
       <div class="ytp-click" id="vpClick" hidden></div>
       <div class="vp-spinner" id="vpSpin" hidden><i></i></div>

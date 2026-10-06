@@ -1722,7 +1722,6 @@ const ADM_LOGO_DEFAULT = { enabled: true, pos: 'br', size: 17, bg: 'black', opac
 function admLogoStyle(img, L) {
   const set = (k, v) => img.style.setProperty(k, v, 'important');
   img.hidden = !L.enabled;
-  img.src = 'images/logo/logo.png';
   // oq fonda: oq «DEZO» qora bo'ladi, ko'k «MAX» ko'kligicha qoladi
   img.style.setProperty('filter', L.bg === 'white' ? 'invert(1) hue-rotate(180deg)' : 'none', 'important');
   const v = L.pos[0] === 't' ? 'top' : 'bottom', h = L.pos[1] === 'l' ? 'left' : 'right';
@@ -1746,7 +1745,7 @@ async function renderLogoView() {
   box.innerHTML = `
     <section class="adm-sec">
       <div class="adm-sec-head"><h3>LogoVidio</h3><small>sayt pleyeri</small></div>
-      <div class="adm-logo-prev" style="background-image:url('${esc(sample?.cover || sample?.poster || '')}')"><img class="adm-logo-img" alt="DezoMax"></div>
+      <div class="adm-logo-prev" style="background-image:url('${esc(sample?.cover || sample?.poster || '')}')"><span class="adm-logo-img" aria-label="DezoMax">${window.dezoLogoSVG ? window.dezoLogoSVG() : '<img src="images/logo/logo.png" alt="">'}</span></div>
       <label class="adm-lg-on"><input type="checkbox" id="lgOn" ${L.enabled ? 'checked' : ''}> Belgi yoqilgan</label>
       <label class="adm-label">Joyi</label>
       ${seg('pos', [['tl', '↖ Chap tepa'], ['tr', '↗ O‘ng tepa'], ['bl', '↙ Chap past'], ['br', '↘ O‘ng past']])}
