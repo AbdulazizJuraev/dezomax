@@ -6551,3 +6551,8 @@ html.tv-mode .row-nav { display: none !important; }
 html, body, body *:not(svg):not(svg *) { font-family: var(--font-main) !important; }
 /* Agency FB juda mayda (kichik harflari past) — matn o'lchami harf balandligiga qarab tenglashtiriladi, kichik yozuvlar o'qiladi */
 html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
+/* slayder 30% pastroq (foydalanuvchi so'rovi) */
+#hero.hero-v2 { min-height: clamp(322px, 52vh, 546px) !important; height: clamp(322px, 52vh, 546px); }
+@media (max-width: 640px) {
+  #hero.hero-v2 { min-height: calc((var(--header-h, 56px) + 96vw) * .7) !important; height: calc((var(--header-h, 56px) + 96vw) * .7); }
+}
