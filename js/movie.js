@@ -685,13 +685,28 @@ function nowPlaying() {
 }
 function trackWatch() {
   if (!group || !movie || !hasFilm(movie)) return;
-  let resumeAt = Math.max(0, Math.floor(+qp.get('t') || 0)), lastSaved = 0;
+  let resumeAt = Math.max(0, Math.floor(+qp.get('t') || 0)), lastSaved = 0, tries = 0;
+  // «Ko'rishni davom ettiring» kartasi ?t= siz eski havola bilan saqlangan bo'lsa — joy tarixdan olinadi
+  if (!resumeAt) {
+    try {
+      const h = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY) || '[]').find(x => x && x.id === group.id && (x.part || 0) === (partNo || 0));
+      if (h && !h.done && h.t > 30) resumeAt = Math.floor(h.t);
+    } catch {}
+  }
   const abs = p => p ? new URL(p, 'https://abdulazizjuraev.github.io/dezomax/').href : '';
   setInterval(() => {
     if (window.dzxNowUrl !== movie.video) return;
     const n = nowPlaying();
     if (!n || !n.playing) return;
-    if (resumeAt) { if (n.dur > resumeAt + 5) n.seek(resumeAt); resumeAt = 0; return; }
+    // davomiylik hali noma'lum (metama'lumot yuklanmagan) — kutamiz; aks holda joy yo'qolib, kino boshidan boshlanardi.
+    // Ba'zi pleyerlar boshidagi sakrashni e'tiborsiz qoldiradi — joyiga yetguncha bir necha marta urinamiz.
+    if (resumeAt) {
+      if (!(n.dur > 0) || !isFinite(n.dur)) return;
+      if (n.dur <= resumeAt + 5 || Math.abs(n.cur - resumeAt) < 4 || tries >= 8) { resumeAt = 0; return; }
+      tries++;
+      n.seek(resumeAt);
+      return;
+    }
     if (n.dur < 300 || n.cur < 30 || Date.now() - lastSaved < 10000) return;
     lastSaved = Date.now();
     const done = n.cur > n.dur - 90;              // oxirigacha ko'rildi — vidjetdan olinadi
