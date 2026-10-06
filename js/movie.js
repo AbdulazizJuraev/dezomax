@@ -127,6 +127,15 @@ function mountPlayer(url) {
   const link = document.getElementById('playerExternal');
   const { html, external } = embedFor(url);
 
+  // YouTube videolarida DezoMax belgisi pleyer OSTIDA (YouTube qoidalari pleyer ustiga belgi qo'yishni taqiqlaydi);
+  // sayt pleyerida esa belgi video ustida (js/vplayer.js). Admin → LogoVidio'da o'chirilsa — hech qayerda yo'q
+  const pfBrand = document.getElementById('pfBrand');
+  if (pfBrand) {
+    const yt = (typeof youTubeId === 'function' && youTubeId(url)) || /youtu\.?be/i.test(url);
+    const on = typeof logoSettings !== 'function' || logoSettings().enabled !== false;
+    pfBrand.hidden = !(yt && on);
+  }
+
   if (typeof destroyVideo === 'function') destroyVideo();
 
   // «http://» havola (YouTube/Vimeo/Drive emas — ular https'ga o'giriladi): HTTPS saytda brauzer
@@ -318,6 +327,7 @@ function playerSectionHTML(m) {
     <div class="player-wrap" id="playerBox"></div>
     <div class="player-foot">
       ${note}${source}
+      <span class="pf-brand" id="pfBrand" hidden aria-hidden="true">${window.dezoLogoSVG ? window.dezoLogoSVG() : ''}</span>
     </div>`;
 }
 

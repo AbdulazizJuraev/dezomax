@@ -6741,3 +6741,8 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .vp-brand, .adm-logo-img { display: block; line-height: 0; }
 .vp-brand[hidden], .adm-logo-img[hidden] { display: none !important; }
 .vp-brand svg, .vp-brand img, .adm-logo-img svg, .adm-logo-img img { display: block; width: 100%; height: auto; }
+
+/* YouTube videolarida DezoMax belgisi — pleyer ostidagi qatorda, o'ngda (pleyer ustiga emas) */
+.pf-brand { margin-left: auto; width: clamp(96px, 16%, 150px); line-height: 0; pointer-events: none; user-select: none; }
+.pf-brand[hidden] { display: none; }
+.pf-brand svg { display: block; width: 100%; height: auto; }
