@@ -13,11 +13,11 @@ const featured = adminHeroIds && adminHeroIds.length
       .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
       .slice(0, 10);   // standart slayder juda uzun bo'lib ketmasin
 // Slayder — faqat rasmlar (treyler videolari sahifani sekinlashtirardi), faqat to'liq filmlar (treylerlar chiqmaydi):
-// admin tanlaganlari (25 tagacha) + har 4 tasidan keyin rasmiy kanaldagi o'zbek filmi.
+// faqat admin tanlaganlari (25 tagacha).
 // Rasm faqat joriy va keyingi slayd uchun yuklanadi (heroLoadBg).
 const HERO_VIDEO = false;
 // bolalar rejimida — alohida «Bolalar slayderi» (multfilmlar), aks holda oddiy slayder
-featured.splice(0, featured.length, ...(kidsMode() ? kidsHero(SITE_CFG.hero && SITE_CFG.hero.kidsIds) : heroCompose(featured)));   // js/common.js — faqat to'liq filmlar, har 5 tadan 1 tasi o'zbek filmi
+featured.splice(0, featured.length, ...(kidsMode() ? kidsHero(SITE_CFG.hero && SITE_CFG.hero.kidsIds) : heroCompose(featured)));   // js/common.js — faqat admin tanlagan to'liq filmlar
 let heroIndex = 0;
 let heroTimer = null;
 let heroSound = false;   // treyler ovozi (foydalanuvchi tugmani bosguncha o'chiq)

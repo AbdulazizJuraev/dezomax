@@ -74,9 +74,9 @@ function partsOf(m) {
    bosh sahifa pastida va qidiruvda kinolardan keyin; katalog, «O'xshash kinolar», TOP-10 — faqat kinolar */
 const isExtraVideo = m => !!m && m.franchise === 'tahlil';
 
-/* Bosh sahifa slayderi: admin tanlagan kinolar (25 tagacha) — faqat to'liq filmlar, treylerlar chiqmaydi.
-   Har 4 ta kinodan keyin 1 ta rasmiy kanaldagi o'zbek filmi qo'shiladi (har 5 ta slayddan 1 tasi).
-   Sayt o'zi faqat qonuniy kontent qo'shadi — rasmiy kanallardagi o'zbek filmlari. Admin hech narsa tanlamagan bo'lsa — 5 ta shunday film.
+/* Bosh sahifa slayderi: faqat admin tanlagan kinolar (25 tagacha), faqat to'liq filmlar — treylerlar chiqmaydi.
+   Sayt o'zidan hech narsa qo'shmaydi (foydalanuvchi so'rovi, 2026-10-06). Admin hech narsa tanlamagan bo'lsa —
+   rasmiy kanallardagi 5 ta o'zbek filmi (slayder bo'sh qolmasin).
    js/app.js (slayder), js/role.js («Kim tomosha qiladi?» foni) va admin («Rasmiy posterlar») ishlatadi. */
 const HERO_MAX = 25;
 
@@ -96,15 +96,10 @@ function kidsHero(kidsIds) {
 }
 function heroCompose(picked) {
   const films = picked.filter(m => m && watchStatus(m) !== 'trailer').slice(0, HERO_MAX);
-  const have = new Set(films.map(m => m.id));
+  if (films.length) return films;
   const newest = (x, y) => (y.year || 0) - (x.year || 0) || (y.addedAt || 0) - (x.addedAt || 0);
-  const uz = MOVIES.filter(m => (m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial') && m.type === 'film' && !have.has(m.id)
-    && m.meta && m.desc && (m.desc.uz || '').length > 60).sort(newest);
-  if (!films.length) return uz.slice(0, 5);
-  const out = [];
-  let u = 0;
-  films.forEach((m, i) => { out.push(m); if (i % 4 === 3 && uz[u] && out.length < HERO_MAX) out.push(uz[u++]); });
-  return out.slice(0, HERO_MAX);
+  return MOVIES.filter(m => (m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial') && m.type === 'film'
+    && m.meta && m.desc && (m.desc.uz || '').length > 60).sort(newest).slice(0, 5);
 }
 
 function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
