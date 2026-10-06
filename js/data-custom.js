@@ -5754,12 +5754,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://topfilm.info/3/tarjima_kinolar/Temir_Odam_360.mp4",
     "featured": true,
     "addedAt": 1790162448269,
-    "updatedAt": 1791299202791,
+    "updatedAt": 1791299215640,
     "tmdb": {
       "id": 1726,
       "type": "movie"
     },
-    "cover": "https://i.pinimg.com/originals/14/85/b5/1485b5a78274180bcce4a0fce0ef3c4a.jpg?nii=t",
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/iron-man-32-cover.jpg",
     "year": 2008,
     "duration": 126,
     "rating": 7.9,
