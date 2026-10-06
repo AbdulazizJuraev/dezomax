@@ -1098,9 +1098,7 @@ function fillFromTmdb(form, type, d, { setHeroImg, setCover }) {
   if (d.poster_path) { form.posterUrl.value = `${TMDB_IMG}w500${d.poster_path}`; setHeroImg(form.posterUrl.value); }
   // muqova (bosh sahifa slayderi) — rasmiy gorizontal poster: kino nomi yozilgan backdrop (o'zbekcha/ruscha/inglizcha),
   // eng yuqori baholangani; bunday yo'q bo'lsa — oddiy backdrop (nomsiz kadr)
-  const titled = (d.images?.backdrops || []).filter(b => ['uz', 'ru', 'en'].includes(b.iso_639_1) && b.width >= 1280)
-    .sort((a, b) => ['uz', 'ru', 'en'].indexOf(a.iso_639_1) - ['uz', 'ru', 'en'].indexOf(b.iso_639_1) || (b.vote_average || 0) - (a.vote_average || 0));
-  const backdrop = titled[0]?.file_path || d.backdrop_path;
+  const backdrop = tmdbTitledBackdrop(d.images, d.backdrop_path);
   if (backdrop) { form.coverUrl.value = `${TMDB_IMG}w1280${backdrop}`; setCover(form.coverUrl.value); }
 
   // rasmiy treyler (YouTube): ruscha bo'lsa — ruscha, bo'lmasa inglizcha
@@ -1175,6 +1173,67 @@ function bindTranslate(form) {
   }));
   // qo'lda tahrirlangan matnni avtomatik tarjima endi ustidan yozmaydi
   ['descUz', 'descRu', 'titleUz'].forEach(k => form[k].addEventListener('input', () => { delete form[k].dataset.autoTr; }));
+}
+
+/* Rasmiy gorizontal poster: kino nomi yozilgan backdrop (o'zbekcha → ruscha → inglizcha, eng yuqori baholangani);
+   bunday yo'q bo'lsa — oddiy backdrop. Qaytaradi: TMDB fayl yo'li yoki null */
+function tmdbTitledBackdrop(images, fallback) {
+  const L = ['uz', 'ru', 'en'];
+  const titled = (images?.backdrops || []).filter(b => L.includes(b.iso_639_1) && b.width >= 1280)
+    .sort((a, b) => L.indexOf(a.iso_639_1) - L.indexOf(b.iso_639_1) || (b.vote_average || 0) - (a.vote_average || 0));
+  return titled[0]?.file_path || fallback || (images?.backdrops || [])[0]?.file_path || null;
+}
+
+/* Admin → Sayt → «Rasmiy posterlarni qo'yish»: slayder kinolaridan muqovasi yo'qlariga (yoki muqovasi YouTube kadri bo'lganlarga)
+   TMDB'dan rasmiy gorizontal poster topadi, saytga yuklaydi (images/custom/) va bitta saqlash bilan yozadi.
+   TMDB kaliti — shu brauzerdagi (Qo'shish → Avtomatik to'ldirish'da kiritilgan). */
+async function heroAutoPosters(ids, btn) {
+  const note = $('#admHeroPostersNote');
+  if (!tmdbKey()) { toast('Avval TMDB kalitini kiriting: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
+  const todo = ids.map(currentMovie).filter(m => m && (!m.cover || /i\.ytimg\.com/.test(m.cover)));
+  if (!todo.length) { toast('Slayderdagi hamma kinoning muqovasi bor'); return; }
+  btn.disabled = true;
+  const done = [], missed = [];
+  const yearOf = x => +((x.release_date || x.first_air_date || '').slice(0, 4)) || 0;
+  try {
+    for (const [k, m] of todo.entries()) {
+      note.textContent = `${k + 1} / ${todo.length}: ${m.title?.uz || m.id}…`;
+      try {
+        let tid = m.tmdb?.id, type = m.tmdb?.type || (m.type === 'serial' ? 'tv' : 'movie');
+        if (!tid) {
+          for (const q of [...new Set([m.title?.ru, m.title?.uz, ...(m.tags || [])].filter(Boolean))].slice(0, 4)) {
+            const j = await tmdb(`/search/${type}`, { query: q, language: 'ru-RU', include_adult: 'false' });
+            const res = j.results || [];
+            const hit = (m.year && res.find(x => Math.abs(yearOf(x) - m.year) <= 1)) || (!m.year && res[0]);
+            if (hit) { tid = hit.id; break; }
+          }
+        }
+        if (!tid) { missed.push(m.title?.uz || m.id); continue; }
+        const imgs = await tmdb(`/${type}/${tid}/images`, { include_image_language: 'uz,ru,en,null' });
+        const path = tmdbTitledBackdrop(imgs);
+        const file = path && await tmdbImageFile(`${TMDB_IMG}w1280${path}`);
+        if (!file) { missed.push(m.title?.uz || m.id); continue; }
+        const cover = await uploadPoster(file, `${m.slug || slugify(m.title?.uz || 'kino')}-${m.id}-cover`, 1280);
+        done.push({ id: m.id, cover, tmdb: { id: tid, type } });
+      } catch (ex) { if (/kaliti/.test(ex.message)) throw ex; missed.push(m.title?.uz || m.id); }
+    }
+    if (done.length) {
+      await saveCustom(list => {
+        for (const u of done) {
+          const i = list.findIndex(x => x.id === u.id);
+          if (i > -1) list[i] = { ...list[i], cover: u.cover, tmdb: list[i].tmdb || u.tmdb };
+          else list.unshift({ ...currentMovie(u.id), cover: u.cover, tmdb: u.tmdb });
+        }
+        return list;
+      }, `Slayder: rasmiy posterlar (TMDB) — ${done.length} ta kino`);
+      commitsCache = null;
+    }
+    note.textContent = `${done.length} ta kinoga rasmiy poster qo‘yildi${missed.length ? ` · topilmadi: ${missed.join(', ')}` : ''}. Saytda 1–2 daqiqada ko‘rinadi.`;
+    toast(done.length ? `${done.length} ta rasmiy poster qo‘yildi` : 'Poster topilmadi', !done.length);
+  } catch (ex) {
+    note.textContent = friendlyError(ex);
+    toast(friendlyError(ex), true);
+  } finally { btn.disabled = false; }
 }
 
 /* Saqlashda TMDB rasmi saytning o'ziga yuklanadi (images/custom/) — tashqi xostga bog'liq bo'lmasin */
@@ -1469,6 +1528,10 @@ async function renderSiteView() {
       </div>
       <label class="adm-label">Slayderdagi kinolar (tartib bo‘yicha)</label>
       <div id="admHeroPicker">${pickerHTML('hero', d.hero.ids, 15)}</div>
+      <div class="adm-actions" style="margin-top:12px">
+        <button class="btn btn-ghost" type="button" id="admHeroPosters">Rasmiy posterlarni qo‘yish (TMDB)</button>
+      </div>
+      <small class="acc-muted" id="admHeroPostersNote">Muqovasi yo‘q slayd kinolariga kino nomi yozilgan rasmiy gorizontal poster o‘zi topilib qo‘yiladi.</small>
     </section>
 
     <section class="adm-sec">
@@ -1515,6 +1578,7 @@ async function renderSiteView() {
     box.querySelectorAll('[data-sec]').forEach(b => b.classList.toggle('is-active', +b.dataset.sec === d.hero.delay));
   });
   bindPicker($('#admHeroPicker'), () => d.hero.ids, ids => { d.hero.ids = ids; }, rerender);
+  $('#admHeroPosters')?.addEventListener('click', e => heroAutoPosters(d.hero.ids, e.currentTarget));
 
   // qatorlar
   box.querySelectorAll('[data-row]').forEach(card => {
