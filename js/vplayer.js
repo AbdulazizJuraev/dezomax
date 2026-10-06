@@ -44,6 +44,8 @@ function mountVideo(box, url, opts = {}) {
   box.innerHTML = `
     <div class="ytp-stage vp-stage">
       <video class="vp-video" playsinline preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+      <img class="vp-brand" src="images/logo/logo.png" alt="" aria-hidden="true" draggable="false">   <!-- DezoMax belgisi — pleyer ustida (videoga yopishtirilmaydi) -->
+
       <div class="ytp-click" id="vpClick" hidden></div>
       <div class="vp-spinner" id="vpSpin" hidden><i></i></div>
       <button class="ytp-cover" id="vpCover" type="button" aria-label="${esc(t('player.play'))}">
