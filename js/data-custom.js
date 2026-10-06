@@ -4979,7 +4979,12 @@ const CUSTOM_MOVIES = /*DATA*/[
       "Avengers",
       "Qasoskorlar 1",
       "Мстители 1"
-    ]
+    ],
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/the-avengers-33-cover.jpg",
+    "tmdb": {
+      "id": 24428,
+      "type": "movie"
+    }
   },
   {
     "id": 15,
@@ -5755,7 +5760,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "rating": 7.9,
     "director": "Jon Favreau",
     "franchise": "marvel",
-    "audio": "uz"
+    "audio": "uz",
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/iron-man-32-cover.jpg",
+    "tmdb": {
+      "id": 1726,
+      "type": "movie"
+    }
   },
   {
     "id": 2613,
@@ -6578,7 +6588,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "director": "Christopher Nolan",
     "tags": [
       "Interstellar"
-    ]
+    ],
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/interstellar-1-cover.jpg",
+    "tmdb": {
+      "id": 157336,
+      "type": "movie"
+    }
   },
   {
     "id": 40,
@@ -40374,7 +40389,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "poster": "https://upload.wikimedia.org/wikipedia/en/a/a2/Star_Wars_The_Force_Awakens_Theatrical_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
     "trailer": "https://www.youtube.com/watch?v=-QnjzSPZFZw",
     "video": "",
-    "addedAt": 1791108278988
+    "addedAt": 1791108278988,
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/star-wars-episode-vii-the-force-awakens-2118-cover.jpg",
+    "tmdb": {
+      "id": 140607,
+      "type": "movie"
+    }
   },
   {
     "id": 1001388653,
@@ -40415,7 +40435,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     ],
     "poster": "https://upload.wikimedia.org/wikipedia/en/f/f3/Pacific_Rim_FilmPoster.jpeg",
     "wiki": "Тихоокеанский рубеж",
-    "addedAt": 1791108278989
+    "addedAt": 1791108278989,
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/pacific-rim-1001388653-cover.jpg",
+    "tmdb": {
+      "id": 68726,
+      "type": "movie"
+    }
   },
   {
     "id": 3913,
