@@ -14,6 +14,11 @@ const SITE_CONFIG = /*CONFIG*/{
       46,
       3347
     ],
+    "kidsIds": [
+      5062,
+      2079,
+      2382
+    ],
     "delay": 5
   },
   "rows": [
