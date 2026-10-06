@@ -79,6 +79,21 @@ const isExtraVideo = m => !!m && m.franchise === 'tahlil';
    Sayt o'zi faqat qonuniy kontent qo'shadi — rasmiy kanallardagi o'zbek filmlari. Admin hech narsa tanlamagan bo'lsa — 5 ta shunday film.
    js/app.js (slayder), js/role.js («Kim tomosha qiladi?» foni) va admin («Rasmiy posterlar») ishlatadi. */
 const HERO_MAX = 25;
+
+/* Bolalar rejimi: «Bolalar» roli yoki «Mehmon → 0–6 yosh» (js/role.js) */
+function kidsMode() {
+  try {
+    const u = JSON.parse(localStorage.getItem('dezomax_user') || 'null');
+    const p = u && u.uid ? JSON.parse(localStorage.getItem('dezomax_profile_' + u.uid) || 'null') : null;
+    return !!p && (p.role === 'child' || (p.role === 'guest' && p.guestAge === '0'));
+  } catch { return false; }
+}
+/* Bolalar slayderi: admin → Sayt → «Bolalar slayderi» (hero.kidsIds); tanlanmagan bo'lsa — YouTube'dagi multfilmlar */
+function kidsHero(kidsIds) {
+  const picked = (kidsIds || []).map(id => MOVIES.find(m => m.id === id)).filter(m => m && watchStatus(m) !== 'trailer');
+  if (picked.length) return picked.slice(0, HERO_MAX);
+  return MOVIES.filter(m => m.type === 'multfilm' && /youtube\.com|youtu\.be/.test(m.video || '')).slice(0, HERO_MAX);
+}
 function heroCompose(picked) {
   const films = picked.filter(m => m && watchStatus(m) !== 'trailer').slice(0, HERO_MAX);
   const have = new Set(films.map(m => m.id));

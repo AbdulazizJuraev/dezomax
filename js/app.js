@@ -16,7 +16,8 @@ const featured = adminHeroIds && adminHeroIds.length
 // admin tanlaganlari (25 tagacha) + har 4 tasidan keyin rasmiy kanaldagi o'zbek filmi.
 // Rasm faqat joriy va keyingi slayd uchun yuklanadi (heroLoadBg).
 const HERO_VIDEO = false;
-featured.splice(0, featured.length, ...heroCompose(featured));   // js/common.js — faqat to'liq filmlar, har 5 tadan 1 tasi o'zbek filmi
+// bolalar rejimida — alohida «Bolalar slayderi» (multfilmlar), aks holda oddiy slayder
+featured.splice(0, featured.length, ...(kidsMode() ? kidsHero(SITE_CFG.hero && SITE_CFG.hero.kidsIds) : heroCompose(featured)));   // js/common.js — faqat to'liq filmlar, har 5 tadan 1 tasi o'zbek filmi
 let heroIndex = 0;
 let heroTimer = null;
 let heroSound = false;   // treyler ovozi (foydalanuvchi tugmani bosguncha o'chiq)

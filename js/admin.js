@@ -1196,11 +1196,11 @@ function tmdbTitledPoster(images, fallback) {
    «vposter» maydoniga yozadi — faqat slayder uchun,
    kartalardagi poster o'zgarmaydi.
    TMDB kaliti — shu brauzerdagi (Qo'shish → Avtomatik to'ldirish'da kiritilgan). */
-async function heroAutoPosters(ids, btn) {
+async function heroAutoPosters(ids, btn, kidsIds = []) {
   const note = $('#admHeroPostersNote');
   if (!tmdbKey()) { toast('Avval TMDB kalitini kiriting: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
   // slayderdagi hammasi (js/common.js heroCompose): admin tanlaganlari + rasmiy o'zbek filmlari
-  const all = heroCompose(ids.map(currentMovie).filter(Boolean)).map(m => currentMovie(m.id) || m);
+  const all = [...heroCompose(ids.map(currentMovie).filter(Boolean)).map(m => currentMovie(m.id) || m), ...kidsIds.map(currentMovie).filter(Boolean)];
   const todo = all.filter(m => m && !m.vposter);
   if (!todo.length) { toast('Slayderdagi hamma kinoning posteri bor'); return; }
   btn.disabled = true;
@@ -1362,7 +1362,7 @@ async function loadConfig() {
   }
   const def = defaultConfig();
   siteDraft = {
-    hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, delay: Math.min(60, Math.max(3, +cfg?.hero?.delay || 7)) },
+    hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, kidsIds: cfg?.hero?.kidsIds || [], delay: Math.min(60, Math.max(3, +cfg?.hero?.delay || 7)) },
     rows: cfg?.rows?.length ? cfg.rows.map(r => ({ title: { uz: '', ru: '' }, visible: true, ...r })) : def.rows
   };
 }
@@ -1550,6 +1550,12 @@ async function renderSiteView() {
     </section>
 
     <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Bolalar slayderi</h3><small>${(d.hero.kidsIds || []).length} ta multfilm</small></div>
+      <p class="adm-hint">«Bolalar» rolida va «Mehmon → 0–6 yosh»da bosh sahifada shu multfilmlar chiqadi. Tanlanmagan bo‘lsa — YouTube’dagi multfilmlar.</p>
+      <div id="admKidsPicker">${pickerHTML('kids', d.hero.kidsIds || [], 25)}</div>
+    </section>
+
+    <section class="adm-sec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.list}</span><h3>Bosh sahifa qatorlari</h3><small>${d.rows.filter(r => r.visible !== false).length} ta ko‘rinadi</small></div>
       <div class="adm-rows">
         ${d.rows.map((r, i) => `
@@ -1593,7 +1599,8 @@ async function renderSiteView() {
     box.querySelectorAll('[data-sec]').forEach(b => b.classList.toggle('is-active', +b.dataset.sec === d.hero.delay));
   });
   bindPicker($('#admHeroPicker'), () => d.hero.ids, ids => { d.hero.ids = ids; }, rerender);
-  $('#admHeroPosters')?.addEventListener('click', e => heroAutoPosters(d.hero.ids, e.currentTarget));
+  bindPicker($('#admKidsPicker'), () => d.hero.kidsIds || [], ids => { d.hero.kidsIds = ids; }, rerender);
+  $('#admHeroPosters')?.addEventListener('click', e => heroAutoPosters(d.hero.ids, e.currentTarget, d.hero.kidsIds || []));
 
   // qatorlar
   box.querySelectorAll('[data-row]').forEach(card => {
@@ -1639,7 +1646,7 @@ async function renderSiteView() {
     btn.disabled = true; btn.textContent = 'Saqlanmoqda...';
     try {
       const clean = {
-        hero: { ids: d.hero.ids, delay: d.hero.delay },
+        hero: { ids: d.hero.ids, ...((d.hero.kidsIds || []).length ? { kidsIds: d.hero.kidsIds } : {}), delay: d.hero.delay },
         rows: d.rows.map(r => {
           const o = { source: r.source, visible: r.visible !== false };
           if (r.title?.uz || r.title?.ru) o.title = { uz: r.title.uz || '', ru: r.title.ru || '' };
@@ -1649,7 +1656,7 @@ async function renderSiteView() {
       };
       // kutubxonadan tanlangan kinolar (saytda hali yo'q) — saytga ham qo'shiladi (rasmiy treyleri bilan),
       // aks holda sayt ularni topa olmaydi va slayderda/qatorda ko'rinmaydi
-      const wanted = [...d.hero.ids, ...d.rows.flatMap(r => r.source === 'custom' ? r.ids || [] : [])];
+      const wanted = [...d.hero.ids, ...(d.hero.kidsIds || []), ...d.rows.flatMap(r => r.source === 'custom' ? r.ids || [] : [])];
       const siteIds = window.SITE_BASE_IDS || new Set();
       const copies = [...new Set(wanted)].filter(id => !siteIds.has(id) && !customList.some(m => m.id === id))
         .map(id => allMovies().find(m => m.id === id)).filter(Boolean)
