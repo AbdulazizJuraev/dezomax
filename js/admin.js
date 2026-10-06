@@ -1413,7 +1413,10 @@ function pickerHTML(key, ids, max) {
             <div class="adm-pick">
               <span class="adm-pick-n">${i + 1}</span>
               <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
-              <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}</small></span>
+              <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}${
+                // slayderlar faqat to'liq filmni ko'rsatadi (js/common.js heroCompose) — videosizi saytda chiqmaydi
+                (key === 'hero' || key === 'kids') && watchStatus(m) !== 'uz' && watchStatus(m) !== 'full'
+                  ? ` · <span class="adm-pick-warn">${watchStatus(m) === 'trailer' ? 'faqat treyler' : 'video yo‘q'} — saytda chiqmaydi</span>` : ''}</small></span>
               <span class="adm-pick-btns">
                 <button type="button" data-move="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
                 <button type="button" data-move="1" data-i="${i}" ${i === ids.length - 1 ? 'disabled' : ''} aria-label="Pastga">↓</button>

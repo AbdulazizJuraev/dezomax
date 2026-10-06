@@ -6698,3 +6698,4 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .page-admin .adm-item .adm-state.is-add { background: #22c55e; }
 .page-admin .adm-item .adm-state.is-edit { background: #f5b82e; }
 .page-admin .adm-item .adm-state.is-hide { background: #f87171; }
+.adm-pick-warn { color: #f0a35b; font-weight: 600; }
