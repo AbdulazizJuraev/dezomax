@@ -697,27 +697,29 @@ function timeAgo(iso) {
 /* ---------- Umumiy qobiq ---------- */
 
 function renderMain() {
+  // Minimal menyu: 4 ta asosiy bo'lim + «Boshqa» (kam ishlatiladiganlari ochiladigan ro'yxatda)
+  const PRIMARY = [['home', 'home', 'Bosh sahifa'], ['list', 'list', 'Kinolar'], ['form', 'plus', 'Qo‘shish'], ['site', 'gear', 'Sayt']];
+  const MORE = [['channels', 'yt', 'Kanallar'], ['groups', 'group', 'Guruhlar'], ['dups', 'copy', 'Dublikatlar'], ['broken', 'bolt', 'Ishlamaydi'],
+    ['notify', 'bell', 'Xabar'], ['tg', 'tg', 'Telegram'], ['backup', 'shield', 'Zaxira']];
+  const isOn = v => view === v && (v !== 'form' || !editingId);
+  const inMore = MORE.find(x => x[0] === view);
   $('#admin').innerHTML = `
     <div class="adm-top">
-      <div>
-        <h1>DezoMax Admin</h1>
-        <span class="acc-muted">Kinolarni boshqarish paneli</span>
+      <h1>Admin</h1>
+      <div class="adm-top-actions">
+        <a class="adm-icon-btn" href="${SITE_URL}" target="_blank" rel="noopener" title="Saytni ochish" aria-label="Saytni ochish">${NAV_ICONS.link}</a>
+        <button class="adm-icon-btn" type="button" id="admLogout" title="Chiqish" aria-label="Chiqish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/></svg></button>
       </div>
-      <button class="btn btn-ghost btn-sm" type="button" id="admLogout">Chiqish</button>
     </div>
-    <nav class="adm-nav">
-      <button type="button" data-view="home" class="${view === 'home' ? 'is-active' : ''}">${NAV_ICONS.home}<span>Bosh sahifa</span></button>
-      <button type="button" data-view="list" class="${view === 'list' ? 'is-active' : ''}">${NAV_ICONS.list}<span>Kinolar</span></button>
-      <button type="button" data-view="form" class="${view === 'form' && !editingId ? 'is-active' : ''}">${NAV_ICONS.plus}<span>Qo‘shish</span></button>
-      <button type="button" data-view="groups" class="${view === 'groups' ? 'is-active' : ''}">${NAV_ICONS.group}<span>Guruhlar</span></button>
-      <button type="button" data-view="dups" class="${view === 'dups' ? 'is-active' : ''}">${NAV_ICONS.copy}<span>Dublikatlar</span></button>
-      <button type="button" data-view="broken" class="${view === 'broken' ? 'is-active' : ''}">${NAV_ICONS.bolt}<span>Ishlamaydi</span></button>
-      <button type="button" data-view="site" class="${view === 'site' ? 'is-active' : ''}">${NAV_ICONS.gear}<span>Sayt</span></button>
-      <button type="button" data-view="notify" class="${view === 'notify' ? 'is-active' : ''}">${NAV_ICONS.bell}<span>Xabar</span></button>
-      <button type="button" data-view="tg" class="${view === 'tg' ? 'is-active' : ''}">${NAV_ICONS.tg}<span>Telegram</span></button>
-      <button type="button" data-view="channels" class="${view === 'channels' ? 'is-active' : ''}">${NAV_ICONS.yt}<span>Kanallar</span></button>
-      <button type="button" data-view="backup" class="${view === 'backup' ? 'is-active' : ''}">${NAV_ICONS.shield}<span>Zaxira</span></button>
+    <nav class="adm-nav adm-nav2">
+      ${PRIMARY.map(([v, ic, label]) => `<button type="button" data-view="${v}" class="${isOn(v) ? 'is-active' : ''}">${NAV_ICONS[ic]}<span>${label}</span></button>`).join('')}
+      <button type="button" id="admMoreBtn" class="${inMore ? 'is-active' : ''}" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg><span>${inMore ? inMore[2] : 'Boshqa'}</span>
+      </button>
     </nav>
+    <div class="adm-more-menu" id="admMoreMenu" hidden>
+      ${MORE.map(([v, ic, label]) => `<button type="button" data-view="${v}" class="${view === v ? 'is-active' : ''}">${NAV_ICONS[ic]}<span>${label}</span></button>`).join('')}
+    </div>
     <div id="admView"></div>`;
 
   $('#admLogout').addEventListener('click', () => {
@@ -725,7 +727,21 @@ function renderMain() {
     localStorage.removeItem(TOKEN_KEY);
     renderTokenScreen();
   });
-  document.querySelectorAll('.adm-nav [data-view]').forEach(b => b.addEventListener('click', () => go(b.dataset.view)));
+  document.querySelectorAll('.adm-nav [data-view], .adm-more-menu [data-view]').forEach(b => b.addEventListener('click', () => go(b.dataset.view)));
+  const moreBtn = $('#admMoreBtn'), moreMenu = $('#admMoreMenu');
+  moreBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    moreMenu.hidden = !moreMenu.hidden;
+    moreBtn.setAttribute('aria-expanded', String(!moreMenu.hidden));
+  });
+  // tashqariga bosilsa yopiladi (tinglovchi bir marta — renderMain har safar chaqirilganda qo'shilib ketmasin)
+  if (!renderMain.moreBound) {
+    renderMain.moreBound = true;
+    document.addEventListener('click', e => {
+      const menu = $('#admMoreMenu');
+      if (menu && !menu.hidden && !e.target.closest('#admMoreMenu')) { menu.hidden = true; $('#admMoreBtn')?.setAttribute('aria-expanded', 'false'); }
+    });
+  }
 
   if (view === 'home') renderHome();
   else if (view === 'list') renderListView();
@@ -745,46 +761,34 @@ function renderMain() {
 function renderHome() {
   const all = allMovies();
   const visible = all.filter(m => !hiddenList.includes(m.id));
+  // minimal: 3 ta asosiy raqam (bosilsa — Kinolar ro'yxati shu filtr bilan), oxirgi 5 ta o'zgartirilgan kino, tarix — yig'iladi
   const stats = [
-    ['bolt', 'Faol kinolar', activeList().length, 'active'],
-    ['film', 'Saytdagi kinolar', visible.length, 'all'],
-    ['plus', 'Qo‘shilgan', addedList().length, 'added'],
-    ['edit', 'Tahrirlangan', editedList().length, 'edited'],
-    ['eyeOff', 'Yashirilgan', hiddenList.length, 'hidden'],
-    ['yt', 'Kanallardan (YouTube)', channelIds().size, 'channels']
+    ['Saytda', visible.length, 'all'],
+    ['Qo‘shilgan', addedList().length, 'added'],
+    ['Yashirilgan', hiddenList.length, 'hidden']
   ];
-  const fullUz = visible.filter(m => m.video && (m.audio === 'uz' || m.franchise === 'uzbek')).length;
-  const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 6);
+  const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 5);
 
   $('#admView').innerHTML = `
-    <div class="adm-stats">
-      ${stats.map(([ic, label, n, filter]) => `
-        <button class="adm-stat" type="button" data-stat="${filter}">
-          <span class="adm-stat-icon">${NAV_ICONS[ic]}</span>
-          <b>${n}</b><small>${label}</small>
-        </button>`).join('')}
+    <div class="adm-stats adm-stats3">
+      ${stats.map(([label, n, filter]) => `
+        <button class="adm-stat" type="button" data-stat="${filter}"><b>${n}</b><small>${label}</small></button>`).join('')}
     </div>
-
-    <div class="adm-quick">
-      <button class="btn btn-primary" type="button" data-go="form">${NAV_ICONS.plus}<span>Yangi kino qo‘shish</span></button>
-      <a class="btn btn-ghost" href="${SITE_URL}" target="_blank" rel="noopener">${NAV_ICONS.link}<span>Saytni ochish</span></a>
-    </div>
-    <p class="acc-muted adm-note">${NAV_ICONS.uz}<span>O‘zbek tilidagi to‘liq filmlar: <b>${fullUz}</b> ta</span></p>
 
     <section class="adm-sec">
       <div class="adm-sec-head">
-        <span class="adm-sec-icon">${NAV_ICONS.list}</span><h3>Kinolar ro‘yxati</h3>
+        <h3>Oxirgi kinolar</h3>
         <button class="acc-link adm-more" type="button" data-go="list">Hammasi (${all.length}) →</button>
       </div>
       ${recent.length
         ? `<div class="acc-list">${recent.map(itemHTML).join('')}</div>`
-        : `<div class="adm-mini-list">${all.slice(0, 6).map(itemHTML).join('')}</div>`}
+        : `<div class="adm-mini-list">${all.slice(0, 5).map(itemHTML).join('')}</div>`}
     </section>
 
-    <section class="adm-sec">
-      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.clock}</span><h3>Oxirgi o‘zgarishlar</h3></div>
+    <details class="adm-sec adm-fold">
+      <summary class="adm-sec-head"><h3>Oxirgi o‘zgarishlar</h3></summary>
       <div id="admCommits"><div class="mt-loading"><i></i><i></i><i></i></div></div>
-    </section>`;
+    </details>`;
 
   document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
   document.querySelectorAll('[data-stat]').forEach(b => b.addEventListener('click', () => { listFilter = b.dataset.stat; listQuery = ''; go('list'); }));
