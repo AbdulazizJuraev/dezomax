@@ -45,7 +45,10 @@ function renderHero() {
     // Gorizontal (16:9) rasm — kesilmasdan to'liq ko'rinadi, orqada shu rasmning xira nusxasi butun slaydni to'ldiradi.
     // Gorizontal rasmi yo'q kinoda — o'zining tik posteri xuddi shunday.
     const ownPoster = !uzArt && !HERO_VIDEO && m.poster && !/i\.ytimg\.com/.test(m.poster) ? imgBig(m.poster) || m.poster : null;
-    const art = HERO_VIDEO ? null : wideSrc || ownPoster;
+    // rasmiy vertikal poster (admin → Sayt → «Rasmiy posterlarni qo'yish», TMDB) — birinchi: telefonda butun slaydni
+    // qoplaydi, kompyuterda o'ngda aniq turadi, orqada xira nusxasi
+    const vArt = !HERO_VIDEO && m.vposter ? m.vposter : null;
+    const art = HERO_VIDEO ? null : vArt || wideSrc || ownPoster;
     const wideArt = !!wideSrc;
     const isTrailer = watchStatus(m) === 'trailer';
     // Dizayn (foydalanuvchi maketi): rasm butun slaydni qoplaydi; chap pastda katta nom, ostida janr · yil · davlat;
@@ -55,8 +58,9 @@ function renderHero() {
       const meta = [...(m.genres || []).slice(0, 2).map(genreName), m.year, m.age ? `${m.age}+` : '', m.country && (m.country[LANG] || m.country.uz)]
         .filter(Boolean).map(x => esc(String(x))).join(', ');
       return `
-    <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
+    <div class="hero-slide${vArt ? ' is-vert' : ''}${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
       <div class="hero-bg hv2-bg" style="background-image:${backdropCSS(m)}" data-bg="${esc(art)}"></div>
+      ${vArt ? `<div class="hero-poster hv2-vp"><img data-src="${esc(vArt)}" alt="${esc(title(m))}"></div>` : ''}
       <div class="hero-inner">
         <div class="wrap">
           <div class="hero-content">

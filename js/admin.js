@@ -1183,9 +1183,17 @@ function tmdbTitledBackdrop(images, fallback) {
     .sort((a, b) => L.indexOf(a.iso_639_1) - L.indexOf(b.iso_639_1) || (b.vote_average || 0) - (a.vote_average || 0));
   return titled[0]?.file_path || fallback || (images?.backdrops || [])[0]?.file_path || null;
 }
+/* Rasmiy vertikal poster: kino nomi yozilgani (o'zbekcha → ruscha → inglizcha), eng yuqori baholangani */
+function tmdbTitledPoster(images, fallback) {
+  const L = ['uz', 'ru', 'en'];
+  const titled = (images?.posters || []).filter(p => L.includes(p.iso_639_1) && p.width >= 780)
+    .sort((a, b) => L.indexOf(a.iso_639_1) - L.indexOf(b.iso_639_1) || (b.vote_average || 0) - (a.vote_average || 0));
+  return titled[0]?.file_path || fallback || (images?.posters || [])[0]?.file_path || null;
+}
 
-/* Admin → Sayt → «Rasmiy posterlarni qo'yish»: slayder kinolaridan muqovasi yo'qlariga (yoki muqovasi YouTube kadri bo'lganlarga)
-   TMDB'dan rasmiy gorizontal poster topadi, saytga yuklaydi (images/custom/) va bitta saqlash bilan yozadi.
+/* Admin → Sayt → «Rasmiy posterlarni qo'yish»: slayderdagi kinolarga TMDB'dan rasmiy VERTIKAL poster (nomi yozilgan, 780px)
+   topadi, saytga yuklaydi (images/custom/) va bitta saqlash bilan «vposter» maydoniga yozadi — faqat slayder uchun,
+   kartalardagi poster o'zgarmaydi.
    TMDB kaliti — shu brauzerdagi (Qo'shish → Avtomatik to'ldirish'da kiritilgan). */
 async function heroAutoPosters(ids, btn) {
   const note = $('#admHeroPostersNote');
@@ -1193,8 +1201,8 @@ async function heroAutoPosters(ids, btn) {
   // admin tanlaganlari + sayt o'zi qo'shadigan slaydlar (js/common.js heroAutoFill) — slayderdagi hammasi
   const picked = ids.map(currentMovie).filter(Boolean).slice(0, 15);
   const all = [...picked, ...heroAutoFill(picked).map(m => currentMovie(m.id) || m)];
-  const todo = all.filter(m => m && (!m.cover || /i\.ytimg\.com/.test(m.cover)));
-  if (!todo.length) { toast('Slayderdagi hamma kinoning muqovasi bor'); return; }
+  const todo = all.filter(m => m && !m.vposter);
+  if (!todo.length) { toast('Slayderdagi hamma kinoning posteri bor'); return; }
   btn.disabled = true;
   const done = [], missed = [];
   const yearOf = x => +((x.release_date || x.first_air_date || '').slice(0, 4)) || 0;
@@ -1213,19 +1221,19 @@ async function heroAutoPosters(ids, btn) {
         }
         if (!tid) { missed.push(m.title?.uz || m.id); continue; }
         const imgs = await tmdb(`/${type}/${tid}/images`, { include_image_language: 'uz,ru,en,null' });
-        const path = tmdbTitledBackdrop(imgs);
-        const file = path && await tmdbImageFile(`${TMDB_IMG}w1280${path}`);
+        const path = tmdbTitledPoster(imgs);
+        const file = path && await tmdbImageFile(`${TMDB_IMG}w780${path}`);
         if (!file) { missed.push(m.title?.uz || m.id); continue; }
-        const cover = await uploadPoster(file, `${m.slug || slugify(m.title?.uz || 'kino')}-${m.id}-cover`, 1280);
-        done.push({ id: m.id, cover, tmdb: { id: tid, type } });
+        const vposter = await uploadPoster(file, `${m.slug || slugify(m.title?.uz || 'kino')}-${m.id}-vposter`, 780);
+        done.push({ id: m.id, vposter, tmdb: { id: tid, type } });
       } catch (ex) { if (/kaliti/.test(ex.message)) throw ex; missed.push(m.title?.uz || m.id); }
     }
     if (done.length) {
       await saveCustom(list => {
         for (const u of done) {
           const i = list.findIndex(x => x.id === u.id);
-          if (i > -1) list[i] = { ...list[i], cover: u.cover, tmdb: list[i].tmdb || u.tmdb };
-          else list.unshift({ ...currentMovie(u.id), cover: u.cover, tmdb: u.tmdb });
+          if (i > -1) list[i] = { ...list[i], vposter: u.vposter, tmdb: list[i].tmdb || u.tmdb };
+          else list.unshift({ ...currentMovie(u.id), vposter: u.vposter, tmdb: u.tmdb });
         }
         return list;
       }, `Slayder: rasmiy posterlar (TMDB) — ${done.length} ta kino`);
@@ -1534,7 +1542,7 @@ async function renderSiteView() {
       <div class="adm-actions" style="margin-top:12px">
         <button class="btn btn-ghost" type="button" id="admHeroPosters">Rasmiy posterlarni qo‘yish (TMDB)</button>
       </div>
-      <small class="acc-muted" id="admHeroPostersNote">Muqovasi yo‘q slayd kinolariga kino nomi yozilgan rasmiy gorizontal poster o‘zi topilib qo‘yiladi.</small>
+      <small class="acc-muted" id="admHeroPostersNote">Slayderdagi kinolarga kino nomi yozilgan rasmiy vertikal poster o‘zi topilib qo‘yiladi (kartalardagi posterga tegmaydi).</small>
     </section>
 
     <section class="adm-sec">
