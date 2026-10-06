@@ -6714,3 +6714,13 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 /* belgi faqat boshqaruv yashiringanda ko'rinadi (video tinch o'ynayotganda) — ⚙ va nom bilan ustma-ust tushmaydi */
 .vp-brand { opacity: 0 !important; transition: opacity .35s ease; }
 .ytp-idle .vp-brand { opacity: .6 !important; }
+/* belgi: o'ng pastda, qora plashka ustida, 45% kattaroq; bosilsa hech narsa bo'lmaydi (js/vplayer.js) */
+.vp-brand {
+  top: auto !important; bottom: 4.5%; right: 3%;
+  width: clamp(93px, 17.4%, 218px) !important; box-sizing: content-box;
+  padding: 6px 10px; border-radius: 9px; background: rgba(0, 0, 0, .62);
+  pointer-events: auto !important; cursor: default; filter: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.vp-brand { pointer-events: none !important; }
+.ytp-idle .vp-brand { pointer-events: auto !important; }

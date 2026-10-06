@@ -158,6 +158,10 @@ function mountVideo(box, url, opts = {}) {
   };
 
   $('#vpCover').addEventListener('click', start);
+  // DezoMax belgisi bosilsa — hech narsa bo'lmaydi (pauza ham, boshqaruv ham ochilmaydi)
+  const brand = box.querySelector('.vp-brand');
+  ['click', 'dblclick', 'pointerdown', 'pointerup', 'mousedown', 'mouseup', 'mousemove', 'touchstart', 'touchend', 'contextmenu'].forEach(ev =>
+    brand.addEventListener(ev, e => { e.stopPropagation(); if (ev !== 'touchstart' && ev !== 'pointerdown') e.preventDefault(); }, { passive: false }));
 
   /* ---- holatlar ---- */
   const setPlayIcon = () => { $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; box.classList.toggle('vp-paused', video.paused); };
