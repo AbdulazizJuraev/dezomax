@@ -6650,3 +6650,22 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
   margin-left: -16px; margin-right: -16px; padding: 0 16px !important;
 }
 .adm-more-menu { position: sticky; top: calc(var(--header-h) + 62px); box-shadow: 0 16px 40px rgba(0, 0, 0, .5); }
+
+/* Admin menyusi telefonda — pastda, saytdagi pastki menyu kabi suzuvchi «shisha» panel; kompyuterda tepada qoladi */
+@media (max-width: 900px) {
+  .adm-nav.adm-nav2 {
+    position: fixed !important; top: auto !important; bottom: calc(10px + var(--sab, 0px)); left: 12px; right: 12px;
+    margin: 0 !important; padding: 5px 6px !important; z-index: 95;
+    border: 1px solid rgba(255, 255, 255, .09) !important; border-radius: 26px !important;
+    background: rgba(18, 21, 30, .8) !important;
+    backdrop-filter: blur(22px) saturate(1.6) !important; -webkit-backdrop-filter: blur(22px) saturate(1.6) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .45) !important;
+  }
+  .adm-nav.adm-nav2 button { border-bottom: 0 !important; border-radius: 20px !important; padding: 8px 2px 7px !important; }
+  .adm-nav.adm-nav2 button.is-active { background: rgba(10, 147, 220, .16) !important; color: #6cc4f2; }
+  .adm-more-menu {
+    position: fixed !important; top: auto !important; left: 12px; right: 12px; bottom: calc(84px + var(--sab, 0px));
+    margin: 0 !important; z-index: 96;
+  }
+  .page-admin #admin { padding-bottom: calc(96px + var(--sab, 0px)); }
+}
