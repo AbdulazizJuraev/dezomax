@@ -41,7 +41,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 142,
     "audio": "ru",
     "source": {
-      "name": "мультфильмы (YouTube)",
+      "name": "мультфильмы",
+      "official": false,
       "url": "https://www.youtube.com/@%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D1%8B-%D1%844%D1%80"
     },
     "featured": false,

@@ -325,7 +325,10 @@ function playerSectionHTML(m) {
 function officialHTML(m) {
   if (!m.source || !m.source.name || !hasFilm(m)) return '';
   const yt = /youtube\.com|youtu\.be/.test(m.source.url || '');
-  const text = LANG === 'ru'
+  // source.official === false — kanal egasi ruxsat bergan, lekin u asar mualliflik egasi emas: «rasmiy» deyilmaydi
+  const text = m.source.official === false
+    ? (LANG === 'ru' ? `С YouTube-канала «${m.source.name}»` : `YouTube’dagi «${m.source.name}» kanalidan`)
+    : LANG === 'ru'
     ? (yt ? `Официальный YouTube-канал ${m.source.name}` : `Официальный источник: ${m.source.name}`)
     : (yt ? `${m.source.name}’ning rasmiy YouTube kanalidan` : `Rasmiy manba: ${m.source.name}`);
   // studiya/servis logotiplari (kino maydoni brands: ['marvel', 'disney-plus'] → images/brands/)
