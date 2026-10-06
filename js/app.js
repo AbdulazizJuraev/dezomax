@@ -12,11 +12,21 @@ const featured = adminHeroIds && adminHeroIds.length
   : MOVIES.filter(m => m.featured)
       .sort((a, b) => (watchStatus(a) === 'uz' ? 0 : 1) - (watchStatus(b) === 'uz' ? 0 : 1))
       .slice(0, 10);   // standart slayder juda uzun bo'lib ketmasin
-// Standart slayderda faqat video: treyleri (YouTube) bor kinolar qoladi. Admin o'zi tanlagan bo'lsa — hammasi
-// (YouTube treyleri yo'qlari — rasm bilan: muqova yoki poster)
-if (!(adminHeroIds && adminHeroIds.length) && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const withVideo = featured.filter(m => /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]{11}/.test(String(m.trailer || '')));
-  if (withVideo.length) featured.splice(0, featured.length, ...withVideo);
+// Slayder — faqat rasmlar (treyler videolari sahifani sekinlashtirardi). Kamida HERO_MIN ta slayd:
+// admin tanlaganlari birinchi, qolgani rasmiy manbalardan — studiyalarning yangi treylerlari va rasmiy kanallardagi
+// o'zbek filmlari (navbat bilan). Rasm faqat joriy va keyingi slayd uchun yuklanadi (heroLoadBg).
+const HERO_VIDEO = false;
+const HERO_MIN = 25;
+if (featured.length < HERO_MIN) {
+  const have = new Set(featured.map(m => m.id));
+  const ytOk = m => /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]{11}/.test(String(m.trailer || m.video || ''));
+  const studio = MOVIES.filter(m => m.ch && m.ch !== 'rizanova' && m.ch !== 'uzbekkinoofficial' && !isExtraVideo(m) && ytOk(m) && m.year >= 2024)
+    .sort((a, b) => (b.year || 0) - (a.year || 0) || (b.addedAt || 0) - (a.addedAt || 0));
+  const uzOfficial = MOVIES.filter(m => (m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial') && m.type === 'film' && m.meta && m.desc && (m.desc.uz || '').length > 60)
+    .sort((a, b) => (b.year || 0) - (a.year || 0) || (b.addedAt || 0) - (a.addedAt || 0));
+  for (let i = 0; featured.length < HERO_MIN && (i < studio.length || i < uzOfficial.length); i++) {
+    for (const m of [studio[i], uzOfficial[i]]) if (m && !have.has(m.id) && featured.length < HERO_MIN) { have.add(m.id); featured.push(m); }
+  }
 }
 let heroIndex = 0;
 let heroTimer = null;
@@ -41,9 +51,10 @@ function renderHero() {
     const wideSrc = imgBig(uzArt) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null)
       || imgBig(m.cover) || imgBig(m.poster) || null;          // treyleri yo'q — muqova yoki poster
     const wideArt = !!wideSrc;
+    // rasm darhol emas — slayd navbati kelganda yuklanadi (heroLoadBg): 25 ta katta rasm birdaniga yuklanmasin
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
-      <div class="hero-bg${wideArt ? ' is-wide' : ''}${ytId && !matchMedia('(prefers-reduced-motion: reduce)').matches ? ' video-only' : ''}" style="background-image:${wideArt ? `url('${esc(wideSrc)}'), ${backdropCSS(m)}` : backdropCSS(m)}"${ytId && !uzArt ? ` data-yt="${ytId}"` : ''}></div>
+      <div class="hero-bg${wideArt ? ' is-wide' : ''}${ytId && HERO_VIDEO && !matchMedia('(prefers-reduced-motion: reduce)').matches ? ' video-only' : ''}" style="background-image:${backdropCSS(m)}"${wideArt ? ` data-bg="${esc(wideSrc)}"` : ''}></div>
       ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
       <div class="hero-inner">
         <div class="wrap">
@@ -51,8 +62,10 @@ function renderHero() {
             <span class="hero-badge">DezoMax ${LANG === 'uz' ? 'tanlovi' : 'выбирает'}</span>
             <h1>${esc(title(m))}</h1>
             <div class="hero-actions">
-              <a class="btn btn-primary hero-watch" href="movie.html?id=${m.id}&play=1">${ICONS.play}<span>${LANG === 'uz' ? 'Filmni tomosha qilish' : 'Смотреть фильм'}</span></a>
-              ${ytId ? `<button class="hero-sound${heroSound ? ' is-on' : ''}" type="button" aria-label="${LANG === 'uz' ? 'Ovoz' : 'Звук'}">${heroSoundIcon()}</button>` : ''}
+              <a class="btn btn-primary hero-watch" href="movie.html?id=${m.id}&play=1">${ICONS.play}<span>${watchStatus(m) !== 'trailer'
+                ? (LANG === 'uz' ? 'Filmni tomosha qilish' : 'Смотреть фильм')
+                : (LANG === 'uz' ? 'Treylerni ko‘rish' : 'Смотреть трейлер')}</span></a>
+              ${ytId && HERO_VIDEO ? `<button class="hero-sound${heroSound ? ' is-on' : ''}" type="button" aria-label="${LANG === 'uz' ? 'Ovoz' : 'Звук'}">${heroSoundIcon()}</button>` : ''}
             </div>
           </div>
         </div>
@@ -62,25 +75,8 @@ function renderHero() {
 
   hero.insertAdjacentHTML('afterbegin', slides);
 
-  // maxresdefault bo'lmagan eski treylerlar uchun YouTube 120×90 kulrang rasm qaytaradi —
-  // shunda sd (640×480) yoki hq variantiga tushamiz
-  hero.querySelectorAll('.hero-bg[data-yt]').forEach(bg => {
-    const id = bg.dataset.yt;
-    const tries = ['maxresdefault', 'sddefault', 'hqdefault'];
-    const test = i => {
-      const img = new Image();
-      // treyler o'chirilgan bo'lsa — hamma o'lchamda kulrang «rasm yo'q» belgisi: YouTube rasmi olib tashlanadi
-      const drop = () => { bg.style.backgroundImage = bg.style.backgroundImage.replace(/url\([^)]*i\.ytimg\.com[^)]*\),?\s*/, ''); };
-      img.onload = () => {
-        if (img.naturalWidth <= 120 && i < tries.length - 1) return test(i + 1);
-        if (img.naturalWidth <= 120) return drop();
-        if (i > 0) bg.style.backgroundImage = bg.style.backgroundImage.replace(/maxresdefault/, tries[i]);
-      };
-      img.onerror = () => { if (i < tries.length - 1) test(i + 1); else drop(); };
-      img.src = `https://i.ytimg.com/vi_webp/${id}/${tries[i]}.webp`;   // fon bilan bir xil fayl — ikki marta yuklanmaydi
-    };
-    test(0);
-  });
+  heroLoadBg(heroIndex);
+  heroLoadBg(heroIndex + 1);
 
   dots.innerHTML = featured.map((_, i) =>
     `<button data-i="${i}" class="${i === heroIndex ? 'is-active' : ''}" aria-label="Slayd ${i + 1}"></button>`
@@ -90,6 +86,33 @@ function renderHero() {
     b.addEventListener('click', () => { goToSlide(+b.dataset.i); restartHeroTimer(); });
   });
   updateCounter();
+}
+
+/* Slayd rasmi navbati kelganda yuklanadi (joriy + keyingisi). YouTube rasmlari: maxresdefault bo'lmagan eski videolar
+   uchun YouTube 120×90 kulrang rasm qaytaradi — shunda sd (640×480) yoki hq variantiga tushamiz; hech biri bo'lmasa —
+   rangli fon qoladi. */
+function heroLoadBg(i) {
+  if (!featured.length) return;
+  const bg = document.querySelector(`.hero-slide[data-i="${(i + featured.length) % featured.length}"] .hero-bg[data-bg]`);
+  if (!bg || bg.dataset.loaded) return;
+  bg.dataset.loaded = '1';
+  const base = bg.style.backgroundImage;
+  const set = url => { bg.style.backgroundImage = `url('${url}'), ${base}`; };
+  const src = bg.dataset.bg;
+  const yt = (src.match(/i\.ytimg\.com\/vi(?:_webp)?\/([\w-]{11})\//) || [])[1];
+  if (!yt) { set(src); return; }
+  // WebP yengilroq; ba'zi videolarda WebP nusxa yo'q — JPG zaxirada
+  const tries = ['vi_webp/%/maxresdefault.webp', 'vi/%/maxresdefault.jpg', 'vi_webp/%/sddefault.webp', 'vi/%/sddefault.jpg', 'vi/%/hqdefault.jpg'];
+  const test = k => {
+    const img = new Image(), url = 'https://i.ytimg.com/' + tries[k].replace('%', yt);
+    img.onload = () => {
+      if (img.naturalWidth <= 120) { if (k < tries.length - 1) test(k + 1); return; }
+      set(url);
+    };
+    img.onerror = () => { if (k < tries.length - 1) test(k + 1); };
+    img.src = url;
+  };
+  test(0);
 }
 
 /* "03 / 10" hisoblagichi */
@@ -136,6 +159,8 @@ function goToSlide(i) {
     s.classList.toggle('is-active', +s.dataset.i === heroIndex));
   document.querySelectorAll('.hero-dots button').forEach(b =>
     b.classList.toggle('is-active', +b.dataset.i === heroIndex));
+  heroLoadBg(heroIndex);
+  heroLoadBg(heroIndex + 1);      // keyingisi oldindan — almashganda rasm tayyor turadi
   updateCounter();
 }
 
@@ -144,7 +169,7 @@ function goToSlide(i) {
 const HERO_IMAGE_SEC = 3;
 const HERO_CLIP_SEC = HERO_DELAY / 1000;   // treyler sahnasi qancha ko'rinadi (admin sozlaydi)
 const HERO_CLIP_START = 30;     // treyler boshidagi studiya logotiplarini o'tkazib yuboramiz
-const heroClipsOn = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+const heroClipsOn = HERO_VIDEO && !matchMedia('(prefers-reduced-motion: reduce)').matches;
 let clipTimer = null;
 
 const heroYtId = m => (String(m?.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];

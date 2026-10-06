@@ -6413,3 +6413,18 @@ html.tv-mode .row-nav { display: none !important; }
 /* admin — Ishlamaydigan kinolar: tekshiruv jarayoni */
 .adm-progress { height: 8px; border-radius: 99px; background: var(--surface-2, rgba(255,255,255,.08)); overflow: hidden; margin: 6px 0 4px; }
 .adm-progress i { display: block; height: 100%; background: var(--accent, #0a93dc); border-radius: inherit; transition: width .3s; }
+
+/* Slayder — faqat rasmlar (treyler videolari o'chirilgan): telefonda rasm butun slaydni qoplaydi,
+   pastga qarab sayt foniga silliq o'tadi (avval rasm tepada 16:9 turib, ostida bo'sh joy qolardi) */
+@media (max-width: 640px) {
+  .hero-bg.is-wide { background-size: cover, cover; background-position: center 30%, center; }
+  .hero-bg::after,
+  .hero-bg.is-wide::after {
+    background: linear-gradient(to bottom,
+      rgba(7, 8, 12, .3) 0,
+      rgba(7, 8, 12, 0) 14%,
+      rgba(7, 8, 12, 0) 48%,
+      rgba(7, 8, 12, .72) 76%,
+      var(--bg) 100%);
+  }
+}
