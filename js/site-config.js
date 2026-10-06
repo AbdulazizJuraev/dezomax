@@ -24,7 +24,8 @@ const SITE_CONFIG = /*CONFIG*/{
       2382,
       2146,
       18,
-      2045
+      2045,
+      5064
     ],
     "delay": 5
   },
