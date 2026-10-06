@@ -75,5 +75,13 @@ const SITE_CONFIG = /*CONFIG*/{
       "source": "top",
       "visible": true
     }
-  ]
+  ],
+  "logo": {
+    "enabled": true,
+    "pos": "br",
+    "size": 21,
+    "bg": "black",
+    "opacity": 100,
+    "mode": "always"
+  }
 }/*ENDCONFIG*/;
