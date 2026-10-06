@@ -6724,3 +6724,6 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 }
 .vp-brand { pointer-events: none !important; }
 .ytp-idle .vp-brand { pointer-events: auto !important; }
+/* belgi foni — to'liq qora (shaffof emas), belgining o'zi ham to'liq yorqin */
+.vp-brand { background: #000 !important; }
+.ytp-idle .vp-brand { opacity: 1 !important; }
