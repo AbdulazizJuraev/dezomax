@@ -22705,42 +22705,57 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "loki",
     "type": "serial",
     "title": {
-      "uz": "\"LOKI\"",
-      "ru": "\"LOKI\""
+      "uz": "Loki",
+      "ru": "Loki"
     },
     "genres": [
-      "scifi"
+      "drama",
+      "scifi",
+      "fantasy"
     ],
     "country": {
-      "uz": "—",
-      "ru": "—"
+      "uz": "AQSh",
+      "ru": "США"
     },
-    "cast": [],
+    "cast": [
+      "Том Хиддлстон",
+      "София Ди Мартино",
+      "Гугу Эмбата-Ро",
+      "Вунми Мосаку",
+      "Юджин Кордеро",
+      "Ке Хюи Куан"
+    ],
     "desc": {
-      "uz": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  6-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya. \n\nSerial tugadi ! ❤️‍🩹",
-      "ru": "🎬 \"LOKI\" \n🇺🇿 O'zbek tilida \n📹 Serialning 2-mavsum  6-qismi. \n💿 HD 480p \n🎞 Janri: Sarguzasht, Ilmiy Fantastika, Komediya. \n\nSerial tugadi ! ❤️‍🩹"
+      "uz": "LOKI\nO'zbek tilida \nSerialning 2-mavsum  6-qismi. \nHD 480p \nJanri: Sarguzasht, Ilmiy Fantastika, Komediya. \n\nSerial tugadi !",
+      "ru": "После кражи Тессеракта во время событий фильма «Мстители: Финал» альтернативная версия Локи попадает в таинственное Управление временными изменениями, бюрократическую организацию, существующую вне времени и пространства и контролирующую стабильность «Священной линии времени» и единообразность течения времени. Они дают Локи выбор: быть стёртым из существования из-за того, что он является «вариантом», или помочь исправить временную линию и остановить более серьёзную угрозу."
     },
     "colors": [
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354.jpg",
-    "trailer": "",
+    "poster": "https://image.tmdb.org/t/p/w500/fNTS8BOMmhYYM4FqLPLuJ6KRQEF.jpg",
+    "trailer": "https://www.youtube.com/watch?v=nW948Va-l10",
     "video": "https://dezocloud.uz/s/XIcBtTdEfajJM0DuH5UcKMTf",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790984341077,
-    "duration": 56,
+    "updatedAt": 1791312118803,
     "size": 238734197,
-    "year": 2026,
-    "audio": "uz",
-    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354-cover.jpg",
     "lang": "uz",
     "vposter": "https://image.tmdb.org/t/p/w780/AjVecMJdv9GffRVhKP2IRoWtaQL.jpg",
     "tmdb": {
-      "id": 312381,
+      "id": 84958,
       "type": "tv"
-    }
+    },
+    "cover": "https://image.tmdb.org/t/p/w1280/kXja7L9cRlsRmINMpxyWEdp9r3u.jpg",
+    "year": 2021,
+    "duration": 56,
+    "rating": 8.2,
+    "director": "Майкл Уолдрон",
+    "franchise": "marvel",
+    "audio": "uz",
+    "tags": [
+      "Loki"
+    ]
   },
   {
     "id": 3355,
