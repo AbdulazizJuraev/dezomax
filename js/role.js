@@ -35,22 +35,30 @@ const ROLE_ICONS = {
 
 /* Tanlash ekranini ko'rsatadi va tanlanguncha kutadi (har safar chaqirilganda so'raydi —
    profile.role oldingi tanlovni saqlab turadi, lekin bu funksiya har safar qayta so'raydi) */
-/* ---------- Fon: treylerlar ovozsiz, har 4 soniyada keyingi kino ----------
-   Bosh sahifa slayderidagi kinolar (treyleri YouTube'da borlari), tasodifiy tartibda.
-   Har sahna oldindan ko'rinmas holda o'ynay boshlaydi (keyingisi joriysi ko'rinib turganda yuklanadi),
-   o'ynay boshlagach (YouTube belgilari yo'qolgach) ko'rsatiladi. Poster ko'rsatilmaydi — faqat treyler. */
+/* ---------- Fon: rasmiy posterlar, har 4 soniyada keyingi kino ----------
+   Bosh sahifa slayderidagi kinolar (admin tanlaganlari + sayt o'zi qo'shadiganlari), tasodifiy tartibda.
+   Video emas — rasm: tez ochiladi, YouTube belgilari (pauza, oldinga/orqaga) ko'rinmaydi.
+   Rasm: vertikal rasmiy poster (vposter) → muqova → treyler rasmi → poster. Keyingisi oldindan yuklanadi. */
 const RP_SCENE_MS = 4000;
-const RP_CLIP_START = 35;          // treyler boshidagi studiya logotiplarini o'tkazib yuboramiz
 const rpYtId = u => (String(u || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || [])[1];
+const rpArt = m => {
+  if (m.vposter) return m.vposter;
+  const big = s => (typeof imgBig === 'function' ? imgBig(s) : s) || s;
+  if (m.cover) return big(m.cover);
+  const yt = rpYtId(m.trailer);
+  if (yt) return `https://i.ytimg.com/vi/${yt}/maxresdefault.jpg`;
+  return m.poster ? big(m.poster) : '';
+};
 
 function rolePickFilms() {
   try {
     const ids = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG?.hero?.ids) || [];
     let pool = ids.map(id => MOVIES.find(m => m.id === id)).filter(Boolean);
+    if (typeof heroAutoFill === 'function') pool = [...pool, ...heroAutoFill(pool)];
     if (pool.length < 4) pool = [...pool, ...MOVIES.filter(m => m.featured && !pool.includes(m))];
-    pool = pool.filter(m => rpYtId(m.trailer) && (typeof hasFilm !== 'function' || hasFilm(m)));
+    pool = pool.filter(m => rpArt(m));
     for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
-    return pool.slice(0, 12).map(m => ({ yt: rpYtId(m.trailer), title: title(m) }));
+    return pool.slice(0, 12).map(m => ({ art: rpArt(m), yt: rpYtId(m.trailer), title: title(m) }));
   } catch { return []; }
 }
 
@@ -58,85 +66,45 @@ function startRoleBackdrop(el, films) {
   const stage = el.querySelector('.role-pick-bg');
   const cap = el.querySelector('.role-pick-film b');
   if (!stage || !films.length) return () => {};
-  const video = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const origin = encodeURIComponent(location.origin);
-  let cur = -1, timer = 0, waitT = 0, dead = false;
-  const scenes = new Map();   // indeks -> { box, frame, playing }
+  let cur = -1, timer = 0, dead = false;
+  const scenes = new Map();   // indeks -> sahna
 
+  // YouTube rasmi: maxresdefault yo'q eski videolarda 120×90 kulrang rasm keladi — hq variantiga tushamiz
+  const load = (f, cb) => {
+    const img = new Image();
+    img.onload = () => {
+      if (img.naturalWidth <= 120 && f.yt && !img.src.includes('hqdefault')) { img.src = `https://i.ytimg.com/vi/${f.yt}/hqdefault.jpg`; return; }
+      cb(img.src);
+    };
+    img.onerror = () => { if (f.yt && !img.src.includes('hqdefault')) img.src = `https://i.ytimg.com/vi/${f.yt}/hqdefault.jpg`; };
+    img.src = f.art;
+  };
   const make = i => {
     if (scenes.has(i)) return scenes.get(i);
-    const f = films[i];
     const box = document.createElement('div');
     box.className = 'rp-scene';
-    // poster faqat video o'chirilgan bo'lsa (reduced motion); aks holda faqat treyler ko'rinadi
-    if (!video) box.style.backgroundImage = `url('https://i.ytimg.com/vi/${f.yt}/maxresdefault.jpg'), url('https://i.ytimg.com/vi/${f.yt}/hqdefault.jpg')`;
-    const s = { box, frame: null, playing: false };
-    if (video) {
-      box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${f.yt}?autoplay=1&mute=1&controls=0&start=${RP_CLIP_START}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&loop=1&playlist=${f.yt}&enablejsapi=1&origin=${origin}"
-        allow="autoplay; encrypted-media" tabindex="-1" title="" aria-hidden="true"></iframe>`;
-      s.frame = box.querySelector('iframe');
-      s.frame.addEventListener('load', () => {
-        const ping = () => s.frame.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 'rp' }), '*');
-        ping(); setTimeout(ping, 500); setTimeout(ping, 1500);
-      });
-    }
+    load(films[i], src => { box.style.backgroundImage = `url('${src}')`; });
     stage.appendChild(box);
-    scenes.set(i, s);
-    return s;
+    scenes.set(i, box);
+    return box;
   };
 
   const show = i => {
     if (dead) return;
-    clearTimeout(timer); clearTimeout(waitT);
+    clearTimeout(timer);
     cur = i;
-    const s = make(i);
-    stage.querySelectorAll('.rp-scene').forEach(b => b.classList.toggle('is-on', b === s.box));
+    const box = make(i);
+    stage.querySelectorAll('.rp-scene').forEach(b => b.classList.toggle('is-on', b === box));
     if (cap) { cap.style.opacity = 0; setTimeout(() => { cap.textContent = films[i].title; cap.style.opacity = 1; }, 180); }
-    // eskilarini tozalaymiz (joriy va keyingisi qoladi)
     const next = (i + 1) % films.length;
-    for (const [k, v] of scenes) if (k !== i && k !== next) { setTimeout(() => v.box.remove(), 700); scenes.delete(k); }
+    for (const [k, v] of scenes) if (k !== i && k !== next) { setTimeout(() => v.remove(), 800); scenes.delete(k); }
     if (films.length < 2) return;
     make(next);   // keyingisi oldindan yuklanadi
-    // 4 soniya video haqiqatan ko'ringan paytdan boshlab sanaladi
-    const schedule = () => { if (!dead && cur === i) timer = setTimeout(() => advance(next), RP_SCENE_MS); };
-    s.onPlay = null;
-    if (!video || s.playing) schedule();
-    else { s.onPlay = schedule; waitT = setTimeout(() => advance(next), 7000); }   // bu video umuman ochilmasa
+    timer = setTimeout(() => show(next), RP_SCENE_MS);
   };
-
-  // keyingi video hali o'ynamayotgan bo'lsa — joriy treyler davom etadi, u tayyor bo'lgach almashadi.
-  // 6 s da ham ochilmasa, uni tashlab undan keyingisiga o'tamiz (poster ko'rsatilmaydi).
-  const advance = n => {
-    if (dead) return;
-    clearTimeout(waitT);
-    const s = scenes.get(n) || make(n);
-    if (!video || s.playing) return show(n);
-    s.onPlay = () => { if (cur !== n) show(n); };
-    waitT = setTimeout(() => {
-      s.onPlay = null; s.box.remove(); scenes.delete(n);
-      const m = (n + 1) % films.length;
-      if (m !== cur) advance(m);
-    }, 6000);
-  };
-
-  const onMsg = e => {
-    if (!/^https:\/\/(www\.)?youtube(-nocookie)?\.com$/.test(e.origin)) return;
-    let d; try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
-    const st = d?.info?.playerState ?? (d?.event === 'onStateChange' ? d.info : undefined);
-    for (const s of scenes.values()) {
-      if (!s.frame || s.frame.contentWindow !== e.source) continue;
-      if (st === 1 && !s.playing) {
-        // telefonda YouTube boshida pauza belgisini ko'rsatadi — 1,2 s dan keyin video qatlami ochiladi
-        setTimeout(() => { s.playing = true; s.box.classList.add('is-playing'); s.onPlay?.(); }, 1200);
-      } else if (st === 0) {
-        s.frame.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [RP_CLIP_START, true] }), '*');
-      }
-    }
-  };
-  addEventListener('message', onMsg);
   show(0);
 
-  return () => { dead = true; clearTimeout(timer); clearTimeout(waitT); removeEventListener('message', onMsg); stage.innerHTML = ''; };
+  return () => { dead = true; clearTimeout(timer); stage.innerHTML = ''; };
 }
 
 function showRolePicker(profile) {
