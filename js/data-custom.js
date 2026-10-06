@@ -22646,35 +22646,41 @@ const CUSTOM_MOVIES = /*DATA*/[
     "slug": "loki-1sezon-1qism",
     "type": "serial",
     "title": {
-      "uz": "LOKI",
-      "ru": "ЛОКИ"
+      "uz": "Loki",
+      "ru": "Loki"
     },
     "genres": [
-      "scifi"
+      "drama",
+      "scifi",
+      "fantasy"
     ],
     "country": {
-      "uz": "—",
-      "ru": "—"
+      "uz": "AQSh",
+      "ru": "США"
     },
-    "cast": [],
+    "cast": [
+      "Том Хиддлстон",
+      "София Ди Мартино",
+      "Гугу Эмбата-Ро",
+      "Вунми Мосаку",
+      "Юджин Кордеро",
+      "Ке Хюи Куан"
+    ],
     "desc": {
       "uz": "LOKI 1sezon 1qism",
-      "ru": "LOKI 1sezon 1qism"
+      "ru": "После кражи Тессеракта во время событий фильма «Мстители: Финал» альтернативная версия Локи попадает в таинственное Управление временными изменениями, бюрократическую организацию, существующую вне времени и пространства и контролирующую стабильность «Священной линии времени» и единообразность течения времени. Они дают Локи выбор: быть стёртым из существования из-за того, что он является «вариантом», или помочь исправить временную линию и остановить более серьёзную угрозу."
     },
     "colors": [
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354.jpg",
-    "trailer": "",
+    "poster": "https://image.tmdb.org/t/p/w500/fNTS8BOMmhYYM4FqLPLuJ6KRQEF.jpg",
+    "trailer": "https://www.youtube.com/watch?v=nW948Va-l10",
     "video": "https://dezocloud.uz/s/QOoyRYKSpqAP7bZkYEg-wzf_",
     "featured": false,
     "addedAt": 1790857756630,
-    "updatedAt": 1790984341077,
-    "duration": 52,
+    "updatedAt": 1791312160720,
     "size": 279481824,
-    "year": 2026,
-    "audio": "uz",
     "groupOrig": {
       "title": {
         "uz": "LOKI 1sezon 1qism",
@@ -22697,8 +22703,21 @@ const CUSTOM_MOVIES = /*DATA*/[
       3360,
       3354
     ],
-    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/loki-3354-cover.jpg",
-    "lang": "uz"
+    "lang": "uz",
+    "cover": "https://image.tmdb.org/t/p/w1280/kXja7L9cRlsRmINMpxyWEdp9r3u.jpg",
+    "year": 2021,
+    "duration": 52,
+    "rating": 8.2,
+    "director": "Майкл Уолдрон",
+    "franchise": "marvel",
+    "audio": "uz",
+    "tags": [
+      "Loki"
+    ],
+    "tmdb": {
+      "id": 84958,
+      "type": "tv"
+    }
   },
   {
     "id": 3354,
