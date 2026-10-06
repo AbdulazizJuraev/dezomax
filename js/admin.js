@@ -1192,7 +1192,8 @@ function tmdbTitledPoster(images, fallback) {
 }
 
 /* Admin → Sayt → «Rasmiy posterlarni qo'yish»: slayderdagi kinolarga TMDB'dan rasmiy VERTIKAL poster (nomi yozilgan, 780px)
-   topadi, saytga yuklaydi (images/custom/) va bitta saqlash bilan «vposter» maydoniga yozadi — faqat slayder uchun,
+   topadi (4 tadan parallel; rasm TMDB serveridan ko'rsatiladi — GitHub'ga yuklanmaydi) va bitta saqlash bilan
+   «vposter» maydoniga yozadi — faqat slayder uchun,
    kartalardagi poster o'zgarmaydi.
    TMDB kaliti — shu brauzerdagi (Qo'shish → Avtomatik to'ldirish'da kiritilgan). */
 async function heroAutoPosters(ids, btn) {
@@ -1207,8 +1208,12 @@ async function heroAutoPosters(ids, btn) {
   const done = [], missed = [];
   const yearOf = x => +((x.release_date || x.first_air_date || '').slice(0, 4)) || 0;
   try {
-    for (const [k, m] of todo.entries()) {
-      note.textContent = `${k + 1} / ${todo.length}: ${m.title?.uz || m.id}…`;
+    // admin eskirgan bo'lsa — ish BOSHIDA yangilanadi (avval oxirida, hamma posterlar topilgandan keyin to'xtardi)
+    await ensureFreshAdmin();
+    // 4 tadan parallel; rasm GitHub'ga yuklanmaydi — TMDB'ning o'z serveridan (tez, oxirida bitta saqlash)
+    let next = 0, count = 0, fatal = null;
+    await Promise.all(Array.from({ length: 4 }, async () => { while (next < todo.length && !fatal) {
+      const m = todo[next++];
       try {
         let tid = m.tmdb?.id, type = m.tmdb?.type || (m.type === 'serial' ? 'tv' : 'movie');
         if (!tid) {
@@ -1222,12 +1227,12 @@ async function heroAutoPosters(ids, btn) {
         if (!tid) { missed.push(m.title?.uz || m.id); continue; }
         const imgs = await tmdb(`/${type}/${tid}/images`, { include_image_language: 'uz,ru,en,null' });
         const path = tmdbTitledPoster(imgs);
-        const file = path && await tmdbImageFile(`${TMDB_IMG}w780${path}`);
-        if (!file) { missed.push(m.title?.uz || m.id); continue; }
-        const vposter = await uploadPoster(file, `${m.slug || slugify(m.title?.uz || 'kino')}-${m.id}-vposter`, 780);
-        done.push({ id: m.id, vposter, tmdb: { id: tid, type } });
-      } catch (ex) { if (/kaliti/.test(ex.message)) throw ex; missed.push(m.title?.uz || m.id); }
-    }
+        if (!path) { missed.push(m.title?.uz || m.id); continue; }
+        done.push({ id: m.id, vposter: `${TMDB_IMG}w780${path}`, tmdb: { id: tid, type } });
+      } catch (ex) { if (/kaliti/.test(ex.message)) fatal = ex; else missed.push(m.title?.uz || m.id); }
+      finally { note.textContent = `${++count} / ${todo.length} tekshirildi…`; }
+    } }));
+    if (fatal) throw fatal;
     if (done.length) {
       await saveCustom(list => {
         for (const u of done) {
