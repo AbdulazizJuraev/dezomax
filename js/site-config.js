@@ -79,9 +79,16 @@ const SITE_CONFIG = /*CONFIG*/{
   "logo": {
     "enabled": true,
     "pos": "br",
-    "size": 21,
+    "size": 17,
     "bg": "black",
-    "opacity": 100,
-    "mode": "always"
+    "opacity": 85,
+    "mode": "always",
+    "scope": "all",
+    "types": [
+      "film",
+      "serial",
+      "multfilm"
+    ],
+    "ids": []
   }
 }/*ENDCONFIG*/;
