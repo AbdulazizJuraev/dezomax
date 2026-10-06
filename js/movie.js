@@ -129,10 +129,11 @@ function mountPlayer(url) {
 
   // YouTube videolarida DezoMax belgisi pleyer OSTIDA (YouTube qoidalari pleyer ustiga belgi qo'yishni taqiqlaydi);
   // sayt pleyerida esa belgi video ustida (js/vplayer.js). Admin → LogoVidio'da o'chirilsa — hech qayerda yo'q
+  window.dzxLogoAllow = typeof logoAllowed !== 'function' || logoAllowed(group);   // sayt pleyeri ham shuni o'qiydi
   const pfBrand = document.getElementById('pfBrand');
   if (pfBrand) {
     const yt = (typeof youTubeId === 'function' && youTubeId(url)) || /youtu\.?be/i.test(url);
-    const on = typeof logoSettings !== 'function' || logoSettings().enabled !== false;
+    const on = typeof logoAllowed !== 'function' || logoAllowed(group);
     pfBrand.hidden = !(yt && on);
   }
 

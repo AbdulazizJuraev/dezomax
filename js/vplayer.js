@@ -35,7 +35,16 @@ function loadHlsLib() {
 /* box — .player-wrap; opts: { poster, title, qualities: [{label, url}] } */
 /* DezoMax belgisi — admin → Boshqa → «LogoVidio» sozlamasi (js/site-config.js → SITE_CONFIG.logo).
    pos: br|bl|tr|tl, size: pleyer enining %, bg: black|white|none, opacity: 30–100, mode: idle|always, enabled */
-const LOGO_DEFAULT = { enabled: true, pos: 'br', size: 17, bg: 'black', opacity: 100, mode: 'idle' };
+const LOGO_DEFAULT = { enabled: true, pos: 'br', size: 17, bg: 'black', opacity: 100, mode: 'idle', scope: 'all', types: ['film', 'serial', 'multfilm'], ids: [] };
+/* Qaysi kinolarga: scope 'all' — hammasiga, 'types' — tanlangan turlarga (film/serial/multfilm), 'ids' — tanlangan kinolarga */
+function logoAllowed(m) {
+  const L = logoSettings();
+  if (!L.enabled) return false;
+  if (!m) return true;
+  if (L.scope === 'types') return (L.types || []).includes(m.type);
+  if (L.scope === 'ids') return (L.ids || []).includes(m.id);
+  return true;
+}
 function logoSettings(over) {
   const cfg = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG && SITE_CONFIG.logo) || {};
   return { ...LOGO_DEFAULT, ...cfg, ...(over || {}) };
@@ -44,7 +53,7 @@ function applyBrandStyle(img, box, over) {
   if (!img) return;
   const L = logoSettings(over);
   const set = (k, v) => img.style.setProperty(k, v, 'important');
-  img.hidden = !L.enabled;
+  img.hidden = !L.enabled || window.dzxLogoAllow === false;   // js/movie.js — shu kino uchun ruxsat (LogoVidio → Qaysi kinolarga)
   // oq fonda: oq «DEZO» qora bo'ladi, ko'k «MAX» ko'kligicha qoladi
   img.style.setProperty('filter', L.bg === 'white' ? 'invert(1) hue-rotate(180deg)' : 'none', 'important');
   const v = L.pos[0] === 't' ? 'top' : 'bottom', h = L.pos[1] === 'l' ? 'left' : 'right';

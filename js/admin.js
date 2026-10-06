@@ -1717,7 +1717,7 @@ async function renderSiteView() {
 /* ---------- LogoVidio: sayt pleyeridagi DezoMax belgisi (js/vplayer.js applyBrandStyle) ----------
    Joyi, kattaligi, foni, shaffofligi va qachon ko'rinishi — jonli namunada ko'rinadi, «Saqlash» → js/site-config.js (logo).
    YouTube pleyerida qo'yilmaydi (YouTube qoidalari pleyer ustiga belgi qo'yishni taqiqlaydi). */
-const ADM_LOGO_DEFAULT = { enabled: true, pos: 'br', size: 17, bg: 'black', opacity: 100, mode: 'idle' };
+const ADM_LOGO_DEFAULT = { enabled: true, pos: 'br', size: 17, bg: 'black', opacity: 100, mode: 'idle', scope: 'all', types: ['film', 'serial', 'multfilm'], ids: [] };
 
 function admLogoStyle(img, L) {
   const set = (k, v) => img.style.setProperty(k, v, 'important');
@@ -1755,11 +1755,17 @@ async function renderLogoView() {
       ${seg('bg', [['black', 'Qora'], ['white', 'Oq'], ['none', 'Fonsiz']])}
       <label class="adm-label">Ko‘rinishi (shaffoflik): <b id="lgOpV"></b></label>
       <input class="adm-range" type="range" id="lgOp" min="30" max="100" step="5" value="${L.opacity}">
+      <label class="adm-label">Qaysi kinolarga</label>
+      ${seg('scope', [['all', 'Hammasiga'], ['types', 'Turlar bo‘yicha'], ['ids', 'Tanlangan kinolarga']])}
+      <div id="lgTypes" ${L.scope === 'types' ? '' : 'hidden'} class="adm-lg-types">
+        ${[['film', 'Film'], ['serial', 'Serial'], ['multfilm', 'Multfilm']].map(([v, t]) => `<label class="adm-lg-on"><input type="checkbox" data-type="${v}" ${(L.types || []).includes(v) ? 'checked' : ''}> ${t}</label>`).join('')}
+      </div>
+      <div id="lgIds" ${L.scope === 'ids' ? '' : 'hidden'}>${pickerHTML('logo', L.ids || [], 500)}</div>
       <label class="adm-label">Qachon ko‘rinadi</label>
       ${seg('mode', [['idle', 'Boshqaruv yashiringanda'], ['always', 'Doim']])}
       <p class="acc-error" id="lgErr" hidden></p>
       <div class="adm-actions"><button class="btn btn-primary" type="button" id="lgSave">Saqlash</button><button class="btn btn-ghost" type="button" id="lgReset">Standart</button></div>
-      <small class="acc-muted">Sayt pleyerida o‘ynaydigan videolarga qo‘llanadi. YouTube videolariga qo‘yilmaydi — YouTube qoidalari pleyer ustiga belgi qo‘yishni taqiqlaydi.</small>
+      <small class="acc-muted">Sayt pleyerida — video ustida. YouTube videolarida — pleyer ostida, o‘ngda (YouTube qoidalari pleyer ustiga belgi qo‘yishni taqiqlaydi).</small>
     </section>`;
   const img = box.querySelector('.adm-logo-img');
   const paint = () => {
@@ -1768,7 +1774,17 @@ async function renderLogoView() {
     $('#lgOpV').textContent = L.opacity + '%';
     box.querySelectorAll('[data-lg]').forEach(g => g.querySelectorAll('button').forEach(b => b.classList.toggle('is-active', String(L[g.dataset.lg]) === b.dataset.v)));
   };
-  box.querySelectorAll('[data-lg] button').forEach(b => b.addEventListener('click', () => { L[b.closest('[data-lg]').dataset.lg] = b.dataset.v; paint(); }));
+  box.querySelectorAll('[data-lg] button').forEach(b => b.addEventListener('click', () => {
+    L[b.closest('[data-lg]').dataset.lg] = b.dataset.v;
+    $('#lgTypes').hidden = L.scope !== 'types';
+    $('#lgIds').hidden = L.scope !== 'ids';
+    paint();
+  }));
+  box.querySelectorAll('#lgTypes [data-type]').forEach(c => c.addEventListener('change', () => {
+    L.types = [...box.querySelectorAll('#lgTypes [data-type]:checked')].map(x => x.dataset.type);
+  }));
+  if (!Array.isArray(L.ids)) L.ids = [];
+  bindPicker($('#lgIds'), () => L.ids, ids => { L.ids = ids; }, renderLogoView);
   $('#lgOn').addEventListener('change', e => { L.enabled = e.target.checked; paint(); });
   $('#lgSize').addEventListener('input', e => { L.size = +e.target.value; paint(); });
   $('#lgOp').addEventListener('input', e => { L.opacity = +e.target.value; paint(); });

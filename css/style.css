@@ -6746,3 +6746,4 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .pf-brand { margin-left: auto; width: clamp(96px, 16%, 150px); line-height: 0; pointer-events: none; user-select: none; }
 .pf-brand[hidden] { display: none; }
 .pf-brand svg { display: block; width: 100%; height: auto; }
+.adm-lg-types { display: flex; flex-wrap: wrap; gap: 14px; }
