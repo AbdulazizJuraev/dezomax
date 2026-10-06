@@ -16,18 +16,7 @@ const featured = adminHeroIds && adminHeroIds.length
 // admin tanlaganlari birinchi, qolgani rasmiy manbalardan — studiyalarning yangi treylerlari va rasmiy kanallardagi
 // o'zbek filmlari (navbat bilan). Rasm faqat joriy va keyingi slayd uchun yuklanadi (heroLoadBg).
 const HERO_VIDEO = false;
-const HERO_MIN = 25;
-if (featured.length < HERO_MIN) {
-  const have = new Set(featured.map(m => m.id));
-  const ytOk = m => /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]{11}/.test(String(m.trailer || m.video || ''));
-  const studio = MOVIES.filter(m => m.ch && m.ch !== 'rizanova' && m.ch !== 'uzbekkinoofficial' && !isExtraVideo(m) && ytOk(m) && m.year >= 2024)
-    .sort((a, b) => (b.year || 0) - (a.year || 0) || (b.addedAt || 0) - (a.addedAt || 0));
-  const uzOfficial = MOVIES.filter(m => (m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial') && m.type === 'film' && m.meta && m.desc && (m.desc.uz || '').length > 60)
-    .sort((a, b) => (b.year || 0) - (a.year || 0) || (b.addedAt || 0) - (a.addedAt || 0));
-  for (let i = 0; featured.length < HERO_MIN && (i < studio.length || i < uzOfficial.length); i++) {
-    for (const m of [studio[i], uzOfficial[i]]) if (m && !have.has(m.id) && featured.length < HERO_MIN) { have.add(m.id); featured.push(m); }
-  }
-}
+featured.push(...heroAutoFill(featured));     // js/common.js — admin ham shu ro'yxatni ishlatadi (rasmiy posterlar)
 let heroIndex = 0;
 let heroTimer = null;
 let heroSound = false;   // treyler ovozi (foydalanuvchi tugmani bosguncha o'chiq)

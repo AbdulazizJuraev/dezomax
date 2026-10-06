@@ -1190,7 +1190,10 @@ function tmdbTitledBackdrop(images, fallback) {
 async function heroAutoPosters(ids, btn) {
   const note = $('#admHeroPostersNote');
   if (!tmdbKey()) { toast('Avval TMDB kalitini kiriting: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
-  const todo = ids.map(currentMovie).filter(m => m && (!m.cover || /i\.ytimg\.com/.test(m.cover)));
+  // admin tanlaganlari + sayt o'zi qo'shadigan slaydlar (js/common.js heroAutoFill) — slayderdagi hammasi
+  const picked = ids.map(currentMovie).filter(Boolean).slice(0, 15);
+  const all = [...picked, ...heroAutoFill(picked).map(m => currentMovie(m.id) || m)];
+  const todo = all.filter(m => m && (!m.cover || /i\.ytimg\.com/.test(m.cover)));
   if (!todo.length) { toast('Slayderdagi hamma kinoning muqovasi bor'); return; }
   btn.disabled = true;
   const done = [], missed = [];
