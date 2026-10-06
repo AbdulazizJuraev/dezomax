@@ -6747,3 +6747,13 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .pf-brand[hidden] { display: none; }
 .pf-brand svg { display: block; width: 100%; height: auto; }
 .adm-lg-types { display: flex; flex-wrap: wrap; gap: 14px; }
+/* LogoVidio → Qaysi kinolarga: katta tugmalar (Kinolar / Seriallar / Multfilmlar / Tanlangan kinolar) */
+.adm-lg-cats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.adm-lg-cat {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 14px; border-radius: 12px; cursor: pointer;
+  border: 1px solid var(--line); background: rgba(255, 255, 255, .03); color: var(--text-dim); text-align: left;
+}
+.adm-lg-cat b { font-size: 16px; color: var(--text); }
+.adm-lg-cat small { font-size: 12.5px; }
+.adm-lg-cat.is-active { border-color: var(--accent, #0a93dc); background: rgba(10, 147, 220, .14); }
+.adm-lg-cat.is-active b::before { content: '✓ '; color: #6cc4f2; }

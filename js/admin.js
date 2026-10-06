@@ -1741,6 +1741,12 @@ async function renderLogoView() {
   }
   const L = siteDraft.logo;
   const sample = allMovies().find(m => m.slug === 'bek-va-lola') || allMovies().find(m => m.cover);
+  // har bir turda saytda nechta (videosi bor, yashirilmagan) kino bor
+  const LOGO_CATS = [['film', 'Kinolar'], ['serial', 'Seriallar'], ['multfilm', 'Multfilmlar']];
+  const catCount = {};
+  for (const m of allMovies()) if (hasFilm(m) && !hiddenList.includes(m.id)) catCount[m.type] = (catCount[m.type] || 0) + 1;
+  // eski sozlama: scope 'all' — uchala tur yoqilgan
+  if (L.scope !== 'ids') L.types = L.scope === 'all' || !Array.isArray(L.types) ? LOGO_CATS.map(c => c[0]) : L.types;
   const seg = (key, opts) => `<div class="adm-seg" data-lg="${key}">${opts.map(([v, t]) => `<button type="button" data-v="${v}">${t}</button>`).join('')}</div>`;
   box.innerHTML = `
     <section class="adm-sec">
@@ -1756,9 +1762,9 @@ async function renderLogoView() {
       <label class="adm-label">Ko‘rinishi (shaffoflik): <b id="lgOpV"></b></label>
       <input class="adm-range" type="range" id="lgOp" min="30" max="100" step="5" value="${L.opacity}">
       <label class="adm-label">Qaysi kinolarga</label>
-      ${seg('scope', [['all', 'Hammasiga'], ['types', 'Turlar bo‘yicha'], ['ids', 'Tanlangan kinolarga']])}
-      <div id="lgTypes" ${L.scope === 'types' ? '' : 'hidden'} class="adm-lg-types">
-        ${[['film', 'Film'], ['serial', 'Serial'], ['multfilm', 'Multfilm']].map(([v, t]) => `<label class="adm-lg-on"><input type="checkbox" data-type="${v}" ${(L.types || []).includes(v) ? 'checked' : ''}> ${t}</label>`).join('')}
+      <div class="adm-lg-cats" id="lgCats">
+        ${LOGO_CATS.map(([v, t]) => `<button type="button" class="adm-lg-cat" data-cat="${v}"><b>${t}</b><small>${catCount[v] || 0} ta</small></button>`).join('')}
+        <button type="button" class="adm-lg-cat" data-cat="ids"><b>Tanlangan kinolar</b><small id="lgIdsN">${(L.ids || []).length} ta</small></button>
       </div>
       <div id="lgIds" ${L.scope === 'ids' ? '' : 'hidden'}>${pickerHTML('logo', L.ids || [], 500)}</div>
       <label class="adm-label">Qachon ko‘rinadi</label>
@@ -1774,15 +1780,26 @@ async function renderLogoView() {
     $('#lgOpV').textContent = L.opacity + '%';
     box.querySelectorAll('[data-lg]').forEach(g => g.querySelectorAll('button').forEach(b => b.classList.toggle('is-active', String(L[g.dataset.lg]) === b.dataset.v)));
   };
-  box.querySelectorAll('[data-lg] button').forEach(b => b.addEventListener('click', () => {
-    L[b.closest('[data-lg]').dataset.lg] = b.dataset.v;
-    $('#lgTypes').hidden = L.scope !== 'types';
+  box.querySelectorAll('[data-lg] button').forEach(b => b.addEventListener('click', () => { L[b.closest('[data-lg]').dataset.lg] = b.dataset.v; paint(); }));
+  // Kinolar / Seriallar / Multfilmlar — bosilgan tur(lar)ning hammasiga; «Tanlangan kinolar» — faqat ro'yxatdagilarga
+  const paintCats = () => {
+    box.querySelectorAll('[data-cat]').forEach(b => b.classList.toggle('is-active',
+      b.dataset.cat === 'ids' ? L.scope === 'ids' : L.scope !== 'ids' && (L.types || []).includes(b.dataset.cat)));
     $('#lgIds').hidden = L.scope !== 'ids';
-    paint();
+  };
+  box.querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => {
+    const c = b.dataset.cat;
+    if (c === 'ids') { L.scope = L.scope === 'ids' ? 'all' : 'ids'; if (L.scope === 'all') L.types = LOGO_CATS.map(x => x[0]); }
+    else {
+      if (L.scope === 'ids') { L.scope = 'types'; L.types = []; }
+      const t = new Set(L.types || []);
+      t.has(c) ? t.delete(c) : t.add(c);
+      L.types = LOGO_CATS.map(x => x[0]).filter(x => t.has(x));
+      L.scope = L.types.length === LOGO_CATS.length ? 'all' : 'types';
+    }
+    paintCats();
   }));
-  box.querySelectorAll('#lgTypes [data-type]').forEach(c => c.addEventListener('change', () => {
-    L.types = [...box.querySelectorAll('#lgTypes [data-type]:checked')].map(x => x.dataset.type);
-  }));
+  paintCats();
   if (!Array.isArray(L.ids)) L.ids = [];
   bindPicker($('#lgIds'), () => L.ids, ids => { L.ids = ids; }, renderLogoView);
   $('#lgOn').addEventListener('change', e => { L.enabled = e.target.checked; paint(); });
