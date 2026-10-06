@@ -7,6 +7,681 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 7593104,
+    "slug": "wb-practical-magic-2",
+    "type": "film",
+    "franchise": "warner",
+    "title": {
+      "uz": "Practical Magic 2",
+      "ru": "Практическая магия 2"
+    },
+    "genres": [
+      "romance",
+      "fantasy"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Susanne Bier",
+    "cast": [
+      "Sandra Bullock",
+      "Nicole Kidman",
+      "Stockard Channing",
+      "Dianne Wiest",
+      "Joey King",
+      "Xolo Maridueña"
+    ],
+    "desc": {
+      "uz": "«Practical Magic 2» (2026) — Warner Bros. filmi. Rejissyor: Susanne Bier. Rollarda: Sandra Bullock, Nicole Kidman, Stockard Channing, Dianne Wiest. Rasmiy treyler — Warner Bros. YouTube kanalidan.",
+      "ru": "«Практическая магия 2» (2026) — фильм Warner Bros.. Режиссёр: Susanne Bier. В ролях: Sandra Bullock, Nicole Kidman, Stockard Channing, Dianne Wiest. Официальный трейлер с YouTube-канала Warner Bros.."
+    },
+    "tags": [
+      "Practical Magic 2",
+      "Практическая магия 2"
+    ],
+    "colors": [
+      "#0b2550",
+      "#05080f"
+    ],
+    "poster": "https://i.ytimg.com/vi/Ho10_4IX1jE/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/Ho10_4IX1jE/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=Ho10_4IX1jE",
+    "video": "",
+    "source": {
+      "name": "Warner Bros.",
+      "url": "https://www.youtube.com/@WarnerBros"
+    },
+    "featured": false,
+    "wd": "Q131901398",
+    "ch": "warner",
+    "vposter": "https://image.tmdb.org/t/p/w780/sxusbJzNx21lHnwQ1ssBTs2EGwg.jpg",
+    "tmdb": {
+      "id": 1302904,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7635770,
+    "slug": "wb-dune-part-three",
+    "type": "film",
+    "franchise": "warner",
+    "title": {
+      "uz": "Dune: Part Three",
+      "ru": "Дюна: Часть третья"
+    },
+    "genres": [
+      "scifi"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Denis Villeneuve",
+    "cast": [
+      "Timothée Chalamet",
+      "Florence Pugh",
+      "Jason Momoa",
+      "Josh Brolin",
+      "Robert Pattinson"
+    ],
+    "desc": {
+      "uz": "«Dune: Part Three» (2026) — Warner Bros. filmi. Rejissyor: Denis Villeneuve. Rollarda: Timothée Chalamet, Florence Pugh, Jason Momoa, Josh Brolin. Rasmiy treyler — Warner Bros. YouTube kanalidan.",
+      "ru": "«Дюна: Часть третья» (2026) — фильм Warner Bros.. Режиссёр: Denis Villeneuve. В ролях: Timothée Chalamet, Florence Pugh, Jason Momoa, Josh Brolin. Официальный трейлер с YouTube-канала Warner Bros.."
+    },
+    "tags": [
+      "Dune: Part Three",
+      "Дюна: Часть третья"
+    ],
+    "colors": [
+      "#0b2550",
+      "#05080f"
+    ],
+    "poster": "https://i.ytimg.com/vi/NdvqHc56lE0/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/NdvqHc56lE0/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=NdvqHc56lE0",
+    "video": "",
+    "source": {
+      "name": "Warner Bros.",
+      "url": "https://www.youtube.com/@WarnerBros"
+    },
+    "featured": false,
+    "wd": "Q124714245",
+    "ch": "warner",
+    "vposter": "https://image.tmdb.org/t/p/w780/x50ig6nAMNCP3ihDXKfUjnKM4Ud.jpg",
+    "tmdb": {
+      "id": 1170608,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7450016,
+    "slug": "wb-digger",
+    "type": "film",
+    "franchise": "warner",
+    "title": {
+      "uz": "Digger",
+      "ru": "Диггер"
+    },
+    "genres": [
+      "drama",
+      "comedy"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Alejandro González Iñárritu",
+    "cast": [
+      "Sandra Hüller",
+      "John Goodman",
+      "Michael Stuhlbarg",
+      "Jesse Plemons",
+      "Sophie Wilde"
+    ],
+    "desc": {
+      "uz": "«Digger» (2026) — Warner Bros. filmi. Rejissyor: Alejandro González Iñárritu. Rollarda: Sandra Hüller, John Goodman, Michael Stuhlbarg, Jesse Plemons. Rasmiy treyler — Warner Bros. YouTube kanalidan.",
+      "ru": "«Диггер» (2026) — фильм Warner Bros.. Режиссёр: Alejandro González Iñárritu. В ролях: Sandra Hüller, John Goodman, Michael Stuhlbarg, Jesse Plemons. Официальный трейлер с YouTube-канала Warner Bros.."
+    },
+    "tags": [
+      "Digger",
+      "Диггер"
+    ],
+    "colors": [
+      "#0b2550",
+      "#05080f"
+    ],
+    "poster": "https://i.ytimg.com/vi/job8V254NAE/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/job8V254NAE/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=job8V254NAE",
+    "video": "",
+    "source": {
+      "name": "Warner Bros.",
+      "url": "https://www.youtube.com/@WarnerBros"
+    },
+    "featured": false,
+    "wd": "Q129677718",
+    "ch": "warner",
+    "vposter": "https://image.tmdb.org/t/p/w780/biovC0fjDUUSGJiR4joGaGERUS3.jpg",
+    "tmdb": {
+      "id": 1248832,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7608197,
+    "slug": "ds-disneyland-handcrafted",
+    "type": "film",
+    "franchise": "disney",
+    "title": {
+      "uz": "Disneyland Handcrafted",
+      "ru": "Disneyland Handcrafted"
+    },
+    "genres": [
+      "family",
+      "adventure",
+      "fantasy"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Leslie Iwerks",
+    "cast": [],
+    "desc": {
+      "uz": "«Disneyland Handcrafted» (2026) — Disney filmi. Rejissyor: Leslie Iwerks. Rasmiy treyler — Disney YouTube kanalidan.",
+      "ru": "«Disneyland Handcrafted» (2026) — фильм Disney. Режиссёр: Leslie Iwerks. Официальный трейлер с YouTube-канала Disney."
+    },
+    "tags": [
+      "Disneyland Handcrafted"
+    ],
+    "colors": [
+      "#0f2a5c",
+      "#060a16"
+    ],
+    "poster": "https://i.ytimg.com/vi/7rP3FVnGtfg/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/7rP3FVnGtfg/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=7rP3FVnGtfg",
+    "video": "",
+    "source": {
+      "name": "Disney",
+      "url": "https://www.youtube.com/@Disney"
+    },
+    "featured": false,
+    "wd": "Q137771918",
+    "ch": "disney",
+    "vposter": "https://image.tmdb.org/t/p/w780/81szv19zvs5fGqXtWau6tXzfC4T.jpg",
+    "tmdb": {
+      "id": 1538718,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7789098,
+    "slug": "dw-forgotten-island",
+    "type": "multfilm",
+    "franchise": "dreamworks",
+    "title": {
+      "uz": "Forgotten Island",
+      "ru": "Остров забвения"
+    },
+    "genres": [
+      "animation",
+      "fantasy",
+      "adventure"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Joel Crawford, Januel Mercado",
+    "cast": [
+      "H.E.R.",
+      "Liza Soberano",
+      "Dave Franco",
+      "Manny Jacinto",
+      "Jenny Slate",
+      "Lea Salonga"
+    ],
+    "desc": {
+      "uz": "«Forgotten Island» (2026) — DreamWorks multfilmi. Rejissyor: Joel Crawford, Januel Mercado. Rollarda: H.E.R., Liza Soberano, Dave Franco, Manny Jacinto. Rasmiy treyler — Universal Pictures YouTube kanalidan.",
+      "ru": "«Остров забвения» (2026) — мультфильм DreamWorks. Режиссёр: Joel Crawford, Januel Mercado. В ролях: H.E.R., Liza Soberano, Dave Franco, Manny Jacinto. Официальный трейлер с YouTube-канала Universal Pictures."
+    },
+    "tags": [
+      "Forgotten Island",
+      "Остров забвения"
+    ],
+    "colors": [
+      "#0a3050",
+      "#050b12"
+    ],
+    "poster": "https://i.ytimg.com/vi/ZYWvwMRdhCY/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/ZYWvwMRdhCY/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=ZYWvwMRdhCY",
+    "video": "",
+    "source": {
+      "name": "Universal Pictures",
+      "url": "https://www.youtube.com/@UniversalPictures"
+    },
+    "featured": false,
+    "wd": "Q138335503",
+    "ch": "dreamworks",
+    "vposter": "https://image.tmdb.org/t/p/w780/uhNMNaaovoZiYeaDYZ9BYX7jTAJ.jpg",
+    "tmdb": {
+      "id": 1465063,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7957778,
+    "slug": "rn-taqib",
+    "type": "film",
+    "franchise": "uzbek",
+    "audio": "uz",
+    "title": {
+      "uz": "Ta’qib",
+      "ru": "Ta’qib"
+    },
+    "genres": [
+      "drama",
+      "romance"
+    ],
+    "year": 2024,
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [
+      "Tursunov Shaxzodbek",
+      "Jumabayeva Maxliyo",
+      "Raimov Zufar",
+      "Baxtiyor Poyonov"
+    ],
+    "desc": {
+      "uz": "Film yosh suratkash bola haqida bo‘lib, u qishloq bo‘ylab sayohat qilar ekan, turli insonlar taqdiri va hayoti bilan yaqindan tanishadi. Har bir uchrashuv unga yangi taassurotlar baxsh etadi, kutilmagan voqealar esa uning hayotga bo‘lgan qarashlarini o‘zgartirib boradi.",
+      "ru": "«Ta’qib» — узбекский фильм с официального YouTube-канала UzbekFilmsHD."
+    },
+    "colors": [
+      "#3a1a4a",
+      "#0d0610"
+    ],
+    "poster": "https://i.ytimg.com/vi/g0SiMzXyio8/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/g0SiMzXyio8/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=g0SiMzXyio8",
+    "duration": 101,
+    "source": {
+      "name": "UzbekFilmsHD",
+      "url": "https://www.youtube.com/@UzbekFilmsHD"
+    },
+    "featured": false,
+    "ch": "rizanova",
+    "yearOk": 1,
+    "director": "Baxtiyor Poyonov",
+    "writer": "Baxtiyor Poyonov",
+    "meta": 1,
+    "vposter": "https://image.tmdb.org/t/p/w780/4SbTd9yqYUzld8KwPi7OvEmwFLT.jpg",
+    "tmdb": {
+      "id": 1565837,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7650736,
+    "slug": "sw-the-mandalorian-and-grogu",
+    "type": "film",
+    "franchise": "lucasfilm",
+    "title": {
+      "uz": "The Mandalorian and Grogu",
+      "ru": "Мандалорец и Грогу"
+    },
+    "genres": [
+      "scifi",
+      "adventure",
+      "action"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Jon Favreau",
+    "cast": [
+      "Pedro Pascal",
+      "Sigourney Weaver",
+      "Jonny Coyne",
+      "Matt Willig",
+      "Hemky Madera",
+      "Steve Blum"
+    ],
+    "desc": {
+      "uz": "«The Mandalorian and Grogu» (2026) — Lucasfilm (Star Wars). Rejissyor: Jon Favreau. Rollarda: Pedro Pascal, Sigourney Weaver, Jonny Coyne, Matt Willig. Rasmiy treyler — Star Wars YouTube kanalidan.",
+      "ru": "«Мандалорец и Грогу» (2026) — Lucasfilm (Звёздные войны). Режиссёр: Jon Favreau. В ролях: Pedro Pascal, Sigourney Weaver, Jonny Coyne, Matt Willig. Официальный трейлер с YouTube-канала Star Wars."
+    },
+    "tags": [
+      "The Mandalorian and Grogu",
+      "Мандалорец и Грогу"
+    ],
+    "colors": [
+      "#2a2410",
+      "#0a0904"
+    ],
+    "poster": "https://i.ytimg.com/vi/dsPcVOUmNKs/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/dsPcVOUmNKs/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=dsPcVOUmNKs",
+    "video": "",
+    "source": {
+      "name": "Star Wars",
+      "url": "https://www.youtube.com/@StarWars"
+    },
+    "featured": false,
+    "wd": "Q124246549",
+    "ch": "lucasfilm",
+    "vposter": "https://image.tmdb.org/t/p/w780/tNap97mpnj63cQ5dXnCDYWKdUbi.jpg",
+    "tmdb": {
+      "id": 1228710,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7250991,
+    "slug": "px-hoppers",
+    "type": "multfilm",
+    "franchise": "pixar",
+    "title": {
+      "uz": "Hoppers",
+      "ru": "Прыгуны"
+    },
+    "genres": [
+      "animation",
+      "comedy",
+      "scifi"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Daniel Chong",
+    "cast": [
+      "Bobby Moynihan",
+      "Jon Hamm",
+      "Piper Curda",
+      "Demetri Martin",
+      "Melissa Villaseñor",
+      "Kathy Najimy"
+    ],
+    "desc": {
+      "uz": "«Hoppers» (2026) — Pixar multfilmi. Rejissyor: Daniel Chong. Rollarda: Bobby Moynihan, Jon Hamm, Piper Curda, Demetri Martin. Rasmiy treyler — Pixar YouTube kanalidan.",
+      "ru": "«Прыгуны» (2026) — мультфильм Pixar. Режиссёр: Daniel Chong. В ролях: Bobby Moynihan, Jon Hamm, Piper Curda, Demetri Martin. Официальный трейлер с YouTube-канала Pixar."
+    },
+    "tags": [
+      "Hoppers",
+      "Прыгуны",
+      "Sakrovchilar"
+    ],
+    "colors": [
+      "#0b3a6a",
+      "#05101c"
+    ],
+    "poster": "https://i.ytimg.com/vi/PypDSyIRRSs/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/PypDSyIRRSs/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=PypDSyIRRSs",
+    "video": "",
+    "source": {
+      "name": "Pixar",
+      "url": "https://www.youtube.com/@pixar"
+    },
+    "featured": false,
+    "wd": "Q128798957",
+    "ch": "pixar",
+    "vposter": "https://image.tmdb.org/t/p/w780/4eqr5LZH122BiU9hboXHZxX8bBl.jpg",
+    "tmdb": {
+      "id": 1327819,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7292669,
+    "slug": "rn-istanbul-operatsiyasi",
+    "type": "film",
+    "franchise": "uzbek",
+    "audio": "uz",
+    "title": {
+      "uz": "Istanbul operatsiyasi",
+      "ru": "Istanbul operatsiyasi"
+    },
+    "genres": [
+      "comedy"
+    ],
+    "year": 2025,
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [
+      "Asqar Hikmatov",
+      "Mo‘min Rizo",
+      "Sitora Alimjonova",
+      "Oydin Yusupova",
+      "Matyoqub Matchonov",
+      "Sanjar Shodiev",
+      "Baxshillo Fatullayev",
+      "Saida Rametova",
+      "Zuhra Soliyeva"
+    ],
+    "desc": {
+      "uz": "Film qahramonlari Aziz va Rustam aslida egizak aka-ukalar. Ammo, ular bir-birlariga nafaqat tashqi ko‘rinish, balki xarakter taraflama ham mutlaqo o‘xshamaydilar. Aziz allaqachon Sitora ismli qizga ko‘ngil qo‘ygan, unga uylanmoqchi. Lekin, uning otasi Aziz bir ishni boshlab, oxiriga yetkaza olmaganini va omadsiz ekanini aytib, unga qizini berish niyatida emas. Aynan shu vaqtda Rustamning esa, sevikli qizi yo‘q va ota-onasi uni tezroq uylantirish harakatida edilar. Aziz Sitoraga erishish uchun, uning otasiga qisqa muddatda o‘z oldiga maqsad qo‘yib, muvaffaqiyatga erishishga va’da beradi. Rustam esa, kutilmaganda Aziz ofitsiant bo‘lib ishlaydigan kafedagi Oydinni sevib qoladi. Ammo, badavlatli",
+      "ru": "«Istanbul operatsiyasi» — узбекский фильм с официального YouTube-канала UzbekFilmsHD."
+    },
+    "colors": [
+      "#3a1a4a",
+      "#0d0610"
+    ],
+    "poster": "https://i.ytimg.com/vi/2H1hgePOuNk/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/2H1hgePOuNk/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=2H1hgePOuNk",
+    "duration": 86,
+    "source": {
+      "name": "UzbekFilmsHD",
+      "url": "https://www.youtube.com/@UzbekFilmsHD"
+    },
+    "featured": false,
+    "ch": "rizanova",
+    "yearOk": 1,
+    "director": "Shuhrat Salomov",
+    "writer": "Saida Vahobova, Feruza Fattohova",
+    "meta": 1,
+    "vposter": "https://image.tmdb.org/t/p/w780/6k4INEsfbH1APCKODLJRulPfj3a.jpg",
+    "tmdb": {
+      "id": 1412770,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7556539,
+    "slug": "dc-supergirl",
+    "type": "film",
+    "franchise": "dc",
+    "title": {
+      "uz": "Supergirl",
+      "ru": "Супергёрл"
+    },
+    "genres": [
+      "action"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Craig Gillespie",
+    "cast": [
+      "Milly Alcock",
+      "Matthias Schoenaerts",
+      "Eve Ridley",
+      "David Krumholtz",
+      "Emily Beecham",
+      "Jason Momoa"
+    ],
+    "desc": {
+      "uz": "«Supergirl» (2026) — DC Studios filmi. Rejissyor: Craig Gillespie. Rollarda: Milly Alcock, Matthias Schoenaerts, Eve Ridley, David Krumholtz. Rasmiy treyler — DC YouTube kanalidan.",
+      "ru": "«Супергёрл» (2026) — фильм DC Studios. Режиссёр: Craig Gillespie. В ролях: Milly Alcock, Matthias Schoenaerts, Eve Ridley, David Krumholtz. Официальный трейлер с YouTube-канала DC."
+    },
+    "tags": [
+      "Supergirl",
+      "Супергёрл"
+    ],
+    "colors": [
+      "#0a2a5a",
+      "#04060c"
+    ],
+    "poster": "https://i.ytimg.com/vi/QPK_gGwpg24/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/QPK_gGwpg24/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=QPK_gGwpg24",
+    "video": "",
+    "source": {
+      "name": "DC",
+      "url": "https://www.youtube.com/@dcofficial"
+    },
+    "featured": false,
+    "wd": "Q116921951",
+    "ch": "dc",
+    "vposter": "https://image.tmdb.org/t/p/w780/gcAZ5f6Y40koGYcfPUqb2tmnVd.jpg",
+    "tmdb": {
+      "id": 1081003,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7717566,
+    "slug": "dc-clayface",
+    "type": "film",
+    "franchise": "dc",
+    "title": {
+      "uz": "Clayface",
+      "ru": "Глиноликий"
+    },
+    "genres": [
+      "action",
+      "adventure",
+      "fantasy"
+    ],
+    "year": 2026,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "James Watkins",
+    "cast": [
+      "Tom Rhys Harries",
+      "Naomi Ackie",
+      "Max Minghella",
+      "Eddie Marsan"
+    ],
+    "desc": {
+      "uz": "«Clayface» (2026) — DC Studios filmi. Rejissyor: James Watkins. Rollarda: Tom Rhys Harries, Naomi Ackie, Max Minghella, Eddie Marsan. Rasmiy treyler — DC YouTube kanalidan.",
+      "ru": "«Глиноликий» (2026) — фильм DC Studios. Режиссёр: James Watkins. В ролях: Tom Rhys Harries, Naomi Ackie, Max Minghella, Eddie Marsan. Официальный трейлер с YouTube-канала DC."
+    },
+    "tags": [
+      "Clayface",
+      "Глиноликий"
+    ],
+    "colors": [
+      "#0a2a5a",
+      "#04060c"
+    ],
+    "poster": "https://i.ytimg.com/vi/OGO4Mqvo3jI/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/OGO4Mqvo3jI/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=OGO4Mqvo3jI",
+    "video": "",
+    "source": {
+      "name": "DC",
+      "url": "https://www.youtube.com/@dcofficial"
+    },
+    "featured": false,
+    "wd": "Q131460936",
+    "ch": "dc",
+    "vposter": "https://image.tmdb.org/t/p/w780/t6Dso7ojC23ztZSZtf6sje9iTPN.jpg",
+    "tmdb": {
+      "id": 1400940,
+      "type": "movie"
+    }
+  },
+  {
+    "id": 7128057,
+    "slug": "pm-children-of-blood-and-bone",
+    "type": "film",
+    "franchise": "paramount",
+    "title": {
+      "uz": "Children of Blood and Bone",
+      "ru": "Children of Blood and Bone"
+    },
+    "genres": [
+      "action",
+      "fantasy"
+    ],
+    "year": 2027,
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "director": "Gina Prince-Bythewood",
+    "cast": [
+      "Thuso Mbedu",
+      "Tosin Cole",
+      "Amandla Stenberg",
+      "Damson Idris",
+      "Lashana Lynch",
+      "Idris Elba"
+    ],
+    "desc": {
+      "uz": "«Children of Blood and Bone» (2027) — Paramount Pictures filmi. Rejissyor: Gina Prince-Bythewood. Rollarda: Thuso Mbedu, Tosin Cole, Amandla Stenberg, Damson Idris. Rasmiy treyler — Paramount Pictures YouTube kanalidan.",
+      "ru": "«Children of Blood and Bone» (2027) — фильм Paramount Pictures. Режиссёр: Gina Prince-Bythewood. В ролях: Thuso Mbedu, Tosin Cole, Amandla Stenberg, Damson Idris. Официальный трейлер с YouTube-канала Paramount Pictures."
+    },
+    "tags": [
+      "Children of Blood and Bone"
+    ],
+    "colors": [
+      "#0a2a6a",
+      "#050914"
+    ],
+    "poster": "https://i.ytimg.com/vi/r3UVM82zyjg/maxresdefault.jpg",
+    "cover": "https://i.ytimg.com/vi/r3UVM82zyjg/maxresdefault.jpg",
+    "wide": true,
+    "trailer": "https://www.youtube.com/watch?v=r3UVM82zyjg",
+    "video": "",
+    "source": {
+      "name": "Paramount Pictures",
+      "url": "https://www.youtube.com/@paramountpictures"
+    },
+    "featured": false,
+    "wd": "Q131854232",
+    "ch": "paramount",
+    "vposter": "https://image.tmdb.org/t/p/w780/qxUPu92DF5Bo6jcCDhnMTHFPEEc.jpg",
+    "tmdb": {
+      "id": 621304,
+      "type": "movie"
+    }
+  },
+  {
     "id": 2382,
     "slug": "ice-age-continental-drift",
     "type": "multfilm",
@@ -4984,7 +5659,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 24428,
       "type": "movie"
-    }
+    },
+    "vposter": "https://image.tmdb.org/t/p/w780/zM4ulQLKxBpmzanvPQNkj3VV4a5.jpg"
   },
   {
     "id": 15,
@@ -5765,7 +6441,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "rating": 7.9,
     "director": "Jon Favreau",
     "franchise": "marvel",
-    "audio": "uz"
+    "audio": "uz",
+    "vposter": "https://image.tmdb.org/t/p/w780/wAKZudQn0HEXqLvaGN6BEripHbv.jpg"
   },
   {
     "id": 2613,
@@ -6593,7 +7270,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 157336,
       "type": "movie"
-    }
+    },
+    "vposter": "https://image.tmdb.org/t/p/w780/vReLRjDV9XPhiOSEW7QWow4DXwf.jpg"
   },
   {
     "id": 40,
@@ -40394,7 +41072,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 140607,
       "type": "movie"
-    }
+    },
+    "vposter": "https://image.tmdb.org/t/p/w780/5ltRJxurOTIaMQwcOwSau7l3GME.jpg"
   },
   {
     "id": 1001388653,
@@ -40440,7 +41119,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 68726,
       "type": "movie"
-    }
+    },
+    "vposter": "https://image.tmdb.org/t/p/w780/jwdJ3iy8rwJjvPOtCdtR17mzMVR.jpg"
   },
   {
     "id": 3913,
