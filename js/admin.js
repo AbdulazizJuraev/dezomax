@@ -1457,11 +1457,18 @@ const delayText = s => +s >= 60 ? '1 daqiqa' : `${+s} soniya`;
 
 /* ---------- Sayt teglari (SEO): bosh sahifaning sarlavhasi, tavsifi va kalit so'zlari ----------
    index.html ning o'ziga yoziladi (GitHub API) — qidiruv tizimlari JavaScript'siz ham ko'radi. */
+/* Sayt bo'limidagi yig'iladigan qismlar: boshida yopiq, ochilgani qayta chizilganda ham ochiq qoladi */
+const ADM_OPEN = new Set();
+const foldOpen = k => ADM_OPEN.has(k) ? ' open' : '';
+function bindFolds(root = document) {
+  root.querySelectorAll('details[data-fold]').forEach(d => d.addEventListener('toggle', () => { d.open ? ADM_OPEN.add(d.dataset.fold) : ADM_OPEN.delete(d.dataset.fold); }));
+}
+
 function seoSectionHTML() {
   queueMicrotask(bindSeo);
   return `
-    <section class="adm-sec" id="admSeo">
-      <div class="adm-sec-head"><span class="adm-sec-icon">${ADM_ICONS.tag}</span><h3>Sayt teglari (SEO)</h3><small>bosh sahifa</small></div>
+    <details class="adm-sec adm-fold" id="admSeo" data-fold="seo"${foldOpen('seo')}>
+      <summary class="adm-sec-head"><span class="adm-sec-icon">${ADM_ICONS.tag}</span><h3>Sayt teglari (SEO)</h3><small>bosh sahifa</small></summary>
       <p class="adm-hint">Sarlavha — 60, tavsif — 160 belgigacha.</p>
       <div class="adm-field"><label class="adm-label" for="seoTitle">Sarlavha <small id="seoTitleN"></small></label>
         <input class="acc-input" id="seoTitle" maxlength="90" placeholder="Yuklanmoqda…"></div>
@@ -1472,7 +1479,7 @@ function seoSectionHTML() {
       <div class="adm-tag-chips" id="seoChips"></div>
       <p class="acc-error" id="seoErr" hidden></p>
       <button class="btn btn-primary" type="button" id="seoSave" disabled>Teglarni saqlash</button>
-    </section>`;
+    </details>`;
 }
 
 const seoAttr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -1535,8 +1542,8 @@ async function renderSiteView() {
   const d = siteDraft;
 
   box.innerHTML = seoSectionHTML() + `
-    <section class="adm-sec">
-      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Katta slayder (karusel)</h3><small>${d.hero.ids.length} ta kino</small></div>
+    <details class="adm-sec adm-fold" data-fold="hero"${foldOpen('hero')}>
+      <summary class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Katta slayder (karusel)</h3><small>${d.hero.ids.length} ta kino</small></summary>
       <div class="adm-field">
         <label class="adm-label">Har bir treyler necha soniya ko‘rinsin: <b id="admDelayVal">${delayText(d.hero.delay)}</b></label>
         <div class="adm-seg" data-delay>
@@ -1551,16 +1558,16 @@ async function renderSiteView() {
         <button class="btn btn-ghost" type="button" id="admHeroPosters">Rasmiy posterlarni qo‘yish (TMDB)</button>
       </div>
       <small class="acc-muted" id="admHeroPostersNote">Slayderdagi kinolarga kino nomi yozilgan rasmiy vertikal poster o‘zi topilib qo‘yiladi (kartalardagi posterga tegmaydi).</small>
-    </section>
+    </details>
 
-    <section class="adm-sec">
-      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Bolalar slayderi</h3><small>${(d.hero.kidsIds || []).length} ta multfilm</small></div>
+    <details class="adm-sec adm-fold" data-fold="kids"${foldOpen('kids')}>
+      <summary class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.film}</span><h3>Bolalar slayderi</h3><small>${(d.hero.kidsIds || []).length} ta multfilm</small></summary>
       <p class="adm-hint">«Bolalar» rolida va «Mehmon → 0–6 yosh»da bosh sahifada shu multfilmlar chiqadi. Tanlanmagan bo‘lsa — YouTube’dagi multfilmlar.</p>
       <div id="admKidsPicker">${pickerHTML('kids', d.hero.kidsIds || [], 25)}</div>
-    </section>
+    </details>
 
-    <section class="adm-sec">
-      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.list}</span><h3>Bosh sahifa qatorlari</h3><small>${d.rows.filter(r => r.visible !== false).length} ta ko‘rinadi</small></div>
+    <details class="adm-sec adm-fold" data-fold="rows"${foldOpen('rows')}>
+      <summary class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.list}</span><h3>Bosh sahifa qatorlari</h3><small>${d.rows.filter(r => r.visible !== false).length} ta ko‘rinadi</small></summary>
       <div class="adm-rows">
         ${d.rows.map((r, i) => `
           <div class="adm-rowcard${r.visible === false ? ' is-off' : ''}" data-row="${i}">
@@ -1583,7 +1590,7 @@ async function renderSiteView() {
           </div>`).join('')}
       </div>
       <button class="btn btn-ghost adm-addrow" type="button" id="admAddRow">${NAV_ICONS.plus}<span>Yangi qator qo‘shish</span></button>
-    </section>
+    </details>
 
     <div class="adm-savebar">
       <p class="acc-error" id="siteErr" hidden></p>
@@ -1602,6 +1609,7 @@ async function renderSiteView() {
     $('#admDelayVal').textContent = delayText(d.hero.delay);
     box.querySelectorAll('[data-sec]').forEach(b => b.classList.toggle('is-active', +b.dataset.sec === d.hero.delay));
   });
+  bindFolds(box);
   bindPicker($('#admHeroPicker'), () => d.hero.ids, ids => { d.hero.ids = ids; }, rerender);
   bindPicker($('#admKidsPicker'), () => d.hero.kidsIds || [], ids => { d.hero.kidsIds = ids; }, rerender);
   $('#admHeroPosters')?.addEventListener('click', e => heroAutoPosters(d.hero.ids, e.currentTarget, d.hero.kidsIds || []));
