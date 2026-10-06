@@ -6409,3 +6409,7 @@ html.tv-mode .row-nav { display: none !important; }
 }
 .cw-card .card-dur { bottom: 11px; }            /* qizil chiziq ustida */
 @media (max-width: 640px) { .card-dur { font-size: 11px; padding: 3px 5px; right: 6px; bottom: 6px; } }
+
+/* admin — Ishlamaydigan kinolar: tekshiruv jarayoni */
+.adm-progress { height: 8px; border-radius: 99px; background: var(--surface-2, rgba(255,255,255,.08)); overflow: hidden; margin: 6px 0 4px; }
+.adm-progress i { display: block; height: 100%; background: var(--accent, #0a93dc); border-radius: inherit; transition: width .3s; }

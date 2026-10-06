@@ -711,6 +711,7 @@ function renderMain() {
       <button type="button" data-view="form" class="${view === 'form' && !editingId ? 'is-active' : ''}">${NAV_ICONS.plus}<span>Qo‘shish</span></button>
       <button type="button" data-view="groups" class="${view === 'groups' ? 'is-active' : ''}">${NAV_ICONS.group}<span>Guruhlar</span></button>
       <button type="button" data-view="dups" class="${view === 'dups' ? 'is-active' : ''}">${NAV_ICONS.copy}<span>Dublikatlar</span></button>
+      <button type="button" data-view="broken" class="${view === 'broken' ? 'is-active' : ''}">${NAV_ICONS.bolt}<span>Ishlamaydi</span></button>
       <button type="button" data-view="site" class="${view === 'site' ? 'is-active' : ''}">${NAV_ICONS.gear}<span>Sayt</span></button>
       <button type="button" data-view="notify" class="${view === 'notify' ? 'is-active' : ''}">${NAV_ICONS.bell}<span>Xabar</span></button>
       <button type="button" data-view="tg" class="${view === 'tg' ? 'is-active' : ''}">${NAV_ICONS.tg}<span>Telegram</span></button>
@@ -735,6 +736,7 @@ function renderMain() {
   else if (view === 'groups') renderGroupsView();
   else if (view === 'backup') renderBackupView();
   else if (view === 'dups') renderDupView();
+  else if (view === 'broken') renderBrokenView();
   else renderFormView();
 }
 
@@ -3028,6 +3030,132 @@ async function renderBackupView() {
     }));
   };
   draw();
+}
+
+/* ---------- Ishlamaydigan kinolar: saytdagi kinolarning videosi ochiladimi — shu brauzerning o'zida tekshiriladi ----------
+   YouTube — muqova rasmi (o'chirilgan videoda 120×90 kulrang rasm qaytadi). Telegram (t.me) — sayt ichida hech qachon ochilmaydi.
+   Boshqa havolalar — <video> metama'lumoti yuklanadimi (fayl o'chirilgan, sayt bloklagan yoki format brauzerga to'g'ri kelmasa — xato).
+   Natija shu brauzerda saqlanadi (dzx_broken). Kinolar O'CHIRILMAYDI — yashiriladi (Kinolar → Yashirilgan → Ko'rsatish). */
+const BROKEN_KEY = 'dzx_broken';
+const BROKEN_WHY = { telegram: 'Telegram sayt ichida ochishni bloklaydi', removed: 'YouTube’da o‘chirilgan yoki yopiq', error: 'Fayl ochilmadi (o‘chirilgan yoki bloklangan)', http: 'Faqat http:// — kompyuterda sahifa ichida ochilmaydi (ilovada ochiladi)', slow: '20 soniyada javob bermadi' };
+const brokenState = { running: false, stop: false, done: 0, total: 0 };
+
+function brokenLoad() { try { return JSON.parse(localStorage.getItem(BROKEN_KEY) || '{}'); } catch { return {}; } }
+function brokenSave(r) { try { localStorage.setItem(BROKEN_KEY, JSON.stringify(r)); } catch {} }
+
+function brokenItems() {
+  const seen = new Set();
+  return allMovies().filter(m => hasFilm(m) && !hiddenList.includes(m.id) && !seen.has(m.id) && seen.add(m.id));
+}
+
+function brokenTest(url) {
+  const u = String(url).trim();
+  if (/^https?:\/\/(www\.)?(t\.me|telegram\.me)\//i.test(u)) return Promise.resolve('telegram');
+  const yt = u.match(/(?:[?&]v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/);
+  if (yt) return new Promise(res => {
+    const img = new Image(), t = setTimeout(() => res('slow'), 15000);
+    img.onload = () => { clearTimeout(t); res(img.naturalWidth <= 120 ? 'removed' : 'ok'); };
+    img.onerror = () => { clearTimeout(t); res('removed'); };
+    img.src = `https://i.ytimg.com/vi/${yt[1]}/mqdefault.jpg`;
+  });
+  const dc = (u.match(/^https?:\/\/(?:www\.)?dezocloud\.uz\/s\/([\w-]+)/i) || [])[1];
+  const src = dc ? `https://dezocloud.uz/v/${dc}` : u;
+  if (/^http:\/\//i.test(src) && location.protocol === 'https:') return Promise.resolve('http');        // https sahifada brauzer http videoni ko'rsatmaydi
+  return new Promise(res => {
+    const v = document.createElement('video');
+    let fin = false, t = 0;
+    const end = r => { if (fin) return; fin = true; clearTimeout(t); v.removeAttribute('src'); v.load(); res(r); };
+    if (/\.m3u8(\?|$)/i.test(src) && !v.canPlayType('application/vnd.apple.mpegurl')) return res('ok');   // HLS — pleyerda hls.js bilan o'ynaydi
+    t = setTimeout(() => end('slow'), 20000);
+    v.preload = 'metadata'; v.muted = true;
+    v.onloadedmetadata = () => end('ok');
+    v.onerror = () => end('error');
+    v.src = src;
+  });
+}
+
+async function brokenRun(onlyBad) {
+  const res = brokenLoad();
+  let list = brokenItems();
+  if (onlyBad) list = list.filter(m => res[m.id] && res[m.id].s !== 'ok');
+  Object.assign(brokenState, { running: true, stop: false, done: 0, total: list.length });
+  renderBrokenView();
+  let i = 0, last = 0;
+  await Promise.all(Array.from({ length: 6 }, async () => {
+    while (i < list.length && !brokenState.stop) {
+      const m = list[i++];
+      let s = await brokenTest(m.video);
+      if (s === 'slow' || s === 'error') s = await brokenTest(m.video);     // bir marta qayta urinamiz
+      res[m.id] = { s, v: String(m.video), at: Date.now() };
+      brokenState.done++;
+      if (Date.now() - last > 800) { last = Date.now(); brokenSave(res); if (view === 'broken') renderBrokenView(); }
+    }
+  }));
+  brokenSave(res);
+  brokenState.running = false;
+  if (view === 'broken') renderBrokenView();
+  toast(brokenState.stop ? 'Tekshiruv to‘xtatildi' : 'Tekshiruv tugadi');
+}
+
+function renderBrokenView() {
+  const box = $('#admView');
+  const res = brokenLoad(), items = brokenItems();
+  // havola keyin almashtirilgan bo'lsa — eski natija hisobga olinmaydi
+  const fresh = m => res[m.id] && res[m.id].v === String(m.video) ? res[m.id] : null;
+  const bad = items.filter(m => { const r = fresh(m); return r && r.s !== 'ok'; });
+  const checked = items.filter(fresh).length;
+  const pct = brokenState.total ? Math.round(brokenState.done / brokenState.total * 100) : 0;
+  const by = {};
+  for (const m of bad) by[fresh(m).s] = (by[fresh(m).s] || 0) + 1;
+  const scroll = window.scrollY;
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.bolt}</span><h3>Ishlamaydigan kinolar</h3><small>${checked}/${items.length} tekshirilgan · ${bad.length} ta ochilmaydi</small></div>
+      <p class="adm-hint">Har bir kinoning videosi shu brauzerda ochib ko‘riladi. Ochilmaganini yashirasiz — keyin qaytarish mumkin.</p>
+      ${brokenState.running ? `
+        <div class="adm-progress"><i style="width:${pct}%"></i></div>
+        <p class="adm-hint">${brokenState.done} / ${brokenState.total} · ${pct}%</p>
+        <button class="btn btn-ghost" type="button" id="brkStop">To‘xtatish</button>` : `
+        <div class="adm-actions">
+          <button class="btn btn-primary" type="button" id="brkRun">${checked ? 'Qaytadan tekshirish' : 'Tekshirishni boshlash'}</button>
+          ${bad.length ? '<button class="btn btn-ghost" type="button" id="brkRecheck">Ochilmaganlarni qayta tekshirish</button>' : ''}
+        </div>`}
+      ${Object.keys(by).length ? `<p class="adm-hint">${Object.entries(by).map(([k, n]) => `${esc(BROKEN_WHY[k] || k)}: <b>${n}</b>`).join(' · ')}</p>` : ''}
+      ${bad.length && !brokenState.running ? `<button class="btn btn-primary" type="button" id="brkHideAll">Hammasini saytdan yashirish (${bad.length} ta)</button>` : ''}
+    </section>
+    ${bad.length ? `<section class="adm-sec">${bad.map(m => `
+      <div class="acc-item adm-item">
+        <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+        <span class="acc-item-main"><b>${esc(m.title?.uz || '')}</b>
+          <small>${[m.year, BROKEN_WHY[fresh(m).s] || fresh(m).s, dupHost(m), `ID ${m.id}`].filter(Boolean).map(esc).join(' · ')}</small></span>
+        <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
+        <button class="btn btn-ghost btn-sm" type="button" data-brkedit="${m.id}">Tahrirlash</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-brkhide="${m.id}">Yashirish</button>
+      </div>`).join('')}</section>`
+      : checked && !brokenState.running ? '<section class="adm-sec"><p class="acc-muted">Tekshirilgan kinolarning hammasi ochilyapti 🎉</p></section>' : ''}`;
+  if (brokenState.running) window.scrollTo(0, scroll);
+
+  const hide = (ids, msg, btn) => runAction(btn, () => saveCustom((list, hidden) => {
+    for (const id of ids) if (!hidden.includes(id)) hidden.push(id);
+    return list;
+  }, msg), `${ids.length} ta kino yashirildi`);
+  $('#brkRun')?.addEventListener('click', () => brokenRun(false));
+  $('#brkRecheck')?.addEventListener('click', () => brokenRun(true));
+  $('#brkStop')?.addEventListener('click', () => { brokenState.stop = true; });
+  $('#brkHideAll')?.addEventListener('click', e => {
+    if (!confirm(`${bad.length} ta ochilmaydigan kino saytdan yashirilsinmi? O‘chirilmaydi — keyin qaytarish mumkin.`)) return;
+    hide(bad.map(m => m.id), `Ishlamaydigan kinolar yashirildi: ${bad.length} ta`, e.currentTarget);
+  });
+  box.querySelectorAll('[data-brkhide]').forEach(b => b.addEventListener('click', () => {
+    const m = bad.find(x => x.id === +b.dataset.brkhide);
+    hide([m.id], `Ishlamaydigan kino yashirildi: ${m.title?.uz || m.id}`, b);
+  }));
+  box.querySelectorAll('[data-brkedit]').forEach(b => b.addEventListener('click', () => {
+    editingId = +b.dataset.brkedit;
+    view = 'form';
+    renderMain();
+    window.scrollTo({ top: 0 });
+  }));
 }
 
 initLayout();
