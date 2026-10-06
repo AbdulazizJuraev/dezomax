@@ -1505,7 +1505,12 @@ async function bindSeo() {
     $('#seoTitleN').textContent = `· ${ti.value.length}/60`;
     $('#seoDescN').textContent = `· ${de.value.length}/160`;
     const tags = ke.value.split(',').map(x => x.trim()).filter(Boolean);
-    $('#seoChips').innerHTML = tags.map(x => `<span class="adm-chip-sm">${esc(x)}</span>`).join('');
+    // ixcham: birinchi 8 ta teg, qolgani «+N ta» bosilganda (matn maydonida hammasi bor)
+    const box = $('#seoChips'), SHOW = 8, all = box.classList.contains('is-all');
+    box.innerHTML = `<span class="adm-chip-count">${tags.length} ta teg</span>`
+      + tags.slice(0, all ? tags.length : SHOW).map(x => `<span class="adm-chip-sm">${esc(x)}</span>`).join('')
+      + (tags.length > SHOW ? `<button type="button" class="adm-chip-more">${all ? 'Yig‘ish' : `+${tags.length - SHOW} ta`}</button>` : '');
+    box.querySelector('.adm-chip-more')?.addEventListener('click', () => { box.classList.toggle('is-all'); counts(); });
   };
   try {
     const f = await getFile('index.html');
