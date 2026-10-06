@@ -7,6 +7,48 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 5062,
+    "slug": "nu-pogodi-barcha-qismlar",
+    "type": "multfilm",
+    "title": {
+      "uz": "Ну, погоди! (1–16-qismlar)",
+      "ru": "Ну, погоди! (все серии)"
+    },
+    "genres": [
+      "animation",
+      "comedy",
+      "family"
+    ],
+    "year": 1969,
+    "country": {
+      "uz": "SSSR",
+      "ru": "СССР"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Ну, погоди!» — Bo‘ri va Quyon haqidagi mashhur multfilmning 1–16-qismlari bir videoda. Bolalar uchun kulgili sarguzashtlar.",
+      "ru": "«Ну, погоди!» — все серии с 1 по 16 о Волке и Зайце. Смешные мультфильмы для детей."
+    },
+    "colors": [
+      "#1a3a5c",
+      "#06101a"
+    ],
+    "poster": "https://i.ytimg.com/vi/uJ2dmylY1Mw/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/uJ2dmylY1Mw/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=uJ2dmylY1Mw",
+    "duration": 142,
+    "audio": "ru",
+    "source": {
+      "name": "мультфильмы (YouTube)",
+      "url": "https://www.youtube.com/@%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D1%8B-%D1%844%D1%80"
+    },
+    "featured": false,
+    "addedAt": 1791305193432,
+    "updatedAt": 1791305193432
+  },
+  {
     "id": 1064349029,
     "slug": "loki",
     "year": 2021,
