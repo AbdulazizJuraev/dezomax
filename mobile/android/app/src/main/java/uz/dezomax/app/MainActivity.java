@@ -138,11 +138,15 @@ public class MainActivity extends BridgeActivity {
             Insets bars = insets.getInsets(types);
             Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
             boolean keyboard = insets.isVisible(WindowInsetsCompat.Type.ime());
+            // Video katta ekranda (js/app-native.js soat qatorini yashiradi) — hech qanday chekinish yo'q,
+            // video kamera qirqimi joyini ham to'ldiradi (avval gorizontal holatda kamera tomonida qora chiziq qolardi)
+            boolean full = !insets.isVisible(WindowInsetsCompat.Type.statusBars()) && !keyboard;
 
-            v.setPadding(bars.left, 0, bars.right, keyboard ? ime.bottom : bars.bottom);
+            if (full) v.setPadding(0, 0, 0, 0);
+            else v.setPadding(bars.left, 0, bars.right, keyboard ? ime.bottom : bars.bottom);
 
             float density = getResources().getDisplayMetrics().density;
-            applyTopInset(Math.round(bars.top / density));
+            applyTopInset(full ? 0 : Math.round(bars.top / density));
 
             // WebView o'zi yana chekinish qo'shmasin (sahifadagi env() qiymatlari 0 bo'ladi)
             return new WindowInsetsCompat.Builder(insets).setInsets(types, Insets.NONE).build();
