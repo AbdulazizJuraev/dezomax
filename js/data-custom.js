@@ -2305,7 +2305,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790943254616,
     "year": 2009,
     "duration": 94,
-    "director": "Carlos Saldanha, Mike Thurmeier"
+    "director": "Carlos Saldanha, Mike Thurmeier",
+    "vposter": "https://image.tmdb.org/t/p/w780/d9mrt80EbMSaWoaZ6Ytfmuq7cJv.jpg",
+    "tmdb": {
+      "id": 8355,
+      "type": "movie"
+    }
   },
   {
     "id": 2079,
@@ -4693,7 +4698,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790255384517,
     "year": 2002,
     "duration": 161,
-    "director": "Chris Columbus"
+    "director": "Chris Columbus",
+    "vposter": "https://image.tmdb.org/t/p/w780/33Wj3LSyoAqtqkeh7YXcVMvTQzc.jpg",
+    "tmdb": {
+      "id": 672,
+      "type": "movie"
+    }
   },
   {
     "id": 59,
