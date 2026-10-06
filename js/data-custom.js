@@ -7,6 +7,52 @@
 
 const CUSTOM_MOVIES = /*DATA*/[
   {
+    "id": 1064349029,
+    "slug": "loki",
+    "year": 2021,
+    "type": "serial",
+    "title": {
+      "uz": "Loki",
+      "ru": "Локи"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tom Hiddleston",
+      "Owen Wilson",
+      "Gugu Mbatha-Raw"
+    ],
+    "desc": {
+      "uz": "«Loki» — 2021-yilgi AQSh seriali. 2 fasl, 12 qism. Rejissyor: Kate Herron. Rollarda: Tom Hiddleston, Owen Wilson, Gugu Mbatha-Raw.",
+      "ru": "«Локи» — сериал 2021 года (США). Сезонов: 2, серий: 12. Режиссёр: Kate Herron. В ролях: Tom Hiddleston, Owen Wilson, Gugu Mbatha-Raw."
+    },
+    "colors": [
+      "hsl(9 45% 28%)",
+      "hsl(29 50% 7%)"
+    ],
+    "trailer": "",
+    "video": "",
+    "seasons": 2,
+    "director": "Kate Herron",
+    "tags": [
+      "Loki"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/4/4e/Loki_%28TV_series%29_logo.png",
+    "wiki": "Локи (сериал)",
+    "vposter": "https://image.tmdb.org/t/p/w780/fNTS8BOMmhYYM4FqLPLuJ6KRQEF.jpg",
+    "tmdb": {
+      "id": 84958,
+      "type": "tv"
+    }
+  },
+  {
     "id": 7593104,
     "slug": "wb-practical-magic-2",
     "type": "film",
@@ -3724,7 +3770,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 143,
     "rating": 7.1,
     "director": "Zack Snyder",
-    "franchise": "dc"
+    "franchise": "dc",
+    "vposter": "https://image.tmdb.org/t/p/w780/azlOOwkq3FS0unvTBjtQVsz6YIk.jpg",
+    "tmdb": {
+      "id": 49521,
+      "type": "movie"
+    }
   },
   {
     "id": 2473,
@@ -3819,7 +3870,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 151,
     "rating": 6.5,
     "director": "Zack Snyder",
-    "franchise": "dc"
+    "franchise": "dc",
+    "vposter": "https://image.tmdb.org/t/p/w780/tAQOcxxcZbpM1jEhz7hJC5nmCDi.jpg",
+    "tmdb": {
+      "id": 209112,
+      "type": "movie"
+    }
   },
   {
     "id": 44,
@@ -6335,7 +6391,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "duration": 130,
     "rating": 7.1,
     "director": "Shane Black",
-    "franchise": "marvel"
+    "franchise": "marvel",
+    "vposter": "https://image.tmdb.org/t/p/w780/4AZco6uSdog5NbvJ6ILqnCveV8I.jpg",
+    "tmdb": {
+      "id": 68721,
+      "type": "movie"
+    }
   },
   {
     "id": 123,
