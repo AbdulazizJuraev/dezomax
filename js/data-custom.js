@@ -31371,7 +31371,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "disney-plus"
     ],
     "featured": false,
-    "updatedAt": 1791293914187
+    "updatedAt": 1791312363695,
+    "lang": "uz"
   },
   {
     "id": 152,
@@ -31410,7 +31411,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "url": "https://www.youtube.com/@marvel"
     },
     "featured": false,
-    "updatedAt": 1791293914187
+    "updatedAt": 1791312363695,
+    "lang": "uz"
   },
   {
     "id": 153,
@@ -31449,7 +31451,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "url": "https://www.youtube.com/@marvel"
     },
     "featured": false,
-    "updatedAt": 1791293914187
+    "updatedAt": 1791312363695,
+    "lang": "uz"
   },
   {
     "id": 1003429606,
@@ -63399,11 +63402,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/rCFlLadW1xaPWw06NjwiuGPl",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791293914186,
+    "updatedAt": 1791312363695,
     "duration": 47,
     "size": 421576985,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4505,
@@ -63539,11 +63543,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/2Vg_CEUXt4_LJGNiM-zd4-sA",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791293914186,
+    "updatedAt": 1791312363695,
     "duration": 33,
     "size": 397138552,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4509,
@@ -63574,11 +63579,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/niBinnkXzB6Aq7-XpGmB3Qb2",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791293914186,
+    "updatedAt": 1791312363695,
     "duration": 33,
     "size": 300026309,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4510,
@@ -63679,11 +63685,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/40FYy-KvApQL2_d1hCehshWm",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791293914186,
+    "updatedAt": 1791312363695,
     "duration": 39,
     "size": 376910584,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4513,
@@ -63714,11 +63721,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/8ufDcw2zqUaKtaNM3_MsYjs1",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791293914186,
+    "updatedAt": 1791312363695,
     "duration": 30,
     "size": 242040681,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4514,
@@ -63749,11 +63757,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/tOJNkUepSYyU-GhW1Z2tYBeX",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791293914186,
+    "updatedAt": 1791312363695,
     "duration": 27,
     "size": 251614805,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4515,
@@ -63784,11 +63793,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/EdnSKH34fDXWayavHIYZLHlz",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791293914186,
+    "updatedAt": 1791312363695,
     "duration": 32,
     "size": 289105826,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4516,
@@ -63814,12 +63824,12 @@ const CUSTOM_MOVIES = /*DATA*/[
       "#2a3142",
       "#0d1018"
     ],
-    "poster": "https://dezocloud.uz/t/q-EBp6BfkNVt?s=Ayt6_rjROi4Qu17jrVdOhux3",
+    "poster": "https://abdulazizjuraev.github.io/dezomax/images/custom/vanda-va-vijn-4516.jpg",
     "trailer": "",
     "video": "https://dezocloud.uz/s/Ayt6_rjROi4Qu17jrVdOhux3",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791293914187,
+    "updatedAt": 1791312363695,
     "duration": 25,
     "size": 184348945,
     "year": 2026,
@@ -63833,32 +63843,25 @@ const CUSTOM_MOVIES = /*DATA*/[
     },
     "parts": [
       4516,
+      151,
+      1065980217,
       4515,
+      152,
       4514,
+      153,
       4513,
       4512,
       4509,
       4508,
-      4504,
-      1000466186,
-      1039060992,
       4760,
-      4761,
-      4758,
-      4759,
-      7986410,
-      7415839,
-      7084048,
-      7196778,
-      7776393,
       7200363,
-      7854258,
-      7034484,
-      151,
-      1065980217,
-      152,
-      153
-    ]
+      4761,
+      4504,
+      4758,
+      4759
+    ],
+    "cover": "https://abdulazizjuraev.github.io/dezomax/images/custom/vanda-va-vijn-4516-cover.jpg",
+    "lang": "uz"
   },
   {
     "id": 4517,
@@ -72324,11 +72327,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/FU9hebB6XnYiD1ZD329VTCDZ",
     "featured": false,
     "addedAt": 1791203186489,
-    "updatedAt": 1791293914187,
+    "updatedAt": 1791312363695,
     "duration": 47,
     "size": 704815373,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4759,
@@ -72359,11 +72363,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/pZxgC7fN-oyclfj8e5CFRO1S",
     "featured": false,
     "addedAt": 1791203186489,
-    "updatedAt": 1791293914187,
+    "updatedAt": 1791312363695,
     "duration": 47,
     "size": 704815373,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4760,
@@ -72394,11 +72399,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/33Koiy05SNa0bnX3O6RsAzZb",
     "featured": false,
     "addedAt": 1791203186489,
-    "updatedAt": 1791293914187,
+    "updatedAt": 1791312363695,
     "duration": 35,
     "size": 455039871,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4761,
@@ -72429,11 +72435,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/wUVLtoGfjqvcgbL99tPE6ha8",
     "featured": false,
     "addedAt": 1791203186489,
-    "updatedAt": 1791293914187,
+    "updatedAt": 1791312363695,
     "duration": 43,
     "size": 161989333,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "lang": "uz"
   },
   {
     "id": 4762,
@@ -83259,7 +83266,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "addedAt": 1791102699310,
     "meta": 1,
     "ch": "farzidguy",
-    "updatedAt": 1791293914187
+    "updatedAt": 1791312363695,
+    "lang": "uz"
   },
   {
     "id": 7854258,
@@ -83383,7 +83391,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     ],
     "poster": "https://upload.wikimedia.org/wikipedia/en/2/20/WandaVision_logo.png",
     "wiki": "Ванда/Вижн",
-    "updatedAt": 1791293914187
+    "updatedAt": 1791312363695,
+    "lang": "uz"
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21,7338617,3865,14,3713,3868,70,1028840385,3866,3867,3869,3870,3871,3872,3873,3874,3875,3876,3877,3878,3879,3880,3881,3882,3883,3884,3885,3886,3887,3888,3889,3890,3891,3892,3893,3894,3895,3896,3897,3898,3899,3900,3901,3902,3903,3904,3905,3906,3907,3908,3909,3910,3911,3912,3369,3370,3371,3372,3373,3374,3375,3376,63,3437,3444,3430,3495,7412247,3447,3460,3740,3473,3659,3696,3714,4587,4591,4607,4716,4718,4272,4274,4280,4281,3750,4614,4699,4686,4748,4757,4595,4662,4715,4594,4700,4745,6,23,4629,5051,4963,4613,4754,4864,4655,4675,4729,4627,4666,4723,4678,4703,4984,4664,4722,4740,4990,4766,4800,4806,4991,4916,4944,4584,4616,4698,4710,4545,4546,4796,4923,3979,4644,3991,4444,4347,4450,4348,4451,4683,4712,4257,5023,4263,4277,4454,4481,4671,4733,4896,5061,4467,4835,4590,4705,4672,4946,4711,4739,4639,4730,4634,4684,4647,4749,4663,4734,4721,4725,4772,4920,4731,4404,4324,4928,4255,4032,4958,4108,4185,4431,4930,4474,4326,4863,3917,4318,4452,4453,4031,4987,4808,4924,4773,4438,5015,5020,5021,5025,4349,4447,4446,4445,4480,4455,5005,5009,5013,4448,4485,4541,4544,4548,4555,4557,4746,4737,4753,4694,4628,4685,4637,4697,4659,4668,4665,4713,4630,4696,4688,4651,4681,4707,4706,4689,4680,4981,4728,4750,4752,4983,4743,4759,4802,4799,4906,4846,4874,5052,4911,4860,5054,5055,5056,5057,5059,4941,4992,5060,3986,4,5,7,10,11,12,13,15,17,19,24,25,26,27,29,31,33,34,35,36,37,39,1064349029]/*ENDHIDDEN*/;
