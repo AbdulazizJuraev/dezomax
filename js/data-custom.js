@@ -3408,7 +3408,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1790343545480,
     "year": 1999,
     "duration": 92,
-    "director": "John Lasseter, Lee Unkrich"
+    "director": "John Lasseter, Lee Unkrich",
+    "vposter": "https://image.tmdb.org/t/p/w780/descLErszABnAy79SDTzupmPD7e.jpg",
+    "tmdb": {
+      "id": 863,
+      "type": "movie"
+    }
   },
   {
     "id": 2026,
@@ -5976,7 +5981,12 @@ const CUSTOM_MOVIES = /*DATA*/[
       "Toy Story",
       "O‘yinchoqlar tarixi",
       "Oyinchoqlar hikoyasi 1"
-    ]
+    ],
+    "vposter": "https://image.tmdb.org/t/p/w780/gRLk7XpdRyNa697taDKtFx3l6qV.jpg",
+    "tmdb": {
+      "id": 862,
+      "type": "movie"
+    }
   },
   {
     "id": 17,
@@ -31372,7 +31382,12 @@ const CUSTOM_MOVIES = /*DATA*/[
     ],
     "featured": false,
     "updatedAt": 1791312363695,
-    "lang": "uz"
+    "lang": "uz",
+    "vposter": "https://image.tmdb.org/t/p/w780/5M5f2qGojFc6eCSXs9FITA5jF8f.jpg",
+    "tmdb": {
+      "id": 85271,
+      "type": "tv"
+    }
   },
   {
     "id": 152,
