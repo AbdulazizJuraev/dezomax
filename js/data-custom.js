@@ -29058,7 +29058,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "franchise": "marvel",
     "title": {
       "uz": "WandaVision",
-      "ru": "Ванда Вижн"
+      "ru": "ВандаВижн"
     },
     "genres": [
       "scifi",
@@ -29105,7 +29105,6 @@ const CUSTOM_MOVIES = /*DATA*/[
     "cover": "images/marvel/wandavision-cover.jpg",
     "trailer": "https://www.youtube.com/watch?v=sj9J2ecsSpo",
     "video": "https://www.youtube.com/watch?v=X5Am3fEqvQI",
-    "lang": "en",
     "duration": 27,
     "source": {
       "name": "Marvel Entertainment",
@@ -29115,20 +29114,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "marvel",
       "disney-plus"
     ],
-    "parts": [
-      151,
-      152,
-      153
-    ],
     "featured": false,
-    "groupOrig": {
-      "title": {
-        "uz": "WandaVision",
-        "ru": "ВандаВижн"
-      },
-      "type": "serial"
-    },
-    "updatedAt": 1790983942756
+    "updatedAt": 1791293914187
   },
   {
     "id": 152,
@@ -29161,14 +29148,13 @@ const CUSTOM_MOVIES = /*DATA*/[
     "poster": "images/marvel/wandavision.jpg",
     "trailer": "",
     "video": "https://www.youtube.com/watch?v=MDu8SVwYaa0",
-    "lang": "en",
     "duration": 34,
     "source": {
       "name": "Marvel Entertainment",
       "url": "https://www.youtube.com/@marvel"
     },
     "featured": false,
-    "updatedAt": 1790983942756
+    "updatedAt": 1791293914187
   },
   {
     "id": 153,
@@ -29201,14 +29187,13 @@ const CUSTOM_MOVIES = /*DATA*/[
     "poster": "images/marvel/wandavision.jpg",
     "trailer": "",
     "video": "https://www.youtube.com/watch?v=NUW7dpNXfyU",
-    "lang": "en",
     "duration": 30,
     "source": {
       "name": "Marvel Entertainment",
       "url": "https://www.youtube.com/@marvel"
     },
     "featured": false,
-    "updatedAt": 1790983942756
+    "updatedAt": 1791293914187
   },
   {
     "id": 1003429606,
@@ -61146,7 +61131,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/rCFlLadW1xaPWw06NjwiuGPl",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791201960060,
+    "updatedAt": 1791293914186,
     "duration": 47,
     "size": 421576985,
     "year": 2026,
@@ -61286,7 +61271,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/2Vg_CEUXt4_LJGNiM-zd4-sA",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791201960060,
+    "updatedAt": 1791293914186,
     "duration": 33,
     "size": 397138552,
     "year": 2026,
@@ -61321,7 +61306,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/niBinnkXzB6Aq7-XpGmB3Qb2",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791201960060,
+    "updatedAt": 1791293914186,
     "duration": 33,
     "size": 300026309,
     "year": 2026,
@@ -61426,7 +61411,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/40FYy-KvApQL2_d1hCehshWm",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791201960060,
+    "updatedAt": 1791293914186,
     "duration": 39,
     "size": 376910584,
     "year": 2026,
@@ -61461,7 +61446,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/8ufDcw2zqUaKtaNM3_MsYjs1",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791201960060,
+    "updatedAt": 1791293914186,
     "duration": 30,
     "size": 242040681,
     "year": 2026,
@@ -61496,7 +61481,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/tOJNkUepSYyU-GhW1Z2tYBeX",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791201960060,
+    "updatedAt": 1791293914186,
     "duration": 27,
     "size": 251614805,
     "year": 2026,
@@ -61531,7 +61516,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/EdnSKH34fDXWayavHIYZLHlz",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791201960060,
+    "updatedAt": 1791293914186,
     "duration": 32,
     "size": 289105826,
     "year": 2026,
@@ -61540,10 +61525,10 @@ const CUSTOM_MOVIES = /*DATA*/[
   {
     "id": 4516,
     "slug": "vanda-va-vijn-720p-1-qism",
-    "type": "film",
+    "type": "serial",
     "title": {
-      "uz": "▷ \"Vanda va Vijn\" 【720p】 1-QISM",
-      "ru": "▷ \"Vanda va Vijn\" 【720p】 1-QISM"
+      "uz": "Vanda va Vijn",
+      "ru": "Vanda va Vijn"
     },
     "genres": [
       "drama"
@@ -61566,11 +61551,46 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/Ayt6_rjROi4Qu17jrVdOhux3",
     "featured": false,
     "addedAt": 1791201960060,
-    "updatedAt": 1791201960060,
+    "updatedAt": 1791293914187,
     "duration": 25,
     "size": 184348945,
     "year": 2026,
-    "audio": "uz"
+    "audio": "uz",
+    "groupOrig": {
+      "title": {
+        "uz": "▷ \"Vanda va Vijn\" 【720p】 1-QISM",
+        "ru": "▷ \"Vanda va Vijn\" 【720p】 1-QISM"
+      },
+      "type": "film"
+    },
+    "parts": [
+      4516,
+      4515,
+      4514,
+      4513,
+      4512,
+      4509,
+      4508,
+      4504,
+      1000466186,
+      1039060992,
+      4760,
+      4761,
+      4758,
+      4759,
+      7986410,
+      7415839,
+      7084048,
+      7196778,
+      7776393,
+      7200363,
+      7854258,
+      7034484,
+      151,
+      1065980217,
+      152,
+      153
+    ]
   },
   {
     "id": 4517,
@@ -70036,7 +70056,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/FU9hebB6XnYiD1ZD329VTCDZ",
     "featured": false,
     "addedAt": 1791203186489,
-    "updatedAt": 1791203186489,
+    "updatedAt": 1791293914187,
     "duration": 47,
     "size": 704815373,
     "year": 2026,
@@ -70071,7 +70091,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/pZxgC7fN-oyclfj8e5CFRO1S",
     "featured": false,
     "addedAt": 1791203186489,
-    "updatedAt": 1791203186489,
+    "updatedAt": 1791293914187,
     "duration": 47,
     "size": 704815373,
     "year": 2026,
@@ -70106,7 +70126,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/33Koiy05SNa0bnX3O6RsAzZb",
     "featured": false,
     "addedAt": 1791203186489,
-    "updatedAt": 1791203186489,
+    "updatedAt": 1791293914187,
     "duration": 35,
     "size": 455039871,
     "year": 2026,
@@ -70141,7 +70161,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "video": "https://dezocloud.uz/s/wUVLtoGfjqvcgbL99tPE6ha8",
     "featured": false,
     "addedAt": 1791203186489,
-    "updatedAt": 1791203186489,
+    "updatedAt": 1791293914187,
     "duration": 43,
     "size": 161989333,
     "year": 2026,
@@ -80646,6 +80666,456 @@ const CUSTOM_MOVIES = /*DATA*/[
     "size": 407291513,
     "year": 2026,
     "audio": "uz"
+  },
+  {
+    "id": 1000466186,
+    "slug": "a-fish-called-wanda",
+    "year": 1988,
+    "type": "film",
+    "title": {
+      "uz": "A Fish Called Wanda",
+      "ru": "Рыбка по имени Ванда"
+    },
+    "genres": [
+      "comedy",
+      "crime"
+    ],
+    "country": {
+      "uz": "AQSh, Buyuk Britaniya",
+      "ru": "США, Великобритания"
+    },
+    "cast": [
+      "Jamie Lee Curtis",
+      "Kevin Kline",
+      "Michael Palin"
+    ],
+    "desc": {
+      "uz": "«A Fish Called Wanda» — 1988-yilgi AQSh, Buyuk Britaniya filmi. Rejissyor: Charles Crichton. Rollarda: Jamie Lee Curtis, Kevin Kline, Michael Palin.",
+      "ru": "«Рыбка по имени Ванда» — фильм 1988 года (США, Великобритания). Режиссёр: Charles Crichton. В ролях: Jamie Lee Curtis, Kevin Kline, Michael Palin."
+    },
+    "colors": [
+      "hsl(191 45% 28%)",
+      "hsl(211 50% 7%)"
+    ],
+    "trailer": "",
+    "video": "",
+    "duration": 108,
+    "director": "Charles Crichton",
+    "tags": [
+      "A Fish Called Wanda"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/9/9f/A_Fish_Called_Wanda_poster.jpg",
+    "wiki": "Рыбка по имени Ванда",
+    "updatedAt": 1791293914186
+  },
+  {
+    "id": 1039060992,
+    "slug": "american-vandal",
+    "year": 2017,
+    "type": "serial",
+    "title": {
+      "uz": "American Vandal",
+      "ru": "Американский вандал"
+    },
+    "genres": [
+      "drama"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Tyler Alvarez",
+      "Griffin Gluck",
+      "Jimmy Tatro"
+    ],
+    "desc": {
+      "uz": "«American Vandal» — 2017-yilgi AQSh seriali. 2 fasl, 16 qism. Rejissyor: Tony Yacenda. Rollarda: Tyler Alvarez, Griffin Gluck, Jimmy Tatro.",
+      "ru": "«Американский вандал» — сериал 2017 года (США). Сезонов: 2, серий: 16. Режиссёр: Tony Yacenda. В ролях: Tyler Alvarez, Griffin Gluck, Jimmy Tatro."
+    },
+    "colors": [
+      "hsl(324 45% 28%)",
+      "hsl(344 50% 7%)"
+    ],
+    "trailer": "",
+    "video": "",
+    "seasons": 2,
+    "director": "Tony Yacenda",
+    "tags": [
+      "American Vandal"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/7/76/American_Vandal_title_card.jpg",
+    "wiki": "Американский вандал",
+    "updatedAt": 1791293914186
+  },
+  {
+    "id": 7986410,
+    "slug": "fz-marvel-kino-olamidagi-kuchli-qahramonlar-vanda-eng-kuchli-qa",
+    "type": "tahlil",
+    "franchise": "tahlil",
+    "audio": "uz",
+    "title": {
+      "uz": "Marvel kino olamidagi kuchli qahramonlar — Vanda eng kuchli qahramon?",
+      "ru": "Marvel kino olamidagi kuchli qahramonlar — Vanda eng kuchli qahramon?"
+    },
+    "genres": [],
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "«Marvel kino olamidagi kuchli qahramonlar — Vanda eng kuchli qahramon?» — FarZidGuy kanalidagi video, o‘zbek tilida.",
+      "ru": "«Marvel kino olamidagi kuchli qahramonlar — Vanda eng kuchli qahramon?» — видео на узбекском языке с канала FarZidGuy."
+    },
+    "colors": [
+      "#1a2a4a",
+      "#070a12"
+    ],
+    "poster": "https://i.ytimg.com/vi/0GVMslqrIQI/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/0GVMslqrIQI/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=0GVMslqrIQI",
+    "duration": 6,
+    "source": {
+      "name": "FarZidGuy",
+      "url": "https://www.youtube.com/@FarZidGuy"
+    },
+    "featured": false,
+    "addedAt": 1791102704310,
+    "meta": 1,
+    "ch": "farzidguy",
+    "updatedAt": 1791293914187
+  },
+  {
+    "id": 7415839,
+    "slug": "fz-vanda-vijin-1-2-qism-tahlili-temir-odam-va-boshqa-belgilar",
+    "type": "tahlil",
+    "franchise": "tahlil",
+    "audio": "uz",
+    "title": {
+      "uz": "Vanda vijin - 1-2- qism tahlili. Temir odam va boshqa belgilar",
+      "ru": "Vanda vijin - 1-2- qism tahlili. Temir odam va boshqa belgilar"
+    },
+    "genres": [],
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Do‘stlar bu videoda Vanda Vijin serialining 1 va 2- qismlarining tahlilini ko‘rishingiz mumkin. Serialdan aniqlangan komikslarga va boshqa qahramonlarga belgilar va aloqalar. Nega serial juda sirli? Aslida bu yerda nimalar bo‘lyabdi. Hullas hammasini shu videoda bilib olasiz.",
+      "ru": "«Vanda vijin - 1-2- qism tahlili. Temir odam va boshqa belgilar» — разбор фильма на узбекском языке с канала FarZidGuy."
+    },
+    "colors": [
+      "#1a2a4a",
+      "#070a12"
+    ],
+    "poster": "https://i.ytimg.com/vi/pFa0VPyPElE/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/pFa0VPyPElE/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=pFa0VPyPElE",
+    "duration": 9,
+    "source": {
+      "name": "FarZidGuy",
+      "url": "https://www.youtube.com/@FarZidGuy"
+    },
+    "featured": false,
+    "year": 2021,
+    "addedAt": 1791102690310,
+    "meta": 1,
+    "ch": "farzidguy",
+    "updatedAt": 1791293914187
+  },
+  {
+    "id": 7084048,
+    "slug": "fz-vanda-vijin-3-4-qismlar-tahlili-vijin-olganmi",
+    "type": "tahlil",
+    "franchise": "tahlil",
+    "audio": "uz",
+    "title": {
+      "uz": "Vanda vijin - 3-4- qismlar tahlili. Vijin o‘lganmi?",
+      "ru": "Vanda vijin - 3-4- qismlar tahlili. Vijin o‘lganmi?"
+    },
+    "genres": [],
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Do‘stlar bu videoda Vanda Vijin serialining 3 va 4- qismlarining tahlilini ko‘rishingiz mumkin. Serialdan aniqlangan komikslarga va boshqa qahramonlarga belgilar va aloqalar. Nega serial juda sirli? Aslida bu yerda nimalar bo‘lyabdi. Hullas hammasini shu videoda bilib olasiz.",
+      "ru": "«Vanda vijin - 3-4- qismlar tahlili. Vijin o‘lganmi?» — разбор фильма на узбекском языке с канала FarZidGuy."
+    },
+    "colors": [
+      "#1a2a4a",
+      "#070a12"
+    ],
+    "poster": "https://i.ytimg.com/vi/YW7ku2V7jjk/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/YW7ku2V7jjk/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=YW7ku2V7jjk",
+    "duration": 9,
+    "source": {
+      "name": "FarZidGuy",
+      "url": "https://www.youtube.com/@FarZidGuy"
+    },
+    "featured": false,
+    "year": 2021,
+    "addedAt": 1791102693310,
+    "meta": 1,
+    "ch": "farzidguy",
+    "updatedAt": 1791293914187
+  },
+  {
+    "id": 7196778,
+    "slug": "fz-vanda-vijin-5-qism-tahlili-mutantlar-marvelda-simob-qanday-q",
+    "type": "tahlil",
+    "franchise": "tahlil",
+    "audio": "uz",
+    "title": {
+      "uz": "Vanda vijin - 5- qism tahlili — Mutantlar marvelda — Simob qanday qaytdi?",
+      "ru": "Vanda vijin - 5- qism tahlili — Mutantlar marvelda — Simob qanday qaytdi?"
+    },
+    "genres": [],
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Do‘stlar bu videoda Vanda Vijin serialining 5- qismning tahlilini ko‘rishingiz mumkin. Serialdan aniqlangan komikslarga va boshqa qahramonlarga belgilar va aloqalar. Simob nega qaytdii? Mutantlar endi Marveldami. Hullas hammasini shu videoda bilib olasiz.",
+      "ru": "«Vanda vijin - 5- qism tahlili — Mutantlar marvelda — Simob qanday qaytdi?» — разбор фильма на узбекском языке с канала FarZidGuy."
+    },
+    "colors": [
+      "#1a2a4a",
+      "#070a12"
+    ],
+    "poster": "https://i.ytimg.com/vi/tUHjAB4KkQ8/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/tUHjAB4KkQ8/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=tUHjAB4KkQ8",
+    "duration": 7,
+    "source": {
+      "name": "FarZidGuy",
+      "url": "https://www.youtube.com/@FarZidGuy"
+    },
+    "featured": false,
+    "year": 2021,
+    "addedAt": 1791102695310,
+    "meta": 1,
+    "ch": "farzidguy",
+    "updatedAt": 1791293914187
+  },
+  {
+    "id": 7776393,
+    "slug": "fz-vanda-vijin-6-qism-tahlili-simob-nimani-yashiryabdi",
+    "type": "tahlil",
+    "franchise": "tahlil",
+    "audio": "uz",
+    "title": {
+      "uz": "Vanda vijin - 6- qism tahlili — Simob nimani yashiryabdi?",
+      "ru": "Vanda vijin - 6- qism tahlili — Simob nimani yashiryabdi?"
+    },
+    "genres": [],
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Do‘stlar bu videoda Vanda Vijin serialining 6- qismning tahlilini ko‘rishingiz mumkin. Serialdan aniqlangan komikslarga va boshqa qahramonlarga belgilar va aloqalar. Simob nimani yashiryabdi? Vijinga nima bo‘ladi. Hullas hammasini shu videoda bilib olasiz.",
+      "ru": "«Vanda vijin - 6- qism tahlili — Simob nimani yashiryabdi?» — разбор фильма на узбекском языке с канала FarZidGuy."
+    },
+    "colors": [
+      "#1a2a4a",
+      "#070a12"
+    ],
+    "poster": "https://i.ytimg.com/vi/dDgK8scIIUo/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/dDgK8scIIUo/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=dDgK8scIIUo",
+    "duration": 7,
+    "source": {
+      "name": "FarZidGuy",
+      "url": "https://www.youtube.com/@FarZidGuy"
+    },
+    "featured": false,
+    "year": 2021,
+    "addedAt": 1791102697310,
+    "meta": 1,
+    "ch": "farzidguy",
+    "updatedAt": 1791293914187
+  },
+  {
+    "id": 7200363,
+    "slug": "fz-vanda-vijin-7-qism-tahlili-agnes-aslida-kim-afsungarlar-jang",
+    "type": "tahlil",
+    "franchise": "tahlil",
+    "audio": "uz",
+    "title": {
+      "uz": "Vanda vijin - 7- qism tahlili — Agnes aslida kim? — Afsungarlar jangi",
+      "ru": "Vanda vijin - 7- qism tahlili — Agnes aslida kim? — Afsungarlar jangi"
+    },
+    "genres": [],
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Do‘stlar bu videoda Vanda Vijin serialining 7- qismning tahlilini ko‘rishingiz mumkin. Serialdan aniqlangan komikslarga va boshqa qahramonlarga belgilar va aloqalar. Agnes aslida kim? Monika qanday kuchga ega boldi. Hullas hammasini shu videoda bilib olasiz.",
+      "ru": "«Vanda vijin - 7- qism tahlili — Agnes aslida kim? — Afsungarlar jangi» — разбор фильма на узбекском языке с канала FarZidGuy."
+    },
+    "colors": [
+      "#1a2a4a",
+      "#070a12"
+    ],
+    "poster": "https://i.ytimg.com/vi/TI6kBf30Dq0/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/TI6kBf30Dq0/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=TI6kBf30Dq0",
+    "duration": 8,
+    "source": {
+      "name": "FarZidGuy",
+      "url": "https://www.youtube.com/@FarZidGuy"
+    },
+    "featured": false,
+    "year": 2021,
+    "addedAt": 1791102699310,
+    "meta": 1,
+    "ch": "farzidguy",
+    "updatedAt": 1791293914187
+  },
+  {
+    "id": 7854258,
+    "slug": "fz-vanda-vijin-8-qism-tahlili-vijin-vijinga-qarshi-yangi-altron",
+    "type": "tahlil",
+    "franchise": "tahlil",
+    "audio": "uz",
+    "title": {
+      "uz": "Vanda vijin - 8- qism tahlili — Vijin vijinga qarshi — Yangi altron",
+      "ru": "Vanda vijin - 8- qism tahlili — Vijin vijinga qarshi — Yangi altron"
+    },
+    "genres": [],
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Do‘stlar bu videoda Vanda Vijin serialining 8- qismning tahlilini ko‘rishingiz mumkin. Serialdan aniqlangan komikslarga va boshqa qahramonlarga belgilar va aloqalar. Agnes aslida kim? Yangi Vijin nimga qodir. Hullas hammasini shu videoda bilib olasiz.",
+      "ru": "«Vanda vijin - 8- qism tahlili — Vijin vijinga qarshi — Yangi altron» — разбор фильма на узбекском языке с канала FarZidGuy."
+    },
+    "colors": [
+      "#1a2a4a",
+      "#070a12"
+    ],
+    "poster": "https://i.ytimg.com/vi/VcLOlICXE3M/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/VcLOlICXE3M/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=VcLOlICXE3M",
+    "duration": 8,
+    "source": {
+      "name": "FarZidGuy",
+      "url": "https://www.youtube.com/@FarZidGuy"
+    },
+    "featured": false,
+    "year": 2021,
+    "addedAt": 1791102701310,
+    "meta": 1,
+    "ch": "farzidguy",
+    "updatedAt": 1791293914187
+  },
+  {
+    "id": 7034484,
+    "slug": "fz-vanda-vijin-9-qism-tahlili-yakuniy-tahlil",
+    "type": "tahlil",
+    "franchise": "tahlil",
+    "audio": "uz",
+    "title": {
+      "uz": "Vanda vijin - 9- qism tahlili — Yakuniy tahlil",
+      "ru": "Vanda vijin - 9- qism tahlili — Yakuniy tahlil"
+    },
+    "genres": [],
+    "country": {
+      "uz": "O‘zbekiston",
+      "ru": "Узбекистан"
+    },
+    "cast": [],
+    "desc": {
+      "uz": "Do‘stlar bu videoda Vanda Vijin serialining 9- qismning tahlilini ko‘rishingiz mumkin. Serialdan aniqlangan komikslarga va boshqa qahramonlarga belgilar va aloqalar. Yangi Vijin nimga qodir. Hullas hammasini shu videoda bilib olasiz.",
+      "ru": "«Vanda vijin - 9- qism tahlili — Yakuniy tahlil» — разбор фильма на узбекском языке с канала FarZidGuy."
+    },
+    "colors": [
+      "#1a2a4a",
+      "#070a12"
+    ],
+    "poster": "https://i.ytimg.com/vi/FnAk5RSWyS8/hq720.jpg",
+    "wide": true,
+    "cover": "https://i.ytimg.com/vi/FnAk5RSWyS8/maxresdefault.jpg",
+    "trailer": "",
+    "video": "https://www.youtube.com/watch?v=FnAk5RSWyS8",
+    "duration": 7,
+    "source": {
+      "name": "FarZidGuy",
+      "url": "https://www.youtube.com/@FarZidGuy"
+    },
+    "featured": false,
+    "year": 2021,
+    "addedAt": 1791102702310,
+    "meta": 1,
+    "ch": "farzidguy",
+    "updatedAt": 1791293914187
+  },
+  {
+    "id": 1065980217,
+    "slug": "wandavision",
+    "year": 2021,
+    "type": "serial",
+    "title": {
+      "uz": "WandaVision",
+      "ru": "Ванда/Вижн"
+    },
+    "genres": [
+      "action",
+      "fantasy",
+      "adventure"
+    ],
+    "country": {
+      "uz": "AQSh",
+      "ru": "США"
+    },
+    "cast": [
+      "Elizabeth Olsen",
+      "Paul Bettany",
+      "Teyonah Parris"
+    ],
+    "desc": {
+      "uz": "«WandaVision» — 2021-yilgi AQSh seriali. 1 fasl, 9 qism. Rejissyor: Matt Shakman. Rollarda: Elizabeth Olsen, Paul Bettany, Teyonah Parris.",
+      "ru": "«Ванда/Вижн» — сериал 2021 года (США). Сезонов: 1, серий: 9. Режиссёр: Matt Shakman. В ролях: Elizabeth Olsen, Paul Bettany, Teyonah Parris."
+    },
+    "colors": [
+      "hsl(337 45% 28%)",
+      "hsl(357 50% 7%)"
+    ],
+    "trailer": "",
+    "video": "",
+    "seasons": 1,
+    "director": "Matt Shakman",
+    "tags": [
+      "WandaVision"
+    ],
+    "poster": "https://upload.wikimedia.org/wikipedia/en/2/20/WandaVision_logo.png",
+    "wiki": "Ванда/Вижн",
+    "updatedAt": 1791293914187
   }
 ]/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/[21,7338617,3865,14,3713,3868,70,1028840385,3866,3867,3869,3870,3871,3872,3873,3874,3875,3876,3877,3878,3879,3880,3881,3882,3883,3884,3885,3886,3887,3888,3889,3890,3891,3892,3893,3894,3895,3896,3897,3898,3899,3900,3901,3902,3903,3904,3905,3906,3907,3908,3909,3910,3911,3912,3369,3370,3371,3372,3373,3374,3375,3376,63,3437,3444,3430,3495,7412247,3447,3460,3740,3473,3659,3696,3714,4587,4591,4607,4716,4718,4272,4274,4280,4281,3750,4614,4699,4686,4748,4757,4595,4662,4715,4594,4700,4745,6,23]/*ENDHIDDEN*/;
