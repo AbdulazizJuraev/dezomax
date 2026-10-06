@@ -12,7 +12,8 @@ const SITE_CONFIG = /*CONFIG*/{
       33,
       47,
       46,
-      3347
+      3347,
+      2984
     ],
     "kidsIds": [
       5062,
