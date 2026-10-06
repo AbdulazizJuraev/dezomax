@@ -6578,3 +6578,10 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .role-pick.is-age .role-pick-age b { font-size: 22px; }
 .role-pick.is-age .role-pick-av b { font-size: 24px; }
 .role-pick.is-age .role-pick-av small { font-size: 15px; }
+
+/* Keng (16:9) kartada tik posterli kino — haqiqiy gorizontal rasm (muqova yoki rasmiy treyler rasmi), xira ramkasiz */
+.poster-land { display: none; }
+.row-wide .card:not(.is-wide) .poster-land,
+.is-serials .card:not(.is-wide) .poster-land {
+  display: block; position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; object-fit: cover;
+}
