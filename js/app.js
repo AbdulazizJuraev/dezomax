@@ -50,12 +50,17 @@ function renderHero() {
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
     const wideSrc = imgBig(uzArt) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null)
       || imgBig(m.cover) || imgBig(m.poster) || null;          // treyleri yo'q — muqova yoki poster
-    const wideArt = !!wideSrc;
+    // kinoning o'z rasmiy posteri bo'lsa (YouTube kadri emas) — posterning o'zi: o'rtada aniq, orqada xira nusxasi.
+    // Treyler kadri kesilganda g'alati chiqardi. Studiya treylerlari va o'zbek filmlarining YouTube muqovasi — o'zi dizayn qilingan.
+    const ownPoster = !uzArt && !HERO_VIDEO && m.poster && !/i\.ytimg\.com/.test(m.poster) ? imgBig(m.poster) || m.poster : null;
+    const wideArt = !!wideSrc && !ownPoster;
     // rasm darhol emas — slayd navbati kelganda yuklanadi (heroLoadBg): 25 ta katta rasm birdaniga yuklanmasin
     return `
     <div class="hero-slide${i === heroIndex ? ' is-active' : ''}" data-i="${i}">
+      ${ownPoster ? `<div class="hero-bg hero-pbg" style="background-image:${backdropCSS(m)}" data-bg="${esc(ownPoster)}"></div>
+      <div class="hero-poster"><img data-src="${esc(ownPoster)}" alt="${esc(title(m))}" onerror="this.parentNode.remove()"></div>` : `
       <div class="hero-bg${wideArt ? ' is-wide' : ''}${ytId && HERO_VIDEO && !matchMedia('(prefers-reduced-motion: reduce)').matches ? ' video-only' : ''}" style="background-image:${backdropCSS(m)}"${wideArt ? ` data-bg="${esc(wideSrc)}"` : ''}></div>
-      ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}
+      ${m.poster && !wideArt ? `<div class="hero-art"><img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>` : ''}`}
       <div class="hero-inner">
         <div class="wrap">
           <div class="hero-content">
@@ -93,7 +98,10 @@ function renderHero() {
    rangli fon qoladi. */
 function heroLoadBg(i) {
   if (!featured.length) return;
-  const bg = document.querySelector(`.hero-slide[data-i="${(i + featured.length) % featured.length}"] .hero-bg[data-bg]`);
+  const slide = document.querySelector(`.hero-slide[data-i="${(i + featured.length) % featured.length}"]`);
+  const pimg = slide && slide.querySelector('.hero-poster img[data-src]');
+  if (pimg && !pimg.src) pimg.src = pimg.dataset.src;
+  const bg = slide && slide.querySelector('.hero-bg[data-bg]');
   if (!bg || bg.dataset.loaded) return;
   bg.dataset.loaded = '1';
   const base = bg.style.backgroundImage;
