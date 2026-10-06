@@ -825,6 +825,18 @@ async function loadCommits(force = false) {
 
 /* ---------- Kinolar ro'yxati ---------- */
 
+/* Kino qatoridagi amallar — belgili kichik tugmalar (nomi title/aria-label'da: bosib turilsa yoki sichqoncha ustida ko'rinadi) */
+const ITEM_ICONS = {
+  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+  open: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  undo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.3 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>'
+};
+const admIconBtn = (label, icon, attrs, cls = '') =>
+  `<button class="adm-ibtn${cls}" type="button" ${attrs} title="${label}" aria-label="${label}">${icon}</button>`;
+
 function itemHTML(m) {
   const base = isBase(m.id);
   const edited = base && customList.some(x => x.id === m.id);
@@ -832,9 +844,9 @@ function itemHTML(m) {
   const tags = [
     m.year, typeName(m.type), m.video ? 'To‘liq kino' : m.trailer ? 'Treyler' : 'Faqat ma’lumot', `ID ${m.id}`
   ].filter(Boolean);
-  const state = hidden ? '<span class="adm-state is-hide">Yashirilgan</span>'
-    : !base ? '<span class="adm-state is-add">Qo‘shilgan</span>'
-    : edited ? '<span class="adm-state is-edit">Tahrirlangan</span>' : '';
+  const state = hidden ? '<span class="adm-state is-hide" title="Yashirilgan" aria-label="Yashirilgan"></span>'
+    : !base ? '<span class="adm-state is-add" title="Qo‘shilgan" aria-label="Qo‘shilgan"></span>'
+    : edited ? '<span class="adm-state is-edit" title="Tahrirlangan" aria-label="Tahrirlangan"></span>' : '';
   return `
     <div class="acc-item adm-item${hidden ? ' is-hidden' : ''}">
       <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
@@ -842,14 +854,14 @@ function itemHTML(m) {
         <b>${esc(m.title?.uz || '')} ${state}</b>
         <small>${tags.map(esc).join(' · ')}</small>
       </div>
-      <div class="adm-actions">
-        <button class="btn btn-ghost btn-sm" type="button" data-edit="${m.id}">Tahrirlash</button>
-        <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
+      <div class="adm-actions adm-icons">
+        ${admIconBtn('Tahrirlash', ITEM_ICONS.edit, `data-edit="${m.id}"`)}
+        <a class="adm-ibtn" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener" title="Ko‘rish" aria-label="Ko‘rish">${ITEM_ICONS.open}</a>
         ${base
-          ? `${edited ? `<button class="btn btn-ghost btn-sm" type="button" data-restore="${m.id}">Asliga qaytarish</button>` : ''}
-             <button class="btn btn-ghost btn-sm${hidden ? '' : ' adm-del'}" type="button" data-hide="${m.id}">${hidden ? 'Ko‘rsatish' : 'Yashirish'}</button>`
-          : hidden ? `<button class="btn btn-ghost btn-sm" type="button" data-hide="${m.id}">Ko‘rsatish</button>`
-          : `<button class="btn btn-ghost btn-sm adm-del" type="button" data-del="${m.id}">O‘chirish</button>`}
+          ? `${edited ? admIconBtn('Asliga qaytarish', ITEM_ICONS.undo, `data-restore="${m.id}"`) : ''}
+             ${admIconBtn(hidden ? 'Ko‘rsatish' : 'Yashirish', hidden ? ITEM_ICONS.eye : ITEM_ICONS.eyeOff, `data-hide="${m.id}"`, hidden ? '' : ' is-warn')}`
+          : hidden ? admIconBtn('Ko‘rsatish', ITEM_ICONS.eye, `data-hide="${m.id}"`)
+          : admIconBtn('O‘chirish', ITEM_ICONS.trash, `data-del="${m.id}"`, ' is-danger')}
       </div>
     </div>`;
 }

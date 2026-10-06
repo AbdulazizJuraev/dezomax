@@ -6669,3 +6669,32 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
   }
   .page-admin #admin { padding-bottom: calc(96px + var(--sab, 0px)); }
 }
+
+/* Admin → kinolar ro'yxati: ixcham qator — poster · nomi va ma'lumoti (2 qator) · belgili tugmalar */
+.page-admin .acc-item.adm-item {
+  display: grid !important; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 10px;
+  padding: 8px 10px !important; border-radius: 12px;
+}
+.page-admin .adm-item .adm-thumb { width: 44px; height: 64px; border-radius: 7px; }
+.page-admin .adm-item .acc-item-main { min-width: 0; }
+.page-admin .adm-item .acc-item-main b { display: block; font-size: 15px; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.page-admin .adm-item .acc-item-main small { display: block; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.page-admin .adm-item .adm-state { font-size: 11px; margin-left: 4px; }
+.adm-actions.adm-icons { display: flex; flex-wrap: nowrap; gap: 4px; margin: 0; }
+.adm-ibtn {
+  width: 34px; height: 34px; display: grid; place-items: center; padding: 0; border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .08); background: rgba(255, 255, 255, .04); color: var(--text-dim); cursor: pointer; text-decoration: none;
+}
+.adm-ibtn svg { width: 17px; height: 17px; }
+.adm-ibtn:hover { color: var(--text); border-color: rgba(255, 255, 255, .2); }
+.adm-ibtn.is-warn { color: #f0a35b; }
+.adm-ibtn.is-danger { color: #f87171; }
+.page-admin .acc-list { gap: 6px !important; }
+/* holat — so'z emas, nom oldidagi kichik rangli nuqta (yashil — qo'shilgan, sariq — tahrirlangan, qizil — yashirilgan); nom to'liqroq ko'rinadi */
+.page-admin .adm-item .adm-state {
+  display: inline-block; width: 8px; height: 8px; padding: 0 !important; margin: 0 0 1px 6px; border-radius: 50%;
+  font-size: 0 !important; vertical-align: middle; border: 0;
+}
+.page-admin .adm-item .adm-state.is-add { background: #22c55e; }
+.page-admin .adm-item .adm-state.is-edit { background: #f5b82e; }
+.page-admin .adm-item .adm-state.is-hide { background: #f87171; }
