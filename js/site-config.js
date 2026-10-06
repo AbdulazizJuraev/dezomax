@@ -18,7 +18,8 @@ const SITE_CONFIG = /*CONFIG*/{
     "kidsIds": [
       5062,
       2079,
-      2382
+      2382,
+      2146
     ],
     "delay": 5
   },
