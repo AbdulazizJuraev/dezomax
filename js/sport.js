@@ -835,8 +835,9 @@ function restTopHTML(ids, today) {
     <div class="spx-chips">${ids.map(id => `<button type="button" class="spx-chip${spFilter === id ? ' is-on' : ''}" data-f="${id}">${id === 'all' ? t('sport.all') : esc(t('sport.' + id))}</button>`).join('')}</div>
     <div class="spx-tiles">${SPORTS.map(x => `
       <a class="spx-tile" href="#sp-${x.id}" data-tile="${x.id}" style="--tc:${SPORT_TILE[x.id]}">
-        <span class="spx-tile-ico">${SPORT_ICONS[x.id]}</span><b>${esc(t('sport.' + x.id))}</b>
+        <img class="spx-tile-img is-${x.id}" src="images/sport/${x.id}.webp" alt="" decoding="async" onerror="this.outerHTML='<span class=spx-tile-ico>'+(SPORT_ICONS['${x.id}']||'')+'</span>'"><b>${esc(t('sport.' + x.id))}</b>
       </a>`).join('')}</div>
+    <a class="spx-credit" href="images/sport/CREDITS.txt" target="_blank" rel="noopener">Suratlar: Wikimedia Commons (CC BY-SA)</a>
     ${today.length ? `<h2 class="spx-title">${t('sport.todayIn')}</h2><div class="spt-track">${today.map(todayCardHTML).join('')}</div>` : ''}`;
 }
 

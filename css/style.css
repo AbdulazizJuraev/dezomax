@@ -6934,6 +6934,23 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .spx-tile-ico svg { width: 100%; height: 100%; stroke-width: 1.6; }
 .spx-tile b { position: relative; font-size: 16px; font-weight: 700; text-align: center; }
 .spx-tile:active { transform: scale(.98); }
+/* haqiqiy to'p suratlari (images/sport/*.webp, Wikimedia Commons — CREDITS.txt): rangli gradient ustida katta, soyali */
+.spx-tile {
+  justify-content: flex-end; align-items: flex-start; padding: 10px 12px; border-radius: 14px;
+  background:
+    radial-gradient(90% 70% at 70% 30%, rgba(255, 255, 255, .28), transparent 60%),
+    linear-gradient(150deg, color-mix(in srgb, var(--tc) 88%, #fff) 0%, var(--tc) 45%, color-mix(in srgb, var(--tc) 55%, #000) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+  transition: transform .2s;
+}
+.spx-tile b { font-size: 15px; text-shadow: 0 1px 6px rgba(0, 0, 0, .35); }
+.spx-tile-img {
+  position: absolute; top: 8%; right: -10%; width: 78%; height: auto; pointer-events: none;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .4)); transform: rotate(-8deg); transition: transform .3s;
+}
+.spx-tile-img.is-hockey, .spx-tile-img.is-f1 { width: 104%; right: -22%; top: 18%; transform: rotate(-6deg); }
+.spx-tile-img.is-mma { width: 92%; right: -16%; top: 12%; transform: rotate(-4deg); }
+@media (hover: hover) { .spx-tile:hover .spx-tile-img { transform: rotate(0deg) scale(1.06); } }
 
 /* --- bugun sportda --- */
 .spt-track { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * clamp(16px, 4vw, 48px)); padding: 0 clamp(16px, 4vw, 48px); }
@@ -7095,3 +7112,5 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
   .tv-card-name { font-size: 13px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
 .tv-thumb-logo.is-dark { background: linear-gradient(160deg, #2a3040 0%, #12151d 100%); }
+.spx-credit { display: block; margin-top: 6px; color: rgba(255, 255, 255, .35); font-size: 11px; text-align: right; text-decoration: none; }
+.spx-tile-img.is-hockey { width: 108%; left: auto; right: -14%; top: 22%; transform: rotate(-8deg); }
