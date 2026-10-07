@@ -6762,3 +6762,35 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .adm-lg-cat small { font-size: 12.5px; }
 .adm-lg-cat.is-active { border-color: var(--accent, #0a93dc); background: rgba(10, 147, 220, .14); }
 .adm-lg-cat.is-active b::before { content: '✓ '; color: #6cc4f2; }
+
+/* ================= Telefon: logo ostidagi mini navbar (Sport · Kanallar · Obuna · Yuklab olinganlar) =================
+   Header balandligiga qo'shiladi (--mini-h) — sahifalar va slayder o'zi pastga suriladi */
+.mini-nav { display: none; }
+@media (max-width: 900px) {
+  :root.has-mini-nav { --mini-h: 44px; --header-h: calc(68px + var(--sat) + var(--mini-h)); }
+  .has-mini-nav .header { flex-direction: column; align-items: stretch; }
+  .has-mini-nav .header > .wrap { flex: 1; width: 100%; }
+  .mini-nav {
+    display: flex; flex: none; gap: 8px; height: var(--mini-h); align-items: center;
+    padding: 0 max(16px, var(--sal)) 6px max(16px, var(--sal)); overflow-x: auto; scrollbar-width: none;
+  }
+  .mini-nav::-webkit-scrollbar { display: none; }
+  .mini-nav-item {
+    display: inline-flex; align-items: center; gap: 6px; flex: none; height: 32px; padding: 0 13px;
+    border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); background: rgba(20, 22, 30, .55);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, .9); font-size: 15px; white-space: nowrap; text-decoration: none;
+  }
+  .mini-nav-item svg { width: 16px; height: 16px; flex: none; }
+  .mini-nav-item:active { transform: scale(.97); }
+  .mini-nav-item.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+}
+@media (max-width: 300px) {
+  :root.has-mini-nav { --header-h: calc(56px + var(--sat) + var(--mini-h)); }
+}
+/* tor telefonda to'rttasi ham bir qatorga sig'sin — ikonkasiz */
+@media (max-width: 420px) {
+  .mini-nav { gap: 6px; }
+  .mini-nav-item { padding: 0 10px; }
+  .mini-nav-item svg { display: none; }
+}

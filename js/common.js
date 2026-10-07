@@ -571,6 +571,7 @@ function initLayout() {
     });
   }
 
+  renderMiniNav(header, page);
   renderTabbar();
   renderFooterGenres();
   applyI18n();
@@ -590,6 +591,23 @@ const TABS = [
   { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tv' }
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
 ];
+
+/* Telefonda logo ostidagi mini navbar (kompyuterda yashirin — u yerda yuqori menyu bor) */
+const MINI_NAV = [
+  { href: 'sport.html',     icon: 'ball',     uz: 'Sport',             ru: 'Спорт' },
+  { href: 'tv.html',        icon: 'tv',       uz: 'Kanallar',          ru: 'Каналы' },
+  { href: 'plans.html',     icon: 'crown',    uz: 'Obuna',             ru: 'Подписка' },
+  { href: 'downloads.html', icon: 'download', uz: 'Yuklab olinganlar', ru: 'Загрузки' }
+];
+
+function renderMiniNav(header, page) {
+  if (!header || page === 'admin.html' || header.querySelector('.mini-nav')) return;
+  header.insertAdjacentHTML('beforeend', `
+    <nav class="mini-nav" aria-label="${LANG === 'ru' ? 'Разделы' : 'Bo‘limlar'}">
+      ${MINI_NAV.map(l => `<a class="mini-nav-item${l.href === page ? ' is-active' : ''}" href="${l.href}">${ICONS[l.icon]}<span>${l[LANG] || l.uz}</span></a>`).join('')}
+    </nav>`);
+  document.documentElement.classList.add('has-mini-nav');
+}
 
 /* "Yana" menyusidagi bo'limlar */
 const MORE_LINKS = [
