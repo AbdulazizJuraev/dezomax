@@ -7126,3 +7126,13 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .sport-sec .m-rail::-webkit-scrollbar { display: none; }
 .sport-sec .m-rail > .match { flex: 0 0 min(80%, 340px); scroll-snap-align: start; margin: 0; }
 .sport-sec .m-rail > .f1-card { flex-basis: min(88%, 440px); }
+
+/* Futbol yangiliklari — gorizontal karusel (sport bo'limlari kabi; yengil, faqat scroll-snap) */
+.news-grid.news-rail {
+  display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  margin: 0 calc(-1 * clamp(16px, 4vw, 48px)); padding: 2px clamp(16px, 4vw, 48px) 6px;
+  scroll-padding-inline: clamp(16px, 4vw, 48px);
+}
+.news-rail::-webkit-scrollbar { display: none; }
+.news-rail > .news-card { flex: 0 0 min(78%, 320px); scroll-snap-align: start; }
+.news-rail > .news-card:hover { transform: none; }

@@ -367,7 +367,7 @@ function newsHTML(a) {
   const link = a.links?.web?.href || a.links?.mobile?.href;
   const date = a.published ? shortDate(a.published) : '';
   return `
-  <a class="news-card reveal" href="${esc(link || '#')}" target="_blank" rel="noopener">
+  <a class="news-card" href="${esc(link || '#')}" target="_blank" rel="noopener">
     <div class="news-img">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</div>
     <div class="news-body">
       <h3>${esc(a.headline || '')}</h3>
@@ -383,8 +383,8 @@ async function loadNews() {
   const box = document.getElementById('news');
   try {
     if (!newsCache) newsCache = (await getJSON(`${API}/site/v2/sports/soccer/eng.1/news`)).articles || [];
-    box.innerHTML = newsCache.length ? `<div class="news-grid">${newsCache.slice(0, 6).map(newsHTML).join('')}</div>` : '';
-    observeReveals(box);
+    // yangiliklar — gorizontal karusel (sport bo'limlari kabi)
+    box.innerHTML = newsCache.length ? `<div class="news-grid news-rail">${newsCache.slice(0, 12).map(newsHTML).join('')}</div>` : '';
   } catch {
     box.innerHTML = '';
   }
