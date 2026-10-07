@@ -169,6 +169,7 @@ const ICONS = {
   user:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20.5c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5"/></svg>',
   close:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   film:   '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M2.5 12h19M2.5 8h4.5M2.5 16h4.5M17 8h4.5M17 16h4.5"/></svg>',
+  shorts: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3.2"/><path d="M10.4 9.3v5.4l4.3-2.7z" fill="currentColor"/></svg>',
   empty:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M8.5 11h5"/></svg>'
 };
 
@@ -585,10 +586,10 @@ function initLayout() {
 
 const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
+  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' },
   { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
-  { key: 'series',  href: 'catalog.html?type=serial', icon: 'series', label: 'nav.series' },
-  { key: 'sport',   href: 'sport.html',   icon: 'ball', label: 'nav.sport' },
-  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tv' }
+  { key: 'series',  href: 'catalog.html?type=serial', icon: 'series', label: 'nav.series' }
+  // Sport va Kanallar — bosh sahifadagi mini navbarda (logo ostida)
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
 ];
 
@@ -655,6 +656,7 @@ function activeTab() {
   if (page === 'sport.html') return 'sport';
   if (page === 'tv.html') return 'tv';
   if (page === 'search.html') return 'search';
+  if (page === 'shorts.html') return 'shorts';
   if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'serial') return 'series';
   if (page === 'index.html' || page === '') return 'home';
   return null;                       // movie.html — hech biri faol emas

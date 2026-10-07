@@ -6787,3 +6787,8 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 @media (max-width: 300px) {
   :root.has-mini-nav { --header-h: calc(56px + var(--sat) + var(--mini-h)); }
 }
+/* bosh sahifa (telefon, mini navbar bilan): slayder rasmi ustida soya yo'q — rasm toza, chegarasi aniq */
+@media (max-width: 900px) {
+  :root.has-mini-nav #hero.hero-v2 .hv2-bg::after,
+  :root.has-mini-nav #hero.hero-v2 .is-vert .hv2-bg::after { background: none !important; }
+}
