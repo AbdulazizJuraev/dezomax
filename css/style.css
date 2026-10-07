@@ -6560,6 +6560,11 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 #hero.hero-v2 .hv2-vp { display: none; }
 @media (max-width: 640px) {
   #hero.hero-v2 .is-vert .hv2-bg { background-position: center top !important; }
+  /* poster logo/profil qatori OSTIDAN boshlanadi — posterdagi kino nomi DezoMax logosi tagida qolmasin */
+  #hero.hero-v2 .is-vert .hv2-bg { top: var(--header-h, 56px); background-color: var(--bg); }
+  #hero.hero-v2 .is-vert .hv2-bg::after {
+    background: linear-gradient(to bottom, var(--bg) 0, rgba(0, 0, 0, 0) 7%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, .62) 80%, var(--bg) 100%) !important;
+  }
 }
 @media (min-width: 641px) {
   #hero.hero-v2 .is-vert .hv2-bg { filter: blur(28px) brightness(.55) saturate(1.2); transform: scale(1.2) !important; }
