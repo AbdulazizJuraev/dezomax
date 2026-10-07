@@ -25,7 +25,7 @@ const CHANNEL_COUNTRIES = [
 
 const TV_CHANNELS = [   // TV_CHANNELS — YouTube kanallari ro'yxati (js/data-channels.js) ham CHANNELS deb ataladi, nomlar to'qnashmasin
   { id: 'Ozbekiston', name: "O'zbekiston", country: 'uz', category: 'general',
-    logo: 'images/tv/Ozbekiston.png',
+    logo: 'images/tv/Ozbekiston.png', tile: 'dark',   // hozirgi tilla rangli logo (eski ko'k «1» emas)
     url: 'https://stream8.cinerama.uz/1001/tracks-v1a1/playlist.m3u8',
     colors: ['#2a4a6b', '#0a1220'] },
   { id: 'Yoshlar', name: "Yoshlar", country: 'uz', category: 'general',
