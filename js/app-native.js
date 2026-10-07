@@ -15,6 +15,10 @@
   // «DezoMax Admin» ilovasi: sayt menyulari yashiriladi (css: .is-admin-app)
   if (document.body && document.body.classList.contains('page-admin')) document.body.classList.add('is-admin-app');
 
+  /* ---- Ilova fonga o'tdi (Home, boshqa ilova, ekran o'chdi) — video va ovoz to'xtaydi (js/common.js dzxPauseAll) ---- */
+  App && App.addListener('appStateChange', ({ isActive }) => { if (!isActive && window.dzxPauseAll) window.dzxPauseAll(); });
+  App && App.addListener('pause', () => { if (window.dzxPauseAll) window.dzxPauseAll(); });
+
   /* ---- Telefonning "orqaga" tugmasi ---- */
   App && App.addListener('backButton', ({ canGoBack }) => {
     // 0) birinchi kirish oynasi ochiq bo'lsa — avvalgi qadamga (js/welcome.js)

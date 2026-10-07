@@ -764,6 +764,21 @@ document.addEventListener('langchange', () => {
    Internet yo'q paytda tepada ogohlantirish va «Yuklab olinganlar»ga havola chiqadi. */
 const IS_APP = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 
+/* Ilovadan chiqilganda (Home tugmasi, boshqa ilova, ekran o'chdi) yoki brauzer varag'i yashirilganda —
+   barcha video va ovoz to'xtaydi. Android WebView fonda ham kinoning ovozini o'ynatib turardi (2026-10-07).
+   Televizorga uzatish (DezoCast) telefon videosini o'zi to'xtatadi — unga ta'sir qilmaydi. */
+function dzxPauseAll() {
+  document.querySelectorAll('video, audio').forEach(m => { try { if (!m.paused) m.pause(); } catch {} });
+  document.querySelectorAll('iframe').forEach(f => {
+    if (/youtube(-nocookie)?\.com\/embed/.test(f.src || '')) {
+      try { f.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*'); } catch {}
+    }
+  });
+}
+window.dzxPauseAll = dzxPauseAll;
+document.addEventListener('visibilitychange', () => { if (document.hidden) dzxPauseAll(); });
+window.addEventListener('pagehide', dzxPauseAll);
+
 /* Televizor rejimi (pult bilan boshqarish — js/tvmode.js): Smart TV brauzeri / Tizen ilovasi o'zi aniqlanadi;
    ?tv=1 — majburan yoqish (kompyuterda sinash uchun), ?tv=0 — o'chirish. Tanlov shu qurilmada eslab qolinadi. */
 const IS_TV = (() => {
