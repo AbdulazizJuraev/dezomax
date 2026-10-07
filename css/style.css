@@ -6808,3 +6808,16 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
     border-radius: 50%; background: rgba(10, 147, 220, .2); border: 1.5px solid rgba(76, 184, 240, .6);
   }
 }
+/* doira kattaroq — «Bosh sahifa» yozuvi chetiga tegmasin (navbar ichki chekinishiga ham chiqadi) */
+@media (max-width: 900px) {
+  .tabbar-item.is-active::after { top: 50%; bottom: auto; width: 64px; height: 64px; aspect-ratio: auto; transform: translate(-50%, -50%); }
+}
+@media (max-width: 340px) {
+  .tabbar-item.is-active::after { width: 56px; height: 56px; }
+}
+@media (max-width: 900px) { .tabbar-label { line-height: 1.05; } }
+@media (min-width: 341px) and (max-width: 900px) {
+  .tabbar { padding: 8px 7px; }
+  .tabbar-item.is-active::after { width: 68px; height: 68px; }
+}
+@media (min-width: 341px) and (max-width: 900px) { .tabbar-item { padding-top: 10px; padding-bottom: 9px; } }
