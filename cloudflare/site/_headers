@@ -1,0 +1,9 @@
+# Kesh: JS/CSS sahifalarda ?v=<versiya> bilan ulanadi (tools/bump-version.js) — versiya o'zgarsa yangi manzil
+/js/*
+  Cache-Control: public, max-age=604800
+/css/*
+  Cache-Control: public, max-age=604800
+/images/*
+  Cache-Control: public, max-age=86400
+/sw.js
+  Cache-Control: no-cache

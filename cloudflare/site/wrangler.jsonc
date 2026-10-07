@@ -1,0 +1,14 @@
+// dezomax.uz — Cloudflare Workers + static assets. Yuklash: .github/workflows/cf-site.yml (npx wrangler deploy)
+{
+  "name": "dezomax-site",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "assets": {
+    "directory": "../../_site",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "404-page",
+    "run_worker_first": true
+  }
+}
