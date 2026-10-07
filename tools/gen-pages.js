@@ -75,7 +75,15 @@ function similar(m) {
 
 const template = fs.readFileSync(path.join(root, 'movie.html'), 'utf8');
 
-function page({ id, title, desc, url, image, type, ld, body }) {
+// odamlar bir xil narsani turlicha yozib qidiradi: «o‘zbek tilida», «uzbek tilida», «узбек тилида»
+const UZ_VARIANTS = ['o‘zbek tilida', 'uzbek tilida', 'ozbek tilida', 'o‘zbekcha', 'узбек тилида', 'на узбекском'];
+const crumbs = items => ({
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: items.map(([name, item], i) => ({ '@type': 'ListItem', position: i + 1, name, item }))
+});
+
+function page({ id, title, desc, url, image, type, ld, body, keywords }) {
+  const kw = [...new Set((keywords || []).map(k => String(k || '').trim()).filter(Boolean))].join(', ');
   let html = template
     .replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n<base href="../">')
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
@@ -85,10 +93,15 @@ function page({ id, title, desc, url, image, type, ld, body }) {
     .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(desc)}">`)
     .replace(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${esc(title)}">`)
     .replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(desc)}">`)
-    .replace(/<!-- Har bir kino[\s\S]*?<\/script>\n/, `<link rel="canonical" href="${url}">\n<meta property="og:url" content="${url}">\n`
+    .replace(/<meta name="description" content="[^"]*">/, m => m + (kw ? `\n<meta name="keywords" content="${esc(kw)}">` : ''))
+    // \r?\n — movie.html CRLF bilan saqlangan; avval faqat \n qidirilgani uchun almashmay qolib, 1000+ sahifa
+    // «canonical = movie.html» deb ketgan edi (qidiruv tizimlari ularni bitta sahifaning nusxasi deb hisoblagan)
+    .replace(/<!-- Har bir kino[\s\S]*?<\/script>\r?\n/, `<link rel="canonical" href="${url}">\n<meta property="og:url" content="${url}">\n`
       + (image ? `<meta property="og:image" content="${esc(image)}">\n<meta name="twitter:image" content="${esc(image)}">\n` : ''))
+    .replace(/<meta name="twitter:card" content="summary">/, image ? '<meta name="twitter:card" content="summary_large_image">' : '$&')
     .replace('</head>', `${id ? `<script>window.DZX_ID=${id}</script>\n` : ''}<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>\n</head>`)
     .replace('<main id="page"></main>', `<main id="page">${body}</main>`);
+  if (!html.includes(`<link rel="canonical" href="${url}">`)) throw new Error(`canonical qo'yilmadi: ${url}`);
   if (!id) html = html.replace(/<script src="js\/(?:ytplayer|vplayer|social|offline|movie)\.js[^"]*"><\/script>\r?\n/g, '').replace('</body>', '<script>initLayout();</script>\n</body>');
   return html;
 }
@@ -100,11 +113,27 @@ function moviePage(m) {
   const text = noEmoji((m.desc && (m.desc.uz || m.desc.ru)) || '');
   const uzb = m.audio === 'uz' || /O‘zbekiston/.test((m.country && m.country.uz) || '');
   const lang = uzb ? 'o‘zbek tilida ' : '';
-  const title = `${name}${year} — ${lang}onlayn ko‘rish | DezoMax`;
-  const desc = `${name}${year} ${TYPE[m.type] ? TYPE[m.type].toLowerCase() : 'film'}ini ${lang}bepul onlayn ko‘ring. ${text}`.replace(/\s+/g, ' ').slice(0, 280);
+  const tahlil = m.franchise === 'tahlil';
+  const author = (m.source && m.source.name) || '';
+  // tahlil videolari — kino emas: «onlayn ko‘rish» o'rniga muallif va «kino tahlil»; yil — yuklangan yil, sarlavhada keraksiz
+  const title = tahlil
+    ? `${name} — kino tahlil o‘zbek tilida${author ? ` | ${author}` : ''} | DezoMax`
+    : `${name}${year} — ${lang}onlayn ko‘rish${ru ? ` | ${ru} смотреть онлайн` : ''} | DezoMax`;
+  const kind = TYPE[m.type] ? TYPE[m.type].toLowerCase() : 'film';
+  const desc = (tahlil
+    ? `${name} — ${author ? author + ' ' : ''}o‘zbek tilida kino tahlil videosi, bepul ko‘ring. ${text}`
+    : `${name}${year}${ru ? ` (${ru})` : ''} ${kind}ini ${lang}bepul onlayn ko‘ring${uzb ? ' — на узбекском языке' : ''}. ${text}`)
+    .replace(/\s+/g, ' ').slice(0, 280);
   const url = `${SITE}kino/${m._page}.html`;
   const image = abs(m.poster);
   const genres = (m.genres || []).map(genre);
+  const yt = (String(m.video).match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || [])[1];
+  const keywords = tahlil
+    ? [name, /tahlil/i.test(name) ? '' : `${name} tahlil`, 'kino tahlil', 'kino tahlil o‘zbek tilida', 'film tahlili', author, ...(m.tags || [])]
+    : [name, ru, ...(m.tags || []),
+       ...(uzb ? UZ_VARIANTS.map(v => `${name} ${v}`) : []),
+       `${name} onlayn ko‘rish`, `${name} kino`, ru && `${ru} смотреть онлайн`,
+       m.year && `${name} ${m.year}`, ...genres.map(g => `${g.toLowerCase()} kino`), uzb && 'o‘zbek kinolari', uzb && 'uzbek kino'];
   const facts = [
     ['Turi', TYPE[m.type]],
     ['Yili', m.year],
@@ -133,6 +162,20 @@ function moviePage(m) {
     ...(uzb ? { inLanguage: 'uz' } : {}),
     ...(m.source && m.source.name ? { productionCompany: { '@type': 'Organization', name: m.source.name } } : {})
   };
+  // VideoObject — Google qidiruvida video belgisi/kichik rasm bilan chiqishi uchun (video — rasmiy YouTube'da)
+  const video = yt ? {
+    '@context': 'https://schema.org', '@type': 'VideoObject',
+    name: tahlil ? name : `${name}${year} — ${lang}onlayn`,
+    description: (text || desc).slice(0, 500),
+    thumbnailUrl: [`https://i.ytimg.com/vi/${yt}/hqdefault.jpg`, ...(image ? [image] : [])],
+    ...(m.year ? { uploadDate: String(m.year) } : {}),
+    ...(m.duration && m.type !== 'serial' ? { duration: `PT${m.duration}M` } : {}),
+    embedUrl: `https://www.youtube.com/embed/${yt}`,
+    contentUrl: `https://www.youtube.com/watch?v=${yt}`,
+    ...(uzb || tahlil ? { inLanguage: 'uz' } : {}),
+    ...(author ? { author: { '@type': 'Organization', name: author } } : {})
+  } : null;
+  const trail = crumbs([['Bosh sahifa', SITE], [tahlil ? 'Kino tahlil' : 'Filmlar', `${SITE}kino/index.html`], [name, url]]);
   const body = `
 <div class="wrap seo-pre">
   <nav class="seo-crumbs"><a href="index.html">Bosh sahifa</a> › <a href="kino/index.html">Filmlar</a></nav>
@@ -149,7 +192,7 @@ function moviePage(m) {
   ${sim.length ? `<h2>O‘xshash kinolar</h2>
   <ul class="seo-list">${sim.map(x => `<li><a href="kino/${x._page}.html">${esc(noEmoji(x.title.uz))}${x.year ? ` (${x.year})` : ''}</a></li>`).join('')}</ul>` : ''}
 </div>`;
-  return page({ id: m.id, title, desc, url, image, type: 'video.movie', ld, body });
+  return page({ id: m.id, title, desc, url, image, type: 'video.movie', ld: [tahlil && video ? null : ld, video, trail].filter(Boolean), body, keywords });
 }
 
 function indexPage() {
@@ -230,7 +273,10 @@ function trailerPage(m) {
   ${sim.length ? `<h2>Boshqa treylerlar</h2>
   <ul class="seo-list">${sim.map(x => `<li><a href="kino/${x._page}.html">${esc(noEmoji(x.title.uz))}${x.year ? ` (${x.year})` : ''} — treyler</a></li>`).join('')}</ul>` : ''}
 </div>`;
-  return page({ id: m.id, title, desc, url, image, type: 'video.movie', ld, body });
+  const keywords = [`${name} treyler`, `${name} trailer`, ru && `${ru} трейлер`, ...aka.map(a => `${a} трейлер`),
+    `${name} ${m.year || ''} treyler`, `${name} rasmiy treyler`, `${name} kino`, st.name];
+  const trail = crumbs([['Bosh sahifa', SITE], [st.name, `${SITE}studio/${st.key}.html`], [name, url]]);
+  return page({ id: m.id, title, desc, url, image, type: 'video.movie', ld: [ld, trail], body, keywords });
 }
 
 /* studio/<key>.html — studiyaning barcha rasmiy treylerlari ro'yxati («Pixar treylerlari») */

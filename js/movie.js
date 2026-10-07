@@ -405,6 +405,8 @@ function akaOf(m) {
 }
 
 function setMovieSeo(m) {
+  // kino/<slug>.html — teglar (tavsif, schema.org, video) HTML'da tayyor; ustidan yozilmasin
+  if (window.DZX_ID && LANG === 'uz' && !qp.has('part')) return;
   const name = title(m);
   const watch = watchStatus(m) === 'trailer'
     ? (LANG === 'ru' ? 'трейлер' : 'treyler')
