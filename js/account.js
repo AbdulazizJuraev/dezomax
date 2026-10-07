@@ -10,6 +10,12 @@ Object.assign(I18N.uz, {
   'acc.m.tariff': 'Tarifni boshqarish',
   'acc.m.balance': 'Balans',
   'acc.m.subs': 'Obunalar',
+  'acc.m.history': 'Ko‘rish tarixi',
+  'acc.subsHistory': 'Obunalar tarixi',
+  'acc.historyEmpty': 'Hali hech narsa ko‘rilmagan',
+  'acc.historyHint': 'Boshlagan kinolaringiz shu yerda turadi — to‘xtagan joyidan davom ettirasiz.',
+  'acc.historyClear': 'Tarixni tozalash',
+  'acc.historyLeft': 'qoldi',
   'acc.m.devices': 'Qurilmalar',
   'acc.m.promo': 'Promokodlar',
   'acc.m.payments': 'To‘lov tarixi',
@@ -130,6 +136,12 @@ Object.assign(I18N.ru, {
   'acc.m.tariff': 'Управление тарифом',
   'acc.m.balance': 'Баланс',
   'acc.m.subs': 'Подписки',
+  'acc.m.history': 'История просмотра',
+  'acc.subsHistory': 'История подписок',
+  'acc.historyEmpty': 'Вы ещё ничего не смотрели',
+  'acc.historyHint': 'Начатые фильмы появятся здесь — продолжите с того же места.',
+  'acc.historyClear': 'Очистить историю',
+  'acc.historyLeft': 'осталось',
   'acc.m.devices': 'Устройства',
   'acc.m.promo': 'Промокоды',
   'acc.m.payments': 'История платежей',
@@ -267,6 +279,7 @@ const TILE_SECTIONS = [
   { id: 'tariff',  icon: 'crown' },
   { id: 'balance', icon: 'wallet' },
   { id: 'subs',    icon: 'film' },
+  { id: 'history', icon: 'film' },
   { id: 'devices', icon: 'device' },
   { id: 'promo',   icon: 'gift' }
 ];
@@ -580,9 +593,10 @@ function renderAccount() {
         </a>
       </div>
 
-      <a class="acc-tile acc-tile-subs" href="#subs">
+      <a class="acc-tile acc-tile-subs acc-tile-history" href="#history">
         <img class="acc-tile-hero acc-tile-hero-wide" src="images/account/play.webp" alt="" loading="lazy">
-        <b>${t('acc.m.subs')}</b>
+        <b>${t('acc.m.history')}</b>
+        ${watchList().length ? `<small>${watchList().length} ${LANG === 'ru' ? 'шт.' : 'ta'}</small>` : ''}
       </a>
 
       <div class="acc-tiles">
@@ -726,6 +740,13 @@ function devicesHTML(list) {
     </div>`;
 }
 
+const HISTORY_KEY = 'dezomax_watch_history';   // js/movie.js yozadi
+function watchList() {
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]').filter(x => x && x.id && x.dur > 0 && !x.done).slice(0, 20);
+  } catch { return []; }
+}
+
 const emptyBox = (title, hint, action = '') => `
   <div class="acc-empty">${ICONS.empty || ''}<b>${title}</b>${hint ? `<p>${hint}</p>` : ''}${action}</div>`;
 
@@ -758,7 +779,27 @@ const SECTIONS = {
       <div class="acc-actions">
         <a class="btn btn-primary" href="plans.html">${t('acc.changePlan')}</a>
         ${paid ? `<button class="btn btn-ghost" type="button" id="cancelPlan">${t('acc.cancelPlan')}</button>` : ''}
-      </div>`;
+      </div>
+      ${(profile.subscriptions || []).length ? `<h3 class="acc-sub-h">${t('acc.subsHistory')}</h3>${SECTIONS.subs()}` : ''}`;
+  },
+
+  /* Ko'rish tarixi — kino sahifasi saqlagan, oxirigacha ko'rilmagan kinolar (js/movie.js → dezomax_watch_history) */
+  history() {
+    const list = watchList();
+    if (!list.length) return emptyBox(t('acc.historyEmpty'), t('acc.historyHint'), `<a class="btn btn-primary btn-sm" href="catalog.html">${t('acc.tvBtn')}</a>`);
+    const left = sec => { const m = Math.max(1, Math.round(sec / 60)); return m >= 60 ? `${Math.floor(m / 60)} ${LANG === 'ru' ? 'ч' : 'soat'}${m % 60 ? ` ${m % 60} ${LANG === 'ru' ? 'мин' : 'daq.'}` : ''}` : `${m} ${LANG === 'ru' ? 'мин' : 'daq.'}`; };
+    return `
+      <div class="acc-list acc-hist">${list.map(x => `
+        <a class="acc-item acc-hist-item" href="${esc(x.path || 'movie.html?id=' + x.id)}">
+          <span class="acc-hist-thumb">${x.poster ? `<img src="${esc(x.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}<i style="width:${Math.min(100, Math.max(3, x.t / x.dur * 100)).toFixed(1)}%"></i></span>
+          <div class="acc-item-main">
+            <b>${esc(x.title || '')}</b>
+            <small>${left(x.dur - x.t)} ${t('acc.historyLeft')} · ${fmtDate(x.at, true)}</small>
+          </div>
+          <span class="acc-chev">${AI.chevron}</span>
+        </a>`).join('')}
+      </div>
+      <div class="acc-actions"><button class="btn btn-ghost" type="button" id="histClear">${t('acc.historyClear')}</button></div>`;
   },
 
   balance() {
@@ -968,6 +1009,12 @@ const SECTIONS = {
 const rerender = async msg => { await save(); if (msg) toast(msg); renderAccount(); };
 
 const BINDERS = {
+  history(p) {
+    p.querySelector('#histClear')?.addEventListener('click', () => {
+      try { localStorage.removeItem(HISTORY_KEY); } catch {}
+      renderAccount();
+    });
+  },
   tariff(p) {
     p.querySelector('#autoRenew')?.addEventListener('change', e => { profile.autoRenew = e.target.checked; save(); });
     p.querySelector('#cancelPlan')?.addEventListener('click', () => {
