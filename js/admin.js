@@ -2505,7 +2505,7 @@ async function renderChannelsView() {
    - kind 'playlist' kanallar (egasi ruxsat bergan playlist, masalan FarZidGuy «Kino Tahlil») — yangi videolar shu yerda qo'shiladi
    - rasmiy o'zbek kanallari — yangi kino/serial kanal egasining video tavsifidan to'ldiriladi (mazmun, yil, janr, rejissyor, rollar)
    tools/fetch-yt-meta.js bilan bir xil natija. */
-const YT_SERVER = 'https://pay.2-29-60-133.sslip.io';
+const YT_SERVER = 'https://pay.dezomax.uz';
 async function ytApi(p) {
   const r = await fetch(YT_SERVER + p);
   const j = await r.json().catch(() => ({}));
