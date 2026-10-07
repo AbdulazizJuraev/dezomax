@@ -7144,3 +7144,7 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .player-gate .pp-icon svg { width: 24px; height: 24px; }
 .player-gate h3 { margin: 0; font-size: 17px; }
 .player-gate p { margin: 0; font-size: 13.5px; max-width: 320px; }
+
+/* Tezlik: ekrandan tashqaridagi bo'limlar (kino qatorlari) chizilmaydi — telefon faqat ko'rinib turganini chizadi.
+   Bosh sahifada 170+ kartochka bor; zaif telefonlarda sahifa ochilishi va surilishi yengillashadi. */
+main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }

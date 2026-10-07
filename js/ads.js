@@ -11,7 +11,9 @@
 
 const ADS_CONFIG = {
   // Yandex RSYa: RTB blok ID'lari ('R-A-1234567-1'). Bir nechta bo'lsa — navbat bilan
-  yandex: { banners: ['R-A-20143550-1'] },
+  // on: false — Yandex moderatsiyadan o'tmagan (2026-10-07 rad etildi: haftasiga <100 tashrifchi). O'tmaguncha
+  // uning ~1,8 MB kodi yuklanmaydi (sahifa tezroq). Qayta tasdiqlangach — on: true.
+  yandex: { banners: ['R-A-20143550-1'], on: false },
   // Google AdSense: client — hisob ID, slot — banner blok raqami (sayt tasdiqlangach
   // AdSense → Объявления → По рекламным блокам → Медийный блок yaratib, raqamini yozing).
   // Yuklovchi kod va ads.txt har bir sahifada / ildizda turibdi.
@@ -45,7 +47,7 @@ const Ads = (() => {
 
   function bannerNet() {
     for (const n of C.bannerOrder) {
-      if (n === 'yandex' && C.yandex.banners.length) return 'yandex';
+      if (n === 'yandex' && C.yandex.on !== false && C.yandex.banners.length) return 'yandex';
       if (n === 'adsense' && C.adsense.client && C.adsense.slot) return 'adsense';
     }
     return null;
