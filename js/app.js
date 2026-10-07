@@ -214,7 +214,7 @@ document.addEventListener('click', async e => {
   if (!b) return;
   const m = MOVIES.find(x => x.id === +b.dataset.share);
   if (!m) return;
-  // doim asosiy domen — ilovada sahifa GitHub manzilidan ochilsa ham (kino sahifasidagi ulashish bilan bir xil)
+  // doim asosiy domen — ilovada sahifa zaxira manzildan ochilsa ham (kino sahifasidagi ulashish bilan bir xil)
   const url = 'https://dezomax.uz/' + movieHref(m);
   if (navigator.share) { try { await navigator.share({ title: `${title(m)} — DezoMax`, url }); return; } catch (er) { if (er && er.name === 'AbortError') return; } }
   try { await navigator.clipboard.writeText(url); b.classList.add('is-done'); setTimeout(() => b.classList.remove('is-done'), 1500); } catch {}

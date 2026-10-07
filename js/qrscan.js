@@ -1,7 +1,7 @@
 /* ============================================================
    DezoMax — QR kod skanerlash (kamera orqali)
    jsQR (js/jsqr.js) faqat ochilganda yuklanadi. Natija:
-     - dezomax.uz/github.io/dezomax havolasi bo'lsa — o'sha sahifaga o'tiladi
+     - dezomax.uz (yoki zaxira manzil) havolasi bo'lsa — o'sha sahifaga o'tiladi
      - boshqa http(s) havola — yangi oynada ochiladi
      - oddiy matn — nusxalab, ekranda ko'rsatiladi
    ============================================================ */
@@ -40,7 +40,7 @@ function loadJsQr() {
 function ownSiteUrl(text) {
   try {
     const u = new URL(text, location.href);
-    return /(^|\.)dezomax\.uz$/i.test(u.hostname) || /github\.io$/i.test(u.hostname) ? u.href : null;
+    return /(^|\.)dezomax\.uz$/i.test(u.hostname) || u.hostname === location.hostname ? u.href : null;
   } catch { return null; }
 }
 

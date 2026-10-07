@@ -709,7 +709,7 @@ function trackWatch() {
       if (h && !h.done && h.t > 30) resumeAt = Math.floor(h.t);
     } catch {}
   }
-  const abs = p => p ? new URL(p, 'https://abdulazizjuraev.github.io/dezomax/').href : '';
+  const abs = p => p ? new URL(p, document.baseURI).href : '';
   setInterval(() => {
     if (window.dzxNowUrl !== movie.video) return;
     const n = nowPlaying();

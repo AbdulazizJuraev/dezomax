@@ -9,7 +9,7 @@
    2) APIs & Services → OAuth consent screen → External, ilova nomi DezoMax
    3) Credentials → Create credentials → OAuth client ID:
       a) "Web application"
-         Authorized JavaScript origins: https://abdulazizjuraev.github.io
+         Authorized JavaScript origins: https://dezomax.uz (va zaxira manzil)
       b) "Android"
          Package name: uz.dezomax.app
          SHA-1: 6C:BF:3F:3A:D5:12:72:CD:1A:D6:37:BE:2C:D6:E0:62:FF:2B:AF:5F

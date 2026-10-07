@@ -12,6 +12,12 @@
 const HOST = 'dezomax.uz';
 const ORIGIN = 'https://abdulazizjuraev.github.io';
 const BASE = '/dezomax';
+// Saytning o'z ma'lumot fayllari (dezomax.uz/_n/...) — tashqi xizmatlardan, brauzerda manzili ko'rinmasin
+const DATA_FILES = {
+  '/_n/news-uz.json': 'https://raw.githubusercontent.com/AbdulazizJuraev/dezomax/news-data/news-uz.json'
+};
+// hosting (GitHub Pages / Fastly) javob sarlavhalari — tashrifchiga ko'rsatilmaydi
+const DROP_HEADERS = /^(x-github-|x-served-by|x-cache|x-timer|x-fastly-|x-proxy-cache|x-origin-cache|via$|server$)/i;
 const PASS_HEADERS = ['accept', 'accept-encoding', 'accept-language', 'range', 'if-none-match', 'if-modified-since', 'user-agent'];
 
 export default {
@@ -24,6 +30,16 @@ export default {
       url.protocol = 'https:';
       url.port = '';
       return Response.redirect(url.toString(), 301);
+    }
+
+    // ma'lumot fayllari (sport yangiliklari): 5 daqiqa kesh, ilova (boshqa manzil) ham o'qiy oladi
+    if (DATA_FILES[url.pathname]) {
+      let d;
+      try { d = await fetch(DATA_FILES[url.pathname], { cf: { cacheEverything: true, cacheTtl: 300 } }); } catch (e) { return new Response('{}', { status: 502 }); }
+      return new Response(d.ok ? d.body : '{}', {
+        status: d.ok ? 200 : 502,
+        headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300', 'access-control-allow-origin': '*' }
+      });
     }
 
     const upstream = ORIGIN + BASE + url.pathname + url.search;
@@ -46,7 +62,8 @@ export default {
       return errorPage(502);
     }
 
-    const out = new Headers(resp.headers);
+    const out = new Headers();
+    for (const [k, v] of resp.headers) if (!DROP_HEADERS.test(k)) out.set(k, v);
     const loc = out.get('location');
     if (loc) {
       const l = new URL(loc, upstream);
@@ -74,6 +91,6 @@ function errorPage(status) {
 .b{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box}
 p{color:#9aa4b5;max-width:320px;line-height:1.5}a{color:#0a93dc;font-weight:700}</style></head>
 <body><div class="b"><h1>DezoMax</h1><p>Sayt bir lahzaga ochilmadi. Birozdan keyin qayta urinib ko'ring.</p>
-<p><a href="https://abdulazizjuraev.github.io/dezomax/">Zaxira manzil orqali ochish</a></p></div></body></html>`;
+<p><a href="" onclick="location.reload();return false">Qayta urinish</a></p></div></body></html>`;
   return new Response(html, { status, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
 }

@@ -208,8 +208,8 @@ async function uploadPoster(file, slug, maxW = 600) {
   const path = `images/custom/${slug}.jpg`;
   const existing = await getFile(path);
   await putFile(path, b64, `Poster: ${slug}`, existing?.sha);
-  // APK ham ko'rsata olishi uchun to'liq manzil
-  return SITE_URL + path;
+  // nisbiy manzil — sayt (dezomax.uz) ham, ilova ham o'z manzilidan oladi (kodda zaxira manzil ko'rinmaydi)
+  return path;
 }
 
 /* ---------- Yordamchilar ---------- */
@@ -1321,8 +1321,8 @@ function bindList() {
     if (!m || !confirm(`«${m.title.uz}» o‘chirilsinmi?`)) return;
     runAction(b, async () => {
       await saveCustom(list => list.filter(x => x.id !== id), `Kino o‘chirildi: ${m.title.uz}`);
-      if (m.poster && m.poster.startsWith(SITE_URL + 'images/custom/')) {
-        const path = m.poster.slice(SITE_URL.length);
+      if (m.poster && (m.poster.startsWith('images/custom/') || m.poster.startsWith(SITE_URL + 'images/custom/'))) {
+        const path = m.poster.startsWith(SITE_URL) ? m.poster.slice(SITE_URL.length) : m.poster;
         const f = await getFile(path);
         if (f) await gh(`/contents/${path}`, { method: 'DELETE', body: JSON.stringify({ message: `Poster o‘chirildi: ${m.slug}`, sha: f.sha, branch: GH.branch }) });
       }

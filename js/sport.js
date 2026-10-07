@@ -379,9 +379,9 @@ function newsHTML(a) {
 
 let newsCache = null;
 
-/* O'zbekcha (ruscha) sport yangiliklari — Sports.uz RSS; GitHub Actions har 30 daqiqada news-data shoxchasiga yozadi
-   (tools/fetch-news-uz.js). Faqat sarlavha, qisqa tavsif va rasm — bosilsa maqola Sports.uz'ning o'zida ochiladi. */
-const NEWS_UZ_URL = 'https://raw.githubusercontent.com/AbdulazizJuraev/dezomax/news-data/news-uz.json';
+/* O'zbekcha (ruscha) sport yangiliklari — Sports.uz RSS (tools/fetch-news-uz.js har 30 daqiqada yangilaydi;
+   dezomax.uz/_n/ orqali beriladi — cloudflare/worker.js). Faqat sarlavha, qisqa tavsif va rasm — bosilsa maqola Sports.uz'ning o'zida ochiladi. */
+const NEWS_UZ_URL = 'https://dezomax.uz/_n/news-uz.json';
 let newsUz = null;
 
 function newsUzHTML(x) {

@@ -215,7 +215,7 @@
     if (e.target.closest('.sh-dislike')) return react(+sl.dataset.i, -1);
     if (e.target.closest('.sh-comments')) return openSheet(+sl.dataset.i);
     if (e.target.closest('.sh-share')) {
-      const url = `https://dezomax.uz/shorts.html#${sl.dataset.id}`;   // doim asosiy domen (ilovada GitHub manzili emas)
+      const url = `https://dezomax.uz/shorts.html#${sl.dataset.id}`;   // doim asosiy domen (ilovada zaxira manzil emas)
       if (navigator.share) navigator.share({ title: list[+sl.dataset.i].t, url }).catch(() => {});
       else navigator.clipboard?.writeText(url).then(() => typeof toast === 'function' && toast(ru ? 'Ссылка скопирована' : 'Havola nusxalandi'));
     }

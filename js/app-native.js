@@ -55,7 +55,7 @@
   const Runner = cap.Plugins.BackgroundRunner;
   const isAdminApp = document.documentElement.classList.contains('is-admin-app') || document.body.classList.contains('is-admin-app');
   if (Runner && !isAdminApp) {
-    const NOTIFY_URL = 'https://raw.githubusercontent.com/AbdulazizJuraev/dezomax/main/data/notifications.json';
+    const NOTIFY_URL = new URL('data/notifications.json', document.baseURI).href;
     const numId = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (Math.abs(h) % 2000000000) + 1; };
     const check = () => Promise.resolve(Runner.dispatchEvent({ label: 'uz.dezomax.app.notify', event: 'checkNotifications', details: {} })).catch(() => {});
 

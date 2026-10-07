@@ -70,7 +70,7 @@ self.addEventListener('activate', e => {
   })());
 });
 
-const IMG_HOSTS = /(^|\.)(ytimg\.com|ggpht\.com|googleusercontent\.com|tmdb\.org|wikimedia\.org|githubusercontent\.com|dezocloud\.uz|kinopoisk\.ru|yandex\.net)$/i;
+const IMG_HOSTS = /(^|\.)(ytimg\.com|ggpht\.com|googleusercontent\.com|tmdb\.org|wikimedia\.org|dezocloud\.uz|kinopoisk\.ru|yandex\.net)$/i;
 
 self.addEventListener('fetch', e => {
   const req = e.request;
