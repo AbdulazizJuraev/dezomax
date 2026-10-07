@@ -22,13 +22,12 @@
     'wc.s2.sub': 'Marvel, DC va yuzlab rasmiy treylerlar',
     'wc.s3.title': 'Telekanallar va sport jonli',
     'wc.s3.sub': 'Futbol, telekanallar va yangiliklar — hammasi bir ilovada',
-    'wc.skip': 'O‘tkazib yuborish',
     'wc.next': 'Keyingi',
     'wc.live': 'JONLI',
     'wc.trial': '7 kun bepul',
     'wc.auth.title': 'Ro‘yxatdan o‘ting yoki kiring',
     'wc.auth.sub': 'Ro‘yxatdan o‘tgach 7 kun bepul. Keyin har 7 kun uchun {price} so‘m — obunani istalgan vaqtda bekor qilish mumkin.',
-    'wc.auth.later': 'Hozircha o‘tkazib yuborish',
+    'wc.auth.later': 'Keyinroq',
     'wc.googleBtn': 'Google bilan davom etish',
     'wc.googleSub': 'Bir bosishda, parolsiz',
     'wc.or': 'yoki',
@@ -48,13 +47,12 @@
     'wc.s2.sub': 'Marvel, DC и сотни официальных трейлеров',
     'wc.s3.title': 'Телеканалы и спорт в прямом эфире',
     'wc.s3.sub': 'Футбол, телеканалы и новости — всё в одном приложении',
-    'wc.skip': 'Пропустить',
     'wc.next': 'Далее',
     'wc.live': 'LIVE',
     'wc.trial': '7 дней бесплатно',
     'wc.auth.title': 'Зарегистрируйтесь или войдите',
     'wc.auth.sub': 'После регистрации 7 дней бесплатно. Затем {price} сум за каждые 7 дней — подписку можно отменить в любой момент.',
-    'wc.auth.later': 'Пропустить пока',
+    'wc.auth.later': 'Позже',
     'wc.googleBtn': 'Продолжить с Google',
     'wc.googleSub': 'В один клик, без пароля',
     'wc.or': 'или',
@@ -192,7 +190,7 @@
           <p>${text('wc.s' + s + '.sub')}</p>
         </section>
         <footer class="wc-bar">
-          <button class="wc-skip" id="wcSkip" type="button">${t('wc.skip')}</button>
+          <span aria-hidden="true"></span>
           <div class="wc-dots">${[0, 1, 2].map(i => `<i class="${i === step ? 'is-on' : ''}"></i>`).join('')}</div>
           <button class="wc-next" id="wcNext" type="button" aria-label="${t('wc.next')}">${ICON.arrow}</button>
         </footer>`;
@@ -220,7 +218,6 @@
 
   function bind() {
     root.querySelector('#wcNext')?.addEventListener('click', () => go(step + 1));
-    root.querySelector('#wcSkip')?.addEventListener('click', () => go(SLIDES));
     root.querySelector('#wcLater')?.addEventListener('click', () => finish(false));
     if (step >= SLIDES) bindAuth();
   }

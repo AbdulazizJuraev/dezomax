@@ -7136,3 +7136,11 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .news-rail::-webkit-scrollbar { display: none; }
 .news-rail > .news-card { flex: 0 0 min(78%, 320px); scroll-snap-align: start; }
 .news-rail > .news-card:hover { transform: none; }
+
+/* Kirmagan foydalanuvchi: pleyer o'rnida «Ko'rish uchun ro'yxatdan o'ting» (js/movie.js mountPlayer) — telefonda ham sig'sin */
+.player-wrap:has(.player-gate) { aspect-ratio: auto; min-height: 0; height: auto; }
+.player-gate { position: relative; inset: auto; padding: 22px 18px; gap: 6px; }
+.player-gate .pp-icon { width: 48px; height: 48px; margin-bottom: 4px; }
+.player-gate .pp-icon svg { width: 24px; height: 24px; }
+.player-gate h3 { margin: 0; font-size: 17px; }
+.player-gate p { margin: 0; font-size: 13.5px; max-width: 320px; }

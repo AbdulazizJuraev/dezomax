@@ -139,6 +139,23 @@ function mountPlayer(url) {
 
   if (typeof destroyVideo === 'function') destroyVideo();
 
+  // Kino / serial / tahlilni ko'rish — faqat ro'yxatdan o'tganlarga; treylerni hamma ko'radi
+  if (typeof Auth !== 'undefined' && !Auth.user() && url !== (movie?.trailer || group?.trailer)) {
+    if (typeof destroyYouTube === 'function') destroyYouTube();
+    box.classList.remove('ytp');
+    const next = `movie.html?id=${group?.id || movie?.id}${typeof partNo !== 'undefined' && partNo ? `&part=${partNo}` : ''}&play=1`;
+    const ru = LANG === 'ru';
+    box.innerHTML = `
+      <div class="player-placeholder player-gate">
+        <div class="pp-icon">${ICONS.user}</div>
+        <h3>${ru ? 'Войдите, чтобы смотреть' : 'Ko‘rish uchun ro‘yxatdan o‘ting'}</h3>
+        <p>${ru ? 'Регистрация занимает один клик — через Google или Telegram. Трейлеры доступны всем.' : 'Bir bosishda — Google yoki Telegram orqali. Treylerlarni kirmasdan ham ko‘rish mumkin.'}</p>
+        <a class="btn btn-primary" href="account.html?next=${encodeURIComponent(next)}" style="margin-top:14px">${ru ? 'Войти / Регистрация' : 'Kirish / Ro‘yxatdan o‘tish'}</a>
+      </div>`;
+    if (link) link.hidden = true;
+    return;
+  }
+
   // «http://» havola (YouTube/Vimeo/Drive emas — ular https'ga o'giriladi): HTTPS saytda brauzer
   // uni sahifa ichida to'sadi (aralash kontent). Ilovada sahifa ichida o'ynaydi (allowMixedContent),
   // brauzerda esa video alohida oynada ochiladi.
