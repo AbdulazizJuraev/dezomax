@@ -8,11 +8,60 @@
    shorts.html#VIDEO_ID — shu shortdan boshlanadi (bosh sahifadagi «Shorts» qatori)
    ============================================================ */
 
-(function () {
+/* Yangi shortslar — avtomatik (2026-10-07): kanal egasi ruxsat bergan kanallarning eng yangi shortslari yangi server
+   orqali (/api/yt/shorts, serverda kesh). js/data-shorts.js dagi eng yangisidan KEYIN chiqqanlari va faqat kinoga oidlari
+   (tools/fetch-yt-meta.js MOVIE_RX bilan bir xil) ro'yxat boshiga qo'shiladi; telefonda 6 soat saqlanadi.
+   Admin o'chirgan eski shortslar qaytib kelmaydi. Yangi kanal — FAQAT egasi ruxsat bergandan keyin qo'shiladi. */
+const LIVE_SHORT_CHANNELS = [
+  { ch: 'farzidguy', id: 'UC40y8Eqvoans8S-n8bBqoOw', n: 'FarZidGuy', u: 'https://www.youtube.com/@FarZidGuy' }
+];
+const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|deseptikon|decepticon|optimus|praym|prime|megatron|bumblebee|bambilbi|drift|lockdown|shockwave|starscream|wheeljack|devastator|crosshairs|kogman|cogman|sentinal|sentinel|iron ?hide|wrekker|\bdc\b|#dc|supermen|superman|betmen|batman|flash|wonder ?woman|temir odam|iron ?man|#thor|\btor\b|torga|loki|wanda|vijin|vision|altron|ultron|kang\b|odin|tanos|thanos|selestial|celestial|ikaris|cheksizlik tosh|kuch tosh|yulduzlar lordi|spider|o.rgimchak|wednesday|uenzdey|deyneris|daenerys|taxtlar|\bfilm|kino|premyera|oskar|oscar|aktyor|multfilm|makvin|mcqueen|jekson bo.ron|mortal kombat|call of duty|dedpul|deadpool|momaqaldiroq|thunderbolt|tay ?lung|kung ?fu|afsonaviy uchlik|adolat liga|justice league|qizil.?jodugar|venom|joker|star ?wars|yulduzlar jang|harry ?pot|garri ?pot|bolg.a|mjolnir/i;
+
+(async function () {
   const feed = document.getElementById('shortsFeed');
-  const list = typeof SHORTS !== 'undefined' ? SHORTS.filter(x => x && /^[\w-]{11}$/.test(x.id)) : [];
+  const base = typeof SHORTS !== 'undefined' ? SHORTS.filter(x => x && /^[\w-]{11}$/.test(x.id)) : [];
   const ru = typeof LANG !== 'undefined' && LANG === 'ru';
   if (typeof initLayout === 'function') try { initLayout(); } catch {}
+
+  // --- yangi shortslar (yuqoridagi izoh) ---
+  const LIVE_KEY = 'dzxShortsLive', LIVE_TTL = 6 * 3600e3;
+  const API0 = typeof PAY_API !== 'undefined' && PAY_API ? String(PAY_API).replace(/\/+$/, '') : '';
+  const uzQ = s => s.replace(/([oOgG])['‘’`ʻ]/g, '$1‘').replace(/['`ʻ]/g, '’');
+  const tidy = raw => {      // heshteg/emojisiz, KATTA HARFLAR — oddiy (tools/fetch-yt-meta.js shortTitle)
+    let t = String(raw).replace(/#[\p{L}\p{N}_]+/gu, '').replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim();
+    const letters = t.replace(/[^\p{L}]/gu, '');
+    if (letters && letters === letters.toUpperCase()) t = t.toLowerCase();
+    t = t.replace(/(^|[.!?]\s+)(\p{L})/gu, (m, a, b) => a + b.toUpperCase()).replace(/[\s|\-–—:]+$/, '');
+    return uzQ(t || String(raw).trim());
+  };
+  async function fetchLive() {
+    const out = {};
+    for (const c of LIVE_SHORT_CHANNELS) {
+      const r = await fetch(`${API0}/api/yt/shorts?ch=${c.id}`);
+      if (r.ok) out[c.ch] = ((await r.json()).items || []).map(x => ({ id: x.id, title: x.title }));
+    }
+    if (Object.keys(out).length) try { localStorage.setItem(LIVE_KEY, JSON.stringify({ at: Date.now(), ch: out })); } catch {}
+    return out;
+  }
+  function mergeLive(byCh) {
+    const have = new Set(base.map(x => x.id)), add = [];
+    for (const c of LIVE_SHORT_CHANNELS) {
+      const items = byCh[c.ch] || [];
+      const known = items.findIndex(x => have.has(x.id));       // saytdagi eng yangisi — undan oldingilari yangi
+      for (const x of known > 0 ? items.slice(0, known) : [])
+        if (/^[\w-]{11}$/.test(x.id) && SHORT_MOVIE_RX.test(x.title)) add.push({ id: x.id, t: tidy(x.title), ch: c.ch, n: c.n, u: c.u });
+    }
+    return add.length ? [...add, ...base] : base;
+  }
+  let cache = null;
+  try { cache = JSON.parse(localStorage.getItem(LIVE_KEY) || 'null'); } catch {}
+  let live = cache && cache.ch;
+  if (API0 && (!cache || Date.now() - cache.at > LIVE_TTL)) {
+    const p = fetchLive().catch(() => null);                    // eskirgan bo'lsa — fonda yangilanadi
+    if (!live) live = await Promise.race([p, new Promise(r => setTimeout(() => r(null), 1500))]);   // birinchi marta — 1,5 s kutamiz
+  }
+  const list = mergeLive(live || {});
+
   if (!list.length) { feed.innerHTML = `<p class="sh-empty">${ru ? 'Пока нет коротких видео' : 'Hozircha shorts yo‘q'}</p>`; return; }
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
