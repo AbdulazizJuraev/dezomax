@@ -4,6 +4,11 @@
   "main": "worker.js",
   "compatibility_date": "2026-10-01",
   "workers_dev": true,
+  // dezomax.uz — sayt; www.dezomax.uz — worker.js uni dezomax.uz ga yo'naltiradi
+  "routes": [
+    { "pattern": "dezomax.uz/*", "zone_name": "dezomax.uz" },
+    { "pattern": "www.dezomax.uz/*", "zone_name": "dezomax.uz" }
+  ],
   "assets": {
     "directory": "../../_site",
     "binding": "ASSETS",
