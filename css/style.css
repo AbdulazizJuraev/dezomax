@@ -7017,6 +7017,21 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .sport-page { position: relative; z-index: 1; }
 .sp-ambient i { filter: blur(40px) saturate(1.5) brightness(.95); }
 .sp-ambient::after { background: linear-gradient(to bottom, rgba(7, 8, 12, .05) 0%, rgba(7, 8, 12, .35) 50%, var(--bg) 100%); }
+/* Telefonda qotmasin: katta qatlamni 40px xiralashtirish o'rniga — 8 barobar kichik qatlamni 5px xiralashtirib,
+   8 barobar kattalashtiramiz (ko'rinishi bir xil, ish ~60 barobar kam); qatlam o'z GPU qatlamida */
+.sp-ambient i {
+  inset: auto; left: -8px; top: -8px; width: calc((100% + 16px) / 8); height: calc((100% + 16px) / 8);
+  transform: scale(8); transform-origin: 0 0; filter: blur(5px) saturate(1.5) brightness(.95);
+  will-change: opacity; backface-visibility: hidden;
+}
+/* slayder: kartochkalar o'z qatlamida siljiydi; og'ir soya filtri o'rniga — pastdagi qora gradient yetarli */
+.sph-stage { contain: layout paint; }
+.sph-track > .sph-slide { will-change: transform; }
+.sph-stage .sph-bgl { will-change: opacity; }
+.sph-stage .sph-pl, .sph-stage .sph-big img { filter: none; }
+/* slayder orqasida bayroq/logo/sport belgisi yo'q — faqat jamoa ranglaridagi gradient (o'yinchi/surat bo'lsa, u qoladi) */
+.sph-stage .sph-big, .sph-stage .sph-ico, .sph-stage .sph-f1-stripes { display: none; }
+.sp-ambient i { filter: saturate(1.4) brightness(.95); }
 
 /* ================= Sport slayderi — Kinopoisk uslubi (foydalanuvchi videosi) =================
    Faol o'yin rasmi butun kenglikda fon (.sph-bgl, silliq almashadi); ustida faol o'yin matni;

@@ -666,14 +666,14 @@ function ambientLayers() {
 function setAmbient(slide) {
   if (!slide) return;
   const wrap = ambientLayers();
-  const img = slide.querySelector('.sph-photo') || slide.querySelector('.sph-pl') || slide.querySelector('.sph-big img');   // surat → o'yinchi → logo
+  // faqat jamoa ranglaridan gradient (rasm, bayroq, logo — yo'q)
   const ca = slide.style.getPropertyValue('--ca') || '#123', cb = slide.style.getPropertyValue('--cb') || '#111';
-  const sig = ca + cb + (img ? img.src : '');
+  const sig = ca + cb;
   if (wrap._sig === sig) return;
   wrap._sig = sig;
   const [x, y] = wrap.children;
   const next = x.classList.contains('is-on') ? y : x, prev = next === x ? y : x;
-  next.style.background = `${img ? `url("${img.src.replace(/"/g, '%22')}") center 20% / cover no-repeat, ` : ''}radial-gradient(80% 70% at 25% 20%, ${ca}, transparent 70%), radial-gradient(80% 70% at 80% 30%, ${cb}, transparent 70%), #07080c`;
+  next.style.background = `radial-gradient(80% 70% at 25% 20%, ${ca}, transparent 70%), radial-gradient(80% 70% at 80% 30%, ${cb}, transparent 70%), #07080c`;
   next.classList.add('is-on');
   prev.classList.remove('is-on');
 }
@@ -720,15 +720,20 @@ function bindHeroTrack(track) {
       track.scrollTo({ left: el.offsetLeft - list[0].offsetLeft, behavior: 'smooth' });
     }
   }, true);
-  track.addEventListener('scroll', () => { clearTimeout(track._t); track._t = setTimeout(sync, 80); }, { passive: true });
+  track.addEventListener('scroll', () => {
+    track._busy = Date.now() + 600;                         // surilayotganda slayder qayta chizilmaydi (renderTop kutadi)
+    clearTimeout(track._t); track._t = setTimeout(sync, 80);
+  }, { passive: true });
   // rasm keyinroq yuklansa ham fon yangilansin
-  track.querySelectorAll('img').forEach(im => im.addEventListener('load', () => { if (slides()[current()]?.contains(im)) sync(); }, { once: true }));
+  const watchImgs = root => root.querySelectorAll('img').forEach(im => im.addEventListener('load', () => { if (slides()[current()]?.contains(im)) sync(); }, { once: true }));
+  watchImgs(track);
+  track._sync = sync; track._watch = watchImgs;
   sync();
 
   // o'zi almashadi — 8 s; barmoq bilan surilsa yoki sichqoncha ustida bo'lsa to'xtab turadi
   clearInterval(bindHeroTrack.timer);
   let hold = 0;
-  const pause = () => { hold = Date.now() + 10000; };
+  const pause = () => { hold = Date.now() + 10000; track._busy = Date.now() + 1500; };
   track.addEventListener('pointerdown', pause, { passive: true });
   track.addEventListener('touchstart', pause, { passive: true });
   track.addEventListener('mouseenter', pause);
@@ -767,8 +772,65 @@ function renderTop() {
   const heroParts = hero.map(slideHTML);
   heroParts.splice(f1Soon || spFilter === 'f1' ? 0 : Math.min(1, heroParts.length), 0, f1Html);
   const heroSlides = heroParts.join('');
-  const html = `
+
+  /* Slayder: o'yinchi rasmlari bittalab keladi, hisob har daqiqa yangilanadi — butun slayderni qayta chizish
+     surishni uzib, qotirib qo'yardi. Endi: barmoq tegib turganda kutadi; o'yinlar o'sha bo'lsa — faqat o'zgargan
+     slaydning ichi yangilanadi (slayder, fon va surish joyida qoladi) */
+  const oldTrack = box.querySelector('.sph-track');
+  if (oldTrack && oldTrack.isConnected && (oldTrack._busy || 0) > Date.now()) { clearTimeout(topT); topT = setTimeout(renderTop, 700); return; }
+  const restHtml = restTopHTML(ids, today);
+  // o'zgarmagan bo'lsa hech narsa qilinmaydi (rasmlar miltillamasin; har 60 s yangilanish)
+  if (box._hero === heroSlides && box._rest === restHtml) return;
+
+  // slayder: o'sha o'yinlar — joyida yangilanadi
+  let heroDone = false;
+  if (oldTrack && box._hero === heroSlides) heroDone = true;
+  else if (oldTrack) {
+    const tpl = document.createElement('div');
+    tpl.innerHTML = heroSlides;
+    const fresh = [...tpl.children], old = [...oldTrack.children];
+    const key = el => el.dataset.ev || el.dataset.f1 || '';
+    if (fresh.length === old.length && fresh.every((el, i) => key(el) === key(old[i]))) {
+      fresh.forEach((el, i) => {
+        const o = old[i];
+        if (o._src === el.outerHTML) return;
+        o._src = el.outerHTML;
+        const keep = ['is-active', 'is-prev'].filter(c => o.classList.contains(c));
+        o.className = el.className; keep.forEach(c => o.classList.add(c));
+        o.setAttribute('style', el.getAttribute('style') || '');
+        if (o.innerHTML !== el.innerHTML) { o.innerHTML = el.innerHTML; oldTrack._watch?.(o); }
+      });
+      box._hero = heroSlides;
+      oldTrack._sync?.();
+      heroDone = true;
+    }
+  }
+
+  // pastki qism (ligalar, plitkalar, «bugun sportda») — alohida; slayderga tegmaydi
+  const restEl = box.querySelector('.sp-rest');
+  if (heroDone && restEl) {
+    if (box._rest !== restHtml) {
+      box._rest = restHtml;
+      restEl.innerHTML = restHtml;
+      const d = restEl.querySelector('.spt-track'); if (d) d.scrollLeft = keepToday;
+      bindTop(restEl);
+    }
+    return;
+  }
+
+  box._hero = heroSlides; box._rest = restHtml;
+  box.innerHTML = `
     ${hero.length || f1Html ? `<div class="sph-stage"><div class="sph-slide sph-bgl"></div><div class="sph-slide sph-bgl"></div><div class="sph-track">${heroSlides}</div></div>` : ''}
+    <div class="sp-rest">${restHtml}</div>`;
+  const h = box.querySelector('.sph-track'); if (h) h.scrollLeft = keepHero;
+  if (h) [...h.children].forEach(el => { el._src = el.outerHTML; });
+  bindHeroTrack(h);
+  const d = box.querySelector('.spt-track'); if (d) d.scrollLeft = keepToday;
+  bindTop(box);
+}
+
+function restTopHTML(ids, today) {
+  return `
     <h2 class="spx-title">${t('sport.leagues')}</h2>
     <div class="spx-chips">${ids.map(id => `<button type="button" class="spx-chip${spFilter === id ? ' is-on' : ''}" data-f="${id}">${id === 'all' ? t('sport.all') : esc(t('sport.' + id))}</button>`).join('')}</div>
     <div class="spx-tiles">${SPORTS.map(x => `
@@ -776,14 +838,9 @@ function renderTop() {
         <span class="spx-tile-ico">${SPORT_ICONS[x.id]}</span><b>${esc(t('sport.' + x.id))}</b>
       </a>`).join('')}</div>
     ${today.length ? `<h2 class="spx-title">${t('sport.todayIn')}</h2><div class="spt-track">${today.map(todayCardHTML).join('')}</div>` : ''}`;
-  // o'zgarmagan bo'lsa qayta chizilmaydi (rasmlar miltillamasin; har 60 s yangilanish)
-  if (html === box._html) return;
-  box._html = html;
-  box.innerHTML = html;
-  const h = box.querySelector('.sph-track'); if (h) h.scrollLeft = keepHero;
-  bindHeroTrack(h);
-  const d = box.querySelector('.spt-track'); if (d) d.scrollLeft = keepToday;
+}
 
+function bindTop(box) {
   box.querySelectorAll('[data-ev]').forEach(card => {
     const open = () => openMatch(EVENT_INDEX.get(card.dataset.ev));
     card.addEventListener('click', open);
@@ -792,7 +849,7 @@ function renderTop() {
   box.querySelector('[data-f1]')?.addEventListener('click', () => document.getElementById('sp-f1')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   box.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {
     spFilter = b.dataset.f;
-    const tr = box.querySelector('.sph-track'); if (tr) tr.scrollLeft = 0;   // yangi filtr — slayder boshidan
+    const tr = document.querySelector('#spTop .sph-track'); if (tr) { tr.scrollLeft = 0; tr._busy = 0; }   // yangi filtr — slayder boshidan
     SPORTS.forEach(x => { const el = document.getElementById('sp-' + x.id); if (el) el.hidden = spFilter !== 'all' && spFilter !== x.id; });
     renderTop();
   }));
