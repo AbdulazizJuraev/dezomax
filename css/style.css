@@ -6904,10 +6904,10 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .sph-team em { margin-left: auto; font-style: normal; font-size: 30px; font-weight: 800; color: #fff; }
 .sph-desc { margin: 8px 0 0; color: rgba(255, 255, 255, .8); font-size: 15px; }
 .sph-btn {
-  display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; height: 50px; padding: 0 30px;
-  border: 0; border-radius: 999px; background: #f1f1f4; color: #111; font-size: 18px; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; height: 38px; padding: 0 18px;
+  border: 0; border-radius: 999px; background: #f1f1f4; color: #111; font-size: 15px; font-weight: 600; cursor: pointer;
 }
-.sph-btn svg { width: 18px; height: 18px; fill: currentColor; }
+.sph-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
 /* --- ligalar filtri --- */
 .spx-title { margin: 26px 0 12px; font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
