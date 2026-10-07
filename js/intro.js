@@ -8,13 +8,15 @@
 
 (function () {
   const KEY = 'dezomax_intro_seen';
+  const isApp = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  // Ilovada — har ochilganda (seans); saytda — faqat birinchi tashrifda (keyin sayt intro'siz, darrov ochiladi)
+  const store = (() => { try { return isApp ? sessionStorage : localStorage; } catch { return null; } })();
   let seen = false;
-  try { seen = sessionStorage.getItem(KEY) === '1'; } catch {}
+  try { seen = !!store && store.getItem(KEY) === '1'; } catch {}
   if (seen || /[?&]nointro\b/.test(location.search)) return;
-  try { sessionStorage.setItem(KEY, '1'); } catch {}
+  try { store && store.setItem(KEY, '1'); } catch {}
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isApp = /DezoMaxApp/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
   const saveData = !!(navigator.connection && navigator.connection.saveData);
 
   const el = document.createElement('div');
