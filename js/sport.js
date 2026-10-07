@@ -379,8 +379,34 @@ function newsHTML(a) {
 
 let newsCache = null;
 
+/* O'zbekcha (ruscha) sport yangiliklari — Sports.uz RSS; GitHub Actions har 30 daqiqada news-data shoxchasiga yozadi
+   (tools/fetch-news-uz.js). Faqat sarlavha, qisqa tavsif va rasm — bosilsa maqola Sports.uz'ning o'zida ochiladi. */
+const NEWS_UZ_URL = 'https://raw.githubusercontent.com/AbdulazizJuraev/dezomax/news-data/news-uz.json';
+let newsUz = null;
+
+function newsUzHTML(x) {
+  return `
+  <a class="news-card" href="${esc(x.link)}" target="_blank" rel="noopener">
+    <div class="news-img">${x.img ? `<img src="${esc(x.img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</div>
+    <div class="news-body">
+      <h3>${esc(x.title)}</h3>
+      <p>${esc(x.desc || '')}</p>
+      <span class="news-meta">${esc(shortDate(x.date))} · Sports.uz ↗</span>
+    </div>
+  </a>`;
+}
+
 async function loadNews() {
   const box = document.getElementById('news');
+  try {
+    if (!newsUz) newsUz = await getJSON(`${NEWS_UZ_URL}?t=${Math.floor(Date.now() / 600000)}`);
+    const list = (newsUz && (newsUz[LANG] || newsUz.uz)) || [];
+    if (list.length) {
+      box.innerHTML = `<div class="news-grid news-rail">${list.slice(0, 12).map(newsUzHTML).join('')}</div>`;
+      return;
+    }
+  } catch { newsUz = {}; }
+  // zaxira — ESPN (inglizcha)
   try {
     if (!newsCache) newsCache = (await getJSON(`${API}/site/v2/sports/soccer/eng.1/news`)).articles || [];
     // yangiliklar — gorizontal karusel (sport bo'limlari kabi)

@@ -1,0 +1,45 @@
+# Sport sahifasidagi o'zbekcha sport yangiliklari: har 30 daqiqada Sports.uz RSS lentasidan olinadi
+# (tools/fetch-news-uz.js) va alohida «news-data» shoxchasiga yoziladi — main tarixi to'lib ketmaydi,
+# sayt qayta yig'ilmaydi. Sayt faylni raw.githubusercontent.com dan o'qiydi (js/sport.js loadNews).
+name: news-uz
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7,37 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: news-uz
+  cancel-in-progress: true
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools/fetch-news-uz.js
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Yangiliklarni olish
+        run: node tools/fetch-news-uz.js "$RUNNER_TEMP/news-uz.json"
+
+      # bitta commit'li shoxcha (har safar ustidan yoziladi) — repo hajmi o'smaydi
+      - name: news-data shoxchasiga yozish
+        run: |
+          cd "$RUNNER_TEMP"
+          rm -rf pub && mkdir pub && cd pub
+          git init -q -b news-data
+          cp ../news-uz.json .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add news-uz.json
+          git commit -q -m "Sport yangiliklari (Sports.uz RSS)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" news-data
