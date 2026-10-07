@@ -592,7 +592,7 @@ const TABS = [
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
 ];
 
-/* Telefonda logo ostidagi mini navbar (kompyuterda yashirin — u yerda yuqori menyu bor) */
+/* Telefonda, faqat bosh sahifada — logo ostidagi mini navbar: oddiy yozuvlar, bitta qora fon (kompyuterda yashirin) */
 const MINI_NAV = [
   { href: 'sport.html',     icon: 'ball',     uz: 'Sport',             ru: 'Спорт' },
   { href: 'tv.html',        icon: 'tv',       uz: 'Kanallar',          ru: 'Каналы' },
@@ -601,10 +601,10 @@ const MINI_NAV = [
 ];
 
 function renderMiniNav(header, page) {
-  if (!header || page === 'admin.html' || header.querySelector('.mini-nav')) return;
+  if (!header || page !== 'index.html' || header.querySelector('.mini-nav')) return;   // faqat bosh sahifada
   header.insertAdjacentHTML('beforeend', `
     <nav class="mini-nav" aria-label="${LANG === 'ru' ? 'Разделы' : 'Bo‘limlar'}">
-      ${MINI_NAV.map(l => `<a class="mini-nav-item${l.href === page ? ' is-active' : ''}" href="${l.href}">${ICONS[l.icon]}<span>${l[LANG] || l.uz}</span></a>`).join('')}
+      ${MINI_NAV.map(l => `<a class="mini-nav-item${l.href === page ? ' is-active' : ''}" href="${l.href}">${l[LANG] || l.uz}</a>`).join('')}
     </nav>`);
   document.documentElement.classList.add('has-mini-nav');
 }
