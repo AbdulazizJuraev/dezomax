@@ -32,7 +32,6 @@ const SPORTS = [
 ];
 
 const state = {};              // sport id -> { status: 'loading'|'ok'|'error', events: [] }
-const expanded = new Set();    // "Yana ko'rsatish" bosilgan bo'limlar
 
 /* ---------- Vaqt yordamchilari ---------- */
 
@@ -329,19 +328,28 @@ function renderSport(sp) {
   } else if (!st.events.length) {
     body = `<div class="sport-msg">${t('sport.noEvents')}</div>`;
   } else if (sp.id === 'f1') {
-    body = `<div class="m-list">${st.events.map(f1HTML).join('')}</div>`;
+    body = `<div class="m-list m-rail">${st.events.map(f1HTML).join('')}</div>`;
   } else {
-    const open = expanded.has(sp.id);
-    const shown = open ? st.events : st.events.slice(0, sp.limit);
-    const rest = st.events.length - sp.limit;
-    body = `<div class="m-list">${shown.map(e => matchHTML(e, sp.id)).join('')}</div>
-            ${rest > 0 ? `<button class="btn btn-ghost btn-sm sport-more" data-more="${sp.id}">
-               ${open ? t('sport.less') : `${t('sport.more')} (${rest})`}</button>` : ''}`;
+    // o'yinlar — gorizontal karusel (sahifa pastga cho'zilib ketmaydi)
+    body = `<div class="m-list m-rail">${st.events.slice(0, 30).map(e => matchHTML(e, sp.id)).join('')}</div>`;
   }
 
-  el.innerHTML = head + body;
   el.hidden = spFilter !== 'all' && spFilter !== sp.id;
   scheduleTop();
+  // har 60 s yangilanish: o'zgarmagan bo'lsa qayta chizilmaydi; surilayotgan bo'lsa kutadi; surilgan joy saqlanadi
+  const html = head + body;
+  const rail = el.querySelector('.m-rail');
+  if (rail && (rail._busy || 0) > Date.now()) { clearTimeout(el._t); el._t = setTimeout(() => renderSport(sp), 800); return; }
+  if (el._html === html) return;
+  const keepX = rail ? rail.scrollLeft : 0;
+  el._html = html;
+  el.innerHTML = html;
+  const r2 = el.querySelector('.m-rail');
+  if (r2) {
+    r2.scrollLeft = keepX;
+    r2.addEventListener('scroll', () => { r2._busy = Date.now() + 600; }, { passive: true });
+    r2.addEventListener('touchstart', () => { r2._busy = Date.now() + 1500; }, { passive: true });
+  }
 
   el.querySelectorAll('[data-ev]').forEach(card => {
     const open = () => openMatch(EVENT_INDEX.get(card.dataset.ev));
@@ -350,11 +358,6 @@ function renderSport(sp) {
   });
 
   el.querySelector('[data-retry]')?.addEventListener('click', () => loadSport(sp));
-  el.querySelector('[data-more]')?.addEventListener('click', () => {
-    expanded.has(sp.id) ? expanded.delete(sp.id) : expanded.add(sp.id);
-    renderSport(sp);
-    if (!expanded.has(sp.id)) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
 }
 
 /* ---------- Futbol yangiliklari ---------- */

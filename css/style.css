@@ -1,5 +1,5 @@
 ﻿/* ============================================================
-   DezoMax вЂ” asosiy uslublar / РѕСЃРЅРѕРІРЅС‹Рµ СЃС‚РёР»Рё
+   DezoMax — asosiy uslublar / основные стили
    ============================================================ */
 
 :root {
@@ -29,7 +29,7 @@
   --shadow-lg: 0 24px 70px rgba(0, 0, 0, .65);
 
   /* Telefon chekinishlari: ilovada status bar, kamera kesigi, pastki panel (saytda 0) */
-  /* --app-sat вЂ” Android ilova beradi: sahifa soat qatori ortidan boshlanadi (MainActivity.java) */
+  /* --app-sat — Android ilova beradi: sahifa soat qatori ortidan boshlanadi (MainActivity.java) */
   --sat: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px), var(--app-sat, 0px));
   --sab: max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px));
   --sal: max(env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px));
@@ -495,7 +495,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 }
 
 /* Haqiqiy poster gradient zaxirasi ustida turadi.
-   poster-art ga z-index: 0 berilgan вЂ” shunda uning ichidagi matn
+   poster-art ga z-index: 0 berilgan — shunda uning ichidagi matn
    o'z qatlamida qolib, rasm ustiga chiqib ketmaydi. */
 .card-poster .poster-art,
 .mv-poster .poster-art { z-index: 0; }
@@ -517,7 +517,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 
 .card:hover .card-overlay { opacity: 1; }
 
-/* Faqat oq play belgisi вЂ” ko'k doira fonsiz (soya rasm ustida ko'rinib turishi uchun) */
+/* Faqat oq play belgisi — ko'k doira fonsiz (soya rasm ustida ko'rinib turishi uchun) */
 .card-play {
   display: grid; place-items: center;
   transform: scale(.7);
@@ -756,7 +756,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   filter: saturate(1.1);
 }
 
-/* Poster rasmi fon sifatida вЂ” xiralashtirilgan holda */
+/* Poster rasmi fon sifatida — xiralashtirilgan holda */
 .mv-hero-bg.has-art {
   background-position: center 30%;
   filter: blur(34px) saturate(1.25) brightness(.75);
@@ -1007,7 +1007,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 .tabbar { display: none; }
 
 @media (max-width: 900px) {
-  /* Telefonda yuqoridagi menyu oвЂrniga pastki panel ishlaydi */
+  /* Telefonda yuqoridagi menyu o‘rniga pastki panel ishlaydi */
   .nav { display: none; }
 
   .tabbar {
@@ -1102,7 +1102,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 }
 
 @media (max-width: 900px) {
-  /* Yuqoridagi menyu o'rniga pastki navbar ishlaydi вЂ”
+  /* Yuqoridagi menyu o'rniga pastki navbar ishlaydi —
      tegishli qoidalar "Pastki navbar" bo'limida */
 
   .mv-layout { grid-template-columns: 1fr; }
@@ -1128,7 +1128,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
   .result-count { width: 100%; margin-left: 0; }
 }
 
-/* Juda tor ekranlarda logotip matnini yashiramiz вЂ” til tugmalari joy oladi */
+/* Juda tor ekranlarda logotip matnini yashiramiz — til tugmalari joy oladi */
 @media (max-width: 460px) {
   .header .wrap { gap: 10px; }
   .lang-btn { padding: 5px 9px; font-size: 11.5px; }
@@ -1713,7 +1713,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 
 .tv-thumb-logo .tv-thumb-name { display: none; }
 
-/* Logotip yuklanmasa вЂ” nomi ko'rinadi */
+/* Logotip yuklanmasa — nomi ko'rinadi */
 .tv-thumb-logo.is-broken { background: linear-gradient(150deg, var(--fallback, #2a3142), #0a0d14); }
 .tv-thumb-logo.is-broken img { display: none; }
 .tv-thumb-logo.is-broken .tv-thumb-name { display: block; }
@@ -1816,7 +1816,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 
 .m-day { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
 .m-win span { color: #fff; font-weight: 750; }
-.m-win span::after { content: ' вњ“'; color: #4ade80; font-weight: 800; }
+.m-win span::after { content: ' ✓'; color: #4ade80; font-weight: 800; }
 
 /* Bugun kechqurun boshlanadigan futbol o'yinlari biroz ajralib turadi */
 .match.is-evening { background: linear-gradient(180deg, rgba(0, 91, 148, .09), transparent 55%), var(--surface); }
@@ -1873,7 +1873,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
 .ytp-stage { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
 .ytp-stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
-/* Boshlanishdan oldingi ekran вЂ” butunlay bizniki */
+/* Boshlanishdan oldingi ekran — butunlay bizniki */
 .ytp-cover {
   position: absolute;
   inset: 0;
@@ -1954,7 +1954,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
   box-shadow: 0 10px 34px rgba(10, 147, 220, .45);
 }
 
-/* Boshqaruv paneli вЂ” video OSTIDA */
+/* Boshqaruv paneli — video OSTIDA */
 .ytp-bar {
   display: flex;
   align-items: center;
@@ -2035,7 +2035,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
   left: 0; right: 0;
   top: calc(-1 * var(--crop));
   bottom: calc(-1 * var(--crop));
-  pointer-events: none;           /* sichqoncha YouTube'ga yetmaydi вЂ” hover panellari ochilmaydi */
+  pointer-events: none;           /* sichqoncha YouTube'ga yetmaydi — hover panellari ochilmaydi */
 }
 
 .ytp-crop iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -2131,7 +2131,7 @@ a.tag:hover { background: var(--accent-soft); border-color: var(--accent); color
   margin: 0;
 }
 
-/* Telefon tik turganda вЂ” 90В° burilgan gorizontal ko'rinish */
+/* Telefon tik turganda — 90° burilgan gorizontal ko'rinish */
 .player-wrap.ytp.ytp-rotated {
   inset: auto;
   top: 0; left: 0;
@@ -2861,7 +2861,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 
 .ytp-qmenu button:hover { background: rgba(255, 255, 255, .07); }
 .ytp-qmenu button.is-active { color: #4cb8f0; }
-.ytp-qmenu button.is-active::after { content: 'вњ“'; font-weight: 800; }
+.ytp-qmenu button.is-active::after { content: '✓'; font-weight: 800; }
 .ytp-qmenu small { color: var(--text-faint); font-weight: 600; font-size: 11.5px; }
 .ytp-qmenu-note { margin: 4px 10px 6px; font-size: 11.5px; color: var(--text-faint); line-height: 1.4; }
 
@@ -3487,7 +3487,7 @@ img, video, iframe { max-width: 100%; }
 .s-genre-posters img:nth-of-type(3) { --i: 2; }
 .s-genre-posters img:nth-of-type(n+4) { display: none; }
 
-/* Chap tomon вЂ” matnni o'qish oson bo'lishi uchun qoraytirilgan */
+/* Chap tomon — matnni o'qish oson bo'lishi uchun qoraytirilgan */
 .s-genre::after {
   content: '';
   position: absolute;
@@ -3564,7 +3564,7 @@ img, video, iframe { max-width: 100%; }
 @keyframes mWatchPulse { 50% { box-shadow: 0 4px 22px rgba(225, 29, 72, .8); } }
 
 /* Oyna */
-/* markazlashtirish transform bilan emas вЂ” flex bilan (bukiladigan/keng ekranlarda oyna surilib ketmaydi) */
+/* markazlashtirish transform bilan emas — flex bilan (bukiladigan/keng ekranlarda oyna surilib ketmaydi) */
 .mt-wrap { display: flex; align-items: center; justify-content: center; overflow: hidden; box-sizing: border-box; }
 .mt-panel, .mt-scroll { min-width: 0; box-sizing: border-box; }
 .mt-panel {
@@ -3742,7 +3742,7 @@ img, video, iframe { max-width: 100%; }
 .mt-t-team span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
 .mt-table tr.is-ours td { background: rgba(10, 147, 220, .14); font-weight: 700; }
 
-/* Telefonda вЂ” pastdan chiquvchi oyna */
+/* Telefonda — pastdan chiquvchi oyna */
 @media (max-width: 640px) {
   .mt-wrap { flex-direction: column; align-items: stretch; justify-content: flex-end; }
   .mt-panel {
@@ -3777,7 +3777,7 @@ img, video, iframe { max-width: 100%; }
   .m-more { display: none; }
 }
 
-/* Juda tor (bo'lingan ekran, Fold qopqog'i) вЂ” 100px gacha hech narsa chiqib ketmasin */
+/* Juda tor (bo'lingan ekran, Fold qopqog'i) — 100px gacha hech narsa chiqib ketmasin */
 @media (max-width: 200px) {
   .mt-close { top: 8px; right: 8px; width: 30px; height: 30px; }
   .mt-league { margin: 0 24px 8px; font-size: 11px; }
@@ -3807,7 +3807,7 @@ img, video, iframe { max-width: 100%; }
 
 @media (max-width: 380px) { .logo-svg { height: 27px; } }
 
-/* juda tor ekranda вЂ” faqat "D" belgisi */
+/* juda tor ekranda — faqat "D" belgisi */
 @media (max-width: 300px) {
   .header .logo-svg { height: 28px; width: 28px; overflow: hidden; }
 }
@@ -3817,7 +3817,7 @@ img, video, iframe { max-width: 100%; }
 
 /* ---------------- Kirish kartasi: ekrandan chiqib ketmasin, 100px gacha moslashuv ---------------- */
 
-/* grid o'rniga oddiy blok вЂ” karta hech qachon konteynerdan keng bo'lmaydi (katta shrift sozlamasida ham) */
+/* grid o'rniga oddiy blok — karta hech qachon konteynerdan keng bo'lmaydi (katta shrift sozlamasida ham) */
 .acc-auth-wrap { display: block; }
 .acc-auth { width: auto; max-width: 440px; min-width: 0; margin: 0 auto; }
 .acc-auth * { min-width: 0; }
@@ -3924,7 +3924,7 @@ img, video, iframe { max-width: 100%; }
   body { padding-bottom: calc(92px + var(--sab)); }
   .to-top { bottom: calc(96px + var(--sab)); }
 
-  /* profil pastki navbarda вЂ” headerdagi takroriy tugma kerak emas */
+  /* profil pastki navbarda — headerdagi takroriy tugma kerak emas */
 }
 
 @media (max-width: 300px) {
@@ -3974,7 +3974,7 @@ img, video, iframe { max-width: 100%; }
   .acc-section-label { white-space: normal; overflow-wrap: anywhere; }
 }
 
-/* ---------------- Header: profil вЂ” ko'k-qizil gradient halqa (qimirlamaydi) ---------------- */
+/* ---------------- Header: profil — ko'k-qizil gradient halqa (qimirlamaydi) ---------------- */
 
 .account-btn {
   width: 42px; height: 42px;
@@ -4033,7 +4033,7 @@ img, video, iframe { max-width: 100%; }
 .ytp-qrow-now { margin-left: auto; font-size: 11.5px; color: var(--text-faint); font-weight: 600; }
 .ytp-qrow-now:empty { display: none; }
 
-/* katta ekranda qator ko'rinmaydi вЂ” u yerda вљ™пёЏ menyusi bor */
+/* katta ekranda qator ko'rinmaydi — u yerda ⚙️ menyusi bor */
 .player-wrap.ytp:fullscreen .ytp-qrow,
 .player-wrap.ytp:-webkit-full-screen .ytp-qrow,
 .player-wrap.ytp.ytp-pseudo-fs .ytp-qrow { display: none; }
@@ -4134,7 +4134,7 @@ img, video, iframe { max-width: 100%; }
 .row {
   overflow-y: hidden;                 /* overflow-x:auto vertikal aylantirishni ham yoqib yubormasin */
   overscroll-behavior-x: contain;     /* qator oxirida sahifa "orqaga" o'tib ketmasin */
-  touch-action: pan-x pan-y;          /* gorizontal вЂ” qator, vertikal вЂ” sahifa */
+  touch-action: pan-x pan-y;          /* gorizontal — qator, vertikal — sahifa */
   -webkit-overflow-scrolling: touch;
   padding-top: 8px;                   /* ko'tarilish effekti kesilmasin (kompyuterda) */
   margin-top: -8px;
@@ -4159,7 +4159,7 @@ img, video, iframe { max-width: 100%; }
 
 .adm-form { display: flex; flex-direction: column; gap: 12px; padding: 0; background: none; border: 0; }
 
-/* Sarlavha вЂ” poster va nom */
+/* Sarlavha — poster va nom */
 .adm-hero {
   position: relative;
   display: flex;
@@ -4397,7 +4397,7 @@ img, video, iframe { max-width: 100%; }
   .adm-nav button span { display: none; }
   .adm-stats { grid-template-columns: minmax(0, 1fr); }
 }
-/* ---------------- Admin В«SaytВ»: slayder va qatorlar ---------------- */
+/* ---------------- Admin «Sayt»: slayder va qatorlar ---------------- */
 
 .adm-nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
@@ -4503,14 +4503,14 @@ img, video, iframe { max-width: 100%; }
 .hero-bg::after { z-index: 1; }
 
 @media (max-width: 640px) {
-  /* telefonda poster header ostida 16:9 blokda turadi вЂ” video ham aynan shu joyda */
+  /* telefonda poster header ostida 16:9 blokda turadi — video ham aynan shu joyda */
   .hero-clip { top: var(--header-h); bottom: auto; height: 56.25vw; }
 }
 /* ================================================================
    Slayder rasmi va treyler sahnasi ekran tepasigacha (logo orqasigacha)
    ================================================================ */
 
-/* Bosh sahifa tepasida header shaffof вЂ” orqasidagi kino ko'rinib turadi */
+/* Bosh sahifa tepasida header shaffof — orqasidagi kino ko'rinib turadi */
 .header:not(.scrolled) {
   background: linear-gradient(180deg, rgba(7, 8, 12, .5) 0%, rgba(7, 8, 12, .18) 60%, rgba(7, 8, 12, 0) 100%);
 }
@@ -4535,10 +4535,10 @@ img, video, iframe { max-width: 100%; }
   /* treyler sahnasi ham aynan shu joyda, tepadan */
   .hero-clip { top: 0; height: 56.25vw; }
 }
-/* Bosh sahifa tepasida header chegarasi yo'q вЂ” kino sahnasi ustida ingichka chiziq chiqmasin */
+/* Bosh sahifa tepasida header chegarasi yo'q — kino sahnasi ustida ingichka chiziq chiqmasin */
 .header:not(.scrolled) { border-bottom: 0; }
 
-/* Tepadagi soya вЂ” keskin chegarasiz, faqat logo o'qilishi uchun */
+/* Tepadagi soya — keskin chegarasiz, faqat logo o'qilishi uchun */
 .header:not(.scrolled) {
   background: linear-gradient(180deg, rgba(7, 8, 12, .38) 0%, rgba(7, 8, 12, .16) 50%, rgba(7, 8, 12, .04) 85%, rgba(7, 8, 12, 0) 100%);
 }
@@ -4567,7 +4567,7 @@ img, video, iframe { max-width: 100%; }
 .hero-clip { background: transparent; }
 /* Slayderda faqat video: rasm yashiriladi (avtoijro ishlamasa .no-video bilan qaytadi) */
 .hero-bg.video-only:not(.no-video) { background: var(--bg) !important; }
-/* Video o'lchami faqat CSS bilan: blok qanday o'lchamda bo'lsa ham to'liq qoplaydi (1.75Г— вЂ” qora hoshiyalar ko'rinmas qismda) */
+/* Video o'lchami faqat CSS bilan: blok qanday o'lchamda bo'lsa ham to'liq qoplaydi (1.75× — qora hoshiyalar ko'rinmas qismda) */
 .hero-clip { container-type: size; }
 .hero-clip iframe {
   width: max(175cqw, 311.12cqh) !important;
@@ -4594,7 +4594,7 @@ img, video, iframe { max-width: 100%; }
       linear-gradient(90deg, rgba(7, 8, 12, .55) 0%, rgba(7, 8, 12, 0) 18%, rgba(7, 8, 12, 0) 82%, rgba(7, 8, 12, .55) 100%);
   }
 }
-/* Slayder: faqat nom, reyting va bitta В«Filmni tomosha qilishВ» tugmasi */
+/* Slayder: faqat nom, reyting va bitta «Filmni tomosha qilish» tugmasi */
 @media (max-width: 640px) {
   .hero { min-height: calc(56.25vw + 190px); }
 }
@@ -4603,7 +4603,7 @@ img, video, iframe { max-width: 100%; }
   .hero-actions { grid-template-columns: 1fr; }
   .hero-actions .hero-watch { width: 100%; padding-inline: 12px; }
 }
-/* Slayder: faqat kino nomi вЂ” kinoteatr uslubidagi baland, siqiq shrift (Oswald: lotin + kirill) */
+/* Slayder: faqat kino nomi — kinoteatr uslubidagi baland, siqiq shrift (Oswald: lotin + kirill) */
 .hero h1 {
   font-family: 'Oswald', 'Inter', system-ui, sans-serif;
   font-weight: 700;
@@ -4663,7 +4663,7 @@ img, video, iframe { max-width: 100%; }
 @media (max-width: 640px) {
   .row .card.is-wide { flex-basis: min(260px, 76vw); }
 }
-/* ---------------- Intro: harfma-harf yozilish (В«ShamolВ» tovushi bilan) ---------------- */
+/* ---------------- Intro: harfma-harf yozilish («Shamol» tovushi bilan) ---------------- */
 .intro-type .intro-logo { animation: none; width: min(84vw, 500px); }
 .intro-type .intro-logo .logo-svg-el { clip-path: none; animation: none; overflow: visible; }
 .intro-type .intro-icon { transform-box: fill-box; transform-origin: center; transform: scale(0); opacity: 0; }
@@ -4691,7 +4691,7 @@ img, video, iframe { max-width: 100%; }
 @media (max-width: 220px) {
   .hero h1 { font-size: 9px; }
 }
-/* ---------------- Admin В«XabarВ»: bildirishnomalar ---------------- */
+/* ---------------- Admin «Xabar»: bildirishnomalar ---------------- */
 .adm-nav { grid-template-columns: repeat(7, minmax(0, 1fr)); }
 @media (max-width: 640px) { .adm-nav { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .adm-nav button { flex-direction: column; gap: 2px; height: 50px; font-size: 11px; } }
@@ -4723,9 +4723,9 @@ img, video, iframe { max-width: 100%; }
 .adm-notify-text span { font-size: 13px; color: var(--text-dim); overflow-wrap: anywhere; }
 .adm-notify-text small { font-size: 11.5px; overflow-wrap: anywhere; }
 .adm-notify-item .adm-del { flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px; }
-/* Admin В«SaytВ»: treyler davomiyligi surgichi */
+/* Admin «Sayt»: treyler davomiyligi surgichi */
 .adm-range { width: 100%; margin: 10px 0 4px; accent-color: #0a93dc; height: 28px; }
-/* Katalog: В«Yana koвЂrsatishВ» */
+/* Katalog: «Yana ko‘rsatish» */
 .cards-more { display: flex; justify-content: center; margin: 22px 0 8px; }
 .cards-more .btn span { color: var(--text-dim); font-weight: 500; }
 .adm-more { width: 100%; margin-top: 10px; }
@@ -4816,7 +4816,7 @@ img, video, iframe { max-width: 100%; }
   position: absolute;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  /* 1.5Г— вЂ” YouTube nomi va belgilari (chetlarda) ko'rinadigan joydan tashqarida qoladi */
+  /* 1.5× — YouTube nomi va belgilari (chetlarda) ko'rinadigan joydan tashqarida qoladi */
   width: max(150cqw, 266.67cqh) !important;
   height: max(84.38cqw, 150cqh) !important;
   max-width: none !important;
@@ -4837,7 +4837,7 @@ img, video, iframe { max-width: 100%; }
   .mv-hero-clip.is-on { opacity: .18; }
 }
 /* ---------------- Admin: yengil ko'rinish (siljitganda qotmasin) ----------------
-   Xira qilish (backdrop-filter) har kadrda tagidagi 60 ta rasmli ro'yxatni qayta hisoblaydi вЂ” Mac va
+   Xira qilish (backdrop-filter) har kadrda tagidagi 60 ta rasmli ro'yxatni qayta hisoblaydi — Mac va
    kuchsiz telefonlarda qotib-qotib ishlashning asosiy sababi. Admin sahifada u umuman kerak emas. */
 .page-admin *, .page-admin *::before, .page-admin *::after {
   backdrop-filter: none !important;
@@ -4846,19 +4846,19 @@ img, video, iframe { max-width: 100%; }
 .page-admin .header, .page-admin .header.scrolled { background: rgba(9, 11, 16, .97); }
 .page-admin .adm-nav { background: rgba(20, 24, 34, .98); }
 .page-admin .adm-savebar { background: rgba(9, 11, 16, .98); }
-/* ekrandan tashqaridagi ro'yxat qatorlari chizilmaydi вЂ” uzun ro'yxat tez siljiydi */
+/* ekrandan tashqaridagi ro'yxat qatorlari chizilmaydi — uzun ro'yxat tez siljiydi */
 .page-admin .adm-item, .page-admin .adm-commit, .page-admin .adm-pick {
   content-visibility: auto;
   contain-intrinsic-size: auto 84px;
 }
-/* xira poster fon: kichikroq xiralik вЂ” GPU'ga yengil */
+/* xira poster fon: kichikroq xiralik — GPU'ga yengil */
 .page-admin .adm-hero-bg { filter: blur(10px) saturate(1.2); }
 /* cheksiz animatsiyalar admin'da o'chiq */
 .page-admin .mt-loading i { animation-duration: 1.4s; }
 /* ---------------- Birinchi kirish (js/welcome.js): 3 slayd + ro'yxatdan o'tish ---------------- */
 html.welcome-lock, html.welcome-lock body { overflow: hidden; }
 .wc {
-  position: fixed; inset: 0; z-index: 1900;      /* logotip animatsiyasi (2000) ostida вЂ” u tugagach ochiladi */
+  position: fixed; inset: 0; z-index: 1900;      /* logotip animatsiyasi (2000) ostida — u tugagach ochiladi */
   background: #000; color: #fff; overflow: hidden;
   transition: opacity .45s ease, visibility .45s;
   touch-action: pan-y;
@@ -4984,7 +4984,7 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { .wc-col { animation: none; } .wc-hl, .wc-text, .wc-auth { transition: none; animation: none; } }
 /* ---------------- Juda tor ekranlar (100 px gacha): sarlavha, sport va pastki navbar ---------------- */
 @media (max-width: 200px) {
-  /* logotip faqat belgi (D) вЂ” so'zi kesiladi; 160 px enli logotip butun sahifani yonga cho'zib yuborardi */
+  /* logotip faqat belgi (D) — so'zi kesiladi; 160 px enli logotip butun sahifani yonga cho'zib yuborardi */
   .header .logo, .header .logo-svg { width: 30px; max-width: 30px; overflow: hidden; flex: 0 0 30px; }
   .header .logo-svg { height: 30px; }
   .header .wrap { gap: 6px; }
@@ -5041,7 +5041,7 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
 .wc-g-text b { font-size: 16px; font-weight: 750; color: #171b24; letter-spacing: -.01em; }
 .wc-g-text small { font-size: 12px; color: #5b6472; font-weight: 500; }
 
-/* ajratuvchi: вЂ” yoki вЂ” */
+/* ajratuvchi: — yoki — */
 .wc-or { display: flex; align-items: center; gap: 10px; width: 100%; margin: 2px 0; color: rgba(255, 255, 255, .45); font-size: 12.5px; }
 .wc-or::before, .wc-or::after { content: ''; flex: 1; height: 1px; background: rgba(255, 255, 255, .16); }
 
@@ -5076,22 +5076,22 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
   .wc-code-inputs input { height: 48px; font-size: 18px; border-radius: 11px; }
   .wc-g-text b { font-size: 15px; }
 }
-/* Google'ning o'z tugmasi (saytda majburiy) вЂ” ko'rinishi chiroyli ramkada */
-/* Google o'z tugmasini o'zi chizadi вЂ” ortida qo'shimcha ramka ko'rinib qolmasin */
+/* Google'ning o'z tugmasi (saytda majburiy) — ko'rinishi chiroyli ramkada */
+/* Google o'z tugmasini o'zi chizadi — ortida qo'shimcha ramka ko'rinib qolmasin */
 .wc-gsi { width: 100%; background: none; box-shadow: none; padding: 0; border-radius: 0; }
 .wc-gsi > div, .wc-gsi iframe { margin: 0 auto !important; }
 .wc-gsi-note { color: rgba(255,255,255,.5) !important; font-size: 12px; margin-top: -4px; }
-/* Kirish oynasidagi logotip вЂ” sahifadagi bilan bir xil ichki SVG (rangli gradient) */
+/* Kirish oynasidagi logotip — sahifadagi bilan bir xil ichki SVG (rangli gradient) */
 .wc-logo.logo-svg { height: 30px; width: auto; display: block; filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .6)); }
 .wc-logo.logo-svg .logo-svg-el { height: 100%; width: auto; }
 /* ---------------- Kirish animatsiyasi v2 (tovushsiz, tez, GPU-silliq) ---------------- */
-/* eski clip-path/reveal animatsiyalarini o'chiramiz вЂ” katta SVG'da qotardi */
+/* eski clip-path/reveal animatsiyalarini o'chiramiz — katta SVG'da qotardi */
 .intro-v2 .intro-logo { width: min(74vw, 440px); animation: none; opacity: 0; transform: translateY(10px) scale(.92); will-change: transform, opacity; overflow: hidden; border-radius: 10px; }
 .intro-v2.is-in .intro-logo { opacity: 1; transform: none; transition: opacity .45s ease, transform .55s cubic-bezier(.2, .9, .3, 1); }
 .intro-v2 .intro-logo .logo-svg-el, .intro-v2 .intro-logo img {
   width: 100%; height: auto; display: block; clip-path: none !important; animation: none !important; aspect-ratio: auto !important;
 }
-/* yorug'lik yugurishi (transform bilan вЂ” silliq) */
+/* yorug'lik yugurishi (transform bilan — silliq) */
 .intro-v2 .intro-shine {
   position: absolute; top: -25%; height: 150%; width: 32%; left: 0;
   background: linear-gradient(105deg, transparent, rgba(255, 255, 255, .55) 50%, transparent);
@@ -5111,7 +5111,7 @@ html.welcome-lock, html.welcome-lock body { overflow: hidden; }
 /* pastdagi yuklash chizig'i */
 .intro-v2 .intro-bar i { animation: introBar cubic-bezier(.35, 0, .25, 1) forwards; }
 
-/* ---------------- Sport: o'yin tafsiloti вЂ” sahifa ichida (fixed oyna emas), har qanday ekranda sig'adi ---------------- */
+/* ---------------- Sport: o'yin tafsiloti — sahifa ichida (fixed oyna emas), har qanday ekranda sig'adi ---------------- */
 .sheet-wrap.mt-wrap { position: static; inset: auto; z-index: auto; display: block; overflow: visible; }
 .mt-wrap .sheet-backdrop { display: none; }
 .mt-wrap .mt-panel {
@@ -5150,7 +5150,7 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 /* ---------------- Reklama (js/ads.js) ---------------- */
 .ad-slot { margin: 26px 0; min-width: 0; }
 .ad-slot:empty { display: none; }
-/* Yandex reklamasi hali chizilmagan вЂ” sarlavha va fon yo'q, bo'sh joy 0 px (blok esa ko'rinadigan
+/* Yandex reklamasi hali chizilmagan — sarlavha va fon yo'q, bo'sh joy 0 px (blok esa ko'rinadigan
    holatda qoladi: Yandex yashirin konteynerga reklama chizmaydi) */
 .ad-slot.is-pending { margin: 0; }
 .ad-slot.is-pending .ad-head { display: none; }
@@ -5160,7 +5160,7 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .ad-head a:hover { color: #fff; }
 .ad-body { min-height: 90px; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.03); text-align: center; }
 .ad-body > * { max-width: 100%; }
-.ad-body ins.adsbygoogle { width: 100%; }   /* AdSense o'lchamni kenglikdan oladi вЂ” 0 bo'lmasin */
+.ad-body ins.adsbygoogle { width: 100%; }   /* AdSense o'lchamni kenglikdan oladi — 0 bo'lmasin */
 
 .ad-preroll { position: absolute; inset: 0; z-index: 30; background: #000; display: grid; place-items: center; }
 .ad-preroll video { width: 100%; height: 100%; object-fit: contain; background: #000; }
@@ -5169,7 +5169,7 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .ad-preroll-more { position: absolute; left: 12px; bottom: 14px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; font-size: 13px; font-weight: 600; text-decoration: none; }
 .ad-preroll-skip { position: absolute; right: 0; bottom: 14px; padding: 10px 16px; border: 1px solid rgba(255,255,255,.35); border-right: 0; border-radius: 8px 0 0 8px; background: rgba(0,0,0,.72); color: #fff; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
 .ad-preroll-skip:disabled { opacity: .75; cursor: default; }
-.ad-preroll.is-paused::after { content: 'в–¶'; position: absolute; font-size: 44px; color: #fff; pointer-events: none; }
+.ad-preroll.is-paused::after { content: '▶'; position: absolute; font-size: 44px; color: #fff; pointer-events: none; }
 
 /* ---------------- Admin: Telegramdan qo'shish ---------------- */
 .adm-tg-link { display: flex; gap: 8px; }
@@ -7115,3 +7115,14 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .acc-hist-item .acc-item-main b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 /* «Promokodlar» so'zi harflarga bo'linib ketmasin */
 .acc-tile-promo b { max-width: 70%; overflow-wrap: normal; word-break: keep-all; font-size: clamp(13px, 3.9vw, 16px); }
+
+/* Sport bo'limlari: o'yinlar — gorizontal karusel (pastga cho'zilib ketmaydi); yengil — faqat scroll-snap */
+.sport-sec .m-list.m-rail {
+  display: flex; flex-direction: row; grid-template-columns: none; gap: 10px;
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  margin: 0 calc(-1 * clamp(16px, 4vw, 48px)) 12px; padding: 2px clamp(16px, 4vw, 48px) 4px;
+  scroll-padding-inline: clamp(16px, 4vw, 48px);
+}
+.sport-sec .m-rail::-webkit-scrollbar { display: none; }
+.sport-sec .m-rail > .match { flex: 0 0 min(80%, 340px); scroll-snap-align: start; margin: 0; }
+.sport-sec .m-rail > .f1-card { flex-basis: min(88%, 440px); }
