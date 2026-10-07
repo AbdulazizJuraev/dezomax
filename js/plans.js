@@ -135,33 +135,57 @@ async function setPlan(id) {
 
 /* ---------- Chizish ---------- */
 
+/* Kartochka (Kinopoisk «Подписки» uslubi): yuqorida rangli panel — nom, 4 ta belgi, qisqa tavsif;
+   pastda narx, qurilmalar soni va gradient tugma. Belgilar — matn/SVG, rasm yuklanmaydi (yengil). */
+const PLAN_ART = {
+  free: {
+    desc: { uz: 'Treylerlar, telekanallar jonli efiri va sport — bepul', ru: 'Трейлеры, прямой эфир телеканалов и спорт — бесплатно' },
+    devices: 1,
+    badges: [['tv', 'b-pink'], ['play', 'b-dark'], ['ball', 'b-gold'], ['720p', 'b-sq']]
+  },
+  standard: {
+    desc: { uz: 'Bepul rejadagi hammasi, reklamasiz, Full HD sifatda va yuklab olish bilan', ru: 'Всё из бесплатного, без рекламы, в Full HD и со скачиванием' },
+    devices: 2,
+    badges: [['HD', 'b-pink'], ['download', 'b-dark'], ['noads', 'b-gold'], ['×2', 'b-sq']]
+  },
+  premium: {
+    desc: { uz: 'Standartdagi hammasi, 4K HDR sifat, premyeralar birinchi bo‘lib va bolalar profili', ru: 'Всё из Стандарта, 4K HDR, премьеры первыми и детский профиль' },
+    devices: 4,
+    badges: [['4K', 'b-pink'], ['crown', 'b-dark'], ['heart', 'b-gold'], ['×4', 'b-sq']]
+  }
+};
+const NOADS_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M4 4l16 16"/></svg>';
+
+function badgeHTML([k, cls]) {
+  const ico = k === 'noads' ? NOADS_ICON : ICONS[k];
+  return `<span class="sub-badge ${cls}">${ico || `<b>${esc(k)}</b>`}</span>`;
+}
+
 function planHTML(p) {
   const cur = getPlan() === p.id;
+  const art = PLAN_ART[p.id] || PLAN_ART.free;
   const price = yearly ? Math.round(p.price * 10) : p.price;
   const per = yearly
     ? (LANG === 'ru' ? 'в год' : 'yiliga')
     : t('plans.month');
+  const devices = LANG === 'ru'
+    ? `до ${art.devices} ${art.devices === 1 ? 'устройства' : 'устройств'}`
+    : `${art.devices} ta qurilmagacha`;
+  const label = cur ? t('plans.current') : p.price ? (LANG === 'ru' ? 'Оформить подписку' : 'Obuna bo‘lish') : t('plans.choose');
 
   return `
-  <div class="plan${p.accent ? ' is-accent' : ''}${cur ? ' is-current' : ''}">
-    ${p.accent ? `<span class="plan-tag">${t('plans.popular')}</span>` : ''}
-    <h3 class="plan-name">${esc(p.name[LANG] || p.name.uz)}</h3>
-    <p class="plan-tagline">${esc(p.tagline[LANG] || p.tagline.uz)}</p>
-
-    <div class="plan-price">
-      ${price === 0
-        ? `<span class="plan-amount">0</span>`
-        : `<span class="plan-amount">${money(price)}</span><span class="plan-cur">${sum()}</span>`}
-      <span class="plan-per">/ ${per}</span>
+  <div class="sub-card sub-${p.id}${cur ? ' is-current' : ''}">
+    <div class="sub-art">
+      ${p.accent ? `<span class="sub-tag">${t('plans.popular')}</span>` : ''}
+      <h3 class="sub-name">${esc(p.name[LANG] || p.name.uz)}</h3>
+      <div class="sub-badges">${art.badges.map(badgeHTML).join('')}</div>
+      <p class="sub-desc">${esc(art.desc[LANG] || art.desc.uz)}</p>
     </div>
-
-    <ul class="plan-features">
-      ${(p.features[LANG] || p.features.uz).map(f => `<li>${esc(f)}</li>`).join('')}
-    </ul>
-
-    <button class="btn ${p.accent ? 'btn-primary' : 'btn-ghost'} plan-btn" data-plan="${p.id}" ${cur ? 'disabled' : ''}>
-      ${cur ? t('plans.current') : t('plans.choose')}
-    </button>
+    <div class="sub-foot">
+      <div class="sub-price">${price === 0 ? (LANG === 'ru' ? 'Бесплатно' : 'Bepul') : `${money(price)} ${sum()} ${per}`}</div>
+      <div class="sub-dev">${devices}</div>
+      <button class="sub-btn" type="button" data-plan="${p.id}" ${cur ? 'disabled' : ''}>${label}</button>
+    </div>
   </div>`;
 }
 
@@ -174,7 +198,7 @@ function renderPlans() {
       <button class="${yearly ? 'is-active' : ''}" data-yearly="1">${LANG === 'ru' ? 'В год · −17%' : 'Yiliga · −17%'}</button>
     </div>`;
 
-  box.innerHTML = toggle + `<div class="plan-grid">${PLANS.map(planHTML).join('')}</div>`;
+  box.innerHTML = toggle + `<div class="sub-row">${PLANS.map(planHTML).join('')}</div>`;
 
   box.querySelectorAll('[data-yearly]').forEach(b => b.addEventListener('click', () => {
     yearly = b.dataset.yearly === '1';
