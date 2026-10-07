@@ -7017,3 +7017,53 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .sport-page { position: relative; z-index: 1; }
 .sp-ambient i { filter: blur(40px) saturate(1.5) brightness(.95); }
 .sp-ambient::after { background: linear-gradient(to bottom, rgba(7, 8, 12, .05) 0%, rgba(7, 8, 12, .35) 50%, var(--bg) 100%); }
+
+/* ================= Sport slayderi — Kinopoisk uslubi (foydalanuvchi videosi) =================
+   Faol o'yin rasmi butun kenglikda fon (.sph-bgl, silliq almashadi); ustida faol o'yin matni;
+   qo'shni o'yinlar chap/o'ng chetda kichik kartochka; surilganda kartochka kattalashib faol bo'ladi */
+.sph-stage { position: relative; margin: 0 calc(-1 * clamp(16px, 4vw, 48px)); height: min(126vw, 640px); overflow: hidden; }
+@media (min-width: 900px) { .sph-stage { height: 560px; } }
+.sph-stage .sph-bgl {
+  position: absolute; inset: 0; flex: none; aspect-ratio: auto; max-height: none; border-radius: 0; cursor: default;
+  opacity: 0; transition: opacity .7s ease; pointer-events: none;
+}
+.sph-stage .sph-bgl.is-on { opacity: 1; }
+.sph-stage .sph-track { position: absolute; inset: 0; margin: 0; padding: 0 40px; gap: 8px; scroll-padding-inline: 40px; align-items: stretch; }
+@media (min-width: 900px) { .sph-stage .sph-track { padding: 0 14vw; scroll-padding-inline: 14vw; } }
+.sph-track > .sph-slide {
+  flex: 0 0 calc(100% - 80px); aspect-ratio: auto; max-height: none; height: 100%; border-radius: 0; overflow: visible;
+  background: none; isolation: auto; transition: transform .45s cubic-bezier(.2, .7, .2, 1);
+}
+@media (min-width: 900px) { .sph-track > .sph-slide { flex-basis: calc(100% - 28vw); } }
+/* faol — rasmi sahna fonida, o'zida faqat matn */
+.sph-track > .sph-slide.is-active .sph-art { opacity: 0; }
+.sph-track > .sph-slide .sph-art { transition: opacity .3s; border-radius: 12px; overflow: hidden; background: inherit; }
+/* qo'shnilar — kichik kartochka (pastda, chetga yopishgan) */
+.sph-track > .sph-slide:not(.is-active) { transform: scale(.42); transform-origin: 0 88%; }
+.sph-track > .sph-slide.is-prev:not(.is-active) { transform-origin: 100% 88%; }
+.sph-track > .sph-slide:not(.is-active) .sph-art {
+  background:
+    radial-gradient(120% 80% at 20% 15%, color-mix(in srgb, var(--ca) 85%, transparent), transparent 60%),
+    radial-gradient(110% 80% at 90% 35%, color-mix(in srgb, var(--cb) 80%, transparent), transparent 62%),
+    #0b0c10;
+}
+.sph-track > .sph-slide.sph-f1:not(.is-active) .sph-art { background: linear-gradient(160deg, #e10600 0%, #8f0400 45%, #15151e 100%); }
+.sph-track > .sph-slide:not(.is-active) .sph-btn, .sph-track > .sph-slide:not(.is-active) .sph-desc { visibility: hidden; }
+.sph-track > .sph-slide .sph-body { transition: opacity .3s; }
+/* faol o'yin matni keng (Kinopoisk kabi); qo'shni kartochka chetdan ~40px ko'rinadi */
+.sph-stage .sph-track { padding: 0 32px; scroll-padding-inline: 32px; }
+.sph-track > .sph-slide { flex-basis: 100%; }
+@media (min-width: 900px) { .sph-stage .sph-track { padding: 0 14vw; scroll-padding-inline: 14vw; } .sph-track > .sph-slide { flex-basis: 100%; } }
+.sph-track > .sph-slide:not(.is-active) { transform: translateX(-22px) scale(.42); }
+.sph-track > .sph-slide.is-prev:not(.is-active) { transform: translateX(22px) scale(.42); }
+.sph-track > .sph-slide .sph-body { padding-left: 4px; padding-right: 4px; }
+/* uzun hisob (tennis setlari) sig'sin: nom qisqaradi, hisob kichikroq */
+.sph-team b { flex: 1 1 auto; min-width: 0; }
+.sph-team em { flex: none; max-width: 48%; font-size: clamp(18px, 5.4vw, 30px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* o'ngdagi kichik kartochka hisobni yopmasin */
+@media (max-width: 899px) { .sph-track > .sph-slide .sph-body { padding-right: 40px; } }
+@media (min-width: 900px) {
+  .sph-track > .sph-slide:not(.is-active) { transform: translateX(-30px) scale(.24); }
+  .sph-track > .sph-slide.is-prev:not(.is-active) { transform: translateX(30px) scale(.24); }
+  .sph-track > .sph-slide .sph-body { max-width: 640px; }
+}

@@ -686,7 +686,40 @@ function bindHeroTrack(track) {
     const step = list.length > 1 ? list[1].offsetLeft - list[0].offsetLeft : 1;
     return Math.max(0, Math.min(list.length - 1, Math.round(track.scrollLeft / step)));
   };
-  const sync = () => { const i = current(); ambIdx = i; setAmbient(slides()[i]); };
+  const stage = track.closest('.sph-stage');
+  /* Kinopoisk uslubi: faol o'yinning rasmi — butun kenglikdagi fon (ikki qatlam, silliq o'tadi),
+     uning ustida faol o'yin matni; qo'shni o'yinlar chetlarda kichik kartochka bo'lib turadi */
+  const setStage = slide => {
+    if (!stage || !slide) return;
+    const sig = slide.dataset.ev || slide.dataset.f1 || '';
+    const art = slide.querySelector('.sph-art');
+    const html = art ? art.outerHTML : '';
+    if (stage._sig === sig && stage._html === html) return;
+    const [x, y] = stage.querySelectorAll('.sph-bgl');
+    const same = stage._sig === sig;                       // shu o'yin — faqat rasm yangilandi (o'tishsiz)
+    stage._sig = sig; stage._html = html;
+    const next = same ? (x.classList.contains('is-on') ? x : y) : (x.classList.contains('is-on') ? y : x);
+    const prev = next === x ? y : x;
+    next.className = 'sph-slide sph-bgl is-on ' + [...slide.classList].filter(c => /^(has-|sph-f1)/.test(c)).join(' ');
+    next.setAttribute('style', slide.getAttribute('style') || '');
+    next.innerHTML = html;
+    if (!same) prev.classList.remove('is-on');
+  };
+  const sync = () => {
+    const i = current(); ambIdx = i;
+    slides().forEach((el, k) => { el.classList.toggle('is-active', k === i); el.classList.toggle('is-prev', k < i); });
+    setStage(slides()[i]);
+    setAmbient(slides()[i]);
+  };
+  // chetdagi kichik kartochka bosilsa — o'sha o'yin faol bo'ladi (tafsilot oynasi ochilmaydi)
+  track.addEventListener('click', ev => {
+    const el = ev.target.closest('.sph-slide');
+    if (el && !el.classList.contains('is-active')) {
+      ev.stopPropagation(); ev.preventDefault();
+      const list = slides();
+      track.scrollTo({ left: el.offsetLeft - list[0].offsetLeft, behavior: 'smooth' });
+    }
+  }, true);
   track.addEventListener('scroll', () => { clearTimeout(track._t); track._t = setTimeout(sync, 80); }, { passive: true });
   // rasm keyinroq yuklansa ham fon yangilansin
   track.querySelectorAll('img').forEach(im => im.addEventListener('load', () => { if (slides()[current()]?.contains(im)) sync(); }, { once: true }));
@@ -735,7 +768,7 @@ function renderTop() {
   heroParts.splice(f1Soon || spFilter === 'f1' ? 0 : Math.min(1, heroParts.length), 0, f1Html);
   const heroSlides = heroParts.join('');
   const html = `
-    ${hero.length || f1Html ? `<div class="sph-track">${heroSlides}</div>` : ''}
+    ${hero.length || f1Html ? `<div class="sph-stage"><div class="sph-slide sph-bgl"></div><div class="sph-slide sph-bgl"></div><div class="sph-track">${heroSlides}</div></div>` : ''}
     <h2 class="spx-title">${t('sport.leagues')}</h2>
     <div class="spx-chips">${ids.map(id => `<button type="button" class="spx-chip${spFilter === id ? ' is-on' : ''}" data-f="${id}">${id === 'all' ? t('sport.all') : esc(t('sport.' + id))}</button>`).join('')}</div>
     <div class="spx-tiles">${SPORTS.map(x => `
