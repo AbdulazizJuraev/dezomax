@@ -55,6 +55,9 @@ const I18N = {
     'sport.practice': 'Mashq',
     'sport.sprint': 'Sprint',
     'sport.podium': 'Podium',
+    'sport.leagues': 'Ligalar va chempionatlar',
+    'sport.all': 'Hammasi',
+    'sport.todayIn': 'Bugun sportda',
 
     'tv.title': 'Telekanallar',
     'tv.live': 'JONLI EFIR',
@@ -263,6 +266,9 @@ const I18N = {
     'sport.practice': 'Практика',
     'sport.sprint': 'Спринт',
     'sport.podium': 'Подиум',
+    'sport.leagues': 'Лиги и чемпионаты',
+    'sport.all': 'Все',
+    'sport.todayIn': 'Сегодня в спорте',
 
     'tv.title': 'Телеканалы',
     'tv.live': 'ПРЯМОЙ ЭФИР',

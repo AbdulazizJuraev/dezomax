@@ -6864,3 +6864,88 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
   .tabbar-item { background: transparent; }
   .tabbar-item:not(.is-active) { text-shadow: 0 1px 4px rgba(0, 0, 0, .6); }
 }
+
+/* ================= Sport sahifasi — rasmli yuqori qism (js/sport.js renderTop) =================
+   Katta slaydlar (jamoa ranglari + katta logolar), ligalar filtri, rangli sport plitkalari, «Bugun sportda» */
+.sport-page .sport-head { display: none; }
+.sp-top { margin: 0 0 26px; }
+
+/* --- slayder: keyingisi o'ng tomonda biroz ko'rinib turadi --- */
+.sph-track {
+  display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  margin: 0 calc(-1 * clamp(16px, 4vw, 48px)); padding: 0 clamp(16px, 4vw, 48px);
+}
+.sph-track::-webkit-scrollbar { display: none; }
+.sph-slide {
+  position: relative; flex: 0 0 min(88%, 720px); scroll-snap-align: start; overflow: hidden; cursor: pointer;
+  aspect-ratio: 4 / 5; max-height: 560px; border-radius: 6px; isolation: isolate;
+  background:
+    radial-gradient(120% 80% at 20% 15%, color-mix(in srgb, var(--ca) 85%, transparent), transparent 60%),
+    radial-gradient(110% 80% at 90% 35%, color-mix(in srgb, var(--cb) 80%, transparent), transparent 62%),
+    #0b0c10;
+}
+@media (min-width: 900px) { .sph-slide { aspect-ratio: 16 / 9; flex-basis: min(70%, 900px); } }
+.sph-art { position: absolute; inset: 0; z-index: -1; }
+.sph-art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .78) 38%, rgba(0, 0, 0, 0) 70%); }
+.sph-ico { position: absolute; right: -8%; top: -6%; width: 70%; color: rgba(255, 255, 255, .08); }
+.sph-ico svg { width: 100%; height: auto; stroke-width: 1.2; }
+.sph-big { position: absolute; top: 12%; width: 46%; aspect-ratio: 1; display: grid; place-items: center; }
+.sph-big img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .55)); }
+.sph-big-a { left: 4%; transform: rotate(-6deg); }
+.sph-big-b { right: 4%; top: 20%; transform: rotate(6deg); }
+.sph-body { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 18px 20px; }
+.sph-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: rgba(255, 255, 255, .85); font-size: 15px; }
+.sph-time { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; background: #fff; color: #111; font-size: 15px; font-weight: 600; border-radius: 2px; }
+.sph-time.is-live { background: #e3202d; color: #fff; }
+.sph-time.is-live i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: pulse 1.4s infinite; }
+.sph-team { display: flex; align-items: center; gap: 10px; margin: 4px 0; }
+.sph-team .m-logo { width: 32px; height: 32px; }
+.sph-team b { font-size: clamp(26px, 7vw, 38px); font-weight: 800; line-height: 1.05; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sph-team em { margin-left: auto; font-style: normal; font-size: 30px; font-weight: 800; color: #fff; }
+.sph-desc { margin: 8px 0 0; color: rgba(255, 255, 255, .8); font-size: 15px; }
+.sph-btn {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; height: 50px; padding: 0 30px;
+  border: 0; border-radius: 999px; background: #f1f1f4; color: #111; font-size: 18px; font-weight: 600; cursor: pointer;
+}
+.sph-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* --- ligalar filtri --- */
+.spx-title { margin: 26px 0 12px; font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
+.spx-chips { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * clamp(16px, 4vw, 48px)); padding: 0 clamp(16px, 4vw, 48px); }
+.spx-chips::-webkit-scrollbar { display: none; }
+.spx-chip {
+  flex: none; height: 46px; padding: 0 22px; border: 0; border-radius: 12px; cursor: pointer;
+  background: #2a2b30; color: #fff; font-size: 17px; font-weight: 600;
+}
+.spx-chip.is-on { background: #ececf0; color: #111; }
+
+/* --- rangli sport plitkalari --- */
+.spx-tiles {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(150px, 30%); gap: 10px; margin: 14px calc(-1 * clamp(16px, 4vw, 48px)) 0;
+  padding: 0 clamp(16px, 4vw, 48px); overflow-x: auto; scrollbar-width: none;
+}
+.spx-tiles::-webkit-scrollbar { display: none; }
+@media (min-width: 900px) { .spx-tiles { grid-auto-columns: 1fr; } }
+.spx-tile {
+  position: relative; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  padding: 12px; overflow: hidden; background: var(--tc); color: #fff; text-decoration: none; border-radius: 4px;
+}
+.spx-tile-ico { position: absolute; inset: 14% 18% 30%; display: grid; place-items: center; color: rgba(255, 255, 255, .92); }
+.spx-tile-ico svg { width: 100%; height: 100%; stroke-width: 1.6; }
+.spx-tile b { position: relative; font-size: 16px; font-weight: 700; text-align: center; }
+.spx-tile:active { transform: scale(.98); }
+
+/* --- bugun sportda --- */
+.spt-track { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * clamp(16px, 4vw, 48px)); padding: 0 clamp(16px, 4vw, 48px); }
+.spt-track::-webkit-scrollbar { display: none; }
+.spt-card { flex: 0 0 240px; padding: 14px 16px; background: #2a2b30; border-radius: 4px; cursor: pointer; }
+.spt-card.is-live { box-shadow: inset 0 0 0 1.5px #e3202d; }
+.spt-card small { display: block; color: rgba(255, 255, 255, .6); font-size: 13px; }
+.spt-lg { display: block; margin: 2px 0 10px; font-size: 18px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.spt-when { margin-bottom: 8px; }
+.spt-when .sph-time { font-size: 13px; padding: 2px 7px; }
+.spt-team { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 17px; font-weight: 600; }
+.spt-team .m-logo { width: 24px; height: 24px; }
+.spt-team span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.spt-team em { margin-left: auto; font-style: normal; font-size: 20px; font-weight: 800; }
+.sph-track, .spx-chips, .spx-tiles, .spt-track { scroll-padding-inline: clamp(16px, 4vw, 48px); }

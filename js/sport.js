@@ -78,7 +78,8 @@ function side(c) {
     winner: !!c.winner,
     form: c.form || '',
     record: typeof c.record === 'string' ? c.record : (c.records?.[0]?.summary || ''),
-    color: c.color || team.color || ''
+    color: c.color || team.color || '',
+    alt: c.alternateColor || team.alternateColor || ''
   };
 }
 
@@ -338,6 +339,8 @@ function renderSport(sp) {
   }
 
   el.innerHTML = head + body;
+  el.hidden = spFilter !== 'all' && spFilter !== sp.id;
+  scheduleTop();
 
   el.querySelectorAll('[data-ev]').forEach(card => {
     const open = () => openMatch(EVENT_INDEX.get(card.dataset.ev));
@@ -381,6 +384,129 @@ async function loadNews() {
   } catch {
     box.innerHTML = '';
   }
+}
+
+/* ================= Yuqori qism (Kinopoisk uslubi) =================
+   1) Katta slayder — eng muhim o'yinlar: jamoa ranglaridan fon, katta logolar, vaqt, liga, «Batafsil»
+   2) «Ligalar va chempionatlar» — sport turi bo'yicha filtr
+   3) Rangli sport plitkalari — bosilsa o'sha bo'limga
+   4) «Bugun sportda» — bugungi o'yinlar kartochkalari (hisob bilan)
+   O'yinchilar surati ochiq manbada yo'q — slayd foni jamoa ranglari va logolaridan yasaladi. */
+
+const SPORT_TILE = {
+  soccer: '#1fb94a', mma: '#e3202d', basketball: '#f2661c', tennis: '#a9bd12', hockey: '#1f6fe0', f1: '#a3101f'
+};
+// slayderga birinchi chiqadigan ligalar (ESPN slug yoki nom bo'lagi)
+const TOP_LEAGUES = /uefa\.champions|uefa\.europa|eng\.1|esp\.1|ita\.1|ger\.1|fra\.1|fifa\.world|uefa\.nations|uzb|nba|ufc|euroleague|nhl|atp|wta/i;
+
+let spFilter = 'all';
+let topT = null;
+const scheduleTop = () => { clearTimeout(topT); topT = setTimeout(renderTop, 120); };
+
+const hexOk = h => /^[0-9a-f]{6}$/i.test(h || '') && !/^(ffffff|000000)$/i.test(h);
+const teamColor = (s, fb) => '#' + (hexOk(s.color) ? s.color : hexOk(s.alt) ? s.alt : fb);
+
+function allEvents() {
+  return SPORTS.flatMap(sp => (state[sp.id]?.status === 'ok' && sp.id !== 'f1' ? state[sp.id].events : [])
+    .map(e => ({ e, sportId: sp.id })))
+    .filter(x => spFilter === 'all' || x.sportId === spFilter);
+}
+
+function whenLabel(e) {
+  if (e.state === 'in') return `<span class="sph-time is-live"><i></i>${t('sport.live')}</span>`;
+  if (e.state === 'post') return `<span class="sph-time">${t('sport.finished')}</span>`;
+  const n = dayDiff(e.date);
+  return `<span class="sph-time">${n === 0 ? '' : esc(dayLabel(e.date)) + ', '}${timeFmt(e.date)}</span>`;
+}
+
+function slideHTML({ e, sportId }) {
+  const key = `${sportId}:${e.id}`;
+  EVENT_INDEX.set(key, { e, sportId });
+  const ca = teamColor(e.a, SPORT_TILE[sportId].slice(1)), cb = teamColor(e.b, '0b2a6b');
+  const score = e.state !== 'pre' && (String(e.a.score) !== '' || String(e.b.score) !== '');
+  const big = x => x.logo ? `<img src="${esc(x.logo)}" alt="" loading="lazy" onerror="this.remove()">` : '';
+  return `
+  <article class="sph-slide" data-ev="${esc(key)}" style="--ca:${ca};--cb:${cb}">
+    <div class="sph-art" aria-hidden="true">
+      <span class="sph-ico">${SPORT_ICONS[sportId]}</span>
+      <span class="sph-big sph-big-a">${big(e.a)}</span>
+      <span class="sph-big sph-big-b">${big(e.b)}</span>
+    </div>
+    <div class="sph-body">
+      <div class="sph-meta">${whenLabel(e)}<span>${esc(t('sport.' + sportId))}${e.league ? ', ' + esc(e.league) : ''}</span></div>
+      <div class="sph-team">${logoHTML(e.a)}<b>${esc(e.a.name)}</b>${score ? `<em>${esc(e.a.score)}</em>` : ''}</div>
+      <div class="sph-team">${logoHTML(e.b)}<b>${esc(e.b.name)}</b>${score ? `<em>${esc(e.b.score)}</em>` : ''}</div>
+      ${e.detail && e.state !== 'pre' ? `<p class="sph-desc">${esc(e.detail)}</p>` : ''}
+      <button class="sph-btn" type="button">${e.state === 'in' ? ICONS.play + t('sport.watchLive') : t('sport.details')}</button>
+    </div>
+  </article>`;
+}
+
+function todayCardHTML({ e, sportId }) {
+  const key = `${sportId}:${e.id}`;
+  EVENT_INDEX.set(key, { e, sportId });
+  const sc = x => (e.state !== 'pre' ? `<em>${esc(x.score)}</em>` : '');
+  return `
+  <div class="spt-card${e.state === 'in' ? ' is-live' : ''}" data-ev="${esc(key)}" role="button" tabindex="0">
+    <small>${esc(t('sport.' + sportId))}</small>
+    <b class="spt-lg">${esc(e.league || '')}</b>
+    <div class="spt-when">${whenLabel(e)}</div>
+    <div class="spt-team">${logoHTML(e.a)}<span>${esc(e.a.name)}</span>${sc(e.a)}</div>
+    <div class="spt-team">${logoHTML(e.b)}<span>${esc(e.b.name)}</span>${sc(e.b)}</div>
+  </div>`;
+}
+
+function renderTop() {
+  const box = document.getElementById('spTop');
+  if (!box) return;
+  const evs = allEvents();
+  const now = Date.now();
+  // jonli → katta liga → futbol → ikkala logosi bor; AQSh talabalar ligalari (NCAA) — eng oxirida
+  const lowTier = x => /ncaa|college|usl|friendly.w|liga de expansi/i.test((x.e.path || '') + ' ' + (x.e.league || ''));
+  const rank = x => (x.e.state === 'in' ? 0 : 10) + (TOP_LEAGUES.test((x.e.path || '') + ' ' + (x.e.league || '')) ? 0 : 5)
+    + (x.sportId === 'soccer' ? 0 : 2) + (x.e.a.logo && x.e.b.logo ? 0 : 1) + (lowTier(x) ? 8 : 0);
+  // bugun: jonli → boshlanadigan → tugagan; talabalar ligalari oxirida
+  const todayRank = x => ({ in: 0, pre: 1, post: 2 }[x.e.state] ?? 1) + (lowTier(x) ? 3 : 0);
+  const hero = evs.filter(x => x.e.a.logo && x.e.b.logo).filter(x => x.e.state === 'in' || (x.e.state === 'pre' && new Date(x.e.date) - now < 3 * 86400e3))
+    .sort((x, y) => rank(x) - rank(y) || new Date(x.e.date) - new Date(y.e.date)).slice(0, 8);
+  const today = evs.filter(x => x.e.state === 'in' || dayDiff(x.e.date) === 0)
+    .sort((x, y) => todayRank(x) - todayRank(y) || new Date(x.e.date) - new Date(y.e.date)).slice(0, 20);
+
+  // qayta chizilganda slayder joyidan sakramasin
+  const keepHero = box.querySelector('.sph-track')?.scrollLeft || 0;
+  const keepToday = box.querySelector('.spt-track')?.scrollLeft || 0;
+  const ids = ['all', ...SPORTS.map(x => x.id)];
+  const html = `
+    ${hero.length ? `<div class="sph-track">${hero.map(slideHTML).join('')}</div>` : ''}
+    <h2 class="spx-title">${t('sport.leagues')}</h2>
+    <div class="spx-chips">${ids.map(id => `<button type="button" class="spx-chip${spFilter === id ? ' is-on' : ''}" data-f="${id}">${id === 'all' ? t('sport.all') : esc(t('sport.' + id))}</button>`).join('')}</div>
+    <div class="spx-tiles">${SPORTS.map(x => `
+      <a class="spx-tile" href="#sp-${x.id}" data-tile="${x.id}" style="--tc:${SPORT_TILE[x.id]}">
+        <span class="spx-tile-ico">${SPORT_ICONS[x.id]}</span><b>${esc(t('sport.' + x.id))}</b>
+      </a>`).join('')}</div>
+    ${today.length ? `<h2 class="spx-title">${t('sport.todayIn')}</h2><div class="spt-track">${today.map(todayCardHTML).join('')}</div>` : ''}`;
+  // o'zgarmagan bo'lsa qayta chizilmaydi (rasmlar miltillamasin; har 60 s yangilanish)
+  if (html === box._html) return;
+  box._html = html;
+  box.innerHTML = html;
+  const h = box.querySelector('.sph-track'); if (h) h.scrollLeft = keepHero;
+  const d = box.querySelector('.spt-track'); if (d) d.scrollLeft = keepToday;
+
+  box.querySelectorAll('[data-ev]').forEach(card => {
+    const open = () => openMatch(EVENT_INDEX.get(card.dataset.ev));
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); open(); } });
+  });
+  box.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {
+    spFilter = b.dataset.f;
+    SPORTS.forEach(x => { const el = document.getElementById('sp-' + x.id); if (el) el.hidden = spFilter !== 'all' && spFilter !== x.id; });
+    renderTop();
+  }));
+  box.querySelectorAll('[data-tile]').forEach(a => a.addEventListener('click', ev => {
+    ev.preventDefault();
+    if (spFilter !== 'all' && spFilter !== a.dataset.tile) box.querySelector('[data-f="all"]')?.click();
+    document.getElementById('sp-' + a.dataset.tile)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
 }
 
 /* ---------- Ishga tushirish ---------- */
