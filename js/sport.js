@@ -647,6 +647,66 @@ function todayCardHTML({ e, sportId }) {
   </div>`;
 }
 
+/* ---- Orqa fon slayd bilan birga almashadi ----
+   Sahifa tepasida katta, xira fon: faol slayddagi rasm (o'yinchi / surat) va jamoa ranglari. Ikki qatlam — silliq o'tish. */
+let ambIdx = -1;
+function ambientLayers() {
+  let wrap = document.getElementById('spAmbient');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = 'spAmbient';
+    wrap.className = 'sp-ambient';
+    wrap.setAttribute('aria-hidden', 'true');
+    wrap.innerHTML = '<i></i><i></i>';
+    document.body.prepend(wrap);
+  }
+  return wrap;
+}
+
+function setAmbient(slide) {
+  if (!slide) return;
+  const wrap = ambientLayers();
+  const img = slide.querySelector('.sph-photo') || slide.querySelector('.sph-pl') || slide.querySelector('.sph-big img');   // surat → o'yinchi → logo
+  const ca = slide.style.getPropertyValue('--ca') || '#123', cb = slide.style.getPropertyValue('--cb') || '#111';
+  const sig = ca + cb + (img ? img.src : '');
+  if (wrap._sig === sig) return;
+  wrap._sig = sig;
+  const [x, y] = wrap.children;
+  const next = x.classList.contains('is-on') ? y : x, prev = next === x ? y : x;
+  next.style.background = `${img ? `url("${img.src.replace(/"/g, '%22')}") center 20% / cover no-repeat, ` : ''}radial-gradient(80% 70% at 25% 20%, ${ca}, transparent 70%), radial-gradient(80% 70% at 80% 30%, ${cb}, transparent 70%), #07080c`;
+  next.classList.add('is-on');
+  prev.classList.remove('is-on');
+}
+
+function bindHeroTrack(track) {
+  if (!track) return;
+  const slides = () => [...track.querySelectorAll('.sph-slide')];
+  const current = () => {
+    const list = slides(); if (!list.length) return 0;
+    const step = list.length > 1 ? list[1].offsetLeft - list[0].offsetLeft : 1;
+    return Math.max(0, Math.min(list.length - 1, Math.round(track.scrollLeft / step)));
+  };
+  const sync = () => { const i = current(); ambIdx = i; setAmbient(slides()[i]); };
+  track.addEventListener('scroll', () => { clearTimeout(track._t); track._t = setTimeout(sync, 80); }, { passive: true });
+  // rasm keyinroq yuklansa ham fon yangilansin
+  track.querySelectorAll('img').forEach(im => im.addEventListener('load', () => { if (slides()[current()]?.contains(im)) sync(); }, { once: true }));
+  sync();
+
+  // o'zi almashadi — 8 s; barmoq bilan surilsa yoki sichqoncha ustida bo'lsa to'xtab turadi
+  clearInterval(bindHeroTrack.timer);
+  let hold = 0;
+  const pause = () => { hold = Date.now() + 10000; };
+  track.addEventListener('pointerdown', pause, { passive: true });
+  track.addEventListener('touchstart', pause, { passive: true });
+  track.addEventListener('mouseenter', pause);
+  bindHeroTrack.timer = setInterval(() => {
+    if (document.hidden || Date.now() < hold || !track.isConnected) return;
+    const list = slides(); if (list.length < 2) return;
+    const i = (current() + 1) % list.length;
+    track.scrollTo({ left: list[i].offsetLeft - list[0].offsetLeft, behavior: 'smooth' });
+  }, 8000);
+}
+
 function renderTop() {
   const box = document.getElementById('spTop');
   if (!box) return;
@@ -688,6 +748,7 @@ function renderTop() {
   box._html = html;
   box.innerHTML = html;
   const h = box.querySelector('.sph-track'); if (h) h.scrollLeft = keepHero;
+  bindHeroTrack(h);
   const d = box.querySelector('.spt-track'); if (d) d.scrollLeft = keepToday;
 
   box.querySelectorAll('[data-ev]').forEach(card => {
