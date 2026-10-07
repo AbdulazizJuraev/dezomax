@@ -13,8 +13,12 @@
    (tools/fetch-yt-meta.js MOVIE_RX bilan bir xil) ro'yxat boshiga qo'shiladi; telefonda 6 soat saqlanadi.
    Admin o'chirgan eski shortslar qaytib kelmaydi. Yangi kanal — FAQAT egasi ruxsat bergandan keyin qo'shiladi. */
 const LIVE_SHORT_CHANNELS = [
-  { ch: 'farzidguy', id: 'UC40y8Eqvoans8S-n8bBqoOw', n: 'FarZidGuy', u: 'https://www.youtube.com/@FarZidGuy' }
+  { ch: 'farzidguy', id: 'UC40y8Eqvoans8S-n8bBqoOw', n: 'FarZidGuy', u: 'https://www.youtube.com/@FarZidGuy' },
+  // 2026-10-07: egasi ruxsat berdi (foydalanuvchi aytdi). Ruscha, kino (Marvel/DC) haqida
+  { ch: 'mrmomentinc', id: 'UCWIoDsZugYNNXqdxqrmbUog', n: 'Mr. Moment Inc', u: 'https://www.youtube.com/@mrmomentinc' }
 ];
+// ruscha kino so'zlari (Mr. Moment Inc kabi ruscha kanallar uchun)
+const SHORT_MOVIE_RX_RU = /марвел|marvel|мстител|железн\S* челове|капитан\S* америк|локи|дэдпул|росомах|\bтор\b|мьёльнир|халк|супермен|бэтмен|человек.паук|паук|танос|гамор|квм|киновселенн|злоде|супергеро|фильм|кино|сцен\S* котор|трейлер|актер|актёр|\bdc\b|джокер|веном|флэш|аквамен|чудо.женщин|стражи галакт|звёздн\S* войн|гарри поттер/i;
 const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|deseptikon|decepticon|optimus|praym|prime|megatron|bumblebee|bambilbi|drift|lockdown|shockwave|starscream|wheeljack|devastator|crosshairs|kogman|cogman|sentinal|sentinel|iron ?hide|wrekker|\bdc\b|#dc|supermen|superman|betmen|batman|flash|wonder ?woman|temir odam|iron ?man|#thor|\btor\b|torga|loki|wanda|vijin|vision|altron|ultron|kang\b|odin|tanos|thanos|selestial|celestial|ikaris|cheksizlik tosh|kuch tosh|yulduzlar lordi|spider|o.rgimchak|wednesday|uenzdey|deyneris|daenerys|taxtlar|\bfilm|kino|premyera|oskar|oscar|aktyor|multfilm|makvin|mcqueen|jekson bo.ron|mortal kombat|call of duty|dedpul|deadpool|momaqaldiroq|thunderbolt|tay ?lung|kung ?fu|afsonaviy uchlik|adolat liga|justice league|qizil.?jodugar|venom|joker|star ?wars|yulduzlar jang|harry ?pot|garri ?pot|bolg.a|mjolnir/i;
 
 (async function () {
@@ -44,14 +48,23 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     return out;
   }
   function mergeLive(byCh) {
-    const have = new Set(base.map(x => x.id)), add = [];
+    const have = new Set(base.map(x => x.id)), add = [], extra = [];
+    // oilaviy sayt (bolalar profili bor): yalang'ochlik/18+ haqidagi sarlavhalar olinmaydi
+    const adult = /обнаж|голая|голый|эрот|секс|18\+|nude|naked|yalang.och/i;
+    const isMovie = t => (SHORT_MOVIE_RX.test(t) || SHORT_MOVIE_RX_RU.test(t)) && !adult.test(t);
     for (const c of LIVE_SHORT_CHANNELS) {
-      const items = byCh[c.ch] || [];
-      const known = items.findIndex(x => have.has(x.id));       // saytdagi eng yangisi — undan oldingilari yangi
-      for (const x of known > 0 ? items.slice(0, known) : [])
-        if (/^[\w-]{11}$/.test(x.id) && SHORT_MOVIE_RX.test(x.title)) add.push({ id: x.id, t: tidy(x.title), ch: c.ch, n: c.n, u: c.u });
+      const items = (byCh[c.ch] || []).filter(x => /^[\w-]{11}$/.test(x.id));
+      const own = base.some(x => x.ch === c.ch);
+      // saytda bor kanal — faqat saytdagi eng yangisidan oldingilari (yangilari) boshiga;
+      // saytda hali yo'q kanal — kinoga oid shortslari (40 tagacha) ro'yxat orasiga aralashtiriladi
+      const known = items.findIndex(x => have.has(x.id));
+      const fresh = own ? (known > 0 ? items.slice(0, known) : []) : items.filter(x => !have.has(x.id)).slice(0, 40);
+      for (const x of fresh) if (isMovie(x.title)) (own ? add : extra).push({ id: x.id, t: tidy(x.title), ch: c.ch, n: c.n, u: c.u });
     }
-    return add.length ? [...add, ...base] : base;
+    if (!add.length && !extra.length) return base;
+    const out = [...add];
+    base.forEach((x, i) => { out.push(x); if (i % 3 === 2 && extra.length) out.push(extra.shift()); });   // har 3 tadan keyin bittadan
+    return out.concat(extra);
   }
   let cache = null;
   try { cache = JSON.parse(localStorage.getItem(LIVE_KEY) || 'null'); } catch {}
