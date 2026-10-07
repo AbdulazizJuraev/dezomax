@@ -6792,3 +6792,19 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
   :root.has-mini-nav #hero.hero-v2 .hv2-bg::after,
   :root.has-mini-nav #hero.hero-v2 .is-vert .hv2-bg::after { background: none !important; }
 }
+/* Pastki navbar: faol bo'lim — to'liq dumaloq ko'k doira (ikonka + yozuv ichida);
+   fon to'q va bir tekis — orqadagi rangli rasmlar (Marvel qizili, DC ko'ki) navbarga «oqib» chiqmaydi */
+@media (max-width: 900px) {
+  .tabbar {
+    background: rgba(16, 18, 26, .94);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-color: rgba(255, 255, 255, .1);
+  }
+  .tabbar-item { position: relative; isolation: isolate; }
+  .tabbar-item.is-active { background: none; }
+  .tabbar-item.is-active::after {
+    content: ''; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; aspect-ratio: 1; transform: translateX(-50%);
+    border-radius: 50%; background: rgba(10, 147, 220, .2); border: 1.5px solid rgba(76, 184, 240, .6);
+  }
+}

@@ -586,10 +586,11 @@ function initLayout() {
 
 const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
-  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' },
+  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tvShort' },
   { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
-  { key: 'series',  href: 'catalog.html?type=serial', icon: 'series', label: 'nav.series' }
-  // Sport va Kanallar — bosh sahifadagi mini navbarda (logo ostida)
+  { key: 'series',  href: 'catalog.html?type=serial', icon: 'series', label: 'nav.series' },
+  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' }
+  // Sport — bosh sahifadagi mini navbarda (logo ostida)
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
 ];
 
