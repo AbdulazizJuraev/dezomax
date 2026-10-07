@@ -22780,7 +22780,7 @@ const CUSTOM_MOVIES = /*DATA*/[
     "updatedAt": 1791312118803,
     "size": 238734197,
     "lang": "uz",
-    "vposter": "https://image.tmdb.org/t/p/w780/AjVecMJdv9GffRVhKP2IRoWtaQL.jpg",
+    "vposter": "https://image.tmdb.org/t/p/w780/fNTS8BOMmhYYM4FqLPLuJ6KRQEF.jpg",
     "tmdb": {
       "id": 84958,
       "type": "tv"

@@ -1200,10 +1200,12 @@ function tmdbTitledBackdrop(images, fallback) {
     .sort((a, b) => L.indexOf(a.iso_639_1) - L.indexOf(b.iso_639_1) || (b.vote_average || 0) - (a.vote_average || 0));
   return titled[0]?.file_path || fallback || (images?.backdrops || [])[0]?.file_path || null;
 }
-/* Rasmiy vertikal poster: kino nomi yozilgani (o'zbekcha → ruscha → inglizcha), eng yuqori baholangani */
+/* Rasmiy vertikal poster: kino nomi yozilgani (o'zbekcha → ruscha → inglizcha), eng yuqori baholangani.
+   O'zbekcha/ruscha poster kamida bitta ovoz olgan bo'lishi shart — TMDB'ga adashib yuklangan
+   boshqa kino posteri tushib qolmasin (Loki'ga «Project Loki» posteri chiqqan edi) */
 function tmdbTitledPoster(images, fallback) {
   const L = ['uz', 'ru', 'en'];
-  const titled = (images?.posters || []).filter(p => L.includes(p.iso_639_1) && p.width >= 780)
+  const titled = (images?.posters || []).filter(p => L.includes(p.iso_639_1) && p.width >= 780 && (p.iso_639_1 === 'en' || (p.vote_count || 0) > 0))
     .sort((a, b) => L.indexOf(a.iso_639_1) - L.indexOf(b.iso_639_1) || (b.vote_average || 0) - (a.vote_average || 0));
   return titled[0]?.file_path || fallback || (images?.posters || [])[0]?.file_path || null;
 }
