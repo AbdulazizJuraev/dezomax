@@ -13,6 +13,8 @@
 const GH = { owner: 'AbdulazizJuraev', repo: 'dezomax', branch: 'main' };
 const SITE_URL = 'https://abdulazizjuraev.github.io/dezomax/';
 const DATA_PATH = 'js/data-custom.js';
+// shu brauzerda sayt kinolar ro'yxatini har daqiqa yangisidan oladi (mehmonlarda — 10 daqiqa kesh): qo'shilgan kino darhol ko'rinadi
+try { localStorage.setItem('dzxFresh', '1'); } catch {}
 const TOKEN_KEY = 'dezomax_admin_token';
 
 // Ruxsatsiz kontent tarqatuvchi xostlar — bunday havolalar qabul qilinmaydi
@@ -90,6 +92,9 @@ async function loadCustom() {
   hiddenList = h ? JSON.parse(h[1]) : [];
 }
 
+/* har kino — bitta qator (bo'shliqsiz): fayl ~2 barobar kichik, sayt tezroq ochiladi; git'da o'zgarish kino bo'yicha ko'rinadi */
+const compactList = list => list.length ? `[\n${list.map(m => JSON.stringify(m)).join(',\n')}\n]` : '[]';
+
 function buildDataFile(list, hidden) {
   return `/* ============================================================
    DezoMax — admin.html orqali qo'shilgan / tahrirlangan kinolar
@@ -98,18 +103,18 @@ function buildDataFile(list, hidden) {
    - HIDDEN_MOVIES: saytdan yashirilgan kinolar id'lari
    ============================================================ */
 
-const CUSTOM_MOVIES = /*DATA*/${JSON.stringify(list, null, 2)}/*END*/;
+const CUSTOM_MOVIES = /*DATA*/${compactList(list)}/*END*/;
 const HIDDEN_MOVIES = /*HIDDEN*/${JSON.stringify(hidden)}/*ENDHIDDEN*/;
 
 if (typeof MOVIES !== 'undefined') {
   window.BASE_MOVIES = MOVIES.slice();        // admin sahifa asl ro'yxatni ko'rishi uchun
+  const at = new Map(MOVIES.map((x, i) => [x.id, i]));
   for (const m of CUSTOM_MOVIES) {
-    const i = MOVIES.findIndex(x => x.id === m.id);
-    if (i > -1) MOVIES[i] = m; else MOVIES.push(m);
+    const i = at.get(m.id);
+    if (i !== undefined) MOVIES[i] = m; else { at.set(m.id, MOVIES.length); MOVIES.push(m); }
   }
-  for (let i = MOVIES.length - 1; i >= 0; i--) {
-    if (HIDDEN_MOVIES.includes(MOVIES[i].id)) MOVIES.splice(i, 1);
-  }
+  const hide = new Set(HIDDEN_MOVIES);
+  if (hide.size) MOVIES.splice(0, MOVIES.length, ...MOVIES.filter(x => !hide.has(x.id)));
 }
 `;
 }
