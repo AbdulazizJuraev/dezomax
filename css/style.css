@@ -6768,15 +6768,20 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
    Header balandligiga qo'shiladi (--mini-h) — slayder o'zi pastga suriladi */
 .mini-nav { display: none; }
 @media (max-width: 900px) {
-  :root.has-mini-nav { --mini-h: 40px; --header-h: calc(68px + var(--sat) + var(--mini-h)); }
+  :root.has-mini-nav { --mini-h: 42px; --header-h: calc(68px + var(--sat) + var(--mini-h)); }
   .has-mini-nav .header { flex-direction: column; align-items: stretch; }
   .has-mini-nav .header > .wrap { flex: 1; width: 100%; }
+  /* Kinopoisk uslubi: soat qatori, logo va mini navbar — hammasi bitta qora fonda, slayder undan keyin */
+  :root.has-mini-nav .header, :root.has-mini-nav .header.scrolled {
+    background: #000; -webkit-backdrop-filter: none; backdrop-filter: none; border-bottom: 0;
+  }
+  :root.has-mini-nav .header .logo-svg-el { filter: none; }
   .mini-nav {
-    display: flex; flex: none; height: var(--mini-h); align-items: center; justify-content: space-between; gap: 12px;
-    padding: 0 max(18px, var(--sar)) 0 max(18px, var(--sal)); background: #000; overflow-x: auto; scrollbar-width: none;
+    display: flex; flex: none; height: var(--mini-h); align-items: center; gap: 24px;
+    padding: 0 max(18px, var(--sar)) 4px max(18px, var(--sal)); overflow-x: auto; scrollbar-width: none;
   }
   .mini-nav::-webkit-scrollbar { display: none; }
-  .mini-nav-item { flex: none; color: rgba(255, 255, 255, .88); font-size: 16px; white-space: nowrap; text-decoration: none; }
+  .mini-nav-item { flex: none; color: #fff; font-size: 19px; font-weight: 700; white-space: nowrap; text-decoration: none; }
   .mini-nav-item:active { color: var(--accent); }
 }
 @media (max-width: 300px) {
