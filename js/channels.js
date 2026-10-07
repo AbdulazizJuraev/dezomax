@@ -22,7 +22,7 @@ const CHANNEL_COUNTRIES = [
   { id: 'ru', uz: 'Rossiya kanallari',           ru: '\u0420\u043e\u0441\u0441\u0438\u0439\u0441\u043a\u0438\u0435 \u043a\u0430\u043d\u0430\u043b\u044b' }
 ];
 
-const CHANNELS = [
+const TV_CHANNELS = [   // TV_CHANNELS — YouTube kanallari ro'yxati (js/data-channels.js) ham CHANNELS deb ataladi, nomlar to'qnashmasin
   { id: 'Ozbekiston', name: "O'zbekiston", country: 'uz', category: 'general',
     logo: 'images/tv/Ozbekiston.png',
     url: 'https://stream8.cinerama.uz/1001/tracks-v1a1/playlist.m3u8',

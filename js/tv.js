@@ -178,7 +178,7 @@ function renderNow() {
 function renderGroups() {
   const box = document.getElementById('tvGroups');
   box.innerHTML = CHANNEL_COUNTRIES.map(ct => {
-    const list = CHANNELS.filter(c => c.country === ct.id);
+    const list = TV_CHANNELS.filter(c => c.country === ct.id);
     if (!list.length) return '';
     return `
       <section class="tv-group">
@@ -191,14 +191,14 @@ function renderGroups() {
   }).join('');
 
   box.querySelectorAll('[data-ch]').forEach(btn =>
-    btn.addEventListener('click', () => playChannel(CHANNELS.find(c => c.id === btn.dataset.ch))));
+    btn.addEventListener('click', () => playChannel(TV_CHANNELS.find(c => c.id === btn.dataset.ch))));
 
-  document.getElementById('tvCount').textContent = `${CHANNELS.length} ${t('tv.channels')}`;
+  document.getElementById('tvCount').textContent = `${TV_CHANNELS.length} ${t('tv.channels')}`;
 }
 
 /* Kanal tanlanmaganda — markazdagi ijro tugmasi birinchi kanalni ochadi */
 function renderPlaceholder() {
-  const first = CHANNELS[0];
+  const first = TV_CHANNELS[0];
   document.getElementById('tvPlayer').innerHTML = `
     <button class="player-placeholder tv-start" id="tvStart" type="button">
       <span class="pp-icon">${ICONS.play}</span>
@@ -215,7 +215,7 @@ renderGroups();
 
 // tv.html?ch=Sport — Sport bo'limidan "Jonli ko'rish" bosilganda kanal darhol ochiladi
 const chParam = new URLSearchParams(location.search).get('ch');
-if (chParam) playChannel(CHANNELS.find(c => c.id === chParam));
+if (chParam) playChannel(TV_CHANNELS.find(c => c.id === chParam));
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.addEventListener('langchange', () => {
