@@ -89,10 +89,10 @@ const SITE_CONFIG = /*CONFIG*/{
   ],
   "logo": {
     "enabled": true,
-    "pos": "br",
-    "size": 17,
+    "pos": "tr",
+    "size": 9,
     "bg": "black",
-    "opacity": 85,
+    "opacity": 55,
     "mode": "always",
     "scope": "all",
     "types": [
