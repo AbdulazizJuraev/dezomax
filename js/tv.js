@@ -21,7 +21,8 @@ function thumbHTML(c) {
   const grad = `background:linear-gradient(150deg, ${c.colors[0]} 0%, ${c.colors[1]} 100%)`;
 
   if (c.logo) {
-    return `<span class="tv-thumb tv-thumb-logo" style="--fallback:${c.colors[0]}">
+    // tile: 'dark' — oq logotip shaffof fonda (och kartochkada ko'rinmasdi)
+    return `<span class="tv-thumb tv-thumb-logo${c.tile === 'dark' ? ' is-dark' : ''}" style="--fallback:${c.colors[0]}">
               <img src="${esc(c.logo)}" alt="${esc(c.name)}" loading="lazy"
                    onerror="this.parentNode.classList.add('is-broken')">
               <span class="tv-thumb-name">${esc(c.name)}</span>

@@ -7067,3 +7067,16 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
   .sph-track > .sph-slide.is-prev:not(.is-active) { transform: translateX(30px) scale(.24); }
   .sph-track > .sph-slide .sph-body { max-width: 640px; }
 }
+
+/* Telekanallar: har bir kanal kvadrat (1:1) kartochka, logo o'rtada; telefonda 3 tadan qatorda */
+.tv-grid .tv-thumb { aspect-ratio: 1 / 1; }
+.tv-grid .tv-thumb-logo { padding: 18%; }
+.tv-grid { grid-template-columns: repeat(auto-fill, minmax(min(130px, 100%), 1fr)); }
+@media (max-width: 640px) {
+  .tv-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .tv-grid .tv-thumb { border-radius: 12px; }
+  .tv-grid .tv-thumb-logo { padding: 16%; }
+  .tv-card-body { padding-top: 6px; }
+  .tv-card-name { font-size: 13px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+.tv-thumb-logo.is-dark { background: linear-gradient(160deg, #2a3040 0%, #12151d 100%); }
