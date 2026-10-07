@@ -105,7 +105,7 @@ async function setPlan(id) {
     p.planUntil = null;
   } else {
     // Balans serverda (Click orqali to'ldirilgan haqiqiy pul): yechish ham serverda, u ikki marta yechmaydi
-    if (Pay.enabled()) {
+    if (Pay.payments()) {
       if (!Pay.hasSession()) { toast(t('plans.needRelogin')); return; }
       try {
         const r = await Pay.spend(price, id, days);

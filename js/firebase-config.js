@@ -24,6 +24,10 @@ const GOOGLE_WEB_CLIENT_ID = '908276451743-a2o6sj3n1fgfbm93q0e09ephcrotanvt.apps
    Bu ochiq manzil; maxfiy Click kaliti FAQAT serverda turadi, bu yerga yozilmaydi. */
 const PAY_API = 'https://pay.dezomax.uz';
 
+/* Click to'lovlari (balans to'ldirish, pullik tarif sotib olish). false — vaqtincha o'chiq (2026-10-07):
+   server yangi joyga ko'chdi, Click kabinetida manzil yangilanguncha. Kirish, layk, izohlar — ishlayveradi. */
+const PAYMENTS_ON = false;
+
 /* Telegram orqali tasdiqlash uchun bot foydalanuvchi nomi (@siz), masalan 'DezoOnlinebot'.
    Bo'sh bo'lsa — kirish oynasida Telegram bo'limi ko'rinmaydi.
    Bot TOKENI faqat serverda (server/.env) turadi, bu yerga HECH QACHON yozilmaydi. */

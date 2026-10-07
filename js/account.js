@@ -375,6 +375,7 @@ async function waitPayment() {
 async function charge(price, planId, days) {
   if (price <= 0) return true;
   if (!Pay.enabled()) return profile.balance >= price;         // demo: buyPlan o'zi yechadi
+  if (!Pay.payments()) return false;                           // to'lovlar vaqtincha o'chiq
   if (!Pay.hasSession()) return false;
   try { const r = await Pay.spend(price, planId, days); profile.balance = r.balance + price; return true; }   // buyPlan yana price ayiradi
   catch { return false; }
@@ -815,8 +816,8 @@ const SECTIONS = {
         </div>
         <label class="acc-label" for="topupAmount">${t('acc.amount')}</label>
         <div class="acc-phone"><input id="topupAmount" type="text" inputmode="numeric" placeholder="50 000"><span>${sumWord()}</span></div>
-        <p class="acc-error" id="topupErr"${Pay.enabled() && Pay.hasSession() ? ' hidden' : ''}>${!Pay.enabled() ? t('acc.payOff') : !Pay.hasSession() ? t('acc.reLogin') : ''}</p>
-        <button class="btn btn-primary acc-submit" type="submit"${Pay.enabled() ? '' : ' disabled'}>${t('acc.clickPay')}</button>
+        <p class="acc-error" id="topupErr"${Pay.payments() && Pay.hasSession() ? ' hidden' : ''}>${!Pay.payments() ? t('acc.payOff') : !Pay.hasSession() ? t('acc.reLogin') : ''}</p>
+        <button class="btn btn-primary acc-submit" type="submit"${Pay.payments() ? '' : ' disabled'}>${t('acc.clickPay')}</button>
         <p class="acc-note">${ICONS.info}<span>${t('acc.payNote')}</span></p>
       </form>`;
   },
@@ -1036,7 +1037,7 @@ const BINDERS = {
       const amount = +input.value.replace(/\D/g, '');
       const err = p.querySelector('#topupErr');
       const fail = m => { err.textContent = m; err.hidden = false; };
-      if (!Pay.enabled()) return fail(t('acc.payOff'));
+      if (!Pay.payments()) return fail(t('acc.payOff'));
       if (!Pay.hasSession()) return fail(t('acc.reLogin'));
       if (amount < 1000) return fail(t('acc.minAmount'));
       const btn = p.querySelector('.acc-submit');

@@ -230,6 +230,8 @@ function decodeJwt(token) {
 const PAY_TOKEN_KEY = 'dezomax_pay_token';
 const Pay = {
   enabled: () => typeof PAY_API !== 'undefined' && !!PAY_API,
+  // Click to'lovlari (balans to'ldirish, tarif sotib olish) — js/firebase-config.js PAYMENTS_ON
+  payments() { return this.enabled() && (typeof PAYMENTS_ON === 'undefined' || PAYMENTS_ON); },
   token: () => { try { return localStorage.getItem(PAY_TOKEN_KEY) || ''; } catch { return ''; } },
   hasSession() { return this.enabled() && !!this.token(); },
   clear() { try { localStorage.removeItem(PAY_TOKEN_KEY); } catch {} },
