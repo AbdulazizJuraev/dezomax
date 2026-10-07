@@ -16,6 +16,8 @@ const featured = adminHeroIds && adminHeroIds.length
 // faqat admin tanlaganlari (25 tagacha).
 // Rasm faqat joriy va keyingi slayd uchun yuklanadi (heroLoadBg).
 const HERO_VIDEO = false;
+// kompyuter (keng ekran) — slayderda gorizontal rasmlar; telefon — rasmiy tik posterlar
+let HERO_DESKTOP = matchMedia('(min-width: 641px)').matches;
 // bolalar rejimida — alohida «Bolalar slayderi» (multfilmlar), aks holda oddiy slayder
 featured.splice(0, featured.length, ...(kidsMode() ? kidsHero(SITE_CFG.hero && SITE_CFG.hero.kidsIds) : heroCompose(featured)));   // js/common.js — faqat admin tanlagan to'liq filmlar
 let heroIndex = 0;
@@ -48,8 +50,10 @@ function renderHero() {
     const ownPoster = !uzArt && !HERO_VIDEO && m.poster && !/i\.ytimg\.com/.test(m.poster) ? imgBig(m.poster) || m.poster : null;
     // rasmiy vertikal poster (admin → Sayt → «Rasmiy posterlarni qo'yish», TMDB) — birinchi: telefonda butun slaydni
     // qoplaydi, kompyuterda o'ngda aniq turadi, orqada xira nusxasi
-    const vArt = !HERO_VIDEO && m.vposter ? m.vposter : null;
-    const art = HERO_VIDEO ? null : vArt || wideSrc || ownPoster;
+    // kompyuterda — gorizontal rasm butun slaydga (foydalanuvchi so'rovi); tik poster faqat gorizontali yo'q kinoda
+    const deskWide = HERO_DESKTOP && (imgBig(uzArt) || imgBig(m.cover) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null));
+    const vArt = !HERO_VIDEO && m.vposter && !deskWide ? m.vposter : null;
+    const art = HERO_VIDEO ? null : deskWide || vArt || wideSrc || ownPoster;
     const wideArt = !!wideSrc;
     const isTrailer = watchStatus(m) === 'trailer';
     const noVideo = watchStatus(m) === 'none';      // admin slayderga qo'ygan, lekin videosi yo'q — kino sahifasiga olib boradi
@@ -880,6 +884,13 @@ renderRows();
 initHeroSwipe();
 restartHeroTimer();
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* Oyna telefon ↔ kompyuter o'lchamiga o'tganda slayder rasmlari almashadi (gorizontal / tik) */
+matchMedia('(min-width: 641px)').addEventListener('change', e => {
+  HERO_DESKTOP = e.matches;
+  document.querySelectorAll('.hero-slide').forEach(s => s.remove());
+  renderHero();
+});
 
 /* Til almashtirilganda hamma narsani qayta chizish */
 document.addEventListener('langchange', () => {
