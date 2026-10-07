@@ -1196,7 +1196,7 @@ function bindTranslate(form) {
    bunday yo'q bo'lsa — oddiy backdrop. Qaytaradi: TMDB fayl yo'li yoki null */
 function tmdbTitledBackdrop(images, fallback) {
   const L = ['uz', 'ru', 'en'];
-  const titled = (images?.backdrops || []).filter(b => L.includes(b.iso_639_1) && b.width >= 1280)
+  const titled = (images?.backdrops || []).filter(b => L.includes(b.iso_639_1) && b.width >= 1280 && (b.iso_639_1 === 'en' || (b.vote_count || 0) > 0))
     .sort((a, b) => L.indexOf(a.iso_639_1) - L.indexOf(b.iso_639_1) || (b.vote_average || 0) - (a.vote_average || 0));
   return titled[0]?.file_path || fallback || (images?.backdrops || [])[0]?.file_path || null;
 }
@@ -1210,9 +1210,10 @@ function tmdbTitledPoster(images, fallback) {
   return titled[0]?.file_path || fallback || (images?.posters || [])[0]?.file_path || null;
 }
 
-/* Admin → Sayt → «Rasmiy posterlarni qo'yish»: slayderdagi kinolarga TMDB'dan rasmiy VERTIKAL poster (nomi yozilgan, 780px)
-   topadi (4 tadan parallel; rasm TMDB serveridan ko'rsatiladi — GitHub'ga yuklanmaydi) va bitta saqlash bilan
-   «vposter» maydoniga yozadi — faqat slayder uchun,
+/* Admin → Sayt → «Rasmiy posterlarni qo'yish»: slayderdagi kinolarga TMDB'dan rasmiy VERTIKAL poster (nomi yozilgan, 780px,
+   telefon uchun) va GORIZONTAL poster (nomi yozilgan backdrop, 1280px, kompyuter uchun) topadi
+   (4 tadan parallel; rasm TMDB serveridan ko'rsatiladi — GitHub'ga yuklanmaydi) va bitta saqlash bilan
+   «vposter» / «hposter» maydonlariga yozadi — faqat slayder uchun,
    kartalardagi poster o'zgarmaydi.
    TMDB kaliti — shu brauzerdagi (Qo'shish → Avtomatik to'ldirish'da kiritilgan). */
 async function heroAutoPosters(ids, btn, kidsIds = []) {
@@ -1220,8 +1221,8 @@ async function heroAutoPosters(ids, btn, kidsIds = []) {
   if (!tmdbKey()) { toast('Avval TMDB kalitini kiriting: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
   // slayderdagi hammasi (js/common.js heroCompose): admin tanlaganlari + rasmiy o'zbek filmlari
   const all = [...heroCompose(ids.map(currentMovie).filter(Boolean)).map(m => currentMovie(m.id) || m), ...kidsIds.map(currentMovie).filter(Boolean)];
-  const todo = all.filter(m => m && !m.vposter);
-  if (!todo.length) { toast('Slayderdagi hamma kinoning posteri bor'); return; }
+  const todo = all.filter(m => m && (!m.vposter || !m.hposter));
+  if (!todo.length) { toast('Slayderdagi hamma kinoning posterlari bor'); return; }
   btn.disabled = true;
   const done = [], missed = [];
   const yearOf = x => +((x.release_date || x.first_air_date || '').slice(0, 4)) || 0;
@@ -1244,9 +1245,10 @@ async function heroAutoPosters(ids, btn, kidsIds = []) {
         }
         if (!tid) { missed.push(m.title?.uz || m.id); continue; }
         const imgs = await tmdb(`/${type}/${tid}/images`, { include_image_language: 'uz,ru,en,null' });
-        const path = tmdbTitledPoster(imgs);
-        if (!path) { missed.push(m.title?.uz || m.id); continue; }
-        done.push({ id: m.id, vposter: `${TMDB_IMG}w780${path}`, tmdb: { id: tid, type } });
+        const path = !m.vposter && tmdbTitledPoster(imgs);
+        const hpath = !m.hposter && tmdbTitledBackdrop(imgs);
+        if (!path && !hpath) { missed.push(m.title?.uz || m.id); continue; }
+        done.push({ id: m.id, ...(path ? { vposter: `${TMDB_IMG}w780${path}` } : {}), ...(hpath ? { hposter: `${TMDB_IMG}w1280${hpath}` } : {}), tmdb: { id: tid, type } });
       } catch (ex) { if (/kaliti/.test(ex.message)) fatal = ex; else missed.push(m.title?.uz || m.id); }
       finally { note.textContent = `${++count} / ${todo.length} tekshirildi…`; }
     } }));
@@ -1255,8 +1257,9 @@ async function heroAutoPosters(ids, btn, kidsIds = []) {
       await saveCustom(list => {
         for (const u of done) {
           const i = list.findIndex(x => x.id === u.id);
-          if (i > -1) list[i] = { ...list[i], vposter: u.vposter, tmdb: list[i].tmdb || u.tmdb };
-          else list.unshift({ ...currentMovie(u.id), vposter: u.vposter, tmdb: u.tmdb });
+          const { id, tmdb, ...art } = u;
+          if (i > -1) list[i] = { ...list[i], ...art, tmdb: list[i].tmdb || tmdb };
+          else list.unshift({ ...currentMovie(id), ...art, tmdb });
         }
         return list;
       }, `Slayder: rasmiy posterlar (TMDB) — ${done.length} ta kino`);
@@ -1592,7 +1595,7 @@ async function renderSiteView() {
       <div class="adm-actions" style="margin-top:12px">
         <button class="btn btn-ghost" type="button" id="admHeroPosters">Rasmiy posterlarni qo‘yish (TMDB)</button>
       </div>
-      <small class="acc-muted" id="admHeroPostersNote">Slayderdagi kinolarga kino nomi yozilgan rasmiy vertikal poster o‘zi topilib qo‘yiladi (kartalardagi posterga tegmaydi).</small>
+      <small class="acc-muted" id="admHeroPostersNote">Slayderdagi kinolarga kino nomi yozilgan rasmiy posterlar o‘zi topilib qo‘yiladi: telefon uchun tik, kompyuter uchun gorizontal (kartalardagi posterga tegmaydi).</small>
     </details>
 
     <details class="adm-sec adm-fold" data-fold="kids"${foldOpen('kids')}>

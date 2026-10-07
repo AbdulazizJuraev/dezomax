@@ -51,7 +51,7 @@ function renderHero() {
     // rasmiy vertikal poster (admin → Sayt → «Rasmiy posterlarni qo'yish», TMDB) — birinchi: telefonda butun slaydni
     // qoplaydi, kompyuterda o'ngda aniq turadi, orqada xira nusxasi
     // kompyuterda — gorizontal rasm butun slaydga (foydalanuvchi so'rovi); tik poster faqat gorizontali yo'q kinoda
-    const deskWide = HERO_DESKTOP && (imgBig(uzArt) || imgBig(m.cover) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null));
+    const deskWide = HERO_DESKTOP && (m.hposter || imgBig(uzArt) || imgBig(m.cover) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null));
     const vArt = !HERO_VIDEO && m.vposter && !deskWide ? m.vposter : null;
     const art = HERO_VIDEO ? null : deskWide || vArt || wideSrc || ownPoster;
     const wideArt = !!wideSrc;
