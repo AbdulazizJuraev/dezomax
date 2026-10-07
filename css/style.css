@@ -6949,3 +6949,29 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
 .spt-team span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .spt-team em { margin-left: auto; font-style: normal; font-size: 20px; font-weight: 800; }
 .sph-track, .spx-chips, .spx-tiles, .spt-track { scroll-padding-inline: clamp(16px, 4vw, 48px); }
+/* Sport slaydlari — haqiqiy suratlar: ikki jamoadan ikki o'yinchi (fonsiz surat) yoki yangilik fotosurati */
+.sph-pl { position: absolute; bottom: 30%; height: 62%; width: auto; max-width: 62%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 12px 26px rgba(0, 0, 0, .5)); }
+.sph-pl-a { left: 6%; z-index: 1; }
+.sph-pl-b { right: 4%; height: 58%; bottom: 31%; }
+.sph-pl-a:only-of-type, .sph-slide.has-pl .sph-pl:only-of-type { left: 50%; transform: translateX(-50%); }
+.sph-slide.has-pl .sph-big { opacity: .22; top: 6%; width: 38%; }
+.sph-photo { position: absolute; inset: 0; width: 100%; height: 72%; object-fit: cover; object-position: center 25%; }
+.sph-slide.has-bg .sph-big, .sph-slide.has-bg .sph-ico { display: none; }
+@media (min-width: 900px) {
+  .sph-pl { height: 88%; bottom: 0; max-width: 40%; }
+  .sph-pl-a { left: auto; right: 30%; }
+  .sph-pl-b { right: 4%; height: 82%; bottom: 0; }
+  .sph-photo { height: 100%; }
+}
+/* o'yinchilar kattaroq — ESPN suratlari yelkagacha, slaydning yuqori 2/3 qismini egallaydi */
+@media (max-width: 899px) {
+  .sph-pl { height: 72%; max-width: none; bottom: 29%; }
+  .sph-pl-a { left: -6%; }
+  .sph-pl-b { right: -8%; height: 66%; bottom: 31%; }
+}
+@media (max-width: 899px) {
+  .sph-pl { height: 58%; bottom: 30%; }
+  .sph-pl-a { left: -9%; }
+  .sph-pl-b { right: -9%; height: 54%; bottom: 31%; }
+}
+.sph-pl { -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); }

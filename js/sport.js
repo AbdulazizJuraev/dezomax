@@ -419,18 +419,97 @@ function whenLabel(e) {
   return `<span class="sph-time">${n === 0 ? '' : esc(dayLabel(e.date)) + ', '}${timeFmt(e.date)}</span>`;
 }
 
+/* ---- Slayd suratlari (ESPN) ----
+   Jamoa o'yinlari: har jamoadan bitta o'yinchining foni olib tashlangan haqiqiy surati (roster headshot).
+   Yakkalik sportlar (tennis, MMA): sportchining o'z surati. Surat yo'q bo'lsa — jamoa yangiligining fotosurati fon bo'ladi.
+   Natija 6 soat saqlanadi (har safar qayta so'ralmaydi). */
+const PHOTO = new Map();            // event key -> { a, b, bg } | 'loading'
+const SOLO = { tennis: 'tennis', mma: 'mma' };
+
+function photoCache(k, v) {
+  try {
+    const all = JSON.parse(localStorage.getItem('dzxSpPhoto') || '{}');
+    if (v === undefined) { const x = all[k]; return x && Date.now() - x.t < 6 * 3600e3 ? x.v : undefined; }
+    all[k] = { v, t: Date.now() };
+    const keys = Object.keys(all); if (keys.length > 300) keys.slice(0, 100).forEach(x => delete all[x]);
+    localStorage.setItem('dzxSpPhoto', JSON.stringify(all));
+  } catch {}
+  return v;
+}
+
+async function teamHeadshot(path, teamId) {
+  if (!path || !teamId) return null;
+  const ck = 'h:' + path + ':' + teamId;
+  const c = photoCache(ck); if (c !== undefined) return c;
+  try {
+    const j = await getJSON(`${API}/site/v2/sports/${path}/teams/${teamId}/roster`);
+    const list = (j.athletes || []).flatMap(g => g.items || [g]).filter(x => x.headshot?.href);
+    return photoCache(ck, list[0]?.headshot.href || null);
+  } catch { return null; }
+}
+
+async function teamNewsPhoto(path, teamId) {
+  if (!path) return null;
+  const ck = 'n2:' + path + ':' + (teamId || '');
+  const c = photoCache(ck); if (c !== undefined) return c;
+  try {
+    const j = await getJSON(`${API}/site/v2/sports/${path}/news?limit=8${teamId ? '&team=' + teamId : ''}`);
+    const imgs = (j.articles || []).map(a => a.images?.[0]?.url).filter(Boolean);
+    return photoCache(ck, imgs.length ? imgs : null);
+  } catch { return null; }
+}
+
+const imgOk = src => !src ? Promise.resolve(null) : new Promise(res => {
+  const i = new Image();
+  i.onload = () => res(i.naturalWidth > 40 ? src : null);
+  i.onerror = () => res(null);
+  i.src = src;
+});
+
+function loadPhotos(key, e, sportId) {
+  if (PHOTO.has(key)) return;
+  PHOTO.set(key, 'loading');
+  (async () => {
+    let a = null, b = null;
+    if (SOLO[sportId]) {
+      const hs = id => id ? `https://a.espncdn.com/i/headshots/${SOLO[sportId]}/players/full/${id}.png` : null;
+      a = hs(e.a.id); b = hs(e.b.id);
+    } else {
+      [a, b] = await Promise.all([teamHeadshot(e.path, e.a.id), teamHeadshot(e.path, e.b.id)]);
+    }
+    // surat haqiqatan ochilishini tekshiramiz (ba'zi sportchilarning surati yo'q — 404)
+    [a, b] = await Promise.all([imgOk(a), imgOk(b)]);
+    // surat yo'q — jamoa (yoki liga) yangiligining fotosurati; har o'yinga boshqasi (bir xil rasm takrorlanmasin)
+    let bg = null;
+    if (!a && !b) {
+      const list = (await teamNewsPhoto(e.path, SOLO[sportId] ? null : e.a.id)) || (await teamNewsPhoto(e.path, null)) || [];
+      const h = [...String(e.id)].reduce((n, ch) => n * 31 + ch.charCodeAt(0) >>> 0, 7);
+      bg = await imgOk(list[h % (list.length || 1)]);
+    }
+    PHOTO.set(key, { a, b, bg });
+    scheduleTop();
+  })();
+}
+
 function slideHTML({ e, sportId }) {
   const key = `${sportId}:${e.id}`;
   EVENT_INDEX.set(key, { e, sportId });
   const ca = teamColor(e.a, SPORT_TILE[sportId].slice(1)), cb = teamColor(e.b, '0b2a6b');
   const score = e.state !== 'pre' && (String(e.a.score) !== '' || String(e.b.score) !== '');
   const big = x => x.logo ? `<img src="${esc(x.logo)}" alt="" loading="lazy" onerror="this.remove()">` : '';
+  loadPhotos(key, e, sportId);
+  const ph = PHOTO.get(key);
+  const pic = ph && ph !== 'loading' ? ph : {};
+  const player = (src, cls) => src ? `<img class="sph-pl ${cls}" src="${esc(src)}" alt="" onerror="this.remove()">` : '';
+  const hasPl = !!(pic.a || pic.b);
   return `
-  <article class="sph-slide" data-ev="${esc(key)}" style="--ca:${ca};--cb:${cb}">
+  <article class="sph-slide${hasPl ? ' has-pl' : ''}${pic.bg ? ' has-bg' : ''}" data-ev="${esc(key)}" style="--ca:${ca};--cb:${cb}">
     <div class="sph-art" aria-hidden="true">
+      ${pic.bg ? `<img class="sph-photo" src="${esc(pic.bg)}" alt="" onerror="this.remove()">` : ''}
       <span class="sph-ico">${SPORT_ICONS[sportId]}</span>
       <span class="sph-big sph-big-a">${big(e.a)}</span>
       <span class="sph-big sph-big-b">${big(e.b)}</span>
+      ${player(pic.a, 'sph-pl-a')}${player(pic.b, 'sph-pl-b')}
     </div>
     <div class="sph-body">
       <div class="sph-meta">${whenLabel(e)}<span>${esc(t('sport.' + sportId))}${e.league ? ', ' + esc(e.league) : ''}</span></div>
@@ -499,6 +578,7 @@ function renderTop() {
   });
   box.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {
     spFilter = b.dataset.f;
+    const tr = box.querySelector('.sph-track'); if (tr) tr.scrollLeft = 0;   // yangi filtr — slayder boshidan
     SPORTS.forEach(x => { const el = document.getElementById('sp-' + x.id); if (el) el.hidden = spFilter !== 'all' && spFilter !== x.id; });
     renderTop();
   }));
