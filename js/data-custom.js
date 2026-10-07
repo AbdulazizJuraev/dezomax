@@ -2227,7 +2227,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "id": 57800,
       "type": "movie"
     },
-    "vposter": "https://image.tmdb.org/t/p/w780/bZRHz4bV5WHVlpLjmYbrkOAQhyT.jpg"
+    "vposter": "https://image.tmdb.org/t/p/w780/bZRHz4bV5WHVlpLjmYbrkOAQhyT.jpg",
+    "hposter": "https://image.tmdb.org/t/p/w1280/5iV3N57krR9hWtuTt4m1ootCcWF.jpg"
   },
   {
     "id": 2176,
@@ -2310,7 +2311,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 8355,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/z3NwTOiJj4AJ61XP7xmivaBo0B2.jpg"
   },
   {
     "id": 2079,
@@ -2354,7 +2356,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 425,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/bPBiJSwVH0aLmESTkA8DBWshVxj.jpg"
   },
   {
     "id": 2894,
@@ -3413,7 +3416,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 863,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/1dvOCqKgBcXvfqzVPmAAM5Rv4PP.jpg"
   },
   {
     "id": 2026,
@@ -4530,7 +4534,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 675,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/75BvA61B33oo8dZQ7y1sMljd0Wq.jpg"
   },
   {
     "id": 2044,
@@ -4623,7 +4628,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 673,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/yVGOIFTHhZtjgRHmO9Aynohcz6t.jpg"
   },
   {
     "id": 2039,
@@ -4718,7 +4724,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 672,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/4kgQ8iafeMdzM79wmSYFv1Krkrs.jpg"
   },
   {
     "id": 59,
@@ -5253,7 +5260,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 49521,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/zQmawynS76X7SXGS39g8Z7aiXI2.jpg"
   },
   {
     "id": 2473,
@@ -5353,7 +5361,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 209112,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/jzwwSZs9KqyvroROqqnDWR0jFG0.jpg"
   },
   {
     "id": 44,
@@ -5996,7 +6005,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 862,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/HAL8AHcfFB8QRcRpFi5DCyR0i8.jpg"
   },
   {
     "id": 17,
@@ -7199,7 +7209,8 @@ const CUSTOM_MOVIES = /*DATA*/[
       "id": 24428,
       "type": "movie"
     },
-    "vposter": "https://image.tmdb.org/t/p/w780/zM4ulQLKxBpmzanvPQNkj3VV4a5.jpg"
+    "vposter": "https://image.tmdb.org/t/p/w780/zM4ulQLKxBpmzanvPQNkj3VV4a5.jpg",
+    "hposter": "https://image.tmdb.org/t/p/w1280/huOmAVZBfXPMIRwjFmyGzZLojHR.jpg"
   },
   {
     "id": 15,
@@ -7879,7 +7890,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 68721,
       "type": "movie"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/rIUa56zPJ7RmkxvWAQGL8x86G6j.jpg"
   },
   {
     "id": 123,
@@ -7986,7 +7998,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "director": "Jon Favreau",
     "franchise": "marvel",
     "audio": "uz",
-    "vposter": "https://image.tmdb.org/t/p/w780/wAKZudQn0HEXqLvaGN6BEripHbv.jpg"
+    "vposter": "https://image.tmdb.org/t/p/w780/wAKZudQn0HEXqLvaGN6BEripHbv.jpg",
+    "hposter": "https://image.tmdb.org/t/p/w1280/A1m5BJznmmsDyj25AnhDyFbBSJJ.jpg"
   },
   {
     "id": 2613,
@@ -22794,7 +22807,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "audio": "uz",
     "tags": [
       "Loki"
-    ]
+    ],
+    "hposter": "https://image.tmdb.org/t/p/w1280/kXja7L9cRlsRmINMpxyWEdp9r3u.jpg"
   },
   {
     "id": 3355,
@@ -31397,7 +31411,8 @@ const CUSTOM_MOVIES = /*DATA*/[
     "tmdb": {
       "id": 85271,
       "type": "tv"
-    }
+    },
+    "hposter": "https://image.tmdb.org/t/p/w1280/jcQ5ez9AdJIq9IHVo61PqDPLQsS.jpg"
   },
   {
     "id": 152,
