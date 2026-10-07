@@ -6975,3 +6975,33 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: .6; }
   .sph-pl-b { right: -9%; height: 54%; bottom: 31%; }
 }
 .sph-pl { -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); }
+
+/* Butun gavdali o'yinchilar (TheSportsDB render): slayd balandligida, oyoqlari matn va soya ostida qoladi */
+.sph-pl.is-body { top: 3%; bottom: auto; height: 100%; max-width: none; object-position: top; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 80%); mask-image: linear-gradient(to bottom, #000 55%, transparent 80%); }
+.sph-pl-a.is-body { left: -22%; }
+.sph-pl-b.is-body { right: -22%; left: auto; top: 7%; height: 94%; }
+@media (min-width: 900px) {
+  .sph-pl.is-body { height: 120%; top: 2%; }
+  .sph-pl-a.is-body { left: auto; right: 22%; }
+  .sph-pl-b.is-body { right: -6%; height: 112%; }
+}
+/* F1 slaydi — qizil, «poyga chiziqlari» */
+.sph-f1 { background: linear-gradient(160deg, #e10600 0%, #8f0400 45%, #15151e 100%); }
+.sph-f1-stripes { position: absolute; inset: 0; background: repeating-linear-gradient(115deg, transparent 0 38px, rgba(255, 255, 255, .06) 38px 44px); }
+.sph-f1-name { margin: 2px 0 0; font-size: clamp(26px, 7vw, 38px); font-weight: 800; line-height: 1.05; color: #fff; }
+/* bitta o'yinchi qolsa — o'rtada */
+.sph-slide.has-pl .sph-art .sph-pl.is-body:only-of-type { left: 50%; right: auto; transform: translateX(-50%); }
+/* butun gavdali suratlar kattaroq: tizzagacha ko'rinadi (referens kabi), oyoqlar matn ostida yo'qoladi */
+@media (max-width: 899px) {
+  .sph-pl.is-body { height: 128%; top: 4%; }
+  .sph-pl-a.is-body { left: -34%; }
+  .sph-pl-b.is-body { right: -34%; top: 8%; height: 120%; }
+}
+@media (max-width: 899px) {
+  .sph-pl.is-body { height: 106%; top: 3%; }
+  .sph-pl-a.is-body { left: -24%; }
+  .sph-pl-b.is-body { right: -24%; top: 6%; height: 100%; }
+}
+/* qora soya o'yinchilar USTIDA — pastdagi yozuvlar doim o'qiladi */
+.sph-art .sph-pl, .sph-art .sph-pl-a { z-index: 0; }
+.sph-art::after { z-index: 1; }

@@ -58,6 +58,8 @@ const I18N = {
     'sport.leagues': 'Ligalar va chempionatlar',
     'sport.all': 'Hammasi',
     'sport.todayIn': 'Bugun sportda',
+    'sport.f1Leaders': 'Chempionat yetakchilari',
+    'sport.nextGp': 'Keyingi Gran-pri',
 
     'tv.title': 'Telekanallar',
     'tv.live': 'JONLI EFIR',
@@ -269,6 +271,8 @@ const I18N = {
     'sport.leagues': 'Лиги и чемпионаты',
     'sport.all': 'Все',
     'sport.todayIn': 'Сегодня в спорте',
+    'sport.f1Leaders': 'Лидеры чемпионата',
+    'sport.nextGp': 'Следующий Гран-при',
 
     'tv.title': 'Телеканалы',
     'tv.live': 'ПРЯМОЙ ЭФИР',

@@ -155,6 +155,7 @@ async function loadSource(src) {
 
   if (src.kind === 'f1') {
     const j = await getJSON(`${API}/site/v2/sports/racing/f1/scoreboard`);
+    F1_CAL = j.leagues?.[0]?.calendar || [];   // keyingi Gran-pri (slayder uchun)
     return (j.events || []).map(ev => ({
       id: ev.id, date: ev.date, f1: true,
       name: ev.name,
@@ -426,11 +427,11 @@ function whenLabel(e) {
 const PHOTO = new Map();            // event key -> { a, b, bg } | 'loading'
 const SOLO = { tennis: 'tennis', mma: 'mma' };
 
-function photoCache(k, v) {
+function photoCache(k, v, ttlH = 6) {
   try {
     const all = JSON.parse(localStorage.getItem('dzxSpPhoto') || '{}');
-    if (v === undefined) { const x = all[k]; return x && Date.now() - x.t < 6 * 3600e3 ? x.v : undefined; }
-    all[k] = { v, t: Date.now() };
+    if (v === undefined) { const x = all[k]; return x && Date.now() - x.t < (x.h || 6) * 3600e3 ? x.v : undefined; }
+    all[k] = { v, t: Date.now(), h: ttlH };
     const keys = Object.keys(all); if (keys.length > 300) keys.slice(0, 100).forEach(x => delete all[x]);
     localStorage.setItem('dzxSpPhoto', JSON.stringify(all));
   } catch {}
@@ -459,6 +460,54 @@ async function teamNewsPhoto(path, teamId) {
   } catch { return null; }
 }
 
+/* TheSportsDB — o'yinchilarning fonsiz, butun gavdali suratlari (render; yo'q bo'lsa — beligacha «cutout»).
+   Bepul ochiq kalit (123): daqiqasiga ~30 so'rov — navbat bilan, bittadan, 2.1 s oraliq; chegaraga urilsa 25 s kutib bir marta qayta;
+   natija 7 kun saqlanadi. */
+const TSDB = 'https://www.thesportsdb.com/api/v1/json/123';
+const TSDB_SPORT = { soccer: /soccer/i, basketball: /basketball/i, hockey: /hockey/i, mma: /fight|mma/i, tennis: /tennis/i, f1: /motorsport|formula/i };
+let tsdbBusy = 0; const tsdbQ = [];
+function tsdb(path) {
+  return new Promise((res, rej) => {
+    const run = (retry) => getJSON(TSDB + path).then(res, err => retry ? setTimeout(() => { tsdbQ.push(() => run(false)); tsdbNext(); }, 25000) : rej(err))
+      .finally(() => { tsdbBusy--; setTimeout(tsdbNext, 2100); });
+    tsdbQ.push(() => run(true));
+    tsdbNext();
+  });
+}
+function tsdbNext() { while (tsdbBusy < 1 && tsdbQ.length) { tsdbBusy++; tsdbQ.shift()(); } }
+
+const bodyOf = p => p && (p.strRender || p.strCutout) ? { src: p.strRender || p.strCutout, body: !!p.strRender } : null;
+
+async function tsdbTeamBody(name, sportId) {
+  if (!name) return null;
+  const ck = 'tb2:' + sportId + ':' + name;
+  const c = photoCache(ck); if (c !== undefined) return c;
+  try {
+    const teams = (await tsdb('/searchteams.php?t=' + encodeURIComponent(name))).teams || [];
+    const team = teams.find(x => TSDB_SPORT[sportId]?.test(x.strSport || '')) || null;
+    if (!team) return photoCache(ck, null, 168);
+    const ps = (await tsdb('/lookup_all_players.php?id=' + team.idTeam)).player || [];
+    // eng yangi yuklangan butun gavdali surat — o'yinchi hozirgi jamoa formasida bo'lishi ehtimoli katta
+    // (eski suratlarda boshqa klub formasida chiqardi). Fayl nomi oxirida yuklangan vaqt (unix soniya).
+    const ts = u => +((u || '').match(/(\d{10})\.\w+$/) || [])[1] || 0;
+    const pick = ps.filter(p => p.strRender).sort((x, y) => ts(y.strRender) - ts(x.strRender))[0] || ps.find(p => p.strCutout);
+    return photoCache(ck, bodyOf(pick), 168);
+  } catch { return null; }
+}
+
+async function tsdbPersonBody(name, sportId) {
+  if (!name) return null;
+  const ck = 'pb:' + sportId + ':' + name;
+  const c = photoCache(ck); if (c !== undefined) return c;
+  try {
+    const ps = (await tsdb('/searchplayers.php?p=' + encodeURIComponent(name))).player || [];
+    let p = ps.find(x => TSDB_SPORT[sportId]?.test(x.strSport || '')) || null;
+    // qidiruv natijasida butun gavdali «render» bo'lmaydi — alohida so'raymiz; bo'lmasa beligacha surat qoladi
+    if (p && !p.strRender) { try { p = ((await tsdb('/lookupplayer.php?id=' + p.idPlayer)).players || [])[0] || p; } catch {} }
+    return photoCache(ck, bodyOf(p), 168);
+  } catch { return null; }
+}
+
 const imgOk = src => !src ? Promise.resolve(null) : new Promise(res => {
   const i = new Image();
   i.onload = () => res(i.naturalWidth > 40 ? src : null);
@@ -470,15 +519,23 @@ function loadPhotos(key, e, sportId) {
   if (PHOTO.has(key)) return;
   PHOTO.set(key, 'loading');
   (async () => {
-    let a = null, b = null;
-    if (SOLO[sportId]) {
-      const hs = id => id ? `https://a.espncdn.com/i/headshots/${SOLO[sportId]}/players/full/${id}.png` : null;
-      a = hs(e.a.id); b = hs(e.b.id);
-    } else {
-      [a, b] = await Promise.all([teamHeadshot(e.path, e.a.id), teamHeadshot(e.path, e.b.id)]);
-    }
-    // surat haqiqatan ochilishini tekshiramiz (ba'zi sportchilarning surati yo'q — 404)
-    [a, b] = await Promise.all([imgOk(a), imgOk(b)]);
+    // butun gavdali surat — faqat yakkalik sportda (tennis, MMA). Jamoa o'yinlarida TheSportsDB suratlari ko'pincha
+    // o'yinchining OLDINGI klubi formasida (Capitals o'yinida Dallas formasi chiqdi) — shuning uchun u yerda ESPN surati:
+    // u doim hozirgi jamoa formasida (ko'kragigacha).
+    const body = x => SOLO[sportId] ? tsdbPersonBody(x.full || x.name, sportId) : Promise.resolve(null);
+    const head = x => SOLO[sportId]
+      ? (x.id ? `https://a.espncdn.com/i/headshots/${SOLO[sportId]}/players/full/${x.id}.png` : null)
+      : teamHeadshot(e.path, x.id);
+    // 1) butun gavdali surat (TheSportsDB)  2) ESPN portreti (yelkagacha); ochilishi tekshiriladi (404 bo'lishi mumkin)
+    const one = async x => {
+      const bd = await body(x);
+      if (bd && await imgOk(bd.src)) return bd;
+      const h = await imgOk(await head(x));
+      return h ? { src: h, body: false } : null;
+    };
+    let [a, b] = await Promise.all([one(e.a), one(e.b)]);
+    // biri butun gavdali, ikkinchisi faqat portret bo'lsa — g'alati ko'rinadi: butun gavdalisi yolg'iz qoladi
+    if (a && b && a.body !== b.body) { if (a.body) b = null; else a = null; }
     // surat yo'q — jamoa (yoki liga) yangiligining fotosurati; har o'yinga boshqasi (bir xil rasm takrorlanmasin)
     let bg = null;
     if (!a && !b) {
@@ -500,7 +557,7 @@ function slideHTML({ e, sportId }) {
   loadPhotos(key, e, sportId);
   const ph = PHOTO.get(key);
   const pic = ph && ph !== 'loading' ? ph : {};
-  const player = (src, cls) => src ? `<img class="sph-pl ${cls}" src="${esc(src)}" alt="" onerror="this.remove()">` : '';
+  const player = (p, cls) => p && p.src ? `<img class="sph-pl ${cls}${p.body ? ' is-body' : ''}" src="${esc(p.src)}" alt="" onerror="this.remove()">` : '';
   const hasPl = !!(pic.a || pic.b);
   return `
   <article class="sph-slide${hasPl ? ' has-pl' : ''}${pic.bg ? ' has-bg' : ''}" data-ev="${esc(key)}" style="--ca:${ca};--cb:${cb}">
@@ -517,6 +574,61 @@ function slideHTML({ e, sportId }) {
       <div class="sph-team">${logoHTML(e.b)}<b>${esc(e.b.name)}</b>${score ? `<em>${esc(e.b.score)}</em>` : ''}</div>
       ${e.detail && e.state !== 'pre' ? `<p class="sph-desc">${esc(e.detail)}</p>` : ''}
       <button class="sph-btn" type="button">${e.state === 'in' ? ICONS.play + t('sport.watchLive') : t('sport.details')}</button>
+    </div>
+  </article>`;
+}
+
+/* ---- Formula 1 — alohida slayd ----
+   Navbatdagi Gran-pri: keyingi (yoki jonli) bosqich vaqti, chempionat yetakchilari — haqiqiy, butun gavdali suratlari bilan */
+let f1Leaders = null;
+let F1_CAL = [];
+async function loadF1Leaders() {
+  if (f1Leaders) return;
+  f1Leaders = [];
+  const c = photoCache('f1lead');
+  if (c !== undefined) { f1Leaders = c; scheduleTop(); return; }
+  try {
+    const j = await getJSON('https://site.api.espn.com/apis/v2/sports/racing/f1/standings');
+    const rows = j.children?.[0]?.standings?.entries || [];
+    const top = rows.slice(0, 2).map(r => ({
+      name: r.athlete?.displayName || '',
+      pts: (r.stats || []).find(x => x.name === 'championshipPts')?.displayValue || ''
+    })).filter(x => x.name);
+    const bodies = await Promise.all(top.map(x => tsdbPersonBody(x.name, 'f1')));
+    f1Leaders = await Promise.all(top.map(async (x, i) => ({ ...x, src: (bodies[i] && await imgOk(bodies[i].src)) || null })));
+    if (f1Leaders.every(x => x.src)) photoCache('f1lead', f1Leaders);
+    else setTimeout(() => { f1Leaders = null; scheduleTop(); }, 60000);   // surat kelmadi — 1 daqiqadan keyin qayta
+  } catch { f1Leaders = []; setTimeout(() => { f1Leaders = null; scheduleTop(); }, 60000); }
+  scheduleTop();
+}
+
+function f1SlideHTML() {
+  const st = state.f1;
+  const ev = st?.status === 'ok' ? st.events[0] : null;
+  if (!ev || (spFilter !== 'all' && spFilter !== 'f1')) return '';
+  loadF1Leaders();
+  const live = ev.sessions.find(x => x.state === 'in');
+  const next = live || ev.sessions.find(x => x.state === 'pre');
+  // bu bosqich tugagan — keyingi Gran-pri (ESPN kalendari)
+  const nextGp = !next ? F1_CAL.find(c => new Date(c.startDate) > Date.now()) : null;
+  const when = nextGp ? `<span class="sph-time">${esc(dayLabel(nextGp.startDate))}, ${timeFmt(nextGp.startDate)}</span>`
+    : !next ? `<span class="sph-time">${t('sport.finished')}</span>`
+    : live ? `<span class="sph-time is-live"><i></i>${t('sport.live')}</span>`
+    : `<span class="sph-time">${dayDiff(next.date) === 0 ? '' : esc(dayLabel(next.date)) + ', '}${timeFmt(next.date)}</span>`;
+  const lead = f1Leaders || [];
+  const pics = lead.filter(x => x.src);
+  return `
+  <article class="sph-slide sph-f1${pics.length ? ' has-pl' : ''}" data-f1="1" style="--ca:#e10600;--cb:#15151e">
+    <div class="sph-art" aria-hidden="true">
+      <span class="sph-ico">${SPORT_ICONS.f1}</span>
+      <span class="sph-f1-stripes"></span>
+      ${pics.map((x, i) => `<img class="sph-pl is-body ${i ? 'sph-pl-b' : 'sph-pl-a'}" src="${esc(x.src)}" alt="" onerror="this.remove()">`).join('')}
+    </div>
+    <div class="sph-body">
+      <div class="sph-meta">${when}<span>Formula 1${next ? ', ' + esc(SESSION_LABEL(next.type)) : nextGp ? ', ' + t('sport.nextGp') : ''}</span></div>
+      <h3 class="sph-f1-name">${esc(nextGp ? nextGp.label : ev.name)}</h3>
+      ${lead.length ? `<p class="sph-desc">${t('sport.f1Leaders')}: ${lead.map(x => esc(x.name) + (x.pts ? ` (${esc(x.pts)})` : '')).join(' · ')}</p>` : ''}
+      <button class="sph-btn" type="button">${t('sport.details')}</button>
     </div>
   </article>`;
 }
@@ -555,8 +667,15 @@ function renderTop() {
   const keepHero = box.querySelector('.sph-track')?.scrollLeft || 0;
   const keepToday = box.querySelector('.spt-track')?.scrollLeft || 0;
   const ids = ['all', ...SPORTS.map(x => x.id)];
+  const f1Html = f1SlideHTML();
+  const f1Ev = state.f1?.events?.[0];
+  const f1Soon = (f1Ev && f1Ev.sessions.some(x => x.state === 'in' || (x.state === 'pre' && new Date(x.date) - now < 3 * 86400e3)))
+    || F1_CAL.some(c => new Date(c.startDate) > now && new Date(c.startDate) - now < 3 * 86400e3);
+  const heroParts = hero.map(slideHTML);
+  heroParts.splice(f1Soon || spFilter === 'f1' ? 0 : Math.min(1, heroParts.length), 0, f1Html);
+  const heroSlides = heroParts.join('');
   const html = `
-    ${hero.length ? `<div class="sph-track">${hero.map(slideHTML).join('')}</div>` : ''}
+    ${hero.length || f1Html ? `<div class="sph-track">${heroSlides}</div>` : ''}
     <h2 class="spx-title">${t('sport.leagues')}</h2>
     <div class="spx-chips">${ids.map(id => `<button type="button" class="spx-chip${spFilter === id ? ' is-on' : ''}" data-f="${id}">${id === 'all' ? t('sport.all') : esc(t('sport.' + id))}</button>`).join('')}</div>
     <div class="spx-tiles">${SPORTS.map(x => `
@@ -576,6 +695,7 @@ function renderTop() {
     card.addEventListener('click', open);
     card.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); open(); } });
   });
+  box.querySelector('[data-f1]')?.addEventListener('click', () => document.getElementById('sp-f1')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   box.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {
     spFilter = b.dataset.f;
     const tr = box.querySelector('.sph-track'); if (tr) tr.scrollLeft = 0;   // yangi filtr — slayder boshidan
