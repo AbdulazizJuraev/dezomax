@@ -557,12 +557,12 @@ function slideHTML({ e, sportId }) {
   loadPhotos(key, e, sportId);
   const ph = PHOTO.get(key);
   const pic = ph && ph !== 'loading' ? ph : {};
-  const player = (p, cls) => p && p.src ? `<img class="sph-pl ${cls}${p.body ? ' is-body' : ''}" src="${esc(p.src)}" alt="" onerror="this.remove()">` : '';
+  const player = (p, cls) => p && p.src ? `<img class="sph-pl ${cls}${p.body ? ' is-body' : ''}" src="${esc(p.src)}" alt="" decoding="async" onerror="this.remove()">` : '';
   const hasPl = !!(pic.a || pic.b);
   return `
   <article class="sph-slide${hasPl ? ' has-pl' : ''}${pic.bg ? ' has-bg' : ''}" data-ev="${esc(key)}" style="--ca:${ca};--cb:${cb}">
     <div class="sph-art" aria-hidden="true">
-      ${pic.bg ? `<img class="sph-photo" src="${esc(pic.bg)}" alt="" onerror="this.remove()">` : ''}
+      ${pic.bg ? `<img class="sph-photo" src="${esc(pic.bg)}" alt="" decoding="async" onerror="this.remove()">` : ''}
       <span class="sph-ico">${SPORT_ICONS[sportId]}</span>
       <span class="sph-big sph-big-a">${big(e.a)}</span>
       <span class="sph-big sph-big-b">${big(e.b)}</span>
@@ -622,7 +622,7 @@ function f1SlideHTML() {
     <div class="sph-art" aria-hidden="true">
       <span class="sph-ico">${SPORT_ICONS.f1}</span>
       <span class="sph-f1-stripes"></span>
-      ${pics.map((x, i) => `<img class="sph-pl is-body ${i ? 'sph-pl-b' : 'sph-pl-a'}" src="${esc(x.src)}" alt="" onerror="this.remove()">`).join('')}
+      ${pics.map((x, i) => `<img class="sph-pl is-body ${i ? 'sph-pl-b' : 'sph-pl-a'}" src="${esc(x.src)}" alt="" decoding="async" onerror="this.remove()">`).join('')}
     </div>
     <div class="sph-body">
       <div class="sph-meta">${when}<span>Formula 1${next ? ', ' + esc(SESSION_LABEL(next.type)) : nextGp ? ', ' + t('sport.nextGp') : ''}</span></div>
@@ -647,37 +647,8 @@ function todayCardHTML({ e, sportId }) {
   </div>`;
 }
 
-/* ---- Orqa fon slayd bilan birga almashadi ----
-   Sahifa tepasida katta, xira fon: faol slayddagi rasm (o'yinchi / surat) va jamoa ranglari. Ikki qatlam — silliq o'tish. */
-let ambIdx = -1;
-function ambientLayers() {
-  let wrap = document.getElementById('spAmbient');
-  if (!wrap) {
-    wrap = document.createElement('div');
-    wrap.id = 'spAmbient';
-    wrap.className = 'sp-ambient';
-    wrap.setAttribute('aria-hidden', 'true');
-    wrap.innerHTML = '<i></i><i></i>';
-    document.body.prepend(wrap);
-  }
-  return wrap;
-}
-
-function setAmbient(slide) {
-  if (!slide) return;
-  const wrap = ambientLayers();
-  // faqat jamoa ranglaridan gradient (rasm, bayroq, logo — yo'q)
-  const ca = slide.style.getPropertyValue('--ca') || '#123', cb = slide.style.getPropertyValue('--cb') || '#111';
-  const sig = ca + cb;
-  if (wrap._sig === sig) return;
-  wrap._sig = sig;
-  const [x, y] = wrap.children;
-  const next = x.classList.contains('is-on') ? y : x, prev = next === x ? y : x;
-  next.style.background = `radial-gradient(80% 70% at 25% 20%, ${ca}, transparent 70%), radial-gradient(80% 70% at 80% 30%, ${cb}, transparent 70%), #07080c`;
-  next.classList.add('is-on');
-  prev.classList.remove('is-on');
-}
-
+/* Slayder — oddiy: kartochkalar barmoq bilan suriladi; 8 s da o'zi keyingisiga o'tadi.
+   (Fon almashishi, kichraygan qo'shnilar va xira orqa fon zaif telefonlarni qotirgani uchun olib tashlandi.) */
 function bindHeroTrack(track) {
   if (!track) return;
   const slides = () => [...track.querySelectorAll('.sph-slide')];
@@ -686,51 +657,9 @@ function bindHeroTrack(track) {
     const step = list.length > 1 ? list[1].offsetLeft - list[0].offsetLeft : 1;
     return Math.max(0, Math.min(list.length - 1, Math.round(track.scrollLeft / step)));
   };
-  const stage = track.closest('.sph-stage');
-  /* Kinopoisk uslubi: faol o'yinning rasmi — butun kenglikdagi fon (ikki qatlam, silliq o'tadi),
-     uning ustida faol o'yin matni; qo'shni o'yinlar chetlarda kichik kartochka bo'lib turadi */
-  const setStage = slide => {
-    if (!stage || !slide) return;
-    const sig = slide.dataset.ev || slide.dataset.f1 || '';
-    const art = slide.querySelector('.sph-art');
-    const html = art ? art.outerHTML : '';
-    if (stage._sig === sig && stage._html === html) return;
-    const [x, y] = stage.querySelectorAll('.sph-bgl');
-    const same = stage._sig === sig;                       // shu o'yin — faqat rasm yangilandi (o'tishsiz)
-    stage._sig = sig; stage._html = html;
-    const next = same ? (x.classList.contains('is-on') ? x : y) : (x.classList.contains('is-on') ? y : x);
-    const prev = next === x ? y : x;
-    next.className = 'sph-slide sph-bgl is-on ' + [...slide.classList].filter(c => /^(has-|sph-f1)/.test(c)).join(' ');
-    next.setAttribute('style', slide.getAttribute('style') || '');
-    next.innerHTML = html;
-    if (!same) prev.classList.remove('is-on');
-  };
-  const sync = () => {
-    const i = current(); ambIdx = i;
-    slides().forEach((el, k) => { el.classList.toggle('is-active', k === i); el.classList.toggle('is-prev', k < i); });
-    setStage(slides()[i]);
-    setAmbient(slides()[i]);
-  };
-  // chetdagi kichik kartochka bosilsa — o'sha o'yin faol bo'ladi (tafsilot oynasi ochilmaydi)
-  track.addEventListener('click', ev => {
-    const el = ev.target.closest('.sph-slide');
-    if (el && !el.classList.contains('is-active')) {
-      ev.stopPropagation(); ev.preventDefault();
-      const list = slides();
-      track.scrollTo({ left: el.offsetLeft - list[0].offsetLeft, behavior: 'smooth' });
-    }
-  }, true);
-  track.addEventListener('scroll', () => {
-    track._busy = Date.now() + 600;                         // surilayotganda slayder qayta chizilmaydi (renderTop kutadi)
-    clearTimeout(track._t); track._t = setTimeout(sync, 80);
-  }, { passive: true });
-  // rasm keyinroq yuklansa ham fon yangilansin
-  const watchImgs = root => root.querySelectorAll('img').forEach(im => im.addEventListener('load', () => { if (slides()[current()]?.contains(im)) sync(); }, { once: true }));
-  watchImgs(track);
-  track._sync = sync; track._watch = watchImgs;
-  sync();
+  // surilayotganda slayder qayta chizilmaydi (renderTop kutadi)
+  track.addEventListener('scroll', () => { track._busy = Date.now() + 600; }, { passive: true });
 
-  // o'zi almashadi — 8 s; barmoq bilan surilsa yoki sichqoncha ustida bo'lsa to'xtab turadi
   clearInterval(bindHeroTrack.timer);
   let hold = 0;
   const pause = () => { hold = Date.now() + 10000; track._busy = Date.now() + 1500; };
@@ -795,13 +724,11 @@ function renderTop() {
         const o = old[i];
         if (o._src === el.outerHTML) return;
         o._src = el.outerHTML;
-        const keep = ['is-active', 'is-prev'].filter(c => o.classList.contains(c));
-        o.className = el.className; keep.forEach(c => o.classList.add(c));
+        o.className = el.className;
         o.setAttribute('style', el.getAttribute('style') || '');
-        if (o.innerHTML !== el.innerHTML) { o.innerHTML = el.innerHTML; oldTrack._watch?.(o); }
+        if (o.innerHTML !== el.innerHTML) o.innerHTML = el.innerHTML;
       });
       box._hero = heroSlides;
-      oldTrack._sync?.();
       heroDone = true;
     }
   }
@@ -820,7 +747,7 @@ function renderTop() {
 
   box._hero = heroSlides; box._rest = restHtml;
   box.innerHTML = `
-    ${hero.length || f1Html ? `<div class="sph-stage"><div class="sph-slide sph-bgl"></div><div class="sph-slide sph-bgl"></div><div class="sph-track">${heroSlides}</div></div>` : ''}
+    ${hero.length || f1Html ? `<div class="sph-track">${heroSlides}</div>` : ''}
     <div class="sp-rest">${restHtml}</div>`;
   const h = box.querySelector('.sph-track'); if (h) h.scrollLeft = keepHero;
   if (h) [...h.children].forEach(el => { el._src = el.outerHTML; });
