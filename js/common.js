@@ -16,6 +16,19 @@ if (window.top === window && window.Capacitor && window.Capacitor.isNativePlatfo
   });
 }
 
+/* Kartalardagi rasmiy posterlar — admin → Sayt → «Kartalarga rasmiy posterlar (TMDB)» (js/site-config.js → SITE_CONFIG.posters).
+   Avvalgi YouTube kadri gorizontal kartalar va fon uchun «cover» bo'lib qoladi. */
+(function () {
+  const P = typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG && SITE_CONFIG.posters;
+  if (!P || typeof MOVIES === 'undefined') return;
+  for (const m of MOVIES) {
+    const p = m && P[m.id];
+    if (!p || m.poster === p) continue;
+    if (!m.cover && m.poster) m.cover = m.poster;
+    m.poster = p;
+  }
+})();
+
 /* Ba'zi qurilmalarda (Fold) suzuvchi elementlar (fixed) ko'rinadigan ekrandan kengroq chiqib ketadi:
    ko'rinadigan kenglikni o'lchab, pastki panel va sarlavhani unga moslaymiz (css: html[data-fitw]) */
 (function () {

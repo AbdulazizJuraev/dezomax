@@ -1278,6 +1278,65 @@ async function heroAutoPosters(ids, btn, kidsIds = []) {
   } finally { btn.disabled = false; }
 }
 
+/* Admin → Sayt → «Kartalarga rasmiy posterlar (TMDB)»: kartada YouTube rasmi (gorizontal kadr) turgan jahon filmlari va
+   seriallariga — rasmiy treylerli (YouTube/Vikimedia) yoki faqat treyleri borlar — TMDB'dan nomi yozilgan rasmiy TIK poster.
+   site-config.js → SITE_CONFIG.posters { id: url } ga yoziladi (bitta saqlash); js/common.js kartalarga qo'yadi,
+   eski YouTube rasmi gorizontal kartalar uchun «cover» bo'lib qoladi. Kanal yangilanishi (data-channels.js) buni o'chirmaydi.
+   DezoCloud va boshqa saytlardagi kinolarga qo'yilmaydi. */
+const POSTER_OK_VIDEO = /youtube\.com|youtu\.be|wikimedia\.org|archive\.org/i;
+async function cardAutoPosters(btn) {
+  const note = $('#admCardPostersNote');
+  if (!tmdbKey()) { toast('Avval TMDB kalitini kiriting: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
+  const have = siteDraft.posters || {};
+  const todo = allMovies().filter(m => m && !have[m.id] && (!m.poster || /i\.ytimg\.com/.test(m.poster))
+    && !/dezocloud\.uz/i.test(m.poster || '')
+    && !['uzbek', 'konsert', 'tahlil'].includes(m.franchise) && m.audio !== 'uz' && m.type !== 'tahlil'
+    && [m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(Boolean).every(v => POSTER_OK_VIDEO.test(String(v))));
+  if (!todo.length) { toast('Hamma kartada rasmiy poster bor'); return; }
+  btn.disabled = true;
+  const found = {}, missed = [];
+  const yearOf = x => +((x.release_date || x.first_air_date || '').slice(0, 4)) || 0;
+  const norm = s => String(s || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const clean = s => String(s || '').replace(/\s*[-–—:]?\s*(season|сезон|fasl)\s*\d+|\s*\d+\s*-?\s*(fasl|сезон)\b/gi, '').trim();
+  try {
+    let next = 0, count = 0, fatal = null;
+    await Promise.all(Array.from({ length: 4 }, async () => { while (next < todo.length && !fatal) {
+      const m = todo[next++];
+      try {
+        let tid = m.tmdb?.id, type = m.tmdb?.type || (m.type === 'serial' ? 'tv' : 'movie');
+        if (!tid) {
+          const qs = [...new Set([m.title?.uz, m.title?.ru, ...(m.tags || [])].flatMap(t => [t, clean(t)]).filter(Boolean))].slice(0, 4);
+          for (const q of qs) {
+            const j = await tmdb(`/search/${type}`, { query: q, include_adult: 'false' });
+            const res = j.results || [];
+            const hit = (m.year && res.find(x => Math.abs(yearOf(x) - m.year) <= 1))
+              || res.find(x => norm(x.title || x.name) === norm(q) || norm(x.original_title || x.original_name) === norm(q))
+              || (!m.year && res[0]);
+            if (hit) { tid = hit.id; break; }
+          }
+        }
+        if (!tid) { missed.push(m.title?.uz || m.id); continue; }
+        const imgs = await tmdb(`/${type}/${tid}/images`, { include_image_language: 'uz,ru,en,null' });
+        const path = tmdbTitledPoster(imgs);
+        if (path) found[m.id] = `${TMDB_IMG}w342${path}`; else missed.push(m.title?.uz || m.id);
+      } catch (ex) { if (/kaliti/.test(ex.message)) fatal = ex; else missed.push(m.title?.uz || m.id); }
+      finally { note.textContent = `${++count} / ${todo.length} tekshirildi…`; }
+    } }));
+    if (fatal) throw fatal;
+    const n = Object.keys(found).length;
+    if (n) {
+      await loadConfig();                                   // eng so'nggi sozlama ustiga (boshqa o'zgarishlar yo'qolmasin)
+      siteDraft.posters = { ...(siteDraft.posters || {}), ...found };
+      await saveConfig(cleanSiteConfig(siteDraft), `Kartalar: rasmiy posterlar (TMDB) — ${n} ta kino`);
+    }
+    note.textContent = `${n} ta kartaga rasmiy poster qo‘yildi${missed.length ? ` · topilmadi (${missed.length}): ${missed.slice(0, 15).join(', ')}${missed.length > 15 ? '…' : ''}` : ''}. Saytda 1–2 daqiqada ko‘rinadi.`;
+    toast(n ? `${n} ta rasmiy poster qo‘yildi` : 'Poster topilmadi', !n);
+  } catch (ex) {
+    note.textContent = friendlyError(ex);
+    toast(friendlyError(ex), true);
+  } finally { btn.disabled = false; }
+}
+
 /* Saqlashda TMDB rasmi saytning o'ziga yuklanadi (images/custom/) — tashqi xostga bog'liq bo'lmasin */
 async function tmdbImageFile(url) {
   if (!url || !url.startsWith(TMDB_IMG)) return null;
@@ -1391,7 +1450,8 @@ async function loadConfig() {
   siteDraft = {
     hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, kidsIds: cfg?.hero?.kidsIds || [], delay: Math.min(60, Math.max(3, +cfg?.hero?.delay || 7)) },
     rows: cfg?.rows?.length ? cfg.rows.map(r => ({ title: { uz: '', ru: '' }, visible: true, ...r })) : def.rows,
-    logo: { ...ADM_LOGO_DEFAULT, ...(cfg?.logo || {}) }
+    logo: { ...ADM_LOGO_DEFAULT, ...(cfg?.logo || {}) },
+    posters: cfg?.posters || {}
   };
 }
 
@@ -1405,7 +1465,9 @@ function cleanSiteConfig(d) {
       if (r.source === 'custom') o.ids = r.ids || [];
       return o;
     }),
-    logo: { ...ADM_LOGO_DEFAULT, ...(d.logo || {}) }
+    logo: { ...ADM_LOGO_DEFAULT, ...(d.logo || {}) },
+    // kartalardagi rasmiy posterlar (TMDB) — cardAutoPosters
+    ...(d.posters && Object.keys(d.posters).length ? { posters: d.posters } : {})
   };
 }
 
@@ -1601,6 +1663,10 @@ async function renderSiteView() {
         <button class="btn btn-ghost" type="button" id="admHeroPosters">Rasmiy posterlarni qo‘yish (TMDB)</button>
       </div>
       <small class="acc-muted" id="admHeroPostersNote">Slayderdagi kinolarga kino nomi yozilgan rasmiy posterlar o‘zi topilib qo‘yiladi: telefon uchun tik, kompyuter uchun gorizontal (kartalardagi posterga tegmaydi).</small>
+      <div class="adm-actions" style="margin-top:12px">
+        <button class="btn btn-ghost" type="button" id="admCardPosters">Kartalarga rasmiy posterlar (TMDB)</button>
+      </div>
+      <small class="acc-muted" id="admCardPostersNote">Kartasida YouTube kadri turgan jahon filmlari va seriallariga (rasmiy treylerlilar) TMDB'dan kino nomi yozilgan rasmiy tik poster qo‘yiladi${Object.keys(d.posters || {}).length ? ` · hozir ${Object.keys(d.posters).length} ta` : ''}.</small>
     </details>
 
     <details class="adm-sec adm-fold" data-fold="kids"${foldOpen('kids')}>
@@ -1656,6 +1722,7 @@ async function renderSiteView() {
   bindPicker($('#admHeroPicker'), () => d.hero.ids, ids => { d.hero.ids = ids; }, rerender);
   bindPicker($('#admKidsPicker'), () => d.hero.kidsIds || [], ids => { d.hero.kidsIds = ids; }, rerender);
   $('#admHeroPosters')?.addEventListener('click', e => heroAutoPosters(d.hero.ids, e.currentTarget, d.hero.kidsIds || []));
+  $('#admCardPosters')?.addEventListener('click', e => cardAutoPosters(e.currentTarget));
 
   // qatorlar
   box.querySelectorAll('[data-row]').forEach(card => {
@@ -1686,7 +1753,9 @@ async function renderSiteView() {
   $('#siteReset').addEventListener('click', async () => {
     if (!confirm('Bosh sahifa standart holatga qaytarilsinmi? (slayder va qatorlar)')) return;
     try {
-      await saveConfig(null, 'Sayt sozlamalari standart holatga qaytarildi');
+      // kartalardagi rasmiy posterlar (TMDB) slayder/qatorlarga aloqasiz — saqlanib qoladi
+      const keep = d.posters && Object.keys(d.posters).length ? { posters: d.posters } : null;
+      await saveConfig(keep, 'Sayt sozlamalari standart holatga qaytarildi');
       siteDraft = null; commitsCache = null;
       toast('Standart holat tiklandi. Saytda 1–2 daqiqada ko‘rinadi.');
       renderSiteView();
