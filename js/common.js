@@ -6,7 +6,8 @@
 /* ---------- Android ilovasi ----------
    Ilova saytni internetdan ochadi — ilovaga xos qo'shimchalar (orqaga tugmasi, bildirishnomalar,
    gorizontal video) faqat ilova ichida, sahifa skriptlaridan keyin yuklanadi. */
-if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
+// (yashirin iframe ichida emas — js/offline-pack.js sport sahifasini shunday ochadi; aks holda orqaga tugmasi ikki marta ulanardi)
+if (window.top === window && window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
   const v = ((document.currentScript && document.currentScript.src) || '').split('?')[1] || '';
   document.addEventListener('DOMContentLoaded', () => {
     const s = document.createElement('script');
@@ -855,11 +856,32 @@ if (IS_TV) {
     navigator.serviceWorker.controller.postMessage({ type: 'images', images: [...urls].slice(0, 80) });
   }, 4000));
 
+  // ilovada — js/offline-pack.js (to'liq «Internetsiz rejim»: sahifalar, kod, posterlar, sport rasmlari)
+  if (IS_APP && window.top === window) {
+    const loadPack = () => {
+      const s = document.createElement('script');
+      s.src = 'js/offline-pack.js?v=' + ((document.querySelector('script[src*="js/common.js"]')?.src.match(/v=(\d+)/) || [])[1] || '1');
+      document.body.appendChild(s);
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadPack); else loadPack();
+  }
+
+  // «Internetsiz rejim»: sahifa yashirin ochilgan (sport) — undagi barcha rasmlar manzilini ilovaga qaytaramiz
+  if (/[?&]dzxpack=1/.test(location.search) && window.parent !== window) addEventListener('load', () => setTimeout(() => {
+    const urls = new Set();
+    document.querySelectorAll('img').forEach(i => { for (const u of [i.currentSrc || i.src, i.dataset && i.dataset.src]) if (u && /^https?:/.test(u)) urls.add(u); });
+    document.querySelectorAll('[style*="background-image"]').forEach(el => {
+      const m = /url\(["']?([^"')]+)["']?\)/.exec(el.style.backgroundImage || '');
+      if (m) urls.add(new URL(m[1], document.baseURI).href);
+    });
+    window.parent.postMessage({ type: 'dzxpack-images', urls: [...urls] }, location.origin);
+  }, 12000));
+
   // butun katalogning kichik posterlari — kuniga bir marta fonda (internetsiz ham hamma kinoning rasmi ko'rinsin).
   // Trafik tejash rejimida yoki mobil internet sekin bo'lsa — yo'q. DezoCloud (Telegram) rasmlari bu ro'yxatga kirmaydi.
   addEventListener('load', () => setTimeout(() => {
     const sw = navigator.serviceWorker?.controller, c = navigator.connection;
-    if (!navigator.onLine || !sw || typeof MOVIES === 'undefined' || (c && (c.saveData || /2g/.test(c.effectiveType || '')))) return;
+    if (IS_APP || !navigator.onLine || !sw || typeof MOVIES === 'undefined' || (c && (c.saveData || /2g/.test(c.effectiveType || '')))) return;
     let last = 0; try { last = +localStorage.getItem('dzx_posters_at') || 0; } catch {}
     if (Date.now() - last < 24 * 3600e3) return;
     try { localStorage.setItem('dzx_posters_at', String(Date.now())); } catch {}

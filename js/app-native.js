@@ -8,6 +8,7 @@
   const cap = window.Capacitor;
   if (!cap || !cap.isNativePlatform || !cap.isNativePlatform()) return;
   if (window.__dzxNative) return;          // ikki marta ulanmasin
+  if (window.top !== window) return;       // yashirin iframe (js/offline-pack.js) — orqaga tugmasi va h.k. ulanmasin
   window.__dzxNative = true;
 
   const { App, ScreenOrientation, SystemBars } = cap.Plugins;

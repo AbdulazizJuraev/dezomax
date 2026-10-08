@@ -7179,3 +7179,19 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
   .intro-v3 .dz-icon { animation: dzPop .3s ease forwards; }
   .intro-v3 .dz-logo { clip-path: none; animation: none; }
 }
+
+/* ---------------- Internetsiz rejim (js/offline-pack.js): Yuklab olinganlar kartasi va yuklanish foizi ---------------- */
+#dlPack { margin-bottom: 18px; }
+.pack-card { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+.pack-card.is-ready { border-color: rgba(74,222,128,.35); }
+.pack-ico { flex: 0 0 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgba(227,27,35,.16); color: #ff5a60; }
+.pack-card.is-ready .pack-ico { background: rgba(74,222,128,.14); color: #4ade80; }
+.pack-ico svg { width: 22px; height: 22px; }
+.pack-txt { flex: 1; min-width: 0; }
+.pack-txt b { display: block; font-size: 15.5px; }
+.pack-txt span { display: block; margin-top: 3px; font-size: 13px; color: var(--muted, #9aa4b5); }
+.pack-bar, .pack-toast i { display: block; height: 4px; margin-top: 8px; border-radius: 3px; background: rgba(255,255,255,.12); overflow: hidden; }
+.pack-bar i, .pack-toast b { display: block; height: 100%; background: #e31b23; transition: width .4s ease; }
+.pack-card .btn { flex: none; }
+.pack-toast { position: fixed; left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom, 0px) + 74px); z-index: 1500; max-width: 420px; margin: 0 auto;
+  padding: 10px 14px; border-radius: 12px; background: #16171d; border: 1px solid rgba(255,255,255,.1); box-shadow: 0 10px 30px rgba(0,0,0,.5); font-size: 13.5px; pointer-events: none; }

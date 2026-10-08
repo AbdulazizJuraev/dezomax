@@ -5,14 +5,21 @@
    - Kod va dizayn (js/css, ?v= versiyali): saqlangan nusxa, yo'q bo'lsa internetdan; eski versiyalari o'chiriladi
    - Ma'lumot (data-custom.js?t=…): avval internet (4 s), bo'lmasa saqlangani — bitta nusxa (?t= siz)
    - Posterlar va rasmlar: saqlangan nusxa (internetsiz ham ko'rinadi), eng ko'pi ~900 ta
-   - Video, API, reklama, YouTube — tegilmaydi (to'g'ridan-to'g'ri internet)
+   - «Internetsiz rejim» to'plami (js/offline-pack.js → { type: 'pack' }): hamma sahifa, kod, posterlar, sport/TV rasmlari —
+     alohida keshda (dzx-pack-v1), tozalanmaydi
+   - Sport natijalari va yangiliklar (ESPN, TheSportsDB, dezomax.uz/_n/): avval internet (4 s), bo'lmasa oxirgi saqlangani
+   - kino/<sahifa>.html saqlanmagan bo'lsa, internetsiz — movie.html?id=… ga (u saqlangan)
+   - Video, reklama, YouTube — tegilmaydi (to'g'ridan-to'g'ri internet)
    - /_dzx_offline/… — ilovada yuklab olingan kinolar (Android tomoni beradi), tegilmaydi
    ============================================================ */
 
 const SHELL = 'dzx-shell-v1';
 const PAGES = 'dzx-pages-v1';
 const IMG = 'dzx-img-v1';
-const KEEP = [SHELL, PAGES, IMG];
+const PACK = 'dzx-pack-v1';
+const DATA = 'dzx-data-v1';
+const KEEP = [SHELL, PAGES, IMG, PACK, DATA];
+const DATA_MAX = 200;
 const IMG_MAX = 900;
 const PAGES_MAX = 250;
 // asosiy sahifalar — eski sahifalar tozalanganda o'chirilmaydi
@@ -27,11 +34,11 @@ self.addEventListener('message', e => {
   const d = e.data || {};
   if (d.type === 'images') {
     const job = (async () => {
-      const c = await caches.open(IMG);
+      const c = await caches.open(d.bulk ? PACK : IMG);
       const list = (d.images || []).slice(0, 600);
       const one = async u => {
         try {
-          if (await c.match(u, { ignoreSearch: false })) return;
+          if (await caches.match(u)) return;
           let res = null;
           try { res = await fetch(u, { mode: 'cors', credentials: 'omit' }); } catch {}
           if (!res || !res.ok) res = await fetch(u, { mode: 'no-cors' });
@@ -40,12 +47,13 @@ self.addEventListener('message', e => {
       };
       // 3 tadan parallel — tezroq, lekin telefonni og'irlashtirmaydi
       await Promise.all([0, 1, 2].map(async () => { while (list.length) await one(list.shift()); }));
-      trim(c);
+      if (!d.bulk) trim(c, IMG_MAX);
     })();
     // ekrandagi rasmlar (≤80) — oxirigacha kutiladi; butun katalog (bulk) — fonda, sayt yangilanishini to'smaydi
     if (!d.bulk) e.waitUntil(job);
     return;
   }
+  if (d.type === 'pack') { e.waitUntil(pack(d.items || [], e.ports && e.ports[0])); return; }
   if (d.type !== 'precache') return;
   e.waitUntil((async () => {
     const pages = await caches.open(PAGES), shell = await caches.open(SHELL);
@@ -92,7 +100,10 @@ self.addEventListener('activate', e => {
   })());
 });
 
-const IMG_HOSTS = /(^|\.)(ytimg\.com|ggpht\.com|googleusercontent\.com|tmdb\.org|wikimedia\.org|dezocloud\.uz|kinopoisk\.ru|yandex\.net)$/i;
+const IMG_HOSTS = /(^|\.)(ytimg\.com|ggpht\.com|googleusercontent\.com|tmdb\.org|wikimedia\.org|dezocloud\.uz|kinopoisk\.ru|yandex\.net|espncdn\.com|thesportsdb\.com)$/i;
+// sport natijalari va yangiliklar (JSON) — internetsiz oxirgi saqlangani
+const isApi = u => u.hostname === 'site.api.espn.com' || (/(^|\.)thesportsdb\.com$/.test(u.hostname) && u.pathname.startsWith('/api/')) ||
+  (u.hostname === 'dezomax.uz' && u.pathname.startsWith('/_n/'));
 
 self.addEventListener('fetch', e => {
   const req = e.request;
@@ -122,6 +133,8 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  if (isApi(url)) { e.respondWith(networkFirst(req, DATA, req.url, DATA_MAX)); return; }
+
   // boshqa saytlardagi posterlar va shriftlar
   // (destination '' — sahifa posterni oldindan saqlash uchun fetch() bilan so'raganda)
   if ((req.destination === 'image' || req.destination === '') && (IMG_HOSTS.test(url.hostname) || /\.(png|jpe?g|webp|gif|avif)(\?|$)/i.test(url.pathname))) {
@@ -136,15 +149,15 @@ self.addEventListener('fetch', e => {
    internet yo'q — saqlangan nusxa. Sahifa yuklanishi va aylantirish og'irlashmaydi. */
 function image(e, req) {
   if (netDead()) {
-    e.respondWith(caches.open(IMG).then(c => c.match(req, { ignoreSearch: true })).then(hit => hit || fetch(req)));
+    e.respondWith(caches.match(req, { ignoreSearch: true }).then(hit => hit || fetch(req)));   // barcha keshlardan (to'plam ham)
     return;
   }
   e.waitUntil((async () => {
     try {
+      if (await caches.match(req)) return;
       const c = await caches.open(IMG);
-      if (await c.match(req)) return;
       const res = await fetch(req);                       // odatda brauzer keshidan, qayta yuklanmaydi
-      if (res && (res.ok || res.type === 'opaque')) { await c.put(req, res); trim(c); }
+      if (res && (res.ok || res.type === 'opaque')) { await c.put(req, res); trim(c, IMG_MAX); }
     } catch {}
   })());
 }
@@ -177,14 +190,69 @@ function page(e, req, url) {
     await cache.put(key, copy);
     trimPages(cache);
   }).catch(() => {}));
-  return caches.open(PAGES).then(c => c.match(key, { ignoreSearch: true })).then(hit => raceCache(net, hit, 6000));
+  return caches.open(PAGES).then(c => c.match(key, { ignoreSearch: true }))
+    .then(hit => hit || kinoFallback(url))
+    .then(hit => raceCache(net, hit, 6000));
 }
 
-async function networkFirst(req, name, key) {
+/* kino/<sahifa>.html saqlanmagan — saqlangan js/seo-pages.js dan kino id topib, movie.html?id=… ga yo'naltiramiz */
+async function kinoFallback(url) {
+  const m = /\/kino\/([\w-]+)\.html$/.exec(url.pathname);
+  if (!m || m[1] === 'index') return null;
+  try {
+    const shell = await caches.open(SHELL);
+    const k = (await shell.keys()).find(r => new URL(r.url).pathname.endsWith('/js/seo-pages.js'));
+    if (!k) return null;
+    const txt = await (await shell.match(k)).text();
+    const hit = new RegExp('"(\\d+)":"' + m[1] + '"').exec(txt);
+    return hit ? Response.redirect(new URL('movie.html?id=' + hit[1], self.registration.scope).href, 302) : null;
+  } catch { return null; }
+}
+
+/* «Internetsiz rejim» to'plami: [{ u, k: 'page' | 'shell' | 'data' | 'img' }] — bor bo'lsa o'tkazib yuboriladi.
+   Sahifa (js/offline-pack.js) 40 tadan bo'lib yuboradi va javobni kutadi — SW uzoq band bo'lmaydi. */
+async function pack(items, port) {
+  const [pages, shell, img] = await Promise.all([caches.open(PAGES), caches.open(SHELL), caches.open(PACK)]);
+  let ok = 0, fail = 0;
+  const one = async it => {
+    try {
+      const url = new URL(it.u, self.registration.scope);
+      if (it.k === 'page') {
+        const res = await fetch(new Request(url.href, { headers: { Accept: 'text/html' }, credentials: 'same-origin' }));
+        if (!res.ok) throw 0;
+        await pages.put(url.origin + url.pathname, res);
+      } else if (it.k === 'shell') {
+        if (!(await shell.match(url.href))) {
+          const res = await fetch(url.href);
+          if (!res.ok) throw 0;
+          await shell.put(url.href, res);
+        }
+      } else if (it.k === 'data') {
+        const res = await fetch(url.href, { cache: 'no-store' });
+        if (!res.ok) throw 0;
+        await shell.put(url.origin + url.pathname, res);
+      } else {
+        if (!(await caches.match(url.href))) {
+          let res = null;
+          try { res = await fetch(url.href, { mode: 'cors', credentials: 'omit' }); } catch {}
+          if (!res || !res.ok) res = await fetch(url.href, { mode: 'no-cors' });
+          if (!res || !(res.ok || res.type === 'opaque')) throw 0;
+          await img.put(url.href, res);
+        }
+      }
+      ok++;
+    } catch { fail++; }
+  };
+  const list = items.slice();
+  await Promise.all([0, 1, 2, 3].map(async () => { while (list.length) await one(list.shift()); }));
+  if (port) port.postMessage({ ok, fail });
+}
+
+async function networkFirst(req, name, key, max) {
   const cache = await caches.open(name);
   key = key || req.url;
   const net = fetch(req).then(res => {
-    if (res && res.ok) cache.put(key, res.clone()).catch(() => {});
+    if (res && res.ok) cache.put(key, res.clone()).then(() => { if (max) trim(cache, max); }).catch(() => {});
     return res;
   });
   const hit = await cache.match(key, { ignoreSearch: true });
@@ -209,7 +277,7 @@ async function cacheFirst(req, name, isImg) {
     const res = await fetch(req);
     // boshqa saytdagi rasm "opaque" (status 0) bo'lishi mumkin — u ham saqlanadi
     if (res && (res.ok || res.type === 'opaque')) {
-      cache.put(req, res.clone()).then(() => { if (isImg) trim(cache); }).catch(() => {});
+      cache.put(req, res.clone()).then(() => { if (isImg) trim(cache, IMG_MAX); }).catch(() => {});
     }
     return res;
   } catch (err) {
@@ -220,11 +288,11 @@ async function cacheFirst(req, name, isImg) {
 }
 
 let trimming = false;
-async function trim(cache) {
+async function trim(cache, max) {
   if (trimming || Math.random() > 0.05) return;     // har 20-saqlashda bir marta tekshiramiz
   trimming = true;
   try {
     const keys = await cache.keys();
-    for (let i = 0; i < keys.length - IMG_MAX; i++) await cache.delete(keys[i]);
+    for (let i = 0; i < keys.length - max; i++) await cache.delete(keys[i]);
   } finally { trimming = false; }
 }

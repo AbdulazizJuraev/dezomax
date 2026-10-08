@@ -37,3 +37,6 @@ require('./gen-widget.js');
 
 // Poster kichik nusxalari (images/w/*.webp, js/thumbs.js) — yangi posterlar uchun
 require('./make-thumbs.js');
+
+// Internetsiz rejim ro'yxati (data/offline-manifest.json — js/offline-pack.js)
+require('./gen-offline-manifest.js');
