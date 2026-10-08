@@ -855,6 +855,24 @@ if (IS_TV) {
     navigator.serviceWorker.controller.postMessage({ type: 'images', images: [...urls].slice(0, 80) });
   }, 4000));
 
+  // butun katalogning kichik posterlari — kuniga bir marta fonda (internetsiz ham hamma kinoning rasmi ko'rinsin).
+  // Trafik tejash rejimida yoki mobil internet sekin bo'lsa — yo'q. DezoCloud (Telegram) rasmlari bu ro'yxatga kirmaydi.
+  addEventListener('load', () => setTimeout(() => {
+    const sw = navigator.serviceWorker?.controller, c = navigator.connection;
+    if (!navigator.onLine || !sw || typeof MOVIES === 'undefined' || (c && (c.saveData || /2g/.test(c.effectiveType || '')))) return;
+    let last = 0; try { last = +localStorage.getItem('dzx_posters_at') || 0; } catch {}
+    if (Date.now() - last < 24 * 3600e3) return;
+    try { localStorage.setItem('dzx_posters_at', String(Date.now())); } catch {}
+    const urls = new Set();
+    for (const m of MOVIES) {
+      if (!m || !m.poster) continue;
+      const u = new URL(imgSmall(m.poster), document.baseURI);
+      if (/(^|\.)dezocloud\.uz$/i.test(u.hostname)) continue;
+      urls.add(u.href);
+    }
+    sw.postMessage({ type: 'images', bulk: true, images: [...urls].slice(0, 600) });
+  }, 9000));
+
   /* Internet yo'q paytda kinoga kirmoqchi bo'lsa — «Internetni yoqing» oynasi.
      Telefonga yuklab olingan kino bo'lsa — «Yuklab olinganlar»ga (u yerda internetsiz o'ynaydi). */
   document.addEventListener('click', e => {
@@ -869,6 +887,8 @@ if (IS_TV) {
     let saved = [];
     try { saved = JSON.parse(localStorage.getItem('dezomax_offline') || '[]'); } catch {}
     if (id && saved.some(x => x && x.id === id && x.state === 'done')) { location.href = 'downloads.html'; return; }
+    // kino sahifasi internetsiz ham ochiladi (saqlangan movie.html: poster, tavsif; pleyer o'rnida «Internetni yoqing»)
+    if (id) { location.href = new URL('movie.html?id=' + id, document.baseURI).href; return; }
     showOfflineNotice();
   }, true);
 
