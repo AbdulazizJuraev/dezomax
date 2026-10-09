@@ -269,6 +269,16 @@ function ytThumbFallback(img) {
   if (blur) blur.src = to;
 }
 
+/* YouTube muqovasi (hq720/maxresdefault) umuman yo'q bo'lsa (404) — har doim bor hqdefault'ga o'tamiz, u ham bo'lmasa rasm olib tashlanadi */
+function ytThumbError(img) {
+  if (img && !img.dataset.ytfb && /i\.ytimg\.com\/vi(_webp)?\/[\w-]{11}\/(hq720|maxresdefault|sddefault)\./.test(img.src)) {
+    img.dataset.ytfb = 1;
+    img.src = img.src.replace(/(hq720|maxresdefault|sddefault)\./, 'hqdefault.');
+    return;
+  }
+  img && img.remove();
+}
+
 function posterHTML(m) {
   const [c1, c2] = m.colors || ['#2a3142', '#0d1018'];
 
@@ -285,14 +295,14 @@ function posterHTML(m) {
 
   // «Seriallar» sahifasida kartalar 16:9 — tik (2:3) poster kesilmaydi: o'rtada to'liq, chetlarida xira nusxasi (css: .is-serials)
   // (bosh sahifadagi aralash qatorlarda ham — .row-wide / .row-tall; odatda yashirin)
-  const blur = `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">`;
+  const blur = `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="ytThumbError(this)">`;
   // tik posterli kino keng (16:9) kartada — haqiqiy gorizontal rasm: muqova, bo'lmasa rasmiy treyler rasmi.
   // Odatda yashirin (css: .row-wide / .is-serials da ko'rinadi); yashirin rasm yuklanmaydi (loading=lazy)
   const yt = !m.wide && (String(m.trailer || m.video || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
   const land = m.wide ? null : m.cover ? imgBig(m.cover) : yt ? imgBig(`https://i.ytimg.com/vi/${yt}/hq720.jpg`) : null;
   return fallback + blur +
-    `<img class="poster-img" src="${esc(m.poster)}" alt="${esc(title(m))}" loading="lazy" onload="ytThumbFallback(this)" onerror="this.remove()">` +
-    (land ? `<img class="poster-land" src="${esc(land)}" alt="" aria-hidden="true" loading="lazy" onload="ytThumbFallback(this)" onerror="this.remove()">` : '');
+    `<img class="poster-img" src="${esc(m.poster)}" alt="${esc(title(m))}" loading="lazy" onload="ytThumbFallback(this)" onerror="ytThumbError(this)">` +
+    (land ? `<img class="poster-land" src="${esc(land)}" alt="" aria-hidden="true" loading="lazy" onload="ytThumbFallback(this)" onerror="ytThumbError(this)">` : '');
 }
 
 /* Orqa fon (hero va kino sahifasi uchun) */
