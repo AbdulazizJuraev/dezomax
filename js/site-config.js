@@ -107,8 +107,11 @@ const SITE_CONFIG = /*CONFIG*/{
     "ids": []
   },
   "posters": {
+    "2037": "https://image.tmdb.org/t/p/w342/ettYNNm1eehROqF046LuJ7Ycd4n.jpg",
+    "2118": "https://image.tmdb.org/t/p/w342/5ltRJxurOTIaMQwcOwSau7l3GME.jpg",
     "2530": "https://image.tmdb.org/t/p/w342/oxJRoWlfAkC3n5o3Wdp75oSgbc6.jpg",
     "2675": "https://image.tmdb.org/t/p/w342/q14oRmj0ITMBzqHUdiGwXUIvg7t.jpg",
+    "5062": "https://image.tmdb.org/t/p/w342/ehbIml5HTX9tU5JCZB4l0Ft3VQu.jpg",
     "7001328": "https://image.tmdb.org/t/p/w342/oA1XlT4haoeug2YLzUccM8myBlR.jpg",
     "7020980": "https://image.tmdb.org/t/p/w342/1GPXjQNumrQp5TSfdWxGvIhxYL9.jpg",
     "7028263": "https://image.tmdb.org/t/p/w342/hWuPx5XHF8vnNWIW9hdq3CuRPAb.jpg",
@@ -134,6 +137,7 @@ const SITE_CONFIG = /*CONFIG*/{
     "7186851": "https://image.tmdb.org/t/p/w342/f1v8IcYcQggeq1N0unoMJMrzTd9.jpg",
     "7192656": "https://image.tmdb.org/t/p/w342/7L6rceYgzQ0NeHD7PRDNrRoQ291.jpg",
     "7205788": "https://image.tmdb.org/t/p/w342/7RK9GHFArnQusZERwYwIaMZwRll.jpg",
+    "7207665": "https://image.tmdb.org/t/p/w342/qQclTgLMDvGBuUBFGHRipxkEwWR.jpg",
     "7218976": "https://image.tmdb.org/t/p/w342/3YMaZ7A8wKs0gngDdexs0pLkAnR.jpg",
     "7221446": "https://image.tmdb.org/t/p/w342/g17M2bvbNMM8QUaUFd1uxAvdGyn.jpg",
     "7231112": "https://image.tmdb.org/t/p/w342/gt70JOD9xsPlpJnuBJAWdOT4yRg.jpg",
@@ -224,6 +228,12 @@ const SITE_CONFIG = /*CONFIG*/{
     "7951868": "https://image.tmdb.org/t/p/w342/p6fgibCKaofyaGOMHcsYdXjECir.jpg",
     "7952387": "https://image.tmdb.org/t/p/w342/5jhArZFrQIqEuh4ZNuBaQsnEy7s.jpg",
     "7962404": "https://image.tmdb.org/t/p/w342/ociUlULY2vZkenQqwTnwK4aq2Y1.jpg",
-    "7976571": "https://image.tmdb.org/t/p/w342/gH6IQvbPekyyPN8rMXlaiR99Rxp.jpg"
+    "7976571": "https://image.tmdb.org/t/p/w342/gH6IQvbPekyyPN8rMXlaiR99Rxp.jpg",
+    "1000466186": "https://image.tmdb.org/t/p/w342/hkSGFNVfEEUXFCxRZDITFHVhUlu.jpg",
+    "1001388653": "https://image.tmdb.org/t/p/w342/jwdJ3iy8rwJjvPOtCdtR17mzMVR.jpg",
+    "1003429606": "https://image.tmdb.org/t/p/w342/k7E4L4hSFCXK9BjVffEWg2pS40Y.jpg",
+    "1005772035": "https://image.tmdb.org/t/p/w342/tpLfoYFKW6qkCXARGh5G4qREFKF.jpg",
+    "1039060992": "https://image.tmdb.org/t/p/w342/3s16KGzlgqw1PXDtekppetSF42F.jpg",
+    "1065980217": "https://image.tmdb.org/t/p/w342/5M5f2qGojFc6eCSXs9FITA5jF8f.jpg"
   }
 }/*ENDCONFIG*/;
