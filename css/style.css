@@ -298,7 +298,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   box-shadow: 0 0 10px var(--accent);
 }
 
-.hero h1 {
+.hero .hero-h {
   margin: 0 0 16px;
   font-size: clamp(34px, 5.6vw, 66px);
   line-height: 1.03;
@@ -2912,7 +2912,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       linear-gradient(to top, var(--bg) 4%, rgba(7, 8, 12, .82) 38%, rgba(7, 8, 12, .2) 72%, rgba(7, 8, 12, .45) 100%);
   }
   .hero-badge { margin-bottom: 12px; font-size: 10.5px; }
-  .hero h1 { font-size: clamp(22px, 9.5vw, 40px); margin-bottom: 12px; }
+  .hero .hero-h { font-size: clamp(22px, 9.5vw, 40px); margin-bottom: 12px; }
   .hero-meta { gap: 6px 8px; font-size: 13px; margin-bottom: 12px; }
   .hero-meta .tag { font-size: 12px; }
   .hero p { font-size: 14px; margin-bottom: 20px; -webkit-line-clamp: 3; }
@@ -3280,7 +3280,7 @@ img, video, iframe { max-width: 100%; }
   .hero { min-height: 420px; }
   .hero-inner { padding: 76px 0 48px; }
   .hero-badge, .hero p { display: none; }
-  .hero h1 { font-size: 18px; }
+  .hero .hero-h { font-size: 18px; }
   .hero-meta { font-size: 11px; }
   .hero-meta .tag { font-size: 10px; padding: 3px 6px; }
   .btn { height: 34px; font-size: 12px; }
@@ -3309,7 +3309,7 @@ img, video, iframe { max-width: 100%; }
   .acc-menu-icon, .acc-quick span, .tabbar-item:nth-child(4) { display: none; }
   .acc-profile .acc-lang { display: none; }
   .hero-meta, .hero-dots { display: none; }
-  .hero h1 { font-size: 14px; }
+  .hero .hero-h { font-size: 14px; }
   .btn span { display: none; }
   .hero-actions .btn { padding: 0; }
   .account-btn { width: 26px; height: 26px; }
@@ -3422,7 +3422,7 @@ img, video, iframe { max-width: 100%; }
   }
 
   .hero-badge { display: none; }
-  .hero h1 { font-size: clamp(20px, 7vw, 30px); margin-bottom: 8px; }
+  .hero .hero-h { font-size: clamp(20px, 7vw, 30px); margin-bottom: 8px; }
   .hero-meta { margin-bottom: 8px; font-size: 12px; }
   .hero-meta .tag { font-size: 11px; padding: 3px 9px; }
   .hero p { font-size: 13px; line-height: 1.5; margin-bottom: 14px; -webkit-line-clamp: 2; }
@@ -4604,7 +4604,7 @@ img, video, iframe { max-width: 100%; }
   .hero-actions .hero-watch { width: 100%; padding-inline: 12px; }
 }
 /* Slayder: faqat kino nomi — kinoteatr uslubidagi baland, siqiq shrift (Oswald: lotin + kirill) */
-.hero h1 {
+.hero .hero-h {
   font-family: 'Oswald', 'Inter', system-ui, sans-serif;
   font-weight: 700;
   text-transform: uppercase;
@@ -4633,26 +4633,26 @@ img, video, iframe { max-width: 100%; }
 .hero-sound:active { transform: scale(.94); }
 .hero-sound.is-on { border-color: rgba(10, 147, 220, .8); background: rgba(10, 147, 220, .25); }
 @media (max-width: 640px) {
-  .hero h1 { font-size: clamp(26px, 10vw, 44px); margin-bottom: 14px; }
+  .hero .hero-h { font-size: clamp(26px, 10vw, 44px); margin-bottom: 14px; }
   .hero-actions { grid-template-columns: 1fr auto; }
   .hero-sound { width: 44px; height: 44px; }
 }
 @media (max-width: 220px) {
-  .hero h1 { font-size: 16px; }
+  .hero .hero-h { font-size: 16px; }
   .hero-sound { width: 30px; height: 30px; }
   .hero-sound svg { width: 15px; height: 15px; }
 }
 /* Slayder: kino nomi kichikroq, videoning pastki o'rtasida */
 .hero-content { margin-inline: auto; text-align: center; }
-.hero h1 { font-size: clamp(26px, 3.4vw, 46px); margin-bottom: 14px; }
+.hero .hero-h { font-size: clamp(26px, 3.4vw, 46px); margin-bottom: 14px; }
 .hero-actions { display: flex; justify-content: center; }
 @media (max-width: 640px) {
-  .hero h1 { font-size: clamp(20px, 6.6vw, 30px); margin-bottom: 12px; }
+  .hero .hero-h { font-size: clamp(20px, 6.6vw, 30px); margin-bottom: 12px; }
   .hero-actions { display: flex; justify-content: center; gap: 10px; }
   .hero-actions .hero-watch { width: auto; flex: 0 1 auto; padding-inline: 22px; }
 }
 @media (max-width: 220px) {
-  .hero h1 { font-size: 14px; }
+  .hero .hero-h { font-size: 14px; }
 }
 /* Ovozli umumiy pleyer: slaydlar ustida, matn ostida; slayd almashganda matn darhol almashadi */
 .hero-clip-shared { z-index: 1; }
@@ -4678,7 +4678,7 @@ img, video, iframe { max-width: 100%; }
   .intro-type .intro-icon { transform: none; opacity: 1; }
 }
 /* Slayder: kino nomi 50% kichikroq va yupqa */
-.hero h1 {
+.hero .hero-h {
   font-weight: 300;
   letter-spacing: .06em;
   font-size: clamp(14px, 1.7vw, 23px);
@@ -4686,10 +4686,10 @@ img, video, iframe { max-width: 100%; }
   text-shadow: 0 2px 10px rgba(0, 0, 0, .7);
 }
 @media (max-width: 640px) {
-  .hero h1 { font-size: clamp(11px, 3.3vw, 15px); margin-bottom: 10px; }
+  .hero .hero-h { font-size: clamp(11px, 3.3vw, 15px); margin-bottom: 10px; }
 }
 @media (max-width: 220px) {
-  .hero h1 { font-size: 9px; }
+  .hero .hero-h { font-size: 9px; }
 }
 /* ---------------- Admin «Xabar»: bildirishnomalar ---------------- */
 .adm-nav { grid-template-columns: repeat(7, minmax(0, 1fr)); }
@@ -6494,7 +6494,7 @@ html.tv-mode .row-nav { display: none !important; }
 }
 #hero.hero-v2 .hero-badge, #hero.hero-v2 .hero-count { display: none !important; }
 #hero.hero-v2 .hero-inner { padding-bottom: 30px !important; }
-#hero.hero-v2 h1 {
+#hero.hero-v2 .hero-h {
   margin: 0 0 4px !important; font-family: 'Oswald', 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
   font-size: clamp(32px, 4.6vw, 68px) !important; line-height: 1; letter-spacing: .01em; text-shadow: 0 3px 18px rgba(0, 0, 0, .55);
 }
@@ -6529,7 +6529,7 @@ html.tv-mode .row-nav { display: none !important; }
 #hero.hero-v2 .hero-dots button[hidden] { display: none !important; }
 @media (max-width: 640px) {
   #hero.hero-v2 { min-height: calc(var(--header-h, 56px) + 96vw) !important; }
-  #hero.hero-v2 h1 { font-size: clamp(28px, 9vw, 40px) !important; }
+  #hero.hero-v2 .hero-h { font-size: clamp(28px, 9vw, 40px) !important; }
   #hero.hero-v2 .hv2-meta { font-size: 12px; margin-bottom: 12px; }
   .hv2-watch { height: 46px; min-width: 132px; padding: 0 22px; font-size: 20px; }
   .hv2-share { width: 46px; height: 46px; }
@@ -7205,3 +7205,11 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
 /* Admin bosh sahifasi: 4 ta raqam (Faol · Saytda · Qo'shilgan · Yashirilgan) — telefonda 2×2 */
 .adm-stats.adm-stats4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 600px) { .adm-stats.adm-stats4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Bosh sahifa oxiridagi matn (index.html .home-seo): qidiruv tizimlari uchun H1 va to'plamlar — ko'zga tashlanmaydigan, yengil */
+.home-seo { padding: 28px 16px 8px; color: var(--text-dim); font-size: 13.5px; line-height: 1.6; }
+.home-seo h1 { margin: 0 0 6px; font-size: 18px; color: var(--text); }
+.home-seo p { margin: 0 0 12px; max-width: 900px; }
+.home-seo-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.home-seo-links a { display: inline-block; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1); color: var(--text-dim); font-size: 13px; }
+.home-seo-links a:hover { color: var(--text); border-color: rgba(255,255,255,.25); }

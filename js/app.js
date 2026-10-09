@@ -70,7 +70,7 @@ function renderHero() {
       <div class="hero-inner">
         <div class="wrap">
           <div class="hero-content">
-            <h1>${esc(title(m))}</h1>
+            <h2 class="hero-h">${esc(title(m))}</h2>
             ${meta ? `<p class="hv2-meta">${meta}</p>` : ''}
             <div class="hero-actions">
               <a class="hv2-watch" href="movie.html?id=${m.id}${noVideo ? '' : '&play=1'}">${noVideo ? (ru ? 'Подробнее' : 'Batafsil') : isTrailer ? (ru ? 'Трейлер' : 'Treyler') : (ru ? 'Смотреть' : 'Ko‘rish')}</a>
@@ -90,7 +90,7 @@ function renderHero() {
         <div class="wrap">
           <div class="hero-content">
             <span class="hero-badge">DezoMax ${LANG === 'uz' ? 'tanlovi' : 'выбирает'}</span>
-            <h1>${esc(title(m))}</h1>
+            <h2 class="hero-h">${esc(title(m))}</h2>
             <div class="hero-actions">
               <a class="btn btn-primary hero-watch" href="movie.html?id=${m.id}&play=1">${ICONS.play}<span>${watchStatus(m) !== 'trailer'
                 ? (LANG === 'uz' ? 'Filmni tomosha qilish' : 'Смотреть фильм')
