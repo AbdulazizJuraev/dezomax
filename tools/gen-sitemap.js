@@ -61,9 +61,12 @@ const marvel = Object.values(MARVEL).map(slug => ({ loc: `${SITE}marvel/${slug}.
 // kinostudiyalar — studio/<key>.html (rasmiy treylerlar ro'yxati)
 const studios = (GEN.studios || []).map(k => ({ loc: `${SITE}studio/${k}.html`, lastmod: today, freq: 'weekly', pr: '0.8' }));
 
+// mavzu to'plamlari — toplam/<key>.html (o'zbek seriallari, multfilmlar, konsertlar, premyeralar…)
+const collections = (GEN.collections || []).map(k => ({ loc: `${SITE}toplam/${k}.html`, lastmod: today, freq: 'daily', pr: '0.9' }));
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...pages, ...studios, ...marvel, ...movies].map(u => `  <url>
+${[...pages, ...collections, ...studios, ...marvel, ...movies].map(u => `  <url>
     <loc>${u.loc.replace(/&/g, '&amp;')}</loc>
     <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.freq}</changefreq>

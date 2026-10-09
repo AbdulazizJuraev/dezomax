@@ -210,6 +210,7 @@ function indexPage() {
   <nav class="seo-crumbs"><a href="index.html">Bosh sahifa</a> › Filmlar</nav>
   <h1>O‘zbek kinolari va filmlar onlayn</h1>
   <p>${esc(desc)}</p>
+  ${collections.length ? `<ul class="seo-list seo-chips">${collections.map(c => `<li><a href="toplam/${c.key}.html">${esc(c.name)} (${c.items.length})</a></li>`).join('')}</ul>` : ''}
   <ul class="seo-grid">${sorted.map((m, i) => `
     <li><a href="kino/${m._page}.html">${m.poster ? `<img src="${esc(m.poster)}" alt="${esc(noEmoji(m.title.uz))}"${i >= 12 ? ' loading="lazy"' : ''} decoding="async" width="160" height="240">` : ''}<span>${esc(noEmoji(m.title.uz))}</span>${m.year ? `<small>${m.year}</small>` : ''}</a></li>`).join('')}
   </ul>
@@ -308,6 +309,65 @@ function studioPage(st, items) {
 const studioPages = {};
 for (const st of STUDIOS) if (trailers.some(m => m.franchise === st.key)) studioPages[st.key] = st.key;
 
+/* toplam/<key>.html — mavzu bo'yicha to'plamlar: odamlar ko'p qidiradigan so'rovlar uchun («o'zbek seriallari»,
+   «o'zbek tilida multfilmlar», «Avaz Oxun konsert», «2026 premyeralar treyler»). Faqat yuqoridagi rasmiy
+   manbadagi kinolar (list) — boshqa saytlardan olinganlar kirmaydi. Kamida 3 ta kino bo'lsa sahifa yaratiladi. */
+const YEAR = new Date().getFullYear();
+const isUz = m => m.franchise === 'uzbek' || m.audio === 'uz';
+const COLLECTIONS = [
+  { key: 'ozbek-filmlari', h1: 'O‘zbek filmlari — onlayn bepul', name: 'O‘zbek filmlari',
+    lead: 'Eng sara o‘zbek kinolari: komediya, drama, oilaviy va jangari filmlar — rasmiy kanallardan, to‘liq versiyada.',
+    kw: ['o‘zbek filmlari', 'o‘zbek kinolari', 'uzbek kino', 'ozbek kino', 'o‘zbek kino onlayn', 'yangi o‘zbek kinolari', 'узбекские фильмы', 'узбек кино'],
+    pick: m => !m._trailer && isUz(m) && m.type === 'film' && m.franchise !== 'konsert' },
+  { key: 'ozbek-komediya', h1: 'O‘zbek komediya filmlari', name: 'O‘zbek komediyalari',
+    lead: 'Kulgili o‘zbek filmlari — butun oila bilan ko‘rish uchun komediyalar.',
+    kw: ['o‘zbek komediya', 'o‘zbek komediya filmlari', 'kulgili o‘zbek kinolari', 'uzbek komediya kino', 'узбекские комедии'],
+    pick: m => !m._trailer && isUz(m) && m.type === 'film' && (m.genres || []).includes('comedy') },
+  { key: 'ozbek-seriallari', h1: 'O‘zbek seriallari — barcha qismlari', name: 'O‘zbek seriallari', wide: true,
+    lead: 'Yangi o‘zbek seriallari barcha qismlari bilan — rasmiy kanallardan, bepul onlayn.',
+    kw: ['o‘zbek seriallari', 'o‘zbek serial', 'uzbek serial', 'ozbek seriallar', 'yangi o‘zbek seriallari', 'узбекские сериалы'],
+    pick: m => !m._trailer && isUz(m) && m.type === 'serial' },
+  { key: 'multfilmlar', h1: 'O‘zbek tilidagi multfilmlar', name: 'Multfilmlar', wide: true,
+    lead: 'Bolalar uchun o‘zbek tilidagi multfilmlar — rasmiy kanallardan, barcha qismlari bilan.',
+    kw: ['multfilmlar', 'o‘zbek tilida multfilmlar', 'uzbek multfilm', 'bolalar uchun multfilm', 'multfilm o‘zbekcha', 'мультфильмы на узбекском'],
+    pick: m => !m._trailer && m.type === 'multfilm' && isUz(m) },
+  { key: 'konsertlar', h1: 'Konsertlar — Avaz Oxun, Million jamoasi', name: 'Konsertlar',
+    lead: 'Mashhur hajviy konsertlar — rasmiy kanallardan, to‘liq yozuvlar.',
+    kw: ['konsert', 'Avaz Oxun konsert', 'Million jamoasi konsert', 'o‘zbek konsertlari', 'hajviy konsert', 'концерт'],
+    pick: m => !m._trailer && m.franchise === 'konsert' },
+  { key: `premyeralar-${YEAR}`, h1: `${YEAR} premyeralari — rasmiy treylerlar`, name: `${YEAR} premyeralari`, wide: true,
+    lead: `${YEAR}-yilda chiqadigan va chiqqan filmlar hamda seriallarning rasmiy treylerlari: Marvel, DC, Disney, Pixar, Warner Bros., Universal va boshqalar.`,
+    kw: [`${YEAR} premyeralar`, `yangi kinolar ${YEAR}`, `${YEAR} filmlar treyler`, 'yangi filmlar treylerlari', 'rasmiy treyler', `премьеры ${YEAR}`, `трейлеры ${YEAR}`],
+    pick: m => m._trailer && (m.year || 0) >= YEAR }
+];
+
+function collectionPage(c, items, all) {
+  const url = `${SITE}toplam/${c.key}.html`;
+  const sorted = [...items].sort((a, b) => (b.year || 0) - (a.year || 0) || String(a.title.uz).localeCompare(String(b.title.uz)));
+  const names = sorted.slice(0, 5).map(m => noEmoji(m.title.uz)).join(', ');
+  const title = `${c.h1} | DezoMax`;
+  const desc = `${c.lead} ${items.length} ta: ${names} va boshqalar.`.replace(/\s+/g, ' ').slice(0, 300);
+  const ld = {
+    '@context': 'https://schema.org', '@type': 'ItemList', name: c.name, url,
+    itemListElement: sorted.map((m, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}kino/${m._page}.html`, name: noEmoji(m.title.uz) }))
+  };
+  const trail = crumbs([['Bosh sahifa', SITE], ['To‘plamlar', `${SITE}kino/index.html`], [c.name, url]]);
+  const others = all.filter(x => x.key !== c.key);
+  const body = `
+<div class="wrap seo-pre seo-index">
+  <nav class="seo-crumbs"><a href="index.html">Bosh sahifa</a> › <a href="kino/index.html">Filmlar</a> › ${esc(c.name)}</nav>
+  <h1>${esc(c.h1)}</h1>
+  <p>${esc(c.lead)} Hammasi bo‘lib ${items.length} ta.</p>
+  <ul class="seo-grid${c.wide ? ' seo-grid-wide' : ''}">${sorted.map((m, i) => `
+    <li><a href="kino/${m._page}.html">${m.poster ? `<img src="${esc(m.poster)}" alt="${esc(noEmoji(m.title.uz))}${c.wide ? ' — treyler' : ''}"${i >= 12 ? ' loading="lazy"' : ''} decoding="async" width="${c.wide ? 320 : 160}" height="${c.wide ? 180 : 240}">` : ''}<span>${esc(noEmoji(m.title.uz))}</span>${m.year ? `<small>${m.year}</small>` : ''}</a></li>`).join('')}
+  </ul>
+  ${others.length ? `<h2>Boshqa to‘plamlar</h2>
+  <ul class="seo-list">${others.map(x => `<li><a href="toplam/${x.key}.html">${esc(x.name)}</a></li>`).join('')}</ul>` : ''}
+</div>`;
+  return page({ id: 0, title, desc, url, image: sorted[0] ? abs(sorted[0].poster) : '', type: 'website', ld: [ld, trail], body, keywords: c.kw });
+}
+const collections = COLLECTIONS.map(c => ({ ...c, items: list.filter(c.pick) })).filter(c => c.items.length >= 3);
+
 fs.mkdirSync(DIR, { recursive: true });
 const keep = new Set(['index.html']);
 for (const m of list) {
@@ -328,5 +388,11 @@ fs.mkdirSync(STUDIO_DIR, { recursive: true });
 for (const st of STUDIOS) if (studioPages[st.key]) fs.writeFileSync(path.join(STUDIO_DIR, st.key + '.html'), studioPage(st, trailers.filter(m => m.franchise === st.key)));
 for (const f of fs.readdirSync(STUDIO_DIR)) if (f.endsWith('.html') && !studioPages[f.replace(/\.html$/, '')]) fs.unlinkSync(path.join(STUDIO_DIR, f));
 
-console.log(`kino/ — ${list.length - trailers.length} ta film, ${trailers.length} ta treyler sahifasi; studio/ — ${Object.keys(studioPages).length} ta`);
-module.exports = { pages: map, studios: Object.keys(studioPages) };
+// toplam/<key>.html — mavzu to'plamlari
+const COLL_DIR = path.join(root, 'toplam');
+fs.mkdirSync(COLL_DIR, { recursive: true });
+for (const c of collections) fs.writeFileSync(path.join(COLL_DIR, c.key + '.html'), collectionPage(c, c.items, collections));
+for (const f of fs.readdirSync(COLL_DIR)) if (f.endsWith('.html') && !collections.some(c => c.key + '.html' === f)) fs.unlinkSync(path.join(COLL_DIR, f));
+
+console.log(`kino/ — ${list.length - trailers.length} ta film, ${trailers.length} ta treyler sahifasi; studio/ — ${Object.keys(studioPages).length} ta; toplam/ — ${collections.map(c => `${c.key} (${c.items.length})`).join(', ')}`);
+module.exports = { pages: map, studios: Object.keys(studioPages), collections: collections.map(c => c.key) };
