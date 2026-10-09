@@ -767,8 +767,9 @@ function renderMain() {
 function renderHome() {
   const all = allMovies();
   const visible = all.filter(m => !hiddenList.includes(m.id));
-  // minimal: 3 ta asosiy raqam (bosilsa — Kinolar ro'yxati shu filtr bilan), oxirgi 5 ta o'zgartirilgan kino, tarix — yig'iladi
+  // minimal: 4 ta asosiy raqam (bosilsa — Kinolar ro'yxati shu filtr bilan), oxirgi 5 ta o'zgartirilgan kino, tarix — yig'iladi
   const stats = [
+    ['Faol', activeList().length, 'active'],        // qo'shilgan, tahrirlangan va kanallardan (yashirilganlarsiz)
     ['Saytda', visible.length, 'all'],
     ['Qo‘shilgan', addedList().length, 'added'],
     ['Yashirilgan', hiddenList.length, 'hidden']
@@ -776,7 +777,7 @@ function renderHome() {
   const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 5);
 
   $('#admView').innerHTML = `
-    <div class="adm-stats adm-stats3">
+    <div class="adm-stats adm-stats3 adm-stats4">
       ${stats.map(([label, n, filter]) => `
         <button class="adm-stat" type="button" data-stat="${filter}"><b>${n}</b><small>${label}</small></button>`).join('')}
     </div>
