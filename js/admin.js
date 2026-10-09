@@ -2848,6 +2848,7 @@ async function renderTgView() {
   if (!tgState.channel && chans.length === 1) tgState.channel = chans[0].id;
 
   box.innerHTML = `
+    <section class="adm-sec" id="tgAuto"><div class="mt-loading"><i></i><i></i><i></i></div></section>
     <section class="adm-sec">
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.tg}</span><h3>Telegramdan qo‘shish</h3><small>faqat o‘z kanallaringiz</small></div>
       <div class="adm-field">
@@ -2894,6 +2895,77 @@ async function renderTgView() {
     loadTgVideos(true);
   });
   if (tgState.channel) tgState.items.length ? drawTgList() : loadTgVideos(true);
+  renderTgAuto(chans);
+}
+
+/* ---------- Avto-yuklash: kanalga tushgan yangi videolar saytga o'zi qo'shiladi ----------
+   Ish DezoCloud serverida bajariladi (har 30 daqiqada, kompyuter o'chiq bo'lsa ham): yangi video DezoCloud'ga
+   qo'shiladi, TMDB orqali aniqlanadi (turi, janri, posteri, tavsifi) va data-custom.js ga YOZILADI (hech narsa o'chirilmaydi).
+   Yoqishda serverga shu brauzerdagi GitHub tokeni va TMDB kaliti bir marta yuboriladi (server ularni qaytarib bermaydi). */
+async function renderTgAuto(chans) {
+  const box = $('#tgAuto');
+  if (!box) return;
+  let st;
+  try { st = await dc('/api/tg/auto'); } catch (e) { box.innerHTML = `<p class="acc-error">${esc(e.message)}</p>`; return; }
+  if (!$('#tgAuto')) return;
+  if (!st.available) { box.remove(); return; }
+  const on = st.enabled;
+  const sel = new Set(st.channels || []);
+  const ago = t => { const m = Math.round((Date.now() - t) / 60000); return m < 1 ? 'hozirgina' : m < 60 ? `${m} daqiqa oldin` : `${Math.round(m / 60)} soat oldin`; };
+  const last = st.last;
+  const lastTxt = st.running ? 'Hozir tekshirilmoqda…'
+    : last ? `Oxirgi tekshiruv: ${ago(last.at)} — ${last.added ? `${last.added} ta video qo‘shildi${last.tmdb ? ` (TMDB aniqladi: ${last.tmdb})` : ''}` : 'yangi video yo‘q'}`
+    : 'Hali tekshirilmagan';
+  const total = (st.history || []).reduce((n, h) => n + (h.added || 0), 0);
+  const noTmdb = !st.hasTmdb && !tmdbKey();
+
+  box.innerHTML = `
+    <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.tg}</span><h3>Avto-yuklash</h3><small>har ${st.everyMin} daqiqada</small></div>
+    <p class="acc-muted">Tanlangan kanallarga yangi video tushsa, u o‘zi saytga qo‘shiladi: nomi, turi, janri, posteri va tavsifi TMDB’dan olinadi (topilmasa — post nomi bilan). Kompyuter yoqiq bo‘lishi shart emas. Kanaldagi eski videolar ham asta-sekin (har safar ${st.perRun} tadan) qo‘shiladi.</p>
+    <p class="adm-hint"><b>${on ? '● Yoqilgan' : '○ O‘chiq'}</b> · ${esc(lastTxt)}${total ? ` · jami ${total} ta` : ''}</p>
+    ${last?.errors?.length ? `<p class="acc-error">${last.errors.slice(0, 3).map(esc).join('<br>')}</p>` : ''}
+    ${chans.length ? `<div class="adm-field"><label class="adm-label">Kanallar</label>
+      ${chans.map(c => `<label class="adm-rights"><input type="checkbox" class="tgAutoCh" value="${esc(c.id)}"${sel.has(c.id) ? ' checked' : ''}><span>${esc(c.title)}${c.username ? ` (@${esc(c.username)})` : ''}</span></label>`).join('')}
+    </div>` : ''}
+    ${noTmdb ? '<p class="adm-hint">TMDB kaliti yo‘q — videolar post nomi bilan qo‘shiladi. Kalitni «Kino qo‘shish» formasidagi «Avtomatik to‘ldirish» bo‘limida kiriting.</p>' : ''}
+    ${on ? '' : `<label class="adm-rights"><input type="checkbox" id="tgAutoRights"><span>Bu kanallardagi videolar menga tegishli yoki ularni ko‘rsatish huquqiga egaman.</span></label>`}
+    <p class="acc-error" id="tgAutoErr" hidden></p>
+    <div class="adm-tg-link">
+      <button class="btn ${on ? 'btn-ghost' : 'btn-primary'}" type="button" id="tgAutoToggle">${on ? 'O‘chirish' : 'Yoqish'}</button>
+      ${on ? '<button class="btn btn-primary" type="button" id="tgAutoRun">Hozir tekshirish</button>' : ''}
+    </div>`;
+
+  const err = m => { const e = $('#tgAutoErr'); e.textContent = m || ''; e.hidden = !m; };
+  const picked = () => [...box.querySelectorAll('.tgAutoCh:checked')].map(x => x.value);
+  box.querySelectorAll('.tgAutoCh').forEach(cb => cb.addEventListener('change', async () => {
+    if (!on) return;
+    try { await dc('/api/tg/auto', { method: 'POST', body: JSON.stringify({ channels: picked() }) }); } catch (e) { err(e.message); }
+  }));
+  $('#tgAutoToggle').addEventListener('click', async e => {
+    e.currentTarget.disabled = true;
+    try {
+      if (on) {
+        await dc('/api/tg/auto', { method: 'POST', body: JSON.stringify({ enabled: false }) });
+      } else {
+        if (!$('#tgAutoRights').checked) throw new Error('Videolar sizniki ekanini tasdiqlang.');
+        if (!picked().length) throw new Error('Kamida bitta kanalni belgilang.');
+        if (!token()) throw new Error('Avval GitHub’ga ulaning (admin kirishi).');
+        await dc('/api/tg/auto', { method: 'POST', body: JSON.stringify({ enabled: true, channels: picked(), gh: token(), tmdb: tmdbKey() }) });
+        toast('Avto-yuklash yoqildi — birinchi tekshiruv bir necha soniyada boshlanadi');
+        setTimeout(() => renderTgAuto(chans), 8000);
+      }
+      renderTgAuto(chans);
+    } catch (ex) { err(ex.message); e.currentTarget.disabled = false; }
+  });
+  $('#tgAutoRun')?.addEventListener('click', async e => {
+    e.currentTarget.disabled = true;
+    try {
+      await dc('/api/tg/auto/run', { method: 'POST', body: '{}' });
+      toast('Tekshirish boshlandi — natija bir necha daqiqada shu yerda ko‘rinadi');
+      setTimeout(() => renderTgAuto(chans), 15000);
+      renderTgAuto(chans);
+    } catch (ex) { err(ex.message); e.currentTarget.disabled = false; }
+  });
 }
 
 async function loadTgVideos(reset) {
@@ -2991,10 +3063,25 @@ async function importTgSelected() {
     // 25 tadan — tugmada jarayon ko'rinib turadi (avval bitta so'rov daqiqalab «qotib» turardi)
     const items = [];
     const CHUNK = 25;
-    for (let i = 0; i < picked.length; i += CHUNK) {
-      btn.querySelector('span').textContent = `DezoCloud’ga qo‘shilmoqda… ${Math.min(i + CHUNK, picked.length)}/${picked.length}`;
-      const part = await dc('/api/tg/import', { method: 'POST', body: JSON.stringify({ channel: tgState.channel, items: picked.slice(i, i + CHUNK) }) });
-      items.push(...part.items);
+    let loopErr = null;
+    try {
+      for (let i = 0; i < picked.length; i += CHUNK) {
+        const label = `${Math.min(i + CHUNK, picked.length)}/${picked.length}`;
+        // Tarmoq uzilsa yoki server qayta yonayotgan bo'lsa (502/503) - kutib, o'zi qayta urinadi
+        for (let attempt = 1; ; attempt++) {
+          btn.querySelector('span').textContent = `DezoCloud’ga qo‘shilmoqda… ${label}${attempt > 1 ? ` · qayta urinish ${attempt}/6` : ''}`;
+          try {
+            const part = await dc('/api/tg/import', { method: 'POST', body: JSON.stringify({ channel: tgState.channel, items: picked.slice(i, i + CHUNK) }) });
+            items.push(...part.items);
+            break;
+          } catch (e) {
+            if (attempt >= 6 || (e.status && e.status < 500)) throw e;
+            await new Promise(r => setTimeout(r, attempt * 5000));
+          }
+        }
+      }
+    } catch (e) {
+      loopErr = e;   // shu paytgacha qo'shilganlar baribir saytga yoziladi
     }
     // DezoCloud'da bor, lekin saytga yozilmay qolganlar (oldingi urinish yarim qolgan bo'lsa) ham qo'shiladi
     const ok = items.filter(r => r.ok && !onSite(r.url));
@@ -3036,6 +3123,13 @@ async function importTgSelected() {
     }
     for (const r of items) if (r.ok) { tgState.sel.delete(r.msgId); const it = byMsg.get(r.msgId); if (it) it.imported = r.url; }
     drawTgList();
+    if (loopErr) {
+      const left = tgState.sel.size;
+      $('#tgErr').textContent = `${ok.length} ta qo‘shildi, ${left} tasi qoldi — DezoCloud javob bermadi (${loopErr.status ? loopErr.message : friendlyError(loopErr)}). «Saytga qo‘shish» ni yana bossangiz, qolganidan davom etadi.`;
+      $('#tgErr').hidden = false;
+      toast(ok.length ? `${ok.length} ta video saytga qo‘shildi, ${left} tasi qoldi` : 'Qo‘shilmadi — qayta urinib ko‘ring', !ok.length);
+      return;
+    }
     if (failed.length) {
       $('#tgErr').textContent = failed.map(f => `${titleOf.get(f.msgId) || f.msgId}: ${f.error}`).join('\n');
       $('#tgErr').hidden = false;
