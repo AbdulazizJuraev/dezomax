@@ -7195,3 +7195,9 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
 .pack-card .btn { flex: none; }
 .pack-toast { position: fixed; left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom, 0px) + 74px); z-index: 1500; max-width: 420px; margin: 0 auto;
   padding: 10px 14px; border-radius: 12px; background: #16171d; border: 1px solid rgba(255,255,255,.1); box-shadow: 0 10px 30px rgba(0,0,0,.5); font-size: 13.5px; pointer-events: none; }
+
+/* Admin → Kinolar: «Rasmiy posterlar (TMDB)» (js/admin.js cardAutoPosters) */
+.adm-tmdb-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 12px 0 4px; }
+.adm-tmdb-bar .btn { display: inline-flex; align-items: center; gap: 8px; flex: none; }
+.adm-tmdb-bar .btn svg { width: 18px; height: 18px; }
+.adm-tmdb-bar small { flex: 1 1 220px; min-width: 0; line-height: 1.35; }

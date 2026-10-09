@@ -855,7 +855,7 @@ function itemHTML(m) {
     : edited ? '<span class="adm-state is-edit" title="Tahrirlangan" aria-label="Tahrirlangan"></span>' : '';
   return `
     <div class="acc-item adm-item${hidden ? ' is-hidden' : ''}">
-      <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+      <span class="adm-thumb">${m.poster ? `<img src="${esc(siteDraft?.posters?.[m.id] || m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
       <div class="acc-item-main">
         <b>${esc(m.title?.uz || '')} ${state}</b>
         <small>${tags.map(esc).join(' · ')}</small>
@@ -902,7 +902,17 @@ function renderListView() {
         `<button type="button" data-filter="${id}" class="${listFilter === id ? 'is-active' : ''}">${l} <small>${counts[id]}</small></button>`).join('')}
     </div>
     <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
+    <div class="adm-tmdb-bar">
+      <button class="btn btn-ghost" type="button" id="admListTmdb">${ICONS.search}<span>Rasmiy posterlar (TMDB)</span></button>
+      <small class="acc-muted" id="admListTmdbNote">Kartasida YouTube kadri turgan jahon filmlari va seriallariga TMDB'dan nomi yozilgan rasmiy poster qo‘yiladi</small>
+    </div>
     <div id="admListBox"></div>`;
+  $('#admListTmdb').addEventListener('click', async e => {
+    await cardAutoPosters(e.currentTarget, $('#admListTmdbNote'));
+    fill();
+  });
+  // TMDB posterlari ro'yxatda ko'rinishi uchun sayt sozlamasi (bir marta)
+  if (!siteDraft) loadConfig().then(() => fill()).catch(() => {});
 
   // kinolar 1000+ — ro'yxat 60 tadan chiziladi
   let limit = 60;
@@ -1284,9 +1294,10 @@ async function heroAutoPosters(ids, btn, kidsIds = []) {
    eski YouTube rasmi gorizontal kartalar uchun «cover» bo'lib qoladi. Kanal yangilanishi (data-channels.js) buni o'chirmaydi.
    DezoCloud va boshqa saytlardagi kinolarga qo'yilmaydi. */
 const POSTER_OK_VIDEO = /youtube\.com|youtu\.be|wikimedia\.org|archive\.org/i;
-async function cardAutoPosters(btn) {
-  const note = $('#admCardPostersNote');
+async function cardAutoPosters(btn, note) {
+  note = note || $('#admCardPostersNote');
   if (!tmdbKey()) { toast('Avval TMDB kalitini kiriting: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
+  if (!siteDraft) { try { await loadConfig(); } catch (ex) { toast(friendlyError(ex), true); return; } }
   const have = siteDraft.posters || {};
   const todo = allMovies().filter(m => m && !have[m.id] && (!m.poster || /i\.ytimg\.com/.test(m.poster))
     && !/dezocloud\.uz/i.test(m.poster || '')
