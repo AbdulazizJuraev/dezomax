@@ -9996,6 +9996,7 @@ const SITE_CONFIG = /*CONFIG*/{
     "1001492841": "https://image.tmdb.org/t/p/w342/jsUe42l5b00FTsYmI3CurClo5SH.jpg",
     "1001493101": "https://image.tmdb.org/t/p/w342/iZ8yFxavjqsZXfZhkfPqrc4NauY.jpg",
     "1001493156": "https://image.tmdb.org/t/p/w342/2iEgEoMP1S2YWKkYkwm8cgg2bBN.jpg",
+    "1001493345": "https://image.tmdb.org/t/p/w342/4Vi3K7TwPtsWPXUBms4A1Pbj4m2.jpg",
     "1001493348": "https://image.tmdb.org/t/p/w342/jD0XxixqgcfArVVWZygC45JAZS5.jpg",
     "1001493657": "https://image.tmdb.org/t/p/w342/afiRgLXIfH12NemvtthCkrwNtAu.jpg",
     "1001493714": "https://image.tmdb.org/t/p/w342/riWT9Y5JJ6bzxw2hK1PqAHeFFJV.jpg",
