@@ -905,11 +905,11 @@ function renderListView() {
     <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
     <div class="adm-tmdb-bar">
       <button class="btn btn-ghost" type="button" id="admListTmdb">${ICONS.search}<span>Rasmiy posterlar (TMDB)</span></button>
-      <small class="acc-muted" id="admListTmdbNote">Kartasida YouTube kadri turgan jahon filmlari va seriallariga TMDB'dan nomi yozilgan rasmiy poster qo‘yiladi</small>
+      <small class="acc-muted" id="admListTmdbNote">Shu ro‘yxatdagi (filtr va qidiruv bo‘yicha) hamma kino tekshiriladi: rasmiy posteri yo‘q jahon filmlari va seriallariga TMDB'dan nomi yozilgan poster qo‘yiladi</small>
     </div>
     <div id="admListBox"></div>`;
   $('#admListTmdb').addEventListener('click', async e => {
-    await cardAutoPosters(e.currentTarget, $('#admListTmdbNote'));
+    await cardAutoPosters(e.currentTarget, $('#admListTmdbNote'), listItems());
     fill();
   });
   // TMDB posterlari ro'yxatda ko'rinishi uchun sayt sozlamasi (bir marta)
@@ -1295,21 +1295,42 @@ async function heroAutoPosters(ids, btn, kidsIds = []) {
    eski YouTube rasmi gorizontal kartalar uchun «cover» bo'lib qoladi. Kanal yangilanishi (data-channels.js) buni o'chirmaydi.
    DezoCloud va boshqa saytlardagi kinolarga qo'yilmaydi. */
 const POSTER_OK_VIDEO = /youtube\.com|youtu\.be|wikimedia\.org|archive\.org/i;
-async function cardAutoPosters(btn, note) {
+async function cardAutoPosters(btn, note, scope) {
   note = note || $('#admCardPostersNote');
   if (!tmdbKey()) { toast('Avval TMDB kalitini kiriting: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
   if (!siteDraft) { try { await loadConfig(); } catch (ex) { toast(friendlyError(ex), true); return; } }
   const have = siteDraft.posters || {};
-  const todo = allMovies().filter(m => m && !have[m.id] && (!m.poster || /i\.ytimg\.com/.test(m.poster))
-    && !/dezocloud\.uz/i.test(m.poster || '')
-    && !['uzbek', 'konsert', 'tahlil'].includes(m.franchise) && m.audio !== 'uz' && m.type !== 'tahlil'
-    && [m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(Boolean).every(v => POSTER_OK_VIDEO.test(String(v))));
-  if (!todo.length) { toast('Hamma kartada rasmiy poster bor'); return; }
+  // ro'yxatdagi HAMMA kino tekshiriladi va natijada har guruh soni ko'rsatiladi
+  const list = scope || allMovies();
+  const stat = { have: 0, own: 0, uz: 0, skip: 0 };
+  const todo = [];
+  for (const m of list) {
+    if (!m) continue;
+    if (have[m.id]) { stat.have++; continue; }
+    const vids = [m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(Boolean).map(String);
+    // Telegram (DezoCloud) va boshqa saytlardagi nusxalar — huquqsiz, ularga rasmiy poster qo'yilmaydi
+    if (/dezocloud\.uz/i.test(m.poster || '') || !vids.every(v => POSTER_OK_VIDEO.test(v))) { stat.skip++; continue; }
+    // o'zbek filmlari, konsertlar, tahlillar — rasmiy kanalning o'z posteri bor (TMDB'da deyarli yo'q, xato poster tushmasin)
+    if (['uzbek', 'konsert', 'tahlil'].includes(m.franchise) || m.audio === 'uz' || m.type === 'tahlil') { stat.uz++; continue; }
+    // saytning o'z posteri (images/…) yoki allaqachon TMDB — tegilmaydi
+    if (m.poster && (/^images\//.test(m.poster) || /image\.tmdb\.org/.test(m.poster))) { stat.own++; continue; }
+    todo.push(m);
+  }
+  const summary = n => [
+    `Ro‘yxatda ${list.length} ta kino`,
+    `TMDB posteri bor: ${stat.have + n}`,
+    stat.own ? `o‘z rasmiy posteri bor: ${stat.own}` : '',
+    stat.uz ? `o‘zbek filmlari va konsertlar (kanal posteri): ${stat.uz}` : '',
+    stat.skip ? `Telegram va boshqa saytlardan (poster qo‘yilmaydi): ${stat.skip}` : ''
+  ].filter(Boolean).join(' · ');
+  if (!todo.length) { note.textContent = summary(0) + '. Tekshiradigan kino qolmadi.'; toast('Tekshiradigan kino qolmadi'); return; }
   btn.disabled = true;
   const found = {}, missed = [];
   const yearOf = x => +((x.release_date || x.first_air_date || '').slice(0, 4)) || 0;
   const norm = s => String(s || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
-  const clean = s => String(s || '').replace(/\s*[-–—:]?\s*(season|сезон|fasl)\s*\d+|\s*\d+\s*-?\s*(fasl|сезон)\b/gi, '').trim();
+  // «Season 2», «2-fasl», «(1–16-qismlar)» kabi qo'shimchalarsiz ham qidiriladi
+  const clean = s => String(s || '').replace(/\s*\([^)]*\)/g, '')
+    .replace(/\s*[-–—:]?\s*(season|сезон|fasl)\s*\d+|\s*\d+\s*-?\s*(fasl|сезон)\b/gi, '').trim();
   try {
     let next = 0, count = 0, fatal = null;
     await Promise.all(Array.from({ length: 4 }, async () => { while (next < todo.length && !fatal) {
@@ -1318,13 +1339,15 @@ async function cardAutoPosters(btn, note) {
         let tid = m.tmdb?.id, type = m.tmdb?.type || (m.type === 'serial' ? 'tv' : 'movie');
         if (!tid) {
           const qs = [...new Set([m.title?.uz, m.title?.ru, ...(m.tags || [])].flatMap(t => [t, clean(t)]).filter(Boolean))].slice(0, 4);
-          for (const q of qs) {
-            const j = await tmdb(`/search/${type}`, { query: q, include_adult: 'false' });
-            const res = j.results || [];
-            const hit = (m.year && res.find(x => Math.abs(yearOf(x) - m.year) <= 1))
-              || res.find(x => norm(x.title || x.name) === norm(q) || norm(x.original_title || x.original_name) === norm(q))
-              || (!m.year && res[0]);
-            if (hit) { tid = hit.id; break; }
+          const pick = (res, q) => (m.year && res.find(x => Math.abs(yearOf(x) - m.year) <= 1))
+            || res.find(x => norm(x.title || x.name) === norm(q) || norm(x.original_title || x.original_name) === norm(q))
+            || (!m.year && res[0]);
+          // avval o'z turi (film/serial), keyin boshqa turi — maxsus epizodlar, mini-seriallar ba'zan boshqa turda turadi
+          search: for (const t of [type, type === 'tv' ? 'movie' : 'tv']) {
+            for (const q of qs) {
+              const hit = pick((await tmdb(`/search/${t}`, { query: q, include_adult: 'false' })).results || [], q);
+              if (hit) { tid = hit.id; type = t; break search; }
+            }
           }
         }
         if (!tid) { missed.push(m.title?.uz || m.id); continue; }
@@ -1341,8 +1364,8 @@ async function cardAutoPosters(btn, note) {
       siteDraft.posters = { ...(siteDraft.posters || {}), ...found };
       await saveConfig(cleanSiteConfig(siteDraft), `Kartalar: rasmiy posterlar (TMDB) — ${n} ta kino`);
     }
-    note.textContent = `${n} ta kartaga rasmiy poster qo‘yildi${missed.length ? ` · topilmadi (${missed.length}): ${missed.slice(0, 15).join(', ')}${missed.length > 15 ? '…' : ''}` : ''}. Saytda 1–2 daqiqada ko‘rinadi.`;
-    toast(n ? `${n} ta rasmiy poster qo‘yildi` : 'Poster topilmadi', !n);
+    note.textContent = `Yangi: ${n} ta poster qo‘yildi${missed.length ? ` · TMDB'da topilmadi (${missed.length}): ${missed.slice(0, 12).join(', ')}${missed.length > 12 ? '…' : ''}` : ''}. ${summary(n)}.${n ? ' Saytda 1–2 daqiqada ko‘rinadi.' : ''}`;
+    toast(n ? `${n} ta rasmiy poster qo‘yildi` : 'Yangi poster topilmadi', !n);
   } catch (ex) {
     note.textContent = friendlyError(ex);
     toast(friendlyError(ex), true);
