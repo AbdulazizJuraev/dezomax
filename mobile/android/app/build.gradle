@@ -60,8 +60,11 @@ android {
             if (keystorePropsFile.exists()) {
                 signingConfig signingConfigs.release
             }
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // Kod siqiladi va obfuskatsiya qilinadi (Google Play: «DEX kodi optimizatsiyasi» talabi, fevral 2027).
+            // Plaginlar, ilovaning o'z kodi va BackgroundRunner nomlari saqlanadi — proguard-rules.pro
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
