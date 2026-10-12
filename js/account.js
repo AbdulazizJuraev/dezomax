@@ -472,7 +472,7 @@ function renderLogin(mode = 'login') {
     <div class="al-card">
       <div class="al-art">
         <img class="al-art-img" src="images/auth-art.webp" alt="" decoding="async" fetchpriority="high">
-        <img class="al-logo" src="images/logo/standart.png" alt="DezoMax">
+        <img class="al-logo" src="images/logo/intro-d.webp" alt="DezoMax">
         <div class="al-tabs">
           <button type="button" data-mode="login" class="${reg ? '' : 'is-on'}">${L.login}</button><span>|</span><button type="button" data-mode="register" class="${reg ? 'is-on' : ''}">${L.register}</button>
         </div>
@@ -532,13 +532,13 @@ function renderLogin(mode = 'login') {
     } finally { btn.disabled = false; }
   }
 
-  // Sayt + haqiqiy Google: Google'ning o'z tugmasi (oq, dumaloq) bizning tugma o'rnida
+  // Sayt + haqiqiy Google: ko'rinishi — bizning tugma (G logosi, o'zbekcha yozuv); ustida Google'ning o'z tugmasi
+  // deyarli shaffof turadi va bosishni u qabul qiladi (Google ruxsat bergan kirish oynasi ochiladi)
   if (!demo && !Auth.native) {
     const box = $('#gsiBtn');
     box.hidden = false;
-    $('#gBtn').hidden = true;
     Auth.renderGoogleButton(box, () => onLoggedIn(), e => { console.warn(e); showErr(`${t('acc.errGeneric')} (${String(e?.message || e).slice(0, 160)})`); }, { theme: 'outline', text: 'signin_with' })
-      .catch(() => { box.hidden = true; $('#gBtn').hidden = false; showErr(t('acc.errGoogleLoad')); });
+      .catch(() => { box.hidden = true; showErr(t('acc.errGoogleLoad')); });
   }
   $('#gBtn').addEventListener('click', () => google());
   $('#alTg').addEventListener('click', () => showErr(L.tgSoon));

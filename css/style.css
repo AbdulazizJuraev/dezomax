@@ -7291,8 +7291,8 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
 .al-card::after { content: ''; position: absolute; right: -120px; bottom: -140px; width: 420px; height: 340px; pointer-events: none;
   background: radial-gradient(closest-side, rgba(232, 74, 20, .55), rgba(232, 74, 20, 0)); }
 .al-art { position: relative; overflow: hidden; border-radius: 28px; border: 1px solid rgba(255, 140, 120, .5); background: #200; min-height: 420px; }
-.al-art-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
-.al-logo { position: absolute; top: 24px; left: 30px; width: 56px; height: 56px; border-radius: 14px; box-shadow: 0 0 0 2px rgba(255, 255, 255, .85); }
+.al-art-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 88% 50%; }
+.al-logo { position: absolute; top: 24px; left: 30px; width: 60px; height: 60px; border-radius: 14px; box-shadow: 0 4px 18px rgba(0, 0, 0, .5); }
 .al-tabs { position: absolute; top: 30px; right: 32px; display: flex; align-items: center; gap: 10px; color: #fff; }
 .al-tabs button, .al-home { font-family: 'Orbitron', sans-serif !important; font-size-adjust: none !important; font-weight: 500; letter-spacing: .06em; }
 .al-tabs button { background: none; border: 0; padding: 0; color: rgba(255, 255, 255, .72); font-size: 17px; cursor: pointer; }
@@ -7316,8 +7316,10 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
 .al-or { display: flex; align-items: center; gap: 12px; margin: 30px 0 18px; color: #bbb; font-size: 14px; }
 .al-or::before, .al-or::after { content: ''; flex: 1; height: 1px; background: rgba(255, 255, 255, .8); }
 .al-social { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.al-gwrap { min-width: 0; }
-.al-gsi { display: flex; justify-content: center; align-items: center; height: 66px; border-radius: 20px; background: #fff; overflow: hidden; }
+.al-gwrap { position: relative; min-width: 0; }
+/* Google'ning o'z tugmasi — bizning tugma ustida, deyarli shaffof (bosishni u oladi) */
+.al-gsi { position: absolute; inset: 0; z-index: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 20px; opacity: .011; }
+.al-gsi > div { transform: scale(1.1, 1.7); }
 .al-google, .al-tg { width: 100%; height: 66px; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 0 14px; border-radius: 20px;
   font-size: 19px; font-weight: 700; line-height: 1.05; text-align: left; cursor: pointer; }
 .al-google { background: #fff; color: #111; border: 1px solid #ddd; }
@@ -7334,6 +7336,7 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
   .acc-login { padding: 0; }
   .al-card { grid-template-columns: 1fr; gap: 0; min-height: 100dvh; padding: 0 0 24px; border-radius: 0; }
   .al-art { min-height: 0; height: min(44vh, 120vw); border-radius: 0 0 28px 28px; border-width: 0 0 1px; }
+  .al-art-img { object-position: 50% 50%; }
   .al-logo { top: calc(14px + var(--app-sat, env(safe-area-inset-top))); left: 16px; width: 44px; height: 44px; border-radius: 12px; }
   .al-tabs { top: auto; bottom: 16px; left: 50%; right: auto; transform: translateX(-50%); padding: 8px 16px; border-radius: 999px; background: rgba(0, 0, 0, .55); white-space: nowrap; }
   .al-tabs button { font-size: 13px; }
@@ -7348,7 +7351,7 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
   .al-input { height: 54px; border-radius: 16px; font-size: 16px; margin-bottom: 14px; }
   .al-submit { height: 54px; font-size: 24px; border-radius: 16px; }
   .al-or { margin: 22px 0 14px; }
-  .al-google, .al-tg, .al-gsi { height: 56px; border-radius: 16px; font-size: 15px; }
+  .al-google, .al-tg { height: 56px; border-radius: 16px; font-size: 15px; }
   .al-google svg { width: 28px; height: 28px; } .al-tg svg { width: 30px; height: 30px; }
   .al-card::after { right: -160px; bottom: -160px; }
 }

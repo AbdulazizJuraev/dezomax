@@ -1,15 +1,15 @@
 /* ============================================================
-   Ilova ikonkasi va ochilish ekrani — images/logo/"dastur usti uchun.png" dan.
+   Ilova ikonkasi va ochilish ekrani — images/logo/intro-d.webp (yangi qizil logo) dan.
    Ishlatish: node scripts/make-icons.js && npx capacitor-assets generate --android
    ============================================================ */
 const path = require('path');
 const sharp = require(require.resolve('sharp', { paths: [path.dirname(require.resolve('@capacitor/assets/package.json'))] }));
 
-const SRC = path.join(__dirname, '..', '..', 'images', 'logo', 'dastur usti uchun.png');
+const SRC = path.join(__dirname, '..', '..', 'images', 'logo', 'intro-d.webp');
 const OUT = path.join(__dirname, '..', 'assets');
 
 // Ikonka fonidagi gradient ranglari (surat yuqorisi va pastidan olingan)
-const TOP = '#1d2734', BOTTOM = '#101b28';
+const TOP = '#000000', BOTTOM = '#000000';
 const gradBg = size => Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
   <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0" stop-color="${TOP}"/><stop offset="1" stop-color="${BOTTOM}"/></linearGradient></defs>
@@ -27,7 +27,7 @@ async function extractMark() {
 }
 
 (async () => {
-  const mark = await extractMark();
+  const mark = await sharp(SRC).png().toBuffer();     // yangi logo — yaxlit rasm (fonini ajratmaymiz)
 
   // To'liq ikonka (eski Android): suratning o'zi, burchaklari shaffof
   await sharp(SRC).resize(1024, 1024, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
@@ -35,7 +35,7 @@ async function extractMark() {
 
   // Adaptive ikonka: fon — gradient, old qatlam — belgi (xavfsiz zona ichida)
   await sharp(gradBg(1024)).png().toFile(path.join(OUT, 'icon-background.png'));
-  const fgMark = await sharp(mark).resize(470, 470, { fit: 'inside' }).toBuffer();
+  const fgMark = await sharp(mark).resize(660, 660, { fit: 'inside' }).toBuffer();
   await sharp({ create: { width: 1024, height: 1024, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
     .composite([{ input: fgMark, gravity: 'center' }]).png().toFile(path.join(OUT, 'icon-foreground.png'));
 
