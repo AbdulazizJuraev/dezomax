@@ -65,6 +65,12 @@ function dayLabel(d) {
 
 /* ---------- Ma'lumotni bir xil ko'rinishga keltirish ---------- */
 
+/* ESPN logolari 500×500 PNG (~45 KB) — ekranda kichik belgi. ESPN o'zi kichraytirib beradi (combiner): ~13 KB, tezroq */
+const espnSmall = (u, w = 128) => {
+  const m = /^https?:\/\/a\.espncdn\.com(\/i\/[^?#]+\.(?:png|jpe?g))$/i.exec(String(u || ''));
+  return m ? `https://a.espncdn.com/combiner/i?img=${m[1]}&w=${w}&h=${w}` : u;
+};
+
 function side(c) {
   if (!c) return { name: '?', logo: null, score: '', winner: false };
   const team = c.team || {};
@@ -72,7 +78,7 @@ function side(c) {
     id: c.id || team.id || null,
     name: c.shortDisplayName || c.displayName || c.name || team.shortDisplayName || team.displayName || c.athlete?.displayName || '?',
     full: c.displayName || team.displayName || c.name || '',
-    logo: c.logo || team.logo || c.athlete?.flag?.href || null,
+    logo: espnSmall(c.logo || team.logo || c.athlete?.flag?.href || null),
     score: c.score ?? '',
     winner: !!c.winner,
     form: c.form || '',
@@ -167,7 +173,7 @@ async function loadSource(src) {
           .filter(x => x.order)
           .sort((x, y) => x.order - y.order)
           .slice(0, 3)
-          .map(x => ({ name: x.athlete?.displayName || '?', flag: x.athlete?.flag?.href || null }))
+          .map(x => ({ name: x.athlete?.displayName || '?', flag: espnSmall(x.athlete?.flag?.href || null, 64) }))
       }))
     }));
   }
@@ -205,17 +211,31 @@ function arrange(events) {
     });
 }
 
+/* Oxirgi natijalar telefonda saqlanadi (6 soat): keyingi ochilishda sahifa DARROV chiqadi, yangilari fonda keladi */
+const SP_CACHE = 'dzxSpState';
+function spCache(id, events) {
+  try {
+    const all = JSON.parse(localStorage.getItem(SP_CACHE) || '{}');
+    if (events) { all[id] = { at: Date.now(), events }; localStorage.setItem(SP_CACHE, JSON.stringify(all)); }
+    return all[id] || null;
+  } catch { return null; }
+}
+
 async function loadSport(sp) {
-  state[sp.id] = { status: 'loading', events: [] };
+  const c = spCache(sp.id);
+  const cached = c && Date.now() - c.at < 6 * 3600e3 && Array.isArray(c.events) ? c.events : null;
+  state[sp.id] = cached ? { status: 'ok', events: cached } : { status: 'loading', events: [] };
   renderSport(sp);
   try {
     const parts = await Promise.allSettled(sp.sources.map(loadSource));
     const ok = parts.filter(p => p.status === 'fulfilled');
     if (!ok.length) throw new Error('all failed');
     const all = ok.flatMap(p => p.value);
-    state[sp.id] = { status: 'ok', events: sp.id === 'f1' ? all : arrange(all) };
+    const events = sp.id === 'f1' ? all : arrange(all);
+    state[sp.id] = { status: 'ok', events };
+    spCache(sp.id, events);
   } catch {
-    state[sp.id] = { status: 'error', events: [] };
+    if (!cached) state[sp.id] = { status: 'error', events: [] };
   }
   renderSport(sp);
 }

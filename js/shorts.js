@@ -73,7 +73,15 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     const p = fetchLive().catch(() => null);                    // eskirgan bo'lsa — fonda yangilanadi
     if (!live) live = await Promise.race([p, new Promise(r => setTimeout(() => r(null), 1500))]);   // birinchi marta — 1,5 s kutamiz
   }
-  const list = mergeLive(live || {});
+  // har ochilganda aralash tartib (har safar bir xil ketma-ketlik zeriktirardi);
+  // havola bilan ochilgan short (shorts.html#ID) — birinchi bo'lib
+  const list = (arr => {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    const k = a.findIndex(x => x.id === location.hash.slice(1));
+    if (k > 0) a.unshift(a.splice(k, 1)[0]);
+    return a;
+  })(mergeLive(live || {}));
 
   if (!list.length) { feed.innerHTML = `<p class="sh-empty">${ru ? 'Пока нет коротких видео' : 'Hozircha shorts yo‘q'}</p>`; return; }
 

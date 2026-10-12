@@ -28,6 +28,7 @@ if (window.top === window && window.Capacitor && window.Capacitor.isNativePlatfo
     if (!p || m.poster === p) continue;
     if (!m.cover && m.poster) m.cover = m.poster;
     m.poster = p;
+    m.wide = false;          // endi haqiqiy tik poster bor — karta tik (keng kartada tik rasm qirqilib qolardi)
   }
 })();
 
