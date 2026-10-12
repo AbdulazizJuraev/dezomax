@@ -415,6 +415,8 @@ function formHTML(m = {}) {
         <div class="adm-genres">
           ${GENRES.map(g => `<label class="adm-genre"><input type="checkbox" name="genres" value="${g.id}"${(m.genres || []).includes(g.id) ? ' checked' : ''}><span>${ADM_ICONS.check}${esc(g.uz)}</span></label>`).join('')}
         </div>
+        <button class="btn btn-ghost btn-sm adm-gauto" type="button" id="genreAuto">${ADM_ICONS.check}<span>Avtomatik aniqlash</span></button>
+        <small class="acc-muted" id="genreAutoNote"></small>
       `, 'bir nechtasini tanlash mumkin')}
 
       ${section('text', 'Tavsif', `
@@ -524,7 +526,8 @@ function readForm(form, old = {}) {
   // qo'shimcha sifatlar (.mp4): pleyerda sifat tanlash uchun
   const videos = ['1080p', '720p', '480p', '360p'].map(label => ({ label, url: s('q_' + label) })).filter(v => v.url);
   if (videos.length) m.videos = videos; else delete m.videos;
-  if (!m.genres.length) m.genres = ['drama'];
+  // janr tanlanmagan bo'lsa — nomi va tavsifidan avtomatik (js/genre-detect.js)
+  if (!m.genres.length) m.genres = typeof detectGenres === 'function' ? detectGenres(m) : ['drama'];
   // Marvel sahifasi ma'lumotlari (marvel.js: Wikidata ustidan ishlatiladi)
   delete m.mx;
   if (m.franchise === 'marvel') {
@@ -554,6 +557,13 @@ function bindForm(old) {
   const form = $('#admForm');
   const err = $('#admErr');
   const showErr = msg => { err.textContent = msg; err.hidden = !msg; };
+  // janrni nomi, tavsifi va teglaridan avtomatik aniqlash (js/genre-detect.js) — belgilar formada qo'yiladi, saqlash — odatdagidek
+  $('#genreAuto')?.addEventListener('click', () => {
+    const v = n => form.elements[n]?.value || '';
+    const g = detectGenres({ type: v('type'), title: { uz: v('titleUz'), ru: v('titleRu') }, desc: { uz: v('descUz'), ru: v('descRu') }, tags: v('tags').split(',') });
+    form.querySelectorAll('input[name="genres"]').forEach(x => { x.checked = g.includes(x.value); });
+    $('#genreAutoNote').textContent = 'Aniqlandi: ' + genreLabel(g) + ' — tekshirib, kerak bo‘lsa o‘zgartiring';
+  });
 
   const prev = $('#admPosterPrev');
   const cancel = () => go(editingId !== null ? 'list' : 'home');
@@ -973,6 +983,10 @@ function renderListView() {
         ${GENRES.map(g => `<option value="${g.id}"${listGenre === g.id ? ' selected' : ''}>${esc(g.uz)}</option>`).join('')}
       </select>
     </div>
+    <div class="adm-tmdb-bar">
+      <button class="btn btn-ghost" type="button" id="admGenreAuto">${ITEM_ICONS.tag}<span>Janrlarni aniqlash</span></button>
+      <small class="acc-muted" id="admGenreAutoNote">Shu ro‘yxatdagi (filtr va qidiruv bo‘yicha) faqat «Drama» yoki janrsiz rasmiy kinolarga nomi va tavsifidan janr topiladi — ko‘rib chiqib, «Saqlash»ni bosasiz</small>
+    </div>
     <div class="adm-gsave" id="admGenreBar" hidden>
       <b></b>
       <button class="btn btn-ghost btn-sm" type="button" id="admGenreUndo">Bekor qilish</button>
@@ -1009,6 +1023,24 @@ function renderListView() {
     fill();
   }));
   $('#admGenreFilter').addEventListener('change', e => { listGenre = e.target.value; limit = 60; fill(); });
+  // avtomatik janr: faqat saytdagi rasmiy kinolar (YouTube va h.k.); Telegram (DezoCloud) va boshqa saytlardagi nusxalar o'tkazib yuboriladi
+  $('#admGenreAuto').addEventListener('click', () => {
+    const siteIds = new Set([...(window.SITE_BASE_IDS || []), ...customList.map(x => x.id)]);
+    const stat = { set: 0, same: 0, skip: 0 };
+    for (const m of listItems()) {
+      if (!m || !siteIds.has(m.id) || m.type === 'tahlil') continue;      // tahlil videolari — janrsiz
+      const cur = m.genres || [];
+      if (cur.length && cur.join() !== 'drama') continue;
+      const vids = [m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(Boolean).map(String);
+      if (!vids.length || /dezocloud\.uz/i.test(m.poster || '') || !vids.every(v => POSTER_OK_VIDEO.test(v))) { stat.skip++; continue; }
+      const g = detectGenres(m);
+      if (g.join() === cur.join()) { stat.same++; continue; }
+      genreDraft.set(m.id, g); stat.set++;
+    }
+    $('#admGenreAutoNote').textContent = `Yangi janr topildi: ${stat.set} ta · aniqlab bo‘lmadi (Drama qoldi): ${stat.same} ta · Telegram va boshqa saytlardan (o‘tkazib yuborildi): ${stat.skip} ta.` +
+      (stat.set ? ' Ro‘yxatda ko‘k rangda — tekshirib, «Saqlash»ni bosing.' : '');
+    paintGenreBar(); fill();
+  });
   $('#admGenreSave').addEventListener('click', e => saveGenres(e.currentTarget));
   $('#admGenreUndo').addEventListener('click', () => { genreDraft.clear(); paintGenreBar(); fill(); });
   paintGenreBar();
