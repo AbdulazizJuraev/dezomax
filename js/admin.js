@@ -375,6 +375,7 @@ function formHTML(m = {}) {
         <div class="adm-row adm-row-2">
           ${field('Nomi (o‘zbekcha) <b class="adm-req">*</b>', `<input class="acc-input" name="titleUz" required value="${val(m.title?.uz)}" placeholder="Masalan: Yulduzlararo">
             <button class="acc-link adm-tr-btn" type="button" data-tr="titleRu>titleUz">${ICONS.globe || '⇄'} Ruschadan o‘girish</button>
+            <button class="acc-link adm-tr-btn" type="button" id="titleClean">✕ Nomni tozalash («Nomi:», emoji, #teg)</button>
             <p class="adm-hint" data-tr-note="titleUz" hidden></p>`)}
           ${field('Nomi (ruscha)', `<input class="acc-input" name="titleRu" value="${val(m.title?.ru)}" placeholder="Интерстеллар">`)}
         </div>
@@ -553,10 +554,29 @@ function mxOf(m) {
   return { ...base, ...((m && m.mx) || {}) };
 }
 
+/* Kino nomidan ortiqcha qismlarni olib tashlash: «Nomi: X», «Kino nomi - X», emoji, #teg, qo'shtirnoq */
+function cleanTitle(v) {
+  let t = String(v || '')
+    .replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}✎➫]/gu, '')
+    .replace(/#[\p{L}\p{N}_]+/gu, '')
+    .replace(/^\s*(?:kino(?:ning)?\s+)?nomi\s*[:\-–—]\s*/i, '')
+    .replace(/^\s*(?:название|фильм)\s*[:\-–—]\s*/i, '')
+    .replace(/\s{2,}/g, ' ').trim();
+  t = t.replace(/^[«“"']+|[»”"']+$/g, '').trim();
+  return t || String(v || '').trim();
+}
+
 function bindForm(old) {
   const form = $('#admForm');
   const err = $('#admErr');
   const showErr = msg => { err.textContent = msg; err.hidden = !msg; };
+  // Nomni tozalash (qo'lda, shu kino uchun): boshidagi «Nomi:» / «Kino nomi:», emoji, #teglar, «Premyera» kabi qo'shimchalar olinadi
+  $('#titleClean')?.addEventListener('click', () => {
+    for (const n of ['titleUz', 'titleRu']) {
+      const inp = form.elements[n];
+      if (inp && inp.value) inp.value = cleanTitle(inp.value);
+    }
+  });
   // janrni nomi, tavsifi va teglaridan avtomatik aniqlash (js/genre-detect.js) — belgilar formada qo'yiladi, saqlash — odatdagidek
   $('#genreAuto')?.addEventListener('click', () => {
     const v = n => form.elements[n]?.value || '';
