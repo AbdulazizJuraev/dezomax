@@ -274,7 +274,7 @@ const Auth = {
   },
 
   /* Sayt: Google tugmasini chizish. onUser(user) — muvaffaqiyatli kirganda */
-  async renderGoogleButton(el, onUser, onError) {
+  async renderGoogleButton(el, onUser, onError, look = {}) {
     if (!GOOGLE_ID || IS_NATIVE) return false;
     await loadScript('https://accounts.google.com/gsi/client');
     google.accounts.id.initialize({
@@ -290,7 +290,7 @@ const Auth = {
       }
     });
     google.accounts.id.renderButton(el, {
-      theme: 'filled_black', size: 'large', shape: 'pill', text: 'continue_with',
+      theme: look.theme || 'filled_black', size: 'large', shape: 'pill', text: look.text || 'continue_with',
       width: Math.min(400, Math.max(200, el.clientWidth || 300)),
       locale: LANG === 'ru' ? 'ru' : 'uz'
     });

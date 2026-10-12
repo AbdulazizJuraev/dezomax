@@ -443,70 +443,80 @@ function sectionsHTML(skip = []) {
     </nav>`;
 }
 
-function renderLogin() {
+/* Kirish sahifasi — yangi dizayn (2026-10-12): chapda DezoMax rasmi (images/auth-art.webp), o'ngda forma.
+   Ishlaydigan kirish — Google (saytda Google'ning o'z tugmasi, ilovada telefondagi akkaunt tanlash).
+   Email/parol va Telegram — server qismi hali yo'q: bosilganda Google orqali kirish taklif qilinadi.
+   Demo rejimda (Google ulanmagan) email maydoni demo kirish uchun ishlatiladi. */
+function renderLogin(mode = 'login') {
   const root = document.getElementById('account');
-  const last = Auth.lastAccount();
   const demo = Auth.mode === 'demo';
+  const ru = LANG === 'ru';
+  const reg = mode === 'register';
+  const L = ru ? {
+    login: 'Вход', register: 'Регистрация', home: 'Главная', title: reg ? 'Регистрация' : 'Вход в аккаунт', sub: 'Платформа фильмов и сериалов',
+    name: 'Ваше имя', email: 'Email:', pass: 'Пароль', passPh: 'пароль…', btn: reg ? 'Создать' : 'Войти', or: 'или',
+    google: 'Войти через Google', tg: 'Войти через Telegram', no: 'Нет аккаунта?', have: 'Уже есть аккаунт?',
+    soon: 'Вход по email и паролю скоро заработает — пока войдите через Google', tgSoon: 'Вход через Telegram скоро заработает — пока войдите через Google'
+  } : {
+    login: 'Kirish', register: 'Ro‘yxatdan o‘tish', home: 'Bosh sahifa', title: reg ? 'Ro‘yxatdan o‘tish' : 'Hisobga kirish', sub: 'Kinolar va seriallar platformasi',
+    name: 'Ismingiz', email: 'Email:', pass: 'Parolingiz', passPh: 'parolingiz…', btn: reg ? 'Ro‘yxatdan o‘tish' : 'Kirish', or: 'yoki',
+    google: 'Google akkaunt orqali kirish', tg: 'Telegram akkaunt orqali kirish', no: 'Hisobingiz yo‘qmi?', have: 'Hisobingiz bormi?',
+    soon: 'Email va parol bilan kirish tez orada ishga tushadi — hozircha Google orqali kiring', tgSoon: 'Telegram orqali kirish tez orada ishga tushadi — hozircha Google orqali kiring'
+  };
+  const TG = '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M21.9 4.3L18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13.1l-4.8-1.5c-1-.3-1-1 .2-1.5L20.5 2.9c.9-.3 1.6.2 1.4 1.4z"/></svg>';
+  const BACK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
 
-  root.className = 'acc-auth-wrap';
+  document.body.classList.add('acc-login-page');
+  root.className = 'acc-login';
   root.innerHTML = `
-    <div class="acc-auth">
-      <div class="acc-auth-top">
-        <img class="acc-auth-logo" src="images/logo/standart.png" alt="DezoMax">
-        ${langSwitchHTML()}
+    <div class="al-card">
+      <div class="al-art">
+        <img class="al-art-img" src="images/auth-art.webp" alt="" decoding="async" fetchpriority="high">
+        <img class="al-logo" src="images/logo/standart.png" alt="DezoMax">
+        <div class="al-tabs">
+          <button type="button" data-mode="login" class="${reg ? '' : 'is-on'}">${L.login}</button><span>|</span><button type="button" data-mode="register" class="${reg ? 'is-on' : ''}">${L.register}</button>
+        </div>
       </div>
-      <h1>${t('acc.loginTitle')}</h1>
-      <p class="acc-sub">${t('acc.loginSub')}</p>
-
-      ${last ? `
-        <div class="acc-last" id="accLast">
-          <span class="acc-last-label">${t('acc.lastAccount')}</span>
-          <div class="acc-last-card">
-            ${last.photo ? `<span class="avatar"><img src="${esc(last.photo)}" alt="" referrerpolicy="no-referrer"></span>` : `<span class="avatar">${AI.google}</span>`}
-            <span class="acc-last-info">
-              <b>${esc(last.name || last.email)}</b>
-              <small>${esc(last.email)}</small>
-            </span>
+      <div class="al-side">
+        <div class="al-top">
+          ${langSwitchHTML()}
+          <a class="al-home" href="index.html">${BACK}<span>${L.home}</span></a>
+        </div>
+        <div class="al-main">
+          <h1>${L.title}</h1>
+          <p class="al-sub">${L.sub}</p>
+          <form class="al-form" id="alForm" novalidate>
+            ${reg ? `<label class="al-label" for="alName">${L.name}</label>
+            <input class="al-input" id="alName" type="text" autocomplete="name" placeholder="${L.name}…">` : ''}
+            <label class="al-label" for="alEmail">${L.email}</label>
+            <input class="al-input" id="alEmail" type="email" autocomplete="email" placeholder="siz@example.com…" value="${esc(demo ? (Auth.lastAccount()?.email || '') : '')}">
+            ${demo ? '' : `<label class="al-label" for="alPass">${L.pass}</label>
+            <input class="al-input" id="alPass" type="password" autocomplete="${reg ? 'new-password' : 'current-password'}" placeholder="${L.passPh}">`}
+            <p class="acc-error" id="gErr" hidden></p>
+            <button class="al-submit" type="submit">${L.btn}</button>
+          </form>
+          <div class="al-or"><span>${L.or}</span></div>
+          <div class="al-social">
+            <div class="al-gwrap">
+              <button class="al-google" id="gBtn" type="button">${AI.google}<span>${L.google}</span></button>
+              <div class="al-gsi" id="gsiBtn" hidden></div>
+            </div>
+            <button class="al-tg" id="alTg" type="button">${TG}<span>${L.tg}</span></button>
           </div>
-        </div>` : ''}
-
-      <form class="acc-form" id="googleForm">
-        ${demo ? `
-          <label class="acc-label" for="gEmail">${t('acc.googleEmail')}</label>
-          <input class="acc-input" id="gEmail" type="email" autocomplete="email" placeholder="name@gmail.com" value="${esc(last?.email || '')}">
-          <label class="acc-label" for="gName">${t('acc.googleName')}</label>
-          <input class="acc-input" id="gName" type="text" autocomplete="name" value="${esc(last?.name || '')}">` : ''}
-        <p class="acc-error" id="gErr" hidden></p>
-        <div class="acc-gbtn" id="gsiBtn" hidden></div>
-        <button class="btn acc-google" id="gBtn" type="submit">${AI.google}<span>${t('acc.googleBtn')}</span></button>
-      </form>
-
-      ${demo ? `<p class="acc-note">${ICONS.info}<span>${t('acc.demoNote')}</span></p>` : ''}
-      <p class="acc-terms">${t('acc.terms')}</p>
+          <p class="al-switch">${reg ? L.have : L.no} <button type="button" data-mode="${reg ? 'login' : 'register'}">${reg ? L.login : L.register}</button></p>
+          ${demo ? `<p class="acc-note">${ICONS.info}<span>${t('acc.demoNote')}</span></p>` : ''}
+          <p class="al-terms">${t('acc.terms')}</p>
+        </div>
+      </div>
     </div>
     <div class="acc-auth-sections">${sectionsHTML()}</div>`;
 
   bindLang(root);
   const $ = s => root.querySelector(s);
   const showErr = msg => { const el = $('#gErr'); el.textContent = msg; el.hidden = !msg; };
+  root.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => renderLogin(b.dataset.mode)));
 
-  // Sayt + haqiqiy Google: Google'ning o'z tugmasi (popup), bizning tugma yashiriladi
-  if (!demo && !Auth.native) {
-    const box = $('#gsiBtn');
-    box.hidden = false;
-    $('#gBtn').hidden = true;
-    Auth.renderGoogleButton(box, () => onLoggedIn(), e => { console.warn(e); showErr(`${t('acc.errGeneric')} (${String(e?.message || e).slice(0, 160)})`); })
-      .catch(() => { box.hidden = true; $('#gBtn').hidden = false; showErr(t('acc.errGoogleLoad')); });
-  }
-
-  $('#googleForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    let opts = {};
-    if (demo) {
-      const email = $('#gEmail').value.trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr(t('acc.errEmail'));
-      opts = { email, name: $('#gName').value.trim() };
-    }
+  async function google(opts = {}) {
     showErr('');
     const btn = $('#gBtn');
     btn.disabled = true;
@@ -516,12 +526,29 @@ function renderLogin() {
     } catch (err) {
       console.warn(err);
       const msg = String(err?.message || err?.code || '');
-      // foydalanuvchi oynani o'zi yopgan bo'lsa — xato ko'rsatmaymiz
-      if (/cancel/i.test(msg)) return;
-      // xato sababini ham ko'rsatamiz — muammoni topish oson bo'lsin
+      if (/cancel/i.test(msg)) return;            // foydalanuvchi oynani o'zi yopgan
       const detail = msg && msg !== 'plugin' ? ` (${msg.slice(0, 160)})` : '';
       showErr((err.code === 'plugin' ? t('acc.errGoogleLoad') : t('acc.errGeneric')) + detail);
     } finally { btn.disabled = false; }
+  }
+
+  // Sayt + haqiqiy Google: Google'ning o'z tugmasi (oq, dumaloq) bizning tugma o'rnida
+  if (!demo && !Auth.native) {
+    const box = $('#gsiBtn');
+    box.hidden = false;
+    $('#gBtn').hidden = true;
+    Auth.renderGoogleButton(box, () => onLoggedIn(), e => { console.warn(e); showErr(`${t('acc.errGeneric')} (${String(e?.message || e).slice(0, 160)})`); }, { theme: 'outline', text: 'signin_with' })
+      .catch(() => { box.hidden = true; $('#gBtn').hidden = false; showErr(t('acc.errGoogleLoad')); });
+  }
+  $('#gBtn').addEventListener('click', () => google());
+  $('#alTg').addEventListener('click', () => showErr(L.tgSoon));
+
+  $('#alForm').addEventListener('submit', e => {
+    e.preventDefault();
+    if (!demo) return showErr(L.soon);
+    const email = $('#alEmail').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr(t('acc.errEmail'));
+    google({ email, name: ($('#alName')?.value || '').trim() });
   });
 }
 
@@ -558,6 +585,7 @@ function planProgressHTML() {
 function unreadCount() { return (profile.notifications || []).filter(n => !n.read).length; }
 
 function renderAccount() {
+  document.body.classList.remove('acc-login-page');
   const root = document.getElementById('account');
   const u = Auth.user();
   const plan = ACC_PLANS[profile.plan] || ACC_PLANS.free;
