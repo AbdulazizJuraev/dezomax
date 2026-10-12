@@ -1197,14 +1197,33 @@ function tmdbSectionHTML(m) {
    admin ko'rib chiqib o'zi saqlaydi. Kalit faqat shu brauzerda (localStorage), repoga yozilmaydi. */
 const AI_KEY = 'dezomax_gemini_key';
 const aiKey = () => { try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
-const AI_MODELS = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite', 'gemini-2.0-flash-001', 'gemini-2.0-flash'];
+const AI_MODELS = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];     // zaxira — ro'yxatni olib bo'lmasa
 const AI_ROUTE = 'dezomax_gemini_route';      // ishlagan manzil va model (keyingi safar darrov shu)
-/* Kalit turlari: AI Studio (AIza…) — generativelanguage.googleapis.com; yangi «AQ.…» kalitlar (Vertex AI express) —
-   aiplatform.googleapis.com. Ikkalasi sinaladi, ishlagani eslab qolinadi. */
+/* Kalit turlari: AI Studio (AIza…) — generativelanguage.googleapis.com; yangi «AQ.…» kalitlar — Vertex AI express
+   (aiplatform.googleapis.com) yoki generativelanguage. Ikkalasi sinaladi, ishlagani eslab qolinadi.
+   Modellar tez-tez almashadi (eskisi o'chiriladi) — shuning uchun avval Google'dan mavjud ro'yxat olinadi va
+   eng yangi «flash» tanlanadi; 404 javobida Google tavsiya qilgan model ham darrov sinaladi. */
 const AI_ENDPOINTS = [
   { id: 'gl', url: m => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`, auth: 'header' },
   { id: 'vx', url: m => `https://aiplatform.googleapis.com/v1/publishers/google/models/${m}:generateContent`, auth: 'query' }
 ];
+let aiModelList = null;
+async function aiListModels(key) {
+  if (aiModelList) return aiModelList;
+  try {
+    const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200', { headers: { 'x-goog-api-key': key } });
+    if (!r.ok) return [];
+    const j = await r.json();
+    const ver = n => (n.match(/gemini-(\d+(?:\.\d+)?)/) || [, 0])[1] * 1;
+    aiModelList = (j.models || [])
+      .filter(m => (m.supportedGenerationMethods || []).includes('generateContent'))
+      .map(m => m.name.replace(/^models\//, ''))
+      .filter(n => /^gemini-.*flash/.test(n) && !/image|tts|audio|live|thinking|exp|preview|embedding/i.test(n))
+      .sort((a, b) => ver(b) - ver(a) || (/lite/.test(a) - /lite/.test(b)) || a.length - b.length)
+      .slice(0, 4);
+    return aiModelList;
+  } catch { return []; }
+}
 
 /* prompt — matn yoki suhbat ([{role:'user'|'model', text}]); opts.text — oddiy matn javob (JSON emas), opts.system — ko'rsatma */
 async function gemini(prompt, opts = {}) {
@@ -1218,15 +1237,16 @@ async function gemini(prompt, opts = {}) {
   });
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(AI_ROUTE) || 'null'); } catch {}
-  const routes = [];
-  if (saved) routes.push(saved);
-  // «AQ.» kalit — avval Vertex manzili
-  const eps = /^AQ\./.test(key) ? [AI_ENDPOINTS[1], AI_ENDPOINTS[0]] : AI_ENDPOINTS;
-  for (const ep of eps) for (const model of AI_MODELS) if (!saved || saved.ep !== ep.id || saved.model !== model) routes.push({ ep: ep.id, model });
+  const routes = [], seen = new Set();
+  const add = (ep, model) => { const k = ep + '|' + model; if (model && !seen.has(k)) { seen.add(k); routes.push({ ep, model }); } };
+  if (saved) add(saved.ep, saved.model);
+  const models = [...await aiListModels(key), ...AI_MODELS];
+  const eps = /^AQ\./.test(key) ? ['gl', 'vx'] : ['gl', 'vx'];
+  for (const ep of eps) for (const m of models) add(ep, m);
 
   let last = null, keyBad = 0, tried = 0;
-  for (const rt of routes) {
-    const ep = AI_ENDPOINTS.find(x => x.id === rt.ep);
+  for (let i = 0; i < routes.length && tried < 12; i++) {
+    const rt = routes[i], ep = AI_ENDPOINTS.find(x => x.id === rt.ep);
     let r;
     tried++;
     try {
@@ -1239,9 +1259,12 @@ async function gemini(prompt, opts = {}) {
     if (r.status === 429) throw new Error('Tekin chegara tugadi — bir daqiqadan keyin qayta urinib ko‘ring');
     if (!r.ok) {
       const j = await r.json().catch(() => ({}));
-      const msg = String(j.error?.message || '').slice(0, 220);
+      const msg = String(j.error?.message || '');
       if ((r.status === 400 || r.status === 401) && /api key not valid|API_KEY_INVALID|invalid authentication/i.test(msg)) keyBad++;
-      last = new Error(`Gemini (${rt.model}, ${r.status}): ${msg || 'xato'}`);
+      // «… use models/gemini-X-flash …» — Google tavsiya qilgan modelni shu manzilda darrov sinaymiz
+      const hint = r.status === 404 && (msg.match(/models\/(gemini-[\w.-]+)/g) || []).map(x => x.slice(7)).find(x => x !== rt.model);
+      if (hint && !seen.has(rt.ep + '|' + hint)) { seen.add(rt.ep + '|' + hint); routes.splice(i + 1, 0, { ep: rt.ep, model: hint }); }
+      last = new Error(`Gemini (${rt.model}, ${r.status}): ${msg.slice(0, 200) || 'xato'}`);
       continue;
     }
     try { localStorage.setItem(AI_ROUTE, JSON.stringify(rt)); } catch {}
