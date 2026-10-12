@@ -18,7 +18,8 @@ try { localStorage.setItem('dzxFresh', '1'); } catch {}
 const TOKEN_KEY = 'dezomax_admin_token';
 
 // Ruxsatsiz kontent tarqatuvchi xostlar — bunday havolalar qabul qilinmaydi
-const BLOCKED_HOSTS = /(asilmedia|terabox|1024tera|teraboxapp|uzmovi|uztube|kinogo|hdrezka|rezka\.ag|filmix|lordfilm)/i;
+// boshqa saytlardagi ruxsatsiz nusxalar (2026-10-12: faylmovi, topfilm, kxcdn, uzbek-tilida.net havolali 129 ta yozuv olib tashlandi)
+const BLOCKED_HOSTS = /(asilmedia|terabox|1024tera|teraboxapp|uzmovi|uztube|kinogo|hdrezka|rezka\.ag|filmix|lordfilm|faylmovi|topfilm\.info|kxcdn\.ru|uzbek-tilida\.net)/i;
 
 const $ = s => document.querySelector(s);
 const token = () => localStorage.getItem(TOKEN_KEY) || '';
