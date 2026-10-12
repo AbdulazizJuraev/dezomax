@@ -749,6 +749,7 @@ function timeAgo(iso) {
 /* ---------- Umumiy qobiq ---------- */
 
 function renderMain() {
+  initAiChat();
   // Minimal menyu: 4 ta asosiy bo'lim + «Boshqa» (kam ishlatiladiganlari ochiladigan ro'yxatda)
   const PRIMARY = [['home', 'home', 'Bosh sahifa'], ['list', 'list', 'Kinolar'], ['form', 'plus', 'Qo‘shish'], ['site', 'gear', 'Sayt']];
   const MORE = [['channels', 'yt', 'Kanallar'], ['groups', 'group', 'Guruhlar'], ['dups', 'copy', 'Dublikatlar'], ['broken', 'bolt', 'Ishlamaydi'],
@@ -1007,6 +1008,7 @@ function renderListView() {
     </div>
     <div class="adm-tmdb-bar">
       <button class="btn btn-ghost" type="button" id="admGenreAuto">${ITEM_ICONS.tag}<span>Janrlarni aniqlash</span></button>
+      <button class="btn btn-ghost" type="button" id="admGenreAi">✨<span>AI bilan janr</span></button>
       <small class="acc-muted" id="admGenreAutoNote">Shu ro‘yxatdagi (filtr va qidiruv bo‘yicha) faqat «Drama» yoki janrsiz rasmiy kinolarga nomi va tavsifidan janr topiladi — ko‘rib chiqib, «Saqlash»ni bosasiz</small>
     </div>
     <div class="adm-gsave" id="admGenreBar" hidden>
@@ -1046,6 +1048,43 @@ function renderListView() {
   }));
   $('#admGenreFilter').addEventListener('change', e => { listGenre = e.target.value; limit = 60; fill(); });
   // avtomatik janr: faqat saytdagi rasmiy kinolar (YouTube va h.k.); Telegram (DezoCloud) va boshqa saytlardagi nusxalar o'tkazib yuboriladi
+  // rasmiy (YouTube va h.k.) kinolarmi — Telegram (DezoCloud) va boshqa saytlardagi nusxalar o'tkazib yuboriladi
+  const officialDrama = m => {
+    const siteIds = officialDrama.ids || (officialDrama.ids = new Set([...(window.SITE_BASE_IDS || []), ...customList.map(x => x.id)]));
+    if (!m || !siteIds.has(m.id) || m.type === 'tahlil') return null;
+    const cur = m.genres || [];
+    if (cur.length && cur.join() !== 'drama') return null;
+    const vids = [m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(Boolean).map(String);
+    return !vids.length || /dezocloud.uz/i.test(m.poster || '') || !vids.every(v => POSTER_OK_VIDEO.test(v)) ? false : true;
+  };
+  // AI bilan janr: 30 tadan bitta so'rovda (tekin chegara — daqiqasiga ~10 so'rov), natija ko'rib chiqish uchun ro'yxatga
+  $('#admGenreAi').addEventListener('click', async e => {
+    const b = e.currentTarget, note = $('#admGenreAutoNote');
+    const todo = listItems().filter(m => officialDrama(m) === true && !genreDraft.has(m.id));
+    const skip = listItems().filter(m => officialDrama(m) === false).length;
+    if (!todo.length) { note.textContent = `AI uchun kino yo‘q (faqat «Drama» yoki janrsiz rasmiy kinolar) · Telegram va boshqa saytlardan o‘tkazib yuborildi: ${skip} ta`; return; }
+    b.disabled = true;
+    let done = 0, set = 0;
+    try {
+      for (let i = 0; i < todo.length; i += 30) {
+        const part = todo.slice(i, i + 30);
+        note.textContent = `AI janr aniqlayapti: ${done} / ${todo.length}…`;
+        const j = await gemini(`Har bir kino uchun janrlarni faqat shu ro'yxatdan tanla (1–3 ta, eng mosi birinchi): ${GENRES.map(g => g.id).join(', ')}.
+Kinoni tanimasang — nomi va tavsifiga qarab. Faqat JSON: {"<id>": ["janr", ...], ...}
+${JSON.stringify(part.map(m => ({ id: m.id, nomi: m.title?.uz, yil: m.year || '', tavsif: String(m.desc?.uz || '').slice(0, 280) })))}`);
+        for (const m of part) {
+          const g = (j[m.id] || j[String(m.id)] || []).filter(x => GENRES.some(y => y.id === x)).slice(0, 3);
+          if (g.length && g.join() !== (m.genres || []).join()) { genreDraft.set(m.id, g); set++; }
+        }
+        done += part.length;
+        paintGenreBar();
+        if (i + 30 < todo.length) await new Promise(r => setTimeout(r, 6500));
+      }
+      note.textContent = `AI: ${set} ta kinoga yangi janr topildi (${done} tadan) · Telegram va boshqa saytlardan o‘tkazib yuborildi: ${skip} ta. Ro‘yxatda ko‘k — tekshirib, «Saqlash».`;
+    } catch (ex) {
+      note.textContent = `${ex.message} — shu paytgacha ${set} ta topildi (saqlash uchun tayyor)`;
+    } finally { b.disabled = false; fill(); }
+  });
   $('#admGenreAuto').addEventListener('click', () => {
     const siteIds = new Set([...(window.SITE_BASE_IDS || []), ...customList.map(x => x.id)]);
     const stat = { set: 0, same: 0, skip: 0 };
@@ -1153,8 +1192,11 @@ const AI_KEY = 'dezomax_gemini_key';
 const aiKey = () => { try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
 const AI_MODELS = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.0-flash'];
 
-async function gemini(prompt) {
+/* prompt — matn yoki suhbat ([{role:'user'|'model', text}]); opts.text — oddiy matn javob (JSON emas), opts.system — ko'rsatma */
+async function gemini(prompt, opts = {}) {
   const key = aiKey();
+  if (!key) throw new Error('AI kaliti kiritilmagan — admin burchagidagi «AI» oynasida yoki kino formasida kiriting');
+  const contents = Array.isArray(prompt) ? prompt.map(m => ({ role: m.role, parts: [{ text: m.text }] })) : [{ role: 'user', parts: [{ text: prompt }] }];
   let last;
   for (const model of AI_MODELS) {
     let r;
@@ -1163,8 +1205,9 @@ async function gemini(prompt) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
         body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.4, responseMimeType: 'application/json' }
+          contents,
+          ...(opts.system ? { systemInstruction: { parts: [{ text: opts.system }] } } : {}),
+          generationConfig: opts.text ? { temperature: 0.7 } : { temperature: 0.4, responseMimeType: 'application/json' }
         })
       });
     } catch { throw new Error('Gemini’ga ulanib bo‘lmadi — internetni tekshiring'); }
@@ -1177,6 +1220,7 @@ async function gemini(prompt) {
     if (!r.ok) { last = new Error(`Gemini xatosi (${r.status})`); continue; }
     const j = await r.json();
     const text = j.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+    if (opts.text) return text.trim();
     try { return JSON.parse(text.replace(/^```(?:json)?\s*|\s*```$/g, '')); }
     catch { throw new Error('Gemini javobini o‘qib bo‘lmadi — qayta urinib ko‘ring'); }
   }
@@ -1195,9 +1239,14 @@ function aiSectionHTML() {
           <button class="btn btn-ghost btn-sm" type="button" data-ai="translate">Ruschadan tarjima</button>
           <button class="btn btn-ghost btn-sm" type="button" data-ai="genres">Janr va teglar</button>
           <button class="btn btn-ghost btn-sm" type="button" data-ai="clean">Tavsifni tozalash</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-ai="post">Post matni (Instagram/Telegram)</button>
         </div>
         <p class="acc-error" id="aiErr" hidden></p>
         <p class="adm-hint" id="aiNote"></p>
+        <div class="adm-ai-post" id="aiPostBox" hidden>
+          <textarea class="acc-input adm-text" id="aiPost" rows="7"></textarea>
+          <button class="btn btn-primary btn-sm" type="button" id="aiPostCopy">Nusxalash</button>
+        </div>
         <div class="adm-tmdb-foot"><button class="acc-link" type="button" id="aiKeyReset">Kalitni o‘zgartirish</button><span>Google Gemini</span></div>` : `
         <p class="adm-hint">Tekin Gemini kaliti kerak: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> → «Create API key» → «Copy key» → kalitni pastga qo‘ying.</p>
         <div class="adm-tmdb-row">
@@ -1273,17 +1322,91 @@ ${RULES} Format: {"descUz": "...", "descRu": "..."}`,
         for (const n of ['descUz', 'descRu']) if (form.elements[n] && typeof j[n] === 'string') form.elements[n].value = j[n].trim();
         return 'Tavsif tozalandi';
       }
+    },
+    post: {
+      prompt: () => `${info()}
+Instagram va Telegram uchun shu kino haqida qisqa, qiziqarli post yoz (o'zbekcha): 1 qator jalb qiluvchi gap, 2–3 qator mazmun (spoylersiz),
+oxirida «▶️ DezoMax'da tomosha qiling: https://dezomax.uz/movie.html?id=${editingId || ''}» va 5–8 ta heshteg (#dezomax #ozbekkino kabi). Emoji me'yorida.
+${RULES} Format: {"post": "..."}`,
+      apply: j => {
+        $('#aiPost').value = String(j.post || '').trim();
+        $('#aiPostBox').hidden = false;
+        return 'Post tayyor';
+      }
     }
   };
+  $('#aiPostCopy')?.addEventListener('click', () => { navigator.clipboard?.writeText($('#aiPost').value).then(() => toast('Nusxalandi')); });
   box.querySelectorAll('[data-ai]').forEach(b => b.addEventListener('click', async () => {
     const task = TASKS[b.dataset.ai];
     if (!v('titleUz')) return showErr('Avval kino nomini yozing');
     showErr(''); note.textContent = 'Gemini o‘ylayapti…';
     box.querySelectorAll('[data-ai]').forEach(x => { x.disabled = true; });
-    try { note.textContent = task.apply(await gemini(task.prompt())) + ' — tekshirib, saqlang'; }
+    try { const msg = task.apply(await gemini(task.prompt())); note.textContent = msg + (b.dataset.ai === 'post' ? ' — nusxalab, joylang' : ' — tekshirib, saqlang'); }
     catch (ex) { note.textContent = ''; showErr(ex.message); }
     finally { box.querySelectorAll('[data-ai]').forEach(x => { x.disabled = false; }); }
   }));
+}
+
+/* ---------- AI chat: admin panel burchagida «✨ AI» — istalgan savol (reklama matni, teg, g'oya…) ----------
+   Suhbat faqat shu sahifa ochiq turganda xotirada (saqlanmaydi). Kalit yo'q bo'lsa — shu oynada kiritiladi. */
+const aiChat = [];
+function initAiChat() {
+  if (document.getElementById('aiChatBtn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'aiChatBtn'; btn.type = 'button'; btn.className = 'adm-aichat-btn'; btn.textContent = '✨ AI';
+  const box = document.createElement('div');
+  box.id = 'aiChat'; box.className = 'adm-aichat'; box.hidden = true;
+  document.body.append(btn, box);
+  const esc2 = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+  const draw = () => {
+    box.innerHTML = `
+      <div class="adm-aichat-head"><b>AI yordamchi</b><small>Gemini</small><button type="button" data-x aria-label="Yopish">✕</button></div>
+      ${aiKey() ? `
+        <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}</div>`).join('')
+          : '<p class="adm-hint">Masalan: «Instagram uchun DezoMax reklama matnini yoz», «Yangi yil uchun bildirishnoma g‘oyalari», «Bu kinoga qanday teg qo‘yay: …»</p>'}</div>
+        <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savolingizni yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
+        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button><button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button></div>` : `
+        <p class="adm-hint">Tekin Gemini kaliti kerak: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> → «Create API key» → «Copy key».</p>
+        <form class="adm-aichat-form" id="aiChatKey"><input class="acc-input" type="password" placeholder="Gemini API kaliti" autocomplete="off" required><button class="btn btn-primary btn-sm" type="submit">Saqlash</button></form>
+        <p class="adm-hint">Kalit faqat shu qurilmada saqlanadi.</p>`}
+      <p class="acc-error" id="aiChatErr" hidden></p>`;
+    const err = box.querySelector('#aiChatErr');
+    const list = box.querySelector('#aiChatList');
+    if (list) list.scrollTop = list.scrollHeight;
+    box.querySelector('[data-x]').onclick = () => { box.hidden = true; };
+    box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; draw(); });
+    box.querySelector('[data-reset]')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); draw(); });
+    box.querySelector('#aiChatKey')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const v = e.currentTarget.querySelector('input').value.trim();
+      if (!/^[\w.-]{20,}$/.test(v)) { err.textContent = 'Kalit to‘liq nusxalanmagan'; err.hidden = false; return; }
+      localStorage.setItem(AI_KEY, v);
+      try { await gemini('Return JSON {"ok": true}'); toast('Gemini ulandi'); draw(); }
+      catch (ex) { localStorage.removeItem(AI_KEY); err.textContent = ex.message; err.hidden = false; }
+    });
+    const form = box.querySelector('#aiChatForm');
+    if (!form) return;
+    const ta = form.querySelector('textarea');
+    ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } });
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const q = ta.value.trim();
+      if (!q) return;
+      aiChat.push({ role: 'user', text: q });
+      draw();
+      const l2 = box.querySelector('#aiChatList');
+      l2.insertAdjacentHTML('beforeend', '<div class="adm-aichat-msg is-model is-wait">…</div>');
+      l2.scrollTop = l2.scrollHeight;
+      box.querySelector('#aiChatForm button').disabled = true;
+      try {
+        const a = await gemini(aiChat.slice(-16), { text: true, system: 'Sen DezoMax (dezomax.uz) — o‘zbek tilidagi kino, serial, sport va TV sayti adminining yordamchisisan. Qisqa, aniq, o‘zbek tilida (lotin) javob ber. Reklama matni, SEO, bildirishnoma, ijtimoiy tarmoq postlari va sayt boshqaruvi bo‘yicha amaliy maslahat ber.' });
+        aiChat.push({ role: 'model', text: a || '(javob bo‘sh)' });
+      } catch (ex) { aiChat.pop(); draw(); const er = box.querySelector('#aiChatErr'); er.textContent = ex.message; er.hidden = false; box.querySelector('#aiChatForm textarea').value = q; return; }
+      draw();
+      box.querySelector('#aiChatForm textarea')?.focus();
+    });
+  };
+  btn.addEventListener('click', () => { box.hidden = !box.hidden; if (!box.hidden) { draw(); box.querySelector('textarea, input')?.focus(); } });
 }
 
 function bindTmdb(form, { setHeroImg, setCover }) {
@@ -1911,7 +2034,10 @@ function seoSectionHTML() {
         <textarea class="acc-input adm-text" id="seoKeys" rows="3" placeholder="o‘zbek kino, onlayn kino, seriallar, uzbek kino 2026, tarjima kinolar"></textarea></div>
       <div class="adm-tag-chips" id="seoChips"></div>
       <p class="acc-error" id="seoErr" hidden></p>
-      <button class="btn btn-primary" type="button" id="seoSave" disabled>Teglarni saqlash</button>
+      <div class="adm-ai-btns">
+        <button class="btn btn-primary" type="button" id="seoSave" disabled>Teglarni saqlash</button>
+        <button class="btn btn-ghost" type="button" id="seoAi">✨ AI bilan yozish</button>
+      </div>
     </details>`;
 }
 
@@ -1944,6 +2070,26 @@ async function bindSeo() {
     counts();
   } catch (e) { err.textContent = friendlyError(e); err.hidden = false; return; }
   [ti, de, ke].forEach(x => x.addEventListener('input', counts));
+
+  // AI: bosh sahifa uchun Google'ga mos sarlavha, tavsif va teglar (formaga yoziladi, saqlash — «Teglarni saqlash»)
+  $('#seoAi').addEventListener('click', async e => {
+    const b = e.currentTarget;
+    b.disabled = true; err.hidden = true;
+    try {
+      const j = await gemini(`DezoMax (dezomax.uz) — o'zbek tilidagi kinolar, seriallar, multfilmlar, sport va telekanallar sayti (rasmiy YouTube kanallaridagi o'zbek filmlari, konsertlar, kino tahlillari).
+Hozirgi sarlavha: ${ti.value}
+Hozirgi tavsif: ${de.value}
+Hozirgi teglar: ${ke.value}
+Google'da «kinolar», «o'zbek kino», «uzbek kino onlayn» kabi qidiruvlarda yuqori chiqish uchun yaxshiroq variant yoz: sarlavha 60 belgigacha, tavsif 150–160 belgi, 15–25 ta teg (o'zbekcha va ruscha qidiruv so'zlari).
+Faqat JSON: {"title": "...", "desc": "...", "keys": ["..."]}`);
+      if (j.title) ti.value = String(j.title).trim();
+      if (j.desc) de.value = String(j.desc).trim();
+      if (Array.isArray(j.keys) && j.keys.length) ke.value = j.keys.map(String).join(', ');
+      counts();
+      toast('AI yozdi — tekshirib, «Teglarni saqlash»ni bosing');
+    } catch (ex) { err.textContent = ex.message; err.hidden = false; }
+    finally { b.disabled = false; }
+  });
 
   btn.addEventListener('click', () => {
     const title = ti.value.trim(), desc = de.value.trim();
@@ -2287,7 +2433,8 @@ async function renderNotifyView() {
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.bell}</span><h3>Yangi bildirishnoma</h3><small>DezoMax ilovasiga</small></div>
       <div class="adm-field">
         <label class="adm-label">Tayyor shablonlar</label>
-        <div class="adm-seg">${NOTIFY_TEMPLATES.map((tp, i) => `<button type="button" data-tpl="${i}">${esc(tp.label)}</button>`).join('')}</div>
+        <div class="adm-seg">${NOTIFY_TEMPLATES.map((tp, i) => `<button type="button" data-tpl="${i}">${esc(tp.label)}</button>`).join('')}<button type="button" id="nAi">✨ AI bilan yozish</button></div>
+        <small class="adm-hint">AI: pastda kino tanlangan bo‘lsa — o‘sha kino haqida, aks holda sarlavha/matndagi mavzu bo‘yicha yozadi.</small>
       </div>
       <div class="adm-field">
         <label class="adm-label" for="nTitle">Sarlavha <span class="adm-req">*</span></label>
@@ -2355,6 +2502,23 @@ async function renderNotifyView() {
     const tp = NOTIFY_TEMPLATES[+b.dataset.tpl];
     title.value = tp.title; body.value = tp.body; syncPreview();
   }));
+  $('#nAi').addEventListener('click', async e => {
+    const b = e.currentTarget;
+    const mid = +(link.value.match(/movie\.html\?id=(\d+)/) || [])[1];
+    const m = mid ? allMovies().find(x => x.id === mid) : null;
+    const topic = m ? `Kino: «${m.title?.uz}»${m.year ? ` (${m.year})` : ''}. ${m.desc?.uz || ''}` : `${title.value} ${body.value}`.trim();
+    if (!topic) { err.textContent = 'Pastda kinoni tanlang yoki sarlavhaga mavzuni yozing'; err.hidden = false; return; }
+    b.disabled = true; err.hidden = true;
+    try {
+      const j = await gemini(`DezoMax kino ilovasi foydalanuvchilariga push-bildirishnoma yoz (o'zbekcha, lotin): ${topic}
+Sarlavha 40–60 belgi (1 ta emoji bo'lishi mumkin), matn 80–200 belgi, qiziqtiruvchi, spoylersiz, chaqiruv bilan (masalan «Hoziroq ko'ring»).
+Faqat JSON: {"title": "...", "body": "..."}`);
+      if (j.title) title.value = String(j.title).trim().slice(0, 60);
+      if (j.body) body.value = String(j.body).trim().slice(0, 240);
+      syncPreview();
+    } catch (ex) { err.textContent = ex.message; err.hidden = false; }
+    finally { b.disabled = false; }
+  });
   box.querySelectorAll('[data-when]').forEach(b => b.addEventListener('click', () => {
     d.when = b.dataset.when;
     box.querySelectorAll('[data-when]').forEach(x => x.classList.toggle('is-active', x === b));
