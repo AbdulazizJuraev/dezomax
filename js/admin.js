@@ -3505,7 +3505,7 @@ function dupGroupHTML(g) {
     <section class="adm-sec adm-dup" data-dup="${g.key}">
       <div class="adm-dup-head"><span class="adm-state ${g.exact ? 'is-hide' : 'is-edit'}">${g.exact ? 'Aniq · bir xil video' : 'Ehtimoliy · bir xil nom'}</span><small>${g.items.length} ta</small></div>
       ${parts ? '<p class="adm-dup-warn">1- va 2-qism bo‘lishi mumkin.</p>' : ''}
-      ${g.items.map(m => `
+      <div class="adm-dup-grid">${g.items.map(m => `
         <label class="acc-item adm-item adm-dup-item">
           <input type="radio" name="keep-${g.key}" value="${m.id}" ${m.id === g.keep ? 'checked' : ''}>
           <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
@@ -3513,7 +3513,7 @@ function dupGroupHTML(g) {
             <small>${[m.year, typeName(m.type), m.audio === 'uz' ? 'O‘zbekcha' : '', dupHost(m), `ID ${m.id}`].filter(Boolean).map(esc).join(' · ')}</small></span>
           <span class="adm-dup-tag"></span>
           <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
-        </label>`).join('')}
+        </label>`).join('')}</div>
       <div class="adm-actions">
         <button class="btn btn-primary btn-sm" type="button" data-duphide="${g.key}">Qolganini yashirish</button>
         <button class="btn btn-ghost btn-sm" type="button" data-dupskip="${g.key}">Dublikat emas</button>
