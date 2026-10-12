@@ -125,19 +125,26 @@ if (typeof MOVIES !== 'undefined') {
    mutate(list, hidden) — ro'yxatni qaytaradi, hidden massivini joyida o'zgartiradi */
 /* Admin sahifa uzoq ochiq qolsa, xotirada ESKI kod ishlaydi (2026-10-03: eski kod 1095 ta kinoni 400 taga almashtirgan).
    Saqlashdan oldin saytdagi versiya bilan solishtiramiz — yangisi chiqqan bo'lsa, sahifa yangilanadi. */
-async function ensureFreshAdmin() {
+async function ensureFreshAdmin(auto = false) {
   const mine = ([...document.scripts].map(s => s.src).find(s => /\/js\/admin\.js\?v=/.test(s)) || '').match(/v=(\d+)/)?.[1];
   if (!mine) return;
   try {
     const html = await (await fetch(`admin.html?t=${Date.now()}`, { cache: 'no-store' })).text();
     const live = html.match(/js\/admin\.js\?v=(\d+)/)?.[1];
     if (live && live !== mine) {
-      toast('Admin panelning yangi versiyasi chiqqan — sahifa yangilanmoqda. Keyin qayta urining.', true);
-      setTimeout(() => location.reload(), 1200);
+      toast(auto ? 'Admin panelning yangi versiyasi — yangilanmoqda…' : 'Admin panelning yangi versiyasi chiqqan — sahifa yangilanmoqda. Keyin qayta urining.', true);
+      // ?v= — brauzer keshidagi eski admin.html emas, yangisi ochilsin (oddiy reload 10 daqiqagacha eskisini berardi)
+      setTimeout(() => location.replace(location.pathname + '?v=' + live + location.hash), auto ? 600 : 1200);
       throw new Error('Admin panel eskirgan — yangilanmoqda, keyin qayta urining.');
     }
   } catch (e) { if (/eskirgan/.test(e.message)) throw e; }
 }
+
+// sahifa ochilganda va unga qaytilganda (5 daqiqada bir) — yangi versiya bo'lsa o'zi yangilanadi
+let freshAt = 0;
+const autoFresh = () => { if (Date.now() - freshAt < 5 * 60e3) return; freshAt = Date.now(); ensureFreshAdmin(true).catch(() => {}); };
+addEventListener('load', autoFresh);
+addEventListener('focus', autoFresh);
 
 /* Fayl versiyasi (sha) — matnisiz: data-custom.js 1 MB dan katta, GitHub uning matnini bu so'rovda bermaydi (bir necha KB) */
 async function remoteSha(path) {
@@ -1287,18 +1294,19 @@ function bindAi(form) {
   const showErr = m => { err.textContent = m || ''; err.hidden = !m; };
   const redraw = () => { box.outerHTML = aiSectionHTML(); bindAi(form); };
   $('#aiKeySave')?.addEventListener('click', async e => {
+    const btn = e.currentTarget;
     const v = $('#aiKeyIn').value.trim();
     if (!/^[\w.-]{20,}$/.test(v)) return showErr('Kalit to‘liq nusxalanmagan — «Copy key» bilan qayta nusxalang');
-    e.currentTarget.disabled = true;
+    btn.disabled = true;
+    localStorage.setItem(AI_KEY, v);
     try {
-      localStorage.setItem(AI_KEY, v);
       await gemini('Return JSON {"ok": true}');            // kalitni tekshiramiz
       toast('Gemini ulandi');
       redraw();
     } catch (ex) {
-      localStorage.removeItem(AI_KEY);
-      showErr(ex.message);
-      e.currentTarget.disabled = false;
+      // faqat kalit noto'g'ri bo'lsa o'chiriladi; boshqa xatoda (chegara, tarmoq) kalit saqlanib qoladi
+      if (/kaliti noto/.test(ex.message)) { localStorage.removeItem(AI_KEY); showErr(ex.message); btn.disabled = false; }
+      else { toast('Kalit saqlandi, lekin tekshiruvda xato: ' + ex.message, true); redraw(); }
     }
   });
   $('#aiKeyReset')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); redraw(); });
@@ -1404,7 +1412,10 @@ function initAiChat() {
       if (!/^[\w.-]{20,}$/.test(v)) { err.textContent = 'Kalit to‘liq nusxalanmagan'; err.hidden = false; return; }
       localStorage.setItem(AI_KEY, v);
       try { await gemini('Return JSON {"ok": true}'); toast('Gemini ulandi'); draw(); }
-      catch (ex) { localStorage.removeItem(AI_KEY); err.textContent = ex.message; err.hidden = false; }
+      catch (ex) {
+        if (/kaliti noto/.test(ex.message)) { localStorage.removeItem(AI_KEY); err.textContent = ex.message; err.hidden = false; }
+        else { draw(); const er = box.querySelector('#aiChatErr'); er.textContent = 'Kalit saqlandi, lekin tekshiruvda xato: ' + ex.message; er.hidden = false; }
+      }
     });
     const form = box.querySelector('#aiChatForm');
     if (!form) return;
