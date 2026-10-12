@@ -87,6 +87,15 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const handle = u => '@' + (String(u).match(/@([\w.-]+)/) || [, 'kanal'])[1];
+  // kanal logolari (YouTube kanal sahifasidagi avatar, 88 px)
+  const AVATAR = {
+    farzidguy: 'https://yt3.googleusercontent.com/1SSSigRbfHcDJemcfw2QXOMqe5ApSr1Mi4gqZhIUwf4JWOWQF7zdXINh35OLHofA9n73NiigcoI=s88-c-k-c0x00ffffff-no-rj',
+    mrmomentinc: 'https://yt3.googleusercontent.com/ytc/AIdro_nQS4e5OgJ3lhEdWQF5hZiTVQrVkM6hJjPrRZQKXkEhCg=s88-c-k-c0x00ffffff-no-rj'
+  };
+  const chName = s => s.n || handle(s.u).slice(1);
+  const avatarHTML = s => AVATAR[s.ch]
+    ? `<img src="${AVATAR[s.ch]}" alt="" loading="lazy" decoding="async" onerror="this.replaceWith(document.createTextNode('${esc(chName(s).charAt(0).toUpperCase())}'))">`
+    : esc(chName(s).charAt(0).toUpperCase());
   const ICON = {
     muted: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>',
     sound: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>',
@@ -124,8 +133,11 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
       <div class="sh-frame"></div>
       <button class="sh-tap" type="button" aria-label="${ru ? 'Пауза / воспроизвести' : 'Pauza / davom ettirish'}"><span class="sh-paused">${ICON.play}</span></button>
       <div class="sh-info">
-        <a class="sh-ch" href="${esc(s.u)}" target="_blank" rel="noopener">${esc(handle(s.u))}</a>
-        <p class="sh-title">${esc(s.t)}</p>
+        <div class="sh-trow">
+          <p class="sh-title">${esc(s.t)}</p>
+          <a class="sh-ch" href="${esc(s.u)}" target="_blank" rel="noopener" aria-label="${esc(chName(s))}" title="${esc(chName(s))}">${avatarHTML(s)}</a>
+        </div>
+        <p class="sh-desc"><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(handle(s.u))}</a><span data-n="views"></span></p>
       </div>
       <div class="sh-actions">
         <button class="sh-act sh-like" type="button" aria-label="${T.like}"><span class="sh-btn">${ICON.like}</span><b data-n="like">${T.like}</b></button>
@@ -147,7 +159,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   soundBtn.className = 'sh-sound';
   soundBtn.type = 'button';
   soundBtn.setAttribute('aria-label', T.sound);
-  document.body.appendChild(soundBtn);
+  (document.getElementById('shBar') || document.body).appendChild(soundBtn);
   const paintSound = () => { soundBtn.innerHTML = muted ? ICON.muted : ICON.sound; };
   paintSound();
   soundBtn.addEventListener('click', () => {
@@ -166,6 +178,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     sl.querySelector('[data-n="like"]').textContent = (s.likes || 0) + (yt.likes || 0) ? fmtN((s.likes || 0) + (yt.likes || 0)) : T.like;
     sl.querySelector('[data-n="dislike"]').textContent = s.dislikes ? fmtN(s.dislikes) : T.dislike;
     sl.querySelector('[data-n="comments"]').textContent = fmtN((s.total || 0) + (yt.commentCount || 0));
+    if (yt.views) sl.querySelector('[data-n="views"]').textContent = ` · ${fmtN(yt.views)} ${ru ? 'просмотров' : 'marta ko‘rildi'}`;
     sl.querySelector('.sh-like').classList.toggle('is-on', s.mine === 1);
     sl.querySelector('.sh-dislike').classList.toggle('is-on', s.mine === -1);
   }

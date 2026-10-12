@@ -854,6 +854,7 @@ const ITEM_ICONS = {
   undo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>',
   eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
   eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.3 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/></svg>',
+  tag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>',
   trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>'
 };
 const admIconBtn = (label, icon, attrs, cls = '') =>
@@ -869,14 +870,17 @@ function itemHTML(m) {
   const state = hidden ? '<span class="adm-state is-hide" title="Yashirilgan" aria-label="Yashirilgan"></span>'
     : !base ? '<span class="adm-state is-add" title="Qo‘shilgan" aria-label="Qo‘shilgan"></span>'
     : edited ? '<span class="adm-state is-edit" title="Tahrirlangan" aria-label="Tahrirlangan"></span>' : '';
+  const g = genresOf(m), changed = genreDraft.has(m.id);
   return `
-    <div class="acc-item adm-item${hidden ? ' is-hidden' : ''}">
+    <div class="acc-item adm-item${hidden ? ' is-hidden' : ''}" data-item="${m.id}">
       <span class="adm-thumb">${m.poster ? `<img src="${esc(tmdbPosterUrl(siteDraft?.posters?.[m.id]) || m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
       <div class="acc-item-main">
         <b>${esc(m.title?.uz || '')} ${state}</b>
         <small>${tags.map(esc).join(' · ')}</small>
+        <small class="adm-glabel${changed ? ' is-changed' : ''}" data-glabel="${m.id}">${esc(genreLabel(g))}</small>
       </div>
       <div class="adm-actions adm-icons">
+        ${admIconBtn('Janrlar', ITEM_ICONS.tag, `data-genre="${m.id}"`)}
         ${admIconBtn('Tahrirlash', ITEM_ICONS.edit, `data-edit="${m.id}"`)}
         <a class="adm-ibtn" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener" title="Ko‘rish" aria-label="Ko‘rish">${ITEM_ICONS.open}</a>
         ${base
@@ -886,6 +890,46 @@ function itemHTML(m) {
           : admIconBtn('O‘chirish', ITEM_ICONS.trash, `data-del="${m.id}"`, ' is-danger')}
       </div>
     </div>`;
+}
+
+/* ---------- Janrlarni tez tahrirlash (Kinolar ro'yxatida) ----------
+   Har kino qatorida «Janrlar» tugmasi → janr chiplari; o'zgarishlar yig'iladi va pastdagi «Saqlash» bilan
+   BITTA saqlashda yoziladi (har kinoga alohida saqlash — 2 MB fayl har safar — sekin bo'lardi). */
+const genreDraft = new Map();      // id → yangi janrlar
+let listGenre = '';                // ro'yxat filtri: '' — hammasi, '-' — janrsiz, aks holda janr kodi
+const genresOf = m => genreDraft.get(m.id) || m.genres || [];
+const genreLabel = g => g.length ? g.map(id => GENRES.find(x => x.id === id)?.uz || id).join(', ') : 'Janr yo‘q';
+
+function genrePickHTML(m) {
+  const g = genresOf(m);
+  return `<div class="adm-gpick" data-gpick="${m.id}"><div class="adm-genres">
+    ${GENRES.map(x => `<label class="adm-genre"><input type="checkbox" value="${x.id}"${g.includes(x.id) ? ' checked' : ''}><span>${ADM_ICONS.check}${esc(x.uz)}</span></label>`).join('')}
+  </div></div>`;
+}
+
+function paintGenreBar() {
+  const bar = $('#admGenreBar');
+  if (!bar) return;
+  bar.hidden = !genreDraft.size;
+  const n = bar.querySelector('b');
+  if (n) n.textContent = `${genreDraft.size} ta kinoning janri o‘zgardi`;
+}
+
+async function saveGenres(btn) {
+  const changes = [...genreDraft];
+  if (!changes.length) return;
+  // xato bo'lsa — o'zgarishlar saqlanib turadi, qayta urinish mumkin
+  await runAction(btn, async () => {
+    await saveCustom(list => {
+      for (const [id, g] of changes) {
+        const i = list.findIndex(x => x.id === id);
+        if (i > -1) list[i].genres = g;
+        else { const m = currentMovie(id); if (m) list.push({ ...structuredClone(m), genres: g }); }
+      }
+      return list;
+    }, `Janrlar tahrirlandi: ${changes.length} ta kino`);
+    genreDraft.clear();
+  }, `${changes.length} ta kinoning janri saqlandi`);
 }
 
 /* Rasmiy YouTube kanallaridan kelgan kinolar (js/data-channels.js) — admin tahrirlasa ham shu yerda sanaladi */
@@ -907,6 +951,9 @@ function listItems() {
   if (listFilter === 'channels') { const ids = channelIds(); items = items.filter(m => ids.has(m.id)); }
   const q = norm(listQuery);
   if (q) items = items.filter(m => hayOf(m).includes(q));
+  if (listGenre === '-') items = items.filter(m => !(m.genres || []).length);
+  else if (listGenre === 'only-drama') items = items.filter(m => (m.genres || []).join() === 'drama');
+  else if (listGenre) items = items.filter(m => (m.genres || []).includes(listGenre));
   return items;
 }
 
@@ -917,7 +964,20 @@ function renderListView() {
       ${[['active', 'Faol'], ['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel'], ['channels', 'Kanallardan']].map(([id, l]) =>
         `<button type="button" data-filter="${id}" class="${listFilter === id ? 'is-active' : ''}">${l} <small>${counts[id]}</small></button>`).join('')}
     </div>
-    <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
+    <div class="adm-search-row">
+      <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
+      <select class="acc-input adm-gfilter" id="admGenreFilter" aria-label="Janr bo‘yicha">
+        <option value="">Barcha janrlar</option>
+        <option value="only-drama"${listGenre === 'only-drama' ? ' selected' : ''}>Faqat «Drama»</option>
+        <option value="-"${listGenre === '-' ? ' selected' : ''}>Janrsiz</option>
+        ${GENRES.map(g => `<option value="${g.id}"${listGenre === g.id ? ' selected' : ''}>${esc(g.uz)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="adm-gsave" id="admGenreBar" hidden>
+      <b></b>
+      <button class="btn btn-ghost btn-sm" type="button" id="admGenreUndo">Bekor qilish</button>
+      <button class="btn btn-primary btn-sm" type="button" id="admGenreSave">Saqlash</button>
+    </div>
     <div class="adm-tmdb-bar">
       <button class="btn btn-ghost" type="button" id="admListTmdb">${ICONS.search}<span>Rasmiy posterlar (TMDB)</span></button>
       <small class="acc-muted" id="admListTmdbNote">Shu ro‘yxatdagi (filtr va qidiruv bo‘yicha) hamma kino tekshiriladi: rasmiy posteri yo‘q jahon filmlari va seriallariga TMDB'dan nomi yozilgan poster qo‘yiladi</small>
@@ -948,6 +1008,10 @@ function renderListView() {
     document.querySelectorAll('[data-filter]').forEach(x => x.classList.toggle('is-active', x === b));
     fill();
   }));
+  $('#admGenreFilter').addEventListener('change', e => { listGenre = e.target.value; limit = 60; fill(); });
+  $('#admGenreSave').addEventListener('click', e => saveGenres(e.currentTarget));
+  $('#admGenreUndo').addEventListener('click', () => { genreDraft.clear(); paintGenreBar(); fill(); });
+  paintGenreBar();
   let t0;
   $('#admSearch').addEventListener('input', e => {
     clearTimeout(t0);
@@ -1421,6 +1485,26 @@ async function runAction(btn, fn, okMsg) {
 }
 
 function bindList() {
+  // janrlar: chiplar qator ostida ochiladi/yopiladi; belgilash darhol yig'iladi (saqlash — pastdagi panel)
+  document.querySelectorAll('[data-genre]').forEach(b => b.addEventListener('click', () => {
+    const id = +b.dataset.genre, row = b.closest('[data-item]');
+    const open = row.nextElementSibling?.dataset?.gpick === String(id) ? row.nextElementSibling : null;
+    if (open) { open.remove(); b.classList.remove('is-on'); return; }
+    const m = allMovies().find(x => x.id === id) || currentMovie(id);
+    if (!m) return;
+    row.insertAdjacentHTML('afterend', genrePickHTML(m));
+    b.classList.add('is-on');
+    row.nextElementSibling.addEventListener('change', e => {
+      const g = [...e.currentTarget.querySelectorAll('input:checked')].map(x => x.value);
+      const same = g.join() === (m.genres || []).join();
+      if (same) genreDraft.delete(id); else genreDraft.set(id, g);
+      const label = row.querySelector(`[data-glabel="${id}"]`);
+      label.textContent = genreLabel(g);
+      label.classList.toggle('is-changed', !same);
+      paintGenreBar();
+    });
+  }));
+
   document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
     editingId = +b.dataset.edit;
     view = 'form';
