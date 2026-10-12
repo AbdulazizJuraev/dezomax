@@ -7356,3 +7356,33 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
   .al-card::after { right: -160px; bottom: -160px; }
 }
 @media (max-width: 380px) { .al-social { grid-template-columns: 1fr; } }
+/* Kirish sahifasi — kompyuterda ixcham karta (ekran o'rtasida, ~960 px) */
+@media (min-width: 901px) {
+  .acc-login { display: grid; place-items: center; padding: 24px; }
+  .al-card { width: min(960px, 100%); min-height: 0; height: min(640px, calc(100dvh - 48px)); padding: 12px; gap: 0; border-radius: 30px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: #0c0c0e; border: 1px solid rgba(255, 255, 255, .08); box-shadow: 0 30px 80px rgba(0, 0, 0, .6); }
+  .al-card::after { width: 300px; height: 240px; right: -90px; bottom: -100px; }
+  .al-art { min-height: 0; border-radius: 22px; }
+  .al-logo { top: 18px; left: 20px; width: 44px; height: 44px; border-radius: 11px; }
+  .al-tabs { top: 26px; right: 22px; gap: 8px; }
+  .al-tabs button { font-size: 12px; }
+  .al-tabs span { font-size: 14px; }
+  .al-side { padding: 10px 18px 10px 30px; }
+  .al-top { gap: 12px; }
+  .al-home { font-size: 13px; }
+  .al-home svg { width: 16px; height: 16px; }
+  .al-main { max-width: 330px; padding: 10px 0; }
+  .al-main h1 { font-size: 40px; }
+  .al-sub { margin: 6px 0 18px; font-size: 13.5px; color: #b9b9c0; }
+  .al-label { margin: 0 0 6px 4px; font-size: 12px; letter-spacing: .04em; color: #d6d6dc; }
+  .al-input { height: 44px; margin-bottom: 12px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; }
+  .al-submit { width: 100%; min-width: 0; height: 46px; margin-top: 6px; border-radius: 12px; font-size: 19px; }
+  .al-or { margin: 18px 0 12px; font-size: 12px; }
+  .al-or::before, .al-or::after { background: rgba(255, 255, 255, .25); }
+  .al-social { gap: 8px; }
+  .al-google, .al-tg { height: 46px; border-radius: 12px; font-size: 13.5px; gap: 8px; padding: 0 10px; }
+  .al-gsi { border-radius: 12px; }
+  .al-google svg { width: 22px; height: 22px; } .al-tg svg { width: 24px; height: 24px; }
+  .al-switch { margin-top: 14px; font-size: 13.5px; }
+  .al-terms { font-size: 11.5px; }
+}

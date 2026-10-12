@@ -509,7 +509,7 @@ function renderLogin(mode = 'login') {
         </div>
       </div>
     </div>
-    <div class="acc-auth-sections">${sectionsHTML()}</div>`;
+`;
 
   bindLang(root);
   const $ = s => root.querySelector(s);
