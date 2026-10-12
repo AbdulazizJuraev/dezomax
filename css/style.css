@@ -7386,3 +7386,54 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
   .al-switch { margin-top: 14px; font-size: 13.5px; }
   .al-terms { font-size: 11.5px; }
 }
+
+/* ================= Akkaunt sahifasi — kirish sahifasi uslubida (qora, qizil nur, to'q kartalar) ================= */
+body.page-account { background: #000; }
+body.page-account::before { content: ''; position: fixed; inset: 0 0 auto; height: 360px; z-index: -1; pointer-events: none;
+  background: radial-gradient(60% 100% at 50% 0, rgba(229, 32, 58, .22), rgba(229, 32, 58, 0)); }
+.acc-layout .acc-profile {
+  min-height: 112px; padding: 18px; border-radius: 24px; border: 1px solid rgba(255, 120, 110, .35);
+  background: linear-gradient(90deg, #0b0b0d 38%, rgba(11, 11, 13, .55) 70%, rgba(11, 11, 13, .2)), url('../images/auth-art.webp') 40px 50% / 165% auto no-repeat, #0b0b0d;
+  box-shadow: 0 14px 40px rgba(229, 32, 58, .12);
+}
+.acc-layout .acc-profile .avatar-lg { box-shadow: 0 0 0 2px #e5203a, 0 0 22px rgba(229, 32, 58, .45); }
+.acc-layout .acc-profile-info b { font-size: 19px; }
+.acc-layout .acc-profile-since { color: rgba(255, 255, 255, .55); }
+.acc-layout .acc-profile .acc-lang { background: rgba(0, 0, 0, .55); }
+.acc-layout .lang-btn.is-active { background: #e5203a; }
+
+/* kartalar: to'q, ingichka chegara, rasm orqasida o'z rangidagi nur */
+.acc-layout .acc-tile {
+  --glow: 229, 32, 58;
+  border-radius: 22px; border: 1px solid rgba(255, 255, 255, .08); color: #fff;
+  background: radial-gradient(120% 120% at 100% 100%, rgba(var(--glow), .34), rgba(var(--glow), 0) 60%), linear-gradient(160deg, #17171a, #0b0b0d);
+}
+.acc-layout .acc-tile:hover { border-color: rgba(var(--glow), .55); }
+.acc-layout .acc-tile b { overflow-wrap: normal; word-break: keep-all; }
+.acc-layout .acc-tile small { color: rgb(var(--glow)); opacity: 1; font-weight: 700; }
+.acc-layout .acc-tile-tariff { --glow: 245, 179, 1; }
+.acc-layout .acc-tile-devices { --glow: 245, 129, 12; }
+.acc-layout .acc-tile-promo { --glow: 230, 160, 40; }
+.acc-layout .acc-tile-fav { --glow: 236, 72, 120; }
+.acc-layout .acc-tile-dl { --glow: 8, 160, 210; }
+.acc-layout .acc-tile-history {
+  --glow: 255, 255, 255; min-height: 104px; border-color: transparent;
+  background: radial-gradient(90% 140% at 85% 50%, rgba(255, 120, 90, .45), rgba(255, 120, 90, 0) 60%), linear-gradient(110deg, #e5203a, #8a0d1c 70%, #3a0509);
+  box-shadow: 0 14px 36px rgba(229, 32, 58, .28);
+}
+.acc-layout .acc-tile-history small { color: rgba(255, 255, 255, .85); }
+.acc-layout .acc-tile-balance { --glow: 229, 32, 58; justify-content: center; }
+.acc-layout .acc-tile-balance > small { color: rgba(255, 255, 255, .7); font-size: 13px; }
+.acc-layout .acc-tile-balance b { color: #fff; font-size: 30px; }
+.acc-layout .acc-tile-balance b span { color: rgba(255, 255, 255, .6); font-size: 15px; }
+.acc-layout .acc-tile-btn { background: #e5203a; color: #fff; box-shadow: 0 6px 18px rgba(229, 32, 58, .35); }
+.acc-layout .acc-tile-hero, .acc-layout .acc-tile-glyph { filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .55)); }
+
+/* menyu va bo'lim paneli */
+.acc-layout .acc-menu { border-radius: 22px; border: 1px solid rgba(255, 255, 255, .08); background: #0b0b0d; }
+.acc-layout .acc-menu-item:hover { background: rgba(229, 32, 58, .08); }
+.acc-layout .acc-menu-item.is-active { background: rgba(229, 32, 58, .16); }
+.acc-layout .acc-menu-icon { color: #ff4d5e; }
+.acc-layout .acc-panel { border-radius: 24px; border-color: rgba(255, 255, 255, .08); background: #0b0b0d; }
+.acc-layout .acc-tv-banner { border: 1px solid rgba(255, 255, 255, .08); }
+.acc-layout .acc-badge { background: #e5203a; color: #fff; }
