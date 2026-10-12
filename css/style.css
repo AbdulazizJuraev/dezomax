@@ -7490,3 +7490,4 @@ body.page-account::before { content: ''; position: fixed; inset: 0 0 auto; heigh
 .page-admin .adm-dup-grid .adm-dup-item.is-keep { border-color: #38bdf8; background: rgba(56, 189, 248, .08); }
 .adm-dup-grid .adm-dup-item:not(.is-keep) { opacity: .8; }
 .page-admin .adm-dup-grid .acc-item.adm-dup-item { display: flex !important; flex-direction: column; align-items: stretch; grid-template-columns: none; }
+.adm-dup-saving { display: block; margin-top: 6px; color: #38bdf8; font-size: 12.5px; min-height: 1em; }

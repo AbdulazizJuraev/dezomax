@@ -3475,7 +3475,14 @@ function renderDupView() {
   setTimeout(() => {                                      // hisoblash bir oz vaqt oladi — avval yuklanish ko'rinsin
     if (view !== 'dups') return;
     const coll = idCollisions();
-    const groups = findDuplicates(coll.ids);
+    // saqlanishi kutilayotgan (hozirgina yashirilgan) kinolar ko'rsatilmaydi
+    const groups = findDuplicates(coll.ids)
+      .map(g => {
+        if (!dupQueue.ids.size) return g;
+        const items = g.items.filter(m => !dupQueue.ids.has(m.id));
+        return { ...g, items, keep: items.some(m => m.id === g.keep) ? g.keep : items[0]?.id };
+      })
+      .filter(g => g.items.length > 1);
     dupState.groups = groups;
     const exact = groups.filter(g => g.exact), extra = exact.reduce((s, g) => s + g.items.length - 1, 0);
     const extraAll = groups.reduce((s, g) => s + g.items.length - 1, 0);
@@ -3488,6 +3495,7 @@ function renderDupView() {
       <section class="adm-sec">
         <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.copy}</span><h3>Dublikatlar</h3><small>${groups.length} ta guruh · ${extraAll} ta ortiqcha</small></div>
         <p class="adm-hint"><b>Aniq</b> — bir xil video, <b>ehtimoliy</b> — bir xil nom. Ortiqchasi yashiriladi, qaytarish mumkin.</p>
+        <small class="adm-dup-saving" id="dupSaving"></small>
         ${extra ? `<button class="btn btn-primary" type="button" id="dupAllExact">Aniq dublikatlarni yashirish (${extra} ta)</button>` : ''}
       </section>
       ${groups.length ? `<div class="adm-dups">${groups.slice(0, dupState.shown).map(dupGroupHTML).join('')}</div>
@@ -3521,6 +3529,46 @@ function dupGroupHTML(g) {
     </section>`;
 }
 
+/* Dublikat yashirish — tezkor: bosilgan guruh darrov yo'qoladi, saqlash fonda. Ketma-ket bosilganlari bitta
+   saqlashga yig'iladi (har biri uchun 2 MB faylni alohida yozish ~5 soniya edi). Saqlanmaganlari bo'lsa —
+   sahifadan chiqishda ogohlantiriladi; xato bo'lsa — keyingi bosishda qayta yuboriladi. */
+const dupQueue = { ids: new Set(), timer: 0, busy: false };
+function paintDupSaving() {
+  const el = document.getElementById('dupSaving');
+  if (!el) return;
+  const n = dupQueue.ids.size;
+  el.textContent = dupQueue.busy ? 'Saqlanmoqda…' : n ? `${n} ta saqlanishi kutilmoqda…` : '';
+}
+function queueDupHide(ids) {
+  ids.forEach(id => dupQueue.ids.add(id));
+  clearTimeout(dupQueue.timer);
+  dupQueue.timer = setTimeout(flushDupHide, 1500);
+  paintDupSaving();
+}
+async function flushDupHide() {
+  if (dupQueue.busy) { dupQueue.timer = setTimeout(flushDupHide, 1000); return; }
+  const ids = [...dupQueue.ids];
+  if (!ids.length) return;
+  dupQueue.ids.clear();
+  dupQueue.busy = true;
+  paintDupSaving();
+  try {
+    await saveCustom((list, hidden) => {
+      for (const id of ids) if (!hidden.includes(id)) hidden.push(id);
+      return list;
+    }, `Dublikatlar yashirildi: ${ids.length} ta (${ids.slice(0, 15).join(', ')}${ids.length > 15 ? ', …' : ''})`);
+    commitsCache = null;
+    toast(`${ids.length} ta dublikat yashirildi`);
+  } catch (e) {
+    ids.forEach(id => dupQueue.ids.add(id));
+    toast(friendlyError(e), true);
+  } finally {
+    dupQueue.busy = false;
+    paintDupSaving();
+  }
+}
+addEventListener('beforeunload', e => { if (dupQueue.ids.size || dupQueue.busy) { e.preventDefault(); e.returnValue = ''; } });
+
 function bindDupView() {
   const byKey = new Map(dupState.groups.map(g => [g.key, g]));
   const keepOf = g => +(document.querySelector(`input[name="keep-${g.key}"]:checked`)?.value || g.keep);
@@ -3543,12 +3591,12 @@ function bindDupView() {
     if (!confirm(`${ids.length} ta aniq dublikat (bir xil video) saytdan yashirilsinmi? Har guruhdan bittasi qoladi. Keyin qaytarish mumkin.`)) return;
     hideIds(ids, `Dublikatlar yashirildi: ${ids.length} ta (bir xil video)`, e.currentTarget);
   });
+  // tezkor: guruh darrov yo'qoladi (so'rovsiz — keyin «Yashirilgan»dan qaytarish mumkin), saqlash fonda
   document.querySelectorAll('[data-duphide]').forEach(b => b.addEventListener('click', () => {
     const g = byKey.get(b.dataset.duphide), keep = keepOf(g);
     const ids = g.items.filter(m => m.id !== keep).map(m => m.id);
-    const k = g.items.find(m => m.id === keep);
-    if (!confirm(`«${k.title.uz}» (ID ${keep}) qoladi, qolgan ${ids.length} tasi yashirilsinmi?`)) return;
-    hideIds(ids, `Dublikat yashirildi: ${k.title.uz} (${ids.join(', ')})`, b);
+    b.closest('.adm-dup').remove();
+    queueDupHide(ids);
   }));
   document.querySelectorAll('[data-dupskip]').forEach(b => b.addEventListener('click', () => {
     let ignore = [];
