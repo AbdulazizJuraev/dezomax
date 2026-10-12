@@ -25,6 +25,7 @@ const token = () => localStorage.getItem(TOKEN_KEY) || '';
 
 let customList = [];      // hozirgi data-custom.js dagi kinolar
 let dataSha = null;       // fayl versiyasi (to'qnashuvni oldini olish uchun)
+let listSha = null;       // customList aynan shu versiyadan o'qilgan (saqlashda qayta yuklamaslik uchun)
 let editingId = null;
 
 /* ---------- GitHub API ---------- */
@@ -81,8 +82,8 @@ let hiddenList = [];      // saytdan yashirilgan kinolar id'lari
 
 async function loadCustom() {
   const f = await getFile(DATA_PATH);
-  if (!f) { customList = []; hiddenList = []; dataSha = null; return; }
-  dataSha = f.sha;
+  if (!f) { customList = []; hiddenList = []; dataSha = listSha = null; return; }
+  dataSha = listSha = f.sha;
   const text = b64decode(f.content);
   const m = text.match(/\/\*DATA\*\/([\s\S]*?)\/\*END\*\//);
   const h = text.match(/\/\*HIDDEN\*\/([\s\S]*?)\/\*ENDHIDDEN\*\//);
@@ -137,10 +138,18 @@ async function ensureFreshAdmin() {
   } catch (e) { if (/eskirgan/.test(e.message)) throw e; }
 }
 
+/* Fayl versiyasi (sha) — matnisiz: data-custom.js 1 MB dan katta, GitHub uning matnini bu so'rovda bermaydi (bir necha KB) */
+async function remoteSha(path) {
+  try { return (await gh(`/contents/${path}?ref=${encodeURIComponent(GH.branch)}&t=${Date.now()}`)).sha; }
+  catch (e) { if (e.status === 404) return null; throw e; }
+}
+
 async function saveCustom(mutate, message, opts = {}) {
-  await ensureFreshAdmin();
+  // tezlik: avval faqat versiyani tekshiramiz (bir necha KB). GitHub'dagi fayl bizda turganining aynan o'zi bo'lsa —
+  // 1,8 MB ni qayta yuklamaymiz (oldin har saqlashda yuklanardi: 2,4 MB yuklash + 2,4 MB yozish + 2,4 MB tekshiruv)
+  const [sha] = await Promise.all([remoteSha(DATA_PATH), ensureFreshAdmin()]);
   for (let attempt = 0; attempt < 2; attempt++) {
-    await loadCustom();
+    if (attempt || !sha || sha !== listSha) await loadCustom();
     // sahifa ochilganda yuklangan ro'yxat (js/data-custom.js) — GitHub'dan o'qilgani undan ancha kam bo'lsa, o'qishda xato bor
     if (typeof CUSTOM_MOVIES !== 'undefined' && CUSTOM_MOVIES.length > 20 && customList.length < CUSTOM_MOVIES.length / 2) {
       throw new Error(`Saqlash to‘xtatildi: GitHub’dan ${customList.length} ta kino o‘qildi, saytda esa ${CUSTOM_MOVIES.length} ta. Sahifani yangilab, qayta urining.`);
@@ -160,11 +169,12 @@ async function saveCustom(mutate, message, opts = {}) {
       throw new Error('Saqlash to‘xtatildi: ro‘yxatdagi kinolar almashib ketdi. Sahifani yangilab, qayta urining.');
     }
     try {
-      const res = await putFile(DATA_PATH, b64encode(buildDataFile(next, hidden)), message, dataSha);
-      dataSha = res.content.sha;
+      const text = buildDataFile(next, hidden);
+      const res = await putFile(DATA_PATH, b64encode(text), message, dataSha);
+      dataSha = listSha = res.content.sha;
       customList = next;
       hiddenList = hidden;
-      verifySaved(next.length);
+      verifySaved(text);
       return;
     } catch (e) {
       if (e.status !== 409 || attempt) throw e;
@@ -172,15 +182,14 @@ async function saveCustom(mutate, message, opts = {}) {
   }
 }
 
-/* Saqlangandan keyin GitHub'dan qayta o'qib, kinolar soni to'g'riligini tekshiramiz (fonda).
-   Mos kelmasa — ekranda ogohlantirish (qo'riqchi baribir tiklaydi, lekin egasi bilishi kerak). */
-async function verifySaved(expected) {
+/* Saqlangandan keyin GitHub'dagi fayl hajmi biz yuborgan matnnikiga tengligini tekshiramiz (fonda, bir necha KB —
+   oldin butun 1,8 MB qayta yuklanardi). Mos kelmasa — ekranda ogohlantirish (qo'riqchi baribir tiklaydi). */
+async function verifySaved(text) {
   try {
-    const f = await getFile(DATA_PATH);
-    if (!f || f.sha !== dataSha) return;          // boshqa saqlash ulgurgan yoki kesh — solishtirmaymiz
-    const m = b64decode(f.content).match(/\/\*DATA\*\/([\s\S]*?)\/\*END\*\//);
-    const n = m ? JSON.parse(m[1]).length : -1;
-    if (n !== expected && n !== -1 && n < expected) toast(`Diqqat: saqlangandan keyin ${expected} o‘rniga ${n} ta kino ko‘rindi. Admin → Zaxira bo‘limini tekshiring.`, true);
+    const f = await gh(`/contents/${DATA_PATH}?ref=${encodeURIComponent(GH.branch)}&t=${Date.now()}`);
+    if (!f || f.sha !== dataSha) return;          // boshqa saqlash ulgurgan — solishtirmaymiz
+    const bytes = new TextEncoder().encode(text).length;
+    if (f.size !== bytes) toast(`Diqqat: saqlangan fayl hajmi kutilganidan farq qiladi (${f.size} / ${bytes}). Admin → Zaxira bo‘limini tekshiring.`, true);
   } catch {}
 }
 
@@ -610,10 +619,15 @@ function bindForm(old) {
     try {
       const movie = readForm(form, old);
       if (form._tmdb) movie.tmdb = form._tmdb;
-      const file = form.posterFile.files[0] || await tmdbImageFile(movie.poster);
-      if (file) movie.poster = await uploadPoster(file, `${movie.slug}-${movie.id}`);
-      const coverFile = form.coverFile.files[0] || await tmdbImageFile(movie.cover);
-      if (coverFile) movie.cover = await uploadPoster(coverFile, `${movie.slug}-${movie.id}-cover`, 1280);
+      // tezlik: TMDB rasmlari TMDB'ning o'z serveridan ko'rsatiladi (GitHub'ga yuklanmaydi — oldin har kinoga
+      // 2 ta qo'shimcha yuklash va saqlash ketardi). Faqat telefondan tanlangan rasm yuklanadi; poster va muqova — parallel.
+      const safe = `${String(movie.slug || 'kino').replace(/[^a-z0-9-]+/gi, '-').replace(/^-+|-+$/g, '') || 'kino'}-${movie.id}`;
+      const [poster, cover] = await Promise.all([
+        form.posterFile.files[0] ? uploadPoster(form.posterFile.files[0], safe) : null,
+        form.coverFile.files[0] ? uploadPoster(form.coverFile.files[0], `${safe}-cover`, 1280) : null
+      ]);
+      if (poster) movie.poster = poster;
+      if (cover) movie.cover = cover;
 
       await saveCustom(list => {
         const i = list.findIndex(x => x.id === movie.id);
@@ -856,7 +870,7 @@ function itemHTML(m) {
     : edited ? '<span class="adm-state is-edit" title="Tahrirlangan" aria-label="Tahrirlangan"></span>' : '';
   return `
     <div class="acc-item adm-item${hidden ? ' is-hidden' : ''}">
-      <span class="adm-thumb">${m.poster ? `<img src="${esc(siteDraft?.posters?.[m.id] || m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+      <span class="adm-thumb">${m.poster ? `<img src="${esc(tmdbPosterUrl(siteDraft?.posters?.[m.id]) || m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
       <div class="acc-item-main">
         <b>${esc(m.title?.uz || '')} ${state}</b>
         <small>${tags.map(esc).join(' · ')}</small>
@@ -1294,6 +1308,8 @@ async function heroAutoPosters(ids, btn, kidsIds = []) {
    site-config.js → SITE_CONFIG.posters { id: url } ga yoziladi (bitta saqlash); js/common.js kartalarga qo'yadi,
    eski YouTube rasmi gorizontal kartalar uchun «cover» bo'lib qoladi. Kanal yangilanishi (data-channels.js) buni o'chirmaydi.
    DezoCloud va boshqa saytlardagi kinolarga qo'yilmaydi. */
+/* SITE_CONFIG.posters qiymati: qisqa "/abc.jpg" (yangi) yoki to'liq manzil (eski) */
+const tmdbPosterUrl = v => v ? (/^https?:/.test(v) ? v : `${TMDB_IMG}w342${v}`) : '';
 const POSTER_OK_VIDEO = /youtube\.com|youtu\.be|wikimedia\.org|archive\.org/i;
 async function cardAutoPosters(btn, note, scope) {
   note = note || $('#admCardPostersNote');
@@ -1301,7 +1317,10 @@ async function cardAutoPosters(btn, note, scope) {
   if (!siteDraft) { try { await loadConfig(); } catch (ex) { toast(friendlyError(ex), true); return; } }
   const have = siteDraft.posters || {};
   // ro'yxatdagi HAMMA kino tekshiriladi va natijada har guruh soni ko'rsatiladi
-  const list = scope || allMovies();
+  // faqat SAYTDAGI kinolar (kutubxona — data-lib — saytda yo'q: 2026-10-10 da 25 000 ta keraksiz poster yozilib,
+  // site-config.js 2 MB bo'lib ketgan va har sahifani sekinlashtirgan)
+  const siteIds = new Set([...(window.SITE_BASE_IDS || []), ...customList.map(x => x.id)]);
+  const list = (scope || allMovies()).filter(m => m && siteIds.has(m.id));
   const stat = { have: 0, own: 0, uz: 0, skip: 0 };
   const todo = [];
   for (const m of list) {
@@ -1353,7 +1372,7 @@ async function cardAutoPosters(btn, note, scope) {
         if (!tid) { missed.push(m.title?.uz || m.id); continue; }
         const imgs = await tmdb(`/${type}/${tid}/images`, { include_image_language: 'uz,ru,en,null' });
         const path = tmdbTitledPoster(imgs);
-        if (path) found[m.id] = `${TMDB_IMG}w342${path}`; else missed.push(m.title?.uz || m.id);
+        if (path) found[m.id] = path;            // qisqa shakl — js/common.js to'liq manzilga aylantiradi else missed.push(m.title?.uz || m.id);
       } catch (ex) { if (/kaliti/.test(ex.message)) fatal = ex; else missed.push(m.title?.uz || m.id); }
       finally { note.textContent = `${++count} / ${todo.length} tekshirildi…`; }
     } }));

@@ -244,7 +244,8 @@ async function pack(items, port) {
     } catch { fail++; }
   };
   const list = items.slice();
-  await Promise.all([0, 1, 2, 3].map(async () => { while (list.length) await one(list.shift()); }));
+  // 2 tadan — telefon tarmog'i va xotirasi band bo'lib, ilova qotmasin
+  await Promise.all([0, 1].map(async () => { while (list.length) await one(list.shift()); }));
   if (port) port.postMessage({ ok, fail });
 }
 

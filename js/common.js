@@ -21,8 +21,10 @@ if (window.top === window && window.Capacitor && window.Capacitor.isNativePlatfo
 (function () {
   const P = typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG && SITE_CONFIG.posters;
   if (!P || typeof MOVIES === 'undefined') return;
+  // qisqa shakl: "/abc.jpg" — TMDB w342 manzili (fayl kichik bo'lsin); to'liq manzil ham qabul qilinadi
   for (const m of MOVIES) {
-    const p = m && P[m.id];
+    const v = m && P[m.id];
+    const p = v && (/^https?:/.test(v) ? v : 'https://image.tmdb.org/t/p/w342' + v);
     if (!p || m.poster === p) continue;
     if (!m.cover && m.poster) m.cover = m.poster;
     m.poster = p;

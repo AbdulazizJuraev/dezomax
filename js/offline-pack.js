@@ -119,9 +119,13 @@
     const total = items.length;
     let done = 0, fail = 0;
     const step = r => { done += (r.ok || 0) + (r.fail || 0); fail += r.fail || 0; prog = Math.min(99, Math.round(done / total * 100)); if (ui) showToast(true); render(); };
-    for (let i = 0; i < items.length; i += 40) {
+    // 20 tadan, orasida tanaffus — kuchsiz telefonda ilova qotmasin (yuklash fonda, sekinroq)
+    const idle = () => new Promise(r => (window.requestIdleCallback ? requestIdleCallback(() => setTimeout(r, 250), { timeout: 2000 }) : setTimeout(r, 400)));
+    for (let i = 0; i < items.length; i += 20) {
       if (!navigator.onLine && !window.dzxNetOk) break;
-      step(await send(items.slice(i, i + 40)));
+      if (document.hidden) await new Promise(r => document.addEventListener('visibilitychange', r, { once: true }));
+      step(await send(items.slice(i, i + 20)));
+      await idle();
     }
 
     const finish = async () => {
@@ -134,8 +138,9 @@
     if (ui) { showToast(true); setTimeout(() => showToast(false), 3000); }
     render();
 
-    // sport rasmlari (jamoa logolari, o'yinchilar) — tayyor deb ko'rsatilgandan keyin, fonda (sekin internetda ham kutib o'tirmaydi)
-    if (full) {
+    // sport rasmlari: yashirin sport sahifasi endi ochilmaydi (kuchsiz telefonni qiynardi) — sport sahifasiga kirilganda
+    // ko'ringan rasmlar va natijalar o'zi saqlanadi (js/common.js, sw.js)
+    if (false) {
       sportBusy = true;
       const urls = (await sportImages()).slice(0, 250).map(u => ({ u, k: 'img' }));
       for (let i = 0; i < urls.length; i += 40) {
@@ -180,6 +185,6 @@
     if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;
     if (sw()) run();
     else navigator.serviceWorker && navigator.serviceWorker.ready.then(() => setTimeout(() => sw() && run(), 1500)).catch(() => {});
-  }, 6000);
+  }, 20000);              // ilova ochilib, foydalanuvchi ishlay boshlagandan keyin
   if (document.readyState === 'complete') auto(); else addEventListener('load', auto);
 })();
