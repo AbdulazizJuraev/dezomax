@@ -7512,3 +7512,4 @@ body.page-account::before { content: ''; position: fixed; inset: 0 0 auto; heigh
 .adm-aichat-foot { display: flex; justify-content: space-between; }
 .adm-ai-post { display: grid; gap: 8px; margin-top: 8px; }
 @media (max-width: 900px) { .adm-aichat-btn { bottom: calc(84px + env(safe-area-inset-bottom)); } .adm-aichat { bottom: calc(140px + env(safe-area-inset-bottom)); } }
+.adm-aichat-review { width: 100%; }

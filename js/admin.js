@@ -918,6 +918,7 @@ function itemHTML(m) {
         <b>${esc(m.title?.uz || '')} ${state}</b>
         <small>${tags.map(esc).join(' · ')}</small>
         <small class="adm-glabel${changed ? ' is-changed' : ''}" data-glabel="${m.id}">${esc(genreLabel(g))}</small>
+        ${fieldDraft.has(m.id) ? `<small class="adm-glabel is-changed">AI: ${[fieldDraft.get(m.id).descUz || fieldDraft.get(m.id).descRu ? 'tavsif' : '', fieldDraft.get(m.id).tags?.length ? 'teglar' : ''].filter(Boolean).join(', ')} yangilanadi</small>` : ''}
       </div>
       <div class="adm-actions adm-icons">
         ${admIconBtn('Janrlar', ITEM_ICONS.tag, `data-genre="${m.id}"`)}
@@ -936,6 +937,16 @@ function itemHTML(m) {
    Har kino qatorida «Janrlar» tugmasi → janr chiplari; o'zgarishlar yig'iladi va pastdagi «Saqlash» bilan
    BITTA saqlashda yoziladi (har kinoga alohida saqlash — 2 MB fayl har safar — sekin bo'lardi). */
 const genreDraft = new Map();      // id → yangi janrlar
+const fieldDraft = new Map();      // id → { descUz, descRu, tags } — AI chat taklif qilgan o'zgarishlar (saqlash — o'sha panel)
+const draftIds = () => new Set([...genreDraft.keys(), ...fieldDraft.keys()]);
+/* Rasmiy kino — saytdagi, videosi rasmiy manbada (YouTube va h.k.); Telegram (DezoCloud) va boshqa saytlardagi nusxalar — yo'q */
+function isOfficialMovie(m) {
+  if (!m) return false;
+  const siteIds = new Set([...(window.SITE_BASE_IDS || []), ...customList.map(x => x.id)]);
+  if (!siteIds.has(m.id)) return false;
+  const vids = [m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(Boolean).map(String);
+  return !!vids.length && !/dezocloud.uz/i.test(m.poster || '') && vids.every(v => POSTER_OK_VIDEO.test(v));
+}
 let listGenre = '';                // ro'yxat filtri: '' — hammasi, '-' — janrsiz, aks holda janr kodi
 const genresOf = m => genreDraft.get(m.id) || m.genres || [];
 const genreLabel = g => g.length ? g.map(id => GENRES.find(x => x.id === id)?.uz || id).join(', ') : 'Janr yo‘q';
@@ -950,26 +961,33 @@ function genrePickHTML(m) {
 function paintGenreBar() {
   const bar = $('#admGenreBar');
   if (!bar) return;
-  bar.hidden = !genreDraft.size;
+  const n0 = draftIds().size;
+  bar.hidden = !n0;
   const n = bar.querySelector('b');
-  if (n) n.textContent = `${genreDraft.size} ta kinoning janri o‘zgardi`;
+  if (n) n.textContent = fieldDraft.size ? `${n0} ta kinoda o‘zgarish (janr, tavsif, teg)` : `${n0} ta kinoning janri o‘zgardi`;
 }
 
 async function saveGenres(btn) {
-  const changes = [...genreDraft];
-  if (!changes.length) return;
+  const ids = [...draftIds()];
+  if (!ids.length) return;
+  const g0 = new Map(genreDraft), f0 = new Map(fieldDraft);
   // xato bo'lsa — o'zgarishlar saqlanib turadi, qayta urinish mumkin
   await runAction(btn, async () => {
     await saveCustom(list => {
-      for (const [id, g] of changes) {
-        const i = list.findIndex(x => x.id === id);
-        if (i > -1) list[i].genres = g;
-        else { const m = currentMovie(id); if (m) list.push({ ...structuredClone(m), genres: g }); }
+      for (const id of ids) {
+        let i = list.findIndex(x => x.id === id);
+        if (i < 0) { const m = currentMovie(id); if (!m) continue; list.push(structuredClone(m)); i = list.length - 1; }
+        const m = list[i], f = f0.get(id);
+        if (g0.has(id)) m.genres = g0.get(id);
+        if (f) {
+          if (f.descUz || f.descRu) m.desc = { uz: f.descUz || m.desc?.uz || '', ru: f.descRu || m.desc?.ru || '' };
+          if (f.tags?.length) m.tags = [...new Set([...(m.tags || []), ...f.tags])].slice(0, 15);
+        }
       }
       return list;
-    }, `Janrlar tahrirlandi: ${changes.length} ta kino`);
-    genreDraft.clear();
-  }, `${changes.length} ta kinoning janri saqlandi`);
+    }, `Kinolar tahrirlandi (janr/tavsif): ${ids.length} ta`);
+    genreDraft.clear(); fieldDraft.clear();
+  }, `${ids.length} ta kinodagi o‘zgarish saqlandi`);
 }
 
 /* Rasmiy YouTube kanallaridan kelgan kinolar (js/data-channels.js) — admin tahrirlasa ham shu yerda sanaladi */
@@ -989,6 +1007,7 @@ function listItems() {
   if (listFilter === 'hidden') items = items.filter(m => hiddenList.includes(m.id));
   if (listFilter === 'marvel') items = items.filter(m => m.franchise === 'marvel');
   if (listFilter === 'channels') { const ids = channelIds(); items = items.filter(m => ids.has(m.id)); }
+  if (listFilter === 'ai') { const ids = draftIds(); items = items.filter(m => ids.has(m.id)); }
   const q = norm(listQuery);
   if (q) items = items.filter(m => hayOf(m).includes(q));
   if (listGenre === '-') items = items.filter(m => !(m.genres || []).length);
@@ -998,10 +1017,10 @@ function listItems() {
 }
 
 function renderListView() {
-  const counts = { active: activeList().length, all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length, marvel: allMovies().filter(m => m.franchise === 'marvel').length, channels: channelIds().size };
+  const counts = { ai: draftIds().size, active: activeList().length, all: allMovies().length, added: addedList().length, edited: editedList().length, hidden: hiddenList.length, marvel: allMovies().filter(m => m.franchise === 'marvel').length, channels: channelIds().size };
   $('#admView').innerHTML = `
     <div class="adm-filters">
-      ${[['active', 'Faol'], ['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel'], ['channels', 'Kanallardan']].map(([id, l]) =>
+      ${[...(draftIds().size || listFilter === 'ai' ? [['ai', 'O‘zgarishlar']] : []), ['active', 'Faol'], ['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel'], ['channels', 'Kanallardan']].map(([id, l]) =>
         `<button type="button" data-filter="${id}" class="${listFilter === id ? 'is-active' : ''}">${l} <small>${counts[id]}</small></button>`).join('')}
     </div>
     <div class="adm-search-row">
@@ -1110,7 +1129,7 @@ ${JSON.stringify(part.map(m => ({ id: m.id, nomi: m.title?.uz, yil: m.year || ''
     paintGenreBar(); fill();
   });
   $('#admGenreSave').addEventListener('click', e => saveGenres(e.currentTarget));
-  $('#admGenreUndo').addEventListener('click', () => { genreDraft.clear(); paintGenreBar(); fill(); });
+  $('#admGenreUndo').addEventListener('click', () => { genreDraft.clear(); fieldDraft.clear(); paintGenreBar(); fill(); });
   paintGenreBar();
   let t0;
   $('#admSearch').addEventListener('input', e => {
@@ -1229,11 +1248,13 @@ async function aiListModels(key) {
 async function gemini(prompt, opts = {}) {
   const key = aiKey();
   if (!key) throw new Error('AI kaliti kiritilmagan — admin burchagidagi «AI» oynasida yoki kino formasida kiriting');
-  const contents = Array.isArray(prompt) ? prompt.map(m => ({ role: m.role, parts: [{ text: m.text }] })) : [{ role: 'user', parts: [{ text: prompt }] }];
+  // opts.contents — tayyor suhbat (asboblar bilan); opts.tools — Gemini function calling; opts.raw — javob kontenti o'zi
+  const contents = opts.contents || (Array.isArray(prompt) ? prompt.map(m => ({ role: m.role, parts: [{ text: m.text }] })) : [{ role: 'user', parts: [{ text: prompt }] }]);
   const body = JSON.stringify({
     contents,
     ...(opts.system ? { systemInstruction: { parts: [{ text: opts.system }] } } : {}),
-    generationConfig: opts.text ? { temperature: 0.7 } : { temperature: 0.4, responseMimeType: 'application/json' }
+    ...(opts.tools ? { tools: opts.tools } : {}),
+    generationConfig: opts.text || opts.raw ? { temperature: 0.5 } : { temperature: 0.4, responseMimeType: 'application/json' }
   });
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(AI_ROUTE) || 'null'); } catch {}
@@ -1269,6 +1290,7 @@ async function gemini(prompt, opts = {}) {
     }
     try { localStorage.setItem(AI_ROUTE, JSON.stringify(rt)); } catch {}
     const j = await r.json();
+    if (opts.raw) return j.candidates?.[0]?.content || { role: 'model', parts: [{ text: '' }] };
     const text = j.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
     if (opts.text) return text.trim();
     try { return JSON.parse(text.replace(/^```(?:json)?\s*|\s*```$/g, '')); }
@@ -1400,9 +1422,93 @@ ${RULES} Format: {"post": "..."}`,
   }));
 }
 
-/* ---------- AI chat: admin panel burchagida «✨ AI» — istalgan savol (reklama matni, teg, g'oya…) ----------
-   Suhbat faqat shu sahifa ochiq turganda xotirada (saqlanmaydi). Kalit yo'q bo'lsa — shu oynada kiritiladi. */
-const aiChat = [];
+/* ---------- AI chat: admin panel burchagida «✨ AI» ----------
+   Gemini'ga asboblar berilgan (function calling): kinolarni qidirish, ko'rish va RASMIY kinolarga janr / tavsif / teg
+   TAKLIF qilish. AI o'zi saqlamaydi — o'zgarishlar Kinolar ro'yxatida («O'zgarishlar») ko'k rangda chiqadi, admin
+   tekshirib «Saqlash»ni bosadi. Telegram (DezoCloud) kinolari — faqat ko'rish (o'zgartirish — har kinoning formasida).
+   Suhbat faqat shu sahifa ochiq turganda xotirada. */
+const aiChat = [];       // ekrandagi xabarlar: { role: 'user'|'model', text }
+let aiConv = [];         // Gemini'ga yuboriladigan to'liq suhbat (asbob chaqiruvlari bilan)
+const AI_TOOLS = [{ functionDeclarations: [
+  { name: 'search_movies', description: 'Saytdagi kinolarni qidirish. Natijada id, nomi, yili, turi, janrlari, manbasi (rasmiy/telegram) va tavsif boshi.',
+    parameters: { type: 'object', properties: {
+      query: { type: 'string', description: 'Nomi yoki uning bir qismi (bo‘sh — hammasi)' },
+      genre: { type: 'string', description: 'Janr kodi bo‘yicha filtr' },
+      only_drama: { type: 'boolean', description: 'Faqat janri yolg‘iz «drama» bo‘lganlar' },
+      no_description: { type: 'boolean', description: 'Tavsifi yo‘q yoki juda qisqa bo‘lganlar' },
+      source: { type: 'string', enum: ['rasmiy', 'telegram', 'hammasi'], description: 'Manba (standart — hammasi)' },
+      type: { type: 'string', enum: ['film', 'serial', 'multfilm'] },
+      limit: { type: 'integer', description: 'Nechta (ko‘pi bilan 40)' }
+    } } },
+  { name: 'get_movie', description: 'Bitta kinoning to‘liq ma’lumoti', parameters: { type: 'object', properties: { id: { type: 'integer' } }, required: ['id'] } },
+  { name: 'set_genres', description: 'Rasmiy kinoga janr TAKLIF qilish (admin tasdiqlaydi). Faqat ro‘yxatdagi janr kodlari, 1–3 ta.',
+    parameters: { type: 'object', properties: { id: { type: 'integer' }, genres: { type: 'array', items: { type: 'string' } } }, required: ['id', 'genres'] } },
+  { name: 'set_description', description: 'Rasmiy kinoga tavsif TAKLIF qilish (o‘zbekcha va/yoki ruscha, 2–3 jumla, spoylersiz)',
+    parameters: { type: 'object', properties: { id: { type: 'integer' }, desc_uz: { type: 'string' }, desc_ru: { type: 'string' } }, required: ['id'] } },
+  { name: 'add_tags', description: 'Rasmiy kinoga qidiruv uchun boshqa nomlar/teglar TAKLIF qilish',
+    parameters: { type: 'object', properties: { id: { type: 'integer' }, tags: { type: 'array', items: { type: 'string' } } }, required: ['id', 'tags'] } }
+] }];
+
+function aiRunTool(name, a = {}) {
+  const short = s => String(s || '').replace(/\s+/g, ' ').slice(0, 120);
+  const row = m => ({ id: m.id, nomi: m.title?.uz, yil: m.year || null, tur: m.type, janrlar: genresOf(m), manba: isOfficialMovie(m) ? 'rasmiy' : 'telegram', tavsif: short(m.desc?.uz) });
+  const byId = id => allMovies().find(x => x.id === +id);
+  const official = (m, what) => {
+    if (!m) return { xato: 'Bunday ID li kino yo‘q' };
+    if (!isOfficialMovie(m)) return { xato: `Bu rasmiy kino emas (Telegram/DezoCloud yoki boshqa manba) — chat orqali ${what} o‘zgartirilmaydi. Admin uni kino formasida o‘zi tahrirlaydi.` };
+    return null;
+  };
+  if (name === 'search_movies') {
+    const hidden = new Set(hiddenList);
+    const q = norm(a.query || '');
+    let items = allMovies().filter(m => m && !hidden.has(m.id) && m.type !== 'tahlil' && (m.video || m.parts));
+    if (q) items = items.filter(m => hayOf(m).includes(q));
+    if (a.genre) items = items.filter(m => (m.genres || []).includes(a.genre));
+    if (a.only_drama) items = items.filter(m => (m.genres || []).join() === 'drama');
+    if (a.no_description) items = items.filter(m => String(m.desc?.uz || '').replace(/\s+/g, ' ').length < 40);
+    if (a.type) items = items.filter(m => m.type === a.type);
+    if (a.source === 'rasmiy') items = items.filter(isOfficialMovie);
+    if (a.source === 'telegram') items = items.filter(m => !isOfficialMovie(m));
+    return { jami: items.length, natija: items.slice(0, Math.min(40, Math.max(1, a.limit || 20))).map(row) };
+  }
+  if (name === 'get_movie') {
+    const m = byId(a.id);
+    if (!m) return { xato: 'Bunday ID li kino yo‘q' };
+    return { ...row(m), nomi_ru: m.title?.ru, davlat: m.country?.uz, tavsif_uz: m.desc?.uz || '', tavsif_ru: m.desc?.ru || '', teglar: m.tags || [], aktyorlar: (m.cast || []).slice(0, 8) };
+  }
+  if (name === 'set_genres') {
+    const m = byId(a.id), bad = official(m, 'janri');
+    if (bad) return bad;
+    const g = (a.genres || []).filter(x => GENRES.some(y => y.id === x)).slice(0, 3);
+    if (!g.length) return { xato: 'Janr kodlari noto‘g‘ri. Ruxsat etilganlar: ' + GENRES.map(x => x.id).join(', ') };
+    genreDraft.set(m.id, g);
+    return { ok: true, kino: m.title?.uz, janrlar: g };
+  }
+  if (name === 'set_description') {
+    const m = byId(a.id), bad = official(m, 'tavsifi');
+    if (bad) return bad;
+    if (!a.desc_uz && !a.desc_ru) return { xato: 'Tavsif bo‘sh' };
+    fieldDraft.set(m.id, { ...(fieldDraft.get(m.id) || {}), ...(a.desc_uz ? { descUz: String(a.desc_uz).trim() } : {}), ...(a.desc_ru ? { descRu: String(a.desc_ru).trim() } : {}) });
+    return { ok: true, kino: m.title?.uz };
+  }
+  if (name === 'add_tags') {
+    const m = byId(a.id), bad = official(m, 'teglari');
+    if (bad) return bad;
+    const tags = (a.tags || []).map(x => String(x).trim()).filter(Boolean).slice(0, 8);
+    fieldDraft.set(m.id, { ...(fieldDraft.get(m.id) || {}), tags });
+    return { ok: true, kino: m.title?.uz, teglar: tags };
+  }
+  return { xato: 'Noma’lum asbob' };
+}
+
+const AI_SYSTEM = () => `Sen DezoMax (dezomax.uz) — o‘zbek tilidagi kino, serial, sport va TV sayti adminining yordamchisisan. O‘zbek tilida (lotin), qisqa va aniq javob ber.
+Asboblaring bor: search_movies, get_movie (ko‘rish) va set_genres, set_description, add_tags (faqat RASMIY kinolarga TAKLIF — admin ko‘rib «Saqlash»ni bosadi; sen o‘zing saqlay olmaysan).
+Janr kodlari: ${GENRES.map(g => `${g.id} (${g.uz})`).join(', ')}.
+Telegram (manba: telegram) kinolarini o‘zgartira olmaysan — so‘ralsa, admin kino formasidagi tugmalar bilan o‘zi qilishini ayt.
+Ko‘p kino bo‘lsa — avval search_movies bilan top, keyin har biriga asbob chaqir. Kinoni tanimasang, nomi va tavsifiga qarab ehtiyotkor tanla, fakt o‘ylab topma.
+Oxirida nima qilganingni qisqa sanab ber va «Kinolar → O‘zgarishlar bo‘limida tekshirib, Saqlash ni bosing» deb eslat.
+Reklama matni, SEO, bildirishnoma, post matnlari bo‘yicha ham yordam ber.`;
+
 function initAiChat() {
   if (document.getElementById('aiChatBtn')) return;
   const btn = document.createElement('button');
@@ -1412,12 +1518,14 @@ function initAiChat() {
   document.body.append(btn, box);
   const esc2 = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
   const draw = () => {
+    const n = draftIds().size;
     box.innerHTML = `
       <div class="adm-aichat-head"><b>AI yordamchi</b><small>Gemini</small><button type="button" data-x aria-label="Yopish">✕</button></div>
       ${aiKey() ? `
         <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}</div>`).join('')
-          : '<p class="adm-hint">Masalan: «Instagram uchun DezoMax reklama matnini yoz», «Yangi yil uchun bildirishnoma g‘oyalari», «Bu kinoga qanday teg qo‘yay: …»</p>'}</div>
-        <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savolingizni yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
+          : '<p class="adm-hint">Masalan: «Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y», «Tavsifi yo‘q rasmiy kinolarni top va tavsif yoz», «Instagram uchun reklama matni yoz»</p>'}</div>
+        ${n ? `<button class="btn btn-primary btn-sm adm-aichat-review" type="button" data-review>${n} ta kinoda o‘zgarish — ko‘rib chiqish va saqlash</button>` : ''}
+        <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savol yoki topshiriq yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
         <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button><button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button></div>` : `
         <p class="adm-hint">Tekin Gemini kaliti kerak: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> → «Create API key» → «Copy key».</p>
         <form class="adm-aichat-form" id="aiChatKey"><input class="acc-input" type="password" placeholder="Gemini API kaliti" autocomplete="off" required><button class="btn btn-primary btn-sm" type="submit">Saqlash</button></form>
@@ -1427,8 +1535,9 @@ function initAiChat() {
     const list = box.querySelector('#aiChatList');
     if (list) list.scrollTop = list.scrollHeight;
     box.querySelector('[data-x]').onclick = () => { box.hidden = true; };
-    box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; draw(); });
+    box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; aiConv = []; draw(); });
     box.querySelector('[data-reset]')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); draw(); });
+    box.querySelector('[data-review]')?.addEventListener('click', () => { listFilter = 'ai'; view = 'list'; renderMain(); box.hidden = true; window.scrollTo({ top: 0 }); });
     box.querySelector('#aiChatKey')?.addEventListener('submit', async e => {
       e.preventDefault();
       const v = e.currentTarget.querySelector('input').value.trim();
@@ -1449,16 +1558,33 @@ function initAiChat() {
       const q = ta.value.trim();
       if (!q) return;
       aiChat.push({ role: 'user', text: q });
-      draw();
-      const l2 = box.querySelector('#aiChatList');
-      l2.insertAdjacentHTML('beforeend', '<div class="adm-aichat-msg is-model is-wait">…</div>');
-      l2.scrollTop = l2.scrollHeight;
-      box.querySelector('#aiChatForm button').disabled = true;
+      const convBefore = aiConv.length;
+      aiConv.push({ role: 'user', parts: [{ text: q }] });
+      const wait = t => { draw(); const l = box.querySelector('#aiChatList'); l.insertAdjacentHTML('beforeend', `<div class="adm-aichat-msg is-model is-wait">${esc(t)}</div>`); l.scrollTop = l.scrollHeight; box.querySelector('#aiChatForm button').disabled = true; };
+      wait('…');
       try {
-        const a = await gemini(aiChat.slice(-16), { text: true, system: 'Sen DezoMax (dezomax.uz) — o‘zbek tilidagi kino, serial, sport va TV sayti adminining yordamchisisan. Qisqa, aniq, o‘zbek tilida (lotin) javob ber. Reklama matni, SEO, bildirishnoma, ijtimoiy tarmoq postlari va sayt boshqaruvi bo‘yicha amaliy maslahat ber.' });
-        aiChat.push({ role: 'model', text: a || '(javob bo‘sh)' });
-      } catch (ex) { aiChat.pop(); draw(); const er = box.querySelector('#aiChatErr'); er.textContent = ex.message; er.hidden = false; box.querySelector('#aiChatForm textarea').value = q; return; }
+        let calls = 0;
+        for (let round = 0; round < 12; round++) {
+          const c = await gemini(null, { contents: aiConv, tools: AI_TOOLS, system: AI_SYSTEM(), raw: true });
+          const parts = c.parts || [];
+          aiConv.push({ role: 'model', parts });
+          const fcs = parts.filter(p => p.functionCall);
+          if (!fcs.length) {
+            aiChat.push({ role: 'model', text: parts.map(p => p.text || '').join('').trim() || '(javob bo‘sh)' });
+            break;
+          }
+          const responses = fcs.map(p => ({ functionResponse: { name: p.functionCall.name, response: { result: aiRunTool(p.functionCall.name, p.functionCall.args || {}) } } }));
+          aiConv.push({ role: 'user', parts: responses });
+          calls += fcs.length;
+          wait(`🔧 Ishlayapti… (${calls} ta amal)`);
+        }
+        if (aiChat[aiChat.length - 1].role === 'user') aiChat.push({ role: 'model', text: 'Topshiriq juda katta — qismlarga bo‘lib yozing (masalan «avval 20 tasini»).' });
+      } catch (ex) {
+        aiChat.pop(); aiConv.length = convBefore;
+        draw(); const er = box.querySelector('#aiChatErr'); er.textContent = ex.message; er.hidden = false; box.querySelector('#aiChatForm textarea').value = q; return;
+      }
       draw();
+      paintGenreBar();
       box.querySelector('#aiChatForm textarea')?.focus();
     });
   };
