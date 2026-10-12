@@ -26,7 +26,9 @@ for (const f of ['js/data.js', 'js/data-channels.js', 'js/data-custom.js', 'js/m
 }
 const INFO = ctx.MARVEL_INFO || {};
 const seen = new Set();
-const films = (ctx.MOVIES || []).filter(m => m && m.franchise === 'marvel' && m.type !== 'serial' && !seen.has(m.id) && seen.add(m.id))
+// faqat rasmiy manbadagi (YouTube / Wikimedia) video yoki treyleri borlar — gen-pages.js dagi OFFICIAL bilan bir xil
+const OFFICIAL = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|upload\.wikimedia\.org)\//i;
+const films = (ctx.MOVIES || []).filter(m => m && m.franchise === 'marvel' && m.type !== 'serial' && OFFICIAL.test(String(m.video || m.trailer || '').trim()) && !seen.has(m.id) && seen.add(m.id))
   .map(m => {
     // admin'da kiritilgani (m.mx) Wikidata ustidan; admin treyleri «rasmiy» deb yozilmaydi
     const wd = INFO[m.id] || {}, info = { ...wd, ...(m.mx || {}) };
