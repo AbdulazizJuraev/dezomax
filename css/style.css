@@ -7437,3 +7437,40 @@ body.page-account::before { content: ''; position: fixed; inset: 0 0 auto; heigh
 .acc-layout .acc-panel { border-radius: 24px; border-color: rgba(255, 255, 255, .08); background: #0b0b0d; }
 .acc-layout .acc-tv-banner { border: 1px solid rgba(255, 255, 255, .08); }
 .acc-layout .acc-badge { background: #e5203a; color: #fff; }
+
+/* ================= Xush kelibsiz / kirish oynasi (js/welcome.js) — kirish sahifasi uslubida: qora, qizil ================= */
+.wc.is-auth .wc-collage { filter: grayscale(.55) brightness(.8); }
+.wc.is-auth .wc-shade {
+  background:
+    radial-gradient(70% 45% at 50% 100%, rgba(229, 32, 58, .38), rgba(229, 32, 58, 0) 70%),
+    linear-gradient(to top, #000 0%, rgba(0, 0, 0, .95) 44%, rgba(8, 0, 2, .72) 100%);
+}
+.wc-lang { background: rgba(0, 0, 0, .6); border-color: rgba(255, 255, 255, .12); }
+.wc-lang button.is-active { background: #e5203a; color: #fff; }
+.wc-dots i.is-on { background: #e5203a; }
+.wc-next { background: #e5203a; box-shadow: 0 10px 28px rgba(229, 32, 58, .45); }
+.wc-next:hover { background: #ff2e4a; }
+.wc-trial { color: #fff; background: rgba(229, 32, 58, .2); border-color: rgba(229, 32, 58, .6); box-shadow: 0 0 22px rgba(229, 32, 58, .25); }
+.wc-trial svg { color: #ff5a6b; }
+.wc-auth { gap: 14px; }
+.wc-auth h1 { font-size: clamp(30px, 8.4vw, 42px); font-weight: 700; letter-spacing: 0; }
+.wc-auth > p { color: rgba(255, 255, 255, .66); }
+.wc-auth .wc-google {
+  width: 100%; height: 58px; padding: 0 16px; gap: 12px; justify-content: center; border-radius: 16px;
+  background: #fff; box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
+}
+.wc-auth .wc-google:hover { box-shadow: 0 12px 34px rgba(229, 32, 58, .25); }
+.wc-g-icon { width: auto; height: auto; background: none; box-shadow: none; border-radius: 0; }
+.wc-g-icon svg { width: 26px; height: 26px; }
+.wc-g-text { align-items: flex-start; }
+.wc-g-text b { font-size: 17px; font-weight: 700; color: #111; }
+.wc-g-text small { font-size: 11.5px; color: #6b6f78; }
+.wc-or::before, .wc-or::after { background: rgba(255, 255, 255, .3); }
+.wc-tg { height: 58px; border-radius: 16px; border-color: #10a5ec; background: #10a5ec; color: #fff; font-size: 16px; box-shadow: 0 10px 28px rgba(16, 165, 236, .28); }
+.wc-tg:hover { background: #1bb2f5; }
+.wc-tg svg { width: 24px; height: 24px; color: #fff; }
+.wc-later { color: rgba(255, 255, 255, .7); text-decoration: underline; text-underline-offset: 3px; }
+.wc-code-inputs input:focus { border-color: #e5203a; }
+.wc-gwrap { position: relative; width: 100%; }
+.wc-auth .wc-gsi { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 16px; opacity: .011; min-height: 0; margin: 0; }
+.wc-auth .wc-gsi > div { transform: scale(1.1, 1.5); }

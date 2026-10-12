@@ -168,12 +168,13 @@
           <h1>${t('wc.auth.title')}</h1>
           <p>${text('wc.auth.sub')}</p>
           <p class="wc-err" id="wcErr" hidden></p>
-          <div class="wc-gsi" id="wcGsi" hidden></div>
-          <small class="wc-gsi-note" id="wcGsiNote" hidden>${t('wc.googleSub')}</small>
-          <button class="wc-google" id="wcGoogle" type="button">
-            <span class="wc-g-icon">${ICON.google}</span>
-            <span class="wc-g-text"><b>${t('wc.googleBtn')}</b><small>${t('wc.googleSub')}</small></span>
-          </button>
+          <div class="wc-gwrap">
+            <button class="wc-google" id="wcGoogle" type="button">
+              <span class="wc-g-icon">${ICON.google}</span>
+              <span class="wc-g-text"><b>${t('wc.googleBtn')}</b><small>${t('wc.googleSub')}</small></span>
+            </button>
+            <div class="wc-gsi" id="wcGsi" hidden></div>
+          </div>
           ${Tg.enabled() ? `
             <div class="wc-or"><span>${t('wc.or')}</span></div>
             <button class="wc-tg" id="wcTg" type="button">${ICON.tg}<span>${t('wc.tgBtn')}</span></button>
@@ -232,12 +233,13 @@
       finish(true);
     };
 
-    // Sayt: Google'ning o'z tugmasi (popup). Ilova (yoki Google yuklanmasa): bizning tugma
+    // Sayt: ko'rinishi — bizning oq tugma (G logosi, o'zbekcha); ustida Google'ning o'z tugmasi deyarli shaffof
+    // turadi va bosishni u oladi (popup). Ilova: bizning tugma (telefondagi Google akkaunt)
     if (Auth.mode === 'google' && !Auth.native) {
-      const box = root.querySelector('#wcGsi'), note = root.querySelector('#wcGsiNote');
-      box.hidden = false; btn.hidden = true; note.hidden = false;
-      Auth.renderGoogleButton(box, ok, e => { console.warn(e); showErr(t('acc.errGeneric')); })
-        .catch(() => { box.hidden = true; note.hidden = true; btn.hidden = false; showErr(t('acc.errGoogleLoad')); });
+      const box = root.querySelector('#wcGsi');
+      box.hidden = false;
+      Auth.renderGoogleButton(box, ok, e => { console.warn(e); showErr(t('acc.errGeneric')); }, { theme: 'outline', text: 'signin_with' })
+        .catch(() => { box.hidden = true; showErr(t('acc.errGoogleLoad')); });
     }
     // Telegram: botni ochish → bot kod yuboradi → kodni shu yerga yozish
     const tgBtn = root.querySelector('#wcTg');
