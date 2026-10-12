@@ -1190,40 +1190,62 @@ function tmdbSectionHTML(m) {
    admin ko'rib chiqib o'zi saqlaydi. Kalit faqat shu brauzerda (localStorage), repoga yozilmaydi. */
 const AI_KEY = 'dezomax_gemini_key';
 const aiKey = () => { try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
-const AI_MODELS = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.0-flash'];
+const AI_MODELS = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite', 'gemini-2.0-flash-001', 'gemini-2.0-flash'];
+const AI_ROUTE = 'dezomax_gemini_route';      // ishlagan manzil va model (keyingi safar darrov shu)
+/* Kalit turlari: AI Studio (AIza…) — generativelanguage.googleapis.com; yangi «AQ.…» kalitlar (Vertex AI express) —
+   aiplatform.googleapis.com. Ikkalasi sinaladi, ishlagani eslab qolinadi. */
+const AI_ENDPOINTS = [
+  { id: 'gl', url: m => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`, auth: 'header' },
+  { id: 'vx', url: m => `https://aiplatform.googleapis.com/v1/publishers/google/models/${m}:generateContent`, auth: 'query' }
+];
 
 /* prompt — matn yoki suhbat ([{role:'user'|'model', text}]); opts.text — oddiy matn javob (JSON emas), opts.system — ko'rsatma */
 async function gemini(prompt, opts = {}) {
   const key = aiKey();
   if (!key) throw new Error('AI kaliti kiritilmagan — admin burchagidagi «AI» oynasida yoki kino formasida kiriting');
   const contents = Array.isArray(prompt) ? prompt.map(m => ({ role: m.role, parts: [{ text: m.text }] })) : [{ role: 'user', parts: [{ text: prompt }] }];
-  let last;
-  for (const model of AI_MODELS) {
+  const body = JSON.stringify({
+    contents,
+    ...(opts.system ? { systemInstruction: { parts: [{ text: opts.system }] } } : {}),
+    generationConfig: opts.text ? { temperature: 0.7 } : { temperature: 0.4, responseMimeType: 'application/json' }
+  });
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(AI_ROUTE) || 'null'); } catch {}
+  const routes = [];
+  if (saved) routes.push(saved);
+  // «AQ.» kalit — avval Vertex manzili
+  const eps = /^AQ\./.test(key) ? [AI_ENDPOINTS[1], AI_ENDPOINTS[0]] : AI_ENDPOINTS;
+  for (const ep of eps) for (const model of AI_MODELS) if (!saved || saved.ep !== ep.id || saved.model !== model) routes.push({ ep: ep.id, model });
+
+  let last = null, keyBad = 0, tried = 0;
+  for (const rt of routes) {
+    const ep = AI_ENDPOINTS.find(x => x.id === rt.ep);
     let r;
+    tried++;
     try {
-      r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+      r = await fetch(ep.url(rt.model) + (ep.auth === 'query' ? `?key=${encodeURIComponent(key)}` : ''), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-        body: JSON.stringify({
-          contents,
-          ...(opts.system ? { systemInstruction: { parts: [{ text: opts.system }] } } : {}),
-          generationConfig: opts.text ? { temperature: 0.7 } : { temperature: 0.4, responseMimeType: 'application/json' }
-        })
+        headers: { 'Content-Type': 'application/json', ...(ep.auth === 'header' ? { 'x-goog-api-key': key } : {}) },
+        body
       });
-    } catch { throw new Error('Gemini’ga ulanib bo‘lmadi — internetni tekshiring'); }
-    if (r.status === 400 || r.status === 401 || r.status === 403) {
-      const j = await r.json().catch(() => ({}));
-      if (/api key|API_KEY|permission/i.test(JSON.stringify(j))) throw new Error('Gemini kaliti noto‘g‘ri — «Kalitni o‘zgartirish» orqali qayta kiriting');
-    }
-    if (r.status === 404) { last = new Error(`Model topilmadi: ${model}`); continue; }      // keyingi model
+    } catch { last = new Error('Gemini’ga ulanib bo‘lmadi — internetni tekshiring'); continue; }
     if (r.status === 429) throw new Error('Tekin chegara tugadi — bir daqiqadan keyin qayta urinib ko‘ring');
-    if (!r.ok) { last = new Error(`Gemini xatosi (${r.status})`); continue; }
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      const msg = String(j.error?.message || '').slice(0, 220);
+      if ((r.status === 400 || r.status === 401) && /api key not valid|API_KEY_INVALID|invalid authentication/i.test(msg)) keyBad++;
+      last = new Error(`Gemini (${rt.model}, ${r.status}): ${msg || 'xato'}`);
+      continue;
+    }
+    try { localStorage.setItem(AI_ROUTE, JSON.stringify(rt)); } catch {}
     const j = await r.json();
     const text = j.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
     if (opts.text) return text.trim();
     try { return JSON.parse(text.replace(/^```(?:json)?\s*|\s*```$/g, '')); }
     catch { throw new Error('Gemini javobini o‘qib bo‘lmadi — qayta urinib ko‘ring'); }
   }
+  try { localStorage.removeItem(AI_ROUTE); } catch {}
+  if (keyBad && keyBad === tried) throw new Error('Gemini kaliti noto‘g‘ri — «Kalitni o‘zgartirish» orqali qayta kiriting');
   throw last || new Error('Gemini javob bermadi');
 }
 
