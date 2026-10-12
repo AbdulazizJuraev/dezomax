@@ -370,6 +370,7 @@ function formHTML(m = {}) {
       </div>
 
       ${tmdbSectionHTML(m)}
+      ${aiSectionHTML()}
 
       ${section('info', 'Asosiy', `
         <div class="adm-row adm-row-2">
@@ -618,6 +619,7 @@ function bindForm(old) {
   form.coverUrl.addEventListener('change', () => setCover(form.coverUrl.value.trim()));
 
   bindTmdb(form, { setHeroImg, setCover });
+  bindAi(form);
   form.franchise.addEventListener('change', () => { $('#admMxBox').hidden = form.franchise.value !== 'marvel'; });
   bindTranslate(form);
 
@@ -1142,6 +1144,146 @@ function tmdbSectionHTML(m) {
         <p class="acc-error" id="tmdbErr" hidden></p>
         <p class="adm-hint">Kalit faqat shu qurilmada saqlanadi.</p>`}
     </section>`;
+}
+
+/* ---------- AI yordamchi (Google Gemini, tekin kalit — aistudio.google.com) ----------
+   Kino formasida: tavsif yozish, ruschadan tarjima, janr va teglar, tavsifni tozalash. Natija formaga yoziladi —
+   admin ko'rib chiqib o'zi saqlaydi. Kalit faqat shu brauzerda (localStorage), repoga yozilmaydi. */
+const AI_KEY = 'dezomax_gemini_key';
+const aiKey = () => { try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
+const AI_MODELS = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.0-flash'];
+
+async function gemini(prompt) {
+  const key = aiKey();
+  let last;
+  for (const model of AI_MODELS) {
+    let r;
+    try {
+      r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.4, responseMimeType: 'application/json' }
+        })
+      });
+    } catch { throw new Error('Gemini’ga ulanib bo‘lmadi — internetni tekshiring'); }
+    if (r.status === 400 || r.status === 401 || r.status === 403) {
+      const j = await r.json().catch(() => ({}));
+      if (/api key|API_KEY|permission/i.test(JSON.stringify(j))) throw new Error('Gemini kaliti noto‘g‘ri — «Kalitni o‘zgartirish» orqali qayta kiriting');
+    }
+    if (r.status === 404) { last = new Error(`Model topilmadi: ${model}`); continue; }      // keyingi model
+    if (r.status === 429) throw new Error('Tekin chegara tugadi — bir daqiqadan keyin qayta urinib ko‘ring');
+    if (!r.ok) { last = new Error(`Gemini xatosi (${r.status})`); continue; }
+    const j = await r.json();
+    const text = j.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+    try { return JSON.parse(text.replace(/^```(?:json)?\s*|\s*```$/g, '')); }
+    catch { throw new Error('Gemini javobini o‘qib bo‘lmadi — qayta urinib ko‘ring'); }
+  }
+  throw last || new Error('Gemini javob bermadi');
+}
+
+function aiSectionHTML() {
+  const key = aiKey();
+  return `
+    <section class="adm-sec adm-ai" id="aiBox">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${ICONS.search}</span><h3>AI yordamchi</h3><small>Gemini</small></div>
+      ${key ? `
+        <p class="adm-hint">Natija formaga yoziladi — tekshirib, «Saqlash»ni bosasiz.</p>
+        <div class="adm-ai-btns">
+          <button class="btn btn-ghost btn-sm" type="button" data-ai="desc">Tavsif yozish</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-ai="translate">Ruschadan tarjima</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-ai="genres">Janr va teglar</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-ai="clean">Tavsifni tozalash</button>
+        </div>
+        <p class="acc-error" id="aiErr" hidden></p>
+        <p class="adm-hint" id="aiNote"></p>
+        <div class="adm-tmdb-foot"><button class="acc-link" type="button" id="aiKeyReset">Kalitni o‘zgartirish</button><span>Google Gemini</span></div>` : `
+        <p class="adm-hint">Tekin Gemini kaliti kerak: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> → «Create API key» → «Copy key» → kalitni pastga qo‘ying.</p>
+        <div class="adm-tmdb-row">
+          <input class="acc-input" id="aiKeyIn" type="password" placeholder="Gemini API kaliti" autocomplete="off">
+          <button class="btn btn-primary" type="button" id="aiKeySave">Saqlash</button>
+        </div>
+        <p class="acc-error" id="aiErr" hidden></p>
+        <p class="adm-hint">Kalit faqat shu qurilmada saqlanadi.</p>`}
+    </section>`;
+}
+
+function bindAi(form) {
+  const box = $('#aiBox');
+  if (!box) return;
+  const err = $('#aiErr'), note = $('#aiNote');
+  const showErr = m => { err.textContent = m || ''; err.hidden = !m; };
+  const redraw = () => { box.outerHTML = aiSectionHTML(); bindAi(form); };
+  $('#aiKeySave')?.addEventListener('click', async e => {
+    const v = $('#aiKeyIn').value.trim();
+    if (!/^[\w.-]{20,}$/.test(v)) return showErr('Kalit to‘liq nusxalanmagan — «Copy key» bilan qayta nusxalang');
+    e.currentTarget.disabled = true;
+    try {
+      localStorage.setItem(AI_KEY, v);
+      await gemini('Return JSON {"ok": true}');            // kalitni tekshiramiz
+      toast('Gemini ulandi');
+      redraw();
+    } catch (ex) {
+      localStorage.removeItem(AI_KEY);
+      showErr(ex.message);
+      e.currentTarget.disabled = false;
+    }
+  });
+  $('#aiKeyReset')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); redraw(); });
+
+  const v = n => (form.elements[n]?.value || '').trim();
+  const set = (n, val) => { if (form.elements[n] && val) { form.elements[n].value = String(val).trim(); form.elements[n].dispatchEvent(new Event('input', { bubbles: true })); } };
+  const info = () => `Kino: «${v('titleUz')}»${v('titleRu') ? ` (ruscha: «${v('titleRu')}»)` : ''}${v('year') ? `, ${v('year')}-yil` : ''}, turi: ${v('type') || 'film'}${v('countryUz') ? `, davlati: ${v('countryUz')}` : ''}.
+Hozirgi o'zbekcha tavsif: ${v('descUz') || '(yo‘q)'}
+Hozirgi ruscha tavsif: ${v('descRu') || '(yo‘q)'}`;
+  const RULES = `Faqat JSON qaytar. O'zbek tili — lotin yozuvida, o‘ va g‘ harflari bilan. Bilmagan faktni o'ylab topma: kinoni tanimasang, faqat berilgan matndan foydalan.`;
+  const TASKS = {
+    desc: {
+      prompt: () => `${info()}
+Shu kino uchun sayt sahifasiga qisqa tavsif yoz: o'zbekcha va ruscha, har biri 2–3 jumla, spoylersiz, reklama so'zlarisiz (kanal, obuna, sifat, 720p yozilmasin).
+${RULES} Format: {"descUz": "...", "descRu": "..."}`,
+      apply: j => { set('descUz', j.descUz); set('descRu', j.descRu); return 'Tavsif yozildi'; }
+    },
+    translate: {
+      prompt: () => `${info()}
+Ruscha nom va tavsifni o'zbekchaga tarjima qil (o'zbekcha nom kinoning O'zbekistonda tanilgan nomi bo'lsin). Ruscha bo'sh bo'lsa — o'zbekchadan ruschaga.
+${RULES} Format: {"titleUz": "...", "titleRu": "...", "descUz": "...", "descRu": "..."}`,
+      apply: j => { set('titleUz', j.titleUz); set('titleRu', j.titleRu); set('descUz', j.descUz); set('descRu', j.descRu); return 'Tarjima qilindi'; }
+    },
+    genres: {
+      prompt: () => `${info()}
+Kinoning janrlarini faqat shu ro'yxatdan tanla (1–3 ta, eng mosi birinchi): ${GENRES.map(g => `${g.id} (${g.uz})`).join(', ')}.
+Odamlar Google'da qidiradigan boshqa nomlarini ham ber (ruscha, inglizcha, o'zbekcha variantlar), 3–6 ta.
+${RULES} Format: {"genres": ["..."], "tags": ["..."]}`,
+      apply: j => {
+        const ids = (j.genres || []).filter(g => GENRES.some(x => x.id === g));
+        if (ids.length) form.querySelectorAll('input[name="genres"]').forEach(x => { x.checked = ids.includes(x.value); });
+        const old = v('tags').split(',').map(x => x.trim()).filter(Boolean);
+        const tags = [...new Set([...old, ...(j.tags || []).map(String)])].slice(0, 12);
+        if (tags.length) set('tags', tags.join(', '));
+        return `Janr: ${ids.map(id => GENRES.find(x => x.id === id)?.uz).join(', ') || '—'}`;
+      }
+    },
+    clean: {
+      prompt: () => `${info()}
+Tavsiflardan ortiqcha narsalarni olib tashla: emoji, heshteglar, kanal nomi va «obuna bo'ling», sifat (720p, HD), «O'zbek tilida», «Janri:», «Bosh rollarda:» kabi qatorlar. Qolgan mazmunni toza, bir abzats matn qilib ber. Bo'sh qolsa — bo'sh qator.
+${RULES} Format: {"descUz": "...", "descRu": "..."}`,
+      apply: j => {
+        for (const n of ['descUz', 'descRu']) if (form.elements[n] && typeof j[n] === 'string') form.elements[n].value = j[n].trim();
+        return 'Tavsif tozalandi';
+      }
+    }
+  };
+  box.querySelectorAll('[data-ai]').forEach(b => b.addEventListener('click', async () => {
+    const task = TASKS[b.dataset.ai];
+    if (!v('titleUz')) return showErr('Avval kino nomini yozing');
+    showErr(''); note.textContent = 'Gemini o‘ylayapti…';
+    box.querySelectorAll('[data-ai]').forEach(x => { x.disabled = true; });
+    try { note.textContent = task.apply(await gemini(task.prompt())) + ' — tekshirib, saqlang'; }
+    catch (ex) { note.textContent = ''; showErr(ex.message); }
+    finally { box.querySelectorAll('[data-ai]').forEach(x => { x.disabled = false; }); }
+  }));
 }
 
 function bindTmdb(form, { setHeroImg, setCover }) {
