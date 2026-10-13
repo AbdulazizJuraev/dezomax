@@ -880,11 +880,46 @@ function initRowNav() {
 
 /* ---------- Ishga tushirish ---------- */
 
+/* Slayder — to'liq avtomatik (foydalanuvchi so'rovi, 2026-10-13): eng ko'p ko'rilgan kinolar (oxirgi 7 kun, kam bo'lsa —
+   hamma vaqt), 8 tagacha, keyin admin tanlaganlari; o'zi almashib turadi. Ro'yxat telefonda saqlanadi — keyingi ochilishda
+   darrov shu ko'rinadi, yangisi fonda keladi. Bolalar rejimida — o'zgarmaydi (bolalar slayderi). */
+const HERO_POP_KEY = 'dzxHeroPop';
+function heroPopular(ids) {
+  const byId = new Map(MOVIES.map(m => [m.id, m]));
+  return [...new Set(ids)].map(id => byId.get(id))
+    .filter(m => m && !isExtraVideo(m) && watchStatus(m) !== 'trailer' && (m.poster || m.cover || m.vposter || m.hposter)).slice(0, 8);
+}
+const heroAdmin = featured.slice();
+function applyHeroList(pop) {
+  if (!pop.length) return false;
+  const next = [...pop, ...heroAdmin.filter(m => !pop.includes(m))].slice(0, 10);
+  if (next.map(m => m.id).join() === featured.map(m => m.id).join()) return false;
+  featured.splice(0, featured.length, ...next);
+  return true;
+}
+if (!kidsMode()) {
+  try { applyHeroList(heroPopular(JSON.parse(localStorage.getItem(HERO_POP_KEY) || '[]'))); } catch {}
+}
+
 initLayout();
 renderHero();
 renderRows();
 initHeroSwipe();
 restartHeroTimer();
+
+if (!kidsMode()) (async () => {
+  const t0 = Date.now();
+  const week = await topIds(7);
+  const ids = week.length >= 5 ? week : [...week, ...await topIds('all')];
+  if (!ids.length) return;
+  try { localStorage.setItem(HERO_POP_KEY, JSON.stringify(ids.slice(0, 30))); } catch {}
+  // birinchi ochilishda (keshsiz) — tez kelsa darrov almashtiramiz; foydalanuvchi slaydni o'zi aylantirgan bo'lsa — keyingi safar
+  if (Date.now() - t0 < 4000 && heroIndex === 0 && applyHeroList(heroPopular(ids))) {
+    document.querySelectorAll('.hero-slide').forEach(s => s.remove());
+    renderHero();
+    restartHeroTimer();
+  }
+})();
 document.getElementById('year').textContent = new Date().getFullYear();
 
 /* Oyna telefon ↔ kompyuter o'lchamiga o'tganda slayder rasmlari almashadi (gorizontal / tik) */

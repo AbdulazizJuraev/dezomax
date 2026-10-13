@@ -599,12 +599,70 @@ function initLayout() {
     });
   }
 
+  enhanceHeader(header, page);
   renderMiniNav(header, page);
   renderTabbar();
   renderFooterGenres();
   applyI18n();
   updateFavCount();
   observeReveals();
+}
+
+/* ---------- Kompyuter navbari (Kinopoisk uslubida) ----------
+   ☰ menyu (barcha bo'limlar), o'rtada katta bo'limlar (faol — ostida chiziq), qidiruv belgisi (bosilsa qidiruv maydoni
+   ochiladi), «Ilova» va «Bolalar», avatar atrofida rangli halqa. Telefonda — o'zgarmaydi (pastki panel ishlaydi).
+   Markup shu yerda qo'shiladi — har bir HTML faylga nusxalash shart emas. */
+function enhanceHeader(header, page) {
+  const wrap = header && header.querySelector('.wrap');
+  if (!wrap || page === 'admin.html' || wrap.querySelector('.nav-burger')) return;
+  const ru = LANG === 'ru';
+  const I = {
+    burger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+    app: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>',
+    kids: '<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8" fill="#a78bfa"/><circle cx="7" cy="6" r="3" fill="#a78bfa"/><circle cx="17" cy="6" r="3" fill="#a78bfa"/><circle cx="9.3" cy="12" r="1.3" fill="#1e1b4b"/><circle cx="14.7" cy="12" r="1.3" fill="#1e1b4b"/><path d="M9.5 16c1.4 1.2 3.6 1.2 5 0" stroke="#1e1b4b" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+    close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+  };
+  const logo = wrap.querySelector('.logo');
+  logo && logo.insertAdjacentHTML('beforebegin', `<button class="nav-burger" type="button" aria-label="${ru ? 'Меню' : 'Menyu'}">${I.burger}</button>`);
+  const nav = wrap.querySelector('.nav');
+  nav && nav.insertAdjacentHTML('beforeend', `<button class="nav-search-btn" type="button" aria-label="${ru ? 'Поиск' : 'Qidiruv'}">${I.search}</button>`);
+  const acc = wrap.querySelector('.account-btn');
+  const native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  acc && acc.insertAdjacentHTML('beforebegin', `
+    ${native ? '' : `<a class="nav-extra" href="https://play.google.com/store/apps/details?id=uz.dezomax.app" target="_blank" rel="noopener">${I.app}<span>${ru ? 'Приложение' : 'Ilova'}</span></a>`}
+    <a class="nav-extra nav-kids" href="catalog.html?type=multfilm">${I.kids}<span>${ru ? 'Дети' : 'Bolalar'}</span></a>`);
+
+  // qidiruv belgisi — header'dagi qidiruv maydonini ochadi
+  const search = wrap.querySelector('.search');
+  wrap.querySelector('.nav-search-btn')?.addEventListener('click', () => {
+    if (!search) { location.href = 'search.html'; return; }
+    header.classList.toggle('is-searching');
+    if (header.classList.contains('is-searching')) search.querySelector('input')?.focus();
+  });
+  search?.querySelector('input')?.addEventListener('blur', () => setTimeout(() => header.classList.remove('is-searching'), 150));
+
+  // ☰ — barcha bo'limlar (chapdan chiqadigan panel)
+  const L = [
+    ['index.html', 'nav.home'], ['catalog.html', ru ? 'Каталог' : 'Katalog'], ['catalog.html?type=film', ru ? 'Фильмы' : 'Filmlar'],
+    ['catalog.html?type=serial', 'nav.series'], ['catalog.html?type=multfilm', ru ? 'Мультфильмы' : 'Multfilmlar'], ['marvel.html', 'nav.marvel'],
+    ['shorts.html', 'Shorts'], ['sport.html', 'nav.sport'], ['tv.html', 'nav.tv'], ['favorites.html', 'nav.favorites'],
+    ['downloads.html', 'nav.downloads'], ['plans.html', ru ? 'Тарифы' : 'Tariflar'], ['account.html', 'nav.account']
+  ];
+  const lbl = k => (k.startsWith('nav.') && typeof t === 'function' ? t(k) : k);
+  const drawer = document.createElement('div');
+  drawer.className = 'nav-drawer';
+  drawer.hidden = true;
+  drawer.innerHTML = `<div class="nav-drawer-bg" data-close></div>
+    <aside class="nav-drawer-box">
+      <button class="nav-drawer-x" type="button" data-close aria-label="×">${I.close}</button>
+      ${L.map(([h, k]) => `<a href="${h}"${h === page ? ' class="is-active"' : ''}>${esc(lbl(k))}</a>`).join('')}
+    </aside>`;
+  document.body.appendChild(drawer);
+  const open = on => { drawer.hidden = !on; document.documentElement.classList.toggle('nav-drawer-open', on); };
+  wrap.querySelector('.nav-burger')?.addEventListener('click', () => open(true));
+  drawer.addEventListener('click', e => { if (e.target.closest('[data-close]')) open(false); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !drawer.hidden) open(false); });
 }
 
 /* ---------- Telefon uchun pastki navbar ----------
