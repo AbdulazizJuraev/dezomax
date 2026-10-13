@@ -7740,3 +7740,22 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
 /* Tavsiyalar: karta nomi uzun bo'lsa ham hamma karta bir xil o'lchamda (min-width: auto tufayli uzun nom kartani kengaytirardi) */
 .vp-rec { min-width: 0; overflow: hidden; }
 .vp-rec-t { max-width: 100%; }
+
+/* ================= Surishda qotmasin (2026-10-13) =================
+   1) Kartalardagi belgilar (tur, o'zbekcha, reyting, davomiylik) ostidagi xiralashtirish (backdrop-filter) — har kadrda
+      tagidagi rasmni qayta hisoblaydi; o'nlab karta bo'lgani uchun surish qotardi → hamma joyda o'chirildi (fon yetarlicha to'q).
+   2) Telefonda HAMMA backdrop-filter (header, pastki menyu, pleyer tugmalari…) o'chirildi — fonlar to'q, ko'rinish deyarli bir xil.
+   3) Ekrandan tashqaridagi bo'limlar va kartalar chizilmaydi (content-visibility) — uzun sahifa tez suriladi.
+   4) Telefonda kartalarning paydo bo'lish animatsiyasi va rasm filtri yo'q. */
+.card .badge-rating, .card .badge-type, .card .badge-watch, .card [class*="badge"], .card .dur-pill, .card [class*="pill"] {
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+#homeRows > .section, main > .section:not(.hero) { content-visibility: auto; contain-intrinsic-size: auto 360px; }
+.grid > .card { content-visibility: auto; contain-intrinsic-size: auto 260px; }
+@media (max-width: 900px), (hover: none) {
+  *, *::before, *::after { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .header.scrolled { background: rgba(0, 0, 0, .94); }
+  .tabbar { background: rgba(22, 24, 30, .97) !important; }
+  .card-poster img { filter: none; }
+  .reveal, .reveal.is-in { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .card:hover .card-poster { transform: none; }
+}
