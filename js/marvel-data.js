@@ -979,7 +979,7 @@ var MARVEL_INFO = {
    "Sebastian Stan"
   ],
   "budget": 180000000,
-  "gross": null,
+  "gross": 415100000,
   "yt": "1pHDWnXmK7Y",
   "ytCh": "Marvel Entertainment"
  },
@@ -1005,7 +1005,7 @@ var MARVEL_INFO = {
    "Wendell Pierce"
   ],
   "budget": 180000000,
-  "gross": null,
+  "gross": 382400000,
   "yt": "hUUszE29jS0",
   "ytCh": "Marvel Entertainment"
  },
@@ -1031,7 +1031,7 @@ var MARVEL_INFO = {
    "Mark Gatiss"
   ],
   "budget": 200000000,
-  "gross": null,
+  "gross": 521900000,
   "yt": "pAsmrKyMqaA",
   "ytCh": "Marvel Entertainment"
  },
@@ -1058,13 +1058,15 @@ var MARVEL_INFO = {
    "Zabryna Guevara"
   ],
   "budget": 225000000,
-  "gross": null,
+  "gross": 2512891779,
   "yt": "daXaTug8rL4",
   "ytCh": "Marvel Entertainment"
  },
  "150": {
   "yt": "irVNGjRFZGk",
-  "ytCh": "Marvel Entertainment"
+  "ytCh": "Marvel Entertainment",
+  "en": "Avengers: Doomsday",
+  "date": "2026-12-18"
  }
 };
 /* Aktyor suratlari — Wikimedia Commons (erkin litsenziya) */
@@ -1088,7 +1090,7 @@ var MARVEL_PHOTOS = {
  "Rachel McAdams": "https://commons.wikimedia.org/wiki/Special:FilePath/Rachel_McAdams_-_Walk_of_Fame.jpg?width=160",
  "Tilda Swinton": "https://commons.wikimedia.org/wiki/Special:FilePath/Tilda_Swinton_by_Gage_Skidmore_(cropped).jpg?width=160",
  "Tom Hiddleston": "https://commons.wikimedia.org/wiki/Special:FilePath/Tom_Hiddleston_at_the_2024_Toronto_International_Film_Festival_(cropped).jpg?width=160",
- "Cate Blanchett": "https://commons.wikimedia.org/wiki/Special:FilePath/Cate_Blanchett_Cannes_2018_2_(cropped).jpg?width=160",
+ "Cate Blanchett": "https://commons.wikimedia.org/wiki/Special:FilePath/Cate_Blanchett-63298_(cropped_2).jpg?width=160",
  "Chadwick Boseman": "https://commons.wikimedia.org/wiki/Special:FilePath/Chadwick_Boseman_by_Gage_Skidmore_July_2017_(cropped).jpg?width=160",
  "Michael B. Jordan": "https://commons.wikimedia.org/wiki/Special:FilePath/Michael_B_Jordan_-_Sinners_(cropped).jpg?width=160",
  "Lupita Nyong'o": "https://commons.wikimedia.org/wiki/Special:FilePath/LupitaNyongo-byPhilipRomano3.jpg?width=160",
@@ -1268,7 +1270,7 @@ var MARVEL_PHOTOS = {
  "Laurence Fishburne": "https://commons.wikimedia.org/wiki/Special:FilePath/Laurence_Fishburne_at_53rd_Saturn_Awards_2026.jpg?width=160",
  "Hannah John-Kamen": "https://commons.wikimedia.org/wiki/Special:FilePath/Hannah_John-Kamen_MTV_International_2018_(cropped).jpg?width=160",
  "Randall Park": "https://commons.wikimedia.org/wiki/Special:FilePath/Randall_Park_-_Girl_Group_-_TIFF_2026.jpg?width=160",
- "Walton Goggins": "https://commons.wikimedia.org/wiki/Special:FilePath/Walton_Goggins.jpg?width=160",
+ "Walton Goggins": "https://commons.wikimedia.org/wiki/Special:FilePath/Walton_Goggins_by_Gage_Skidmore.jpg?width=160",
  "Mckenna Grace": "https://commons.wikimedia.org/wiki/Special:FilePath/McKenna_Grace_at_WWD_Style_Awards_2026.jpg?width=160",
  "Lashana Lynch": "https://commons.wikimedia.org/wiki/Special:FilePath/Captain_Marvel_at_Edwards_Air_Force_Base_06_(cropped).png?width=160",
  "Algenis Perez Soto": "https://commons.wikimedia.org/wiki/Special:FilePath/Algenis_Perez_Soto_en_LosCriticologos.jpg?width=160",
@@ -1324,7 +1326,7 @@ var MARVEL_PHOTOS = {
  "Geraldine Viswanathan": "https://commons.wikimedia.org/wiki/Special:FilePath/Geraldine_Viswanathan_at_SXSW_Red_Carpet_premiere_of_BLOCKERS_adjusted_(cropped).jpg?width=160",
  "Chris Bauer": "https://commons.wikimedia.org/wiki/Special:FilePath/ChrisBauerSDComicConJuly2014.jpg?width=160",
  "Wendell Pierce": "https://commons.wikimedia.org/wiki/Special:FilePath/WendellPierce.jpg?width=160",
- "Ralph Ineson": "https://commons.wikimedia.org/wiki/Special:FilePath/Ralphinesonadjusted.jpg?width=160",
+ "Ralph Ineson": "https://commons.wikimedia.org/wiki/Special:FilePath/EIFF_2025_Two_Neighbours_August_16%2C_2025_Photo_credit_Cameron_Allan-29_(Ralph).jpg?width=160",
  "Julia Garner": "https://commons.wikimedia.org/wiki/Special:FilePath/Julia_Garner_Berlinale_2020_(cropped)_2.jpg?width=160",
  "Paul Walter Hauser": "https://commons.wikimedia.org/wiki/Special:FilePath/Paul_Walter_Hauser.jpg?width=160",
  "John Malkovich": "https://commons.wikimedia.org/wiki/Special:FilePath/John_Malkovich%2C_Berlinale_2023_cropped.jpg?width=160",

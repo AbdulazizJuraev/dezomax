@@ -20,7 +20,7 @@ const DIR = path.join(root, 'marvel');
 
 const ctx = { console, window: {}, document: { write() {} }, location: { pathname: '/' } };
 vm.createContext(ctx);
-for (const f of ['js/data.js', 'js/data-channels.js', 'js/data-custom.js', 'js/marvel-data.js']) {
+for (const f of ['js/marvel-films.js', 'js/marvel-data.js']) {
   const src = fs.readFileSync(path.join(root, f), 'utf8').replace(/^(const|let) /gm, 'var ');
   try { vm.runInContext(src, ctx, { filename: f }); } catch (e) { console.warn(`${f}: ${e.message}`); }
 }
@@ -28,7 +28,7 @@ const INFO = ctx.MARVEL_INFO || {};
 const seen = new Set();
 // faqat rasmiy manbadagi (YouTube / Wikimedia) video yoki treyleri borlar — gen-pages.js dagi OFFICIAL bilan bir xil
 const OFFICIAL = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|upload\.wikimedia\.org)\//i;
-const films = (ctx.MOVIES || []).filter(m => m && m.franchise === 'marvel' && m.type !== 'serial' && OFFICIAL.test(String(m.video || m.trailer || '').trim()) && !seen.has(m.id) && seen.add(m.id))
+const films = (ctx.MARVEL_FILMS || []).filter(m => m && OFFICIAL.test(String(m.video || m.trailer || '').trim()) && !seen.has(m.id) && seen.add(m.id))
   .map(m => {
     // admin'da kiritilgani (m.mx) Wikidata ustidan; admin treyleri «rasmiy» deb yozilmaydi
     const wd = INFO[m.id] || {}, info = { ...wd, ...(m.mx || {}) };

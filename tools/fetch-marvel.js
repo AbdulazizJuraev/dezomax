@@ -3,8 +3,8 @@
    ------------------------------------------------------------
    Wikidata'dan (ochiq ma'lumotlar, CC0) har bir Marvel filmi uchun:
    chiqish sanasi, davomiyligi, rejissyor, aktyorlar, byudjet va
-   kassa daromadi (AQSh dollarida). Kino ro'yxati — js/data.js
-   (franchise: 'marvel'), poster va treyler o'sha yerda.
+   kassa daromadi (AQSh dollarida). Kino ro'yxati — js/marvel-films.js
+   poster va tavsif o'sha yerda.
 
    Ishlatish (yangi Marvel filmi qo'shilganda):  node tools/fetch-marvel.js
    ============================================================ */
@@ -34,6 +34,9 @@ const YEAR = { 32: 2008, 122: 2008, 123: 2010, 124: 2011, 125: 2011, 33: 2012, 1
 
 // Rasmiy treylerlar (YouTube oEmbed bilan tekshirilgan: kanal — studiyaning o'zi). Yangi film qo'shilsa — shu yerga.
 const TRAILERS = {"33":{"yt":"eOrNdBpGMv8","ch":"Marvel Entertainment"},"34":{"yt":"d96cjJhvlMA","ch":"Marvel Entertainment"},"35":{"yt":"7SlILk2WMTI","ch":"Marvel Entertainment"},"36":{"yt":"HSzx-zryEgM","ch":"Marvel Entertainment"},"37":{"yt":"BynD1PEVAB4","ch":"Marvel Entertainment"},"38":{"yt":"xjDjIWPwcPU","ch":"Marvel Entertainment"},"39":{"yt":"6ZfuNTqbHE8","ch":"Marvel Entertainment"},"40":{"yt":"TcMBFSGVi1c","ch":"Marvel Entertainment"},"41":{"yt":"ZYzbalQ6Lg8","ch":"Marvel Entertainment"},"42":{"yt":"ONHBaC-pfsk","ch":"20th Century Studios"},"43":{"yt":"XfJ1PFzE8DU","ch":"Marvel Entertainment"},"124":{"yt":"JOddp-nlNvQ","ch":"Marvel Entertainment"},"125":{"yt":"JerVrbLldXw","ch":"Marvel Entertainment"},"126":{"yt":"Ke1Y3P9D0Bc","ch":"Marvel UK"},"127":{"yt":"npvJ9FTgZbM","ch":"Marvel Entertainment"},"128":{"yt":"tmeOjFno6Do","ch":"Marvel Entertainment"},"129":{"yt":"pWdKf3MneyI","ch":"Marvel Entertainment"},"130":{"yt":"dKrVegVI0Us","ch":"Marvel Entertainment"},"131":{"yt":"wUn05hdkhjM","ch":"Marvel Entertainment"},"132":{"yt":"39udgGPyYMg","ch":"Marvel Entertainment"},"133":{"yt":"8_rTIAOohas","ch":"Marvel Entertainment"},"134":{"yt":"Z1BCujX3pw8","ch":"Marvel Entertainment"},"135":{"yt":"LFoz8ZJWmPs","ch":"Marvel Entertainment"},"136":{"yt":"ybji16u608U","ch":"Marvel Entertainment"},"137":{"yt":"8YjFbMbfXaQ","ch":"Marvel Entertainment"},"139":{"yt":"aWzlQ2N6qqg","ch":"Marvel Entertainment"},"140":{"yt":"Go8nTmfrQd8","ch":"Marvel Entertainment"},"141":{"yt":"_Z3QKkl1WyM","ch":"Marvel Entertainment"},"142":{"yt":"ZlNFpri-Y40","ch":"Marvel Entertainment"},"143":{"yt":"u3V5KDHRQvk","ch":"Marvel Entertainment"},"144":{"yt":"wS_qbDztgVY","ch":"Marvel Entertainment"},"145":{"yt":"73_1biulkYk","ch":"Marvel Entertainment"},"146":{"yt":"1pHDWnXmK7Y","ch":"Marvel Entertainment"},"147":{"yt":"hUUszE29jS0","ch":"Marvel Entertainment"},"148":{"yt":"pAsmrKyMqaA","ch":"Marvel Entertainment"},"149":{"yt":"daXaTug8rL4","ch":"Marvel Entertainment"},"150":{"yt":"irVNGjRFZGk","ch":"Marvel Entertainment"}};
+
+// Wikidata'da hali yo'q kassa/sana (Box Office Mojo / The Numbers, 2026-10-13) — Wikidata to'ldirilsa, o'sha ishlatiladi
+const EXTRA = { 146: { gross: 415100000 }, 147: { gross: 382400000 }, 148: { gross: 521900000 }, 149: { gross: 2512891779 }, 150: { en: 'Avengers: Doomsday', date: '2026-12-18' } };
 
 const API = 'https://www.wikidata.org/w/api.php';
 const USD = 'http://www.wikidata.org/entity/Q4917';
@@ -111,9 +114,9 @@ function money(e, p, world = false) {
   const vm = require('vm');
   const ctx = { console, window: {}, document: { write() {} }, location: { pathname: '/' } };
   vm.createContext(ctx);
-  vm.runInContext(fs.readFileSync(path.join(root, 'js', 'data.js'), 'utf8').replace(/^(const|let) /gm, 'var '), ctx);
+  vm.runInContext(fs.readFileSync(path.join(root, 'js', 'marvel-films.js'), 'utf8').replace(/^(const|let) /gm, 'var '), ctx);
   const names = new Set();
-  for (const m of ctx.MOVIES || []) if (FILMS[m.id]) (m.cast || []).forEach(n => names.add(n));
+  for (const m of ctx.MARVEL_FILMS || []) if (FILMS[m.id]) (m.cast || []).forEach(n => names.add(n));
   Object.values(out).forEach(o => (o.cast || []).forEach(n => names.add(n)));
   for (const n of names) {
     if (actorIds.has(n)) continue;
@@ -137,6 +140,7 @@ function money(e, p, world = false) {
   console.log(`aktyor suratlari: ${Object.keys(photos).length} / ${names.size}`);
 
   for (const id of Object.keys(TRAILERS)) if (!out[id]) out[id] = { yt: TRAILERS[id].yt, ytCh: TRAILERS[id].ch };   // Wikidata'da yo'q (hali chiqmagan) — treyleri bo'lsa ham
+  for (const [id, x] of Object.entries(EXTRA)) { out[id] = out[id] || {}; for (const k in x) if (!out[id][k]) out[id][k] = x[k]; }
   const js = `/* tools/fetch-marvel.js yaratadi — Wikidata (CC0) ma'lumotlari. Qo'lda o'zgartirmang. */\nvar MARVEL_INFO = ${JSON.stringify(out, null, 1)};\n` +
     `/* Aktyor suratlari — Wikimedia Commons (erkin litsenziya) */\nvar MARVEL_PHOTOS = ${JSON.stringify(photos, null, 1)};\n`;
   fs.writeFileSync(path.join(root, 'js', 'marvel-data.js'), js);

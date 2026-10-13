@@ -14,7 +14,7 @@ const MX_TXT = {
     back: 'Barcha Marvel filmlari', trailer: 'Rasmiy treyler', cast: 'Aktyorlar', director: 'Rejissyor',
     release: 'Premyera', runtime: 'Davomiyligi', min: 'daq.', budget: 'Byudjet', gross: 'Kassa (butun dunyo)',
     ratio: 'byudjetdan', profit: 'Foyda', noData: 'Ma’lumot hali yo‘q', play: 'Treylerni ko‘rish',
-    src: 'Byudjet, kassa va aktyorlar: Wikidata (ochiq ma’lumotlar). Aktyor suratlari: Wikimedia Commons.', srcYt: 'Treyler: {ch} rasmiy YouTube kanali.', trailerPlain: 'Treyler',
+    src: 'Byudjet, kassa va aktyorlar: Wikidata (ochiq ma’lumotlar), yangi filmlar kassasi — Box Office Mojo. Aktyor suratlari: Wikimedia Commons.', srcYt: 'Treyler: {ch} rasmiy YouTube kanali.', trailerPlain: 'Treyler',
     mln: 'mln', mlrd: 'mlrd', notFound: 'Film topilmadi'
   },
   ru: {
@@ -23,7 +23,7 @@ const MX_TXT = {
     back: 'Все фильмы Marvel', trailer: 'Официальный трейлер', cast: 'Актёры', director: 'Режиссёр',
     release: 'Премьера', runtime: 'Длительность', min: 'мин.', budget: 'Бюджет', gross: 'Сборы (мир)',
     ratio: 'от бюджета', profit: 'Прибыль', noData: 'Данных пока нет', play: 'Смотреть трейлер',
-    src: 'Бюджет, сборы и актёры: Wikidata (открытые данные). Фото актёров: Wikimedia Commons.', srcYt: 'Трейлер: официальный YouTube-канал {ch}.', trailerPlain: 'Трейлер',
+    src: 'Бюджет, сборы и актёры: Wikidata (открытые данные), сборы новых фильмов — Box Office Mojo. Фото актёров: Wikimedia Commons.', srcYt: 'Трейлер: официальный YouTube-канал {ch}.', trailerPlain: 'Трейлер',
     mln: 'млн', mlrd: 'млрд', notFound: 'Фильм не найден'
   }
 };
@@ -34,11 +34,10 @@ const MX_MONTHS = {
   ru: ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек']
 };
 
-// faqat filmlar (WandaVision kabi seriallar — o'z sahifasida)
+// Marvel Studios filmlari — js/marvel-films.js (to'liq ro'yxat: treyler, kassa; katalogga qo'shilmaydi)
 function mxFilms() {
-  const all = MOVIES.concat(typeof PART_MOVIES !== 'undefined' ? [...PART_MOVIES.values()] : []);
   const seen = new Set();
-  return all.filter(m => m && m.franchise === 'marvel' && m.type !== 'serial' && !seen.has(m.id) && seen.add(m.id))
+  return (typeof MARVEL_FILMS !== 'undefined' ? MARVEL_FILMS : []).filter(m => m && !seen.has(m.id) && seen.add(m.id))
     .map(m => {
       // Wikidata (js/marvel-data.js) + admin'da kiritilgani (m.mx); admin treyler qo'ysa — «rasmiy» faqat Wikidata ro'yxatidagisi
       const wd = (typeof MARVEL_INFO !== 'undefined' && MARVEL_INFO[m.id]) || {};
@@ -81,7 +80,7 @@ function mxListHTML() {
     <a class="mx-card" href="${mxHref(f)}">
       <span class="mx-poster">${posterHTML(f.m)}</span>
       <b>${esc(title(f.m))}</b>
-      <small>${esc(mxDate(f, true))}</small>
+      <small>${esc(mxDate(f, true))}${f.info.gross ? ` · <em class="mx-card-gross">${mxMoney(f.info.gross)}</em>` : ''}</small>
     </a>`;
   return `
     <section class="mx-hero">

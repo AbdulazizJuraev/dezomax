@@ -7770,3 +7770,4 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
   #hero.hero-v2 .hero-content { max-width: calc(100vw - 36px); }
   #hero.hero-v2 .hv2-desc { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 }
+.mx-card-gross { font-style: normal; color: #4ade80; }
