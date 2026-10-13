@@ -95,7 +95,7 @@ const isExtraVideo = m => !!m && m.franchise === 'tahlil';
    Sayt o'zidan hech narsa qo'shmaydi (foydalanuvchi so'rovi, 2026-10-06). Admin hech narsa tanlamagan bo'lsa —
    rasmiy kanallardagi 5 ta o'zbek filmi (slayder bo'sh qolmasin).
    js/app.js (slayder), js/role.js («Kim tomosha qiladi?» foni) va admin («Rasmiy posterlar») ishlatadi. */
-const HERO_MAX = 25;
+const HERO_MAX = 40;   // karuselda kamida 30 ta (foydalanuvchi so'rovi, 2026-10-13)
 /* Slayder kinosi: saytdagi ro'yxatda bo'lmasa ham (videosiz kartalar ro'yxatdan olib tashlanadi) — admin qo'shgan nusxasidan.
    Admin o'zi tanlagan kino slayderda albatta chiqadi (videosi yo'q bo'lsa — «Batafsil») */
 const heroMovie = id => MOVIES.find(m => m.id === id)

@@ -2319,7 +2319,7 @@ async function renderSiteView() {
         <small class="acc-muted">3 soniyadan 1 daqiqagacha. Treyler undan qisqa bo‘lsa, tugashi bilan keyingi slaydga o‘tadi.</small>
       </div>
       <label class="adm-label">Slayderdagi kinolar (tartib bo‘yicha)</label>
-      <div id="admHeroPicker">${pickerHTML('hero', d.hero.ids, 25)}</div>
+      <div id="admHeroPicker">${pickerHTML('hero', d.hero.ids, 40)}</div>
       <div class="adm-actions" style="margin-top:12px">
         <button class="btn btn-ghost" type="button" id="admHeroPosters">Rasmiy posterlarni qo‘yish (TMDB)</button>
       </div>

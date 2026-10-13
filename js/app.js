@@ -889,7 +889,7 @@ const HERO_POP_KEY = 'dzxHeroPop';
 function heroPopular(ids) {
   const byId = new Map(MOVIES.map(m => [m.id, m]));
   return [...new Set(ids)].map(id => byId.get(id))
-    .filter(m => m && !isExtraVideo(m) && watchStatus(m) !== 'trailer' && heroArtOk(m)).slice(0, 8);
+    .filter(m => m && !isExtraVideo(m) && watchStatus(m) !== 'trailer' && heroArtOk(m)).slice(0, 30);
 }
 /* Slayderga faqat sifatli katta rasmi bor kinolar: TMDB, gorizontal poster/muqova, YouTube (1280 px), saytning o'z rasmlari.
    Kichik, siqilgan rasmlar (masalan Telegram postidan olingan muqova) butun ekranga cho'zilganda xira chiqardi */
@@ -916,7 +916,7 @@ function rebuildHero(ids) {
   if (kidsMode()) return false;
   if (!ids) { try { ids = JSON.parse(localStorage.getItem(HERO_POP_KEY) || '[]'); } catch { ids = []; } }
   const pop = heroPopular(ids);
-  const next = [...pop, ...heroAdminAll.filter(m => heroArtOk(m) && !pop.includes(m))].slice(0, 10);
+  const next = [...heroAdminAll.filter(heroArtOk), ...pop].filter((m, i, a) => a.indexOf(m) === i).slice(0, HERO_MAX);
   if (next.map(m => m.id).join() === featured.map(m => m.id).join()) return false;
   featured.splice(0, featured.length, ...next);
   return true;
