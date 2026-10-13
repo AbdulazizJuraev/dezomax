@@ -7710,3 +7710,18 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
 /* Tavsiyalar: kompyuterda ekranda 6 ta karta, telefonda 2 ta (qolganlari yon tomonga suriladi) */
 .vp-rec { flex: 0 0 calc((100% - 5 * 10px) / 6); }
 @media (max-width: 900px) { .vp-rec { flex-basis: calc((100% - 10px) / 2); } }
+/* Tavsiyalar — telefonda: 2 ta karta, 50% kichikroq, pleyerning o'rtasida; pastdagi tugmalar ochiq qoladi */
+@media (max-width: 900px) {
+  .player-wrap.ytp.vp-started.vp-paused:not(.vp-recs-off) .vp-recs { animation: none; }
+  .vp-recs { top: 50%; bottom: auto; transform: translateY(-58%); padding: 0 10px; }
+  .vp-recs::before { top: -14px; bottom: -14px; background: rgba(0, 0, 0, .55); border-radius: 10px; }
+  .vp-recs-head { justify-content: center; position: relative; margin-bottom: 6px; }
+  .vp-recs-head b { font-size: 13px; }
+  .vp-recs-x { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; }
+  .vp-recs-x svg { width: 14px; height: 14px; }
+  .vp-recs-row { justify-content: center; overflow: hidden; gap: 10px; }
+  .vp-rec { flex: 0 0 calc((100% - 10px) / 4); }
+  .vp-rec:nth-child(n + 3) { display: none; }
+  .vp-rec-img em { font-size: 10px; padding: 1px 4px; right: 4px; bottom: 4px; }
+  .vp-rec-t { font-size: 11px; margin-top: 4px; }
+}
