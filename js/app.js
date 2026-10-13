@@ -36,29 +36,21 @@ function renderHero() {
   if (!featured.length) { hero.hidden = true; return; }
 
   const slides = featured.map((m, i) => {
-    // o'zbek filmlarining muqovasi keng (16:9) — butun fonga yoyiladi.
-    // Boshqa filmlarda poster kichik (220px) — o'rniga rasmiy treyler muqovasi (1280×720)
-    const ytId = (String(m.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
+    // Slayder rasmi (2026-10-13, foydalanuvchi so'rovi): faqat sifatli RASMIY rasm —
+    //   1) admin qo'ygan gorizontal poster (hposter), 2) TMDB rasmiy posteri (asl o'lchamda, tik — butun slaydga),
+    //   3) saytning o'z katta rasmlari. Treyler kadrlari (YouTube) va siqilgan muqovalar (Telegram, images/custom) — olinmaydi:
+    //   treyler kadri tasodifiy sahna bo'lib chiqardi (yoqimsiz), kichik muqova cho'zilib xira bo'lardi.
+    const ok = u => !!u && !/dezocloud\.uz|images\/custom\/|i\.ytimg\.com/.test(String(u));
+    const tmdbOrig = u => /image\.tmdb\.org/.test(String(u || '')) ? String(u).replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : null;
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
-    // admin'da qo'yilgan muqova (gorizontal rasm) birinchi — keyin treyler rasmi; treyleri yo'q — poster
-    const wideSrc = imgBig(uzArt) || imgBig(m.cover) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null)
-      || imgBig(m.poster) || null;
-    // kinoning o'z rasmiy posteri bo'lsa (YouTube kadri emas) — posterning o'zi: o'rtada aniq, orqada xira nusxasi.
-    // Treyler kadri kesilganda g'alati chiqardi. Studiya treylerlari va o'zbek filmlarining YouTube muqovasi — o'zi dizayn qilingan.
-    // Gorizontal (16:9) rasm — kesilmasdan to'liq ko'rinadi, orqada shu rasmning xira nusxasi butun slaydni to'ldiradi.
-    // Gorizontal rasmi yo'q kinoda — o'zining tik posteri xuddi shunday.
-    const ownPoster = !uzArt && !HERO_VIDEO && m.poster && !/i\.ytimg\.com/.test(m.poster) ? imgBig(m.poster) || m.poster : null;
-    // rasmiy vertikal poster (admin → Sayt → «Rasmiy posterlarni qo'yish», TMDB) — birinchi: telefonda butun slaydni
-    // qoplaydi, kompyuterda o'ngda aniq turadi, orqada xira nusxasi
-    // kompyuterda — gorizontal rasm butun slaydga (foydalanuvchi so'rovi); tik poster faqat gorizontali yo'q kinoda
-    const deskWide = HERO_DESKTOP && (m.hposter || imgBig(uzArt) || imgBig(m.cover) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null));
-    const vArt = !HERO_VIDEO && m.vposter && !deskWide ? m.vposter : null;
-    // kompyuterda tik poster butun slaydga cho'ziladi — TMDB'dan asl o'lchami (w780 2,5 barobar kattalashtirilsa xira bo'lardi)
-    const vBig = vArt && HERO_DESKTOP ? vArt.replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : vArt;
-    // slayder rasmi — eng katta nusxa: TMDB → asl o'lcham (w342 slaydga cho'zilsa xira edi)
-    const hi = u => u ? String(u).replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : u;
-    const art = HERO_VIDEO ? null : hi(deskWide || vBig || wideSrc || ownPoster);
-    const wideArt = !!wideSrc;
+    const ytId = null;
+    const wideSrc = ok(m.hposter) ? m.hposter : uzArt ? imgBig(uzArt) : ok(m.cover) && /^images\//.test(m.cover) ? imgBig(m.cover) : null;
+    const tmdbV = tmdbOrig(m.vposter) || tmdbOrig(m.poster);
+    const deskWide = HERO_DESKTOP && ok(m.hposter) ? m.hposter : null;
+    const vArt = !HERO_VIDEO && !deskWide && tmdbV ? (HERO_DESKTOP ? tmdbV : tmdbV.replace('/t/p/original/', '/t/p/w780/')) : null;
+    const ownPoster = ok(m.poster) && /^images\//.test(m.poster) ? imgBig(m.poster) || m.poster : null;
+    const art = HERO_VIDEO ? null : deskWide || vArt || wideSrc || ownPoster;
+    const wideArt = !!wideSrc && !vArt;
     const isTrailer = watchStatus(m) === 'trailer';
     const noVideo = watchStatus(m) === 'none';      // admin slayderga qo'ygan, lekin videosi yo'q — kino sahifasiga olib boradi
     // Dizayn (foydalanuvchi maketi): rasm butun slaydni qoplaydi; chap pastda katta nom, ostida janr · yil · davlat;
@@ -893,14 +885,19 @@ function heroPopular(ids) {
 }
 /* Slayderga faqat sifatli katta rasmi bor kinolar: TMDB, gorizontal poster/muqova, YouTube (1280 px), saytning o'z rasmlari.
    Kichik, siqilgan rasmlar (masalan Telegram postidan olingan muqova) butun ekranga cho'zilganda xira chiqardi */
+/* O'zbek filmlari slayderga chiqmaydi (foydalanuvchi so'rovi, 2026-10-13): o'zbek kanallari, «uzbek» franshizasi, davlati O'zbekiston */
+const heroIsUzbek = m => m.franchise === 'uzbek' || m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial' || /^(rn|uzbekk)-/.test(m.slug || '')
+  || /o.?zbekiston|узбекистан/i.test(`${m.country?.uz || ''} ${m.country?.ru || ''}`) || String(m.poster || '').startsWith('images/uz/');
 function heroArtOk(m) {
-  // admin yuklagan rasmlar (images/custom/) brauzerda 600 px ga siqilgan; Telegram (DezoCloud) muqovalari — kichik
-  const good = u => !!u && !/dezocloud\.uz|images\/custom\//.test(u)
-    && (/image\.tmdb\.org|i\.ytimg\.com|upload\.wikimedia\.org/.test(u) || /^images\//.test(u) || /^https?:/.test(u) && u === m.hposter);
-  return [m.hposter, m.vposter, m.cover, m.poster].some(u => good(String(u || '')));
+  if (!m || heroIsUzbek(m)) return false;
+  // renderHero bilan bir xil: admin gorizontal posteri, TMDB rasmiy posteri yoki saytning o'z katta rasmi
+  // (treyler kadrlari, Telegram va images/custom muqovalari — yo'q)
+  const ok = u => !!u && !/dezocloud\.uz|images\/custom\/|i\.ytimg\.com/.test(String(u));
+  return ok(m.hposter) || /image\.tmdb\.org/.test(`${m.vposter || ''} ${m.poster || ''}`)
+    || (ok(m.cover) && /^images\//.test(m.cover)) || (ok(m.poster) && /^images\//.test(m.poster));
 }
 const heroAdmin = featured.filter(heroArtOk);
-if (heroAdmin.length && heroAdmin.length < featured.length) featured.splice(0, featured.length, ...heroAdmin);
+if (!kidsMode()) featured.splice(0, featured.length, ...heroAdmin);
 function applyHeroList(pop) {
   if (!pop.length) return false;
   const next = [...pop, ...heroAdmin.filter(m => !pop.includes(m))].slice(0, 10);

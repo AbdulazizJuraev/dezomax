@@ -135,7 +135,8 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
     // guruh kartasining o'zida video bo'lmasa ham, qismlaridan birida bo'lsa — ko'rinadi
     for (let i = MOVIES.length - 1; i >= 0; i--) {
       const m = MOVIES[i];
-      if (!hasFilm(m) && !String(m.trailer || '').trim() && !partsOf(m).some(hasFilm)) MOVIES.splice(i, 1);
+      // bosh sahifada treylerlar umuman chiqmaydi (foydalanuvchi so'rovi, 2026-10-13) — faqat to'liq kinolar
+      if (!hasFilm(m) && (page === 'index.html' || page === '' || !String(m.trailer || '').trim()) && !partsOf(m).some(hasFilm)) MOVIES.splice(i, 1);
     }
 
     // "Bola" rolidagi foydalanuvchilar: katalog/qidiruv/bosh sahifada faqat multfilmlar ko'rinadi
