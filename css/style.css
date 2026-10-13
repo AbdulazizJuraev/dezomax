@@ -7540,14 +7540,15 @@ html, body { background: #000; }
 /* studiya kartalari — to'liq rangda, «Tez orada» ham xira emas */
 .studio-card.is-soon { filter: none; opacity: 1; }
 .studio-card { background: radial-gradient(130% 150% at 50% 0%, var(--studio, #233049), #050507 75%); border-color: rgba(255, 255, 255, .12); }
-/* Slayder (kompyuter): tik poster — xira fon + o'ngdagi kichik nusxa o'rniga butun slaydga aniq (foydalanuvchi so'rovi) */
+/* Slayder (kompyuter): tik poster — o'ngda TO'LIQ, kesilmasdan (2026-10-13, foydalanuvchi so'rovi: cho'zilganda kesilib, xira bo'lardi).
+   Orqa fon — xira rasm emas, toza qorong'i va yengil rangli nur; poster chap chetidan fonga yumshoq o'tadi. */
 @media (min-width: 641px) {
-  #hero.hero-v2 .is-vert .hv2-bg { filter: none; transform: none !important; background-position: center 30% !important; }
-  #hero.hero-v2 .is-vert .hv2-vp { display: none !important; }
-  #hero.hero-v2 .is-vert .hv2-bg::after {
-    background: linear-gradient(90deg, rgba(0, 0, 0, .78) 0%, rgba(0, 0, 0, .35) 32%, rgba(0, 0, 0, 0) 58%),
-                linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0) 32%) !important;
-  }
+  #hero.hero-v2 .is-vert .hv2-bg { background-image: radial-gradient(55% 75% at 78% 45%, rgba(229, 32, 58, .16), rgba(0, 0, 0, 0) 70%) !important;
+    background-color: #000 !important; filter: none; transform: none !important; }
+  #hero.hero-v2 .is-vert .hv2-bg::after { background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0) 25%) !important; }
+  #hero.hero-v2 .is-vert .hv2-vp { display: block !important; position: absolute; z-index: 1; top: calc(var(--header-h, 64px) + 10px); bottom: 28px; right: 5%; left: auto;
+    width: auto; height: auto; aspect-ratio: 2 / 3; transform: none !important; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 90px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, .06); }
+  #hero.hero-v2 .is-vert .hv2-vp img { object-fit: contain; background: #0b0b0d; }
 }
 
 /* ================= Navbar — Kinopoisk uslubida (kompyuter) ================= */
@@ -7601,3 +7602,9 @@ html, body { background: #000; }
 .row-wide .card:not(.is-wide) .poster-blur { filter: blur(16px) brightness(.72) saturate(1.25); }
 /* «Bolalar» — saytdagi bolalar profili rasmi (images/role/child.webp), binafsha doirada */
 .nav-kids-av { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; background: #7c3aed; box-shadow: 0 0 0 2px rgba(167, 139, 250, .55); }
+.hv2-desc { display: none; }
+@media (min-width: 641px) {
+  #hero.hero-v2 .is-vert .hv2-desc { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; max-width: min(620px, 46vw);
+    margin: 14px 0 22px; color: rgba(255, 255, 255, .78); font-size: 17px; line-height: 1.5; }
+  #hero.hero-v2 .is-vert .hero-h { font-size: clamp(48px, 5.5vw, 92px); }
+}

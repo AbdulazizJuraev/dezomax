@@ -46,10 +46,12 @@ function renderHero() {
     const ytId = null;
     const wideSrc = ok(m.hposter) ? m.hposter : uzArt ? imgBig(uzArt) : ok(m.cover) && /^images\//.test(m.cover) ? imgBig(m.cover) : null;
     const tmdbV = tmdbOrig(m.vposter) || tmdbOrig(m.poster);
-    const deskWide = HERO_DESKTOP && ok(m.hposter) ? m.hposter : null;
-    const vArt = !HERO_VIDEO && !deskWide && tmdbV ? (HERO_DESKTOP ? tmdbV : tmdbV.replace('/t/p/original/', '/t/p/w780/')) : null;
+    // kompyuterda keng rasm (admin gorizontal posteri, keng muqova) — butun slaydga; tik poster — o'ngda TO'LIQ (kesilmaydi)
+    const deskWide = HERO_DESKTOP && wideSrc ? wideSrc : null;
     const ownPoster = ok(m.poster) && /^images\//.test(m.poster) ? imgBig(m.poster) || m.poster : null;
-    const art = HERO_VIDEO ? null : deskWide || vArt || wideSrc || ownPoster;
+    const vSrc = tmdbV ? tmdbV.replace('/t/p/original/', HERO_DESKTOP ? '/t/p/w1280/' : '/t/p/w780/') : ownPoster;
+    const vArt = !HERO_VIDEO && !deskWide && vSrc ? vSrc : null;
+    const art = HERO_VIDEO ? null : deskWide || vArt || wideSrc;
     const wideArt = !!wideSrc && !vArt;
     const isTrailer = watchStatus(m) === 'trailer';
     const noVideo = watchStatus(m) === 'none';      // admin slayderga qo'ygan, lekin videosi yo'q — kino sahifasiga olib boradi
@@ -68,6 +70,10 @@ function renderHero() {
           <div class="hero-content">
             <h2 class="hero-h">${esc(title(m))}</h2>
             ${meta ? `<p class="hv2-meta">${meta}</p>` : ''}
+            ${(() => {   // qisqa tavsif (kompyuterda, tik posterli slaydda chap tomon bo'sh qolmasin); reklama/kanal matnli tavsif — ko'rsatilmaydi
+              const d = String((m.desc && (m.desc[LANG] || m.desc.uz)) || '').replace(/\s+/g, ' ').trim();
+              return d.length > 50 && !/obuna|kanal|t\.me|@\w|http|720p|1080p|tilida\s*$|🎬|📀/i.test(d) ? `<p class="hv2-desc">${esc(d)}</p>` : '';
+            })()}
             <div class="hero-actions">
               <a class="hv2-watch" href="movie.html?id=${m.id}${noVideo ? '' : '&play=1'}">${noVideo ? (ru ? 'Подробнее' : 'Batafsil') : isTrailer ? (ru ? 'Трейлер' : 'Treyler') : (ru ? 'Смотреть' : 'Ko‘rish')}</a>
               <button class="hv2-share" type="button" data-share="${m.id}" aria-label="${ru ? 'Поделиться' : 'Ulashish'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
