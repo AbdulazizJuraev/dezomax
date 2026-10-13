@@ -302,7 +302,8 @@ function posterHTML(m) {
   const blur = `<img class="poster-blur" src="${esc(m.poster)}" alt="" aria-hidden="true" loading="lazy" onerror="ytThumbError(this)">`;
   // tik posterli kino keng (16:9) kartada — haqiqiy gorizontal rasm: muqova, bo'lmasa rasmiy treyler rasmi.
   // Odatda yashirin (css: .row-wide / .is-serials da ko'rinadi); yashirin rasm yuklanmaydi (loading=lazy)
-  const yt = !m.wide && (String(m.trailer || m.video || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
+  // faqat kinoning O'Z videosi (rasmiy kanal) — treyler kadri emas (tasodifiy, ko'pincha yoqimsiz sahna chiqardi)
+  const yt = !m.wide && (String(m.video || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
   const land = m.wide ? null : m.cover ? imgBig(m.cover) : yt ? imgBig(`https://i.ytimg.com/vi/${yt}/hq720.jpg`) : null;
   // TMDB posteri — ekranga mos o'lcham (kompyuter/retina'da w342 xira ko'rinardi): brauzer o'zi tanlaydi
   const tm = String(m.poster).match(/^(https:\/\/image\.tmdb\.org\/t\/p\/)w\d+(\/.+)$/);
