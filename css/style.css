@@ -7811,3 +7811,58 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
   .mx-trailer.player-wrap { margin-top: 22px; border-radius: 22px; }
   .mx-film .mx-money, .mx-cast, .mx-src { text-align: left; }
 }
+
+/* ===== RuTube til videolari (js/rutube.js): 🇷🇺 Русский / 🇺🇿 O‘zbekcha / 🇬🇧 English ===== */
+.rt-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 12px; }
+.rt-bar-label { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-faint); }
+.rt-langs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+.rt-langs::-webkit-scrollbar { display: none; }
+.rt-lang { flex: none; display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px 0 9px; border-radius: 8px;
+  border: 1.5px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .05); color: var(--text); font-size: 13.5px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.rt-lang svg { width: 22px; height: 15px; border-radius: 2px; flex: none; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12); }
+.rt-lang.rt-back svg { width: 14px; height: 14px; box-shadow: none; }
+.rt-lang:hover { border-color: rgba(255, 255, 255, .3); }
+.rt-lang.is-active { border-color: var(--accent, #e50914); background: rgba(229, 9, 20, .14); }
+.rt-lang.is-empty { opacity: .55; }
+.rt-lang:active { transform: scale(.96); }
+.rt-msg { flex-basis: 100%; margin: 2px 0 0; padding: 8px 12px; border-radius: 8px; background: rgba(251, 191, 36, .1); border: 1px solid rgba(251, 191, 36, .3); color: #fcd34d; font-size: 13.5px; }
+.player-wrap.rt-box { position: relative; aspect-ratio: 16 / 9; height: auto; background: #000; }
+.rt-box .rt-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.rt-error { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; gap: 12px; padding: 20px; text-align: center; background: rgba(0, 0, 0, .96); color: var(--text); font-size: 15px; }
+.rt-error p { margin: 0; max-width: 420px; }
+.rt-error div { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.rt-error button, .rt-error a { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, .25); background: rgba(255, 255, 255, .08); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+.rt-slow { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 8px 12px; background: rgba(0, 0, 0, .75); color: var(--text-dim); font-size: 13px; }
+.rt-slow button { border: 0; background: none; padding: 0; color: #fff; font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
+.rt-slow a { color: #fff; font-weight: 700; }
+.mx-noplay { display: grid; place-items: center; aspect-ratio: 16 / 9; margin: 0; color: var(--text-dim); font-size: 15px; }
+@media (max-width: 760px) {
+  .rt-bar { justify-content: center; }
+  .rt-bar-label { flex-basis: 100%; text-align: center; }
+  .rt-lang { height: 32px; font-size: 13px; padding: 0 10px 0 8px; }
+}
+/* admin → «Til videolari» */
+.lv-results { display: grid; gap: 6px; margin: 10px 0; }
+.lv-hit { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text); text-align: left; cursor: pointer; }
+.lv-hit:hover { border-color: var(--accent, #e50914); }
+.lv-hit small, .lv-edit-head small { color: var(--text-faint); font-size: 12.5px; }
+.lv-edit { margin: 12px 0 18px; padding: 14px; border-radius: 14px; border: 1px solid var(--accent, #e50914); background: var(--surface); }
+.lv-edit-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.lv-edit-head b { display: block; font-size: 16px; }
+.lv-row { display: grid; grid-template-columns: 130px 1fr; gap: 6px 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+.lv-row-lang { display: flex; align-items: center; gap: 8px; }
+.lv-row-lang svg { width: 24px; height: 16px; border-radius: 2px; }
+.lv-ok, .lv-state, .lv-preview { grid-column: 2; }
+.lv-ok { display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; }
+.lv-state { color: #34d399; font-size: 12.5px; word-break: break-all; }
+.lv-row.is-bad .lv-state { color: #f87171; }
+.lv-row.is-bad .lv-url { border-color: #f87171; }
+.lv-frame { position: relative; aspect-ratio: 16 / 9; max-width: 480px; border-radius: 10px; overflow: hidden; background: #000; }
+.lv-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.lv-h { margin: 18px 0 8px; }
+.lv-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.lv-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; color: var(--text-faint); }
+.lv-chip svg { width: 16px; height: 11px; border-radius: 2px; }
+.lv-chip.is-on { color: #34d399; border-color: rgba(52, 211, 153, .4); }
+@media (max-width: 600px) { .lv-row { grid-template-columns: 1fr; } .lv-ok, .lv-state, .lv-preview { grid-column: 1; } }
+.rt-box .rt-gate { position: absolute; inset: 0; margin: 0; }

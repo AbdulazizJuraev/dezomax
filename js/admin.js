@@ -768,7 +768,7 @@ function renderMain() {
   // Minimal menyu: 4 ta asosiy bo'lim + «Boshqa» (kam ishlatiladiganlari ochiladigan ro'yxatda)
   const PRIMARY = [['home', 'home', 'Bosh sahifa'], ['list', 'list', 'Kinolar'], ['form', 'plus', 'Qo‘shish'], ['site', 'gear', 'Sayt']];
   const MORE = [['channels', 'yt', 'Kanallar'], ['groups', 'group', 'Guruhlar'], ['dups', 'copy', 'Dublikatlar'], ['broken', 'bolt', 'Ishlamaydi'],
-    ['notify', 'bell', 'Xabar'], ['tg', 'tg', 'Telegram'], ['backup', 'shield', 'Zaxira'], ['logo', 'film', 'LogoVidio']];
+    ['langvid', 'yt', 'Til videolari'], ['notify', 'bell', 'Xabar'], ['tg', 'tg', 'Telegram'], ['backup', 'shield', 'Zaxira'], ['logo', 'film', 'LogoVidio']];
   const isOn = v => view === v && (v !== 'form' || !editingId);
   const inMore = MORE.find(x => x[0] === view);
   $('#admin').innerHTML = `
@@ -822,6 +822,7 @@ function renderMain() {
   else if (view === 'dups') renderDupView();
   else if (view === 'broken') renderBrokenView();
   else if (view === 'logo') renderLogoView();
+  else if (view === 'langvid') renderLangVidView();
   else renderFormView();
 }
 
@@ -4344,3 +4345,174 @@ function renderBrokenView() {
 
 initLayout();
 boot();
+
+/* ---------- Til videolari (RuTube) — js/lang-videos.js; saytda: js/rutube.js ----------
+   Har film uchun til bo'yicha alohida RuTube havolasi. Havoladan faqat video ID (va maxfiy kalit ?p=) olinadi,
+   saytda rasmiy embed pleyer (rutube.ru/play/embed/ID) shu ID'dan yasaladi.
+   Kalit: 'movie:<id>' — kino sahifasi, 'marvel:<id>' — Marvel sahifasi (js/marvel-films.js). Faqat ok: true chiqadi. */
+const LV_PATH = 'js/lang-videos.js';
+const LV_HEAD = `/* Filmlarning til bo'yicha RuTube videolari — admin → «Til videolari» yozadi (qo'lda o'zgartirmang).
+   Kalit: 'movie:<id>' yoki 'marvel:<id>'; { ru: { rt: '<RuTube ID>', p: '', ok: true, at: '...' } }.
+   ok: true — admin «ko'rsatishga ruxsat bor» deb tasdiqlagan; faqat shular saytda chiqadi (js/rutube.js). */`;
+let lvKey = null, lvQuery = '';
+
+async function loadLangVideos() {
+  const f = await getFile(LV_PATH);
+  if (!f) return { sha: null, data: {} };
+  const m = b64decode(f.content).match(/\/\*LV\*\/([\s\S]*?)\/\*ENDLV\*\//);
+  // fayl bor-u, ro'yxat o'qilmadi — bo'sh deb hisoblamaymiz (saqlashda hammasi o'chib ketmasin)
+  if (!m) throw new Error('lang-videos.js o‘qilmadi — saqlash to‘xtatildi.');
+  return { sha: f.sha, data: JSON.parse(m[1]) };
+}
+
+function buildLangVideosFile(data) {
+  const keys = Object.keys(data).filter(k => data[k] && Object.keys(data[k]).length).sort();
+  const body = keys.map(k => `${JSON.stringify(k)}:${JSON.stringify(data[k])}`).join(',\n');
+  return `${LV_HEAD}\nvar LANG_VIDEOS = /*LV*/{${body ? `\n${body}\n` : ''}}/*ENDLV*/;\n`;
+}
+
+async function saveLangVideos(mutate, message) {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const cur = await loadLangVideos();
+    const data = mutate(cur.data);
+    try {
+      await putFile(LV_PATH, b64encode(buildLangVideosFile(data)), message, cur.sha);
+      window.LANG_VIDEOS = data;
+      return data;
+    } catch (e) { if (e.status !== 409 || attempt) throw e; }
+  }
+}
+
+// barcha filmlar: kino sahifalari + Marvel sahifasi filmlari
+function lvFilms() {
+  const out = allMovies().filter(m => m && m.type !== 'tahlil').map(m => ({ key: `movie:${m.id}`, m, kind: 'Kino sahifasi', href: `${SITE_URL}movie.html?id=${m.id}` }));
+  for (const m of (typeof MARVEL_FILMS !== 'undefined' ? MARVEL_FILMS : [])) {
+    const info = (typeof MARVEL_INFO !== 'undefined' && MARVEL_INFO[m.id]) || {};
+    const slug = String(info.en || m.slug || m.id).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    out.push({ key: `marvel:${m.id}`, m, kind: 'Marvel sahifasi', href: `${SITE_URL}marvel/${slug}.html` });
+  }
+  return out;
+}
+const lvFind = key => lvFilms().find(x => x.key === key);
+const lvName = x => x ? `${x.m.title?.uz || x.m.title?.ru || x.m.id}${x.m.year ? ` (${x.m.year})` : ''}` : '';
+const lvFlag = c => (typeof LANG_FLAGS !== 'undefined' && LANG_FLAGS[c]) || '';
+
+function lvEditorHTML(x, entry = {}) {
+  const codes = [...new Set([...RT_LANGS, ...Object.keys(entry)])];
+  return `
+    <div class="lv-edit" data-key="${esc(x.key)}">
+      <div class="lv-edit-head">
+        <div><b>${esc(lvName(x))}</b><small>${esc(x.kind)} · <a href="${esc(x.href)}" target="_blank" rel="noopener">saytda ochish ↗</a></small></div>
+        <button class="btn btn-ghost btn-sm" type="button" id="lvClose">Yopish</button>
+      </div>
+      ${codes.map(c => {
+        const v = entry[c];
+        return `
+        <div class="lv-row" data-lang="${esc(c)}">
+          <div class="lv-row-lang">${lvFlag(c)}<b>${esc(RT_NAMES[c] || c.toUpperCase())}</b></div>
+          <input class="acc-input lv-url" type="url" inputmode="url" placeholder="https://rutube.ru/video/…" value="${v ? esc(rtWatchUrl(v)) : ''}">
+          <label class="lv-ok"><input type="checkbox"${v && v.ok === true ? ' checked' : ''}><span>Ko‘rsatishga ruxsatim bor</span></label>
+          <small class="lv-state"></small>
+          <div class="lv-preview" hidden></div>
+        </div>`;
+      }).join('')}
+      <p class="acc-muted adm-note">${NAV_ICONS.info || ''}<span>Faqat sizga ko‘rsatish huquqi berilgan videolarni belgilang: rasmiy kanal, litsenziya yoki egasining yozma ruxsati.
+        Belgilanmagan video saqlanadi, lekin saytda chiqmaydi. Havolani o‘chirsangiz — shu til olib tashlanadi.</span></p>
+      <div class="adm-actions"><button class="btn btn-primary" type="button" id="lvSave">Saqlash</button></div>
+    </div>`;
+}
+
+function lvRowHTML(key, entry) {
+  const x = lvFind(key);
+  const langs = Object.entries(entry || {});
+  return `
+    <div class="adm-bk lv-item" data-key="${esc(key)}">
+      <div class="adm-bk-main">
+        <b>${x ? esc(lvName(x)) : `<i>Topilmadi: ${esc(key)}</i>`}</b>
+        <small>${x ? esc(x.kind) : ''}</small>
+        <span class="lv-chips">${langs.map(([c, v]) => `<span class="lv-chip${v.ok === true ? ' is-on' : ''}">${lvFlag(c)}${esc(RT_NAMES[c] || c)} · ${v.ok === true ? 'faol' : 'o‘chiq'}</span>`).join('')}</span>
+      </div>
+      <div class="adm-actions">${x ? '<button class="btn btn-ghost btn-sm" type="button" data-lv-edit>Tahrirlash</button>' : ''}</div>
+    </div>`;
+}
+
+async function renderLangVidView() {
+  const box = $('#admView');
+  box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  let cur;
+  try { cur = await loadLangVideos(); }
+  catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
+  if (view !== 'langvid') return;   // yuklanguncha boshqa bo'limga o'tilgan
+  const data = cur.data;
+  const keys = Object.keys(data).sort((a, b) => lvName(lvFind(a)).localeCompare(lvName(lvFind(b))));
+  box.innerHTML = `
+    <section class="adm-sec lv">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>Til videolari</h3><small>RuTube</small></div>
+      <p class="acc-muted adm-note">${NAV_ICONS.info || ''}<span>Filmni toping, kerakli tilga RuTube havolasini qo‘ying. Saytda film pleyeri ustida
+        🇷🇺 Русский, 🇺🇿 O‘zbekcha, 🇬🇧 English tugmalari chiqadi va video RuTube’ning rasmiy pleyerida ochiladi.</span></p>
+      <input class="acc-input adm-search" id="lvQ" type="search" placeholder="Film nomi: masalan, Temir odam" value="${esc(lvQuery)}">
+      <div class="lv-results" id="lvResults"></div>
+      <div id="lvEditBox"></div>
+      <h4 class="lv-h">Qo‘shilgan videolar (${keys.length})</h4>
+      <div class="adm-bk-list" id="lvList">${keys.length ? keys.map(k => lvRowHTML(k, data[k])).join('') : '<p class="acc-muted">Hali hech bir filmga til videosi qo‘shilmagan.</p>'}</div>
+    </section>`;
+
+  const results = $('#lvResults'), editBox = $('#lvEditBox');
+  const search = () => {
+    lvQuery = $('#lvQ').value;
+    const q = norm(lvQuery.trim());
+    if (q.length < 2) { results.innerHTML = ''; return; }
+    const words = q.split(/\s+/);
+    const hits = lvFilms().filter(x => words.every(w => hayOf(x.m).includes(w))).slice(0, 12);
+    results.innerHTML = hits.length ? hits.map(x => `
+      <button type="button" class="lv-hit" data-key="${esc(x.key)}">
+        <b>${esc(lvName(x))}</b><small>${esc(x.kind)}${data[x.key] ? ' · videolari bor' : ''}</small>
+      </button>`).join('') : '<p class="acc-muted">Topilmadi.</p>';
+  };
+  $('#lvQ').addEventListener('input', search);
+  search();
+  results.addEventListener('click', e => { const b = e.target.closest('.lv-hit'); if (b) openEditor(b.dataset.key); });
+  $('#lvList').addEventListener('click', e => { const b = e.target.closest('[data-lv-edit]'); if (b) openEditor(b.closest('[data-key]').dataset.key); });
+
+  function openEditor(key) {
+    const x = lvFind(key);
+    if (!x) return;
+    lvKey = key;
+    editBox.innerHTML = lvEditorHTML(x, data[key] || {});
+    editBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    $('#lvClose').addEventListener('click', () => { lvKey = null; editBox.innerHTML = ''; });
+    editBox.querySelectorAll('.lv-row').forEach(row => {
+      const inp = row.querySelector('.lv-url'), st = row.querySelector('.lv-state'), pv = row.querySelector('.lv-preview');
+      const check = () => {
+        const val = inp.value.trim();
+        const v = val ? rtParse(val) : null;
+        row.classList.toggle('is-bad', !!val && !v);
+        st.textContent = !val ? '' : v ? `✓ RuTube video ID: ${v.rt}${v.p ? ' (maxfiy video)' : ''}` : '✗ Bu RuTube video havolasi emas (rutube.ru/video/… ko‘rinishida bo‘lishi kerak)';
+        pv.hidden = !v;
+        pv.innerHTML = v ? '<button class="btn btn-ghost btn-sm" type="button">Ko‘rib chiqish</button>' : '';
+        pv.querySelector('button')?.addEventListener('click', () => {
+          pv.innerHTML = `<div class="lv-frame"><iframe src="${esc(rtEmbedUrl(v))}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
+        });
+      };
+      inp.addEventListener('input', check);
+      check();
+    });
+    // saqlangach runAction → renderMain() bu bo'limni qayta chizadi, lvKey tufayli shu film ochiq qoladi
+    $('#lvSave').addEventListener('click', e => runAction(e.currentTarget, async () => {
+      const entry = {};
+      for (const row of editBox.querySelectorAll('.lv-row')) {
+        const val = row.querySelector('.lv-url').value.trim();
+        if (!val) continue;
+        const v = rtParse(val);
+        if (!v) throw new Error(`${RT_NAMES[row.dataset.lang] || row.dataset.lang}: havola noto‘g‘ri — faqat rutube.ru video havolasi`);
+        entry[row.dataset.lang] = { rt: v.rt, ...(v.p ? { p: v.p } : {}), ok: row.querySelector('.lv-ok input').checked, at: new Date().toISOString().slice(0, 10) };
+      }
+      const langs = Object.keys(entry);
+      await saveLangVideos(d => {
+        if (langs.length) d[key] = entry; else delete d[key];
+        return d;
+      }, `Til videolari: ${lvName(x)} — ${langs.length ? langs.map(c => `${c}${entry[c].ok ? '' : ' (o‘chiq)'}`).join(', ') : 'olib tashlandi'}`);
+    }, 'Saqlandi — saytda 1–2 daqiqada chiqadi'));
+  }
+  if (lvKey && lvFind(lvKey)) openEditor(lvKey);
+}

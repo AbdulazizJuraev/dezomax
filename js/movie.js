@@ -124,6 +124,12 @@ function ytThumbFix(img) {
 function mountPlayer(url) {
   window.dzxNowUrl = url;              // «Davom ettirish» (pastda) — faqat to'liq film kuzatiladi, treyler emas
   const box = document.getElementById('playerBox');
+  // RuTube til videosi ochiq turgan bo'lsa (js/rutube.js) — o'chiramiz, tugmalarda «Asosiy video» faol
+  if (box && box.classList.contains('rt-box')) {
+    box.classList.remove('rt-box', 'rt-failed');
+    box.innerHTML = '';
+    document.querySelectorAll('.rt-bar .rt-lang').forEach(b => { const on = b.hasAttribute('data-rt-back'); b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+  }
   const link = document.getElementById('playerExternal');
   const { html, external } = embedFor(url);
 
@@ -317,6 +323,15 @@ function playerSectionHTML(m) {
   const langs = langsOf(m);
   const lang = langs.length ? pickLang(langs) : null;
   if (lang && sources[0] && sources[0].key === 'film') sources[0].url = lang.url;
+  const rtKey = `movie:${m.id}`;
+  const rtBar = typeof rtBarHTML === 'function' ? rtBarHTML(rtKey, { backLabel: sources.length ? rtT('back') : '' }) : '';
+
+  // boshqa manba yo'q, lekin RuTube'da til videosi bor — tugmalar va bo'sh pleyer joyi
+  if (!sources.length && rtBar) {
+    return `
+      ${rtBar}
+      <div class="player-wrap" id="playerBox"><div class="player-placeholder"><div class="pp-icon">${ICONS.play}</div><h3>${rtT('pick')}</h3></div></div>`;
+  }
 
   if (!sources.length) {
     return `
@@ -345,6 +360,7 @@ function playerSectionHTML(m) {
 
   return `
     ${tabs}
+    ${rtBar}
     <div class="player-wrap" id="playerBox"></div>
     <div class="player-foot">
       ${note}${source}
@@ -616,6 +632,11 @@ function renderMovie() {
       if (film) { film.dataset.src = f.dataset.src; selectTab(film); } else mountPlayer(f.dataset.src);
       syncOfficial(f.dataset.src);
     }));
+  }
+
+  // RuTube'dagi til videolari (🇷🇺 Русский ...) — js/rutube.js; faqat shu filmning o'z kaliti (movie:<id>)
+  if (typeof rtBind === 'function') {
+    rtBind(document, { key: `movie:${movie.id}`, box: document.getElementById('playerBox'), title: title(movie), onBack: sources.length ? () => mountPlayer(window.dzxNowUrl) : null });
   }
 
   // telefonga yuklab olish (faqat ilovada, js/offline.js)

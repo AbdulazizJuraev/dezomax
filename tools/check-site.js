@@ -50,6 +50,19 @@ try {
   if (noTitle) err(`Nomsiz kinolar: ${noTitle} ta`);
   if (badType) warn(`Noma'lum turdagi kinolar: ${badType} ta`);
   if (ctx.SITE_CONFIG && !Array.isArray(ctx.SITE_CONFIG.rows)) warn('site-config.js: «rows» yo\'q');
+  // RuTube til videolari (admin → «Til videolari»): fayl o'qiladimi, ID'lar to'g'rimi, kalit mavjud filmgami
+  try {
+    vm.runInContext(fs.readFileSync(path.join(root, 'js', 'marvel-films.js'), 'utf8'), ctx);
+    vm.runInContext(fs.readFileSync(path.join(root, 'js', 'lang-videos.js'), 'utf8'), ctx);
+    const ids = { movie: new Set(MOVIES.map(m => m && m.id)), marvel: new Set((ctx.MARVEL_FILMS || []).map(m => m.id)) };
+    for (const [key, langs] of Object.entries(ctx.LANG_VIDEOS || {})) {
+      const [kind, id] = key.split(':');
+      if (!ids[kind] || !ids[kind].has(Number(id))) warn(`lang-videos.js: «${key}» — bunday film yo'q`);
+      for (const [c, v] of Object.entries(langs || {})) {
+        if (!v || !/^[0-9a-f]{32}$/.test(v.rt || '') || (v.p && !/^[\w-]{1,64}$/.test(v.p))) err(`lang-videos.js: «${key}» ${c} — RuTube ID noto'g'ri`);
+      }
+    }
+  } catch (e) { err('js/lang-videos.js: o\'qib bo\'lmadi — ' + e.message); }
 } catch (e) { err('Ma\'lumot tekshiruvi: ' + e.message); }
 
 /* ---------- 3) Sahifalardagi fayllar ---------- */

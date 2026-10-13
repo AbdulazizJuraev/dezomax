@@ -13,7 +13,7 @@ const MX_TXT = {
     films: 'film', total: 'Jami kassa', soon: 'Tez orada', out: 'Kinoteatrlarda chiqqan', all: 'Barcha filmlar',
     back: 'Barcha Marvel filmlari', trailer: 'Rasmiy treyler', cast: 'Aktyorlar', director: 'Rejissyor',
     release: 'Premyera', runtime: 'Davomiyligi', min: 'daq.', budget: 'Byudjet', gross: 'Kassa (butun dunyo)',
-    ratio: 'byudjetdan', profit: 'Foyda', noData: 'Ma’lumot hali yo‘q', play: 'Treylerni ko‘rish', watch: 'Kinoni ko‘rish',
+    ratio: 'byudjetdan', profit: 'Foyda', noData: 'Ma’lumot hali yo‘q', play: 'Treylerni ko‘rish', watch: 'Kinoni ko‘rish', video: 'Video', pickLang: 'Tilni tanlang — video shu yerda ochiladi',
     src: 'Byudjet, kassa va aktyorlar: Wikidata (ochiq ma’lumotlar), yangi filmlar kassasi — Box Office Mojo. Aktyor suratlari: Wikimedia Commons.', srcYt: 'Treyler: {ch} rasmiy YouTube kanali.', trailerPlain: 'Treyler',
     mln: 'mln', mlrd: 'mlrd', notFound: 'Film topilmadi'
   },
@@ -22,7 +22,7 @@ const MX_TXT = {
     films: 'фильмов', total: 'Общие сборы', soon: 'Скоро', out: 'Вышли в кинотеатрах', all: 'Все фильмы',
     back: 'Все фильмы Marvel', trailer: 'Официальный трейлер', cast: 'Актёры', director: 'Режиссёр',
     release: 'Премьера', runtime: 'Длительность', min: 'мин.', budget: 'Бюджет', gross: 'Сборы (мир)',
-    ratio: 'от бюджета', profit: 'Прибыль', noData: 'Данных пока нет', play: 'Смотреть трейлер', watch: 'Смотреть фильм',
+    ratio: 'от бюджета', profit: 'Прибыль', noData: 'Данных пока нет', play: 'Смотреть трейлер', watch: 'Смотреть фильм', video: 'Видео', pickLang: 'Выберите язык — видео откроется здесь',
     src: 'Бюджет, сборы и актёры: Wikidata (открытые данные), сборы новых фильмов — Box Office Mojo. Фото актёров: Wikimedia Commons.', srcYt: 'Трейлер: официальный YouTube-канал {ch}.', trailerPlain: 'Трейлер',
     mln: 'млн', mlrd: 'млрд', notFound: 'Фильм не найден'
   }
@@ -145,9 +145,9 @@ function mxFilmHTML(f) {
           </div>
         </div>
 
-        ${yt ? `
-        <h2 class="mx-h2 mx-h2-trailer" id="mxTrailer">${official ? mx('trailer') : mx('trailerPlain')}</h2>
-        <div class="player-wrap mx-trailer" id="mxPlayer" data-yt="${yt}"></div>` : ''}
+        <h2 class="mx-h2 mx-h2-trailer" id="mxTrailer">${yt ? (official ? mx('trailer') : mx('trailerPlain')) : mx('video')}</h2>
+        ${typeof rtBarHTML === 'function' ? rtBarHTML(`marvel:${m.id}`, { always: true, backLabel: yt ? mx('trailerPlain') : '' }) : ''}
+        <div class="player-wrap mx-trailer" id="mxPlayer" data-yt="${yt}">${yt ? '' : `<p class="mx-noplay">${mx('pickLang')}</p>`}</div>
 
         <div class="mx-money">
           <div class="mx-money-item"><small>${mx('budget')}</small><b>${info.budget ? mxMoney(info.budget) : `<i>${mx('noData')}</i>`}</b></div>
@@ -193,10 +193,14 @@ function mxRender() {
 
   // treyler — saytning o'z pleyerida (js/ytplayer.js: o'z tugmalari, tezlik, to'liq ekran)
   const pl = root.querySelector('#mxPlayer');
-  if (pl && typeof mountYouTube === 'function') mountYouTube(pl, 'https://www.youtube.com/watch?v=' + pl.dataset.yt, { title: f ? title(f.m) : '' });
+  const mountTrailer = () => { if (pl && pl.dataset.yt && typeof mountYouTube === 'function') mountYouTube(pl, 'https://www.youtube.com/watch?v=' + pl.dataset.yt, { title: f ? title(f.m) : '' }); };
+  mountTrailer();
+  // til tugmalari (🇷🇺 Русский ...) — RuTube'dagi til videolari (js/rutube.js, admin → «Til videolari»)
+  if (f && pl && typeof rtBind === 'function') rtBind(root, { key: `marvel:${f.m.id}`, box: pl, title: title(f.m), onBack: pl.dataset.yt ? mountTrailer : null });
   root.querySelector('.mx-play')?.addEventListener('click', e => {
     e.preventDefault();
     pl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (pl?.classList.contains('rt-box')) root.querySelector('.rt-bar [data-rt-back]')?.click();   // RuTube ochiq bo'lsa — treylerga qaytamiz
     pl?.querySelector('#ytpCover')?.click();
   });
 }
