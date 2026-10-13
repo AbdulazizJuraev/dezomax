@@ -7759,3 +7759,14 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
   .reveal, .reveal.is-in { opacity: 1 !important; transform: none !important; transition: none !important; }
   .card:hover .card-poster { transform: none; }
 }
+/* Shorts: play/pauza belgilari umuman ko'rinmaydi (foydalanuvchi so'rovi); YouTube o'zi to'xtaganda — uning tugmalari o'rniga muqova */
+.sh-paused { display: none !important; }
+.sh-slide.is-yt-stop .sh-thumb { opacity: 1 !important; }
+/* Karusel: qora soya tepaga ko'tarildi — nom, janr va tavsif to'liq soya ichida (foydalanuvchi so'rovi) */
+#hero.hero-v2 .hero-slide::after { height: 52%; background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .88) 28%, rgba(0, 0, 0, .55) 58%, rgba(0, 0, 0, 0) 100%); }
+@media (max-width: 640px) { #hero.hero-v2 .hero-slide::after { height: 62%; } }
+#hero.hero-v2 .hv2-desc, #hero.hero-v2 .hv2-meta { text-shadow: 0 1px 6px rgba(0, 0, 0, .8); }
+@media (max-width: 640px) {
+  #hero.hero-v2 .hero-content { max-width: calc(100vw - 36px); }
+  #hero.hero-v2 .hv2-desc { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+}

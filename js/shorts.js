@@ -148,7 +148,9 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     </section>`).join('');
 
   const slides = [...feed.querySelectorAll('.sh-slide')];
-  let muted = true, active = -1;
+  // ovoz bilan boshlanadi (foydalanuvchi so'rovi); brauzer ovozli avtoijroga ruxsat bermasa — 1,5 s dan keyin ovozsiz
+  // davom etadi va birinchi teginishda ovoz o'zi yoqiladi
+  let muted = false, autoMuted = false, active = -1;
 
   const send = (slide, func, args = []) => {
     const f = slide && slide.querySelector('iframe');
@@ -250,6 +252,11 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
       `&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"` +
       ` allow="autoplay; encrypted-media; picture-in-picture" title="${esc(list[i].t)}"></iframe>`;
     sl.classList.add('is-playing');
+    clearTimeout(sl._soundT);
+    if (!muted) sl._soundT = setTimeout(() => {
+      if (active !== i || sl.classList.contains('is-live')) return;
+      muted = true; autoMuted = true; send(sl, 'mute'); send(sl, 'playVideo'); paintSound();
+    }, 1500);
     loadSocial(i);
     sl.classList.remove('is-live');
     // YouTube holatini eshitamiz: video haqiqatan o'ynay boshlaganda muqova olinadi (is-live)
@@ -270,13 +277,23 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     const st = d && (d.event === 'onStateChange' ? d.info : d.info && d.info.playerState);
     if (st === undefined || st === null) return;
     const sl = slides.find(s => { const f = s.querySelector('iframe'); return f && f.contentWindow === e.source; });
-    if (sl && st === 1) sl.classList.add('is-live');     // 1 — o'ynayapti
+    if (!sl) return;
+    if (st === 1) { sl.classList.add('is-live'); sl.classList.remove('is-yt-stop'); }     // 1 — o'ynayapti
+    // YouTube o'zi to'xtatsa (pauza/tugadi/boshlanmadi) — uning tugmalari ko'rinmasin: muqova yopib turadi
+    else if (st === 2 || st === 0 || st === -1 || st === 5) sl.classList.add('is-yt-stop');
   });
 
   const io = new IntersectionObserver(entries => {
     for (const e of entries) if (e.isIntersecting && e.intersectionRatio >= 0.6) activate(+e.target.dataset.i);
   }, { root: feed, threshold: [0.6] });
   slides.forEach(sl => io.observe(sl));
+
+  // ovoz avtomatik o'chirilgan bo'lsa — birinchi teginishda (har qanday joyda) yoqiladi
+  addEventListener('pointerup', () => {
+    if (!autoMuted || !muted) return;
+    autoMuted = false; muted = false;
+    const sl = slides[active]; send(sl, 'unMute'); send(sl, 'playVideo'); paintSound();
+  }, true);
 
   feed.addEventListener('click', e => {
     const sl = e.target.closest('.sh-slide');
