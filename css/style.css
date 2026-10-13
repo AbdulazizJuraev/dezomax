@@ -7725,3 +7725,15 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
   .vp-rec-img em { font-size: 10px; padding: 1px 4px; right: 4px; bottom: 4px; }
   .vp-rec-t { font-size: 11px; margin-top: 4px; }
 }
+
+/* Intro — telefonda qotmasin (2026-10-13): hamma animatsiya faqat transform/opacity (videokarta bajaradi, sahifa skriptlari
+   yuklanayotganda ham silliq). clip-path (asosiy oqimda chiziladi) → logo ustidagi qopqoq surilib ketadi;
+   300vmax rangli gradient doira → 150vmax bir rangli doira; katta soya — olib tashlandi. */
+.intro-v3 .dz-icon, .intro-v3 .dz-dot, .intro-v3 .dz-shine, .intro-v3 .dz-wipe, .intro-v3 .dz-reveal { will-change: transform, opacity; backface-visibility: hidden; }
+.intro-v3 .dz-box { box-shadow: none; }
+.intro-v3 .dz-logo { clip-path: none !important; animation: none !important; }
+.intro-v3 .dz-reveal { position: absolute; top: 0; bottom: 0; right: 0; width: 19.5%; background: #000; transform-origin: 100% 50%;
+  animation: dzReveal .75s cubic-bezier(.3, .7, .2, 1) 1.05s forwards; }
+@keyframes dzReveal { to { transform: scaleX(0); } }
+.intro-v3 .dz-wipe { width: 150vmax; height: 150vmax; margin: -75vmax 0 0 -75vmax; background: #e31b23; }
+@media (prefers-reduced-motion: reduce) { .intro-v3 .dz-reveal { display: none; } }

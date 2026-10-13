@@ -24,7 +24,7 @@
   el.className = 'intro intro-v3';
   el.setAttribute('aria-hidden', 'true');
   el.innerHTML = '<div class="dz-stage"><div class="dz-dot"></div><div class="dz-icon"><div class="dz-box">'
-    + '<img class="dz-logo" alt="" src="' + LOGO + '"><div class="dz-shine"></div></div></div></div><div class="dz-wipe"></div>';
+    + '<img class="dz-logo" alt="" src="' + LOGO + '"><div class="dz-reveal"></div><div class="dz-shine"></div></div></div></div><div class="dz-wipe"></div>';
   document.body.appendChild(el);
   document.documentElement.classList.add('intro-lock');
 
