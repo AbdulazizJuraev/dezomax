@@ -4574,6 +4574,16 @@ function rtCleanTitle(t) {
 }
 const rtYearOf = (...texts) => { for (const t of texts) { const m = String(t || '').match(/\b(19[2-9]\d|20[0-4]\d)\b/); if (m) return +m[1]; } return null; };
 const rtTitleKey = s => norm(cyrLat(String(s || '').replace(/\(.*?\)/g, ''))).replace(/\s+/g, ' ').trim();
+/* Janr: RuTube nomidagi «(комедия, реж. …)» so'zlaridan; topilmasa — umumiy aniqlagich (js/genre-detect.js) */
+const RT_GENRE_WORDS = [[/мелодрам/i, 'romance'], [/комеди/i, 'comedy'], [/(?<!мело)драм/i, 'drama'], [/боевик/i, 'action'], [/триллер/i, 'thriller'], [/ужас/i, 'horror'],
+  [/фантастик/i, 'scifi'], [/фэнтези/i, 'fantasy'], [/детектив/i, 'detective'], [/криминал/i, 'crime'], [/мульт|анимац/i, 'animation'], [/приключен/i, 'adventure'],
+  [/военн|войн/i, 'war'], [/семейн|детск/i, 'family'], [/истори/i, 'history'], [/биограф/i, 'biography']];
+function rtGenres(rawTitle, desc) {
+  const head = (String(rawTitle || '').match(/\(([^()]*)\)/) || [])[1] || '';
+  const g = RT_GENRE_WORDS.filter(([re]) => re.test(head)).map(([, id]) => id);
+  if (g.length) return [...new Set(g)].slice(0, 3);
+  return typeof detectGenres === 'function' ? detectGenres({ title: { uz: rawTitle, ru: rawTitle }, desc: { uz: '', ru: desc }, genres: [] }) : [];
+}
 const rtDur = sec => { sec = Math.round(sec || 0); const h = Math.floor(sec / 3600), m = Math.round((sec % 3600) / 60); return h ? `${h} soat ${m} daq.` : `${m} daq.`; };
 
 /* Avtomatik tekshiruv: bor-yo'qligi, boshqa saytda ko'rsatish (embed) ruxsati, pullik, 18+, O'zbekistonda ochiqmi, rasmiy kanal/litsenziya */
@@ -4636,7 +4646,7 @@ function rtqItemFrom(v, c) {
   return {
     id: v.id, status: 'pending', addedAt: new Date().toISOString().slice(0, 10),
     title, rawTitle: v.title, year, desc, lang: 'ru',
-    genres: typeof detectGenres === 'function' ? detectGenres({ title: { uz: title, ru: title }, desc: { uz: '', ru: desc }, genres: [] }) : [],
+    genres: rtGenres(v.title, desc),
     poster: v.thumbnail_url || '', duration: Math.round((v.duration > 100000 ? v.duration / 1000 : v.duration) || 0),
     author: { name: v.author?.name || '', url: v.author?.site_url || (v.author?.id ? `https://rutube.ru/channel/${v.author.id}/` : '') },
     category: v.category?.name || '', video: rtWatchUrl({ rt: v.id }), check: c
@@ -4741,6 +4751,9 @@ async function renderRutubeView() {
         if (!c.official && !c.licensed && !confirm('Bu kanal RuTube’da rasmiy deb belgilanmagan.\n\nFilmni ko‘rsatish huquqi (egasining ruxsati yoki litsenziya) borligini o‘zingiz tekshirdingizmi?')) { rtqBusy = false; b.disabled = false; return; }
         const d = rtDupes(it.id, it.title, it.year);
         if (d.same.length) throw new Error(`Bu video saytda allaqachon bor: ${d.same.join(', ')}`);
+        if (act === 'approve' && d.similar.length && !confirm(`Saytda shu nomli film bor: ${d.similar.map(m => `«${m.title?.uz}»${m.year ? ` (${m.year})` : ''}`).join(', ')}.
+
+Dublikat bo‘lmasligi uchun «…ga biriktirish» tugmasi tavsiya etiladi. Baribir yangi kino sifatida qo‘shasizmi?`)) { rtqBusy = false; b.disabled = false; return; }
         if (act === 'attach') {
           const m = currentMovie(Number(b.dataset.movie));
           if (!m) throw new Error('Film topilmadi');
