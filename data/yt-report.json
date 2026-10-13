@@ -1,0 +1,94 @@
+{
+ "at": "2026-10-13T17:46:10.568Z",
+ "method": "oEmbed",
+ "sources": [
+  {
+   "id": "UCEKWXRsfUHkan-D_ljU8Asw",
+   "name": "Rajshri",
+   "franchise": "hind",
+   "listed": 1100,
+   "candidates": 0,
+   "published": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 1100
+   }
+  },
+  {
+   "id": "UCBOmfqgTZi7yDp4-3Lr_3lA",
+   "name": "Shemaroo Movies",
+   "franchise": "hind",
+   "listed": 1097,
+   "candidates": 0,
+   "published": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 1097
+   }
+  },
+  {
+   "id": "UCyoXW-Dse7fURq30EWl_CUA",
+   "name": "Goldmines",
+   "franchise": "hind",
+   "listed": 1100,
+   "candidates": 0,
+   "published": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 1100
+   }
+  },
+  {
+   "id": "UCYauDsl-rswjQGpA0_-Z9Pw",
+   "name": "Ultra Movie Parlour",
+   "franchise": "hind",
+   "listed": 1074,
+   "candidates": 0,
+   "published": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 1074
+   }
+  },
+  {
+   "id": "UC8IHAQMuiJdY6ALuhG7iU8Q",
+   "name": "FilmRise Movies",
+   "franchise": "hollywood",
+   "listed": 179,
+   "candidates": 0,
+   "published": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 179
+   }
+  },
+  {
+   "id": "UCVFYikepF-avelvuIaQ_lHA",
+   "name": "Popcornflix",
+   "franchise": "hollywood",
+   "listed": 332,
+   "candidates": 0,
+   "published": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 332
+   }
+  }
+ ],
+ "totals": {
+  "found": 4882,
+  "candidates": 0,
+  "checked": 0,
+  "working": 0,
+  "notWorking": 0,
+  "published": 0,
+  "duplicates": 0,
+  "noTitle": 0,
+  "recheckOk": 0,
+  "recheckFail": 0,
+  "removedBroken": 0
+ },
+ "notes": [
+  "Nomlar qayta tekshirildi: 4 ta tozalandi, 4 ta nomi aniq emas — olib tashlandi"
+ ],
+ "catalog": {
+  "total": 1148,
+  "hind": 927,
+  "hollywood": 221
+ },
+ "seconds": 7
+}

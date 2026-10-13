@@ -2084,7 +2084,7 @@ const ROW_SOURCE_NAMES = {
   popular: 'Mashhur kinolar — TOP 10 (eng ko‘p ko‘rilgan)', series: 'Seriallar (avtomatik)', cartoons: 'Multfilmlar (avtomatik)', custom: 'Qo‘lda tanlangan kinolar'
 };
 const ROW_DEFAULT_TITLES = {
-  uzbek: 'row.uzbek', klassika: 'row.klassika', konsert: 'row.konsert', trending: 'row.trending', new: 'row.new', dorama: 'row.dorama', anime: 'row.anime', hind: 'row.hind', marvel: 'row.marvel', dc: 'row.dc',
+  uzbek: 'row.uzbek', klassika: 'row.klassika', hollywood: 'row.hollywood', konsert: 'row.konsert', trending: 'row.trending', new: 'row.new', dorama: 'row.dorama', anime: 'row.anime', hind: 'row.hind', marvel: 'row.marvel', dc: 'row.dc',
   top: 'row.top', popular: 'row.popular', series: 'row.series', cartoons: 'row.cartoons'
 };
 
@@ -4660,7 +4660,7 @@ async function renderRutubeView() {
   try { q = await loadRtQueue(); }
   catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
   // avtomatik import hisoboti (tools/rutube-import.js — har kuni GitHub Actions'da)
-  const rep = await getFile('data/rutube-report.json').then(f => f ? JSON.parse(b64decode(f.content)) : null).catch(() => null);
+  const [rep, yrep] = await Promise.all(['data/rutube-report.json', 'data/yt-report.json'].map(p => getFile(p).then(f => f ? JSON.parse(b64decode(f.content)) : null).catch(() => null)));
   if (view !== 'rutube') return;
   const queue = q.items;
   const counts = s => queue.filter(x => x.status === s).length;
@@ -4678,6 +4678,15 @@ async function renderRutubeView() {
         </div>
         <details><summary>Manbalar bo‘yicha</summary><ul class="rtq-srcs">${(rep.sources || []).map(s => `<li><b>${esc(s.name)}</b> ${s.rights === 'owner' ? '<span class="rtq-b is-ok">avto</span>' : '<span class="rtq-b is-warn">navbat</span>'} — ${s.listed} video, +${s.published} sayt, +${s.attached} biriktirildi, +${s.queued} navbat</li>`).join('')}</ul>
           ${(rep.notes || []).map(n => `<p class="acc-muted">${esc(n)}</p>`).join('')}</details>
+        ${yrep && yrep.totals ? `
+        <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>YouTube studiyalari</h3><small>Bollivud · Gollivud · ${esc(yrep.method || '')}</small></div>
+        <div class="rtq-stats">
+          <span><b>${yrep.totals.found}</b> topildi</span><span><b>${yrep.totals.checked}</b> tekshirildi</span><span><b>${yrep.totals.working}</b> ishlaydi</span>
+          <span><b>${yrep.totals.published}</b> saytga qo‘shildi</span><span><b>${yrep.totals.noTitle}</b> nomi aniqlanmadi (qo‘shilmadi)</span><span><b>${yrep.totals.removedBroken}</b> ishlamaydigan olindi</span>
+          <span><b>${yrep.catalog?.total ?? 0}</b> saytdagi jami (Bollivud ${yrep.catalog?.hind ?? 0}, Gollivud ${yrep.catalog?.hollywood ?? 0})</span>
+        </div>
+        <details><summary>Kanallar bo‘yicha</summary><ul class="rtq-srcs">${(yrep.sources || []).map(s => `<li><b>${esc(s.name)}</b> — ${s.listed} video, ${s.candidates} nomzod, +${s.published} sayt</li>`).join('')}</ul>
+          ${(yrep.notes || []).map(n => `<p class="acc-muted">${esc(n)}</p>`).join('')}</details>` : ''}
       </div>` : ''}
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>RuTube’dan film qo‘shish</h3><small>qidiruv · tekshiruv · tasdiq</small></div>
       <p class="acc-muted adm-note">${NAV_ICONS.info || ''}<span>Har qanday studiya, janr va davlat filmini nomi bo‘yicha qidiring. Topilgan video saytga darhol chiqmaydi:

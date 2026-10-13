@@ -206,8 +206,13 @@ async function ytMeta(id) {
   // Yuklangan sana kinoning yili emas (eski filmlar kanalga keyin yuklanadi) — published alohida qaytadi.
   const year = +(String(d.title).match(/\b(19[5-9]\d|20[0-3]\d)\b/) || [])[1]
     || +(text.match(/\((19[5-9]\d|20[0-3]\d)\)|\b(19[5-9]\d|20[0-3]\d)\s*-?\s*(?:yil|йил|год)|(?:yili|йили|год)\s*[:\-–]?\s*(19[5-9]\d|20[0-3]\d)/i) || []).slice(1).find(Boolean) || 0;
+  // avtomatik import (tools/rutube-import.js) uchun: o'ynaydimi, boshqa saytga joylash (embed) mumkinmi, O'zbekistonda ochiqmi
+  const ps = pr.playabilityStatus || {}, countries = pr.microformat?.playerMicroformatRenderer?.availableCountries;
+  const thumbs = d.thumbnail?.thumbnails || [];
   return {
-    id, title: d.title || '', channel: d.author || '', duration: Math.round((+d.lengthSeconds || 0) / 60),
+    id, title: d.title || '', channel: d.author || '', channelId: d.channelId || '', duration: Math.round((+d.lengthSeconds || 0) / 60),
+    status: ps.status || '', embed: ps.playableInEmbed === true, uz: Array.isArray(countries) ? countries.includes('UZ') : true,
+    live: !!d.isLiveContent, thumb: (thumbs[thumbs.length - 1] || {}).url || '',
     summary, year, published: pub,
     director: people(line(/(?:postanovkachi-)?rejiss[eyo]+r[i]?\s*[:\-–]\s*(.+)/i)).join(', '),
     writer: people(line(/ssenariy(?:\s*muallifi)?\s*[:\-–]\s*(.+)/i)).join(', '),

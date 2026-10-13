@@ -524,6 +524,8 @@ const ROW_SOURCES = {
   dorama:   { title: 'row.dorama',   all: 'catalog.html?franchise=dorama', list: () => libRow('dorama') },
   // rasmiy studiyalarning RuTube kanallaridan (tools/rutube-import.js): filmlar, yangi qo'shilgani oldin
   klassika: { title: 'row.klassika', all: 'catalog.html?franchise=klassika', list: () => MOVIES.filter(m => m.franchise === 'klassika' && m.type !== 'multfilm' && !(typeof PART_OF !== 'undefined' && PART_OF.has(m.id))).sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0) || yr(b) - yr(a)).slice(0, 30) },
+  // litsenziyali Amerika distribyutorlarining YouTube kanallaridan (tools/yt-studio-import.js)
+  hollywood: { title: 'row.hollywood', all: 'catalog.html?franchise=hollywood', list: () => MOVIES.filter(m => m.franchise === 'hollywood').sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)).slice(0, 30) },
   anime:    { title: 'row.anime',    all: 'catalog.html?franchise=anime',  list: () => libRow('anime') },
   hind:     { title: 'row.hind',     all: 'catalog.html?franchise=hind',   list: () => libRow('hind') },
   marvel:   { title: 'row.marvel',   all: 'catalog.html?franchise=marvel', list: () => MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => yr(a) - yr(b)) },
@@ -536,7 +538,7 @@ const ROW_SOURCES = {
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
-const DEFAULT_ROWS = ['popular', 'uzbek', 'klassika', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
+const DEFAULT_ROWS = ['popular', 'uzbek', 'klassika', 'hollywood', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
   .map(source => ({ source, visible: true }));
 
 /* ---------- «Seriallar» banneri: hamma seriallar bitta katta banner ostida ----------

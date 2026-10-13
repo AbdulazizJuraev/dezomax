@@ -175,7 +175,7 @@ if (typeof MOVIES !== 'undefined') for (var i = 0; i < RUTUBE_MOVIES.length; i++
 }
 const readJSON = (f, d) => { try { return JSON.parse(fs.readFileSync(P(f), 'utf8')); } catch { return d; } };
 
-(async () => {
+async function main() {
   const t0 = Date.now();
   const cfg = readJSON('data/rutube-sources.json', { sources: [] });
   const site = loadSite();
@@ -394,4 +394,8 @@ const readJSON = (f, d) => { try { return JSON.parse(fs.readFileSync(P(f), 'utf8
   if (process.argv.includes('--sample')) for (const m of items.slice(-30)) console.log(`  [${m.type}] ${m.title.ru} | ${m.year || '?'} | ${m.genres.join(',')} | ${m.duration} daq | rej: ${m.director || '-'} | ${(m.desc.ru || '').slice(0, 50)}`);
   console.log(lines.join('\n'));
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '```\n' + lines.join('\n') + '\n```\n');
-})().catch(e => { console.error(e); process.exit(1); });
+}
+
+// tools/yt-studio-import.js ham shu fayl bilan ishlaydi
+module.exports = { readRutubeFile, writeRutubeFile, loadSite, readJSON, key, slugOf };
+if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });

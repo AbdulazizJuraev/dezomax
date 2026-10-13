@@ -33,6 +33,10 @@ const SITE_CONFIG = /*CONFIG*/{
       "visible": true
     },
     {
+      "source": "hollywood",
+      "visible": true
+    },
+    {
       "source": "konsert",
       "visible": true
     },
