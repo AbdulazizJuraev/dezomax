@@ -53,7 +53,9 @@ function renderHero() {
     // kompyuterda — gorizontal rasm butun slaydga (foydalanuvchi so'rovi); tik poster faqat gorizontali yo'q kinoda
     const deskWide = HERO_DESKTOP && (m.hposter || imgBig(uzArt) || imgBig(m.cover) || (ytId ? imgBig(`https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`) : null));
     const vArt = !HERO_VIDEO && m.vposter && !deskWide ? m.vposter : null;
-    const art = HERO_VIDEO ? null : deskWide || vArt || wideSrc || ownPoster;
+    // kompyuterda tik poster butun slaydga cho'ziladi — TMDB'dan asl o'lchami (w780 2,5 barobar kattalashtirilsa xira bo'lardi)
+    const vBig = vArt && HERO_DESKTOP ? vArt.replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : vArt;
+    const art = HERO_VIDEO ? null : deskWide || vBig || wideSrc || ownPoster;
     const wideArt = !!wideSrc;
     const isTrailer = watchStatus(m) === 'trailer';
     const noVideo = watchStatus(m) === 'none';      // admin slayderga qo'ygan, lekin videosi yo'q — kino sahifasiga olib boradi

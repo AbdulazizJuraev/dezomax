@@ -7540,3 +7540,12 @@ html, body { background: #000; }
 /* studiya kartalari — to'liq rangda, «Tez orada» ham xira emas */
 .studio-card.is-soon { filter: none; opacity: 1; }
 .studio-card { background: radial-gradient(130% 150% at 50% 0%, var(--studio, #233049), #050507 75%); border-color: rgba(255, 255, 255, .12); }
+/* Slayder (kompyuter): tik poster — xira fon + o'ngdagi kichik nusxa o'rniga butun slaydga aniq (foydalanuvchi so'rovi) */
+@media (min-width: 641px) {
+  #hero.hero-v2 .is-vert .hv2-bg { filter: none; transform: none !important; background-position: center 30% !important; }
+  #hero.hero-v2 .is-vert .hv2-vp { display: none !important; }
+  #hero.hero-v2 .is-vert .hv2-bg::after {
+    background: linear-gradient(90deg, rgba(0, 0, 0, .78) 0%, rgba(0, 0, 0, .35) 32%, rgba(0, 0, 0, 0) 58%),
+                linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0) 32%) !important;
+  }
+}
