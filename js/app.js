@@ -55,7 +55,9 @@ function renderHero() {
     const vArt = !HERO_VIDEO && m.vposter && !deskWide ? m.vposter : null;
     // kompyuterda tik poster butun slaydga cho'ziladi — TMDB'dan asl o'lchami (w780 2,5 barobar kattalashtirilsa xira bo'lardi)
     const vBig = vArt && HERO_DESKTOP ? vArt.replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : vArt;
-    const art = HERO_VIDEO ? null : deskWide || vBig || wideSrc || ownPoster;
+    // slayder rasmi — eng katta nusxa: TMDB → asl o'lcham (w342 slaydga cho'zilsa xira edi)
+    const hi = u => u ? String(u).replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : u;
+    const art = HERO_VIDEO ? null : hi(deskWide || vBig || wideSrc || ownPoster);
     const wideArt = !!wideSrc;
     const isTrailer = watchStatus(m) === 'trailer';
     const noVideo = watchStatus(m) === 'none';      // admin slayderga qo'ygan, lekin videosi yo'q — kino sahifasiga olib boradi
@@ -887,9 +889,18 @@ const HERO_POP_KEY = 'dzxHeroPop';
 function heroPopular(ids) {
   const byId = new Map(MOVIES.map(m => [m.id, m]));
   return [...new Set(ids)].map(id => byId.get(id))
-    .filter(m => m && !isExtraVideo(m) && watchStatus(m) !== 'trailer' && (m.poster || m.cover || m.vposter || m.hposter)).slice(0, 8);
+    .filter(m => m && !isExtraVideo(m) && watchStatus(m) !== 'trailer' && heroArtOk(m)).slice(0, 8);
 }
-const heroAdmin = featured.slice();
+/* Slayderga faqat sifatli katta rasmi bor kinolar: TMDB, gorizontal poster/muqova, YouTube (1280 px), saytning o'z rasmlari.
+   Kichik, siqilgan rasmlar (masalan Telegram postidan olingan muqova) butun ekranga cho'zilganda xira chiqardi */
+function heroArtOk(m) {
+  // admin yuklagan rasmlar (images/custom/) brauzerda 600 px ga siqilgan; Telegram (DezoCloud) muqovalari — kichik
+  const good = u => !!u && !/dezocloud\.uz|images\/custom\//.test(u)
+    && (/image\.tmdb\.org|i\.ytimg\.com|upload\.wikimedia\.org/.test(u) || /^images\//.test(u) || /^https?:/.test(u) && u === m.hposter);
+  return [m.hposter, m.vposter, m.cover, m.poster].some(u => good(String(u || '')));
+}
+const heroAdmin = featured.filter(heroArtOk);
+if (heroAdmin.length && heroAdmin.length < featured.length) featured.splice(0, featured.length, ...heroAdmin);
 function applyHeroList(pop) {
   if (!pop.length) return false;
   const next = [...pop, ...heroAdmin.filter(m => !pop.includes(m))].slice(0, 10);

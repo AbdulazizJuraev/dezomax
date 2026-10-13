@@ -65,7 +65,10 @@ function mxMoney(n) {
 }
 /* Film sahifasining nomi: inglizcha nomidan (tools/gen-marvel-pages.js ham xuddi shunday) */
 const mxSlug = (m, info) => String((info && info.en) || m.slug || m.id).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const mxHref = f => `marvel/${mxSlug(f.m, f.info)}.html`;
+// tayyor sahifa (marvel/<nom>.html) faqat rasmiy video/treyleri borlarga yasaladi (tools/gen-marvel-pages.js) —
+// qolganlari shu sahifaning o'zida ochiladi (marvel.html?id=N), aks holda 404 chiqardi
+const MX_OFFICIAL = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|upload\.wikimedia\.org)\//i;
+const mxHref = f => MX_OFFICIAL.test(String(f.m.video || f.m.trailer || '').trim()) ? `marvel/${mxSlug(f.m, f.info)}.html` : `marvel.html?id=${f.m.id}`;
 const mxYt = url => (String(url || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/) || [])[1] || '';
 
 /* ---------- Ro'yxat ---------- */

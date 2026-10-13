@@ -33,6 +33,18 @@ export default {
       });
     }
 
+    // /_e/… → ESPN API (site.api.espn.com/apis/…) Cloudflare'ning yaqin serverida 45 soniya keshlanadi:
+    // O'zbekistondagi foydalanuvchiga AQShdagi ESPN o'rniga yaqin server javob beradi (sport sahifasi tezroq ochiladi)
+    if (url.pathname.startsWith('/_e/')) {
+      const target = 'https://site.api.espn.com/apis/' + url.pathname.slice(4) + url.search;
+      let r;
+      try { r = await fetch(target, { cf: { cacheEverything: true, cacheTtl: 45 } }); } catch (e) { r = null; }
+      return new Response(r && r.ok ? r.body : '{}', {
+        status: r ? r.status : 502,
+        headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=30', 'access-control-allow-origin': '*' }
+      });
+    }
+
     if (url.pathname.endsWith('/')) {
       url.pathname += 'index.html';
       return env.ASSETS.fetch(new Request(url.toString(), request));

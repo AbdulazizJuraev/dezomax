@@ -126,11 +126,28 @@ function fromLeague(ev, lgName, path) {
   };
 }
 
+/* ESPN so'rovlari — avval dezomax.uz/_e/ orqali (Cloudflare'ning yaqin serverida keshlangan — tez), ishlamasa — to'g'ridan ESPN */
+const ESPN_EDGE = 'https://dezomax.uz/_e/';
+let edgeOk = !/^(localhost|127\.)/.test(location.hostname);
 async function getJSON(url) {
+  if (edgeOk && url.startsWith(API + '/')) {
+    try {
+      const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 5000);
+      const r = await fetch(ESPN_EDGE + url.slice(API.length + 1), { signal: ctl.signal });
+      clearTimeout(tm);
+      if (r.ok) return r.json();
+      if (r.status >= 500) edgeOk = false;
+    } catch { edgeOk = false; }
+  }
   const r = await fetch(url);
   if (!r.ok) throw new Error('HTTP ' + r.status);
   return r.json();
 }
+/* Sportchi surati (ESPN headshot, ~260 KB PNG) — ESPN'ning o'zida kichraytirilgan nusxa (~90 KB) */
+const espnPhoto = u => {
+  const m = String(u || '').match(/^https:\/\/a\.espncdn\.com(\/i\/headshots\/[^?]+\.png)$/);
+  return m ? `https://a.espncdn.com/combiner/i?img=${m[1]}&w=300&h=218` : u;
+};
 
 async function loadSource(src) {
   if (src.kind === 'header') {
@@ -494,7 +511,7 @@ async function teamHeadshot(path, teamId) {
   try {
     const j = await getJSON(`${API}/site/v2/sports/${path}/teams/${teamId}/roster`);
     const list = (j.athletes || []).flatMap(g => g.items || [g]).filter(x => x.headshot?.href);
-    return photoCache(ck, list[0]?.headshot.href || null);
+    return photoCache(ck, espnPhoto(list[0]?.headshot.href) || null);
   } catch { return null; }
 }
 
@@ -573,7 +590,7 @@ function loadPhotos(key, e, sportId) {
     // u doim hozirgi jamoa formasida (ko'kragigacha).
     const body = x => SOLO[sportId] ? tsdbPersonBody(x.full || x.name, sportId) : Promise.resolve(null);
     const head = x => SOLO[sportId]
-      ? (x.id ? `https://a.espncdn.com/i/headshots/${SOLO[sportId]}/players/full/${x.id}.png` : null)
+      ? (x.id ? espnPhoto(`https://a.espncdn.com/i/headshots/${SOLO[sportId]}/players/full/${x.id}.png`) : null)
       : teamHeadshot(e.path, x.id);
     // 1) butun gavdali surat (TheSportsDB)  2) ESPN portreti (yelkagacha); ochilishi tekshiriladi (404 bo'lishi mumkin)
     const one = async x => {
