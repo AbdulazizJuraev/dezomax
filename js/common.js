@@ -303,8 +303,11 @@ function posterHTML(m) {
   // Odatda yashirin (css: .row-wide / .is-serials da ko'rinadi); yashirin rasm yuklanmaydi (loading=lazy)
   const yt = !m.wide && (String(m.trailer || m.video || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
   const land = m.wide ? null : m.cover ? imgBig(m.cover) : yt ? imgBig(`https://i.ytimg.com/vi/${yt}/hq720.jpg`) : null;
+  // TMDB posteri — ekranga mos o'lcham (kompyuter/retina'da w342 xira ko'rinardi): brauzer o'zi tanlaydi
+  const tm = String(m.poster).match(/^(https:\/\/image\.tmdb\.org\/t\/p\/)w\d+(\/.+)$/);
+  const srcset = tm ? ` srcset="${tm[1]}w342${tm[2]} 342w, ${tm[1]}w500${tm[2]} 500w, ${tm[1]}w780${tm[2]} 780w" sizes="(min-width: 901px) 280px, 46vw"` : '';
   return fallback + blur +
-    `<img class="poster-img" src="${esc(m.poster)}" alt="${esc(title(m))}" loading="lazy" onload="ytThumbFallback(this)" onerror="ytThumbError(this)">` +
+    `<img class="poster-img" src="${esc(m.poster)}"${srcset} alt="${esc(title(m))}" loading="lazy" onload="ytThumbFallback(this)" onerror="ytThumbError(this)">` +
     (land ? `<img class="poster-land" src="${esc(land)}" alt="" aria-hidden="true" loading="lazy" onload="ytThumbFallback(this)" onerror="ytThumbError(this)">` : '');
 }
 

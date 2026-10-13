@@ -39,8 +39,10 @@ module.exports = (async () => {
     const out = path.join(outDir, name);
     const st = fs.statSync(src);
     if (st.size < 45 * 1024) continue;                      // kichik rasm — o'zi yetarli
-    if (!fs.existsSync(out) || fs.statSync(out).mtimeMs < st.mtimeMs) {
-      await sharp(src).resize({ width: 400, withoutEnlargement: true }).webp({ quality: 74 }).toFile(out);
+    // 2026-10-13: kartalar kattalashdi — 400 px → 600 px (kompyuter/retina ekranda xira ko'rinardi); eski 400 px nusxalar qayta yasaladi
+    const small = fs.existsSync(out) && ((await sharp(fs.readFileSync(out)).metadata()).width || 0) < Math.min(600, (await sharp(fs.readFileSync(src)).metadata()).width || 600) - 2;
+    if (!fs.existsSync(out) || small || fs.statSync(out).mtimeMs < st.mtimeMs) {
+      fs.writeFileSync(out, await sharp(fs.readFileSync(src)).resize({ width: 600, withoutEnlargement: true }).webp({ quality: 76 }).toBuffer());   // bufer orqali — Windows fayl qulfi
       made++;
     }
     saved += st.size - fs.statSync(out).size;
@@ -69,6 +71,6 @@ module.exports = (async () => {
     big.push([p, 'images/w/l/' + path.basename(out)]);
   }
   fs.writeFileSync(path.join(root, 'js', 'thumbs.js'),
-    `/* tools/make-thumbs.js yaratadi — qo'lda o'zgartirmang. Rasm → yengil WebP nusxa: THUMBS — kartalar (400 px), THUMBS_BIG — fonlar (1280 px) */\nvar THUMBS = ${JSON.stringify(Object.fromEntries(done))};\nvar THUMBS_BIG = ${JSON.stringify(Object.fromEntries(big))};\n`);
+    `/* tools/make-thumbs.js yaratadi — qo'lda o'zgartirmang. Rasm → yengil WebP nusxa: THUMBS — kartalar (600 px), THUMBS_BIG — fonlar (1280 px) */\nvar THUMBS = ${JSON.stringify(Object.fromEntries(done))};\nvar THUMBS_BIG = ${JSON.stringify(Object.fromEntries(big))};\n`);
   console.log(`make-thumbs: ${done.length} ta kichik, ${big.length} ta katta nusxa (${made} ta yangi), ${Math.round(saved / 1048576)} MB tejaldi`);
 })();

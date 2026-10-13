@@ -7593,3 +7593,9 @@ html, body { background: #000; }
 }
 @keyframes navDrawerIn { from { transform: translateX(-100%); } to { transform: none; } }
 @media (max-width: 1200px) and (min-width: 901px) { .nav-extra span { display: none; } .nav a { font-size: 17px; } }
+
+/* Posterlar xira emas (2026-10-13): keng (YouTube 16:9) rasm tik kartada — qorong'i fon + kichik rasm o'rniga kartani to'liq,
+   aniq qoplaydi (hq720 rasmning o'rta qismi tik kartaga yetarli sifatda). Tik poster keng kartada — orqa fon yorqinroq. */
+.grid .card.is-wide .card-poster .poster-blur, .row-tall .card.is-wide .poster-blur { display: none !important; }
+.grid .card.is-wide .card-poster .poster-img, .row-tall .card.is-wide .poster-img { object-fit: cover; object-position: center; }
+.row-wide .card:not(.is-wide) .poster-blur { filter: blur(16px) brightness(.72) saturate(1.25); }
