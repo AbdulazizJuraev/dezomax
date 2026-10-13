@@ -4,6 +4,89 @@
    ============================================================ */
 
 const SITE_CONFIG = /*CONFIG*/{
+  "hero": {
+    "ids": [
+      76,
+      77,
+      79,
+      89,
+      90,
+      2981,
+      5347,
+      52,
+      1
+    ],
+    "delay": 7
+  },
+  "rows": [
+    {
+      "source": "uzbek",
+      "visible": true
+    },
+    {
+      "source": "konsert",
+      "visible": true
+    },
+    {
+      "source": "trending",
+      "visible": true
+    },
+    {
+      "source": "new",
+      "visible": true
+    },
+    {
+      "source": "dorama",
+      "visible": true
+    },
+    {
+      "source": "anime",
+      "visible": true
+    },
+    {
+      "source": "hind",
+      "visible": true
+    },
+    {
+      "source": "marvel",
+      "visible": true
+    },
+    {
+      "source": "dc",
+      "visible": true
+    },
+    {
+      "source": "top",
+      "visible": true
+    },
+    {
+      "source": "popular",
+      "visible": true
+    },
+    {
+      "source": "series",
+      "visible": true
+    },
+    {
+      "source": "cartoons",
+      "visible": true
+    }
+  ],
+  "logo": {
+    "enabled": true,
+    "pos": "br",
+    "size": 17,
+    "bg": "black",
+    "opacity": 100,
+    "mode": "idle",
+    "scope": "all",
+    "types": [
+      "film",
+      "serial",
+      "multfilm"
+    ],
+    "ids": []
+  },
   "posters": {
     "2037": "/ettYNNm1eehROqF046LuJ7Ycd4n.jpg",
     "2045": "/descLErszABnAy79SDTzupmPD7e.jpg",
