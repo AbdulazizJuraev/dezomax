@@ -2167,13 +2167,13 @@ function pickerHTML(key, ids, max) {
       ${ids.length < max ? `
         <div class="adm-pick-search">
           <input class="acc-input" type="search" placeholder="Kino qo‘shish — nomini yozing" data-search>
-          ${key === 'hero' ? `<label class="adm-wide-only"><input type="checkbox" data-wideonly checked> Faqat 16:9 posteri borlar <small>(bo‘sh qidiruvda — hammasi)</small></label>` : ''}
+          ${key === 'hero' ? `<label class="adm-wide-only"><input type="checkbox" data-wideonly checked> Faqat karuselda chiqa oladiganlar <small>(videosi bor, o‘zbek filmi emas; 16:9 posteri yo‘qlariga TMDB’dan o‘zi olinadi)</small></label>` : ''}
           <div class="adm-pick-results" data-results hidden></div>
         </div>` : `<p class="acc-muted">Eng ko‘pi ${max} ta</p>`}
     </div>`;
 }
 
-function bindPicker(root, getIds, setIds, rerender) {
+function bindPicker(root, getIds, setIds, rerender, onAdd) {
   root.querySelectorAll('[data-move]').forEach(b => b.addEventListener('click', () => {
     const ids = [...getIds()], i = +b.dataset.i, j = i + +b.dataset.move;
     [ids[i], ids[j]] = [ids[j], ids[i]];
@@ -2192,22 +2192,26 @@ function bindPicker(root, getIds, setIds, rerender) {
   wideBox?.addEventListener('change', search);
   input.addEventListener('focus', () => { if (wideBox?.checked && !input.value.trim()) search(); });
   function search() {
-    const q = norm(input.value), wide = !!wideBox?.checked;
-    // «Faqat 16:9» — bo'sh qidiruvda ham hammasi ko'rinadi (ular kam)
-    if (!q && !wide) { results.hidden = true; return; }
-    const picked = new Set(getIds()), found = [], limit = wide ? 60 : 8;
+    const q = norm(input.value), can = !!wideBox?.checked;
+    // «Karuselda chiqa oladiganlar» (videosi bor, o'zbek filmi emas) — bo'sh qidiruvda ham ro'yxat; 16:9 posteri borlar birinchi
+    if (!q && !can) { results.hidden = true; return; }
+    const picked = new Set(getIds()), found = [], limit = can ? 60 : 8;
     for (const m of allMovies()) {
-      if (!picked.has(m.id) && (!q || hayOf(m).includes(q)) && (!wide || (hasWide(m) && !heroSkipReason(m)))) { found.push(m); if (found.length === limit) break; }
+      if (!picked.has(m.id) && (!q || hayOf(m).includes(q)) && (!can || !heroSkipReason(m))) { found.push(m); if (found.length === limit * 3) break; }
     }
+    if (can) found.sort((a, b) => hasWide(b) - hasWide(a));
+    found.splice(limit);
     results.hidden = false;
-    results.innerHTML = (wide ? `<p class="acc-muted adm-wide-count">16:9 posteri bor kinolar: ${found.length}${found.length === limit ? '+' : ''} ta</p>` : '') + (found.length ? found.map(m => `
+    results.innerHTML = (can ? `<p class="acc-muted adm-wide-count">Karuselda chiqa oladigan kinolar${q ? '' : ' (nomini yozib qidiring)'} — 16:9 posteri yo‘qlariga qo‘shilganda TMDB’dan o‘zi olinadi</p>` : '') + (found.length ? found.map(m => `
       <button type="button" data-add="${m.id}">
-        <span class="adm-thumb${wide ? ' is-wide' : ''}">${(wide ? m.hposter || m.cover : m.poster) ? `<img src="${esc(wide ? m.hposter || m.cover : m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
-        <span><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}</small></span>
+        <span class="adm-thumb${hasWide(m) ? ' is-wide' : ''}">${(hasWide(m) ? m.hposter || m.cover : m.poster) ? `<img src="${esc(hasWide(m) ? m.hposter || m.cover : m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+        <span><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type), can ? (hasWide(m) ? '<i class="adm-wide-yes">16:9 bor</i>' : '16:9 — TMDB’dan olinadi') : ''].filter(Boolean).join(' · ')}</small></span>
         <em>+</em>
       </button>`).join('') : '<p class="acc-muted">Topilmadi</p>');
     results.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
-      setIds([...getIds(), +b.dataset.add]); rerender();
+      const id = +b.dataset.add;
+      setIds([...getIds(), id]); rerender();
+      onAdd && onAdd(id);
     }));
   }
 }
@@ -2401,7 +2405,19 @@ async function renderSiteView() {
     box.querySelectorAll('[data-sec]').forEach(b => b.classList.toggle('is-active', +b.dataset.sec === d.hero.delay));
   });
   bindFolds(box);
-  bindPicker($('#admHeroPicker'), () => d.hero.ids, ids => { d.hero.ids = ids; }, rerender);
+  // karuselga qo'shilgan kinoning 16:9 posteri yo'q bo'lsa — TMDB'dan darrov olinadi (navbat bilan, bittadan)
+  let heroPosterQ = Promise.resolve();
+  bindPicker($('#admHeroPicker'), () => d.hero.ids, ids => { d.hero.ids = ids; }, rerender, id => {
+    const m = currentMovie(id);
+    if (!m || hasWide(m) || heroSkipReason(m)) return;
+    if (!tmdbKey()) { toast('16:9 poster uchun TMDB kaliti kerak: «Qo‘shish» → «Avtomatik to‘ldirish»', true); return; }
+    heroPosterQ = heroPosterQ.then(async () => {
+      const btn = $('#admHeroPosters') || document.createElement('button');
+      if (!$('#admHeroPostersNote')) return;
+      await heroAutoPosters([id], btn, []);
+      if (view === 'site') rerender();
+    }).catch(() => {});
+  });
   bindPicker($('#admKidsPicker'), () => d.hero.kidsIds || [], ids => { d.hero.kidsIds = ids; }, rerender);
   $('#admHeroPosters')?.addEventListener('click', e => heroAutoPosters(d.hero.ids, e.currentTarget, d.hero.kidsIds || []));
   $('#admCardPosters')?.addEventListener('click', e => cardAutoPosters(e.currentTarget));
