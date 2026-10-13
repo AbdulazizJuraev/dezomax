@@ -100,7 +100,11 @@ const SITE_CONFIG = /*CONFIG*/{
   },
   "posters": {
     "2037": "/ettYNNm1eehROqF046LuJ7Ycd4n.jpg",
+    "2045": "/descLErszABnAy79SDTzupmPD7e.jpg",
+    "2079": "/8aIfrY4k8TpchETMMblRZpBgPKo.jpg",
     "2118": "/5ltRJxurOTIaMQwcOwSau7l3GME.jpg",
+    "2146": "/d9mrt80EbMSaWoaZ6Ytfmuq7cJv.jpg",
+    "2382": "/bZRHz4bV5WHVlpLjmYbrkOAQhyT.jpg",
     "5062": "/ehbIml5HTX9tU5JCZB4l0Ft3VQu.jpg",
     "7001328": "/oA1XlT4haoeug2YLzUccM8myBlR.jpg",
     "7020980": "/1GPXjQNumrQp5TSfdWxGvIhxYL9.jpg",
