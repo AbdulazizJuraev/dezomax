@@ -668,6 +668,10 @@ function bindForm(old) {
       ]);
       if (poster) movie.poster = poster;
       if (cover) movie.cover = cover;
+      // TMDB rasmlari ikki o'lchamda: 16:9 (muqova → karusel va kompyuter kartalari), 9:16 (poster → telefon)
+      const tmImg = u => /image\.tmdb\.org\/t\/p\//.test(String(u || ''));
+      if (tmImg(movie.cover)) movie.hposter = movie.cover.replace(/\/t\/p\/w\d+\//, '/t/p/w1280/');
+      if (tmImg(movie.poster)) movie.vposter = movie.poster.replace(/\/t\/p\/w\d+\//, '/t/p/w780/');
 
       await saveCustom(list => {
         const i = list.findIndex(x => x.id === movie.id);
@@ -1627,8 +1631,14 @@ function bindTmdb(form, { setHeroImg, setCover }) {
     res.innerHTML = '<p class="acc-muted">Qidirilmoqda…</p>';
     try {
       const type = $('#tmdbType').value;
-      const j = await tmdb(`/search/${type}`, { query: text, language: 'ru-RU', include_adult: 'false' });
-      const items = (j.results || []).filter(x => type !== 'multi' || x.media_type === 'movie' || x.media_type === 'tv').slice(0, 12)
+      // 3 tilda qidiruv: yozilgani + ruscha nomi + o'zbekchadan inglizcha va ruschaga tarjimasi (o'zbekcha nom bilan ham topiladi)
+      const tr = (to) => translateText(text, 'uz', to).catch(() => '');
+      const [en, ru] = await Promise.all([tr('en'), tr('ru')]);
+      const queries = [...new Set([text, form.titleRu?.value, en, ru].map(v => String(v || '').trim().replace(/[.!]+$/, '')).filter(Boolean))].slice(0, 4);
+      const lists = await Promise.all(queries.map(query => tmdb(`/search/${type}`, { query, language: 'ru-RU', include_adult: 'false' }).catch(() => ({ results: [] }))));
+      const seenT = new Set(), merged = [];
+      for (let k = 0; k < 20; k++) for (const l of lists) { const x = (l.results || [])[k]; if (x && !seenT.has(x.id + (x.media_type || ''))) { seenT.add(x.id + (x.media_type || '')); merged.push(x); } }
+      const items = merged.filter(x => type !== 'multi' || x.media_type === 'movie' || x.media_type === 'tv').slice(0, 12)
         .map(x => ({ ...x, media_type: x.media_type || type }));
       res.innerHTML = items.length ? items.map(x => {
         const name = x.title || x.name, orig = x.original_title || x.original_name;

@@ -7648,3 +7648,32 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
 .adm-wide-only small { color: var(--text-faint); }
 .adm-thumb.is-wide { width: 80px; aspect-ratio: 16 / 9; height: auto; }
 .adm-wide-count { margin: 4px 6px 6px; font-size: 12.5px; }
+
+/* ================= Kartalar (2026-10-13, foydalanuvchi so'rovi) =================
+   Kompyuterda HAMMA karta 16:9 (bosh sahifa qatorlari va katalog/qidiruv to'rlari), telefonda — tik (2:3);
+   burchaklar deyarli to'g'ri; rasmlar yorqinroq va kontrastliroq; reyting — baholashga qarab rangli belgi. */
+.card-poster, #homeRows .row > .card .card-poster { border-radius: 4px; }
+.card-poster img { filter: brightness(1.06) contrast(1.12) saturate(1.15); }
+/* reyting belgisi: 7+ yashil, 5–7 kulrang, 5 dan past — to'q kulrang */
+.badge-rating { background: #5f6368; color: #fff; border-radius: 4px; padding: 4px 8px; font-size: 14px; font-weight: 800; }
+.badge-rating.is-hi { background: #2fb344; }
+.badge-rating.is-lo { background: #3c3f44; }
+/* kompyuter: katalog/qidiruv to'rlari ham 16:9 */
+@media (min-width: 901px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .grid .card .card-poster, .grid .card.is-wide .card-poster { aspect-ratio: 16 / 9; }
+  .grid .card .poster-img { object-fit: cover; object-position: center 22%; }
+  .grid .card .poster-blur { display: none !important; }
+  .grid .card:not(.is-wide) .poster-land { display: block; position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; object-fit: cover; }
+}
+/* telefon: bosh sahifa qatorlari ham tik (2:3) — 16:9 rasm o'rtasidan kesiladi */
+@media (max-width: 900px) {
+  #homeRows .row > .card { flex-basis: min(150px, 40vw); }
+  #homeRows .row > .card .card-poster { aspect-ratio: 2 / 3; }
+  #homeRows .row > .card .poster-land { display: none !important; }
+  #homeRows .row > .card .poster-img { object-position: center; }
+}
+/* Karusel: pastdan 20% gacha qora soya — kino nomi va tavsifi yaxshi o'qiladi */
+#hero.hero-v2 .hero-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 20%; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .8) 40%, rgba(0, 0, 0, 0) 100%); }
+#hero.hero-v2 .hero-inner { position: relative; z-index: 2; }

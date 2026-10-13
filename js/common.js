@@ -304,7 +304,9 @@ function posterHTML(m) {
   // Odatda yashirin (css: .row-wide / .is-serials da ko'rinadi); yashirin rasm yuklanmaydi (loading=lazy)
   // faqat kinoning O'Z videosi (rasmiy kanal) — treyler kadri emas (tasodifiy, ko'pincha yoqimsiz sahna chiqardi)
   const yt = !m.wide && (String(m.video || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
-  const land = m.wide ? null : m.cover ? imgBig(m.cover) : yt ? imgBig(`https://i.ytimg.com/vi/${yt}/hq720.jpg`) : null;
+  // 16:9 rasm: admin/TMDB gorizontal posteri birinchi (kino nomi yozilgan), keyin muqova, keyin kinoning o'z YouTube rasmi
+  const hp = m.hposter && !/dezocloud\.uz/.test(m.hposter) ? m.hposter : null;
+  const land = m.wide ? null : hp || (m.cover ? imgBig(m.cover) : yt ? imgBig(`https://i.ytimg.com/vi/${yt}/hq720.jpg`) : null);
   // TMDB posteri — ekranga mos o'lcham (kompyuter/retina'da w342 xira ko'rinardi): brauzer o'zi tanlaydi
   const tm = String(m.poster).match(/^(https:\/\/image\.tmdb\.org\/t\/p\/)w\d+(\/.+)$/);
   const srcset = tm ? ` srcset="${tm[1]}w342${tm[2]} 342w, ${tm[1]}w500${tm[2]} 500w, ${tm[1]}w780${tm[2]} 780w" sizes="(min-width: 901px) 280px, 46vw"` : '';
@@ -392,7 +394,7 @@ function cardHTML(m) {
     <div class="card-poster">
       ${posterHTML(m)}
       <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
-      ${m.rating ? `<div class="badge-rating">${ICONS.star}${m.rating.toFixed(1)}</div>` : ''}
+      ${m.rating ? `<div class="badge-rating${m.rating >= 7 ? ' is-hi' : m.rating < 5 ? ' is-lo' : ''}">${ICONS.star}${m.rating.toFixed(1)}</div>` : ''}
       <div class="badge-type">${typeName(m.type)}</div>
       ${watchBadgeHTML(m)}
       ${durPillHTML(m)}
