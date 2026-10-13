@@ -347,7 +347,9 @@ function ytOnState(box, id, st) {
   const running = st === S.PLAYING || st === S.BUFFERING;
   $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = running ? YT_ICONS.pause : YT_ICONS.play;
   box.classList.toggle('is-paused', st === S.PAUSED);
+  const wasRun = !box.classList.contains('vp-paused');
   box.classList.toggle('vp-paused', !running);
+  if (st === S.PLAYING || st === S.PAUSED) vpMidFlash(box);
   ytWake(box);
 
   if (st === S.ENDED) {
@@ -544,3 +546,11 @@ addEventListener('resize', ytOnResize);
 addEventListener('orientationchange', ytOnResize);
 document.addEventListener('fullscreenchange', ytOnResize);
 document.addEventListener('webkitfullscreenchange', ytOnResize);
+
+/* O'rtadagi belgilar (−10 / play-pauza / +10) — odatda yashirin, play yoki pauza bosilganda 2 soniya ko'rinadi */
+function vpMidFlash(box) {
+  if (!box) return;
+  box.classList.add('vp-mid-flash');
+  clearTimeout(box._midT);
+  box._midT = setTimeout(() => box.classList.remove('vp-mid-flash'), 2000);
+}

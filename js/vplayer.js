@@ -198,7 +198,7 @@ function mountVideo(box, url, opts = {}) {
     brand.addEventListener(ev, e => { e.stopPropagation(); if (ev !== 'touchstart' && ev !== 'pointerdown') e.preventDefault(); }, { passive: false }));
 
   /* ---- holatlar ---- */
-  const setPlayIcon = () => { $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; box.classList.toggle('vp-paused', video.paused); };
+  const setPlayIcon = () => { $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; box.classList.toggle('vp-paused', video.paused); if (typeof vpMidFlash === 'function') vpMidFlash(box); };
   onV('playing', () => {
     $('#vpCover').hidden = true;
     $('#vpBar').hidden = false;

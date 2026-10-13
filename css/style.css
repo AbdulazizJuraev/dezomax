@@ -7677,3 +7677,7 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
 #hero.hero-v2 .hero-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 20%; z-index: 1; pointer-events: none;
   background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .8) 40%, rgba(0, 0, 0, 0) 100%); }
 #hero.hero-v2 .hero-inner { position: relative; z-index: 2; }
+/* Pleyer: o'rtadagi belgilar odatda yashirin — play/pauza bosilganda 2 soniya (vpMidFlash) */
+.player-wrap.ytp .vp-mid { opacity: 0; transition: opacity .25s; }
+.player-wrap.ytp.vp-mid-flash .vp-mid { opacity: 1; }
+.player-wrap.ytp:not(.vp-mid-flash) .vp-mid button { pointer-events: none; }
