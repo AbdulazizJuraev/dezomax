@@ -7513,3 +7513,30 @@ body.page-account::before { content: ''; position: fixed; inset: 0 0 auto; heigh
 .adm-ai-post { display: grid; gap: 8px; margin-top: 8px; }
 @media (max-width: 900px) { .adm-aichat-btn { bottom: calc(84px + env(safe-area-inset-bottom)); } .adm-aichat { bottom: calc(140px + env(safe-area-inset-bottom)); } }
 .adm-aichat-review { width: 100%; }
+
+/* ================= Yorqin ko'rinish (2026-10-13, viju uslubida) =================
+   Toza qora fon (rasmlar ajralib turadi), kontent ekran eni bo'ylab, kartalar kattaroq, sarlavhalar yirik va qalin,
+   reyting — yashil belgi, studiya kartalari to'liq rangda. Og'ir effekt yo'q (blur/animatsiya qo'shilmadi). */
+:root { --bg: #000; --surface: #121214; --maxw: 2400px; }
+html, body { background: #000; }
+.wrap { padding-left: max(clamp(16px, 3.6vw, 76px), var(--sal)); padding-right: max(clamp(16px, 3.6vw, 76px), var(--sar)); }
+.header.is-scrolled, .header.scrolled { background: rgba(0, 0, 0, .9); }
+/* kartalar — kattaroq (katta ekranda qatorda ~7 ta tik, ~5 ta keng) */
+@media (min-width: 901px) {
+  .row .card, .row-tall .card, .row-tall .card.is-wide { flex-basis: clamp(170px, 12.6vw, 280px); }
+  .row .card.is-wide, .row-wide .card, .row-wide .card.is-wide { flex-basis: clamp(280px, 21vw, 460px); }
+  .studio-card { width: clamp(260px, 18vw, 380px); }
+  /* ranglar biroz to'yinganroq — faqat kompyuterda (telefonda qo'shimcha yuk bo'lmasin) */
+  .card-poster img { filter: saturate(1.12) contrast(1.04); }
+}
+.card-poster { background: #161618; box-shadow: none; border-radius: 10px; }
+.card:hover .card-poster { box-shadow: 0 0 0 2px rgba(255, 255, 255, .85), 0 14px 34px rgba(0, 0, 0, .6); }
+/* bo'lim sarlavhalari — yirik, qalin, oq */
+.section-head h2 { font-size: clamp(21px, 2vw, 32px); font-weight: 800; letter-spacing: 0; color: #fff; }
+.section-head { margin-bottom: 16px; }
+/* reyting — yorqin yashil belgi (viju kabi) */
+.badge-rating { top: 10px; left: 10px; padding: 4px 9px; border-radius: 6px; background: #2fb344; border: 0; color: #fff; backdrop-filter: none; font-size: 13px; font-weight: 800; }
+.badge-rating svg { display: none; }
+/* studiya kartalari — to'liq rangda, «Tez orada» ham xira emas */
+.studio-card.is-soon { filter: none; opacity: 1; }
+.studio-card { background: radial-gradient(130% 150% at 50% 0%, var(--studio, #233049), #050507 75%); border-color: rgba(255, 255, 255, .12); }
