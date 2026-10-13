@@ -7608,3 +7608,6 @@ html, body { background: #000; }
     margin: 14px 0 22px; color: rgba(255, 255, 255, .78); font-size: 17px; line-height: 1.5; }
   #hero.hero-v2 .is-vert .hero-h { font-size: clamp(48px, 5.5vw, 92px); }
 }
+/* slayder bo'sh bo'lsa (kompyuterda 16:9 rasmli kino yo'q) — keyingi bo'lim header ostiga kirib qolmasin */
+#hero[hidden] { display: none !important; }
+body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8px); }

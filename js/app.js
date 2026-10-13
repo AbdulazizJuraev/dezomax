@@ -34,6 +34,7 @@ function renderHero() {
   const dots = document.getElementById('heroDots');
   if (!hero) return;
   if (!featured.length) { hero.hidden = true; return; }
+  hero.hidden = false;
 
   const slides = featured.map((m, i) => {
     // Slayder rasmi (2026-10-13, foydalanuvchi so'rovi): faqat sifatli RASMIY rasm —
@@ -44,7 +45,8 @@ function renderHero() {
     const tmdbOrig = u => /image\.tmdb\.org/.test(String(u || '')) ? String(u).replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : null;
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
     const ytId = null;
-    const wideSrc = ok(m.hposter) ? m.hposter : uzArt ? imgBig(uzArt) : ok(m.cover) && /^images\//.test(m.cover) ? imgBig(m.cover) : null;
+    // 16:9 rasm — TMDB bo'lsa asl o'lchamda (katta ekranda w1280 ham cho'ziladi)
+    const wideSrc = ok(m.hposter) ? String(m.hposter).replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : uzArt ? imgBig(uzArt) : ok(m.cover) && /^images\//.test(m.cover) ? imgBig(m.cover) : null;
     const tmdbV = tmdbOrig(m.vposter) || tmdbOrig(m.poster);
     // kompyuterda keng rasm (admin gorizontal posteri, keng muqova) — butun slaydga; tik poster — o'ngda TO'LIQ (kesilmaydi)
     const deskWide = HERO_DESKTOP && wideSrc ? wideSrc : null;
@@ -896,24 +898,30 @@ const heroIsUzbek = m => m.franchise === 'uzbek' || m.ch === 'rizanova' || m.ch 
   || /o.?zbekiston|узбекистан/i.test(`${m.country?.uz || ''} ${m.country?.ru || ''}`) || String(m.poster || '').startsWith('images/uz/');
 function heroArtOk(m) {
   if (!m || heroIsUzbek(m)) return false;
+  // kompyuter: FAQAT 16:9 keng rasm (foydalanuvchi so'rovi, 2026-10-13: tik poster dizayni umuman bo'lmasin) —
+  // admin gorizontal posteri (hposter: Admin → Sayt → «Rasmiy posterlarni qo'yish», TMDB) yoki saytdagi keng muqova
+  if (HERO_DESKTOP) {
+    const okW = u => !!u && !/dezocloud\.uz|images\/custom\/|i\.ytimg\.com/.test(String(u));
+    return okW(m.hposter) || (okW(m.cover) && /^images\//.test(m.cover));
+  }
   // renderHero bilan bir xil: admin gorizontal posteri, TMDB rasmiy posteri yoki saytning o'z katta rasmi
   // (treyler kadrlari, Telegram va images/custom muqovalari — yo'q)
   const ok = u => !!u && !/dezocloud\.uz|images\/custom\/|i\.ytimg\.com/.test(String(u));
   return ok(m.hposter) || /image\.tmdb\.org/.test(`${m.vposter || ''} ${m.poster || ''}`)
     || (ok(m.cover) && /^images\//.test(m.cover)) || (ok(m.poster) && /^images\//.test(m.poster));
 }
-const heroAdmin = featured.filter(heroArtOk);
-if (!kidsMode()) featured.splice(0, featured.length, ...heroAdmin);
-function applyHeroList(pop) {
-  if (!pop.length) return false;
-  const next = [...pop, ...heroAdmin.filter(m => !pop.includes(m))].slice(0, 10);
+// slayder ro'yxati: mashhurlar + admin tanlaganlari, har safar ekranga mos rasm bo'yicha (kompyuter — faqat 16:9) qayta tuziladi
+const heroAdminAll = featured.slice();
+function rebuildHero(ids) {
+  if (kidsMode()) return false;
+  if (!ids) { try { ids = JSON.parse(localStorage.getItem(HERO_POP_KEY) || '[]'); } catch { ids = []; } }
+  const pop = heroPopular(ids);
+  const next = [...pop, ...heroAdminAll.filter(m => heroArtOk(m) && !pop.includes(m))].slice(0, 10);
   if (next.map(m => m.id).join() === featured.map(m => m.id).join()) return false;
   featured.splice(0, featured.length, ...next);
   return true;
 }
-if (!kidsMode()) {
-  try { applyHeroList(heroPopular(JSON.parse(localStorage.getItem(HERO_POP_KEY) || '[]'))); } catch {}
-}
+rebuildHero();
 
 initLayout();
 renderHero();
@@ -928,7 +936,7 @@ if (!kidsMode()) (async () => {
   if (!ids.length) return;
   try { localStorage.setItem(HERO_POP_KEY, JSON.stringify(ids.slice(0, 30))); } catch {}
   // birinchi ochilishda (keshsiz) — tez kelsa darrov almashtiramiz; foydalanuvchi slaydni o'zi aylantirgan bo'lsa — keyingi safar
-  if (Date.now() - t0 < 4000 && heroIndex === 0 && applyHeroList(heroPopular(ids))) {
+  if (Date.now() - t0 < 4000 && heroIndex === 0 && rebuildHero(ids)) {
     document.querySelectorAll('.hero-slide').forEach(s => s.remove());
     renderHero();
     restartHeroTimer();
@@ -939,6 +947,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 /* Oyna telefon ↔ kompyuter o'lchamiga o'tganda slayder rasmlari almashadi (gorizontal / tik) */
 matchMedia('(min-width: 641px)').addEventListener('change', e => {
   HERO_DESKTOP = e.matches;
+  rebuildHero(); heroIndex = 0;
   document.querySelectorAll('.hero-slide').forEach(s => s.remove());
   renderHero();
 });
