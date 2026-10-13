@@ -7206,13 +7206,6 @@ main .section { content-visibility: auto; contain-intrinsic-size: auto 380px; }
 .adm-stats.adm-stats4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 600px) { .adm-stats.adm-stats4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-/* Bosh sahifa oxiridagi matn (index.html .home-seo): qidiruv tizimlari uchun H1 va to'plamlar — ko'zga tashlanmaydigan, yengil */
-.home-seo { padding: 28px 16px 8px; color: var(--text-dim); font-size: 13.5px; line-height: 1.6; }
-.home-seo h1 { margin: 0 0 6px; font-size: 18px; color: var(--text); }
-.home-seo p { margin: 0 0 12px; max-width: 900px; }
-.home-seo-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.home-seo-links a { display: inline-block; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1); color: var(--text-dim); font-size: 13px; }
-.home-seo-links a:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
 
 /* Katalog, qidiruv, sevimlilar (.grid): hamma karta bir xil — tik 2:3. Faqat gorizontal rasmi bor kinolar (YouTube kadri)
    rasm o'rtada to'liq, orqasida o'sha rasm qorong'ilashtirilgan (blur'siz — kuchsiz telefonda ham yengil).
@@ -7771,3 +7764,50 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
   #hero.hero-v2 .hv2-desc { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 }
 .mx-card-gross { font-style: normal; color: #4ade80; }
+
+/* ===== Marvel film sahifasi — yangi dizayn (2026-10-13): kichik poster + o'ngda katta san'at, ikki tugma, pleyer tepada ===== */
+.mx-film { padding-top: calc(var(--header-h) + 18px); background: #000; }
+.mx-film-bg { display: none; }
+.mx-film-art { position: absolute; top: 0; right: 0; width: min(46vw, 640px); height: 560px; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 38%), linear-gradient(to top, transparent, #000 30%);
+  -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent, #000 38%), linear-gradient(to top, transparent, #000 30%); mask-composite: intersect; }
+.mx-film-art img { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; opacity: .9; }
+.mx-film-top { gap: 24px; align-items: flex-start; }
+.mx-film-poster { width: 150px; border-radius: 0; border: 2px solid var(--mx); box-shadow: 0 10px 30px rgba(0, 0, 0, .7); }
+.mx-film-info { padding-top: 0; max-width: 620px; }
+.mx-film-info h1 { margin: 10px 0 6px; font-size: clamp(26px, 3vw, 38px); }
+.mx-year { white-space: nowrap; }
+.mx-aka { margin-top: 0; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+.mx-facts { gap: 8px 22px; margin: 12px 0 14px; }
+.mx-facts dt { font-size: 10.5px; }
+.mx-facts dd { font-size: 14px; }
+.mx-desc { font-size: 14px; line-height: 1.55; margin: 0 0 18px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.mx-btns { display: flex; flex-wrap: wrap; gap: 14px; }
+.mx-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 6px; color: #fff;
+  background: linear-gradient(180deg, #b3191f, #7a0f13); box-shadow: none; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .01em; line-height: 1; transition: filter .15s; }
+.mx-btn:hover { filter: brightness(1.15); color: #fff; }
+.mx-btn svg { width: 18px; height: 18px; }
+.mx-h2-trailer { margin-top: 34px; }
+.mx-trailer.player-wrap { max-width: 960px; border: 2px solid var(--mx); border-radius: 22px; overflow: hidden; background: #141414; }
+.mx-film .mx-money { margin-top: 30px; }
+@media (max-width: 760px) {
+  .mx-film { padding-top: var(--header-h); text-align: center; }
+  .mx-back { display: none; }
+  .mx-film-art { position: relative; width: 100%; height: auto; aspect-ratio: 4 / 3.4; margin-bottom: -40px;
+    -webkit-mask-image: linear-gradient(to top, transparent, #000 35%); mask-image: linear-gradient(to top, transparent, #000 35%); }
+  .mx-film-art img { object-position: center 12%; }
+  .mx-film-top { flex-direction: column; align-items: center; gap: 0; }
+  .mx-film-poster { display: none; }
+  .mx-film-info { max-width: none; }
+  .mx-logo-sm { font-size: 22px; padding: 5px 12px 3px; }
+  .mx-film-info h1 { font-size: 22px; margin: 8px 0 6px; }
+  .mx-facts { justify-content: center; }
+  .mx-desc { text-align: left; }
+  .mx-btns { flex-direction: column; align-items: center; gap: 8px; }
+  .mx-btn { font-size: 15px; padding: 6px 14px; min-width: 150px; justify-content: center; }
+  .mx-btn svg { width: 14px; height: 14px; }
+  .mx-h2-trailer { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); margin: 0; }
+  .mx-trailer.player-wrap { margin-top: 22px; border-radius: 22px; }
+  .mx-film .mx-money, .mx-cast, .mx-src { text-align: left; }
+}

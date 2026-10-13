@@ -13,7 +13,7 @@ const MX_TXT = {
     films: 'film', total: 'Jami kassa', soon: 'Tez orada', out: 'Kinoteatrlarda chiqqan', all: 'Barcha filmlar',
     back: 'Barcha Marvel filmlari', trailer: 'Rasmiy treyler', cast: 'Aktyorlar', director: 'Rejissyor',
     release: 'Premyera', runtime: 'Davomiyligi', min: 'daq.', budget: 'Byudjet', gross: 'Kassa (butun dunyo)',
-    ratio: 'byudjetdan', profit: 'Foyda', noData: 'Ma’lumot hali yo‘q', play: 'Treylerni ko‘rish',
+    ratio: 'byudjetdan', profit: 'Foyda', noData: 'Ma’lumot hali yo‘q', play: 'Treylerni ko‘rish', watch: 'Kinoni ko‘rish',
     src: 'Byudjet, kassa va aktyorlar: Wikidata (ochiq ma’lumotlar), yangi filmlar kassasi — Box Office Mojo. Aktyor suratlari: Wikimedia Commons.', srcYt: 'Treyler: {ch} rasmiy YouTube kanali.', trailerPlain: 'Treyler',
     mln: 'mln', mlrd: 'mlrd', notFound: 'Film topilmadi'
   },
@@ -22,7 +22,7 @@ const MX_TXT = {
     films: 'фильмов', total: 'Общие сборы', soon: 'Скоро', out: 'Вышли в кинотеатрах', all: 'Все фильмы',
     back: 'Все фильмы Marvel', trailer: 'Официальный трейлер', cast: 'Актёры', director: 'Режиссёр',
     release: 'Премьера', runtime: 'Длительность', min: 'мин.', budget: 'Бюджет', gross: 'Сборы (мир)',
-    ratio: 'от бюджета', profit: 'Прибыль', noData: 'Данных пока нет', play: 'Смотреть трейлер',
+    ratio: 'от бюджета', profit: 'Прибыль', noData: 'Данных пока нет', play: 'Смотреть трейлер', watch: 'Смотреть фильм',
     src: 'Бюджет, сборы и актёры: Wikidata (открытые данные), сборы новых фильмов — Box Office Mojo. Фото актёров: Wikimedia Commons.', srcYt: 'Трейлер: официальный YouTube-канал {ch}.', trailerPlain: 'Трейлер',
     mln: 'млн', mlrd: 'млрд', notFound: 'Фильм не найден'
   }
@@ -119,17 +119,18 @@ function mxFilmHTML(f) {
   const cast = [...new Set([...(m.cast || []), ...(info.cast || [])])].slice(0, 12);
   const director = info.director && info.director.length ? info.director.join(', ') : m.director || '';
   const runtime = info.runtime || m.duration;
+  // «Kinoni ko'rish» — faqat filmning o'zi saytda qonuniy manbadan (rasmiy YouTube / Wikimedia) bo'lsa
+  const watch = MX_OFFICIAL.test(String(m.video || '').trim()) && mxYt(m.video) !== yt ? m.video : '';
   return `
     <section class="mx-film">
-      <div class="mx-film-bg" style="background-image:url('${esc(m.poster || '')}')"></div>
+      <div class="mx-film-art" aria-hidden="true"><img src="${esc(m.poster || '')}" alt="" decoding="async"></div>
       <div class="wrap">
         <a class="mx-back" href="marvel.html" data-mx-back>${ICONS.left}<span>${mx('back')}</span></a>
         <div class="mx-film-top">
           <div class="mx-film-poster">${posterHTML(m)}</div>
           <div class="mx-film-info">
             <span class="mx-logo mx-logo-sm">MARVEL STUDIOS</span>
-            <h1>${esc(title(m))}</h1>
-            ${info.en && info.en !== title(m) ? `<div class="mx-en">${esc(info.en)}</div>` : ''}
+            <h1>${esc(title(m))}${f.exact || m.year ? ` <span class="mx-year">(${esc(String(f.date || m.year).slice(0, 4))})</span>` : ''}</h1>
             ${mxAka(f).length ? `<div class="mx-aka">${LANG === 'ru' ? 'Также известен как' : 'Boshqa nomlari'}: ${esc(mxAka(f).join(' · '))}</div>` : ''}
             <dl class="mx-facts">
               ${f.exact || m.year ? `<div><dt>${mx('release')}</dt><dd>${esc(mxDate(f))}</dd></div>` : ''}
@@ -137,9 +138,16 @@ function mxFilmHTML(f) {
               ${director ? `<div><dt>${mx('director')}</dt><dd>${esc(director)}</dd></div>` : ''}
             </dl>
             ${descOf(m) ? `<p class="mx-desc">${esc(descOf(m))}</p>` : ''}
-            ${yt ? `<a class="btn btn-primary mx-play" href="#mxTrailer">${ICONS.play}<span>${mx('play')}</span></a>` : ''}
+            <div class="mx-btns">
+              ${yt ? `<a class="mx-btn mx-play" href="#mxTrailer">${ICONS.play}<span>${mx('play')}</span></a>` : ''}
+              ${watch ? `<a class="mx-btn" href="${esc(watch)}" target="_blank" rel="noopener">${ICONS.play}<span>${mx('watch')}</span></a>` : ''}
+            </div>
           </div>
         </div>
+
+        ${yt ? `
+        <h2 class="mx-h2 mx-h2-trailer" id="mxTrailer">${official ? mx('trailer') : mx('trailerPlain')}</h2>
+        <div class="player-wrap mx-trailer" id="mxPlayer" data-yt="${yt}"></div>` : ''}
 
         <div class="mx-money">
           <div class="mx-money-item"><small>${mx('budget')}</small><b>${info.budget ? mxMoney(info.budget) : `<i>${mx('noData')}</i>`}</b></div>
@@ -148,9 +156,6 @@ function mxFilmHTML(f) {
             <span class="mx-bar"><i style="width:${Math.min(100, Math.round(100 / ratio))}%"></i></span></div>` : ''}
         </div>
 
-        ${yt ? `
-        <h2 class="mx-h2" id="mxTrailer">${official ? mx('trailer') : mx('trailerPlain')}</h2>
-        <div class="player-wrap mx-trailer" id="mxPlayer" data-yt="${yt}"></div>` : ''}
 
         ${cast.length ? `
         <h2 class="mx-h2">${mx('cast')}</h2>
