@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: cf-site
@@ -45,6 +46,21 @@ jobs:
         if: steps.chk.outputs.ok == '1'
         with:
           node-version: 20
+
+      # Barqarorlik: sayt tekshiruvidan o'tmasa — dezomax.uz ga YUKLANMAYDI, oxirgi ishlagan versiya qoladi (tools/check-site.js):
+      # kod sintaksisi, kinolar ma'lumoti, sahifalardagi fayllar va haqiqiy Chrome'da 9 ta asosiy sahifa (JS xatosi, kartalar, pleyer)
+      - name: Saytni tekshirish
+        if: steps.chk.outputs.ok == '1'
+        run: |
+          npm i --no-save --no-audit --no-fund puppeteer-core@23 > /dev/null
+          node tools/check-site.js --smoke
+
+      - name: Tekshiruvdan o'tmadi — xabar (GitHub Issues)
+        if: failure() && steps.chk.outputs.ok == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --repo "${{ github.repository }}"             --title "Sayt tekshiruvidan o'tmadi — dezomax.uz yangilanmadi"             --body "Oxirgi o'zgarish (${{ github.sha }}) tekshiruvdan o'tmadi, shuning uchun dezomax.uz da oldingi ishlagan versiya qoldi. Xato ro'yxati: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" || true
 
       - name: Cloudflare'ga yuklash
         if: steps.chk.outputs.ok == '1'
