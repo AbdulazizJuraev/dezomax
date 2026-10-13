@@ -28,6 +28,7 @@ let customList = [];      // hozirgi data-custom.js dagi kinolar
 let dataSha = null;       // fayl versiyasi (to'qnashuvni oldini olish uchun)
 let listSha = null;       // customList aynan shu versiyadan o'qilgan (saqlashda qayta yuklamaslik uchun)
 let editingId = null;
+let formPrefill = null;   // yangi kino formasi uchun tayyor ma'lumot (RuTube navbati)
 
 /* ---------- GitHub API ---------- */
 
@@ -528,6 +529,8 @@ function readForm(form, old = {}) {
   if (s('franchise')) m.franchise = s('franchise');
   if (f.get('audioUz') === 'on') m.audio = 'uz';
   if (s('sourceName')) m.source = { name: s('sourceName'), url: s('sourceUrl') };
+  // manba «rasmiy emas» belgisi (masalan RuTube'dagi tasdiqlanmagan kanal) — nomi o'zgarmasa saqlanadi
+  if (m.source && old.source && old.source.name === m.source.name && 'official' in old.source) m.source.official = old.source.official;
   // boshqa nomlari (teglar): vergul bilan — "Qasoskorlar: Intiho" dagi ikki nuqta nom ichida qoladi
   const tags = [...new Set(s('tags').split(',').map(x => x.trim()).filter(Boolean))];
   if (tags.length) m.tags = tags; else delete m.tags;
@@ -658,6 +661,8 @@ function bindForm(old) {
     btn.textContent = 'Saqlanmoqda...';
     try {
       const movie = readForm(form, old);
+      const rtq = movie._rtq;   // RuTube navbatidan kelgan bo'lsa — saqlangach «tasdiqlangan» deb belgilanadi
+      delete movie._rtq;
       if (form._tmdb) movie.tmdb = form._tmdb;
       // tezlik: TMDB rasmlari TMDB'ning o'z serveridan ko'rsatiladi (GitHub'ga yuklanmaydi — oldin har kinoga
       // 2 ta qo'shimcha yuklash va saqlash ketardi). Faqat telefondan tanlangan rasm yuklanadi; poster va muqova — parallel.
@@ -678,6 +683,7 @@ function bindForm(old) {
         if (i > -1) list[i] = movie; else list.unshift(movie);
         return list;
       }, `${old.id ? 'Kino tahrirlandi' : 'Kino qo‘shildi'}: ${movie.title.uz}`);
+      if (rtq) await rtqSet(rtq, { status: 'approved', movieId: movie.id }).catch(e => console.warn('rutube navbati', e));
 
       toast(`Saqlandi. Saytda 1–2 daqiqada ko‘rinadi.`);
       commitsCache = null;
@@ -768,7 +774,7 @@ function renderMain() {
   // Minimal menyu: 4 ta asosiy bo'lim + «Boshqa» (kam ishlatiladiganlari ochiladigan ro'yxatda)
   const PRIMARY = [['home', 'home', 'Bosh sahifa'], ['list', 'list', 'Kinolar'], ['form', 'plus', 'Qo‘shish'], ['site', 'gear', 'Sayt']];
   const MORE = [['channels', 'yt', 'Kanallar'], ['groups', 'group', 'Guruhlar'], ['dups', 'copy', 'Dublikatlar'], ['broken', 'bolt', 'Ishlamaydi'],
-    ['langvid', 'yt', 'Til videolari'], ['notify', 'bell', 'Xabar'], ['tg', 'tg', 'Telegram'], ['backup', 'shield', 'Zaxira'], ['logo', 'film', 'LogoVidio']];
+    ['rutube', 'yt', 'RuTube'], ['langvid', 'yt', 'Til videolari'], ['notify', 'bell', 'Xabar'], ['tg', 'tg', 'Telegram'], ['backup', 'shield', 'Zaxira'], ['logo', 'film', 'LogoVidio']];
   const isOn = v => view === v && (v !== 'form' || !editingId);
   const inMore = MORE.find(x => x[0] === view);
   $('#admin').innerHTML = `
@@ -823,6 +829,7 @@ function renderMain() {
   else if (view === 'broken') renderBrokenView();
   else if (view === 'logo') renderLogoView();
   else if (view === 'langvid') renderLangVidView();
+  else if (view === 'rutube') renderRutubeView();
   else renderFormView();
 }
 
@@ -1981,8 +1988,11 @@ async function tmdbImageFile(url) {
 
 function renderFormView() {
   const editing = editingId !== null ? currentMovie(editingId) : null;
-  $('#admView').innerHTML = formHTML(editing || {});
-  bindForm(editing || {});
+  // RuTube navbatidan «Tasdiqlash» — forma tayyor ma'lumot bilan ochiladi (bir marta; _rtq — navbatdagi video ID)
+  const pre = !editing && formPrefill ? formPrefill : null;
+  formPrefill = null;
+  $('#admView').innerHTML = formHTML(editing || pre || {});
+  bindForm(editing || pre || {});
 }
 
 async function runAction(btn, fn, okMsg) {
@@ -4515,4 +4525,318 @@ async function renderLangVidView() {
     }, 'Saqlandi — saytda 1–2 daqiqada chiqadi'));
   }
   if (lvKey && lvFind(lvKey)) openEditor(lvKey);
+}
+
+/* ---------- RuTube: qidiruv → avtomatik tekshiruv → navbat → admin tasdig'i ----------
+   Qidiruv va tekshiruv — RuTube'ning ochiq API'si, dezomax.uz/_rt/ orqali (cloudflare/site/worker.js; brauzer CORS tufayli to'g'ridan-to'g'ri ololmaydi).
+   Topilgan video DARHOL saytga chiqmaydi: data/rutube-queue.json navbatiga «kutilmoqda» bo'lib tushadi (sayt bu faylni o'qimaydi).
+   Tasdiqlash faqat texnik tekshiruvdan o'tganlarga (embed ruxsati, pullik emas, O'zbekistonda ochiq, o'chirilmagan) —
+   keyin odatdagi kino formasi ochiladi va «ko'rsatish huquqi» belgisi baribir majburiy. Soxta havola yasalmaydi: faqat API qaytargan ID. */
+const RTQ_PATH = 'data/rutube-queue.json';
+const RT_PROXY = 'https://dezomax.uz/_rt/';
+const RTQ_MIN_LEN = 40 * 60;   // «faqat to'liq filmlar» filtri: 40 daqiqadan uzun
+let rtqTab = 'pending', rtqQuery = '', rtqResults = null, rtqFilters = { official: true, films: true, long: true }, rtqBusy = false;
+
+async function rtApi(path) {
+  const r = await fetch(RT_PROXY + path, { cache: 'no-store' }).catch(() => null);
+  if (!r) throw new Error('RuTube’ga ulanib bo‘lmadi (internet yoki dezomax.uz/_rt/ proksi)');
+  const j = await r.json().catch(() => null);
+  if (!j) throw new Error(`RuTube javobi o‘qilmadi (${r.status})`);
+  return j;
+}
+
+async function loadRtQueue() {
+  const f = await getFile(RTQ_PATH);
+  if (!f) return { sha: null, items: [] };
+  try { return { sha: f.sha, items: JSON.parse(b64decode(f.content)).items || [] }; }
+  catch { throw new Error('rutube-queue.json o‘qilmadi — saqlash to‘xtatildi.'); }
+}
+
+async function saveRtQueue(mutate, message) {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const cur = await loadRtQueue();
+    const items = mutate(cur.items.slice());
+    const text = JSON.stringify({ updated: new Date().toISOString(), items }, null, 1) + '\n';
+    try { await putFile(RTQ_PATH, b64encode(text), message, cur.sha); return items; }
+    catch (e) { if (e.status !== 409 || attempt) throw e; }
+  }
+}
+const rtqSet = (id, patch) => saveRtQueue(items => items.map(x => x.id === id ? { ...x, ...patch, decidedAt: new Date().toISOString().slice(0, 10) } : x),
+  `RuTube navbati: ${id.slice(0, 8)} — ${patch.status || 'yangilandi'}`);
+
+/* Nomni tozalash: «Бриллиантовая рука (комедия, реж. Леонид Гайдай, 1968 г.)» → «Бриллиантовая рука» */
+function rtCleanTitle(t) {
+  return String(t || '')
+    .replace(/\s*[(\[][^()\[\]]*(?:реж|фильм|комеди|драм|мелодрам|боевик|триллер|ужас|фантаст|детектив|мульт|\d{4}\s*г|full\s*hd|hd|4k|серия|смотреть)[^()\[\]]*[)\]]\s*/gi, ' ')
+    .replace(/^(?:фильм|кино|название фильма)\s*[:«"]\s*/i, '')
+    .replace(/\s*[|/–—-]\s*(?:фильм|смотреть|full\s*hd|hd|онлайн|кино).*$/i, '')
+    .replace(/[«»"]/g, '').replace(/\s{2,}/g, ' ').trim();
+}
+const rtYearOf = (...texts) => { for (const t of texts) { const m = String(t || '').match(/\b(19[2-9]\d|20[0-4]\d)\b/); if (m) return +m[1]; } return null; };
+const rtTitleKey = s => norm(cyrLat(String(s || '').replace(/\(.*?\)/g, ''))).replace(/\s+/g, ' ').trim();
+const rtDur = sec => { sec = Math.round(sec || 0); const h = Math.floor(sec / 3600), m = Math.round((sec % 3600) / 60); return h ? `${h} soat ${m} daq.` : `${m} daq.`; };
+
+/* Avtomatik tekshiruv: bor-yo'qligi, boshqa saytda ko'rsatish (embed) ruxsati, pullik, 18+, O'zbekistonda ochiqmi, rasmiy kanal/litsenziya */
+async function rtCheck(id) {
+  const [v, o] = await Promise.all([rtApi(`video/${id}`), rtApi(`options/${id}`)]);
+  const allowed = v.restrictions?.country?.allowed || [], restricted = v.restrictions?.country?.restricted || [];
+  const c = {
+    at: new Date().toISOString().slice(0, 10),
+    exists: !!(v && v.id) && !v.detail,
+    deleted: !!v.is_deleted, hidden: !!v.is_hidden, paid: !!v.is_paid, adult: !!v.is_adult,
+    uz: !restricted.includes('UZ') && (!allowed.length || allowed.includes('UZ')),
+    embed: !!(o && !o.detail && o.has_video !== false && (!o.acl_access || o.acl_access.allowed !== false)),
+    official: !!v.is_official, licensed: !!(v.is_licensed || o.is_licensed),
+    reason: (o && o.detail && o.detail.name) || (o && o.acl_access && o.acl_access.err_text) || ''
+  };
+  c.ok = c.exists && !c.deleted && !c.hidden && !c.paid && !c.adult && c.uz && c.embed;
+  return { c, v };
+}
+function rtCheckBadges(c) {
+  if (!c) return '<span class="rtq-b">tekshirilmagan</span>';
+  const b = (ok, yes, no) => `<span class="rtq-b ${ok ? 'is-ok' : 'is-bad'}">${ok ? '✓' : '✗'} ${ok ? yes : no}</span>`;
+  return [
+    b(c.exists && !c.deleted && !c.hidden, 'video bor', 'video yo‘q / yopiq'),
+    b(c.embed, 'saytga joylash mumkin', `joylash taqiqlangan${c.reason ? ` (${esc(c.reason)})` : ''}`),
+    b(!c.paid, 'bepul', 'pullik'),
+    b(c.uz, 'O‘zbekistonda ochiq', 'O‘zbekistonda yopiq'),
+    c.adult ? b(false, '', '18+ (kattalar uchun)') : '',
+    `<span class="rtq-b ${c.official ? 'is-ok' : 'is-warn'}">${c.official ? '✓ rasmiy kanal' : '! kanal rasmiy emas'}</span>`,
+    c.licensed ? '<span class="rtq-b is-ok">✓ litsenziyali</span>' : ''
+  ].join('');
+}
+
+/* Dublikatlar: shu RuTube ID saytda/navbatda bormi; shu nom (va yil ±1) bilan film bormi */
+function rtDupes(id, title, year, queue = []) {
+  const same = [], similar = [];
+  for (const m of allMovies()) {
+    const urls = [m.video, m.trailer, ...Object.values(m.langs || {})];
+    if (urls.some(u => rtParse(String(u || ''))?.rt === id)) same.push(m.title?.uz || m.id);
+  }
+  for (const [k, langs] of Object.entries(window.LANG_VIDEOS || {})) {
+    for (const v of Object.values(langs || {})) if (v && v.rt === id) same.push(`til videosi (${k})`);
+  }
+  const inQueue = queue.find(x => x.id === id);
+  const key = rtTitleKey(title);
+  if (key.length > 2) {
+    for (const m of allMovies()) {
+      if (m.type === 'tahlil') continue;
+      if (![m.title?.uz, m.title?.ru, ...(m.tags || [])].some(t => rtTitleKey(t) === key)) continue;
+      if (year && m.year && Math.abs(m.year - year) > 1) continue;
+      similar.push(m);
+    }
+  }
+  return { same, similar: similar.slice(0, 5), inQueue };
+}
+
+function rtqItemFrom(v, c) {
+  const title = rtCleanTitle(v.title);
+  const year = rtYearOf(v.title, v.description);
+  const desc = String(v.description || '').split(/\r?\n\s*\r?\n/)[0].slice(0, 700).trim();
+  return {
+    id: v.id, status: 'pending', addedAt: new Date().toISOString().slice(0, 10),
+    title, rawTitle: v.title, year, desc, lang: 'ru',
+    genres: typeof detectGenres === 'function' ? detectGenres({ title: { uz: title, ru: title }, desc: { uz: '', ru: desc }, genres: [] }) : [],
+    poster: v.thumbnail_url || '', duration: Math.round((v.duration > 100000 ? v.duration / 1000 : v.duration) || 0),
+    author: { name: v.author?.name || '', url: v.author?.site_url || (v.author?.id ? `https://rutube.ru/channel/${v.author.id}/` : '') },
+    category: v.category?.name || '', video: rtWatchUrl({ rt: v.id }), check: c
+  };
+}
+
+async function renderRutubeView() {
+  const box = $('#admView');
+  box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  let q;
+  try { q = await loadRtQueue(); }
+  catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
+  if (view !== 'rutube') return;
+  const queue = q.items;
+  const counts = s => queue.filter(x => x.status === s).length;
+  box.innerHTML = `
+    <section class="adm-sec rtq">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>RuTube’dan film qo‘shish</h3><small>qidiruv · tekshiruv · tasdiq</small></div>
+      <p class="acc-muted adm-note">${NAV_ICONS.info || ''}<span>Har qanday studiya, janr va davlat filmini nomi bo‘yicha qidiring. Topilgan video saytga darhol chiqmaydi:
+        avtomatik tekshiriladi va «Kutilmoqda» ro‘yxatiga tushadi. Siz huquqini tekshirib tasdiqlamaguningizcha hech kim ko‘rmaydi.
+        <b>RuTube’da borligi — ko‘rsatishga ruxsat bor degani emas.</b> Rasmiy kanallar (masalan, «Мосфильм») eng ishonchli manba.</span></p>
+      <form class="rtq-search" id="rtqForm">
+        <input class="acc-input adm-search" id="rtqQ" type="search" placeholder="Film nomi (ruscha yaxshiroq topiladi): Бриллиантовая рука" value="${esc(rtqQuery)}">
+        <button class="btn btn-primary" type="submit">Qidirish</button>
+      </form>
+      <div class="rtq-filters">
+        <label><input type="checkbox" data-f="official"${rtqFilters.official ? ' checked' : ''}> Faqat rasmiy kanallar</label>
+        <label><input type="checkbox" data-f="films"${rtqFilters.films ? ' checked' : ''}> «Фильмы» bo‘limi</label>
+        <label><input type="checkbox" data-f="long"${rtqFilters.long ? ' checked' : ''}> 40 daqiqadan uzun</label>
+      </div>
+      <div id="rtqResults"></div>
+
+      <div class="rtq-tabs" role="tablist">
+        ${[['pending', 'Kutilmoqda'], ['approved', 'Tasdiqlangan'], ['rejected', 'Rad etilgan']].map(([k, l]) =>
+          `<button type="button" class="chip${rtqTab === k ? ' is-active' : ''}" data-tab="${k}">${l} (${counts(k)})</button>`).join('')}
+        ${rtqTab === 'pending' && counts('pending') ? '<button type="button" class="btn btn-ghost btn-sm" id="rtqRecheck">Hammasini qayta tekshirish</button>' : ''}
+      </div>
+      <div class="rtq-list" id="rtqList">${rtqListHTML(queue)}</div>
+    </section>`;
+
+  const drawResults = () => { $('#rtqResults').innerHTML = rtqResultsHTML(queue); };
+  drawResults();
+  $('#rtqForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    rtqQuery = $('#rtqQ').value.trim();
+    if (rtqQuery.length < 2) return;
+    $('#rtqResults').innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+    try {
+      const pages = await Promise.all([1, 2].map(p => rtApi(`search?query=${encodeURIComponent(rtqQuery)}&page=${p}`).catch(() => ({ results: [] }))));
+      const seen = new Set();
+      rtqResults = pages.flatMap(j => j.results || []).filter(v => v && /^[0-9a-f]{32}$/.test(v.id) && !seen.has(v.id) && seen.add(v.id));
+    } catch (ex) { rtqResults = null; $('#rtqResults').innerHTML = `<p class="acc-error">${esc(friendlyError(ex))}</p>`; return; }
+    drawResults();
+  });
+  box.querySelectorAll('.rtq-filters input').forEach(i => i.addEventListener('change', () => { rtqFilters[i.dataset.f] = i.checked; drawResults(); }));
+  box.querySelectorAll('.rtq-tabs [data-tab]').forEach(b => b.addEventListener('click', () => { rtqTab = b.dataset.tab; renderRutubeView(); }));
+
+  // natija → tekshirib navbatga
+  $('#rtqResults').addEventListener('click', async e => {
+    const b = e.target.closest('[data-rtq-add]');
+    if (!b || rtqBusy) return;
+    const v = (rtqResults || []).find(x => x.id === b.dataset.rtqAdd);
+    if (!v) return;
+    rtqBusy = true; b.disabled = true; b.textContent = 'Tekshirilmoqda…';
+    try {
+      const { c, v: full } = await rtCheck(v.id);
+      if (!c.exists) throw new Error('Video RuTube’da topilmadi yoki o‘chirilgan — qo‘shilmadi');
+      const item = rtqItemFrom({ ...v, ...full, author: v.author || full.author }, c);
+      await saveRtQueue(items => items.some(x => x.id === item.id) ? items : [item, ...items], `RuTube navbatiga: ${item.title}`);
+      toast(c.ok ? 'Navbatga qo‘shildi — tasdiqlashingizni kutadi' : 'Navbatga qo‘shildi, lekin tekshiruvdan o‘tmadi — tasdiqlab bo‘lmaydi', !c.ok);
+      rtqTab = 'pending';
+      renderRutubeView();
+    } catch (ex) { toast(friendlyError(ex), true); b.disabled = false; b.textContent = 'Tekshirib navbatga qo‘shish'; }
+    rtqBusy = false;
+  });
+
+  // navbat amallari
+  $('#rtqList').addEventListener('click', async e => {
+    const b = e.target.closest('[data-act]');
+    if (!b || rtqBusy) return;
+    const it = queue.find(x => x.id === b.closest('[data-id]').dataset.id);
+    if (!it) return;
+    const act = b.dataset.act;
+    rtqBusy = true; b.disabled = true;
+    try {
+      if (act === 'recheck') {
+        const { c } = await rtCheck(it.id);
+        await saveRtQueue(items => items.map(x => x.id === it.id ? { ...x, check: c } : x), `RuTube navbati: ${it.title} — qayta tekshirildi`);
+        toast(c.ok ? 'Tekshiruvdan o‘tdi' : 'Tekshiruvdan o‘tmadi', !c.ok);
+      } else if (act === 'reject') {
+        await rtqSet(it.id, { status: 'rejected' });
+        toast('Rad etildi — saytga chiqmaydi');
+      } else if (act === 'restore') {
+        await rtqSet(it.id, { status: 'pending' });
+      } else if (act === 'approve' || act === 'attach') {
+        // tasdiqlashdan oldin yana bir bor jonli tekshiruv (video o'chirilgan/yopilgan bo'lishi mumkin)
+        const { c } = await rtCheck(it.id);
+        if (!c.ok) {
+          await saveRtQueue(items => items.map(x => x.id === it.id ? { ...x, check: c } : x), `RuTube navbati: ${it.title} — tekshiruvdan o‘tmadi`);
+          throw new Error('Video hozir tekshiruvdan o‘tmadi (o‘chirilgan, yopiq yoki joylash taqiqlangan) — tasdiqlab bo‘lmaydi');
+        }
+        if (!c.official && !c.licensed && !confirm('Bu kanal RuTube’da rasmiy deb belgilanmagan.\n\nFilmni ko‘rsatish huquqi (egasining ruxsati yoki litsenziya) borligini o‘zingiz tekshirdingizmi?')) { rtqBusy = false; b.disabled = false; return; }
+        const d = rtDupes(it.id, it.title, it.year);
+        if (d.same.length) throw new Error(`Bu video saytda allaqachon bor: ${d.same.join(', ')}`);
+        if (act === 'attach') {
+          const m = currentMovie(Number(b.dataset.movie));
+          if (!m) throw new Error('Film topilmadi');
+          if (!confirm(`«${m.title?.uz}» filmiga ruscha video sifatida biriktiriladi (yangi kino yaratilmaydi).\n\nKo‘rsatish huquqi borligini tasdiqlaysizmi?`)) { rtqBusy = false; b.disabled = false; return; }
+          await saveLangVideos(dd => { dd[`movie:${m.id}`] = { ...(dd[`movie:${m.id}`] || {}), [it.lang || 'ru']: { rt: it.id, ok: true, at: c.at } }; return dd; },
+            `Til videolari: ${m.title?.uz} — ${it.lang || 'ru'} (RuTube navbatidan)`);
+          await rtqSet(it.id, { status: 'approved', movieId: m.id, check: c, attached: true });
+          toast('Biriktirildi — saytda 1–2 daqiqada chiqadi');
+        } else {
+          // odatdagi kino formasi: ma'lumot tayyor, «ko'rsatish huquqi» belgisi baribir majburiy
+          formPrefill = {
+            _rtq: it.id, type: 'film', title: { uz: it.title, ru: it.title }, year: it.year || undefined,
+            duration: it.duration ? Math.round(it.duration / 60) : undefined, genres: it.genres || [],
+            desc: { uz: '', ru: it.desc || '' }, poster: it.poster, cover: it.poster, lang: it.lang || 'ru',
+            video: it.video, country: { uz: '', ru: '' },
+            source: { name: it.author?.name || 'RuTube', url: it.author?.url || it.video, official: !!(c.official || c.licensed) }
+          };
+          editingId = null;
+          rtqBusy = false;
+          view = 'form';
+          renderMain();
+          window.scrollTo({ top: 0 });
+          toast('Ma’lumotlarni tekshiring (TMDB tugmasi bilan poster va tavsifni to‘ldirish mumkin), keyin «Saqlash»');
+          return;
+        }
+      }
+      renderRutubeView();
+    } catch (ex) { toast(friendlyError(ex), true); b.disabled = false; }
+    rtqBusy = false;
+  });
+  $('#rtqRecheck')?.addEventListener('click', async e => {
+    const btn = e.currentTarget;
+    const pend = queue.filter(x => x.status === 'pending');
+    btn.disabled = true;
+    const res = {};
+    for (let i = 0; i < pend.length; i++) {
+      btn.textContent = `Tekshirilmoqda ${i + 1}/${pend.length}…`;
+      try { res[pend[i].id] = (await rtCheck(pend[i].id)).c; } catch {}
+    }
+    try {
+      await saveRtQueue(items => items.map(x => res[x.id] ? { ...x, check: res[x.id] } : x), `RuTube navbati: ${Object.keys(res).length} ta qayta tekshirildi`);
+      toast('Qayta tekshirildi');
+    } catch (ex) { toast(friendlyError(ex), true); }
+    renderRutubeView();
+  });
+}
+
+function rtqResultsHTML(queue) {
+  if (!rtqResults) return '';
+  const f = rtqFilters;
+  const list = rtqResults.filter(v => (!f.official || v.is_official) && (!f.films || /фильм/i.test(v.category?.name || '')) &&
+    (!f.long || (v.duration || 0) >= RTQ_MIN_LEN) && !v.is_paid && !v.is_adult && !v.is_hidden && !v.is_deleted);
+  const hiddenN = rtqResults.length - list.length;
+  if (!list.length) return `<p class="acc-muted">Mos video topilmadi${hiddenN ? ` (${hiddenN} tasi filtrlar bilan yashirildi — filtrlarni o‘chirib ko‘ring)` : ''}.</p>`;
+  return `<p class="acc-muted rtq-count">${list.length} ta natija${hiddenN ? ` · ${hiddenN} tasi filtrlar bilan yashirildi` : ''}</p>
+    <div class="rtq-grid">${list.slice(0, 40).map(v => {
+      const title = rtCleanTitle(v.title), year = rtYearOf(v.title, v.description);
+      const d = rtDupes(v.id, title, year, queue);
+      const state = d.same.length ? `<span class="rtq-b is-ok">Saytda bor</span>`
+        : d.inQueue ? `<span class="rtq-b">Navbatda: ${d.inQueue.status === 'approved' ? 'tasdiqlangan' : d.inQueue.status === 'rejected' ? 'rad etilgan' : 'kutilmoqda'}</span>` : '';
+      return `
+      <div class="rtq-card">
+        <a class="rtq-thumb" href="https://rutube.ru/video/${v.id}/" target="_blank" rel="noopener"><img src="${esc(v.thumbnail_url || '')}" alt="" loading="lazy"><span>${rtDur(v.duration)}</span></a>
+        <b title="${esc(v.title)}">${esc(v.title)}</b>
+        <small>${esc(v.author?.name || '')} ${v.is_official ? '<span class="rtq-b is-ok">✓ rasmiy</span>' : ''} · ${esc(v.category?.name || '')}</small>
+        ${d.similar.length ? `<small class="rtq-dup">⚠ O‘xshash film saytda bor: ${d.similar.map(m => esc(m.title?.uz || m.id)).join(', ')}</small>` : ''}
+        ${state || `<button class="btn btn-ghost btn-sm" type="button" data-rtq-add="${v.id}">Tekshirib navbatga qo‘shish</button>`}
+      </div>`;
+    }).join('')}</div>`;
+}
+
+function rtqListHTML(queue) {
+  const list = queue.filter(x => x.status === rtqTab);
+  if (!list.length) return `<p class="acc-muted">${rtqTab === 'pending' ? 'Tasdiq kutayotgan video yo‘q. Yuqorida qidirib qo‘shing.' : 'Bo‘sh.'}</p>`;
+  return list.map(it => {
+    const d = rtqTab === 'pending' ? rtDupes(it.id, it.title, it.year) : { same: [], similar: [] };
+    const c = it.check || null;
+    return `
+    <div class="rtq-item" data-id="${esc(it.id)}">
+      <a class="rtq-thumb" href="${esc(it.video)}" target="_blank" rel="noopener"><img src="${esc(it.poster || '')}" alt="" loading="lazy"><span>${rtDur(it.duration)}</span></a>
+      <div class="rtq-body">
+        <b>${esc(it.title)}${it.year ? ` (${it.year})` : ''}</b>
+        <small>${esc(it.author?.name || '')} · ${esc(it.category || '')} · til: ${esc((it.lang || 'ru').toUpperCase())}${it.genres?.length ? ` · ${esc(it.genres.join(', '))}` : ''}</small>
+        <div class="rtq-badges">${rtCheckBadges(c)}${c?.at ? `<small class="acc-muted"> · tekshirildi: ${esc(c.at)}</small>` : ''}</div>
+        ${d.same.length ? `<small class="rtq-dup">⛔ Bu video saytda bor: ${esc(d.same.join(', '))}</small>` : ''}
+        ${d.similar.length ? `<small class="rtq-dup">⚠ Saytda shu nomli film bor — yangisini qo‘shmasdan, unga ruscha video sifatida biriktirish mumkin:</small>
+          <div class="rtq-attach">${d.similar.map(m => `<button class="btn btn-ghost btn-sm" type="button" data-act="attach" data-movie="${m.id}"${c?.ok ? '' : ' disabled'}>«${esc(m.title?.uz || m.id)}»${m.year ? ` (${m.year})` : ''} ga biriktirish</button>`).join('')}</div>` : ''}
+        ${it.status === 'approved' && it.movieId ? `<small><a href="${SITE_URL}movie.html?id=${it.movieId}" target="_blank" rel="noopener">Saytda ochish ↗</a>${it.attached ? ' (til videosi)' : ''}</small>` : ''}
+      </div>
+      <div class="rtq-actions">
+        ${it.status === 'pending' ? `
+          <button class="btn btn-primary btn-sm" type="button" data-act="approve"${c?.ok && !d.same.length ? '' : ' disabled title="Tekshiruvdan o‘tmagan"'}>Tasdiqlash →</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-act="recheck">Qayta tekshirish</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-act="reject">Rad etish</button>`
+        : it.status === 'rejected' ? '<button class="btn btn-ghost btn-sm" type="button" data-act="restore">Navbatga qaytarish</button>' : ''}
+      </div>
+    </div>`;
+  }).join('');
 }

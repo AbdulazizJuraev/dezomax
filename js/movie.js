@@ -245,6 +245,14 @@ function mountPlayer(url) {
     return;
   }
 
+  // RuTube — rasmiy embed pleyer (js/rutube.js); havola tekshiriladi, faqat video ID ishlatiladi
+  const rtv = typeof rtParse === 'function' ? rtParse(url) : null;
+  if (rtv) {
+    if (link) { link.href = rtWatchUrl(rtv); link.hidden = false; }
+    rtPlay(box, rtv, movie ? title(movie) : '');
+    return;
+  }
+
   // YouTube — o'z pleyerimiz (js/ytplayer.js): o'z posterimiz, tugmalarimiz
   if (typeof mountYouTube === 'function' && youTubeId(url)) {
     // tik poster keng ekranga sig'maydi — faqat keng muqovali (o'zbek filmlari) rasmini beramiz

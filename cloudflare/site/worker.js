@@ -45,6 +45,31 @@ export default {
       });
     }
 
+    // /_rt/… → RuTube'ning ochiq API'si (admin → «RuTube» qidiruvi; brauzer to'g'ridan-to'g'ri ololmaydi — CORS).
+    // Faqat 3 ta manzil: qidiruv, video ma'lumoti, pleyer ruxsati (embed mumkinmi). Boshqa hech narsa o'tkazilmaydi.
+    if (url.pathname.startsWith('/_rt/')) {
+      const p = url.pathname.slice(5);
+      let target = null, m;
+      if (p === 'search') {
+        const q = (url.searchParams.get('query') || '').slice(0, 120).trim();
+        const page = Math.min(20, Math.max(1, parseInt(url.searchParams.get('page') || '1', 10) || 1));
+        if (q) target = `https://rutube.ru/api/search/video/?query=${encodeURIComponent(q)}&page=${page}`;
+      } else if ((m = p.match(/^video\/([0-9a-f]{32})$/))) {
+        target = `https://rutube.ru/api/video/${m[1]}/`;
+      } else if ((m = p.match(/^options\/([0-9a-f]{32})$/))) {
+        target = `https://rutube.ru/api/play/options/${m[1]}/?no_404=true&referer=${encodeURIComponent('https://dezomax.uz/')}`;
+      }
+      const head = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300', 'access-control-allow-origin': '*' };
+      if (!target) return new Response('{"error":"bad request"}', { status: 400, headers: head });
+      let r;
+      try {
+        r = await fetch(target, { headers: { 'user-agent': 'Mozilla/5.0 (DezoMax admin)', referer: 'https://dezomax.uz/' }, cf: { cacheEverything: true, cacheTtl: 300 } });
+      } catch (e) { r = null; }
+      if (!r) return new Response('{"error":"rutube unreachable"}', { status: 502, headers: head });
+      // RuTube yo'q/yopiq videoga 244/404 bilan «detail» qaytaradi — holatini o'zgartirmay uzatamiz
+      return new Response(r.body, { status: r.status === 244 ? 200 : r.status, headers: head });
+    }
+
     if (url.pathname.endsWith('/')) {
       url.pathname += 'index.html';
       return env.ASSETS.fetch(new Request(url.toString(), request));
