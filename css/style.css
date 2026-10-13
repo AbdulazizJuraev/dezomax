@@ -7707,3 +7707,6 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
   .vp-rec { flex-basis: 150px; }
   .vp-rec-t { font-size: 12px; }
 }
+/* Tavsiyalar: kompyuterda ekranda 6 ta karta, telefonda 2 ta (qolganlari yon tomonga suriladi) */
+.vp-rec { flex: 0 0 calc((100% - 5 * 10px) / 6); }
+@media (max-width: 900px) { .vp-rec { flex-basis: calc((100% - 10px) / 2); } }
