@@ -18,6 +18,8 @@ const featured = adminHeroIds && adminHeroIds.length
 const HERO_VIDEO = false;
 // kompyuter (keng ekran) — slayderda gorizontal rasmlar; telefon — rasmiy tik posterlar
 let HERO_DESKTOP = matchMedia('(min-width: 641px)').matches;
+// TMDB keng rasm o'lchami — ekranga yetarlisi (asl o'lcham 3840 px: har slaydda ochish og'ir, karusel qotardi)
+const HERO_TM_SIZE = innerWidth * (devicePixelRatio || 1) > 1800 ? 'original' : 'w1280';
 // bolalar rejimida — alohida «Bolalar slayderi» (multfilmlar), aks holda oddiy slayder
 featured.splice(0, featured.length, ...(kidsMode() ? kidsHero(SITE_CFG.hero && SITE_CFG.hero.kidsIds) : heroCompose(featured)));   // js/common.js — faqat admin tanlagan to'liq filmlar
 let heroIndex = 0;
@@ -46,7 +48,7 @@ function renderHero() {
     const uzArt = m.poster && m.poster.startsWith('images/uz/') ? m.poster : null;
     const ytId = null;
     // 16:9 rasm — TMDB bo'lsa asl o'lchamda (katta ekranda w1280 ham cho'ziladi)
-    const wideSrc = ok(m.hposter) ? String(m.hposter).replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, '$1original/') : uzArt ? imgBig(uzArt) : ok(m.cover) && /^images\//.test(m.cover) ? imgBig(m.cover) : null;
+    const wideSrc = ok(m.hposter) ? String(m.hposter).replace(/(image\.tmdb\.org\/t\/p\/)w\d+\//, `$1${HERO_TM_SIZE}/`) : uzArt ? imgBig(uzArt) : ok(m.cover) && /^images\//.test(m.cover) ? imgBig(m.cover) : null;
     const tmdbV = tmdbOrig(m.vposter) || tmdbOrig(m.poster);
     // kompyuterda keng rasm (admin gorizontal posteri, keng muqova) — butun slaydga; tik poster — o'ngda TO'LIQ (kesilmaydi)
     const deskWide = HERO_DESKTOP && wideSrc ? wideSrc : null;
@@ -139,7 +141,8 @@ function heroLoadBg(i) {
   const set = url => { bg.style.backgroundImage = `url('${url}'), ${base}`; if (pimg) pimg.src = url; };
   const src = bg.dataset.bg;
   const yt = (src.match(/i\.ytimg\.com\/vi(?:_webp)?\/([\w-]{11})\//) || [])[1];
-  if (!yt) { set(src); return; }
+  // katta rasm oldindan ochiladi (decode) — slayd almashganda brauzer qotmaydi
+  if (!yt) { const im = new Image(); im.src = src; (im.decode ? im.decode() : Promise.resolve()).catch(() => {}).then(() => set(src)); return; }
   // WebP yengilroq; ba'zi videolarda WebP nusxa yo'q — JPG zaxirada
   const tries = ['vi_webp/%/maxresdefault.webp', 'vi/%/maxresdefault.jpg', 'vi_webp/%/sddefault.webp', 'vi/%/sddefault.jpg', 'vi/%/hqdefault.jpg'];
   const test = k => {

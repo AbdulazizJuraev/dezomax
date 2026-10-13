@@ -733,10 +733,14 @@ function allMovies() {
 }
 
 /* Qidiruv matni har kino uchun bir marta tayyorlanadi */
+/* Kirill → lotin (qidiruv uchun): «Ну, погоди» → «nu, pogodi» */
+const CYR_LAT = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'yo', ж: 'j', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'x', ц: 's', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '', ы: 'i', ь: '', э: 'e', ю: 'yu', я: 'ya', ў: 'o', қ: 'q', ғ: 'g', ҳ: 'h' };
+const cyrLat = s => String(s || '').toLowerCase().replace(/[а-яёўқғҳ]/g, c => CYR_LAT[c] ?? c);
 const ADM_HAY = new WeakMap();
 const hayOf = m => {
   let h = ADM_HAY.get(m);
-  if (h === undefined) { h = norm(`${m.title?.uz} ${m.title?.ru} ${m.year || ''} ${m.id}`); ADM_HAY.set(m, h); }
+  // kirillcha nomlar lotinchada ham topilsin («Ну, погоди!» → «nu pogodi»), slug ham qidiriladi
+  if (h === undefined) { const t = `${m.title?.uz} ${m.title?.ru}`; h = norm(`${t} ${cyrLat(t)} ${String(m.slug || '').replace(/-/g, ' ')} ${(m.tags || []).join(' ')} ${m.year || ''} ${m.id}`); ADM_HAY.set(m, h); }
   return h;
 };
 
