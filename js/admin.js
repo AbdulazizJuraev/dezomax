@@ -2131,6 +2131,18 @@ const movieById = id => (allMovies(), allById.get(id));
 /* 16:9 (keng) rasmi bormi — kompyuter karuselida faqat shular chiqadi (js/app.js heroArtOk bilan bir xil) */
 const heroWideOk = u => !!u && !/dezocloud\.uz|images\/custom\/|i\.ytimg\.com/.test(String(u));
 const hasWide = m => !!m && (heroWideOk(m.hposter) || (heroWideOk(m.cover) && /^images\//.test(m.cover)));
+/* Karuselda chiqmaslik sababi (js/app.js qoidalari bilan bir xil): o'zbek filmi, saytda videosi yo'q (faqat treyler / kutubxona),
+   yashirilgan. null — chiqadi (kompyuterda yana 16:9 rasm kerak) */
+function heroSkipReason(m) {
+  if (!m) return 'saytda yo‘q';
+  if (hiddenList.includes(m.id)) return 'yashirilgan';
+  const vids = [m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(x => x && String(x).trim());
+  if (!vids.length) return m.trailer ? 'videosi yo‘q, faqat treyler (bosh sahifada treyler chiqmaydi)' : 'videosi yo‘q';
+  const uz = m.franchise === 'uzbek' || m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial' || /^(rn|uzbekk)-/.test(m.slug || '')
+    || /o.?zbekiston|узбекистан/i.test(`${m.country?.uz || ''} ${m.country?.ru || ''}`) || String(m.poster || '').startsWith('images/uz/');
+  if (uz) return 'o‘zbek filmi (karuselda o‘zbek filmlari chiqmaydi)';
+  return null;
+}
 
 function pickerHTML(key, ids, max) {
   return `
@@ -2143,7 +2155,7 @@ function pickerHTML(key, ids, max) {
             <div class="adm-pick">
               <span class="adm-pick-n">${i + 1}</span>
               <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
-              <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}${key === 'hero' ? (hasWide(m) ? ' · <i class="adm-wide-yes">16:9 ✓</i>' : ' · <i class="adm-wide-no">16:9 yo‘q — kompyuterda chiqmaydi</i>') : ''}</small></span>
+              <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}${key === 'hero' ? (heroSkipReason(m) ? ` · <i class="adm-wide-no">chiqmaydi: ${esc(heroSkipReason(m))}</i>` : hasWide(m) ? ' · <i class="adm-wide-yes">16:9 ✓ karuselda chiqadi</i>' : ' · <i class="adm-wide-no">16:9 yo‘q — kompyuterda chiqmaydi</i>') : ''}</small></span>
               <span class="adm-pick-btns">
                 <button type="button" data-move="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
                 <button type="button" data-move="1" data-i="${i}" ${i === ids.length - 1 ? 'disabled' : ''} aria-label="Pastga">↓</button>
@@ -2185,7 +2197,7 @@ function bindPicker(root, getIds, setIds, rerender) {
     if (!q && !wide) { results.hidden = true; return; }
     const picked = new Set(getIds()), found = [], limit = wide ? 60 : 8;
     for (const m of allMovies()) {
-      if (!picked.has(m.id) && (!q || hayOf(m).includes(q)) && (!wide || hasWide(m))) { found.push(m); if (found.length === limit) break; }
+      if (!picked.has(m.id) && (!q || hayOf(m).includes(q)) && (!wide || (hasWide(m) && !heroSkipReason(m)))) { found.push(m); if (found.length === limit) break; }
     }
     results.hidden = false;
     results.innerHTML = (wide ? `<p class="acc-muted adm-wide-count">16:9 posteri bor kinolar: ${found.length}${found.length === limit ? '+' : ''} ta</p>` : '') + (found.length ? found.map(m => `
