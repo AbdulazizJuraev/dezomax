@@ -7737,3 +7737,6 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
 @keyframes dzReveal { to { transform: scaleX(0); } }
 .intro-v3 .dz-wipe { width: 150vmax; height: 150vmax; margin: -75vmax 0 0 -75vmax; background: #e31b23; }
 @media (prefers-reduced-motion: reduce) { .intro-v3 .dz-reveal { display: none; } }
+/* Tavsiyalar: karta nomi uzun bo'lsa ham hamma karta bir xil o'lchamda (min-width: auto tufayli uzun nom kartani kengaytirardi) */
+.vp-rec { min-width: 0; overflow: hidden; }
+.vp-rec-t { max-width: 100%; }
