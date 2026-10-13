@@ -2084,7 +2084,7 @@ const ROW_SOURCE_NAMES = {
   popular: 'Mashhur kinolar — TOP 10 (eng ko‘p ko‘rilgan)', series: 'Seriallar (avtomatik)', cartoons: 'Multfilmlar (avtomatik)', custom: 'Qo‘lda tanlangan kinolar'
 };
 const ROW_DEFAULT_TITLES = {
-  uzbek: 'row.uzbek', konsert: 'row.konsert', trending: 'row.trending', new: 'row.new', dorama: 'row.dorama', anime: 'row.anime', hind: 'row.hind', marvel: 'row.marvel', dc: 'row.dc',
+  uzbek: 'row.uzbek', klassika: 'row.klassika', konsert: 'row.konsert', trending: 'row.trending', new: 'row.new', dorama: 'row.dorama', anime: 'row.anime', hind: 'row.hind', marvel: 'row.marvel', dc: 'row.dc',
   top: 'row.top', popular: 'row.popular', series: 'row.series', cartoons: 'row.cartoons'
 };
 
@@ -4659,11 +4659,26 @@ async function renderRutubeView() {
   let q;
   try { q = await loadRtQueue(); }
   catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
+  // avtomatik import hisoboti (tools/rutube-import.js — har kuni GitHub Actions'da)
+  const rep = await getFile('data/rutube-report.json').then(f => f ? JSON.parse(b64decode(f.content)) : null).catch(() => null);
   if (view !== 'rutube') return;
   const queue = q.items;
   const counts = s => queue.filter(x => x.status === s).length;
+  const T = rep && rep.totals;
   box.innerHTML = `
     <section class="adm-sec rtq">
+      ${T ? `
+      <div class="rtq-report">
+        <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.clock}</span><h3>Avtomatik import</h3><small>har kuni · oxirgisi: ${esc(fmtDateTime(rep.at))}</small></div>
+        <div class="rtq-stats">
+          <span><b>${T.found}</b> topildi</span><span><b>${T.checked}</b> tekshirildi</span><span><b>${T.working}</b> ishlaydi</span>
+          <span><b>${T.published}</b> saytga qo‘shildi</span><span><b>${T.attached}</b> mavjud filmga biriktirildi</span>
+          <span><b>${T.queued}</b> navbatga (huquqi noma’lum)</span><span><b>${T.removedBroken}</b> ishlamaydigan olindi</span>
+          <span><b>${rep.catalog?.total ?? 0}</b> saytdagi jami (film ${rep.catalog?.film ?? 0}, multfilm ${rep.catalog?.multfilm ?? 0}, serial ${rep.catalog?.serial ?? 0})</span>
+        </div>
+        <details><summary>Manbalar bo‘yicha</summary><ul class="rtq-srcs">${(rep.sources || []).map(s => `<li><b>${esc(s.name)}</b> ${s.rights === 'owner' ? '<span class="rtq-b is-ok">avto</span>' : '<span class="rtq-b is-warn">navbat</span>'} — ${s.listed} video, +${s.published} sayt, +${s.attached} biriktirildi, +${s.queued} navbat</li>`).join('')}</ul>
+          ${(rep.notes || []).map(n => `<p class="acc-muted">${esc(n)}</p>`).join('')}</details>
+      </div>` : ''}
       <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>RuTube’dan film qo‘shish</h3><small>qidiruv · tekshiruv · tasdiq</small></div>
       <p class="acc-muted adm-note">${NAV_ICONS.info || ''}<span>Har qanday studiya, janr va davlat filmini nomi bo‘yicha qidiring. Topilgan video saytga darhol chiqmaydi:
         avtomatik tekshiriladi va «Kutilmoqda» ro‘yxatiga tushadi. Siz huquqini tekshirib tasdiqlamaguningizcha hech kim ko‘rmaydi.

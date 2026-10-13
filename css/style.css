@@ -7897,3 +7897,8 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
   .rtq-item { grid-template-columns: 1fr; }
   .rtq-actions { flex-direction: row; flex-wrap: wrap; }
 }
+.rtq-report { margin-bottom: 22px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); }
+.rtq-stats { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.rtq-stats span { padding: 6px 10px; border-radius: 10px; background: rgba(255, 255, 255, .05); font-size: 13px; color: var(--text-dim); }
+.rtq-stats b { color: var(--text); font-size: 15px; margin-right: 3px; }
+.rtq-srcs { margin: 8px 0; padding-left: 18px; font-size: 13px; line-height: 1.8; }

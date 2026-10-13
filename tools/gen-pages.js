@@ -23,14 +23,14 @@ const DIR = path.join(root, 'kino');
 
 const ctx = { console, window: {}, document: { write() {} }, location: { pathname: '/' } };
 vm.createContext(ctx);
-for (const f of ['js/data.js', 'js/data-channels.js', 'js/data-custom.js']) {
+for (const f of ['js/data.js', 'js/data-channels.js', 'js/data-rutube.js', 'js/data-custom.js']) {
   const src = fs.readFileSync(path.join(root, f), 'utf8').replace(/^(const|let) /gm, 'var ');
   try { vm.runInContext(src, ctx, { filename: f }); } catch (e) { console.warn(`${f}: ${e.message}`); }
 }
 const MOVIES = ctx.MOVIES || [];
 const GENRES = ctx.GENRES || [];
 
-const OFFICIAL = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|upload\.wikimedia\.org)\//i;
+const OFFICIAL = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|upload\.wikimedia\.org|rutube\.ru)\//i;
 const inGroup = new Set();
 for (const m of MOVIES) if (Array.isArray(m.parts) && m.parts.length > 1) for (const id of m.parts) if (id !== m.id) inGroup.add(id);
 

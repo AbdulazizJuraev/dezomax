@@ -31,7 +31,7 @@ try {
   const ctx = { window: {}, document: { body: null }, localStorage: { getItem: () => null, setItem() {} }, location: { pathname: '/index.html', search: '' }, console };
   ctx.window = ctx;
   vm.createContext(ctx);
-  for (const f of ['data.js', 'data-channels.js', 'data-custom.js', 'site-config.js']) {
+  for (const f of ['data.js', 'data-channels.js', 'data-rutube.js', 'data-custom.js', 'site-config.js']) {
     try { vm.runInContext(fs.readFileSync(path.join(root, 'js', f), 'utf8').replace(/^(const|let) /gm, 'var '), ctx, { filename: f }); }
     catch (e) { err(`js/${f}: o'qib bo'lmadi — ${e.message}`); }
   }

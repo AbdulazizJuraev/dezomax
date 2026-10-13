@@ -29,6 +29,10 @@ const SITE_CONFIG = /*CONFIG*/{
       "visible": true
     },
     {
+      "source": "klassika",
+      "visible": true
+    },
+    {
       "source": "konsert",
       "visible": true
     },

@@ -136,6 +136,7 @@ const I18N = {
     'row.tahlil': 'Kino tahlillari',
     'row.dorama': 'Koreys doramalari',
     'row.anime': 'Anime',
+    'row.klassika': 'Kino klassikasi: Mosfilm, Soyuzmultfilm',
     'row.hind': 'Hind kinolari',
     'row.seeAll': 'Hammasi',
 
@@ -349,6 +350,7 @@ const I18N = {
     'row.tahlil': 'Разборы фильмов',
     'row.dorama': 'Корейские дорамы',
     'row.anime': 'Аниме',
+    'row.klassika': 'Классика кино: Мосфильм, Союзмультфильм',
     'row.hind': 'Индийское кино',
     'row.seeAll': 'Все',
 

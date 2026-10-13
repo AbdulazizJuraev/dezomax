@@ -1,0 +1,139 @@
+{
+ "at": "2026-10-13T16:55:24.944Z",
+ "sources": [
+  {
+   "id": 25963146,
+   "name": "Киноконцерн «Мосфильм»",
+   "rights": "owner",
+   "kind": "film",
+   "listed": 799,
+   "candidates": 0,
+   "published": 0,
+   "attached": 0,
+   "queued": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 799
+   }
+  },
+  {
+   "id": 48160110,
+   "name": "Киностудия Горького",
+   "rights": "owner",
+   "kind": "film",
+   "listed": 534,
+   "candidates": 0,
+   "published": 0,
+   "attached": 0,
+   "queued": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 534
+   }
+  },
+  {
+   "id": 1028413,
+   "name": "Беларусьфильм",
+   "rights": "owner",
+   "kind": "film",
+   "listed": 27,
+   "candidates": 0,
+   "published": 0,
+   "attached": 0,
+   "queued": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 27
+   }
+  },
+  {
+   "id": 12056,
+   "name": "Союзмультфильм",
+   "rights": "owner",
+   "kind": "multfilm",
+   "listed": 2164,
+   "candidates": 0,
+   "published": 0,
+   "attached": 0,
+   "queued": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 2164
+   }
+  },
+  {
+   "id": 80482456,
+   "name": "Союзмультфильм – мультики для детей",
+   "rights": "owner",
+   "kind": "multfilm",
+   "listed": 960,
+   "candidates": 0,
+   "published": 0,
+   "attached": 0,
+   "queued": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 960
+   }
+  },
+  {
+   "id": 23635314,
+   "name": "Госфильмофонд России",
+   "rights": "review",
+   "kind": "film",
+   "listed": 513,
+   "candidates": 0,
+   "published": 0,
+   "attached": 0,
+   "queued": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 513
+   }
+  },
+  {
+   "id": 1792500,
+   "name": "Киностудия Ленфильм",
+   "rights": "review",
+   "kind": "film",
+   "listed": 90,
+   "candidates": 0,
+   "published": 0,
+   "attached": 0,
+   "queued": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 90
+   }
+  },
+  {
+   "id": 78896220,
+   "name": "Фонд кино Армении",
+   "rights": "review",
+   "kind": "film",
+   "listed": 49,
+   "candidates": 0,
+   "published": 0,
+   "attached": 0,
+   "queued": 0,
+   "skipped": {
+    "avval ko‘rilgan / saytda bor": 49
+   }
+  }
+ ],
+ "totals": {
+  "found": 5136,
+  "candidates": 0,
+  "checked": 0,
+  "working": 0,
+  "notWorking": 0,
+  "published": 0,
+  "attached": 0,
+  "queued": 0,
+  "duplicates": 0,
+  "recheckOk": 0,
+  "recheckFail": 0,
+  "removedBroken": 0
+ },
+ "notes": [],
+ "catalog": {
+  "total": 2002,
+  "film": 984,
+  "multfilm": 994,
+  "serial": 24
+ },
+ "seconds": 148
+}

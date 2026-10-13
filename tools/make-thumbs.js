@@ -20,7 +20,7 @@ module.exports = (async () => {
   if (!sharp) { console.log('make-thumbs: sharp topilmadi — o‘tkazib yuborildi'); return; }
   const ctx = { console, window: {}, document: { write() {} }, location: { pathname: '/' } };
   vm.createContext(ctx);
-  for (const f of ['js/data.js', 'js/data-channels.js', 'js/data-custom.js']) {
+  for (const f of ['js/data.js', 'js/data-channels.js', 'js/data-rutube.js', 'js/data-custom.js']) {
     try { vm.runInContext(fs.readFileSync(path.join(root, f), 'utf8').replace(/^(const|let) /gm, 'var '), ctx); } catch {}
   }
   const srcs = new Set();

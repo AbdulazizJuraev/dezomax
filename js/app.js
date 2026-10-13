@@ -522,6 +522,8 @@ const ROW_SOURCES = {
   trending: { title: 'row.trending', all: null,                           list: () => [...MOVIES].filter(rt).sort((a, b) => rt(b) * (yr(b) >= 2014 ? 1.1 : 1) - rt(a) * (yr(a) >= 2014 ? 1.1 : 1)).slice(0, 14) },
   new:      { title: 'row.new',      all: null,                           list: () => [...MOVIES].filter(m => yr(m) && m.franchise !== 'konsert' && m.franchise !== 'tahlil' && m.poster && (m.trailer || m.video)).sort((a, b) => yr(b) - yr(a)).slice(0, 14) },
   dorama:   { title: 'row.dorama',   all: 'catalog.html?franchise=dorama', list: () => libRow('dorama') },
+  // rasmiy studiyalarning RuTube kanallaridan (tools/rutube-import.js): filmlar, yangi qo'shilgani oldin
+  klassika: { title: 'row.klassika', all: 'catalog.html?franchise=klassika', list: () => MOVIES.filter(m => m.franchise === 'klassika' && m.type !== 'multfilm' && !(typeof PART_OF !== 'undefined' && PART_OF.has(m.id))).sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0) || yr(b) - yr(a)).slice(0, 30) },
   anime:    { title: 'row.anime',    all: 'catalog.html?franchise=anime',  list: () => libRow('anime') },
   hind:     { title: 'row.hind',     all: 'catalog.html?franchise=hind',   list: () => libRow('hind') },
   marvel:   { title: 'row.marvel',   all: 'catalog.html?franchise=marvel', list: () => MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => yr(a) - yr(b)) },
@@ -534,7 +536,7 @@ const ROW_SOURCES = {
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
-const DEFAULT_ROWS = ['popular', 'uzbek', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
+const DEFAULT_ROWS = ['popular', 'uzbek', 'klassika', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
   .map(source => ({ source, visible: true }));
 
 /* ---------- «Seriallar» banneri: hamma seriallar bitta katta banner ostida ----------
