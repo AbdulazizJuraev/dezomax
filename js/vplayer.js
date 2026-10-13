@@ -73,6 +73,7 @@ function mountVideo(box, url, opts = {}) {
   const isHls = /\.m3u8(\?|$)/i.test(url);
   const extra = (opts.qualities || []).filter(q => q && q.url);
   box.classList.add('ytp', 'vp');
+  box.classList.remove('vp-started', 'vp-recs-off');
 
   box.innerHTML = `
     <div class="ytp-stage vp-stage">
@@ -96,6 +97,7 @@ function mountVideo(box, url, opts = {}) {
 
   const $ = s => box.querySelector(s);
   const video = $('.vp-video');
+  if (typeof vpRecsMount === 'function') vpRecsMount(box, opts.recs);   // pauzada «Tavsiyalar»
   vpActive = { box, video, hls: null, timer: null, url };
   // video almashtirilgach (boshqa manba / tashqi pleyer) eski video hodisalari e'tiborsiz qoldiriladi
   const live = () => vpActive?.video === video;
@@ -198,7 +200,7 @@ function mountVideo(box, url, opts = {}) {
     brand.addEventListener(ev, e => { e.stopPropagation(); if (ev !== 'touchstart' && ev !== 'pointerdown') e.preventDefault(); }, { passive: false }));
 
   /* ---- holatlar ---- */
-  const setPlayIcon = () => { $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; box.classList.toggle('vp-paused', video.paused); if (typeof vpMidFlash === 'function') vpMidFlash(box); };
+  const setPlayIcon = () => { $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; box.classList.toggle('vp-paused', video.paused); if (typeof vpMidFlash === 'function') vpMidFlash(box); if (typeof vpRecsState === 'function') vpRecsState(box, !video.paused); };
   onV('playing', () => {
     $('#vpCover').hidden = true;
     $('#vpBar').hidden = false;

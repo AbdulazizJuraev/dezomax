@@ -7681,3 +7681,29 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
 .player-wrap.ytp .vp-mid { opacity: 0; transition: opacity .25s; }
 .player-wrap.ytp.vp-mid-flash .vp-mid { opacity: 1; }
 .player-wrap.ytp:not(.vp-mid-flash) .vp-mid button { pointer-events: none; }
+
+/* ================= Pleyer: pauzada «Tavsiyalar» (Kinopoisk kabi) ================= */
+.vp-recs { display: none; position: absolute; left: 0; right: 0; bottom: 92px; z-index: 7; padding: 0 14px; }
+.player-wrap.ytp.vp-started.vp-paused:not(.vp-recs-off) .vp-recs { display: block; animation: vpRecsIn .25s ease both; }
+@keyframes vpRecsIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.vp-recs::before { content: ''; position: absolute; left: 0; right: 0; bottom: -92px; top: -40px; z-index: -1; pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, .9), rgba(0, 0, 0, .55) 60%, rgba(0, 0, 0, 0)); }
+.vp-recs-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.vp-recs-head b { font-size: 20px; font-weight: 800; color: #fff; }
+.vp-recs-x { width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .1); color: #fff; display: grid; place-items: center; cursor: pointer; }
+.vp-recs-x svg { width: 18px; height: 18px; }
+.vp-recs-row { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+.vp-recs-row::-webkit-scrollbar { display: none; }
+.vp-rec { flex: 0 0 clamp(200px, 17vw, 320px); color: #fff; text-decoration: none; }
+.vp-rec-img { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 4px; overflow: hidden; background: #1a1a1c; }
+.vp-rec-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .2s; }
+.vp-rec:hover .vp-rec-img img { transform: scale(1.04); }
+.vp-rec-img em { position: absolute; right: 6px; bottom: 6px; padding: 2px 6px; border-radius: 4px; background: rgba(0, 0, 0, .75); font-style: normal; font-size: 12px; font-weight: 700; }
+.vp-rec-t { display: block; margin-top: 6px; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgba(255, 255, 255, .92); }
+/* kichik pleyer (sahifa ichida, fullscreen emas) va telefon — ixchamroq */
+@media (max-width: 900px) {
+  .vp-recs { bottom: 70px; padding: 0 10px; }
+  .vp-recs-head b { font-size: 15px; }
+  .vp-rec { flex-basis: 150px; }
+  .vp-rec-t { font-size: 12px; }
+}

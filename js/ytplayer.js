@@ -244,6 +244,8 @@ function mountYouTube(box, url, opts = {}) {
     })}`;
 
   const $ = s => box.querySelector(s);
+  box.classList.remove('vp-started', 'vp-recs-off');
+  vpRecsMount(box, opts.recs);   // pauzada «Tavsiyalar»
   // opts.preroll — kino oldidan reklama (js/ads.js); tugagach film boshlanadi
   let starting = false;
   const cover = $('#ytpCover');
@@ -350,6 +352,7 @@ function ytOnState(box, id, st) {
   const wasRun = !box.classList.contains('vp-paused');
   box.classList.toggle('vp-paused', !running);
   if (st === S.PLAYING || st === S.PAUSED) vpMidFlash(box);
+  if (st === S.PLAYING) vpRecsState(box, true);
   ytWake(box);
 
   if (st === S.ENDED) {
@@ -553,4 +556,33 @@ function vpMidFlash(box) {
   box.classList.add('vp-mid-flash');
   clearTimeout(box._midT);
   box._midT = setTimeout(() => box.classList.remove('vp-mid-flash'), 2000);
+}
+
+/* ---------- Pauzada «Tavsiyalar» (Kinopoisk kabi) ----------
+   recs: [{ href, img, title, dur }] — js/movie.js beradi (o'xshash kinolar). Pauza bosilganda pleyer pastida 16:9 kartalar
+   qatori chiqadi, play bosilsa yashirinadi; ✕ — shu pauzagacha yopiladi. Kino hali boshlanmagan bo'lsa (muqova) — chiqmaydi. */
+function vpRecsMount(box, recs) {
+  if (!box || !Array.isArray(recs) || !recs.length) return;
+  const stage = box.querySelector('.ytp-stage') || box;
+  stage.querySelector('.vp-recs')?.remove();
+  const ru = typeof LANG !== 'undefined' && LANG === 'ru';
+  const el = document.createElement('div');
+  el.className = 'vp-recs';
+  el.innerHTML = `
+    <div class="vp-recs-head"><b>${ru ? 'Рекомендации' : 'Tavsiyalar'}</b>
+      <button type="button" class="vp-recs-x" aria-label="${ru ? 'Закрыть' : 'Yopish'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="vp-recs-row">
+      ${recs.map(r => `<a class="vp-rec" href="${esc(r.href)}">
+        <span class="vp-rec-img">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}${r.dur ? `<em>${esc(r.dur)}</em>` : ''}</span>
+        <span class="vp-rec-t">${esc(r.title)}</span></a>`).join('')}
+    </div>`;
+  stage.appendChild(el);
+  // klik va g'ildirak pleyerga o'tmasin (pauza/play bo'lib qolmasin)
+  ['click', 'pointerdown', 'mousedown', 'touchstart', 'dblclick'].forEach(ev => el.addEventListener(ev, e => e.stopPropagation(), { passive: true }));
+  el.querySelector('.vp-recs-x').addEventListener('click', e => { e.preventDefault(); box.classList.add('vp-recs-off'); });
+}
+/* holat: kino o'ynay boshladi (vp-started); play — yopilgan tavsiyalar keyingi pauzada yana chiqadi */
+function vpRecsState(box, running) {
+  if (!box) return;
+  if (running) { box.classList.add('vp-started'); box.classList.remove('vp-recs-off'); }
 }

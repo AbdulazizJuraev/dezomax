@@ -180,6 +180,7 @@ function mountPlayer(url) {
   if (local && typeof mountVideo === 'function') {
     const wide = wideCover(movie);
     mountVideo(box, local, {
+      recs: playerRecs(movie),
       poster: wide || movie?.poster || null,
       wide: !!wide,
       title: movie ? title(movie) + (typeof partNo !== 'undefined' && partNo ? ` · ${partLabel(partNo)}` : '') : ''
@@ -205,6 +206,7 @@ function mountPlayer(url) {
     const isFilm = movie && url === movie.video;
     const wide = wideCover(movie);
     mountVideo(box, `https://dezocloud.uz/v/${dcTok}`, {
+      recs: playerRecs(movie),
       poster: wide || movie?.poster || null,
       wide: !!wide,
       title: movie ? title(movie) + (typeof partNo !== 'undefined' && partNo ? ` · ${partLabel(partNo)}` : '') : '',
@@ -225,6 +227,7 @@ function mountPlayer(url) {
     const isFilm = movie && url === movie.video;
     const wide = wideCover(movie);
     mountVideo(box, url, {
+      recs: playerRecs(movie),
       poster: wide || movie?.poster || null,
       wide: !!wide,
       title: movie ? title(movie) : '',
@@ -241,7 +244,7 @@ function mountPlayer(url) {
     // tik poster keng ekranga sig'maydi — faqat keng muqovali (o'zbek filmlari) rasmini beramiz
     const wide = movie ? movie.cover || (movie.poster && movie.poster.startsWith('images/uz/') ? movie.poster : null) : null;
     // treylerdan oldin reklama yo'q — faqat to'liq film oldidan (js/ads.js)
-    mountYouTube(box, url, { poster: wide, title: movie ? title(movie) : '', preroll: !!movie && url === movie.video });
+    mountYouTube(box, url, { recs: playerRecs(movie), poster: wide, title: movie ? title(movie) : '', preroll: !!movie && url === movie.video });
     if (link) { link.href = external; link.hidden = false; }
     return;
   }
@@ -396,6 +399,15 @@ function partsBarHTML() {
 }
 
 /* ---------- O'xshash kinolar ---------- */
+
+/* Pleyer pauzasidagi «Tavsiyalar» (js/ytplayer.js vpRecsMount): o'xshash kinolar, 16:9 rasm (gorizontal poster / muqova / o'z rasmi) */
+function playerRecs(m) {
+  if (!m) return [];
+  const pad = n => String(n).padStart(2, '0');
+  const dur = x => x.duration ? `${Math.floor(x.duration / 60)}:${pad(x.duration % 60)}:00` : '';
+  const img = x => (x.hposter && !/dezocloud.uz/.test(x.hposter) ? x.hposter : null) || (x.cover ? imgBig(x.cover) : null) || imgSmall(x.poster) || '';
+  return similarOf(m).slice(0, 12).map(x => ({ href: movieHref(x), img: img(x), title: title(x) + (x.year ? ` (${x.year})` : ''), dur: dur(x) }));
+}
 
 function similarOf(m) {
   return MOVIES
