@@ -635,7 +635,7 @@ function enhanceHeader(header, page) {
   const native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
   acc && acc.insertAdjacentHTML('beforebegin', `
     ${native ? '' : `<a class="nav-extra" href="https://play.google.com/store/apps/details?id=uz.dezomax.app" target="_blank" rel="noopener">${I.app}<span>${ru ? 'Приложение' : 'Ilova'}</span></a>`}
-    <a class="nav-extra nav-kids" href="catalog.html?type=multfilm">${I.kids}<span>${ru ? 'Дети' : 'Bolalar'}</span></a>`);
+    <a class="nav-extra nav-kids" href="catalog.html?type=multfilm"><img class="nav-kids-av" src="images/role/child.webp" alt="" width="30" height="30"><span>${ru ? 'Дети' : 'Bolalar'}</span></a>`);
 
   // qidiruv belgisi — header'dagi qidiruv maydonini ochadi
   const search = wrap.querySelector('.search');

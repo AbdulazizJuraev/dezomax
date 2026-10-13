@@ -7599,3 +7599,5 @@ html, body { background: #000; }
 .grid .card.is-wide .card-poster .poster-blur, .row-tall .card.is-wide .poster-blur { display: none !important; }
 .grid .card.is-wide .card-poster .poster-img, .row-tall .card.is-wide .poster-img { object-fit: cover; object-position: center; }
 .row-wide .card:not(.is-wide) .poster-blur { filter: blur(16px) brightness(.72) saturate(1.25); }
+/* «Bolalar» — saytdagi bolalar profili rasmi (images/role/child.webp), binafsha doirada */
+.nav-kids-av { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; background: #7c3aed; box-shadow: 0 0 0 2px rgba(167, 139, 250, .55); }
