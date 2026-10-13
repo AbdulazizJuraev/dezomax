@@ -2128,6 +2128,10 @@ async function saveConfig(cfg, message) {
 const movieById = id => (allMovies(), allById.get(id));
 
 /* Kino tanlagich: tanlanganlar (tartiblash, o'chirish) + qidirib qo'shish */
+/* 16:9 (keng) rasmi bormi — kompyuter karuselida faqat shular chiqadi (js/app.js heroArtOk bilan bir xil) */
+const heroWideOk = u => !!u && !/dezocloud\.uz|images\/custom\/|i\.ytimg\.com/.test(String(u));
+const hasWide = m => !!m && (heroWideOk(m.hposter) || (heroWideOk(m.cover) && /^images\//.test(m.cover)));
+
 function pickerHTML(key, ids, max) {
   return `
     <div class="adm-picker" data-picker="${key}">
@@ -2139,7 +2143,7 @@ function pickerHTML(key, ids, max) {
             <div class="adm-pick">
               <span class="adm-pick-n">${i + 1}</span>
               <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
-              <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}</small></span>
+              <span class="adm-pick-title"><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}${key === 'hero' ? (hasWide(m) ? ' · <i class="adm-wide-yes">16:9 ✓</i>' : ' · <i class="adm-wide-no">16:9 yo‘q — kompyuterda chiqmaydi</i>') : ''}</small></span>
               <span class="adm-pick-btns">
                 <button type="button" data-move="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Yuqoriga">↑</button>
                 <button type="button" data-move="1" data-i="${i}" ${i === ids.length - 1 ? 'disabled' : ''} aria-label="Pastga">↓</button>
@@ -2151,6 +2155,7 @@ function pickerHTML(key, ids, max) {
       ${ids.length < max ? `
         <div class="adm-pick-search">
           <input class="acc-input" type="search" placeholder="Kino qo‘shish — nomini yozing" data-search>
+          ${key === 'hero' ? `<label class="adm-wide-only"><input type="checkbox" data-wideonly checked> Faqat 16:9 posteri borlar <small>(bo‘sh qidiruvda — hammasi)</small></label>` : ''}
           <div class="adm-pick-results" data-results hidden></div>
         </div>` : `<p class="acc-muted">Eng ko‘pi ${max} ta</p>`}
     </div>`;
@@ -2170,21 +2175,25 @@ function bindPicker(root, getIds, setIds, rerender) {
   const results = root.querySelector('[data-results]');
   if (!input) return;
   let t0;
+  const wideBox = root.querySelector('[data-wideonly]');
   input.addEventListener('input', () => { clearTimeout(t0); t0 = setTimeout(search, 150); });
+  wideBox?.addEventListener('change', search);
+  input.addEventListener('focus', () => { if (wideBox?.checked && !input.value.trim()) search(); });
   function search() {
-    const q = norm(input.value);
-    if (!q) { results.hidden = true; return; }
-    const picked = new Set(getIds()), found = [];
+    const q = norm(input.value), wide = !!wideBox?.checked;
+    // «Faqat 16:9» — bo'sh qidiruvda ham hammasi ko'rinadi (ular kam)
+    if (!q && !wide) { results.hidden = true; return; }
+    const picked = new Set(getIds()), found = [], limit = wide ? 60 : 8;
     for (const m of allMovies()) {
-      if (!picked.has(m.id) && hayOf(m).includes(q)) { found.push(m); if (found.length === 8) break; }
+      if (!picked.has(m.id) && (!q || hayOf(m).includes(q)) && (!wide || hasWide(m))) { found.push(m); if (found.length === limit) break; }
     }
     results.hidden = false;
-    results.innerHTML = found.length ? found.map(m => `
+    results.innerHTML = (wide ? `<p class="acc-muted adm-wide-count">16:9 posteri bor kinolar: ${found.length}${found.length === limit ? '+' : ''} ta</p>` : '') + (found.length ? found.map(m => `
       <button type="button" data-add="${m.id}">
-        <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+        <span class="adm-thumb${wide ? ' is-wide' : ''}">${(wide ? m.hposter || m.cover : m.poster) ? `<img src="${esc(wide ? m.hposter || m.cover : m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
         <span><b>${esc(m.title.uz)}</b><small>${[m.year, typeName(m.type)].filter(Boolean).join(' · ')}</small></span>
         <em>+</em>
-      </button>`).join('') : '<p class="acc-muted">Topilmadi</p>';
+      </button>`).join('') : '<p class="acc-muted">Topilmadi</p>');
     results.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
       setIds([...getIds(), +b.dataset.add]); rerender();
     }));

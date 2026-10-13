@@ -7640,3 +7640,11 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
   #homeRows .row > .card .card-title { font-size: 13.5px; }
   #homeRows .row > .card .card-meta { display: none; }
 }
+/* Admin → karusel: 16:9 belgisi va «Faqat 16:9» filtri */
+.adm-wide-yes { font-style: normal; color: #4ade80; font-weight: 700; }
+.adm-wide-no { font-style: normal; color: #fbbf24; }
+.adm-wide-only { display: flex; align-items: center; gap: 8px; margin: 8px 2px 0; font-size: 13.5px; color: var(--text-dim); cursor: pointer; }
+.adm-wide-only input { width: 17px; height: 17px; accent-color: #38bdf8; }
+.adm-wide-only small { color: var(--text-faint); }
+.adm-thumb.is-wide { width: 80px; aspect-ratio: 16 / 9; height: auto; }
+.adm-wide-count { margin: 4px 6px 6px; font-size: 12.5px; }
