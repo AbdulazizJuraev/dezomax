@@ -1,5 +1,5 @@
 {
- "at": "2026-10-13T17:46:10.568Z",
+ "at": "2026-10-14T06:12:52.503Z",
  "method": "oEmbed",
  "sources": [
   {
@@ -29,10 +29,12 @@
    "name": "Goldmines",
    "franchise": "hind",
    "listed": 1100,
-   "candidates": 0,
-   "published": 0,
+   "candidates": 2,
+   "published": 1,
    "skipped": {
-    "avval ko‘rilgan / saytda bor": 1100
+    "1 soatdan qisqa": 3,
+    "avval ko‘rilgan / saytda bor": 1095,
+    "saytda bor": 1
    }
   },
   {
@@ -71,24 +73,22 @@
  ],
  "totals": {
   "found": 4882,
-  "candidates": 0,
-  "checked": 0,
-  "working": 0,
+  "candidates": 2,
+  "checked": 2,
+  "working": 2,
   "notWorking": 0,
-  "published": 0,
-  "duplicates": 0,
+  "published": 1,
+  "duplicates": 1,
   "noTitle": 0,
-  "recheckOk": 0,
+  "recheckOk": 300,
   "recheckFail": 0,
   "removedBroken": 0
  },
- "notes": [
-  "Nomlar qayta tekshirildi: 4 ta tozalandi, 4 ta nomi aniq emas — olib tashlandi"
- ],
+ "notes": [],
  "catalog": {
-  "total": 1148,
-  "hind": 927,
+  "total": 1149,
+  "hind": 928,
   "hollywood": 221
  },
- "seconds": 7
+ "seconds": 33
 }
