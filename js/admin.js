@@ -855,6 +855,7 @@ function renderMain() {
 function renderHome() {
   // «Saytda» — saytda haqiqatan ko'rinadiganlar (kutubxona — data-lib — saytda yo'q, faqat admin'da), Faol'dagilardan tashqari:
   // bir kino ikki joyda sanalmaydi (Faol + Saytda = saytdagi jami)
+  const all = allMovies();
   const active = activeList();
   const activeIds = new Set(active.map(m => m.id));
   const hidden = new Set(hiddenList);
