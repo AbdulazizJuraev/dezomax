@@ -47,7 +47,7 @@ const nUz = Math.ceil(COUNT * 2 / 3);
 const pick = [...uz.slice(0, nUz), ...other.slice(0, COUNT - Math.min(nUz, uz.length))].slice(0, COUNT);
 
 function caption(m) {
-  const title = m.title?.uz || m.title?.ru;
+  const title = String(m.title?.uz || m.title?.ru || '').replace(/#\S+/g, '').replace(/\s{2,}/g, ' ').trim();
   const meta = [typeName[m.type] || 'Film', m.year, (m.genres || []).slice(0, 2).map(g => GENRES[g] || g).join(', '),
     m.lang === 'ru' ? 'rus tilida' : (m.audio === 'uz' || m.lang === 'uz') ? 'o‘zbek tilida' : ''].filter(Boolean).join(' · ');
   const d = String(m.desc?.uz || m.desc?.ru || '').replace(/\s+/g, ' ').trim();
