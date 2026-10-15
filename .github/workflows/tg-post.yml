@@ -1,0 +1,39 @@
+# Telegram kanalga (@dezomaxuz) kuniga 3 marta avtomatik post: yangi kinolar, ular tugasa — saytdagi boshqalar (tools/tg-post.js).
+# Kerak: repo secret TG_BOT_TOKEN (BotFather'dan), bot kanalda admin bo'lishi kerak. Secret bo'lmasa — hech narsa yubormaydi.
+name: tg-post
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4,9,15 * * *'   # 09:00, 14:00, 20:00 (Toshkent)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tg-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Kanalga post
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        run: node tools/tg-post.js --count=3
+
+      - name: Holatni saqlash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/tg-posted.json 2>/dev/null || true
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -q -m "Telegram kanalga post"
+          for i in 1 2 3; do git pull -q --rebase && git push -q && break; sleep 5; done
