@@ -853,12 +853,17 @@ function renderMain() {
 /* ---------- Bosh sahifa ---------- */
 
 function renderHome() {
-  const all = allMovies();
-  const visible = all.filter(m => !hiddenList.includes(m.id));
+  // «Saytda» — saytda haqiqatan ko'rinadiganlar (kutubxona — data-lib — saytda yo'q, faqat admin'da), Faol'dagilardan tashqari:
+  // bir kino ikki joyda sanalmaydi (Faol + Saytda = saytdagi jami)
+  const active = activeList();
+  const activeIds = new Set(active.map(m => m.id));
+  const hidden = new Set(hiddenList);
+  const siteIds = new Set([...(window.SITE_BASE_IDS || []), ...customList.map(x => x.id)]);
+  const onSiteRest = [...siteIds].filter(id => !hidden.has(id) && !activeIds.has(id)).length;
   // minimal: 4 ta asosiy raqam (bosilsa — Kinolar ro'yxati shu filtr bilan), oxirgi 5 ta o'zgartirilgan kino, tarix — yig'iladi
   const stats = [
-    ['Faol', activeList().length, 'active'],        // qo'shilgan, tahrirlangan va kanallardan (yashirilganlarsiz)
-    ['Saytda', visible.length, 'all'],
+    ['Faol', active.length, 'active'],        // qo'shilgan, tahrirlangan, kanallardan va RuTube'dan (yashirilganlarsiz)
+    ['Saytda', onSiteRest, 'all'],
     ['Qo‘shilgan', addedList().length, 'added'],
     ['Yashirilgan', hiddenList.length, 'hidden']
   ];
@@ -1029,6 +1034,7 @@ const channelIds = () => new Set((typeof CHANNEL_MOVIES !== 'undefined' ? CHANNE
 function activeList() {
   const ids = channelIds();
   for (const m of customList) ids.add(m.id);
+  for (const m of (typeof RUTUBE_MOVIES !== 'undefined' ? RUTUBE_MOVIES : [])) ids.add(m.id);   // RuTube avto-importi
   return allMovies().filter(m => ids.has(m.id) && !hiddenList.includes(m.id));
 }
 
