@@ -39,7 +39,7 @@ jobs:
         if: ${{ !inputs.setup }}
         env:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
-        run: node tools/tg-post.js --count=3
+        run: node tools/tg-post.js --count=5
 
       - name: Holatni saqlash
         run: |
