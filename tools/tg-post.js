@@ -64,7 +64,17 @@ async function send(m) {
   if (DRY) { console.log('— (sinov) —\n' + body.caption + '\n' + url + '\n'); return true; }
   const r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
-  if (!j.ok) { console.log(`✗ ${m.title?.uz}: ${j.description || r.status}`); return false; }
+  if (!j.ok) {
+    console.log(`✗ ${m.title?.uz}: ${j.description || r.status}`);
+    // diagnostika (bir marta): token qaysi botniki, kanal topiladimi — token chiqarilmaydi
+    if (!send.diag) {
+      send.diag = true;
+      const me = await fetch(`https://api.telegram.org/bot${TOKEN}/getMe`).then(x => x.json()).catch(() => ({}));
+      const ch = await fetch(`https://api.telegram.org/bot${TOKEN}/getChat?chat_id=${encodeURIComponent(CHANNEL)}`).then(x => x.json()).catch(() => ({}));
+      console.log(`  diagnostika: token — @${me.result?.username || '?'} (${me.result?.first_name || ''}); kanal ${CHANNEL}: ${ch.ok ? `${ch.result.title} (${ch.result.type})` : ch.description}`);
+    }
+    return false;
+  }
   console.log(`✓ ${m.title?.uz}`);
   return true;
 }
