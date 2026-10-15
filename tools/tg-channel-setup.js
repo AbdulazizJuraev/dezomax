@@ -6,7 +6,7 @@ const path = require('path');
 const TOKEN = process.env.TG_BOT_TOKEN || '';
 const CHANNEL = process.env.TG_CHANNEL || '@dezomaxuz';
 const DESC = 'DezoMax — o‘zbek tilidagi kinolar, seriallar va multfilmlar bepul onlayn. Har kuni yangi kinolar: o‘zbek filmlari, Mosfilm va Soyuzmultfilm klassikasi.\n\n🎬 Sayt: dezomax.uz\n📱 Ilova: dezomax.uz';
-const PHOTO = path.join(__dirname, '..', 'images', 'logo', 'favicon-192.png');
+const PHOTO = path.join(__dirname, '..', 'images', 'logo', 'telegram-avatar.png');
 
 (async () => {
   if (!TOKEN) { console.log('TG_BOT_TOKEN yo‘q'); process.exit(1); }
