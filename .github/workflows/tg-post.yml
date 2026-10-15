@@ -9,6 +9,10 @@ on:
         description: "Kanal tavsifi va suratini o‘rnatish"
         type: boolean
         default: false
+      promo:
+        description: "Reklama afishasini kanalga yuborish"
+        type: boolean
+        default: false
   schedule:
     - cron: '0 4,9,15 * * *'   # 09:00, 14:00, 20:00 (Toshkent)
 
@@ -35,8 +39,14 @@ jobs:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
         run: node tools/tg-channel-setup.js
 
+      - name: Reklama afishasi
+        if: inputs.promo
+        env:
+          TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
+        run: node tools/tg-promo.js
+
       - name: Kanalga post
-        if: ${{ !inputs.setup }}
+        if: ${{ !inputs.setup && !inputs.promo }}
         env:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
         run: node tools/tg-post.js --count=5
