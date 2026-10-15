@@ -36,7 +36,7 @@ jobs:
         run: node tools/tg-channel-setup.js
 
       - name: Kanalga post
-        if: !inputs.setup
+        if: ${{ !inputs.setup }}
         env:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
         run: node tools/tg-post.js --count=3
