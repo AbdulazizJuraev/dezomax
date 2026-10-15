@@ -211,6 +211,7 @@ function indexPage() {
   <h1>O‘zbek kinolari va filmlar onlayn</h1>
   <p>${esc(desc)}</p>
   ${collections.length ? `<ul class="seo-list seo-chips">${collections.map(c => `<li><a href="toplam/${c.key}.html">${esc(c.name)} (${c.items.length})</a></li>`).join('')}</ul>` : ''}
+  <p><a href="teg/index.html">Barcha teglar: janr, yil, davlat, aktyor va rejissyor bo‘yicha →</a></p>
   <ul class="seo-grid">${sorted.map((m, i) => `
     <li><a href="kino/${m._page}.html">${m.poster ? `<img src="${esc(m.poster)}" alt="${esc(noEmoji(m.title.uz))}"${i >= 12 ? ' loading="lazy"' : ''} decoding="async" width="160" height="240">` : ''}<span>${esc(noEmoji(m.title.uz))}</span>${m.year ? `<small>${m.year}</small>` : ''}</a></li>`).join('')}
   </ul>
@@ -394,5 +395,119 @@ fs.mkdirSync(COLL_DIR, { recursive: true });
 for (const c of collections) fs.writeFileSync(path.join(COLL_DIR, c.key + '.html'), collectionPage(c, c.items, collections));
 for (const f of fs.readdirSync(COLL_DIR)) if (f.endsWith('.html') && !collections.some(c => c.key + '.html' === f)) fs.unlinkSync(path.join(COLL_DIR, f));
 
+/* ---------- Teg sahifalari: teg/<key>.html ----------
+   Saytdagi haqiqiy ma'lumotdan: janr, yil, o'n yillik, davlat, til, rejissyor, aktyor, studiya/kanal va ularning birikmalari.
+   Faqat kamida 3 ta kinosi bor teglar (bo'sh/yupqa sahifa yo'q). Har sahifada — shu tegdagi kinolar ro'yxati (kino/<sahifa>.html). */
+const TAG_DIR = path.join(root, 'teg');
+const TAG_LAT = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'yo', ж: 'j', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'x', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '', ы: 'i', ь: '', э: 'e', ю: 'yu', я: 'ya', ў: 'o', қ: 'q', ғ: 'g', ҳ: 'h' };
+const tslug = s => String(s || '').toLowerCase().replace(/[а-яёўқғҳ]/g, c => TAG_LAT[c] ?? c).replace(/[‘’'`ʻʼ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 70);
+const TYPE_UZ = { film: 'filmlar', serial: 'seriallar', multfilm: 'multfilmlar' };
+const capf = s => s.charAt(0).toUpperCase() + s.slice(1);
+const tagMap = new Map();
+const addTag = (group, rawKey, name, m) => {
+  const key = tslug(rawKey);
+  if (!key || !name) return;
+  let t = tagMap.get(key);
+  if (!t) tagMap.set(key, t = { key, group, name: capf(noEmoji(name).trim()), items: [] });
+  if (!t.items.includes(m)) t.items.push(m);
+};
+for (const m of list) {
+  if (m._trailer) continue;
+  const ty = TYPE_UZ[m.type] || 'filmlar';
+  const dec = m.year ? Math.floor(m.year / 10) * 10 : 0;
+  const country = String(m.country?.uz || '').trim();
+  const hasCountry = country && country !== '—' && country.length < 30;
+  const lang = m.audio === 'uz' || m.lang === 'uz' ? 'o‘zbek tilida' : m.lang === 'ru' ? 'rus tilida' : '';
+  addTag('Tur', `tur-${m.type}`, `Barcha ${ty}`, m);
+  for (const g of (m.genres || []).slice(0, 3)) {
+    const gn = genre(g);
+    addTag('Janr', `janr-${g}`, `${gn} kinolar`, m);
+    addTag('Janr', `${g}-${m.type}`, `${gn} ${ty}`, m);
+    if (dec) addTag('Janr va yillar', `${g}-${dec}`, `${dec}-yillar: ${gn.toLowerCase()} kinolar`, m);
+    if (m.year >= 2000) addTag('Janr va yillar', `${g}-${m.year}`, `${m.year}-yil: ${gn.toLowerCase()} kinolar`, m);
+    if (hasCountry) addTag('Janr va davlat', `${g}-${country}`, `${country}: ${gn.toLowerCase()} kinolar`, m);
+    if (lang) addTag('Janr va til', `${g}-${lang}-${m.type}`, `${gn} ${ty} ${lang}`, m);
+  }
+  if (m.year) {
+    addTag('Yil', `yil-${m.year}`, `${m.year}-yil kinolari`, m);
+    addTag('Yil', `${m.year}-${m.type}`, `${m.year}-yil ${ty}`, m);
+    addTag('Yil', `${dec}-yillar`, `${dec}-yillar kinolari`, m);
+    addTag('Yil', `${dec}-yillar-${m.type}`, `${dec}-yillar ${ty}`, m);
+  }
+  if (hasCountry) {
+    addTag('Davlat', `davlat-${country}`, `${country} kinolari`, m);
+    addTag('Davlat', `${country}-${m.type}`, `${country} ${ty}`, m);
+    if (dec) addTag('Davlat', `${country}-${dec}`, `${country}: ${dec}-yillar kinolari`, m);
+  }
+  if (lang) {
+    addTag('Til', `til-${lang}`, `${capf(lang)} kinolar`, m);
+    addTag('Til', `${lang}-${m.type}`, `${capf(lang)} ${ty}`, m);
+    if (dec) addTag('Til', `${lang}-${dec}`, `${capf(lang)}: ${dec}-yillar kinolari`, m);
+  }
+  for (const d of String(m.director || '').split(/\s*,\s*/).filter(x => x && x.length < 40).slice(0, 2)) addTag('Rejissyor', `rejissyor-${d}`, `${d} filmlari`, m);
+  for (const a of (m.cast || []).filter(x => x && x.length < 40).slice(0, 10)) addTag('Aktyor', `aktyor-${a}`, `${a} ishtirokidagi kinolar`, m);
+  // janr juftliklari: «Komediya va melodrama»
+  const gsort = [...new Set(m.genres || [])].sort();
+  for (let i = 0; i < gsort.length; i++) for (let j = i + 1; j < gsort.length; j++) {
+    addTag('Janrlar birikmasi', `${gsort[i]}-va-${gsort[j]}`, `${genre(gsort[i])} va ${genre(gsort[j]).toLowerCase()} kinolar`, m);
+    if (dec) addTag('Janrlar birikmasi', `${gsort[i]}-va-${gsort[j]}-${dec}`, `${dec}-yillar: ${genre(gsort[i]).toLowerCase()} va ${genre(gsort[j]).toLowerCase()}`, m);
+  }
+  // davomiylik bo'yicha (faqat filmlar)
+  if (m.type === 'film' && m.duration) {
+    const band = m.duration < 80 ? ['qisqa', '80 daqiqagacha qisqa filmlar'] : m.duration <= 120 ? ['orta', '1,5–2 soatlik filmlar'] : ['uzun', '2 soatdan uzun filmlar'];
+    addTag('Davomiyligi', `davomiylik-${band[0]}`, band[1], m);
+    for (const g of (m.genres || []).slice(0, 2)) addTag('Davomiyligi', `${g}-${band[0]}`, `${band[1]}: ${genre(g).toLowerCase()}`, m);
+  }
+  if (m.source?.name) addTag('Studiya va kanal', `studiya-${m.source.name}`, `${m.source.name}: kinolar`, m);
+}
+const TAGS = [...tagMap.values()].filter(t => t.items.length >= (t.group === 'Aktyor' || t.group === 'Rejissyor' ? 2 : 3)).sort((a, b) => b.items.length - a.items.length);
+const TAG_GROUPS = ['Tur', 'Janr', 'Janrlar birikmasi', 'Yil', 'Davlat', 'Til', 'Davomiyligi', 'Janr va yillar', 'Janr va davlat', 'Janr va til', 'Studiya va kanal', 'Rejissyor', 'Aktyor'];
+
+function tagPage(t) {
+  const url = `${SITE}teg/${t.key}.html`;
+  const sorted = [...t.items].sort((a, b) => (b.year || 0) - (a.year || 0) || String(a.title.uz).localeCompare(String(b.title.uz)));
+  const shown = sorted.slice(0, 120);
+  const names = sorted.slice(0, 5).map(m => noEmoji(m.title.uz)).join(', ');
+  const lead = `${t.name}: DezoMax’da onlayn ko‘rish mumkin bo‘lgan ${t.items.length} ta kino — rasmiy manbalardan.`;
+  const desc = `${lead} ${names} va boshqalar.`.replace(/\s+/g, ' ').slice(0, 300);
+  const ld = { '@context': 'https://schema.org', '@type': 'ItemList', name: t.name, url,
+    itemListElement: shown.map((m, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}kino/${m._page}.html`, name: noEmoji(m.title.uz) })) };
+  const trail = crumbs([['Bosh sahifa', SITE], ['Teglar', `${SITE}teg/index.html`], [t.name, url]]);
+  const related = TAGS.filter(x => x.group === t.group && x.key !== t.key).slice(0, 24);
+  const body = `
+<div class="wrap seo-pre seo-index">
+  <nav class="seo-crumbs"><a href="index.html">Bosh sahifa</a> › <a href="teg/index.html">Teglar</a> › ${esc(t.name)}</nav>
+  <h1>${esc(t.name)}</h1>
+  <p>${esc(lead)}</p>
+  <ul class="seo-grid">${shown.map((m, i) => `
+    <li><a href="kino/${m._page}.html">${m.poster ? `<img src="${esc(m.poster)}" alt="${esc(noEmoji(m.title.uz))}"${i >= 12 ? ' loading="lazy"' : ''} decoding="async" width="160" height="240">` : ''}<span>${esc(noEmoji(m.title.uz))}</span>${m.year ? `<small>${m.year}</small>` : ''}</a></li>`).join('')}
+  </ul>
+  ${related.length ? `<h2>O‘xshash teglar</h2>
+  <ul class="seo-list seo-chips">${related.map(x => `<li><a href="teg/${x.key}.html">${esc(x.name)} (${x.items.length})</a></li>`).join('')}</ul>` : ''}
+  <p><a href="teg/index.html">Barcha teglar →</a></p>
+</div>`;
+  return page({ id: 0, title: `${t.name} — onlayn ko‘rish | DezoMax`, desc, url, image: sorted[0] ? abs(sorted[0].poster) : '', type: 'website', ld: [ld, trail], body,
+    keywords: [t.name, `${t.name} onlayn`, `${t.name} bepul ko‘rish`, `${t.name} o‘zbek tilida`] });
+}
+function tagIndexPage() {
+  const url = `${SITE}teg/index.html`;
+  const body = `
+<div class="wrap seo-pre seo-index">
+  <nav class="seo-crumbs"><a href="index.html">Bosh sahifa</a> › Teglar</nav>
+  <h1>Teglar — janr, yil, davlat, aktyor va rejissyor bo‘yicha kinolar</h1>
+  <p>DezoMax’dagi kinolar ${TAGS.length} ta teg bo‘yicha.</p>
+  ${TAG_GROUPS.map(g => { const gs = TAGS.filter(t => t.group === g); return gs.length ? `<h2>${esc(g)}</h2>
+  <ul class="seo-list seo-chips">${gs.map(t => `<li><a href="teg/${t.key}.html">${esc(t.name)} (${t.items.length})</a></li>`).join('')}</ul>` : ''; }).join('')}
+</div>`;
+  return page({ id: 0, title: 'Teglar — kinolar janr, yil, davlat va aktyor bo‘yicha | DezoMax', desc: `DezoMax kinolari ${TAGS.length} ta teg bo‘yicha: janrlar, yillar, davlatlar, aktyorlar, rejissyorlar.`,
+    url, image: '', type: 'website', ld: [crumbs([['Bosh sahifa', SITE], ['Teglar', url]])], body, keywords: ['kino teglar', 'kinolar janr bo‘yicha', 'kinolar yil bo‘yicha'] });
+}
+fs.mkdirSync(TAG_DIR, { recursive: true });
+const tagKeep = new Set(['index.html']);
+for (const t of TAGS) { fs.writeFileSync(path.join(TAG_DIR, t.key + '.html'), tagPage(t)); tagKeep.add(t.key + '.html'); }
+fs.writeFileSync(path.join(TAG_DIR, 'index.html'), tagIndexPage());
+for (const f of fs.readdirSync(TAG_DIR)) if (f.endsWith('.html') && !tagKeep.has(f)) fs.unlinkSync(path.join(TAG_DIR, f));
+console.log(`teg/ — ${TAGS.length} ta teg sahifasi`);
+
 console.log(`kino/ — ${list.length - trailers.length} ta film, ${trailers.length} ta treyler sahifasi; studio/ — ${Object.keys(studioPages).length} ta; toplam/ — ${collections.map(c => `${c.key} (${c.items.length})`).join(', ')}`);
-module.exports = { pages: map, studios: Object.keys(studioPages), collections: collections.map(c => c.key) };
+module.exports = { pages: map, studios: Object.keys(studioPages), collections: collections.map(c => c.key), tags: TAGS.map(t => t.key) };

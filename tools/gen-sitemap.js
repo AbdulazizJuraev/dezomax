@@ -63,10 +63,12 @@ const studios = (GEN.studios || []).map(k => ({ loc: `${SITE}studio/${k}.html`, 
 
 // mavzu to'plamlari — toplam/<key>.html (o'zbek seriallari, multfilmlar, konsertlar, premyeralar…)
 const collections = (GEN.collections || []).map(k => ({ loc: `${SITE}toplam/${k}.html`, lastmod: today, freq: 'daily', pr: '0.9' }));
+// teg sahifalari — teg/<key>.html (janr, yil, davlat, aktyor, rejissyor…)
+const tagUrls = [`${SITE}teg/index.html`, ...(GEN.tags || []).map(k => `${SITE}teg/${k}.html`)].map(loc => ({ loc, lastmod: today, freq: 'weekly', pr: '0.6' }));
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...pages, ...collections, ...studios, ...marvel, ...movies].map(u => `  <url>
+${[...pages, ...collections, ...tagUrls, ...studios, ...marvel, ...movies].map(u => `  <url>
     <loc>${u.loc.replace(/&/g, '&amp;')}</loc>
     <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.freq}</changefreq>
