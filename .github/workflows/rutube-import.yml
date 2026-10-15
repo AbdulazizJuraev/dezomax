@@ -31,12 +31,6 @@ jobs:
       - name: RuTube'dan qidirish, tekshirish, qo'shish
         run: node tools/rutube-import.js --max-new=800 --recheck=400
 
-      # Bollivud (Rajshri, Shemaroo, Goldmines, Ultra) va Gollivud/Amerika (FilmRise, Popcornflix) — rasmiy YouTube kanallari.
-      # YT_API_KEY (ixtiyoriy secret) bo'lsa — O'zbekiston cheklovi ham aniq tekshiriladi; bo'lmasa oEmbed (joylash ruxsati).
-      - name: YouTube studiyalaridan qidirish, tekshirish, qo'shish
-        env:
-          YT_API_KEY: ${{ secrets.YT_API_KEY }}
-        run: node tools/yt-studio-import.js --max-new=600 --recheck=300
 
       - name: Sahifalar, sitemap, versiyalar
         run: node tools/bump-version.js
@@ -51,7 +45,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A js data kino toplam marvel sitemap.xml ./*.html
           if git diff --cached --quiet; then echo "changed=0" >> "$GITHUB_OUTPUT"; echo "O'zgarish yo'q"; exit 0; fi
-          MSG=$(node -e "const t=require('./data/rutube-report.json').totals,y=require('./data/yt-report.json').totals;console.log('Avto-import: RuTube +'+t.published+', YouTube studiyalari +'+y.published+', '+t.queued+' navbatga, '+(t.removedBroken+y.removedBroken)+' ishlamaydigan olindi')")
+          MSG=$(node -e "const t=require('./data/rutube-report.json').totals;console.log('RuTube avto-import: +'+t.published+' film/multfilm, '+t.attached+' biriktirildi, '+t.queued+' navbatga, '+t.removedBroken+' ishlamaydigan olindi')")
           git commit -q -m "$MSG"
           for i in 1 2 3; do git pull -q --rebase && git push -q && break; sleep 5; done
           echo "changed=1" >> "$GITHUB_OUTPUT"

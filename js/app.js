@@ -538,7 +538,7 @@ const ROW_SOURCES = {
   custom:   { title: null,           all: null,                           list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
 };
 
-const DEFAULT_ROWS = ['popular', 'uzbek', 'klassika', 'hollywood', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
+const DEFAULT_ROWS = ['popular', 'uzbek', 'klassika', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons']
   .map(source => ({ source, visible: true }));
 
 /* ---------- «Seriallar» banneri: hamma seriallar bitta katta banner ostida ----------
