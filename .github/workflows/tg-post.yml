@@ -4,6 +4,11 @@ name: tg-post
 
 on:
   workflow_dispatch:
+    inputs:
+      setup:
+        description: "Kanal tavsifi va suratini o‘rnatish"
+        type: boolean
+        default: false
   schedule:
     - cron: '0 4,9,15 * * *'   # 09:00, 14:00, 20:00 (Toshkent)
 
@@ -24,7 +29,14 @@ jobs:
         with:
           node-version: 20
 
+      - name: Kanal tavsifi va surati
+        if: inputs.setup
+        env:
+          TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
+        run: node tools/tg-channel-setup.js
+
       - name: Kanalga post
+        if: !inputs.setup
         env:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
         run: node tools/tg-post.js --count=3
