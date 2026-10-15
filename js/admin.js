@@ -184,11 +184,28 @@ async function saveCustom(mutate, message, opts = {}) {
       customList = next;
       hiddenList = hidden;
       verifySaved(text);
+      saveSiteFiles(next, hidden);   // sayt uchun yengil nusxa (fonda)
       return;
     } catch (e) {
       if (e.status !== 409 || attempt) throw e;
     }
   }
+}
+
+/* Sayt data-custom.js ni emas, yengil nusxani yuklaydi (js/site-data-build.js): js/data-site.js + js/data-desc.js.
+   To'liq fayl saqlangach — shu ikkisi ham yangilanadi (ketma-ket saqlashlarda oxirgisi yoziladi). */
+let siteSaveQueue = Promise.resolve();
+function saveSiteFiles(list, hidden) {
+  if (typeof buildSiteData !== 'function') return;
+  siteSaveQueue = siteSaveQueue.then(async () => {
+    const { site, desc } = buildSiteData(list, hidden);
+    for (const [path, text] of [['js/data-site.js', site], ['js/data-desc.js', desc]]) {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try { await putFile(path, b64encode(text), `Sayt fayli yangilandi: ${path.slice(3)}`, await remoteSha(path)); break; }
+        catch (e) { if (e.status !== 409 || attempt) throw e; }
+      }
+    }
+  }).catch(e => toast('Sayt fayli yangilanmadi: ' + friendlyError(e) + ' — keyingi saqlashda qayta yoziladi', true));
 }
 
 /* Saqlangandan keyin GitHub'dagi fayl hajmi biz yuborgan matnnikiga tengligini tekshiramiz (fonda, bir necha KB —

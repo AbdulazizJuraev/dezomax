@@ -36,6 +36,6 @@ for (const dir of ['images/sport', 'images/tv', 'images/marvel', 'images/logo'])
   }
 }
 
-const out = { v, pages, shell: [...shell], data: ['js/data-custom.js', 'js/site-config.js'], images };
+const out = { v, pages, shell: [...shell], data: ['js/data-site.js', 'js/site-config.js'], images };
 fs.writeFileSync(path.join(root, 'data', 'offline-manifest.json'), JSON.stringify(out));
 console.log(`offline-manifest: ${pages.length} sahifa, ${shell.size} kod fayli, ${images.length} rasm`);

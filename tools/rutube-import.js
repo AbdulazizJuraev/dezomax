@@ -144,7 +144,15 @@ function readRutubeFile() {
   const t = fs.readFileSync(P('js/data-rutube.js'), 'utf8');
   const m = t.match(/\/\*RTDATA\*\/([\s\S]*?)\/\*ENDRTDATA\*\//);
   if (!m) throw new Error('js/data-rutube.js o‘qilmadi — import to‘xtatildi');
-  return JSON.parse(m[1]);
+  const items = JSON.parse(m[1]);
+  // tavsiflar alohida faylda (js/data-rutube-desc.js), nomning ruschasi o'zbekchasi bilan bir xil bo'lsa yozilmaydi
+  let desc = {};
+  try { desc = JSON.parse((fs.readFileSync(P('js/data-rutube-desc.js'), 'utf8').match(/\/\*RTDESC\*\/([\s\S]*?)\/\*ENDRTDESC\*\//) || [])[1] || '{}'); } catch {}
+  for (const x of items) {
+    if (x.title && !x.title.ru) x.title.ru = x.title.uz;
+    if (desc[x.id]) x.desc = { uz: desc[x.id] };   // to'liq tavsif (asosiy faylda — qisqartirilgani)
+  }
+  return items;
 }
 /* Ixcham yozuv (fayl har sahifada yuklanadi): tavsif bitta tilda (descOf o'zbekchada yo'q bo'lsa shuni oladi),
    aktyorlar — 4 ta, keraksiz/bo'sh maydonlar yo'q */
@@ -163,14 +171,28 @@ function slim(m) {
   return o;
 }
 function writeRutubeFile(items) {
-  const body = items.map(m => JSON.stringify(slim(m))).join(',\n');
+  const desc = {};
+  const body = items.map(m => {
+    const o = slim(m);
+    const d = o.desc && o.desc.uz;
+    if (d) desc[o.id] = d;
+    // karusel tavsifi uchun qisqa holda qoladi, to'liq tavsif — kino sahifasida (js/data-rutube-desc.js)
+    if (d) o.desc = { uz: d.length > 160 ? d.slice(0, 157).replace(/\s+\S*$/, '') + '…' : d }; else delete o.desc;
+    if (o.title && o.title.ru === o.title.uz) o.title = { uz: o.title.uz };
+    return JSON.stringify(o);
+  }).join(',\n');
   fs.writeFileSync(P('js/data-rutube.js'),
 `/* DezoMax — RuTube'dagi rasmiy studiya kanallaridan filmlar va multfilmlar (tools/rutube-import.js yozadi, qo'lda o'zgartirmang).
    Video RuTube'ning rasmiy embed pleyerida ko'rsatiladi (js/rutube.js) — yuklab olinmaydi. Manbalar: data/rutube-sources.json */
 var RUTUBE_MOVIES = /*RTDATA*/[
 ${body}
 ]/*ENDRTDATA*/;
-if (typeof MOVIES !== 'undefined') for (var i = 0; i < RUTUBE_MOVIES.length; i++) MOVIES.push(RUTUBE_MOVIES[i]);
+if (typeof MOVIES !== 'undefined') for (var i = 0; i < RUTUBE_MOVIES.length; i++) { var _r = RUTUBE_MOVIES[i]; if (!_r.title.ru) _r.title.ru = _r.title.uz; MOVIES.push(_r); }
+`);
+  fs.writeFileSync(P('js/data-rutube-desc.js'),
+`/* RuTube filmlarining to'liq tavsifi — faqat kino sahifasida yuklanadi (tools/rutube-import.js yozadi) */
+var RUTUBE_DESC = /*RTDESC*/${JSON.stringify(desc)}/*ENDRTDESC*/;
+if (typeof MOVIES !== 'undefined') for (var _j = 0; _j < MOVIES.length; _j++) { var _t = RUTUBE_DESC[MOVIES[_j].id]; if (_t) MOVIES[_j].desc = { uz: _t }; }
 `);
 }
 const readJSON = (f, d) => { try { return JSON.parse(fs.readFileSync(P(f), 'utf8')); } catch { return d; } };

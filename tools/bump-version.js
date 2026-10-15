@@ -30,6 +30,9 @@ for (const f of files) {
 console.log(`versiya ${version} — ${changed} ta HTML fayl yangilandi`);
 
 // Qidiruv tizimlari uchun kinolar ro'yxati ham yangilansin
+// sayt uchun yengil kinolar fayli (js/data-site.js, js/data-desc.js) — data-custom.js dan
+require('./gen-site-data.js');
+
 require('./gen-sitemap.js');
 
 // Ilova vidjeti uchun yangi kinolar (data/widget.json)
