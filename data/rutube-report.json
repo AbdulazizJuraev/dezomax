@@ -1,5 +1,5 @@
 {
- "at": "2026-10-14T06:08:01.612Z",
+ "at": "2026-10-15T05:53:58.426Z",
  "sources": [
   {
    "id": 25963146,
@@ -20,13 +20,13 @@
    "name": "Киностудия Горького",
    "rights": "owner",
    "kind": "film",
-   "listed": 534,
-   "candidates": 0,
-   "published": 0,
+   "listed": 535,
+   "candidates": 4,
+   "published": 4,
    "attached": 0,
    "queued": 0,
    "skipped": {
-    "avval ko‘rilgan / saytda bor": 534
+    "avval ko‘rilgan / saytda bor": 531
    }
   },
   {
@@ -48,14 +48,14 @@
    "name": "Союзмультфильм",
    "rights": "owner",
    "kind": "multfilm",
-   "listed": 2165,
-   "candidates": 0,
-   "published": 0,
+   "listed": 2168,
+   "candidates": 1,
+   "published": 1,
    "attached": 0,
    "queued": 0,
    "skipped": {
-    "4 daqiqadan qisqa": 1,
-    "avval ko‘rilgan / saytda bor": 2164
+    "4 daqiqadan qisqa": 2,
+    "avval ko‘rilgan / saytda bor": 2165
    }
   },
   {
@@ -105,36 +105,36 @@
    "name": "Фонд кино Армении",
    "rights": "review",
    "kind": "film",
-   "listed": 49,
-   "candidates": 0,
+   "listed": 50,
+   "candidates": 1,
    "published": 0,
    "attached": 0,
-   "queued": 0,
+   "queued": 1,
    "skipped": {
     "avval ko‘rilgan / saytda bor": 49
    }
   }
  ],
  "totals": {
-  "found": 5137,
-  "candidates": 0,
-  "checked": 0,
-  "working": 0,
+  "found": 5142,
+  "candidates": 6,
+  "checked": 6,
+  "working": 6,
   "notWorking": 0,
-  "published": 0,
+  "published": 5,
   "attached": 0,
-  "queued": 0,
+  "queued": 1,
   "duplicates": 0,
-  "recheckOk": 237,
-  "recheckFail": 163,
-  "removedBroken": 0
+  "recheckOk": 157,
+  "recheckFail": 243,
+  "removedBroken": 163
  },
  "notes": [],
  "catalog": {
-  "total": 3150,
-  "film": 2132,
-  "multfilm": 994,
-  "serial": 24
+  "total": 2993,
+  "film": 2123,
+  "multfilm": 855,
+  "serial": 15
  },
- "seconds": 291
+ "seconds": 212
 }

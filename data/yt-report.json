@@ -1,5 +1,5 @@
 {
- "at": "2026-10-14T06:12:52.503Z",
+ "at": "2026-10-15T05:57:30.526Z",
  "method": "oEmbed",
  "sources": [
   {
@@ -7,10 +7,11 @@
    "name": "Rajshri",
    "franchise": "hind",
    "listed": 1100,
-   "candidates": 0,
-   "published": 0,
+   "candidates": 1,
+   "published": 1,
    "skipped": {
-    "avval ko‘rilgan / saytda bor": 1100
+    "1 soatdan qisqa": 1,
+    "avval ko‘rilgan / saytda bor": 1098
    }
   },
   {
@@ -18,10 +19,10 @@
    "name": "Shemaroo Movies",
    "franchise": "hind",
    "listed": 1097,
-   "candidates": 0,
-   "published": 0,
+   "candidates": 1,
+   "published": 1,
    "skipped": {
-    "avval ko‘rilgan / saytda bor": 1097
+    "avval ko‘rilgan / saytda bor": 1096
    }
   },
   {
@@ -29,12 +30,12 @@
    "name": "Goldmines",
    "franchise": "hind",
    "listed": 1100,
-   "candidates": 2,
-   "published": 1,
+   "candidates": 0,
+   "published": 0,
    "skipped": {
-    "1 soatdan qisqa": 3,
-    "avval ko‘rilgan / saytda bor": 1095,
-    "saytda bor": 1
+    "nomi aniqlanmadi": 2,
+    "1 soatdan qisqa": 7,
+    "avval ko‘rilgan / saytda bor": 1091
    }
   },
   {
@@ -42,19 +43,21 @@
    "name": "Ultra Movie Parlour",
    "franchise": "hind",
    "listed": 1074,
-   "candidates": 0,
-   "published": 0,
+   "candidates": 2,
+   "published": 1,
    "skipped": {
-    "avval ko‘rilgan / saytda bor": 1074
+    "1 soatdan qisqa": 13,
+    "avval ko‘rilgan / saytda bor": 1059,
+    "ishlamaydi: joylash taqiqlangan": 1
    }
   },
   {
    "id": "UC8IHAQMuiJdY6ALuhG7iU8Q",
    "name": "FilmRise Movies",
    "franchise": "hollywood",
-   "listed": 179,
-   "candidates": 0,
-   "published": 0,
+   "listed": 180,
+   "candidates": 1,
+   "published": 1,
    "skipped": {
     "avval ko‘rilgan / saytda bor": 179
    }
@@ -72,23 +75,23 @@
   }
  ],
  "totals": {
-  "found": 4882,
-  "candidates": 2,
-  "checked": 2,
-  "working": 2,
-  "notWorking": 0,
-  "published": 1,
-  "duplicates": 1,
-  "noTitle": 0,
+  "found": 4883,
+  "candidates": 5,
+  "checked": 5,
+  "working": 4,
+  "notWorking": 1,
+  "published": 4,
+  "duplicates": 0,
+  "noTitle": 2,
   "recheckOk": 300,
   "recheckFail": 0,
   "removedBroken": 0
  },
  "notes": [],
  "catalog": {
-  "total": 1149,
-  "hind": 928,
-  "hollywood": 221
+  "total": 1153,
+  "hind": 931,
+  "hollywood": 222
  },
- "seconds": 33
+ "seconds": 35
 }
