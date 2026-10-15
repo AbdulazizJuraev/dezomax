@@ -62,8 +62,14 @@ async function send(m) {
     reply_markup: { inline_keyboard: [[{ text: '▶️ Ko‘rish', url }]] }
   };
   if (DRY) { console.log('— (sinov) —\n' + body.caption + '\n' + url + '\n'); return true; }
-  const r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-  const j = await r.json().catch(() => ({}));
+  const call = (method, b) => fetch(`https://api.telegram.org/bot${TOKEN}/${method}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) });
+  let r = await call('sendPhoto', body);
+  let j = await r.json().catch(() => ({}));
+  // Telegram posterni yuklay olmasa (masalan RuTube rasm serveri) — rasmsiz: matn + sahifa havolasi (oldindan ko'rinishi bilan)
+  if (!j.ok && /HTTP URL content|wrong file|IMAGE_PROCESS|photo/i.test(j.description || '')) {
+    r = await call('sendMessage', { chat_id: CHANNEL, text: `${body.caption}\n\n${url}`, parse_mode: 'HTML', reply_markup: body.reply_markup });
+    j = await r.json().catch(() => ({}));
+  }
   if (!j.ok) {
     console.log(`✗ ${m.title?.uz}: ${j.description || r.status}`);
     // diagnostika (bir marta): token qaysi botniki, kanal topiladimi — token chiqarilmaydi
