@@ -407,6 +407,8 @@ function formHTML(m = {}) {
         </div>
         ${field('Boshqa nomlari', `<input class="acc-input" name="tags" value="${val((m.tags || []).join(', '))}" placeholder="Vergul bilan: Qasoskorlar: Intiho, Avengers: Endgame, Мстители 4">`)}
         <p class="adm-hint">Qidiruv va Google/Yandex uchun boshqa nomlar.</p>
+        ${field('Teglar', `<input class="acc-input" name="kw" value="${val((m.kw || []).join(', '))}" placeholder="Vergul bilan: jangari, sevgi, o‘zbek kino, oilaviy">`)}
+        <p class="adm-hint">Kino sahifasida #teg bo‘lib chiqadi — bosilsa, shu teg bo‘yicha qidiruv ochiladi.</p>
         <div class="adm-row adm-row-4">
           ${field('Turi', `<select class="acc-input" name="type">${['film', 'serial', 'multfilm'].map(x => `<option value="${x}"${m.type === x ? ' selected' : ''}>${typeName(x)}</option>`).join('')}</select>`)}
           ${field('Yili', `<input class="acc-input" name="year" type="number" inputmode="numeric" min="1900" max="2100" value="${val(m.year)}" placeholder="2024">`)}
@@ -481,6 +483,19 @@ function formHTML(m = {}) {
           ${field('Manba havolasi', `<input class="acc-input" name="sourceUrl" value="${val(m.source?.url)}" placeholder="https://...">`)}
         </div>
         <p class="adm-hint" id="admVideoHint" hidden></p>
+        <div class="adm-vup">
+          <label class="adm-drop adm-drop-sm">
+            <input type="file" id="admVupFile" accept="video/*,.mkv,.mov,.avi">
+            <span class="adm-drop-icon">${ADM_ICONS.upload}</span>
+            <span class="adm-drop-text"><b>Videoni qurilmadan yuklash</b><small id="admVupNote">Fayl DezoCloud’ga yuklanadi, havolasi «To‘liq kino havolasi»ga o‘zi yoziladi</small></span>
+          </label>
+          <div class="adm-vup-key" id="admVupKey" hidden>
+            <input class="acc-input" type="password" id="admVupPass" placeholder="DezoCloud paroli" autocomplete="current-password">
+            <button class="btn btn-primary btn-sm" type="button" id="admVupConn">Ulash</button>
+          </div>
+          <div class="adm-vup-prog" id="admVupProg" hidden><i></i></div>
+          <button class="acc-link" type="button" id="admVupStop" hidden>To‘xtatish</button>
+        </div>
         <details class="adm-more-q"${(m.videos || []).length ? ' open' : ''}>
           <summary>Qo‘shimcha sifatlar (.mp4 uchun)</summary>
           <p class="acc-muted adm-more-q-hint">Bir kinoning turli sifatdagi fayllari bo‘lsa, havolalarini kiriting — pleyerda sifat tanlash chiqadi. «.m3u8» oqimda sifatlar avtomatik aniqlanadi.</p>
@@ -489,6 +504,23 @@ function formHTML(m = {}) {
           </div>
         </details>
       `)}
+
+      ${section('list', 'Qismlar (serial)', `
+        <p class="adm-hint">Serial yoki ko‘p qismli kino: 1-qism — yuqoridagi «To‘liq kino havolasi». Keyingi qismlarni shu yerga qo‘shing — saytda bitta karta, ichida «1-qism, 2-qism…» tugmalari chiqadi.</p>
+        ${(m.parts || []).length > 1 ? `<div class="adm-parts-old">${m.parts.map((id, i) => `<span class="adm-chip-sm">${i + 1}-qism${id === m.id ? ' (shu kino)' : ` · ID ${id}`}</span>`).join('')}</div>` : ''}
+        <div class="adm-parts" id="admParts"></div>
+        <button class="btn btn-ghost btn-sm" type="button" id="admPartAdd">+ Qism qo‘shish</button>
+      `, 'bir yo‘la bir nechta qism')}
+
+      ${section('media', 'Kinodan lavhalar', `
+        <label class="adm-drop">
+          <input type="file" id="admStillFiles" accept="image/*" multiple>
+          <span class="adm-drop-icon">${ADM_ICONS.upload}</span>
+          <span class="adm-drop-text"><b>Suratlar yuklash</b><small>Bir nechtasini birdaniga tanlash mumkin — avtomatik kichraytiriladi</small></span>
+        </label>
+        <div class="adm-stills" id="admStills"></div>
+        ${field('yoki surat havolalari (har biri yangi qatorda)', `<textarea class="acc-input" id="admStillUrls" rows="2" placeholder="https://...jpg"></textarea>`)}
+      `, 'kino sahifasida galereya')}
 
       ${section('gear', 'Ko‘rinish', `
         <div class="adm-switches">
@@ -551,6 +583,9 @@ function readForm(form, old = {}) {
   // boshqa nomlari (teglar): vergul bilan — "Qasoskorlar: Intiho" dagi ikki nuqta nom ichida qoladi
   const tags = [...new Set(s('tags').split(',').map(x => x.trim()).filter(Boolean))];
   if (tags.length) m.tags = tags; else delete m.tags;
+  // teglar (kino sahifasida #teg): vergul bilan, boshidagi # olib tashlanadi
+  const kw = [...new Set(s('kw').split(',').map(x => x.trim().replace(/^#+/, '').trim()).filter(Boolean))].slice(0, 30);
+  if (kw.length) m.kw = kw; else delete m.kw;
   if (old.seasons && !m.duration) m.seasons = old.seasons;
   // qo'shimcha sifatlar (.mp4): pleyerda sifat tanlash uchun
   const videos = ['1080p', '720p', '480p', '360p'].map(label => ({ label, url: s('q_' + label) })).filter(v => v.url);
@@ -646,6 +681,9 @@ function bindForm(old) {
   form.coverUrl.addEventListener('change', () => setCover(form.coverUrl.value.trim()));
 
   bindTmdb(form, { setHeroImg, setCover });
+  bindVideoUpload(form);
+  bindParts(form, old);
+  bindStills(form, old);
   bindAi(form);
   form.franchise.addEventListener('change', () => { $('#admMxBox').hidden = form.franchise.value !== 'marvel'; });
   bindTranslate(form);
@@ -672,6 +710,12 @@ function bindForm(old) {
       if (BLOCKED_HOSTS.test(inp.value)) return showErr('Bu xostdagi kontent ruxsatsiz tarqatiladi — qabul qilinmaydi.');
     }
     if (!form.video.value.trim() && !form.trailer.value.trim()) return showErr('Kino yoki treyler havolasini kiriting');
+    const partUrls = form._parts();
+    for (const u of partUrls) {
+      const r = checkVideoUrl(u);
+      if (!r.ok) return showErr('Qism havolasi: ' + r.msg);
+    }
+    if (form._partsBusy()) return showErr('Qism videosi hali yuklanmoqda — tugashini kuting');
 
     const btn = $('#admSubmit');
     btn.disabled = true;
@@ -690,6 +734,9 @@ function bindForm(old) {
       ]);
       if (poster) movie.poster = poster;
       if (cover) movie.cover = cover;
+      // kinodan lavhalar: yangi tanlangan suratlar ketma-ket yuklanadi (GitHub bir vaqtdagi yozuvlarni rad etadi)
+      const stills = await form._stillsFinal(safe);
+      if (stills.length) movie.stills = stills; else delete movie.stills;
       // TMDB rasmlari ikki o'lchamda: 16:9 (muqova → karusel va kompyuter kartalari), 9:16 (poster → telefon)
       const tmImg = u => /image\.tmdb\.org\/t\/p\//.test(String(u || ''));
       if (tmImg(movie.cover)) movie.hposter = movie.cover.replace(/\/t\/p\/w\d+\//, '/t/p/w1280/');
@@ -698,8 +745,9 @@ function bindForm(old) {
       await saveCustom(list => {
         const i = list.findIndex(x => x.id === movie.id);
         if (i > -1) list[i] = movie; else list.unshift(movie);
+        if (partUrls.length) addParts(list, movie, partUrls);
         return list;
-      }, `${old.id ? 'Kino tahrirlandi' : 'Kino qo‘shildi'}: ${movie.title.uz}`);
+      }, `${old.id ? 'Kino tahrirlandi' : 'Kino qo‘shildi'}: ${movie.title.uz}${partUrls.length ? ` (+${partUrls.length} qism)` : ''}`);
       if (rtq) await rtqSet(rtq, { status: 'approved', movieId: movie.id }).catch(e => console.warn('rutube navbati', e));
 
       toast(`Saqlandi. Saytda 1–2 daqiqada ko‘rinadi.`);
@@ -712,6 +760,130 @@ function bindForm(old) {
       btn.textContent = old.id ? 'O‘zgarishlarni saqlash' : 'Kino qo‘shish';
     }
   });
+}
+
+/* ---------- Kino formasi: qismlar (serial) ----------
+   Yangi qismlar alohida kino yozuvlari bo'ladi (nomi «<nom> N-qism», boshqa ma'lumotlari shu kinodan),
+   shu kino esa guruh kartasi: parts = [o'zi, 2-qism, 3-qism...] — «Guruhlar» bo'limidagi bilan bir xil tuzilma. */
+function bindParts(form, old) {
+  const box = $('#admParts'), add = $('#admPartAdd');
+  const base = (old.parts || []).length > 1 ? old.parts.length : 1;
+  form._parts = () => [...box.querySelectorAll('.adm-part input.acc-input')].map(i => i.value.trim()).filter(Boolean);
+  let busy = 0;
+  form._partsBusy = () => busy > 0;
+  const pof = typeof PART_OF !== 'undefined' && old.id ? PART_OF.get(old.id) : null;
+  if (pof) {
+    box.innerHTML = `<p class="adm-hint">Bu kino — ID ${pof.parent} guruhining ${pof.n}-qismi. Yangi qism qo‘shish uchun guruh kartasini (1-qism) oching.</p>`;
+    add.hidden = true;
+    return;
+  }
+  const renum = () => box.querySelectorAll('.adm-part > b').forEach((b, i) => { b.textContent = `${base + i + 1}-qism`; });
+  add.addEventListener('click', () => {
+    const r = document.createElement('div');
+    r.className = 'adm-part';
+    r.innerHTML = `<b></b><input class="acc-input" placeholder="Video havolasi yoki yonidagi tugma bilan yuklang" inputmode="url" autocomplete="off">
+      <label class="adm-part-up" title="Qurilmadan yuklash">${ADM_ICONS.upload}<input type="file" accept="video/*,.mkv,.mov,.avi"></label>
+      <button type="button" class="adm-part-del" aria-label="Olib tashlash">✕</button>
+      <small class="adm-hint" hidden></small><div class="adm-vup-prog" hidden><i></i></div>`;
+    const url = r.querySelector('input.acc-input'), file = r.querySelector('input[type=file]'), note = r.querySelector('small');
+    const prog = r.querySelector('.adm-vup-prog'), bar = prog.querySelector('i');
+    const say = (t, err) => { note.hidden = !t; note.textContent = t || ''; note.classList.toggle('is-error', !!err); };
+    r.querySelector('.adm-part-del').addEventListener('click', () => { if (r._ctl) r._ctl.stop = true; r.remove(); renum(); });
+    file.addEventListener('change', async () => {
+      const f = file.files[0];
+      file.value = '';
+      if (!f) return;
+      if (!dcKey()) {
+        const kb = $('#admVupKey');
+        kb.hidden = false; kb.scrollIntoView({ block: 'center' }); $('#admVupPass').focus();
+        return say('Avval yuqorida DezoCloud’ga ulaning, so‘ng faylni qayta tanlang', true);
+      }
+      r._ctl = { stop: false }; busy++; file.disabled = true; prog.hidden = false;
+      try {
+        const res = await dcUploadVideo(f, (d, t, sp, ph) => {
+          bar.style.width = (d / t * 100).toFixed(1) + '%';
+          say(ph === 'finish' ? 'DezoCloud faylni saqlayapti…' : `${f.name}: ${Math.floor(d / t * 100)}% · ${fmtSize(d)} / ${fmtSize(t)}`);
+        }, r._ctl);
+        url.value = res.url;
+        say(`✓ Yuklandi: ${f.name}`);
+      } catch (e) {
+        say(e.message || 'Yuklab bo‘lmadi', true);
+        bar.style.width = '0';
+      } finally {
+        busy--; file.disabled = false; r._ctl = null;
+      }
+    });
+    box.appendChild(r);
+    renum();
+    url.focus();
+  });
+}
+
+function addParts(list, head, urls) {
+  const used = new Set(list.map(x => x.id));
+  let n = Math.max(nextId(), head.id + 1);
+  const have = (head.parts || []).length > 1 ? head.parts : [head.id];
+  const ids = urls.map((url, k) => {
+    while (used.has(n)) n++;
+    used.add(n);
+    const no = have.length + k + 1;
+    const p = structuredClone(head);
+    ['parts', 'groupOrig', 'featured', 'cover', 'hposter', 'videos', 'stills', 'mx', 'langs', 'tmdb', 'trailer', 'kw'].forEach(key => delete p[key]);
+    Object.assign(p, {
+      id: n,
+      slug: `${head.slug}-${no}-qism`,
+      title: { uz: `${head.title.uz} ${no}-qism`, ru: `${head.title.ru} ${no} часть` },
+      video: url,
+      addedAt: Date.now(),
+      updatedAt: Date.now()
+    });
+    list.push(p);
+    return n;
+  });
+  head.parts = [...have, ...ids];
+  if (!head.groupOrig) head.groupOrig = { title: head.title, type: head.type };
+}
+
+/* ---------- Kino formasi: kinodan lavhalar (suratlar) ----------
+   m.stills = [rasm manzili, ...] — kino sahifasida galereya. Telefondan tanlanganlar saqlashda
+   images/custom/ ga kichraytirib yuklanadi; havola bilan qo'shilganlar shundayligicha. */
+function bindStills(form, old) {
+  const box = $('#admStills'), files = $('#admStillFiles'), urls = $('#admStillUrls');
+  const items = (old.stills || []).map(u => ({ url: u }));
+  const draw = () => {
+    box.innerHTML = items.map((it, i) => `<div class="adm-still"><img src="${esc(it.prev || it.url)}" alt="" onerror="this.style.opacity=.3">
+      <button type="button" data-sdel="${i}" aria-label="O‘chirish">✕</button>${i ? `<button type="button" class="adm-still-l" data-sleft="${i}" aria-label="Oldinga">‹</button>` : ''}</div>`).join('');
+  };
+  box.addEventListener('click', e => {
+    const d = e.target.closest('[data-sdel]'), l = e.target.closest('[data-sleft]');
+    if (d) items.splice(+d.dataset.sdel, 1);
+    else if (l) { const i = +l.dataset.sleft; [items[i - 1], items[i]] = [items[i], items[i - 1]]; }
+    else return;
+    draw();
+  });
+  files.addEventListener('change', () => {
+    for (const f of files.files) if (/^image\//.test(f.type)) items.push({ file: f, prev: URL.createObjectURL(f) });
+    files.value = '';
+    draw();
+  });
+  urls.addEventListener('change', () => {
+    for (const u of urls.value.split(/\s+/).filter(Boolean)) {
+      if ((/^https?:\/\/\S+$/i.test(u) || /^images\//.test(u)) && !BLOCKED_HOSTS.test(u) && !items.some(it => it.url === u)) items.push({ url: u });
+    }
+    urls.value = '';
+    draw();
+  });
+  form._stillsFinal = async slug => {
+    urls.dispatchEvent(new Event('change'));
+    let k = 0;
+    for (const it of items) {
+      if (!it.file) continue;
+      it.url = await uploadPoster(it.file, `${slug}-lavha-${Date.now().toString(36)}${k++}`, 1280);
+      delete it.file; delete it.prev;
+    }
+    return items.map(it => it.url).filter(Boolean).slice(0, 40);
+  };
+  draw();
 }
 
 /* ---------- Ko'rinishlar: Bosh sahifa · Kinolar · Qo'shish/Tahrirlash ---------- */
@@ -3194,6 +3366,148 @@ async function dc(path, opts = {}) {
 const onSite = url => !!url && customList.some(m => m.video === url);
 const fmtDur = s => { if (!s) return ''; s = Math.round(s); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h} soat ${m} daq.` : `${m || 1} daq.`; };
 const fmtSize = b => b >= 1073741824 ? (b / 1073741824).toFixed(1) + ' GB' : Math.max(1, Math.round(b / 1048576)) + ' MB';
+
+/* ---------- Qurilmadan video yuklash (kino formasi) ----------
+   Fayl 8 MB bo'laklarda DezoCloud'ning davom ettiriladigan yuklash yo'liga (/api/tg/up/*) yuboriladi,
+   so'ng muddatsiz ulashish havolasi olinadi va «To‘liq kino havolasi»ga yoziladi.
+   uploadId fayl nomi+hajmi+sanasidan — internet uzilsa yoki sahifa yopilsa, o'sha faylni qayta
+   tanlash qolgan joyidan davom ettiradi. */
+const dcSleep = ms => new Promise(r => setTimeout(r, ms));
+
+function videoMeta(file) {
+  return new Promise(ok => {
+    const v = document.createElement('video'), url = URL.createObjectURL(file);
+    let t;
+    const done = r => { clearTimeout(t); URL.revokeObjectURL(url); v.removeAttribute('src'); ok(r); };
+    t = setTimeout(() => done({}), 15000);
+    v.muted = true; v.preload = 'metadata';
+    v.onerror = () => done({});
+    v.onloadedmetadata = () => { v.currentTime = Math.min(60, (v.duration || 0) * 0.1); };
+    v.onseeked = () => {
+      const r = { duration: Math.round(v.duration) || undefined, width: v.videoWidth || undefined, height: v.videoHeight || undefined };
+      try {
+        const w = Math.min(640, v.videoWidth), h = Math.round(w * v.videoHeight / v.videoWidth);
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(v, 0, 0, w, h);
+        let q = 0.8, d = c.toDataURL('image/jpeg', q);
+        while (d.length > 500000 && q > 0.3) d = c.toDataURL('image/jpeg', q -= 0.2);
+        if (d.length <= 500000) r.thumb = d;
+      } catch { /* rasmsiz ham bo'ladi */ }
+      done(r);
+    };
+    v.src = url;
+  });
+}
+
+async function dcUploadVideo(file, onProg, ctl) {
+  const CHUNK = 8 * 1048576;
+  let h = 2166136261;
+  for (const ch of `${file.name}|${file.size}|${file.lastModified}`) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
+  const uploadId = `dm${h.toString(36)}${file.size.toString(36)}`;
+  const meta = await videoMeta(file);
+  const status = () => dc('/api/tg/up/status?uploadId=' + uploadId).then(j => j.receivedBytes || 0);
+  let off = await status().catch(() => 0), fails = 0;
+  const t0 = Date.now(), off0 = off;
+  onProg(off, file.size, 0);
+  while (off < file.size) {
+    if (ctl.stop) throw new Error('To‘xtatildi. Shu faylni qayta tanlasangiz, qolgan joyidan davom etadi.');
+    let r = null, j = {};
+    try {
+      r = await fetch(`${DC_URL}/api/tg/up/chunk?uploadId=${uploadId}&offset=${off}`, {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + dcKey(), 'Content-Type': 'application/octet-stream' },
+        body: file.slice(off, Math.min(file.size, off + CHUNK))
+      });
+      j = await r.json().catch(() => ({}));
+    } catch { r = null; }
+    if (r && r.ok) { off = j.receivedBytes; fails = 0; }
+    else if (r && r.status === 409 && Number.isFinite(j.receivedBytes)) off = j.receivedBytes;
+    else if (r && [400, 401, 413].includes(r.status)) {
+      if (r.status === 401) localStorage.removeItem(DC_KEY);
+      throw Object.assign(new Error(j.error || `DezoCloud xatosi (${r.status})`), { status: r.status });
+    } else {
+      if (++fails > 8) throw new Error('Internet uzildi. Shu faylni qayta tanlasangiz, qolgan joyidan davom etadi.');
+      await dcSleep(Math.min(30000, 1500 * fails));
+      off = await status().catch(() => off);
+      continue;
+    }
+    onProg(off, file.size, (off - off0) / Math.max(0.5, (Date.now() - t0) / 1000));
+  }
+  onProg(file.size, file.size, 0, 'finish');
+  // yakunlash: DezoCloud faylni Telegram'ga saqlab bo'lguncha kutadi (katta faylda bir necha daqiqa).
+  // Javob yo'lda yo'qolsa — server natijani eslab qolgan, qayta so'raymiz
+  let fin;
+  for (let i = 0; ; i++) {
+    try {
+      fin = await dc('/api/tg/up/finish', { method: 'POST', body: JSON.stringify({ uploadId, name: file.name, mime: file.type || 'video/mp4', size: file.size, ...meta }) });
+      break;
+    } catch (e) {
+      if (e.status || i >= 5) throw e;
+      await dcSleep(5000 * (i + 1));
+    }
+  }
+  return dc('/api/tg/up/share', { method: 'POST', body: JSON.stringify({ id: fin.id }) });
+}
+
+function bindVideoUpload(form) {
+  const inp = $('#admVupFile'), note = $('#admVupNote'), prog = $('#admVupProg'), bar = prog.querySelector('i');
+  const keyBox = $('#admVupKey'), pass = $('#admVupPass'), stopBtn = $('#admVupStop');
+  let pending = null, ctl = null;
+  const setNote = (t, err) => { note.textContent = t; note.classList.toggle('is-error', !!err); };
+  const guard = e => { e.preventDefault(); e.returnValue = ''; };
+
+  const start = async file => {
+    if (!dcKey()) {
+      pending = file; keyBox.hidden = false; pass.focus();
+      return setNote('Avval DezoCloud’ga ulaning — parol bir marta so‘raladi', true);
+    }
+    ctl = { stop: false };
+    inp.disabled = true; prog.hidden = false; stopBtn.hidden = false; $('#admSubmit').disabled = true;
+    addEventListener('beforeunload', guard);
+    try {
+      const res = await dcUploadVideo(file, (done, total, speed, phase) => {
+        bar.style.width = (done / total * 100).toFixed(1) + '%';
+        if (phase === 'finish') return setNote('DezoCloud faylni saqlayapti… (katta faylda bir necha daqiqa)');
+        const eta = speed > 0 ? Math.ceil((total - done) / speed / 60) : 0;
+        setNote(`${file.name}: ${Math.floor(done / total * 100)}% · ${fmtSize(done)} / ${fmtSize(total)}` +
+          (speed > 0 ? ` · ${(speed / 1048576).toFixed(1)} MB/s · ~${eta} daq.` : ''));
+      }, ctl);
+      form.video.value = res.url;
+      form.video.dispatchEvent(new Event('input'));
+      if (res.thumb && !form.coverUrl.value.trim() && !form.coverFile.files[0]) {
+        form.coverUrl.value = res.thumb;
+        form.coverUrl.dispatchEvent(new Event('change'));
+      }
+      if (!form.titleUz.value.trim()) {
+        form.titleUz.value = file.name.replace(/\.[^.]+$/, '').replace(/[._]+/g, ' ').trim();
+        form.titleUz.dispatchEvent(new Event('input'));
+      }
+      setNote(`✓ Yuklandi: ${file.name}. Havola qo‘yildi — endi pastdagi tugma bilan saqlang.`);
+    } catch (e) {
+      if (e.status === 401) { pending = file; keyBox.hidden = false; }
+      setNote(e.message || 'Yuklab bo‘lmadi', true);
+      bar.style.width = '0';
+    } finally {
+      removeEventListener('beforeunload', guard);
+      inp.disabled = false; stopBtn.hidden = true; $('#admSubmit').disabled = false; ctl = null;
+    }
+  };
+
+  inp.addEventListener('change', () => { const f = inp.files[0]; inp.value = ''; if (f) start(f); });
+  stopBtn.addEventListener('click', () => { if (ctl) { ctl.stop = true; setNote('To‘xtatilmoqda…'); } });
+  const connect = async () => {
+    if (!pass.value) return pass.focus();
+    try {
+      const j = await dc('/api/tg/key', { method: 'POST', body: JSON.stringify({ password: pass.value }) });
+      localStorage.setItem(DC_KEY, j.key);
+      pass.value = ''; keyBox.hidden = true;
+      if (pending) { const f = pending; pending = null; start(f); } else setNote('Ulandi. Endi videoni tanlang.');
+    } catch (e) { setNote(e.message, true); }
+  };
+  $('#admVupConn').addEventListener('click', connect);
+  pass.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); connect(); } });
+}
 
 /* ---------- Kanallar: rasmiy YouTube kanallaridan seriallar va filmlar ----------
    js/data-channels.js: CHANNELS (kanallar ro'yxati) + CHANNEL_MOVIES (ularning kinolari, ch: kanal kaliti).

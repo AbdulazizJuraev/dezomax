@@ -588,6 +588,16 @@ function renderMovie() {
   <div class="wrap">
     <div class="ad-slot" data-ad-slot="movie"></div>
 
+    ${stillsHTML(movie.stills || (group && group.stills) || [])}
+
+    ${(movie.kw || (group && group.kw) || []).length ? `
+    <section class="section">
+      <div class="section-head"><i class="bar"></i><h2>${LANG === 'ru' ? 'Теги' : 'Teglar'}</h2></div>
+      <div class="cast-list mv-kw">
+        ${(movie.kw || group.kw).map(k => `<a class="tag" href="search.html?q=${encodeURIComponent(k)}">#${esc(k)}</a>`).join('')}
+      </div>
+    </section>` : ''}
+
     <section class="section mv-comments" id="comments"></section>
 
     ${(movie.cast || []).length ? `
@@ -611,6 +621,7 @@ function renderMovie() {
     </section>
   </div>`;
 
+  bindStills(page);
   const similarRow = document.getElementById('similar');
   renderCards(similarRow, similarOf(movie));
   if (typeof Ads !== 'undefined') Ads.fill(page);
@@ -666,6 +677,44 @@ function renderMovie() {
   if (qp.get('play')) {
     setTimeout(() => document.getElementById('player').scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
   }
+}
+
+/* ---------- Kinodan lavhalar (admin'da qo'shilgan suratlar: m.stills) ----------
+   Gorizontal lenta; bosilsa — to'liq ekranda (chap/o'ng, Esc). Yengil: blur va animatsiyasiz. */
+function stillsHTML(list) {
+  if (!list.length) return '';
+  return `
+    <section class="section">
+      <div class="section-head"><i class="bar"></i><h2>${LANG === 'ru' ? 'Кадры из фильма' : 'Kinodan lavhalar'}</h2></div>
+      <div class="mv-stills">
+        ${list.map((u, i) => `<button class="mv-still" type="button" data-still="${i}" data-src="${esc(u)}"><img src="${esc(u)}" alt="${esc(title(movie))} — ${i + 1}" loading="lazy" decoding="async"></button>`).join('')}
+      </div>
+    </section>`;
+}
+
+function bindStills(root) {
+  const btns = [...root.querySelectorAll('.mv-still')];
+  if (!btns.length) return;
+  const srcs = btns.map(b => b.dataset.src);
+  let box = null, i = 0;
+  const show = n => { i = (n + srcs.length) % srcs.length; box.querySelector('img').src = srcs[i]; box.querySelector('.mv-lb-n').textContent = `${i + 1} / ${srcs.length}`; };
+  const key = e => { if (e.key === 'Escape') close(); else if (e.key === 'ArrowRight') show(i + 1); else if (e.key === 'ArrowLeft') show(i - 1); };
+  const close = () => { box.remove(); box = null; document.removeEventListener('keydown', key); document.documentElement.style.overflow = ''; };
+  btns.forEach(b => b.addEventListener('click', () => {
+    box = document.createElement('div');
+    box.className = 'mv-lb';
+    box.innerHTML = `<img alt=""><button class="mv-lb-x" aria-label="Yopish">${ICONS.close}</button>
+      ${srcs.length > 1 ? `<button class="mv-lb-p" aria-label="Oldingi">${ICONS.left}</button><button class="mv-lb-nx" aria-label="Keyingi">${ICONS.right}</button>` : ''}<span class="mv-lb-n"></span>`;
+    box.addEventListener('click', e => {
+      if (e.target.closest('.mv-lb-p')) show(i - 1);
+      else if (e.target.closest('.mv-lb-nx')) show(i + 1);
+      else if (e.target === box || e.target.closest('.mv-lb-x')) close();
+    });
+    document.body.appendChild(box);
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', key);
+    show(+b.dataset.still);
+  }));
 }
 
 /* ---------- Kutubxona kinolari: ruscha tavsif Wikipedia'dan (sahifa ochilganda) ----------
