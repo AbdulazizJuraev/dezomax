@@ -3368,7 +3368,7 @@ const fmtDur = s => { if (!s) return ''; s = Math.round(s); const h = Math.floor
 const fmtSize = b => b >= 1073741824 ? (b / 1073741824).toFixed(1) + ' GB' : Math.max(1, Math.round(b / 1048576)) + ' MB';
 
 /* ---------- Qurilmadan video yuklash (kino formasi) ----------
-   Fayl 8 MB bo'laklarda DezoCloud'ning davom ettiriladigan yuklash yo'liga (/api/tg/up/*) yuboriladi,
+   Fayl 32 MB bo'laklarda DezoCloud'ning davom ettiriladigan yuklash yo'liga (/api/tg/up/*) yuboriladi,
    so'ng muddatsiz ulashish havolasi olinadi va «To‘liq kino havolasi»ga yoziladi.
    uploadId fayl nomi+hajmi+sanasidan — internet uzilsa yoki sahifa yopilsa, o'sha faylni qayta
    tanlash qolgan joyidan davom ettiradi. */
@@ -3401,7 +3401,7 @@ function videoMeta(file) {
 }
 
 async function dcUploadVideo(file, onProg, ctl) {
-  const CHUNK = 8 * 1048576;
+  const CHUNK = 32 * 1048576;   // katta bo'lak — so'rovlar orasidagi kutish kamroq
   let h = 2166136261;
   for (const ch of `${file.name}|${file.size}|${file.lastModified}`) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
   const uploadId = `dm${h.toString(36)}${file.size.toString(36)}`;
@@ -3423,6 +3423,7 @@ async function dcUploadVideo(file, onProg, ctl) {
     } catch { r = null; }
     if (r && r.ok) { off = j.receivedBytes; fails = 0; }
     else if (r && r.status === 409 && Number.isFinite(j.receivedBytes)) off = j.receivedBytes;
+    else if (r && r.status === 404) throw new Error('DezoCloud serverida qurilmadan yuklash hali yoqilmagan (server yangilanishi kerak)');
     else if (r && [400, 401, 413].includes(r.status)) {
       if (r.status === 401) localStorage.removeItem(DC_KEY);
       throw Object.assign(new Error(j.error || `DezoCloud xatosi (${r.status})`), { status: r.status });
