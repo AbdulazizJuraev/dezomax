@@ -7902,3 +7902,5 @@ body:has(#hero[hidden]) #homeRows { padding-top: calc(var(--header-h, 64px) + 8p
 .rtq-stats span { padding: 6px 10px; border-radius: 10px; background: rgba(255, 255, 255, .05); font-size: 13px; color: var(--text-dim); }
 .rtq-stats b { color: var(--text); font-size: 15px; margin-right: 3px; }
 .rtq-srcs { margin: 8px 0; padding-left: 18px; font-size: 13px; line-height: 1.8; }
+/* TV rejimida ☰ menyu kerak emas — bo'limlar yuqorida ko'rinib turadi */
+html.tv-mode .nav-burger { display: none !important; }
