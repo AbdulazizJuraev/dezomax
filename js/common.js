@@ -882,7 +882,7 @@ const IS_TV = (() => {
     const saved = localStorage.getItem('dzx_tv');
     if (saved) return saved === '1';
   } catch (e) {}
-  return /Tizen|SMART-TV|SmartTV|Web0S|webOS|NetCast|HbbTV|BRAVIA|VIDAA|AFTB|AFTS|AFTT/i.test(navigator.userAgent);
+  return /Tizen|SMART-TV|SmartTV|Web0S|webOS|NetCast|HbbTV|BRAVIA|VIDAA|AFTB|AFTS|AFTT|DezoMaxTV/i.test(navigator.userAgent);
 })();
 if (IS_TV) {
   document.documentElement.classList.add('tv-mode');

@@ -112,8 +112,13 @@ public class MainActivity extends BridgeActivity {
             if (!maker.isEmpty() && !model.toLowerCase().startsWith(maker.toLowerCase()))
                 model = Character.toUpperCase(maker.charAt(0)) + maker.substring(1) + " " + model;
             model = model.replaceAll("[^\\w .\\-]", "").trim();
+            // Android TV (Artel, Shivaki, Xiaomi, pristavkalar) — sayt pult rejimiga o'tadi (js/common.js: DezoMaxTV)
+            android.app.UiModeManager ui = (android.app.UiModeManager) getSystemService(UI_MODE_SERVICE);
+            boolean tv = (ui != null && ui.getCurrentModeType() == android.content.res.Configuration.UI_MODE_TYPE_TELEVISION)
+                || getPackageManager().hasSystemFeature("android.software.leanback");
             webView.getSettings().setUserAgentString(
                 "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/" + ver + " Safari/537.36 DezoMaxApp"
+                + (tv ? " DezoMaxTV" : "")
                 + (model.isEmpty() ? "" : " (" + model + ")"));
         }
 
