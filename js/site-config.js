@@ -27,6 +27,14 @@ const SITE_CONFIG = /*CONFIG*/{
   "rows": [
     {
       "source": "uzbek",
+      "visible": false
+    },
+    {
+      "source": "new",
+      "visible": true
+    },
+    {
+      "source": "trending",
       "visible": true
     },
     {
@@ -35,14 +43,6 @@ const SITE_CONFIG = /*CONFIG*/{
     },
     {
       "source": "konsert",
-      "visible": true
-    },
-    {
-      "source": "trending",
-      "visible": true
-    },
-    {
-      "source": "new",
       "visible": true
     },
     {
