@@ -82,15 +82,48 @@ async function putFile(path, contentB64, message, sha) {
 
 let hiddenList = [];      // saytdan yashirilgan kinolar id'lari
 
+/* Tez yo'l: sahifa o'zi yuklagan data-custom.js (brauzer keshida turibdi) GitHub'dagi joriy versiya bilan
+   bir xil bo'lsa — uni qayta yuklamaymiz. Fayl ~10 MB: oldin har ochilishda ikki marta yuklanardi
+   (sahifa skripti + GitHub blob base64'da, +33 %). Bir xilligi git blob SHA-1 bilan aniq tekshiriladi;
+   farq qilsa (masalan, saqlangandan keyin sayt hali yangilanmagan) — eski yo'l: GitHub'dan o'qiladi. */
+async function pageCopyOf(sha) {
+  try {
+    const src = [...document.scripts].map(s => s.src).find(u => /\/js\/data-custom\.js(\?|$)/.test(u));
+    if (!src || !crypto.subtle) return null;
+    const r = await fetch(src);
+    if (!r.ok) return null;
+    const body = new Uint8Array(await r.arrayBuffer());
+    const head = new TextEncoder().encode(`blob ${body.length}\0`);
+    const all = new Uint8Array(head.length + body.length);
+    all.set(head); all.set(body, head.length);
+    const hex = [...new Uint8Array(await crypto.subtle.digest('SHA-1', all))].map(x => x.toString(16).padStart(2, '0')).join('');
+    return hex === sha ? new TextDecoder().decode(body) : null;
+  } catch { return null; }
+}
+
 async function loadCustom() {
-  const f = await getFile(DATA_PATH);
-  if (!f) { customList = []; hiddenList = []; dataSha = listSha = null; return; }
-  dataSha = listSha = f.sha;
-  const text = b64decode(f.content);
+  let text = null, sha = null;
+  try {
+    // 1 MB dan katta faylda GitHub matnni bermaydi — bu so'rov yengil (faqat sha va hajm)
+    const meta = await gh(`/contents/${DATA_PATH}?ref=${encodeURIComponent(GH.branch)}&t=${Date.now()}`);
+    if (meta && meta.sha && (!meta.content || meta.encoding === 'none')) {
+      text = await pageCopyOf(meta.sha);
+      if (text) sha = meta.sha;
+    }
+  } catch (e) {
+    if (e.status === 401 || e.status === 403) throw e;
+  }
+  if (!text) {
+    const f = await getFile(DATA_PATH);
+    if (!f) { customList = []; hiddenList = []; dataSha = listSha = null; return; }
+    sha = f.sha;
+    text = b64decode(f.content);
+  }
+  dataSha = listSha = sha;
   const m = text.match(/\/\*DATA\*\/([\s\S]*?)\/\*END\*\//);
   const h = text.match(/\/\*HIDDEN\*\/([\s\S]*?)\/\*ENDHIDDEN\*\//);
   // fayl bor-u, ro'yxat topilmadi — bo'sh deb hisoblamaymiz (aks holda saqlashda hamma kino o'chib ketadi)
-  if (!m && f.size > 0) throw new Error('data-custom.js o‘qilmadi — saqlash to‘xtatildi. Sahifani yangilab, qayta urining.');
+  if (!m && text.length > 0) throw new Error('data-custom.js o‘qilmadi — saqlash to‘xtatildi. Sahifani yangilab, qayta urining.');
   customList = m ? JSON.parse(m[1]) : [];
   hiddenList = h ? JSON.parse(h[1]) : [];
 }
