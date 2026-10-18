@@ -110,6 +110,10 @@ function vpBindUi(box, clickEl, p) {
   // bir marta bosish — panelni ko'rsatadi/yashiradi (pauza qilmaydi);
   // ikki marta: o'ng yarmida +10 s, chap yarmida −10 s (har keyingi tez bosish yana 10 s)
   let tapT = null, lastTap = 0, skipSum = 0, flashT;
+  // panel yashirin paytdagi bosish — faqat panelni ochadi. Telefonda touchstart (wake) panelni darrov ochib qo'yadi,
+  // shuning uchun holatni undan oldin (pointerdown, capture) eslab qolamiz — aks holda bosish panelni yana yashirardi
+  let idleAtDown = false;
+  box.addEventListener('pointerdown', () => { idleAtDown = box.classList.contains('ytp-idle'); }, true);
   const flash = right => {
     const el = $('#vpFlash');
     skipSum = el.classList.contains(right ? 'is-right' : 'is-left') && el.classList.contains('is-on') ? skipSum + 10 : 10;
@@ -129,7 +133,7 @@ function vpBindUi(box, clickEl, p) {
     lastTap = now;
     tapT = setTimeout(() => {
       tapT = null;
-      if (p.paused() || box.classList.contains('ytp-idle')) p.wake();
+      if (idleAtDown || p.paused() || box.classList.contains('ytp-idle')) p.wake();
       else p.hide();
     }, 300);
   });
