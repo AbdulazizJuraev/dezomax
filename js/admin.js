@@ -989,53 +989,91 @@ function timeAgo(iso) {
   return `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()}`;
 }
 
-/* ---------- Umumiy qobiq ---------- */
+/* ---------- Umumiy qobiq — DezoMax Studio 4.0 (tasdiqlangan dizayn: «Studiya», laym) ----------
+   Chapda bo'limlar (Asosiy · Sayt · Manbalar · Nazorat), tepada qidiruv va «Kino qo'shish»; telefonda — pastki menyu
+   (Panel · Kinolar · + · Sayt · Menyu), menyu tugmasi chap panelni ochadi. Bo'limlarning ichki sahifalari — o'z funksiyalarida. */
+const A4_ICONS = {
+  broom: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6M12.5 5.5l6 6-4.5 4.5-6-6zM8 10l-5 9 2 2 9-5"/></svg>',
+  rutube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M9 8h4.5a2.5 2.5 0 0 1 0 5H9zM9 8v8M12.5 13l2.5 3"/></svg>',
+  lang: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>',
+  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  out: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/></svg>',
+  upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>',
+  layout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 10h18M9 10v10"/></svg>'
+};
+const A4_NAV = [
+  ['ASOSIY', [['home', 'home', 'Boshqaruv paneli'], ['list', 'list', 'Kinolar', () => allMovies().length], ['form', 'plus', 'Kino qo‘shish'], ['groups', 'group', 'Seriallar va qismlar']]],
+  ['SAYT', [['site', 'layout', 'Bosh sahifa va sayt'], ['notify', 'bell', 'Xabarnoma'], ['logo', 'film', 'Video belgisi']]],
+  ['MANBALAR', [['channels', 'yt', 'YouTube kanallar'], ['tg', 'tg', 'Telegram import'], ['rutube', 'rutube', 'RuTube'], ['langvid', 'lang', 'Til videolari']]],
+  ['NAZORAT', [['clean', 'broom', 'Nomlarni tozalash', () => rawTitleItems().length, 'n'], ['broken', 'bolt', 'Ishlamaydiganlar', () => brokenBadCount(), 'w'], ['dups', 'copy', 'Dublikatlar'], ['backup', 'shield', 'Zaxira']]]
+];
+const a4Icon = k => A4_ICONS[k] || NAV_ICONS[k] || '';
+let a4Counts = null;   // badge sonlari — har renderMain'da qayta hisoblanmaydi (13 000+ kino), kino saqlanganda yangilanadi
+function brokenBadCount() {
+  const r = brokenLoad();
+  return Object.values(r).filter(x => x && x.s && x.s !== 'ok').length;
+}
 
 function renderMain() {
   initAiChat();
-  // Minimal menyu: 4 ta asosiy bo'lim + «Boshqa» (kam ishlatiladiganlari ochiladigan ro'yxatda)
-  const PRIMARY = [['home', 'home', 'Bosh sahifa'], ['list', 'list', 'Kinolar'], ['form', 'plus', 'Qo‘shish'], ['site', 'gear', 'Sayt']];
-  const MORE = [['channels', 'yt', 'Kanallar'], ['groups', 'group', 'Guruhlar'], ['dups', 'copy', 'Dublikatlar'], ['broken', 'bolt', 'Ishlamaydi'],
-    ['rutube', 'yt', 'RuTube'], ['langvid', 'yt', 'Til videolari'], ['notify', 'bell', 'Xabar'], ['tg', 'tg', 'Telegram'], ['backup', 'shield', 'Zaxira'], ['logo', 'film', 'LogoVidio']];
+  if (!a4Counts || a4Counts.for !== customList) {
+    a4Counts = { for: customList };
+    A4_NAV.forEach(([, items]) => items.forEach(([v, , , fn]) => { if (fn) try { a4Counts[v] = fn(); } catch { a4Counts[v] = 0; } }));
+  }
   const isOn = v => view === v && (v !== 'form' || !editingId);
-  const inMore = MORE.find(x => x[0] === view);
+  const fmt = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
   $('#admin').innerHTML = `
-    <div class="adm-top">
-      <h1>Admin</h1>
-      <div class="adm-top-actions">
-        <a class="adm-icon-btn" href="${SITE_URL}" target="_blank" rel="noopener" title="Saytni ochish" aria-label="Saytni ochish">${NAV_ICONS.link}</a>
-        <button class="adm-icon-btn" type="button" id="admLogout" title="Chiqish" aria-label="Chiqish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/></svg></button>
+    <div class="a4">
+      <aside class="a4-side" id="a4Side">
+        <a class="a4-logo" href="admin.html"><img src="images/logo/dezomax-name.webp" alt="DezoMax" width="140" height="23"><span>STUDIO</span></a>
+        ${A4_NAV.map(([grp, items]) => `<div class="a4-grp">${grp}</div>` + items.map(([v, ic, label, , cls]) => {
+          const n = a4Counts[v];
+          return `<button type="button" class="a4-it${isOn(v) ? ' is-on' : ''}" data-view="${v}">${a4Icon(ic)}<span>${label}</span>${n ? `<em class="${cls || ''}">${fmt(n)}</em>` : ''}</button>`;
+        }).join('')).join('')}
+        <div class="a4-me"><a class="a4-site" href="${SITE_URL}" target="_blank" rel="noopener">${NAV_ICONS.link}<span>Saytni ochish</span></a>
+          <button type="button" class="a4-out" id="admLogout" title="Chiqish" aria-label="Chiqish">${A4_ICONS.out}</button></div>
+      </aside>
+      <div class="a4-scrim" id="a4Scrim" hidden></div>
+      <div class="a4-main">
+        <div class="a4-top">
+          <button type="button" class="a4-burger" id="a4Burger" aria-label="Menyu">${A4_ICONS.menu}</button>
+          <label class="a4-srch">${A4_ICONS.search}<input id="a4Search" type="search" placeholder="Kino qidirish — nomi, ID yoki teg" value="${esc(view === 'list' ? listQuery : '')}"><kbd>/</kbd></label>
+          <span class="a4-gap"></span>
+          <button type="button" class="a4-add" data-view="form">${NAV_ICONS.plus}<span>Kino qo‘shish</span></button>
+        </div>
+        <div class="a4-ct"><div id="admView"></div></div>
       </div>
-    </div>
-    <nav class="adm-nav adm-nav2">
-      ${PRIMARY.map(([v, ic, label]) => `<button type="button" data-view="${v}" class="${isOn(v) ? 'is-active' : ''}">${NAV_ICONS[ic]}<span>${label}</span></button>`).join('')}
-      <button type="button" id="admMoreBtn" class="${inMore ? 'is-active' : ''}" aria-haspopup="true" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg><span>${inMore ? inMore[2] : 'Boshqa'}</span>
-      </button>
-    </nav>
-    <div class="adm-more-menu" id="admMoreMenu" hidden>
-      ${MORE.map(([v, ic, label]) => `<button type="button" data-view="${v}" class="${view === v ? 'is-active' : ''}">${NAV_ICONS[ic]}<span>${label}</span></button>`).join('')}
-    </div>
-    <div id="admView"></div>`;
+      <nav class="a4-tabs">
+        <button type="button" data-view="home" class="${isOn('home') ? 'is-on' : ''}">${NAV_ICONS.home}<span>Panel</span></button>
+        <button type="button" data-view="list" class="${isOn('list') ? 'is-on' : ''}">${NAV_ICONS.list}<span>Kinolar</span></button>
+        <button type="button" data-view="form" class="a4-plus" aria-label="Kino qo‘shish">${NAV_ICONS.plus}</button>
+        <button type="button" data-view="site" class="${isOn('site') ? 'is-on' : ''}">${A4_ICONS.layout}<span>Sayt</span></button>
+        <button type="button" id="a4MenuTab">${A4_ICONS.menu}<span>Menyu</span></button>
+      </nav>
+    </div>`;
 
   $('#admLogout').addEventListener('click', () => {
     if (!confirm('Token shu qurilmadan o‘chirilsinmi?')) return;
     localStorage.removeItem(TOKEN_KEY);
     renderTokenScreen();
   });
-  document.querySelectorAll('.adm-nav [data-view], .adm-more-menu [data-view]').forEach(b => b.addEventListener('click', () => go(b.dataset.view)));
-  const moreBtn = $('#admMoreBtn'), moreMenu = $('#admMoreMenu');
-  moreBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    moreMenu.hidden = !moreMenu.hidden;
-    moreBtn.setAttribute('aria-expanded', String(!moreMenu.hidden));
+  const side = $('#a4Side'), scrim = $('#a4Scrim');
+  const openSide = on => { side.classList.toggle('is-open', on); scrim.hidden = !on; };
+  document.querySelectorAll('.a4 [data-view]').forEach(b => b.addEventListener('click', () => { openSide(false); go(b.dataset.view); }));
+  $('#a4Burger').addEventListener('click', () => openSide(true));
+  $('#a4MenuTab').addEventListener('click', () => openSide(true));
+  scrim.addEventListener('click', () => openSide(false));
+  const srch = $('#a4Search');
+  srch.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    listQuery = srch.value.trim(); listFilter = 'all';
+    go('list');
   });
-  // tashqariga bosilsa yopiladi (tinglovchi bir marta — renderMain har safar chaqirilganda qo'shilib ketmasin)
-  if (!renderMain.moreBound) {
-    renderMain.moreBound = true;
-    document.addEventListener('click', e => {
-      const menu = $('#admMoreMenu');
-      if (menu && !menu.hidden && !e.target.closest('#admMoreMenu')) { menu.hidden = true; $('#admMoreBtn')?.setAttribute('aria-expanded', 'false'); }
+  if (!renderMain.keyBound) {
+    renderMain.keyBound = true;
+    document.addEventListener('keydown', e => {
+      if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || '')) { e.preventDefault(); $('#a4Search')?.focus(); }
     });
   }
 
@@ -1052,54 +1090,243 @@ function renderMain() {
   else if (view === 'logo') renderLogoView();
   else if (view === 'langvid') renderLangVidView();
   else if (view === 'rutube') renderRutubeView();
+  else if (view === 'clean') renderCleanView();
   else renderFormView();
 }
 
-/* ---------- Bosh sahifa ---------- */
+/* ---------- Boshqaruv paneli ---------- */
+
+const DAY_MS = 86400000;
+// brauzerlar 'uz-UZ' sanasini bilmaydi («M10 20, Tue» chiqardi) — o'zbekcha qo'lda
+const UZ_WD = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'];
+const UZ_MON = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr'];
+const uzDate = d => `${UZ_WD[d.getDay()]}, ${d.getDate()}-${UZ_MON[d.getMonth()]}`;
+function a4Source(m) {
+  const v = String(m.video || '');
+  if (/dezocloud/i.test(v)) return 'DezoCloud';
+  if (/youtu/i.test(v)) return 'YouTube';
+  if (/rutube/i.test(v)) return 'RuTube';
+  if (/t\.me|telegram/i.test(v)) return 'Telegram';
+  if (!v && m.trailer) return 'Treyler';
+  return v ? 'Fayl' : '—';
+}
+function a4Status(m) {
+  if (hiddenList.includes(m.id)) return ['n', 'Yashirilgan'];
+  if (!m.video && !(Array.isArray(m.parts) && m.parts.length)) return m.trailer ? ['s', 'Faqat treyler'] : ['o', 'Videosi yo‘q'];
+  if (!(m.desc && (m.desc.uz || m.desc.ru))) return ['a', 'Tavsif yo‘q'];
+  if (isRawTitle(m.title?.uz)) return ['a', 'Nomi xom'];
+  return ['l', 'Saytda'];
+}
 
 function renderHome() {
-  // «Saytda» — saytda haqiqatan ko'rinadiganlar (kutubxona — data-lib — saytda yo'q, faqat admin'da), Faol'dagilardan tashqari:
-  // bir kino ikki joyda sanalmaydi (Faol + Saytda = saytdagi jami)
   const all = allMovies();
   const active = activeList();
-  const activeIds = new Set(active.map(m => m.id));
-  const hidden = new Set(hiddenList);
-  const siteIds = new Set([...(window.SITE_BASE_IDS || []), ...customList.map(x => x.id)]);
-  const onSiteRest = [...siteIds].filter(id => !hidden.has(id) && !activeIds.has(id)).length;
-  // minimal: 4 ta asosiy raqam (bosilsa — Kinolar ro'yxati shu filtr bilan), oxirgi 5 ta o'zgartirilgan kino, tarix — yig'iladi
-  const stats = [
-    ['Faol', active.length, 'active'],        // qo'shilgan, tahrirlangan, kanallardan va RuTube'dan (yashirilganlarsiz)
-    ['Saytda', onSiteRest, 'all'],
-    ['Qo‘shilgan', addedList().length, 'added'],
-    ['Yashirilgan', hiddenList.length, 'hidden']
-  ];
-  const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 5);
+  const now = Date.now();
+  const weekAdded = customList.filter(m => (m.addedAt || 0) > now - 7 * DAY_MS).length;
+  const raw = rawTitleItems().length, bad = brokenBadCount();
+  const splitGroups = splitEpisodeGroups();
+  const fmt = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
+  const h = new Date().getHours();
+  const hello = h < 5 ? 'Xayrli tun' : h < 12 ? 'Xayrli tong' : h < 18 ? 'Xayrli kun' : 'Xayrli kech';
+  // so'nggi 14 kunda qo'shilgan kinolar (kunma-kun)
+  const days = Array.from({ length: 14 }, (_, i) => {
+    const d = new Date(now - (13 - i) * DAY_MS); d.setHours(0, 0, 0, 0);
+    const from = +d, to = from + DAY_MS;
+    return { d, n: customList.filter(m => m.addedAt >= from && m.addedAt < to).length };
+  });
+  const maxN = Math.max(1, ...days.map(x => x.n));
+  const WD = ['Ya', 'Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh'];
+  const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 6);
 
   $('#admView').innerHTML = `
-    <div class="adm-stats adm-stats3 adm-stats4">
-      ${stats.map(([label, n, filter]) => `
-        <button class="adm-stat" type="button" data-stat="${filter}"><b>${n}</b><small>${label}</small></button>`).join('')}
+    <div class="a4-head"><div><h1>${hello}</h1><p class="a4-sub" id="a4Deploy">${uzDate(new Date())}</p></div></div>
+    <div class="a4-stats">
+      <button class="a4-card a4-st" type="button" data-stat="all"><span>${NAV_ICONS.film}Kinolar</span><b>${fmt(all.length)}</b><small>${fmt(active.length)} tasi faol</small></button>
+      <button class="a4-card a4-st" type="button" data-stat="added"><span>${NAV_ICONS.plus}Qo‘shilgan</span><b>${fmt(addedList().length)}</b><small class="is-up">+${weekAdded} shu hafta</small></button>
+      <button class="a4-card a4-st" type="button" data-stat="hidden"><span>${ITEM_ICONS.eyeOff}Yashirilgan</span><b>${fmt(hiddenList.length)}</b><small>saytda ko‘rinmaydi</small></button>
+      <button class="a4-card a4-st" type="button" data-go="clean"><span>${A4_ICONS.broom}E’tibor talab</span><b>${fmt(raw + bad)}</b><small class="${raw + bad ? 'is-warn' : ''}">${raw} xom nom · ${bad} ishlamaydi</small></button>
     </div>
-
-    <section class="adm-sec">
-      <div class="adm-sec-head">
-        <h3>Oxirgi kinolar</h3>
-        <button class="acc-link adm-more" type="button" data-go="list">Hammasi (${all.length}) →</button>
+    <div class="a4-row">
+      <div class="a4-col">
+        <section class="a4-card"><div class="a4-ch"><b>Qo‘shilgan kinolar · 14 kun</b><span>${days.reduce((s, x) => s + x.n, 0)} ta</span></div>
+          <div class="a4-chart">${days.map((x, i) => `<div class="${i === 13 ? 'is-on' : ''}" title="${x.n} ta"><i style="height:${Math.max(4, x.n / maxN * 100)}%"></i><small>${i % 2 ? WD[x.d.getDay()] : x.d.getDate()}</small></div>`).join('')}</div></section>
+        <section class="a4-card a4-grow"><div class="a4-ch"><b>Oxirgi qo‘shilganlar</b><button class="a4-link" type="button" data-go="list">Hammasi →</button></div>
+          <div class="a4-table">${recent.map(m => { const [c, s] = a4Status(m); return `
+            <div class="a4-tr"><span class="a4-pst">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+              <div class="a4-tt"><b>${esc(m.title?.uz || '')}</b><small>${[typeName(m.type), m.year].filter(Boolean).join(' · ')}</small></div>
+              <span class="a4-src">${a4Source(m)}</span><span class="a4-pill is-${c}">${s}</span>
+              <button class="a4-ib" type="button" data-edit="${m.id}" title="Tahrirlash" aria-label="Tahrirlash">${ITEM_ICONS.edit}</button></div>`; }).join('') || '<p class="a4-sub">Hali kino qo‘shilmagan</p>'}</div></section>
       </div>
-      ${recent.length
-        ? `<div class="acc-list">${recent.map(itemHTML).join('')}</div>`
-        : `<div class="adm-mini-list">${all.slice(0, 5).map(itemHTML).join('')}</div>`}
-    </section>
-
-    <details class="adm-sec adm-fold">
+      <div class="a4-side2">
+        <section class="a4-card"><div class="a4-ch"><b>Tezkor amallar</b></div><div class="a4-qa">
+          <button type="button" data-go="form">${A4_ICONS.upload}<b>Qurilmadan</b><small>video yuklash</small></button>
+          <button type="button" data-go="tg">${NAV_ICONS.tg}<b>Telegramdan</b><small>post havolasi</small></button>
+          <button type="button" data-go="channels">${NAV_ICONS.yt}<b>YouTube</b><small>kanallarni yangilash</small></button>
+          <button type="button" data-go="site">${A4_ICONS.layout}<b>Bosh sahifa</b><small>karusel va qatorlar</small></button></div></section>
+        <section class="a4-card"><div class="a4-ch"><b>Sayt sog‘lig‘i</b><span class="a4-pill is-n" id="a4HealthAll">tekshirilmoqda…</span></div><div class="a4-health" id="a4Health"><div class="mt-loading"><i></i><i></i><i></i></div></div></section>
+        <section class="a4-card"><div class="a4-ch"><b class="a4-ai"><i class="a4-orb"></i>Dezo tavsiya qiladi</b></div><div class="a4-tips">
+          ${raw ? `<div class="a4-tip"><b>${fmt(raw)} ta kinoning nomi xom</b> (Telegram’dan): emoji, «720p», «PREMYERA»… Toza nomlarni tayyorlab qo‘ydim.<div><button class="a4-btn is-p" type="button" data-go="clean">Ko‘rib chiqish</button></div></div>` : ''}
+          ${splitGroups.length ? `<div class="a4-tip"><b>«${esc(splitGroups[0].title)}»</b> — ${splitGroups[0].items.length} ta alohida kino bo‘lib turibdi${splitGroups.length > 1 ? ` (yana ${splitGroups.length - 1} ta serial shunday)` : ''}. Bitta serialga birlashtirish kerak.<div><button class="a4-btn is-p" type="button" data-go="groups">Guruhlarga o‘tish</button></div></div>` : ''}
+          ${bad ? `<div class="a4-tip"><b>${bad} ta kino ochilmayapti</b> — havolasi eskirgan yoki o‘chirilgan.<div><button class="a4-btn" type="button" data-go="broken">Ko‘rish</button></div></div>` : ''}
+          ${!raw && !splitGroups.length && !bad ? '<div class="a4-tip">Hammasi joyida — tuzatish kerak bo‘lgan narsa topilmadi.</div>' : ''}
+        </div></section>
+      </div>
+    </div>
+    <details class="adm-sec adm-fold a4-fold">
       <summary class="adm-sec-head"><h3>Oxirgi o‘zgarishlar</h3></summary>
       <div id="admCommits"><div class="mt-loading"><i></i><i></i><i></i></div></div>
     </details>`;
 
-  document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
-  document.querySelectorAll('[data-stat]').forEach(b => b.addEventListener('click', () => { listFilter = b.dataset.stat; listQuery = ''; go('list'); }));
-  bindList();
-  loadCommits();
+  document.querySelectorAll('#admView [data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
+  document.querySelectorAll('#admView [data-stat]').forEach(b => b.addEventListener('click', () => { listFilter = b.dataset.stat; listQuery = ''; go('list'); }));
+  document.querySelectorAll('#admView [data-edit]').forEach(b => b.addEventListener('click', () => { editingId = +b.dataset.edit; view = 'form'; renderMain(); window.scrollTo({ top: 0 }); }));
+  loadHealth();
+  document.querySelector('.a4-fold')?.addEventListener('toggle', e => { if (e.target.open) loadCommits(); }, { once: true });
+}
+
+/* Sayt sog'lig'i: GitHub Actions — saytni chiqarish (cf-site, tekshiruv bilan), ma'lumot himoyasi (data-guard), Pages */
+async function loadHealth() {
+  const box = $('#a4Health'), all = $('#a4HealthAll');
+  if (!box) return;
+  try {
+    const r = await gh(`/actions/runs?per_page=30`);
+    const runs = r.workflow_runs || [];
+    const last = name => runs.find(x => (x.name || '').toLowerCase() === name);
+    const rows = [
+      ['cf-site', 'Saytni chiqarish (tekshiruv bilan)'],
+      ['data-guard', 'Ma’lumot himoyasi'],
+      ['pages build and deployment', 'Ilova va admin (github.io)']
+    ].map(([k, label]) => {
+      const x = last(k);
+      if (!x) return `<div><i class="is-n">–</i>${label}<small>ma’lumot yo‘q</small></div>`;
+      const ok = x.conclusion === 'success', run = x.status !== 'completed';
+      return `<div><i class="${run ? 'is-n' : ok ? 'is-ok' : 'is-wn'}">${run ? '…' : ok ? '✓' : '!'}</i>${label}<small>${run ? 'ishlamoqda' : timeAgo(x.updated_at)}</small></div>`;
+    });
+    const anyBad = runs.slice(0, 10).some(x => x.status === 'completed' && x.conclusion === 'failure' && /cf-site|guard/i.test(x.name || ''));
+    box.innerHTML = rows.join('');
+    all.textContent = anyBad ? 'E’tibor bering' : 'Hammasi joyida';
+    all.className = `a4-pill is-${anyBad ? 'o' : 'l'}`;
+    const site = last('cf-site');
+    if (site && $('#a4Deploy')) $('#a4Deploy').textContent += ` · oxirgi chiqarish ${timeAgo(site.updated_at)}${site.conclusion === 'success' ? ' muvaffaqiyatli' : ''}`;
+  } catch {
+    box.innerHTML = '<div><i class="is-n">–</i>GitHub’dan holatni olib bo‘lmadi<small>keyinroq</small></div>';
+    all.textContent = 'noma’lum'; all.className = 'a4-pill is-n';
+  }
+}
+
+/* ---------- Nomlarni tozalash ----------
+   Telegram'dan kelgan nomlar ko'pincha xom: emoji, «720p», «UZBEK TILIDA», «PREMYERA 2025-yil», kanal nomlari, bo'sh qavslar,
+   hammasi katta harfda. Qoida bo'yicha toza nom taklif qilinadi (tahrirlash mumkin), belgilanganlari BITTA saqlashda yoziladi. */
+// «O‘zbek tilida» o'zi xom emas (ko'p rasmiy nomlarda bor) — faqat sifat/«kino»/«full» bilan birga kelsa
+const RAW_RE = /[\p{Extended_Pictographic}✓•►▶✅🎬]|\b(?:480|720|1080|2160)p\b|\bfull\s*hd\b|tarjima\s*kino|premyera|premiera|@\w|t\.me\/|#\p{L}|\(\s*\)|\bnomi\s*:|\bdrama\s+nomi\b|to['‘’]?liq\s+(?:kino|film)\b|(?:uzbek|o['‘’`]?zbek)\s*tilida\s*(?:\d{3,4}p|hd|kino|film|full)/iu;
+function isRawTitle(t) {
+  const s = String(t || '').trim();
+  if (!s) return false;
+  if (RAW_RE.test(s)) return true;
+  const letters = s.replace(/[^\p{L}]/gu, '');
+  return letters.length > 8 && letters === letters.toUpperCase() && letters !== letters.toLowerCase();   // hammasi katta harfda
+}
+function titleCase(s) {
+  return s.toLowerCase().replace(/(^|[\s«"(—–-])(\p{L})/gu, (_, a, b) => a + b.toUpperCase());
+}
+function cleanRawTitle(t) {
+  let s = cleanTitle(t)
+    .replace(/[✓•►▶✅]/g, ' ')
+    .replace(/\bsuper\s+premyera\b/gi, ' ')
+    .replace(/\bqsim\b/gi, 'qism')
+    .replace(/\b(?:480|720|1080|2160)p\b|\bfull\s*hd\b|\bhd\b/gi, ' ')
+    .replace(/\(?\s*(?:uzbek|o['‘’`]?zbek)\s*tilida\s*\)?/gi, ' ')
+    .replace(/\b(?:dezomax\s+)?premyera(?:si)?\b\s*:?\s*(?:\d{4}\s*-?\s*yil)?/gi, ' ')
+    .replace(/\b(?:tarjima\s+kino|yangi\s+kino|to['‘’]?liq\s+(?:kino|film))\b/gi, ' ')
+    .replace(/@\w+|https?:\/\/\S+|t\.me\/\S+/gi, ' ')
+    .replace(/\bdrama\s+nomi\s*:?/gi, ' ')
+    .replace(/\(\s*\)|\[\s*\]/g, ' ')
+    .replace(/\s{2,}/g, ' ').replace(/^[\s:;,.\-–—|]+|[\s:;,.\-–—|]+$/g, '').trim();
+  // olib tashlangan so'zlardan qolgan ketma-ket ajratgichlar: «Nomi - — Faktlar» → «Nomi — Faktlar»
+  s = s.replace(/\s*[-–—|](?:\s*[-–—|])+\s*/g, ' — ').replace(/\s{2,}/g, ' ').trim();
+  // «… 29 qism» / «… 29-qism» → «… — 29-qism»
+  s = s.replace(/[\s,.:–—-]*(\d{1,4})\s*-?\s*(qism|seriya|bo['‘’]?lim)\b\.?$/i, (_, n, w) => ` — ${n}-${w.toLowerCase().replace(/['‘’]/, '‘')}`);
+  const letters = s.replace(/[^\p{L}]/gu, '');
+  if (letters.length > 3 && letters === letters.toUpperCase()) s = titleCase(s);
+  s = s.replace(/^—\s*/, '').trim();
+  // faqat umumiy so'zlar qolsa («Yangi drama», «Super») — haqiqiy nom yo'q, taklif qilinmaydi (qo'lda yoziladi)
+  if (s.replace(/[^\p{L}]/gu, '').length < 3 || /^(?:(?:super|yangi|drama|dramma|kino|film|serial|premyera)[\s\-–—:]*)+$/i.test(s)) return '';
+  return s;
+}
+let rawCache = null;
+function rawTitleItems() {
+  if (rawCache && rawCache.for === customList) return rawCache.items;
+  const seen = new Set();
+  const ch = channelIds();
+  const items = customList.filter(m => !hiddenList.includes(m.id) && !ch.has(m.id) && m.franchise !== 'tahlil' && !seen.has(m.id) && seen.add(m.id) && isRawTitle(m.title?.uz))
+    .map(m => ({ m, next: cleanRawTitle(m.title.uz) }))
+    .filter(x => x.next && x.next !== x.m.title.uz && x.next.length >= 2);
+  rawCache = { for: customList, items };
+  return items;
+}
+/* Bitta serialning alohida qo'shilgan qismlari: «Qashqirlar makoni 64-qism», «… 65-qism» — guruhlanmaganlari */
+function splitEpisodeGroups() {
+  const inParts = new Set();
+  for (const m of allMovies()) if (Array.isArray(m.parts)) m.parts.forEach(id => inParts.add(id));
+  const map = new Map();
+  for (const m of allMovies()) {
+    if (inParts.has(m.id) || hiddenList.includes(m.id)) continue;
+    const t = String(m.title?.uz || '');
+    const mt = t.match(/^(.*?)[\s,.:–—-]*\d{1,4}\s*-?\s*(?:qism|seriya)\b/i);
+    if (!mt || mt[1].trim().length < 3) continue;
+    const base = cleanRawTitle(mt[1]) || mt[1].trim();
+    const k = norm(base);
+    if (!map.has(k)) map.set(k, { title: base, items: [] });
+    map.get(k).items.push(m);
+  }
+  return [...map.values()].filter(g => g.items.length >= 3).sort((a, b) => b.items.length - a.items.length);
+}
+
+const cleanSel = new Set();
+const cleanEdit = new Map();
+let cleanLimit = 120;
+function renderCleanView() {
+  const items = rawTitleItems();
+  const box = $('#admView');
+  const shown = items.slice(0, cleanLimit);
+  box.innerHTML = `
+    <div class="a4-head"><div><h1>Nomlarni tozalash</h1><p class="a4-sub">${items.length} ta kinoning nomi xom — toza nom taklif qilindi. Tekshiring, kerak bo‘lsa tahrirlang va saqlang.</p></div></div>
+    ${items.length ? `
+    <section class="a4-card">
+      <div class="a4-bulk"><label class="a4-chk"><input type="checkbox" id="clAll"${cleanSel.size && cleanSel.size === items.length ? ' checked' : ''}><span></span></label>
+        <b id="clCount">${cleanSel.size} ta tanlandi</b><span class="a4-gap"></span>
+        <button class="a4-btn" type="button" id="clPickAll">Hammasini belgilash (${items.length})</button>
+        <button class="a4-btn is-p" type="button" id="clSave"${cleanSel.size ? '' : ' disabled'}>${A4_ICONS.broom}<span>Tanlanganlarni saqlash</span></button></div>
+      <div class="a4-clean">${shown.map(({ m, next }) => `
+        <div class="a4-cl" data-cl="${m.id}">
+          <label class="a4-chk"><input type="checkbox" data-clsel="${m.id}"${cleanSel.has(m.id) ? ' checked' : ''}><span></span></label>
+          <span class="a4-pst is-w">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+          <div class="a4-cl-t"><s>${esc(m.title.uz)}</s><input class="a4-in" data-clin="${m.id}" value="${esc(cleanEdit.get(m.id) ?? next)}"></div>
+          <span class="a4-src">${a4Source(m)}</span>
+        </div>`).join('')}</div>
+      ${items.length > cleanLimit ? `<button class="a4-btn a4-more" type="button" id="clMore">Yana ${Math.min(120, items.length - cleanLimit)} tasini ko‘rsatish</button>` : ''}
+    </section>` : `<section class="a4-card"><p class="a4-sub">Xom nom topilmadi — hammasi toza.</p></section>`}`;
+  if (!items.length) return;
+  const paint = () => { $('#clCount').textContent = `${cleanSel.size} ta tanlandi`; $('#clSave').disabled = !cleanSel.size; };
+  box.querySelectorAll('[data-clsel]').forEach(c => c.addEventListener('change', () => { c.checked ? cleanSel.add(+c.dataset.clsel) : cleanSel.delete(+c.dataset.clsel); paint(); }));
+  box.querySelectorAll('[data-clin]').forEach(i => i.addEventListener('input', () => { cleanEdit.set(+i.dataset.clin, i.value); }));
+  $('#clAll').addEventListener('change', e => { if (e.target.checked) items.forEach(x => cleanSel.add(x.m.id)); else cleanSel.clear(); renderCleanView(); });
+  $('#clPickAll').addEventListener('click', () => { items.forEach(x => cleanSel.add(x.m.id)); renderCleanView(); });
+  $('#clMore')?.addEventListener('click', () => { cleanLimit += 120; renderCleanView(); });
+  $('#clSave').addEventListener('click', e => runAction(e.currentTarget, async () => {
+    const want = new Map(items.filter(x => cleanSel.has(x.m.id)).map(x => [x.m.id, String(cleanEdit.get(x.m.id) ?? x.next).trim()]).filter(([, t]) => t));
+    await saveCustom(list => {
+      const byId = new Map(list.map(m => [m.id, m]));
+      for (const [id, t] of want) {
+        let m = byId.get(id);
+        if (!m) { const src = allMovies().find(x => x.id === id); if (!src) continue; m = structuredClone(src); list.push(m); byId.set(id, m); }   // asl kino — tahrirlangan nusxasi
+        m.title = { ...(m.title || {}), uz: t };
+        m.updatedAt = Date.now();
+      }
+      return list;
+    }, `Nomlar tozalandi: ${want.size} ta kino (admin → Nomlarni tozalash)`);
+    cleanSel.clear(); cleanEdit.clear();
+  }, 'Nomlar saqlandi — ~1 daqiqada saytda'));
 }
 
 async function loadCommits(force = false) {
