@@ -1,5 +1,5 @@
 /* ============================================================
-   DezoMax 4.0 — yangi bosh sahifa (sinov: v4.html)
+   DezoMax 4.0 — bosh sahifa (index.html)
    ------------------------------------------------------------
    - Tepada: «Dezo» qatori (yozing yoki ayting → qidiruv sahifasi)
    - Katta kino: admin → «Sayt» → slayder kinolari (SITE_CONFIG.hero.ids), har N soniyada keyingisi
@@ -387,15 +387,9 @@
   renderRows();
   initDezo();
   $('v4Year').textContent = new Date().getFullYear();
-  // kirgan foydalanuvchi — akkaunt tugmasida rasmi yoki ismining bosh harfi
-  try {
-    const u = JSON.parse(localStorage.getItem('dezomax_user') || 'null');
-    const ava = document.querySelector('.v4-ava');
-    if (u && ava) {
-      const pic = u.photo || u.picture;
-      ava.innerHTML = pic ? `<img src="${esc(pic)}" alt="" referrerpolicy="no-referrer">` : `<b>${esc(String(u.name || u.email || '?').trim()[0].toUpperCase())}</b>`;
-    }
-  } catch {}
+  // umumiy pastki menyu (Bosh sahifa, TV, Qidiruv, Kutubxona, Shorts — js/common.js) va tarjimalar
+  if (typeof renderTabbar === 'function') renderTabbar();
+  if (typeof applyI18n === 'function') applyI18n();
   // eng ko'p ko'rilganlar keyingi ochilish uchun saqlanadi (birinchi ochilishda tez kelsa — darrov qo'shiladi)
   if (!kidsMode()) (async () => {
     const t0 = Date.now();
