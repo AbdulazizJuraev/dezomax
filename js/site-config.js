@@ -85,7 +85,7 @@ const SITE_CONFIG = /*CONFIG*/{
   "logo": {
     "enabled": true,
     "pos": "br",
-    "size": 17,
+    "size": 16,
     "bg": "black",
     "opacity": 100,
     "mode": "idle",
