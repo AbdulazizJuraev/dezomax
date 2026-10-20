@@ -253,10 +253,13 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
       ` allow="autoplay; encrypted-media; picture-in-picture" title="${esc(list[i].t)}"></iframe>`;
     sl.classList.add('is-playing');
     clearTimeout(sl._soundT);
-    if (!muted) sl._soundT = setTimeout(() => {
+    // Brauzer ovozli avtoijroni taqiqlagan bo'lsagina ovozsizga o'tamiz. Avval 1,5 s kutilardi — internet sekin bo'lsa
+    // video kech boshlanib, ovoz bekorga o'chib qolardi. Ilovada (WebView) ovozli avtoijro doim ruxsat — o'chirilmaydi.
+    const isApp = /DezoMaxApp|; wv\)/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+    if (!muted && !isApp) sl._soundT = setTimeout(() => {
       if (active !== i || sl.classList.contains('is-live')) return;
       muted = true; autoMuted = true; send(sl, 'mute'); send(sl, 'playVideo'); paintSound();
-    }, 1500);
+    }, 4500);
     loadSocial(i);
     sl.classList.remove('is-live');
     // YouTube holatini eshitamiz: video haqiqatan o'ynay boshlaganda muqova olinadi (is-live)

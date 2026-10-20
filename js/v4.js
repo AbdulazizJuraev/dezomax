@@ -60,12 +60,15 @@
   const heroArtOk = m => !!m && !heroIsUzbek(m) && !isExtraVideo(m) && watchStatus(m) !== 'trailer'
     && (okBig(m.vposter) || /image\.tmdb\.org/.test(m.poster || '') || okBig(m.hposter) || (okBig(m.cover) && /^images\//.test(m.cover)));
   const HERO_POP_KEY = 'dzxHeroPop';   // eng ko'p ko'rilganlar (hozirgi bosh sahifa ham shu kalitga yozadi)
+  const HERO_HIDE_KEY = 'dzxHeroHidden';   // «Qiziq emas» bosilgan kinolar — karuselda chiqmaydi
+  const heroHidden = () => { try { return JSON.parse(localStorage.getItem(HERO_HIDE_KEY) || '[]'); } catch { return []; } };
   function heroList(popIds) {
     if (kidsMode()) return kidsHero(CFG.hero && CFG.hero.kidsIds).slice(0, 12);
     const admin = ((CFG.hero && CFG.hero.ids) || []).map(heroMovie).filter(heroArtOk);
     const byId = new Map(MOVIES.map(m => [m.id, m]));
     const pop = (popIds || []).map(id => byId.get(id)).filter(heroArtOk);
-    const list = [...new Set([...admin, ...pop])].slice(0, 12);
+    const hid = new Set(heroHidden());
+    const list = [...new Set([...admin, ...pop])].filter(m => !hid.has(m.id)).slice(0, 12);
     return list.length ? list : heroCompose([]).slice(0, 12);
   }
   let popCached = [];
@@ -74,6 +77,8 @@
   const DELAY = Math.min(60, Math.max(8, Number(CFG.hero && CFG.hero.delay) || 12)) * 1000;
   let cur = 0, timer = null;
 
+  const BOOKMARK = '<svg viewBox="0 0 24 24"><path d="M6 3.5h12v17l-6-4-6 4z"/></svg>';
+  const EYE_OFF = '<svg viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c5 0 9 4.5 10 7a14 14 0 0 1-3 4.1M6.6 6.6C4.4 8 2.8 10 2 12c1 2.5 5 7 10 7a9.7 9.7 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
   function infoHTML(m) {
     const parts = partsOf(m).length;
     const st = watchStatus(m);
@@ -101,16 +106,18 @@
         ${play ? `<a class="v4-btn is-main" href="${play.href}"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>${esc(play.text)}</a>` : ''}
         ${parts > 1 ? `<a class="v4-btn is-alt" href="movie.html?id=${m.id}&part=1&play=1">${ru ? 'С 1-й серии' : '1-qismdan'}</a>` : ''}
         <a class="v4-btn is-more${parts > 1 ? '' : ' is-alt'}" href="${movieHref(m)}">${ru ? 'Подробнее' : 'Batafsil'}</a>
-        <button class="v4-btn is-ic${fav ? ' is-on' : ''}" type="button" data-fav="${m.id}" aria-label="${ru ? 'В список' : 'Ro‘yxatga'}">${fav ? '✓' : '+'}</button>
+        <button class="v4-btn is-ic${fav ? ' is-on' : ''}" type="button" data-fav="${m.id}" aria-label="${ru ? 'В список' : 'Ro‘yxatga'}">${BOOKMARK}</button>
+        <button class="v4-btn is-ic is-hide" type="button" data-hide="${m.id}" aria-label="${ru ? 'Не интересно' : 'Qiziq emas'}" title="${ru ? 'Не интересно' : 'Qiziq emas'}">${EYE_OFF}</button>
       </div>`;
   }
 
   function setArt(m) {
     const art = $('v4Art');
-    // tik poster (TV maketidagidek o'ngda); bo'lmasa keng rasm — kengroq joyga
-    const tall = tallOf(m), src = tall || wideOf(m, 'w1280');
+    // kompyuterda — gorizontal (16:9) poster (foydalanuvchi so'rovi, 2026-10-20); bo'lmasa tik poster.
+    // Chap cheti qora soyaga silliq o'tadi (css: mask-image) — keskin chegara ko'rinmaydi
+    const wide = wideOf(m, 'w1280'), src = wide || tallOf(m);
     art.classList.remove('is-in');
-    art.classList.toggle('is-wide', !tall);
+    art.classList.toggle('is-wide', !!wide);
     if (!src) { art.style.backgroundImage = backdropCSS(m); art.classList.add('is-in'); return; }
     const im = new Image();
     im.onload = () => { if (picks[cur] !== m) return; art.style.backgroundImage = `url('${src}')`; requestAnimationFrame(() => art.classList.add('is-in')); };
@@ -133,9 +140,9 @@
       if (o > n / 2) o -= n;
       if (o < -n / 2) o += n;
       const a = Math.abs(o);
-      el.style.transform = `translateX(${o * 64}%) scale(${a ? .82 : 1})`;
+      el.style.transform = `translateX(${o * 72}%) rotateY(${-o * 32}deg) scale(${a ? .9 : 1})`;
       el.style.zIndex = 10 - a;
-      el.style.opacity = a > 1 ? 0 : a ? .55 : 1;
+      el.style.opacity = a > 1 ? 0 : a ? .8 : 1;
       el.style.pointerEvents = a > 1 ? 'none' : '';
       el.classList.toggle('is-on', !a);
       const im = a <= 2 && el.querySelector('img[data-src]');
@@ -150,6 +157,8 @@
     $('v4Info').innerHTML = infoHTML(m);
     $('v4Langs').innerHTML = langsOf(m).map(([k, n], j) => `<span class="${j ? '' : 'is-on'}">${esc(n)}</span>`).join('');
     $('v4Pick').querySelectorAll('.v4-pc').forEach((c, j) => c.classList.toggle('is-on', j === cur));
+    const dots = $('v4Dots');
+    if (dots) dots.innerHTML = picks.map((_, j) => `<i class="${j === cur ? 'is-on' : ''}"></i>`).join('');
     if (PHONE.matches) {
       layoutFlow();
       const b = document.querySelector(`#v4Flow .v4-fc[data-i="${cur}"] .v4-fc-b`);
@@ -159,7 +168,7 @@
     setArt(m);
     // keyingi kinoning rasmi oldindan
     const nx = picks[(cur + 1) % picks.length];
-    const nsrc = nx && (tallOf(nx) || wideOf(nx, 'w1280'));
+    const nsrc = nx && (wideOf(nx, 'w1280') || tallOf(nx));
     if (nsrc) new Image().src = nsrc;
   }
   function initFlow() {
@@ -428,7 +437,19 @@
     if (!b) return;
     const on = toggleFav(b.dataset.fav);
     b.classList.toggle('is-on', on);
-    b.textContent = on ? '✓' : '+';
+  });
+  // «Qiziq emas» — kino karuseldan olib tashlanadi (shu telefonda eslab qolinadi)
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-hide]');
+    if (!b || picks.length < 2) return;
+    const id = +b.dataset.hide;
+    try { localStorage.setItem(HERO_HIDE_KEY, JSON.stringify([...new Set([...heroHidden(), id])].slice(-200))); } catch {}
+    const i = picks.findIndex(m => m.id === id);
+    if (i < 0) return;
+    picks.splice(i, 1);
+    $('v4Pick').innerHTML = picks.map(pickHTML).join('');
+    if ($('v4Flow')) $('v4Flow').innerHTML = flowHTML();
+    show(Math.min(i, picks.length - 1)); restart();
   });
   // klaviatura / pult: ← → — kinolar, Enter — tanlangan kinoni ko'rish
   document.addEventListener('keydown', e => {

@@ -648,6 +648,16 @@ function enhanceHeader(header, page) {
     ${native ? '' : `<a class="nav-extra" href="https://play.google.com/store/apps/details?id=uz.dezomax.app" target="_blank" rel="noopener">${I.app}<span>${ru ? 'Приложение' : 'Ilova'}</span></a>`}
     <a class="nav-extra nav-kids" href="catalog.html?type=multfilm"><img class="nav-kids-av" src="images/role/child.webp" alt="" width="30" height="30"><span>${ru ? 'Дети' : 'Bolalar'}</span></a>`);
 
+  // DezoMax 4.0: o'ng tomonda — qidiruv belgisi, soat, akkaunt (bosh sahifa navbari bilan bir xil)
+  if (acc && !wrap.querySelector('.hd-right')) {
+    acc.insertAdjacentHTML('beforebegin', `<div class="hd-right"><a class="hd-ic" href="search.html" aria-label="${ru ? 'Поиск' : 'Qidiruv'}">${I.search}</a><span class="hd-clock"></span></div>`);
+    const right = wrap.querySelector('.hd-right');
+    right.appendChild(acc);
+    const clk = right.querySelector('.hd-clock');
+    const tick = () => { const d = new Date(); clk.textContent = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+    tick(); setInterval(tick, 20000);
+  }
+
   // qidiruv belgisi — header'dagi qidiruv maydonini ochadi
   const search = wrap.querySelector('.search');
   wrap.querySelector('.nav-search-btn')?.addEventListener('click', () => {

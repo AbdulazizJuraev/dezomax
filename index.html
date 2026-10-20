@@ -32,8 +32,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="css/style.css?v=202610200818">
-<link rel="stylesheet" href="css/v4.css?v=202610200818">
+<link rel="stylesheet" href="css/style.css?v=202610201122">
+<link rel="stylesheet" href="css/v4.css?v=202610201122">
 <!-- Google AdSense (reklama: js/ads.js) -->
 <meta name="google-adsense-account" content="ca-pub-3356248514435871">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3356248514435871" crossorigin="anonymous"></script>
@@ -56,17 +56,21 @@
 </head>
 <body class="v4">
 <noscript><div><img src="https://mc.yandex.ru/watch/113203097" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<script src="js/logo.js?v=202610200818"></script>
-<script src="js/intro.js?v=202610200818"></script>
+<script src="js/logo.js?v=202610201122"></script>
+<script src="js/intro.js?v=202610201122"></script>
 
 <header class="v4-head">
-  <a class="v4-logo" href="index.html" aria-label="DezoMax"><img src="images/logo/logo.png" alt="DezoMax" width="178" height="34"></a>
+  <a class="v4-logo" href="index.html" aria-label="DezoMax"><img class="logo-img" src="images/logo/logo.png" alt="DezoMax" width="178" height="34"></a>
   <nav class="v4-nav" aria-label="Bo‘limlar">
     <a class="is-on" href="index.html" data-i18n="nav.home">Bosh sahifa</a>
     <a href="tv.html" data-i18n="nav.tvShort">TV</a>
     <a href="search.html" data-i18n="nav.search">Qidiruv</a>
     <a href="favorites.html" data-i18n="nav.library">Kutubxona</a>
     <a href="shorts.html">Shorts</a>
+  </nav>
+  <!-- telefonda: logo ostidagi bo'limlar qatori (maket) -->
+  <nav class="v4-mini" aria-label="Bo‘limlar">
+    <a class="is-on" href="index.html">Bosh sahifa</a><a href="sport.html">Sport</a><a href="tv.html">Kanallar</a><a href="plans.html">Obuna</a><a href="downloads.html">Yuklab olinganlar</a><a href="marvel.html">Marvel</a><a href="catalog.html">Katalog</a>
   </nav>
   <div class="v4-head-r">
     <a class="v4-ic" href="search.html" aria-label="Qidiruv"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></a>
@@ -88,6 +92,7 @@
       </form>
       <div class="v4-flow" id="v4Flow" aria-label="Tanlangan kinolar"></div>
       <div class="v4-info" id="v4Info"></div>
+      <div class="v4-dots" id="v4Dots" aria-hidden="true"></div>
       <div class="v4-langs" id="v4Langs"></div>
     </div>
     <div class="v4-pick">
@@ -102,7 +107,7 @@
 <footer class="v4-foot">
   <div class="v4-foot-top">
     <div>
-      <a class="v4-logo" href="index.html"><img src="images/logo/logo.png" alt="DezoMax" width="178" height="34" loading="lazy"></a>
+      <a class="v4-logo" href="index.html"><img class="logo-img" src="images/logo/logo.png" alt="DezoMax" width="178" height="34" loading="lazy"></a>
       <p>Filmlar, seriallar, multfilmlar va telekanallar — o‘zbek tilida, bir joyda.</p>
       <div class="v4-socials"><a class="v4-so fs-yt" href="https://www.youtube.com/@dezomax" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg></a>
           <a class="v4-so fs-ig" href="https://www.instagram.com/dmaxuz" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
@@ -120,22 +125,22 @@
   </div>
 </footer>
 
-<script src="js/data.js?v=202610200818"></script>
-<script src="js/data-channels.js?v=202610200818"></script>
-<script src="js/data-rutube.js?v=202610200818"></script>
-<script src="js/data-shorts.js?v=202610200818"></script>
-<script src="js/seo-pages.js?v=202610200818"></script>
-<script src="js/thumbs.js?v=202610200818"></script>
-<script src="js/data-lib-gate.js?v=202610200818"></script>
+<script src="js/data.js?v=202610201122"></script>
+<script src="js/data-channels.js?v=202610201122"></script>
+<script src="js/data-rutube.js?v=202610201122"></script>
+<script src="js/data-shorts.js?v=202610201122"></script>
+<script src="js/seo-pages.js?v=202610201122"></script>
+<script src="js/thumbs.js?v=202610201122"></script>
+<script src="js/data-lib-gate.js?v=202610201122"></script>
 <script>document.write('<script src="js/data-site.js?t=' + (window.DZX_T || Math.floor(Date.now() / 60000)) + '"><\/script>')</script>
 <script>document.write('<script src="js/site-config.js?t=' + (window.DZX_T || Math.floor(Date.now() / 60000)) + '"><\/script>')</script>
-<script src="js/i18n.js?v=202610200818"></script>
-<script src="js/common.js?v=202610200818"></script>
-<script src="js/firebase-config.js?v=202610200818"></script>
-<script src="js/auth.js?v=202610200818"></script>
-<script src="js/role.js?v=202610200818"></script>
-<script src="js/ads.js?v=202610200818"></script>
-<script src="js/welcome.js?v=202610200818"></script>
-<script src="js/v4.js?v=202610200818"></script>
+<script src="js/i18n.js?v=202610201122"></script>
+<script src="js/common.js?v=202610201122"></script>
+<script src="js/firebase-config.js?v=202610201122"></script>
+<script src="js/auth.js?v=202610201122"></script>
+<script src="js/role.js?v=202610201122"></script>
+<script src="js/ads.js?v=202610201122"></script>
+<script src="js/welcome.js?v=202610201122"></script>
+<script src="js/v4.js?v=202610201122"></script>
 </body>
 </html>

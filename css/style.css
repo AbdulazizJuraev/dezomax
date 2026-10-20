@@ -8008,3 +8008,23 @@ html body .header .nav a.is-active, html body .header .nav a.is-active * { backg
 html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster-blur, .poster-art, .t10-poster, .t10-poster img,
   .hero-poster, .hero-poster img, .hv2-vp, .hv2-vp img, .hero-art img, .movie-poster, .movie-poster img, .mv-poster, .mv-poster img,
   .sb-poster, .sb-thumb, .cw-card .card-poster, .dl-poster, .dl-poster img, .mx-poster, .mx-poster img, .mx-film-poster, .mx-film-poster img, .s-genre-posters img) { border-radius: 0 !important; }
+
+/* ================= Navbar — DezoMax 4.0 (bosh sahifa bilan bir xil): logo, bo'limlar, o'ngda qidiruv · soat · akkaunt ================= */
+.hd-right { display: flex; align-items: center; gap: 14px; margin-left: auto; }
+.hd-ic { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: rgba(255, 255, 255, .08); }
+.hd-ic svg { width: 20px; height: 20px; }
+.hd-clock { font: 700 22px/1 'Unbounded', sans-serif !important; letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: #f4f4f0; }
+@media (min-width: 901px) {
+  html body .header { background: #0a0a0b !important; }
+  html body .header .wrap { justify-content: flex-start !important; gap: 36px; max-width: none; padding-left: clamp(16px, 5vw, 96px); padding-right: clamp(16px, 5vw, 96px); }
+  html body .header :is(.back-btn, .nav-burger, .nav-extra, .nav-search-btn) { display: none !important; }
+  html body .header .nav { position: static !important; transform: none !important; margin: 0 !important; flex: 0 1 auto; justify-content: flex-start; gap: 6px; }
+  html body .header .nav a { border-radius: 999px !important; padding: 11px 20px !important; font-size: 17px !important; }
+  html body .header .search { display: none !important; }
+}
+@media (max-width: 900px) {
+  .hd-clock { display: none; }
+  .hd-right { gap: 6px; }
+  .hd-ic { background: none; color: var(--accent); width: 38px; height: 38px; }
+  .hd-ic svg { width: 24px; height: 24px; }
+}
