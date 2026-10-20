@@ -99,7 +99,7 @@ async function smoke() {
 
   const film = MOVIES.find(m => m && m.video && m.type !== 'tahlil' && /youtube\.com|youtu\.be/.test(m.video)) || MOVIES.find(m => m && m.video);
   const pages = [
-    ['Bosh sahifa', 'index.html?nowelcome&nointro', () => document.querySelectorAll('#homeRows .card').length >= 5],
+    ['Bosh sahifa', 'index.html?nowelcome&nointro', () => !!document.querySelector('#v4Info .v4-title') && document.querySelectorAll('#v4Rows .v4-card').length >= 5],   // DezoMax 4.0 bosh sahifasi (js/v4.js)
     ['Katalog', 'catalog.html?type=film&nointro', () => document.querySelectorAll('.grid .card').length >= 5],
     ['Kino sahifasi', `movie.html?id=${film ? film.id : 1}&nointro`, () => !!document.querySelector('.player-wrap') && !!document.querySelector('h1')],
     ['Qidiruv', 'search.html?q=kino&nointro', () => true],
