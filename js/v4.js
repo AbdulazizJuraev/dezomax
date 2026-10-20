@@ -53,7 +53,24 @@
   }
 
   /* ---------- katta kino ---------- */
-  const picks = heroCompose(((CFG.hero && CFG.hero.ids) || []).map(heroMovie).filter(Boolean)).slice(0, 12);
+  // O'zbek filmlari slayderga chiqmaydi (foydalanuvchi so'rovi, 2026-10-13) — hozirgi bosh sahifa bilan bir xil
+  const heroIsUzbek = m => m.franchise === 'uzbek' || m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial' || /^(rn|uzbekk)-/.test(m.slug || '')
+    || /o.?zbekiston|узбекистан/i.test(`${m.country?.uz || ''} ${m.country?.ru || ''}`) || String(m.poster || '').startsWith('images/uz/');
+  // katta rasmi sifatli bo'lsin (Telegram/DezoCloud kichik muqovalari cho'zilib xira bo'lardi)
+  const heroArtOk = m => !!m && !heroIsUzbek(m) && !isExtraVideo(m) && watchStatus(m) !== 'trailer'
+    && (okBig(m.vposter) || /image\.tmdb\.org/.test(m.poster || '') || okBig(m.hposter) || (okBig(m.cover) && /^images\//.test(m.cover)));
+  const HERO_POP_KEY = 'dzxHeroPop';   // eng ko'p ko'rilganlar (hozirgi bosh sahifa ham shu kalitga yozadi)
+  function heroList(popIds) {
+    if (kidsMode()) return kidsHero(CFG.hero && CFG.hero.kidsIds).slice(0, 12);
+    const admin = ((CFG.hero && CFG.hero.ids) || []).map(heroMovie).filter(heroArtOk);
+    const byId = new Map(MOVIES.map(m => [m.id, m]));
+    const pop = (popIds || []).map(id => byId.get(id)).filter(heroArtOk);
+    const list = [...new Set([...admin, ...pop])].slice(0, 12);
+    return list.length ? list : heroCompose([]).slice(0, 12);
+  }
+  let popCached = [];
+  try { popCached = JSON.parse(localStorage.getItem(HERO_POP_KEY) || '[]'); } catch {}
+  const picks = heroList(popCached);
   const DELAY = Math.min(60, Math.max(8, Number(CFG.hero && CFG.hero.delay) || 12)) * 1000;
   let cur = 0, timer = null;
 
@@ -127,24 +144,41 @@
       <span><b>${esc(title(m))}</b><small>${esc(sub)}</small></span></button>`;
   }
 
-  /* ---------- qatorlar ---------- */
+  /* ---------- qatorlar (admin → «Sayt» → qatorlar: SITE_CONFIG.rows — hozirgi bosh sahifa bilan bir xil) ---------- */
   const yr = m => m.year || 0;
-  const ROWS = [
-    { t: ru ? 'Новинки' : 'Yangi qo‘shilganlar', all: 'catalog.html?sort=new', list: () => MOVIES.filter(m => m.addedAt && hasFilm(m) && !isExtraVideo(m)).sort((a, b) => b.addedAt - a.addedAt) },
-    { t: ru ? 'Узбекские фильмы' : 'O‘zbek kinolari', all: 'catalog.html?watch=uz', list: () => MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)) },
-    { t: ru ? 'Сериалы' : 'Seriallar', all: 'catalog.html?type=serial', list: () => MOVIES.filter(m => m.type === 'serial' && watchStatus(m) !== 'none') },
-    { t: ru ? 'Мультфильмы' : 'Multfilmlar', all: 'catalog.html?type=multfilm', list: () => MOVIES.filter(m => m.type === 'multfilm' && hasFilm(m)) },
-    { t: ru ? 'Концерты' : 'Konsertlar', all: 'catalog.html?franchise=konsert', list: () => MOVIES.filter(m => m.franchise === 'konsert').sort((a, b) => yr(b) - yr(a)) },
-    { t: ru ? 'Классика кино' : 'Kino klassikasi', all: 'catalog.html?franchise=klassika', list: () => MOVIES.filter(m => m.franchise === 'klassika' && m.type !== 'multfilm').sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)) },
-    { t: ru ? 'Вселенная Marvel' : 'Marvel olami', all: 'marvel.html', list: () => MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => yr(a) - yr(b)) },
-    { t: ru ? 'Высокий рейтинг' : 'Eng yuqori reyting', all: null, list: () => MOVIES.filter(m => m.rating && hasFilm(m)).sort((a, b) => b.rating - a.rating) }
-  ];
+  const rt = m => m.rating || 0;
+  const libRow = fr => MOVIES.filter(m => m.franchise === fr && m.poster);
+  const ROW_SOURCES = {
+    uzbek:     { all: 'catalog.html?watch=uz',             list: () => MOVIES.filter(m => m.franchise === 'uzbek').sort((a, b) => yr(b) - yr(a)) },
+    tahlil:    { all: 'catalog.html?franchise=tahlil',     list: () => MOVIES.filter(m => m.franchise === 'tahlil').sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)) },
+    konsert:   { all: 'catalog.html?franchise=konsert',    list: () => MOVIES.filter(m => m.franchise === 'konsert').sort((a, b) => yr(b) - yr(a)) },
+    trending:  { all: null,                                list: () => MOVIES.filter(rt).sort((a, b) => rt(b) * (yr(b) >= 2014 ? 1.1 : 1) - rt(a) * (yr(a) >= 2014 ? 1.1 : 1)) },
+    new:       { all: 'catalog.html?sort=new',             list: () => MOVIES.filter(m => m.addedAt && hasFilm(m) && !isExtraVideo(m)).sort((a, b) => b.addedAt - a.addedAt) },
+    dorama:    { all: 'catalog.html?franchise=dorama',     list: () => libRow('dorama') },
+    klassika:  { all: 'catalog.html?franchise=klassika',   list: () => MOVIES.filter(m => m.franchise === 'klassika' && m.type !== 'multfilm').sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0) || yr(b) - yr(a)) },
+    hollywood: { all: 'catalog.html?franchise=hollywood',  list: () => MOVIES.filter(m => m.franchise === 'hollywood').sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)) },
+    anime:     { all: 'catalog.html?franchise=anime',      list: () => libRow('anime') },
+    hind:      { all: 'catalog.html?franchise=hind',       list: () => libRow('hind') },
+    marvel:    { all: 'marvel.html',                       list: () => MOVIES.filter(m => m.franchise === 'marvel').sort((a, b) => yr(a) - yr(b)) },
+    dc:        { all: 'catalog.html?franchise=dc',         list: () => MOVIES.filter(m => m.franchise === 'dc').sort((a, b) => yr(a) - yr(b)) },
+    top:       { all: null,                                list: () => MOVIES.filter(m => rt(m) && !isExtraVideo(m)).sort((a, b) => rt(b) - rt(a)) },
+    popular:   { all: null,                                list: () => MOVIES.filter(m => rt(m) && !isExtraVideo(m)).sort((a, b) => rt(b) - rt(a)) },
+    series:    { all: 'catalog.html?type=serial',          list: () => MOVIES.filter(m => m.type === 'serial' && watchStatus(m) !== 'none') },
+    cartoons:  { all: 'catalog.html?type=multfilm',        list: () => MOVIES.filter(m => m.type === 'multfilm' && hasFilm(m)) },
+    custom:    { all: null,                                list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
+  };
+  const DEFAULT_ROWS = ['popular', 'uzbek', 'klassika', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons'].map(source => ({ source, visible: true }));
+  const seeAll = ru ? 'Все' : 'Hammasi';
+  const headHTML = (t, all) => `<div class="v4-row-h"><h2>${esc(t)}</h2>${all ? `<a href="${all}">${seeAll} →</a>` : ''}</div>`;
+
   function cardHTML4(m) {
     const img = cardImg(m);
     const parts = partsOf(m).length;
-    const sub = [watchStatus(m) === 'uz' ? (ru ? 'на узбекском' : 'o‘zbekcha') : '', m.year, parts > 1 ? `${parts} ${ru ? 'серий' : 'qism'}` : genreName((m.genres || [])[0])].filter(Boolean).join(' · ');
+    const st = watchStatus(m);
+    const sub = [st === 'uz' ? (ru ? 'на узбекском' : 'o‘zbekcha') : st === 'trailer' ? (ru ? 'трейлер' : 'treyler') : '',
+      m.year, parts > 1 ? `${parts} ${ru ? 'серий' : 'qism'}` : genreName((m.genres || [])[0])].filter(Boolean).join(' · ');
     return `<a class="v4-card" href="${movieHref(m)}">
-      <div class="v4-card-im">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+      <div class="v4-card-im">${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
         ${m.rating ? `<i class="v4-rt">★ ${(+m.rating).toFixed(1)}</i>` : ''}</div>
       <b>${esc(title(m))}</b><small>${esc(sub)}</small></a>`;
   }
@@ -154,14 +188,140 @@
     const seen = new Set();
     return list.filter(m => { const k = baseTitle(m); if (seen.has(k)) return false; seen.add(k); return true; });
   }
-  function renderRows() {
-    $('v4Rows').innerHTML = ROWS.map(r => {
-      const list = uniq(r.list().filter(m => cardImg(m))).slice(0, 18);
-      if (list.length < 4) return '';
-      return `<section class="v4-row"><div class="v4-row-h"><h2>${esc(r.t)}</h2>${r.all ? `<a href="${r.all}">${ru ? 'Все' : 'Hammasi'} →</a>` : ''}</div>
-        <div class="v4-row-l">${list.map(cardHTML4).join('')}</div></section>`;
-    }).join('');
+
+  /* «Ko'rishni davom ettiring» — kino sahifasi saqlagan joy (js/movie.js → dezomax_watch_history) */
+  const WATCH_HISTORY_KEY = 'dezomax_watch_history';
+  function watchHistory() {
+    try {
+      const hidden = typeof HIDDEN_MOVIES !== 'undefined' ? HIDDEN_MOVIES : [];
+      return JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY) || '[]')
+        .filter(x => x && x.id && x.dur > 0 && !x.done && !hidden.includes(x.id))
+        .map(x => ({ x, m: MOVIES.find(m => m.id === x.id) || PART_MOVIES.get(x.id) }))
+        .filter(o => o.m).slice(0, 12);
+    } catch { return []; }
   }
+  function continueHTML() {
+    const list = watchHistory();
+    if (!list.length) return '';
+    const left = s => { const m = Math.max(1, Math.round(s / 60)); return m >= 60 ? `${Math.floor(m / 60)} ${ru ? 'ч' : 'soat'} ${m % 60} ${ru ? 'мин' : 'daq'}` : `${m} ${ru ? 'мин' : 'daq'}`; };
+    return `<section class="v4-row" id="v4Cw">${headHTML(ru ? 'Продолжить просмотр' : 'Ko‘rishni davom ettiring')}
+      <div class="v4-row-l">${list.map(({ x, m }) => {
+        const pct = Math.min(100, Math.max(2, x.t / x.dur * 100));
+        const img = cardImg(m);
+        return `<div class="v4-card is-cw"><a href="${esc(x.path || `movie.html?id=${m.id}`)}">
+          <div class="v4-card-im">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+            <span class="v4-cw-play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg></span>
+            <i class="v4-cw-bar"><i style="width:${pct.toFixed(1)}%"></i></i></div>
+          <b>${esc(title(m))}</b><small>${[x.part ? `${x.part}-${ru ? 'я серия' : 'qism'}` : '', `${left(x.dur - x.t)} ${ru ? 'осталось' : 'qoldi'}`].filter(Boolean).join(' · ')}</small></a>
+          <button class="v4-cw-del" type="button" data-cw-del="${m.id}" aria-label="${ru ? 'Убрать' : 'Olib tashlash'}">×</button></div>`;
+      }).join('')}</div></section>`;
+  }
+
+  /* TOP 10 — eng ko'p ko'rilganlar (to'lov serveri /top: kunlik, haftalik, oylik); kam bo'lsa — reyting bo'yicha */
+  const TOP_TABS = [[1, 'top.day'], [7, 'top.week'], [30, 'top.month']];
+  let topDays = 1;
+  const topCache = new Map();
+  async function topIds(days) {
+    if (topCache.has(days)) return topCache.get(days);
+    const api = typeof PAY_API !== 'undefined' && PAY_API ? String(PAY_API).replace(/\/+$/, '') : '';
+    if (!api) return [];
+    const r = await fetch(`${api}/top?days=${days}&limit=40`).catch(() => null);
+    const j = r && r.ok ? await r.json().catch(() => null) : null;
+    const ids = (j?.items || []).map(x => x.movie);
+    topCache.set(days, ids);
+    return ids;
+  }
+  const t10Cards = list => list.slice(0, 10).map((m, i) => {
+    const img = tallOf(m) || cardImg(m);
+    return `<a class="v4-t10" href="${movieHref(m)}"><span class="v4-t10-n">${i + 1}</span>
+      <span class="v4-t10-im">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+      <b>${esc(title(m))}</b></a>`;
+  }).join('');
+  function top10HTML(title) {
+    return `<section class="v4-row v4-top" id="v4Top">
+      <div class="v4-row-h"><h2>${esc(title)}</h2>
+        <div class="v4-tabs-sm">${TOP_TABS.map(([d, k]) => `<button type="button" data-days="${d}" class="${d === topDays ? 'is-on' : ''}">${t(k)}</button>`).join('')}</div></div>
+      <p class="v4-top-sub">${esc(t('top.sub'))}</p>
+      <div class="v4-row-l v4-t10-row" id="v4T10">${t10Cards(ROW_SOURCES.popular.list())}</div></section>`;
+  }
+  async function loadTop10() {
+    const row = $('v4T10');
+    if (!row) return;
+    const byId = new Map(MOVIES.map(m => [m.id, m]));
+    const days = topDays;
+    const real = (await topIds(days)).map(id => byId.get(id)).filter(m => m && !isExtraVideo(m));
+    if (days !== topDays) return;
+    const all = real.length < 10 ? (await topIds('all')).map(id => byId.get(id)).filter(m => m && !isExtraVideo(m)) : [];
+    row.innerHTML = t10Cards([...new Set([...real, ...all, ...ROW_SOURCES.popular.list()])]);
+    row.scrollLeft = 0;
+  }
+
+  /* Kinostudiyalar (js/common.js → STUDIOS): treylerlari kelganlari ochiq, qolganlari «Tez orada» */
+  const studioReady = s => !!s.href || MOVIES.some(m => m.franchise === s.key && m.ch);
+  function studiosHTML(title) {
+    const list = [...STUDIOS].sort((a, b) => studioReady(b) - studioReady(a));
+    const soon = ru ? 'Скоро' : 'Tez orada';
+    return `<section class="v4-row">${headHTML(title)}
+      <div class="v4-row-l v4-st-row">${list.map(s => studioReady(s)
+        ? `<a class="v4-st" href="${studioHref(s)}" style="--st:${s.bg}" aria-label="${esc(s.name)}"><span>${s.logo}</span><small>${esc(s.name)}</small></a>`
+        : `<span class="v4-st is-soon" style="--st:${s.bg}"><span>${s.logo}</span><small>${esc(s.name)}</small><em>${soon}</em></span>`).join('')}</div></section>`;
+  }
+
+  /* Shorts (js/data-shorts.js) — tik kartalar, bosilsa shorts.html lentasi */
+  function shortsHTML() {
+    const list = typeof SHORTS !== 'undefined' ? SHORTS.slice(0, 24) : [];
+    if (!list.length) return '';
+    return `<section class="v4-row">${headHTML('Shorts', 'shorts.html')}
+      <div class="v4-row-l v4-sh-row">${list.map(s => `<a class="v4-sh" href="shorts.html#${s.id}" aria-label="${esc(s.t)}">
+        <img src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" loading="lazy" decoding="async"><span>${esc(s.t)}</span></a>`).join('')}</div></section>`;
+  }
+
+  function renderRows() {
+    let rows = (CFG.rows && CFG.rows.length) ? CFG.rows : DEFAULT_ROWS;
+    // kanal videolari (Shorts va «Kino tahlillari») — doim eng oxirida; kinostudiyalar — TOP 10 dan keyin
+    const tahlilRow = rows.find(r => r.source === 'tahlil') || { source: 'tahlil', visible: true };
+    rows = [...rows.filter(r => r.source !== 'tahlil'), tahlilRow];
+    if (!rows.some(r => r.source === 'studios')) {
+      const at = rows.findIndex(r => r.source === 'popular');
+      rows = [...rows.slice(0, at + 1), { source: 'studios', visible: true }, ...rows.slice(at + 1)];
+    }
+    let shown = 0, hasTop = false;
+    const box = $('v4Rows');
+    box.innerHTML = continueHTML() + rows.map(row => {
+      if (row.visible === false) return '';
+      const title = (row.title && (row.title[LANG] || row.title.uz)) || (row.source !== 'custom' ? t('row.' + row.source) : '');
+      // har 3 qatordan keyin reklama joyi (js/ads.js; reklama ulanmagan bo'lsa — o'zi yo'qoladi)
+      const ad = ++shown % 3 === 0 ? `<div class="ad-slot" data-ad-slot="home"></div>` : '';
+      if (row.source === 'studios') return studiosHTML(title) + ad;
+      if (row.source === 'popular' && !hasTop) { hasTop = true; return top10HTML(title) + ad; }
+      const src = ROW_SOURCES[row.source] || ROW_SOURCES.custom;
+      const list = uniq(src.list(row).filter(m => cardImg(m))).slice(0, 18);
+      if (list.length < (row.source === 'custom' ? 1 : 4)) return '';
+      const pre = row.source === 'tahlil' ? shortsHTML() : '';
+      return `${pre}<section class="v4-row">${headHTML(title, src.all)}
+        <div class="v4-row-l">${list.map(cardHTML4).join('')}</div></section>${ad}`;
+    }).join('');
+
+    if (typeof Ads !== 'undefined') Ads.fill(box);
+    box.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => {
+      topDays = +b.dataset.days;
+      box.querySelectorAll('[data-days]').forEach(x => x.classList.toggle('is-on', x === b));
+      loadTop10();
+    }));
+    if (hasTop) loadTop10();
+  }
+  // «davom ettirish» kartasini olib tashlash
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-cw-del]');
+    if (!b) return;
+    e.preventDefault();
+    const id = +b.dataset.cwDel;
+    try { localStorage.setItem(WATCH_HISTORY_KEY, JSON.stringify(JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY) || '[]').filter(x => x && x.id !== id))); } catch {}
+    b.closest('.v4-card').remove();
+    if (!document.querySelector('#v4Cw .v4-card')) $('v4Cw')?.remove();
+  });
+  // kino sahifasidan orqaga qaytilganda (sahifa keshdan) — «davom ettirish» yangilansin
+  addEventListener('pageshow', e => { if (e.persisted) renderRows(); });
 
   /* ---------- Dezo qatori: yozing yoki ayting ---------- */
   const EXAMPLES = ru
@@ -226,5 +386,31 @@
 
   renderRows();
   initDezo();
+  $('v4Year').textContent = new Date().getFullYear();
+  // kirgan foydalanuvchi — akkaunt tugmasida rasmi yoki ismining bosh harfi
+  try {
+    const u = JSON.parse(localStorage.getItem('dezomax_user') || 'null');
+    const ava = document.querySelector('.v4-ava');
+    if (u && ava) {
+      const pic = u.photo || u.picture;
+      ava.innerHTML = pic ? `<img src="${esc(pic)}" alt="" referrerpolicy="no-referrer">` : `<b>${esc(String(u.name || u.email || '?').trim()[0].toUpperCase())}</b>`;
+    }
+  } catch {}
+  // eng ko'p ko'rilganlar keyingi ochilish uchun saqlanadi (birinchi ochilishda tez kelsa — darrov qo'shiladi)
+  if (!kidsMode()) (async () => {
+    const t0 = Date.now();
+    const week = await topIds(7);
+    const ids = week.length >= 5 ? week : [...week, ...await topIds('all')];
+    if (!ids.length) return;
+    try { localStorage.setItem(HERO_POP_KEY, JSON.stringify(ids.slice(0, 30))); } catch {}
+    if (!popCached.length && Date.now() - t0 < 4000 && cur === 0) {
+      const next = heroList(ids);
+      if (next.map(m => m.id).join() !== picks.map(m => m.id).join()) {
+        picks.splice(0, picks.length, ...next);
+        $('v4Pick').innerHTML = picks.map(pickHTML).join('');
+        show(0); restart();
+      }
+    }
+  })();
   clock(); setInterval(clock, 20000);
 })();

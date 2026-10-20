@@ -108,9 +108,6 @@ body.v4 { background: var(--v4-bg); color: var(--v4-t1); font: 500 16px/1.5 'Man
 .v4-card b { display: block; margin-top: 10px; font-weight: 700; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .v4-card small { display: block; font-size: 13px; color: var(--v4-t3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.v4-foot { display: flex; justify-content: space-between; gap: 16px; padding: 28px var(--v4-pad) 40px; border-top: 1px solid var(--v4-ln); color: var(--v4-t3); font-size: 14px; }
-.v4-foot sup { color: var(--v4-lime); }
-.v4-foot a { color: var(--v4-lime); font-weight: 700; }
 .v4-tabs { display: none; }
 
 /* ---------- planshet ---------- */
@@ -177,10 +174,95 @@ body.v4 { background: var(--v4-bg); color: var(--v4-t1); font: 500 16px/1.5 'Man
   .v4-row-l { grid-auto-columns: 58vw; gap: 12px; margin-right: -16px; padding-right: 16px; }
   .v4-card b { font-size: 14px; margin-top: 8px; }
   .v4-card small { font-size: 12px; }
-  .v4-foot { flex-direction: column; padding: 22px 16px; }
 
   .v4-tabs { display: flex; position: fixed; z-index: 20; left: 0; right: 0; bottom: 0; padding: 8px 6px calc(8px + env(safe-area-inset-bottom)); background: var(--v4-bg); border-top: 1px solid var(--v4-ln); }
   .v4-tabs a { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--v4-t3); }
   .v4-tabs svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linejoin: round; stroke-linecap: round; }
   .v4-tabs a.is-on { color: var(--v4-lime); }
+}
+
+/* ---------- dumaloq burchaklar: rasm hech qachon burchagi bilan chiqmasin ----------
+   (Android/Safari'da overflow:hidden + transform bo'lganda rasm burchagi chiqib qolardi — mask bilan qirqiladi) */
+.v4-pc, .v4-card-im, .v4-t10-im, .v4-sh, .v4-st, .ad-body { isolation: isolate; -webkit-mask-image: -webkit-radial-gradient(white, black); }
+.v4-pc img, .v4-card-im img, .v4-t10-im img, .v4-sh img { border-radius: inherit; }
+.v4-ava { overflow: hidden; }
+.v4-ava img { width: 100%; height: 100%; object-fit: cover; }
+.v4-ava b { font: 800 18px/1 var(--v4-head); color: var(--v4-lime); }
+
+/* ---------- «Ko'rishni davom ettiring» ---------- */
+.v4-card.is-cw { position: relative; }
+.v4-cw-play { position: absolute; left: 12px; bottom: 16px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--v4-lime); color: #000; }
+.v4-cw-play svg { width: 18px; height: 18px; fill: currentColor; margin-left: 2px; }
+.v4-cw-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: rgba(255, 255, 255, .25); }
+.v4-cw-bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--v4-lime); border-radius: 0 3px 3px 0; }
+.v4-cw-del { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%; background: rgba(10, 10, 11, .78) !important; font-size: 20px !important; line-height: 1; z-index: 2; }
+
+/* ---------- TOP 10 ---------- */
+.v4-tabs-sm { display: flex; gap: 6px; padding: 4px; border-radius: 999px; background: var(--v4-s1); border: 1px solid var(--v4-ln); }
+.v4-tabs-sm button { padding: 8px 16px; border-radius: 999px; font-weight: 700 !important; font-size: 14px !important; color: var(--v4-t2) !important; }
+.v4-tabs-sm button.is-on { background: var(--v4-lime) !important; color: #000 !important; }
+.v4-top-sub { margin-top: 6px; color: var(--v4-t3); font-size: 14px; }
+.v4-row-l.v4-t10-row { grid-auto-columns: 250px; gap: 8px; }
+.v4-t10 { position: relative; display: grid; grid-template-columns: 96px 1fr; align-items: end; scroll-snap-align: start; }
+.v4-t10-n { font: 800 150px/.8 var(--v4-head); color: transparent; -webkit-text-stroke: 2px rgba(198, 255, 61, .75); letter-spacing: -.06em; text-align: right; padding-right: 4px; }
+.v4-t10:nth-child(1) .v4-t10-n { color: var(--v4-lime); -webkit-text-stroke: 0; }
+.v4-t10-im { aspect-ratio: 2 / 3; border-radius: 14px; overflow: hidden; background: var(--v4-s2); transition: transform .2s; }
+.v4-t10:hover .v4-t10-im { transform: translateY(-3px); box-shadow: 0 0 0 2px var(--v4-lime); }
+.v4-t10-im img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.v4-t10 b { grid-column: 2; margin-top: 8px; font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- Kinostudiyalar ---------- */
+.v4-row-l.v4-st-row { grid-auto-columns: 220px; }
+.v4-st { position: relative; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  background: radial-gradient(120% 90% at 50% 0%, var(--st), #0d0d10 80%); border: 1px solid var(--v4-ln); scroll-snap-align: start; transition: transform .2s, border-color .2s; }
+.v4-st:hover { transform: translateY(-3px); border-color: var(--v4-lime); }
+.v4-st > span { width: 62%; height: 46%; display: grid; place-items: center; }
+.v4-st > span svg { max-width: 100%; max-height: 100%; }
+.v4-st small { font-weight: 700; font-size: 13px; color: var(--v4-t2); }
+.v4-st.is-soon { opacity: .5; }
+.v4-st em { position: absolute; top: 10px; right: 10px; font-style: normal; font-weight: 800; font-size: 11px; padding: 4px 8px; border-radius: 999px; background: rgba(10, 10, 11, .8); color: var(--v4-t2); }
+
+/* ---------- Shorts ---------- */
+.v4-row-l.v4-sh-row { grid-auto-columns: 180px; }
+.v4-sh { position: relative; aspect-ratio: 9 / 16; border-radius: 18px; overflow: hidden; background: var(--v4-s2); scroll-snap-align: start; }
+.v4-sh img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+.v4-sh:hover img { transform: scale(1.04); }
+.v4-sh span { position: absolute; inset: auto 0 0; padding: 36px 12px 12px; background: linear-gradient(transparent, rgba(0, 0, 0, .85)); font-weight: 700; font-size: 13px; line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ---------- reklama joyi (js/ads.js) ---------- */
+.v4 .ad-slot { margin-top: 44px; min-width: 0; }
+.v4 .ad-slot:empty, .v4 .ad-slot.is-pending { display: none; }
+.v4 .ad-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--v4-t3); }
+.v4 .ad-head a { color: var(--v4-lime); text-transform: none; letter-spacing: 0; font-size: 12px; }
+.v4 .ad-body { min-height: 90px; border-radius: 18px; overflow: hidden; background: var(--v4-s1); border: 1px solid var(--v4-ln); text-align: center; }
+.v4 .ad-body ins.adsbygoogle { width: 100%; }
+
+/* ---------- pastki qism ---------- */
+.v4-foot { margin-top: 30px; padding: 44px var(--v4-pad) 36px; border-top: 1px solid var(--v4-ln); }
+.v4-foot-top { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+.v4-foot-top p { margin-top: 12px; max-width: 420px; color: var(--v4-t3); font-size: 15px; }
+.v4-socials { display: flex; gap: 10px; margin-top: 18px; }
+.v4-so { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--v4-s2); transition: background .15s, color .15s; }
+.v4-so:hover { background: var(--v4-lime); color: #000; }
+.v4-so svg { width: 22px; height: 22px; }
+.v4-foot-ads { max-width: 380px; }
+.v4-foot-ads h4 { font: 700 18px/1.3 var(--v4-head); }
+.v4-foot-btn { display: inline-flex; margin-top: 14px; padding: 12px 22px; border-radius: 999px; background: var(--v4-lime); color: #000 !important; font-weight: 800; }
+.v4-foot-bot { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--v4-ln); color: var(--v4-t3); font-size: 13px; }
+.v4-foot-bot nav { display: flex; gap: 18px; flex-wrap: wrap; }
+.v4-foot-bot a:hover { color: var(--v4-lime); }
+
+@media (max-width: 760px) {
+  .v4-row-h { flex-wrap: wrap; }
+  .v4-tabs-sm button { padding: 6px 12px; font-size: 12px !important; }
+  .v4-row-l.v4-t10-row { grid-auto-columns: 172px; }
+  .v4-t10 { grid-template-columns: 62px 1fr; }
+  .v4-t10-n { font-size: 100px; -webkit-text-stroke-width: 1.5px; }
+  .v4-row-l.v4-st-row { grid-auto-columns: 46vw; }
+  .v4-row-l.v4-sh-row { grid-auto-columns: 38vw; }
+  .v4-cw-play { width: 34px; height: 34px; left: 10px; bottom: 14px; }
+  .v4 .ad-slot { margin-top: 30px; }
+  .v4-foot { padding: 30px 16px 24px; }
+  .v4-foot-top { flex-direction: column; gap: 26px; }
 }
