@@ -3791,12 +3791,12 @@ img, video, iframe { max-width: 100%; }
 /* ---------------- Logotip: ichki SVG (js/logo.js) ---------------- */
 
 .logo-svg { display: block; height: 32px; line-height: 0; flex-shrink: 0; }
-.logo-svg .logo-svg-el { display: block; height: 100%; width: auto; aspect-ratio: 3524.95 / 658.94; }
+.logo-svg .logo-svg-el { display: block; height: 100%; width: auto; aspect-ratio: 980 / 160; }
 .logo-svg { width: max-content; }
 .footer .logo-svg { height: 30px; }
 .acc-about-logo.logo-svg { height: auto; width: min(240px, 70%); }
 .acc-about-logo.logo-svg .logo-svg-el { width: 100%; height: auto; }
-.intro-logo .logo-svg-el { aspect-ratio: 3524.95 / 658.94; }
+.intro-logo .logo-svg-el { aspect-ratio: 980 / 160; }
 
 /* intro: SVG ham rasm kabi chapdan ochiladi */
 .intro-logo .logo-svg-el {
@@ -6796,7 +6796,7 @@ html, body, body *:not(svg):not(svg *) { font-size-adjust: none; }
 /* YouTube videolarida DezoMax belgisi — pleyer ostidagi qatorda, o'ngda (pleyer ustiga emas) */
 .pf-brand { margin-left: auto; width: clamp(96px, 16%, 150px); line-height: 0; pointer-events: none; user-select: none; }
 .pf-brand[hidden] { display: none; }
-.pf-brand svg { display: block; width: 100%; height: auto; }
+.pf-brand svg, .pf-brand img { display: block; width: 100%; height: auto; }
 .adm-lg-types { display: flex; flex-wrap: wrap; gap: 14px; }
 /* LogoVidio → Qaysi kinolarga: katta tugmalar (Kinolar / Seriallar / Multfilmlar / Tanlangan kinolar) */
 .adm-lg-cats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }

@@ -78,7 +78,7 @@ function mountVideo(box, url, opts = {}) {
   box.innerHTML = `
     <div class="ytp-stage vp-stage">
       <video class="vp-video" playsinline preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-      <span class="vp-brand" aria-hidden="true">${window.dezoLogoSVG ? window.dezoLogoSVG() : '<img src="images/logo/logo.png" alt="" draggable="false">'}</span>   <!-- DezoMax belgisi — pleyer ustida (videoga yopishtirilmaydi) -->
+      <span class="vp-brand" aria-hidden="true">${window.dezoLogoSVG ? window.dezoLogoSVG() : '<img src="images/logo/dezomax-name.webp" alt="" draggable="false">'}</span>   <!-- DezoMax belgisi — pleyer ustida (videoga yopishtirilmaydi) -->
 
       <div class="ytp-click" id="vpClick" hidden></div>
       <div class="vp-spinner" id="vpSpin" hidden><i></i></div>

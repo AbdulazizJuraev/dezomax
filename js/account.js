@@ -1018,7 +1018,7 @@ const SECTIONS = {
   about() {
     return `
       <div class="acc-card acc-about">
-        <img src="images/logo/logo.png" alt="DezoMax" class="acc-about-logo">
+        <img src="images/logo/dezomax-name.webp" alt="DezoMax" class="acc-about-logo">
         <p>${t('acc.aboutText')}</p>
         <ul class="acc-feats">
           ${[1, 2, 3, 4].map(i => `<li>${AI.check}<span>${t('acc.aboutFeat' + i)}</span></li>`).join('')}

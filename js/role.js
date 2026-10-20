@@ -131,7 +131,7 @@ function showRolePicker(profile) {
     el.innerHTML = `
       ${film ? `<div class="role-pick-bg"></div>` : ''}
       <div class="role-pick-box">
-        <img class="role-pick-logo" src="images/logo/logo.png" alt="DezoMax">
+        <img class="role-pick-logo" src="images/logo/dezomax-name.webp" alt="DezoMax">
         <h1>${esc(t('role.title'))}</h1>
         <div class="role-pick-avatars">
           ${['adult', 'child', 'guest'].map(r => `
@@ -156,7 +156,7 @@ function showRolePicker(profile) {
       el.classList.add('is-age');
       const ages = [['0', '0–6', t('role.age0')], ['7', '7–12', t('role.age7')], ['13', '13–17', t('role.age13')], ['18', '18+', t('role.age18')]];
       box.innerHTML = `
-        <img class="role-pick-logo" src="images/logo/logo.png" alt="DezoMax">
+        <img class="role-pick-logo" src="images/logo/dezomax-name.webp" alt="DezoMax">
         <h1>${esc(t('role.ageTitle'))}</h1>
         <div class="role-pick-avatars">
           ${ages.map(([v, label, sub]) => `
