@@ -8,7 +8,15 @@
    Ma'lumot va yordamchilar — js/common.js (MOVIES, heroMovie, heroCompose, partsOf, watchStatus, movieHref ...)
    ============================================================ */
 (function () {
-  const CFG = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) || {};
+  // Admin → «Bosh sahifa va sayt» jonli ko'rinishi (index.html?preview=1 iframe'da): saqlanmagan qoralama localStorage'dan olinadi,
+  // admin o'zgartirganda ramkani o'zi qayta ochadi. Oddiy ochilishda — saytdagi SITE_CONFIG.
+  const PREVIEW = /[?&]preview=1(?:&|$)/.test(location.search);
+  let previewCfg = null;
+  if (PREVIEW) {
+    try { previewCfg = JSON.parse(localStorage.getItem('dzx_preview_cfg') || 'null'); } catch {}
+    document.documentElement.classList.add('dzx-preview');
+  }
+  const CFG = previewCfg || (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG) || {};
   const $ = id => document.getElementById(id);
   const ru = LANG === 'ru';
 

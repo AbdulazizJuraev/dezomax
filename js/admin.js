@@ -1094,6 +1094,57 @@ function renderMain() {
   else renderFormView();
 }
 
+/* ---------- Bosh sahifa — jonli ko'rinish (o'ng tomonda telefon) ----------
+   Bosh sahifa iframe'da index.html?preview=1 bo'lib ochiladi va sozlamani localStorage'dagi qoralamadan oladi (js/v4.js).
+   Admin'dagi har o'zgarishdan keyin qoralama yoziladi va iframe qayta ochiladi. Saqlash shart emas. */
+const PREVIEW_KEY = 'dzx_preview_cfg';
+let previewMode = 'phone';
+function sitePreviewWrite(reload) {
+  if (!siteDraft) return;
+  let txt = '';
+  try { txt = JSON.stringify(cleanSiteConfig(siteDraft)); } catch { return; }
+  let prev = null;
+  try { prev = localStorage.getItem(PREVIEW_KEY); localStorage.setItem(PREVIEW_KEY, txt); } catch {}
+  // qoralama o'zgargan bo'lsa — ramkadagi bosh sahifa qayta ochiladi (bir xil origin)
+  // (location.reload() hali yuklanmagan ramkada about:blank'da qoldirardi — manzil qaytadan beriladi)
+  if (reload && prev !== txt) { const f = $('#a4PrevIframe'); if (f) f.src = `index.html?nointro&nowelcome&preview=1&r=${Date.now()}`; }
+}
+function sitePreviewMount() {
+  const box = $('#admView');
+  if (view !== 'site' || !box || !siteDraft || box.querySelector('.a4-sitewrap')) return;
+  sitePreviewWrite();
+  const wrap = document.createElement('div');
+  wrap.className = 'a4-sitewrap';
+  const main = document.createElement('div');
+  main.className = 'a4-sitemain';
+  while (box.firstChild) main.appendChild(box.firstChild);   // tugunlar ko'chiriladi — ularga ulangan tinglovchilar saqlanadi
+  const side = document.createElement('aside');
+  side.className = 'a4-prev';
+  side.innerHTML = `
+    <div class="a4-prev-seg" role="tablist">
+      <button type="button" data-pm="phone" class="${previewMode === 'phone' ? 'is-on' : ''}">Telefon</button>
+      <button type="button" data-pm="desk" class="${previewMode === 'desk' ? 'is-on' : ''}">Kompyuter</button>
+    </div>
+    <div class="a4-prev-frame is-${previewMode}"><div class="a4-prev-scale"><iframe id="a4PrevIframe" title="Bosh sahifa — jonli ko‘rinish" src="index.html?nointro&nowelcome&preview=1"></iframe></div></div>
+    <small class="a4-sub">Jonli ko‘rinish — saqlanmagan o‘zgarishlar bilan. Saytga «Saqlash» bosilgandan keyin chiqadi.</small>`;
+  wrap.append(main, side);
+  box.appendChild(wrap);
+  side.querySelectorAll('[data-pm]').forEach(b => b.addEventListener('click', () => {
+    previewMode = b.dataset.pm;
+    side.querySelectorAll('[data-pm]').forEach(x => x.classList.toggle('is-on', x === b));
+    side.querySelector('.a4-prev-frame').className = `a4-prev-frame is-${previewMode}`;
+  }));
+  // har qanday o'zgarishdan (tugma, belgilash, yozish, tartib) keyin qoralama yangilanadi
+  let t = null;
+  const kick = () => { clearTimeout(t); t = setTimeout(() => sitePreviewWrite(true), 700); };
+  main.addEventListener('click', kick);
+  main.addEventListener('input', kick);
+  main.addEventListener('change', kick);
+}
+
+// «Bosh sahifa va sayt» o'zini qayta chizganda ham (kino qo'shish, tartib) jonli ko'rinish qaytadan qo'yiladi
+{ const plain = renderSiteView; renderSiteView = async (...a) => { await plain(...a); sitePreviewMount(); }; }
+
 /* ---------- Boshqaruv paneli ---------- */
 
 const DAY_MS = 86400000;

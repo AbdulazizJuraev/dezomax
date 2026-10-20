@@ -350,3 +350,7 @@ html body :is(.v4-title, .v4-row-h h2, .v4-dezo input, .v4-t10-n, .v4-clock, .v4
 .v4-logo .logo-svg { display: block; height: 34px; }
 .v4-logo .logo-svg svg { height: 100%; width: auto; display: block; }
 @media (max-width: 760px) { .v4-logo .logo-svg { height: 28px; } }
+
+/* admin'dagi jonli ko'rinish (index.html?preview=1): kirish/profil oynalari va reklama chiqmaydi */
+.dzx-preview .role-pick, .dzx-preview .wc, .dzx-preview .intro, .dzx-preview .ad-slot, .dzx-preview .adm-aichat-btn { display: none !important; }
+.dzx-preview.welcome-lock, .dzx-preview.welcome-lock body { overflow: auto !important; }

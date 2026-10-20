@@ -180,3 +180,24 @@
   .page-admin .adm-aichat-btn { bottom: calc(96px + var(--sab, 0px)); height: 42px; padding: 0 16px; }
   .page-admin .adm-aichat { bottom: calc(148px + var(--sab, 0px)); }
 }
+
+/* ---- Bosh sahifa va sayt: o'ngda jonli ko'rinish ---- */
+.a4-sitewrap { display: flex; gap: 24px; align-items: flex-start; }
+.a4-sitemain { flex: 1; min-width: 0; }
+.a4-prev { position: sticky; top: 92px; width: 340px; flex: none; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.a4-prev-seg { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--a-s2); border: 1px solid var(--a-ln); }
+.a4-prev-seg button { padding: 7px 16px; border: 0; border-radius: 999px; background: none; color: var(--a-dim); font-weight: 700; font-size: 13px; }
+.a4-prev-seg button.is-on { background: var(--a-lime); color: #000; }
+.a4-prev-frame { position: relative; overflow: hidden; background: #000; }
+/* telefon: 375×780 sahifa 0,8 marta kichraytirilgan, ramka bilan */
+.a4-prev-frame.is-phone { width: 316px; height: 640px; border-radius: 40px; border: 8px solid #26262a; }
+.a4-prev-frame.is-phone .a4-prev-scale { width: 375px; height: 780px; transform: scale(.8); transform-origin: 0 0; }
+/* kompyuter: 1280×800 sahifa ~0,26 marta */
+.a4-prev-frame.is-desk { width: 340px; height: 222px; border-radius: 12px; border: 6px solid #26262a; }
+.a4-prev-frame.is-desk .a4-prev-scale { width: 1280px; height: 820px; transform: scale(.256); transform-origin: 0 0; }
+.a4-prev-scale iframe { width: 100%; height: 100%; border: 0; display: block; background: #0a0a0b; }
+.a4-prev .a4-sub { text-align: center; font-size: 12px; margin: 0; }
+@media (max-width: 1180px) {
+  .a4-sitewrap { flex-direction: column; }
+  .a4-prev { position: static; width: 100%; }
+}
