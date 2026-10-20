@@ -14,8 +14,8 @@ android {
         applicationId "uz.dezomax.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 76
-        versionName "1.8.0"
+        versionCode 77
+        versionName "1.8.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // faqat telefon protsessorlari (x86 — kompyuter emulyatorlari uchun, APK hajmini oshiradi)
         ndk { abiFilters 'arm64-v8a', 'armeabi-v7a' }
@@ -62,8 +62,10 @@ android {
             }
             // Kod siqiladi va obfuskatsiya qilinadi (Google Play: «DEX kodi optimizatsiyasi» talabi, fevral 2027).
             // Plaginlar, ilovaning o'z kodi va BackgroundRunner nomlari saqlanadi — proguard-rules.pro
-            minifyEnabled true
-            shrinkResources true
+            // 1.8.0 da R8 yoqilgan holda ilova telefonda ochilishi bilan yopilib qoldi (2026-10-20) — sababi aniqlanguncha o'chiq.
+            // Qayta yoqishdan oldin APK ni haqiqiy telefonda sinang.
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
