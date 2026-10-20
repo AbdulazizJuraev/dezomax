@@ -26,7 +26,8 @@ html body :is(.v4-title, .v4-row-h h2, .v4-dezo input, .v4-t10-n, .v4-clock, .v4
 .v4 ::-webkit-scrollbar { display: none; }
 
 /* ---------- tepa panel ---------- */
-.v4-head { position: absolute; z-index: 10; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: clamp(20px, 3vw, 56px); padding: 36px var(--v4-pad) 0; }
+/* tepada telefon soat qatori: --sat (style.css) — brauzerda env(), Android ilovada --app-sat (MainActivity) */
+.v4-head { position: absolute; z-index: 10; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: clamp(20px, 3vw, 56px); padding: calc(36px + var(--sat, 0px)) var(--v4-pad) 0; }
 .v4-logo { display: block; flex: none; }
 .v4-logo img { display: block; height: 34px; width: auto; }
 .v4-logo sup { font-size: .5em; color: var(--v4-lime); vertical-align: top; margin-left: 1px; }
@@ -124,7 +125,7 @@ html body :is(.v4-title, .v4-row-h h2, .v4-dezo input, .v4-t10-n, .v4-clock, .v4
 
 /* ---------- telefon ---------- */
 @media (max-width: 760px) {
-  .v4-head { padding: calc(14px + env(safe-area-inset-top)) 16px 0; gap: 12px; }
+  .v4-head { padding: calc(14px + var(--sat, env(safe-area-inset-top, 0px))) 16px 0; gap: 12px; }
   .v4-logo img { height: 26px; }
   .v4-nav { display: none; }
   .v4-head-r { gap: 10px; }
