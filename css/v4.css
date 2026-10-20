@@ -88,7 +88,9 @@ body.v4 { background: var(--v4-bg); color: var(--v4-t1); font: 500 16px/1.5 'Man
 .v4-pc span { position: absolute; inset: auto 0 0; padding: 40px 16px 14px; background: linear-gradient(transparent, rgba(0, 0, 0, .88)); }
 .v4-pc b { display: block; font-weight: 800; font-size: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .v4-pc small { display: block; font-weight: 700; font-size: 13px; color: var(--v4-lime); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.v4-pc.is-on { box-shadow: 0 0 0 3px var(--v4-lime); }
+.v4-pc::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; transition: box-shadow .2s; }
+/* tanlangan karta — ramka ichkarida (scroll chetida kesilmaydi) */
+.v4-pc.is-on::after { box-shadow: inset 0 0 0 2px var(--v4-lime); }
 .v4-hero.is-empty .v4-pick { display: none; }
 
 /* ---------- qatorlar ---------- */
@@ -134,10 +136,14 @@ body.v4 { background: var(--v4-bg); color: var(--v4-t1); font: 500 16px/1.5 'Man
   .v4-hero::before { bottom: auto; height: 74vh; max-height: 640px;
     background: linear-gradient(0deg, var(--v4-bg) 0%, var(--v4-bg) 15%, rgba(10, 10, 11, .82) 32%, transparent 60%),
                 linear-gradient(180deg, rgba(10, 10, 11, .65), transparent 20%); }
-  .v4-hero-in { padding: min(48vh, 420px) 16px 0; }
+  /* tartib: kino → tillar → «Yoki shulardan biri» karuseli → Dezo qatori */
+  .v4-hero { padding-top: min(48vh, 420px); }
+  .v4-hero-in { display: contents; }
+  .v4-info, .v4-langs, .v4-dezo { position: relative; z-index: 2; margin-left: 16px; margin-right: 16px; }
   .v4-info { order: 1; margin-top: 0; }
   .v4-langs { order: 2; }
-  .v4-dezo { order: 3; }
+  .v4-pick { order: 3; }
+  .v4-dezo { order: 4; }
   .v4-kick { font-size: 11px; letter-spacing: .14em; }
   .v4-title { font-size: clamp(30px, 9vw, 40px); margin: 8px 0 10px; }
   .v4-meta { font-size: 14px; gap: 4px 14px; }
@@ -148,7 +154,7 @@ body.v4 { background: var(--v4-bg); color: var(--v4-t1); font: 500 16px/1.5 'Man
   .v4 .v4-btn.is-ic { width: 50px; flex: none; font-size: 22px; }
   .v4 .v4-btn.is-more { display: none; }
 
-  .v4-langs { position: static; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+  .v4-langs { position: relative; right: auto; top: auto; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
   .v4-langs span { padding: 6px 12px; font-size: 13px; background: var(--v4-s2); }
 
   .v4-dezo { margin-top: 22px; gap: 12px; padding: 8px 18px 8px 8px; border-radius: 999px; background: var(--v4-s1); border: 1px solid var(--v4-ln); }
@@ -157,9 +163,9 @@ body.v4 { background: var(--v4-bg); color: var(--v4-t1); font: 500 16px/1.5 'Man
   .v4-dezo small { font-size: 12px; color: var(--v4-t3); }
   .v4-dezo input { font: 700 14px/1.3 'Manrope', sans-serif; }
 
-  .v4-pick { padding: 28px 16px 8px; }
+  .v4-pick { padding: 24px 16px 0; }
   .v4-pick h2 { font-size: 12px; }
-  .v4-pick-row { grid-auto-columns: 68vw; gap: 12px; margin-right: -16px; padding-right: 16px; }
+  .v4-pick-row { grid-auto-columns: 68vw; gap: 12px; margin: 12px -16px 0; padding: 0 16px; scroll-padding: 0 16px; }
   .v4-pc { border-radius: 14px; }
   .v4-pc b { font-size: 15px; }
   .v4-pc small { font-size: 12px; }
