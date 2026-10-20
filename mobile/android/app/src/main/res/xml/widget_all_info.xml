@@ -11,6 +11,6 @@
     android:updatePeriodMillis="3600000"
     android:initialLayout="@layout/widget_all"
     android:previewLayout="@layout/widget_all"
-    android:previewImage="@mipmap/dezo_icon"
+    android:previewImage="@mipmap/dezomax_launcher"
     android:description="@string/w_all_desc"
     android:widgetCategory="home_screen" />
