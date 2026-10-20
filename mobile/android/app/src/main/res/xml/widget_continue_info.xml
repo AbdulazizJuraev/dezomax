@@ -11,6 +11,6 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget_continue"
     android:previewLayout="@layout/widget_continue"
-    android:previewImage="@mipmap/ic_launcher"
+    android:previewImage="@mipmap/dezo_icon"
     android:description="@string/w_continue_desc"
     android:widgetCategory="home_screen" />
