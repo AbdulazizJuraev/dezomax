@@ -272,3 +272,35 @@ html body :is(.v4-title, .v4-row-h h2, .v4-dezo input, .v4-t10-n, .v4-clock, .v4
 
 /* kino posterlari — to'rtburchak (foydalanuvchi so'rovi, 2026-10-20); tugmalar va boshqa elementlar — dumaloq */
 .v4-pc, .v4-pc img, .v4-card-im, .v4-card-im img, .v4-t10-im, .v4-t10-im img { border-radius: 0 !important; }
+
+/* ---------- Telefon: karusel (o'rtada katta poster, yonlarida qo'shnilari) ---------- */
+.v4-flow { display: none; }
+@media (max-width: 760px) {
+  .v4-art, .v4-pick { display: none !important; }
+  .v4-hero { padding-top: calc(74px + var(--sat, env(safe-area-inset-top, 0px))); }
+  .v4-hero::before { height: 100%; max-height: none;
+    background: radial-gradient(90% 55% at 50% 30%, rgba(198, 255, 61, .07), transparent 70%); }
+  .v4-flow { display: block; order: 0; position: relative; z-index: 2; height: calc(60vw * 1.5); margin: 4px 0 18px; overflow: hidden; }
+  .v4-fc { position: absolute; top: 0; left: 50%; width: 60vw; margin-left: -30vw; aspect-ratio: 2 / 3; padding: 0; border: 0;
+    background: var(--v4-s2); overflow: hidden; cursor: pointer; will-change: transform;
+    transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .45s; }
+  .v4-fc img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .v4-fc.is-on { box-shadow: 0 14px 34px rgba(0, 0, 0, .6); }
+  .v4-fc-b { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); max-width: 90%; padding: 5px 12px; border-radius: 999px;
+    background: var(--v4-lime); color: #000; font-weight: 800; font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; transition: opacity .3s; }
+  .v4-fc-b:empty { display: none; }
+  .v4-fc.is-on .v4-fc-b { opacity: 1; }
+
+  /* nom, ma'lumot va tugmalar — o'rtada, maketdagidek ikki tugma */
+  .v4-info { text-align: center; }
+  .v4-kick { display: none; }
+  .v4-title { font-size: clamp(24px, 7vw, 32px); text-transform: uppercase; margin: 0 0 8px; }
+  .v4-meta { justify-content: center; }
+  .v4-acts { flex-wrap: nowrap; }
+  .v4 .v4-btn { white-space: nowrap; padding: 0 12px; gap: 8px; }
+  .v4 .v4-btn.is-main { flex: 1 1 0; }
+  .v4 .v4-btn.is-alt { display: inline-flex !important; flex: 1 1 0; }
+  .v4 .v4-btn:not(.is-main):not(.is-alt) { display: none; }
+  .v4-langs { justify-content: center; }
+}

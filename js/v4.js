@@ -99,8 +99,8 @@
       ${d ? `<p class="v4-desc">${esc(d)}</p>` : ''}
       <div class="v4-acts">
         ${play ? `<a class="v4-btn is-main" href="${play.href}"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>${esc(play.text)}</a>` : ''}
-        ${parts > 1 ? `<a class="v4-btn" href="movie.html?id=${m.id}&part=1&play=1">${ru ? 'С 1-й серии' : '1-qismdan'}</a>` : ''}
-        <a class="v4-btn is-more" href="${movieHref(m)}">${ru ? 'Подробнее' : 'Batafsil'}</a>
+        ${parts > 1 ? `<a class="v4-btn is-alt" href="movie.html?id=${m.id}&part=1&play=1">${ru ? 'С 1-й серии' : '1-qismdan'}</a>` : ''}
+        <a class="v4-btn is-more${parts > 1 ? '' : ' is-alt'}" href="${movieHref(m)}">${ru ? 'Подробнее' : 'Batafsil'}</a>
         <button class="v4-btn is-ic${fav ? ' is-on' : ''}" type="button" data-fav="${m.id}" aria-label="${ru ? 'В список' : 'Ro‘yxatga'}">${fav ? '✓' : '+'}</button>
       </div>`;
   }
@@ -118,18 +118,70 @@
     im.src = src;
   }
 
+  /* Telefonda karusel (foydalanuvchi maketi): o'rtada katta poster, yonlarida qo'shnilari; surib almashtiriladi.
+     Yengil: faqat transform/opacity, xiralashtirish yo'q, rasm faqat yaqin kartalarga yuklanadi (w500). */
+  const PHONE = matchMedia('(max-width: 760px)');
+  const flowImg = m => { const v = tallOf(m); return v ? v.replace('/t/p/w780/', '/t/p/w500/') : cardImg(m); };
+  function flowHTML() {
+    return picks.map((m, i) => `<button class="v4-fc" type="button" data-i="${i}" aria-label="${esc(title(m))}">
+      <img data-src="${esc(flowImg(m) || '')}" alt="" decoding="async" onerror="this.remove()"><span class="v4-fc-b"></span></button>`).join('');
+  }
+  function layoutFlow() {
+    const n = picks.length;
+    document.querySelectorAll('#v4Flow .v4-fc').forEach((el, i) => {
+      let o = i - cur;
+      if (o > n / 2) o -= n;
+      if (o < -n / 2) o += n;
+      const a = Math.abs(o);
+      el.style.transform = `translateX(${o * 64}%) scale(${a ? .82 : 1})`;
+      el.style.zIndex = 10 - a;
+      el.style.opacity = a > 1 ? 0 : a ? .55 : 1;
+      el.style.pointerEvents = a > 1 ? 'none' : '';
+      el.classList.toggle('is-on', !a);
+      const im = a <= 2 && el.querySelector('img[data-src]');
+      if (im && im.dataset.src) { im.src = im.dataset.src; im.removeAttribute('data-src'); }
+    });
+  }
+
   function show(i) {
     if (!picks.length) return;
     cur = (i + picks.length) % picks.length;
     const m = picks[cur];
     $('v4Info').innerHTML = infoHTML(m);
     $('v4Langs').innerHTML = langsOf(m).map(([k, n], j) => `<span class="${j ? '' : 'is-on'}">${esc(n)}</span>`).join('');
-    setArt(m);
     $('v4Pick').querySelectorAll('.v4-pc').forEach((c, j) => c.classList.toggle('is-on', j === cur));
+    if (PHONE.matches) {
+      layoutFlow();
+      const b = document.querySelector(`#v4Flow .v4-fc[data-i="${cur}"] .v4-fc-b`);
+      if (b) b.textContent = ($('v4Info').querySelector('.v4-kick') || {}).textContent || '';
+      return;
+    }
+    setArt(m);
     // keyingi kinoning rasmi oldindan
     const nx = picks[(cur + 1) % picks.length];
     const nsrc = nx && (tallOf(nx) || wideOf(nx, 'w1280'));
     if (nsrc) new Image().src = nsrc;
+  }
+  function initFlow() {
+    const flow = $('v4Flow');
+    if (!flow) return;
+    flow.innerHTML = flowHTML();
+    flow.addEventListener('click', e => {
+      const b = e.target.closest('.v4-fc');
+      if (!b) return;
+      if (+b.dataset.i === cur) { location.href = movieHref(picks[cur]); return; }
+      show(+b.dataset.i); restart();
+    });
+    // barmoq bilan surish
+    let x0 = null, y0 = 0;
+    flow.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    flow.addEventListener('touchend', e => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { show(cur + (dx < 0 ? 1 : -1)); restart(); }
+    }, { passive: true });
+    PHONE.addEventListener('change', () => show(cur));
   }
   function restart() {
     clearInterval(timer);
@@ -359,6 +411,7 @@
   /* ---------- ishga tushirish ---------- */
   if (picks.length) {
     $('v4Pick').innerHTML = picks.map(pickHTML).join('');
+    initFlow();
     $('v4Pick').addEventListener('click', e => {
       const b = e.target.closest('.v4-pc');
       if (!b) return;
@@ -402,6 +455,7 @@
       if (next.map(m => m.id).join() !== picks.map(m => m.id).join()) {
         picks.splice(0, picks.length, ...next);
         $('v4Pick').innerHTML = picks.map(pickHTML).join('');
+        $('v4Flow').innerHTML = flowHTML();
         show(0); restart();
       }
     }
