@@ -55,9 +55,11 @@ if (window.top === window && window.Capacitor && window.Capacitor.isNativePlatfo
    saqlanadi) va kino sahifasida «1-qism, 2-qism…» tugmalari orqali ochiladi. Admin'da hammasi ko'rinadi. */
 const PART_OF = new Map();      // qism id -> { parent: guruh kartasi id, n: qism raqami (1 dan) }
 const PART_MOVIES = new Map();  // ro'yxatlardan chiqarilgan qismlar (id -> kino)
-(function () {
+// bosh sahifa to'liq ro'yxatni keyin yuklasa (js/v4.js dzxLoadFull) — qayta hisoblanadi
+function buildParts() {
   try {
     if (typeof MOVIES === 'undefined') return;
+    PART_OF.clear(); PART_MOVIES.clear();
     const ids = new Set(MOVIES.map(m => m.id));
     for (const m of MOVIES) {
       if (!Array.isArray(m.parts) || m.parts.length < 2 || PART_OF.has(m.id)) continue;
@@ -69,7 +71,8 @@ const PART_MOVIES = new Map();  // ro'yxatlardan chiqarilgan qismlar (id -> kino
       if (PART_OF.has(MOVIES[i].id)) { PART_MOVIES.set(MOVIES[i].id, MOVIES[i]); MOVIES.splice(i, 1); }
     }
   } catch (e) {}
-})();
+}
+buildParts();
 
 /* Guruh kartasining qismlari tartibda (guruh bo'lmasa — bo'sh ro'yxat) */
 function partsOf(m) {

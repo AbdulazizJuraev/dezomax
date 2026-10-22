@@ -79,6 +79,30 @@
     const list = [...new Set([...admin, ...pop])].filter(m => !hid.has(m.id)).slice(0, 12);
     return list.length ? list : heroCompose([]).slice(0, 12);
   }
+  /* Sekin internet: index.html faqat js/data-home.js ni (bosh sahifa kinolari) yuklaydi. Kerakli kino unda
+     bo'lmasa — to'liq ro'yxat (data-channels, data-rutube, data-site) shu yerda bir marta yuklanadi */
+  let fullP = null;
+  window.dzxLoadFull = () => {
+    if (!window.DZX_HOME_PART || !window.DZX_BASE) return Promise.resolve(false);
+    return fullP || (fullP = (async () => {
+      const v = (document.querySelector('script[src*="data-home.js"]')?.src.split('?')[1]) || '';
+      const urls = ['data-channels', 'data-rutube', 'data-site'].map(n => `js/${n}.js${v ? '?' + v : ''}`);
+      // avval hammasi yuklanadi (MOVIES yarim holatda qolmasin), keyin ketma-ket ishga tushadi
+      if (!(await Promise.all(urls.map(u => fetch(u).then(r => r.ok, () => false)))).every(Boolean)) { fullP = null; return false; }
+      const keep = MOVIES.slice();
+      MOVIES.splice(0, MOVIES.length, ...window.DZX_BASE);
+      try {
+        for (const u of urls) await new Promise((ok, no) => { const s = document.createElement('script'); s.src = u; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+      } catch { MOVIES.splice(0, MOVIES.length, ...keep); fullP = null; return false; }
+      if (typeof buildParts === 'function') buildParts();
+      window.DZX_HOME_PART = false;
+      return true;
+    })());
+  };
+  const hasMovie = id => MOVIES.some(m => m.id === id) || PART_MOVIES.has(id);
+  const gone = new Set([...(window.DZX_GONE || []), ...(typeof HIDDEN_MOVIES !== 'undefined' ? HIDDEN_MOVIES : [])]);
+  const needFull = ids => !!window.DZX_HOME_PART && ids.some(id => id && !gone.has(id) && !hasMovie(id));
+
   let popCached = [];
   try { popCached = JSON.parse(localStorage.getItem(HERO_POP_KEY) || '[]'); } catch {}
   const picks = heroList(popCached);
@@ -318,7 +342,9 @@
     if (!row) return;
     const byId = new Map(MOVIES.map(m => [m.id, m]));
     const days = topDays;
-    const real = (await topIds(days)).map(id => byId.get(id)).filter(m => m && !isExtraVideo(m));
+    const top = await topIds(days);
+    if (needFull(top) && await window.dzxLoadFull()) return renderRows();
+    const real = top.map(id => byId.get(id)).filter(m => m && !isExtraVideo(m));
     if (days !== topDays) return;
     const all = real.length < 10 ? (await topIds('all')).map(id => byId.get(id)).filter(m => m && !isExtraVideo(m)) : [];
     row.innerHTML = t10Cards([...new Set([...real, ...all, ...ROW_SOURCES.popular.list()])]);
@@ -468,6 +494,26 @@
 
   renderRows();
   initDezo();
+  // yengil ro'yxatda yo'q kino kerak bo'lsa (bolalar rejimi, admin tanlovi, davom ettirish, oldingi Top) — to'liq ro'yxat
+  (() => {
+    if (!window.DZX_HOME_PART) return;
+    let cw = [];
+    try { cw = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY) || '[]').filter(x => x && !x.done).map(x => x.id); } catch {}
+    const want = [...((CFG.hero && CFG.hero.ids) || []), ...popCached.slice(0, 12), ...cw.slice(0, 12),
+      ...(CFG.rows || []).flatMap(r => r.visible === false ? [] : r.ids || [])];
+    if (!kidsMode() && !needFull(want)) return;
+    window.dzxLoadFull().then(ok => {
+      if (!ok) return;
+      const next = heroList(popCached);
+      if (next.length && next.map(m => m.id).join() !== picks.map(m => m.id).join()) {
+        picks.splice(0, picks.length, ...next);
+        $('v4Pick').innerHTML = picks.map(pickHTML).join('');
+        if ($('v4Flow')) $('v4Flow').innerHTML = flowHTML();
+        show(0); restart();
+      }
+      renderRows();
+    });
+  })();
   $('v4Year').textContent = new Date().getFullYear();
   // umumiy pastki menyu (Bosh sahifa, TV, Qidiruv, Kutubxona, Shorts — js/common.js) va tarjimalar
   if (typeof renderTabbar === 'function') renderTabbar();
@@ -478,6 +524,7 @@
     const week = await topIds(7);
     const ids = week.length >= 5 ? week : [...week, ...await topIds('all')];
     if (!ids.length) return;
+    if (needFull(ids.slice(0, 12))) await window.dzxLoadFull();
     try { localStorage.setItem(HERO_POP_KEY, JSON.stringify(ids.slice(0, 30))); } catch {}
     if (!popCached.length && Date.now() - t0 < 4000 && cur === 0) {
       const next = heroList(ids);

@@ -23,3 +23,6 @@
 /js/data-custom.js
   ! Cache-Control
   Cache-Control: no-cache
+/js/data-home.js
+  ! Cache-Control
+  Cache-Control: no-cache

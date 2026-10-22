@@ -35,6 +35,7 @@ jobs:
       - name: Sayt fayllarini yig'ish
         if: steps.chk.outputs.ok == '1'
         run: |
+          node tools/gen-home-data.js   # bosh sahifa ro'yxati admin o'zgarishlari bilan yangi bo'lsin
           mkdir -p _site
           git ls-files -z \
             | grep -zvE '^(mobile|desktop|tools|server|cloudflare|tv|\.github)/|(^|/)README|\.md$|^guard-result|^\.|^admin\.html$|^admin\.webmanifest$|^js/admin\.js$|^js/data-lib2?\.js$' \

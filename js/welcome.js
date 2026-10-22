@@ -68,7 +68,7 @@
 
   const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   const text = (key) => t(key)
-    .replace('{n}', fmt(Math.floor(MOVIES.length / 1000) * 1000))
+    .replace('{n}', fmt(Math.floor((window.DZX_TOTAL || MOVIES.length) / 1000) * 1000))
     .replace('{price}', fmt(typeof TRIAL !== 'undefined' ? TRIAL.price : 29000));
 
   const ICON = {

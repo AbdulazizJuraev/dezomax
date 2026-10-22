@@ -124,7 +124,7 @@ self.addEventListener('fetch', e => {
     const p = url.pathname;
     if (/\.(js|css)$/i.test(p)) {
       // admin va tez o'zgaradigan ma'lumot — avval internet
-      if (url.searchParams.has('t') || /data-(custom|site|desc)\.js$|lang-videos\.js$|site-config\.js$|admin/i.test(p)) e.respondWith(networkFirst(req, SHELL, url.origin + p));
+      if (url.searchParams.has('t') || /data-(custom|site|desc|home)\.js$|lang-videos\.js$|site-config\.js$|admin/i.test(p)) e.respondWith(networkFirst(req, SHELL, url.origin + p));
       else e.respondWith(cacheFirst(req, SHELL));
       return;
     }

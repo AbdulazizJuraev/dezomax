@@ -32,6 +32,8 @@ console.log(`versiya ${version} — ${changed} ta HTML fayl yangilandi`);
 // Qidiruv tizimlari uchun kinolar ro'yxati ham yangilansin
 // sayt uchun yengil kinolar fayli (js/data-site.js, js/data-desc.js) — data-custom.js dan
 require('./gen-site-data.js');
+// bosh sahifa uchun yengil ro'yxat (js/data-home.js — index.html)
+require('./gen-home-data.js');
 
 require('./gen-sitemap.js');
 
