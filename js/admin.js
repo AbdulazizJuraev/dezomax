@@ -3932,7 +3932,7 @@ async function renderChannelsView() {
     </section>
 
     <section class="adm-sec" id="chAddSec">
-      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.plus}</span><h3>Kanal qo‘shish</h3><small>faqat rasmiy (✓) kanallar</small></div>
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.plus}</span><h3>Kanal qo‘shish</h3><small>rasmiy yoki shartnoma tuzilgan kanallar</small></div>
       <div class="adm-field"><label class="adm-label" for="chUrl">Kanal havolasi</label>
         <input class="acc-input" id="chUrl" placeholder="https://www.youtube.com/@kanal" inputmode="url" autocomplete="off"></div>
       <div class="adm-row adm-row-2">
@@ -3941,7 +3941,7 @@ async function renderChannelsView() {
         <div class="adm-field"><label class="adm-label" for="chFr">Bo‘lim</label>
           <select class="acc-input" id="chFr">${[['uzbek', 'O‘zbek kino'], ['', 'Yo‘q'], ...STUDIOS.map(x => [x.key, x.name + ' (studiya)']), ['konsert', 'Konsert'], ['dorama', 'Koreys doramasi'], ['anime', 'Anime'], ['hind', 'Hind kino']].map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div>
       </div>
-      <label class="adm-rights"><input type="checkbox" id="chRights"><span>Bu kanal kontent egasining rasmiy kanali (studiya, telekanal, distribyutor) va uning videolarini saytda ko‘rsatish mumkin.</span></label>
+      <label class="adm-rights"><input type="checkbox" id="chRights"><span>Bu kanal kontent egasining rasmiy kanali yoki egasi bilan shartnoma / yozma ruxsat bor — videolarini saytda ko‘rsatish mumkin.</span></label>
       <p class="acc-error" id="chErr" hidden></p>
       <button class="btn btn-primary" type="button" id="chAdd" ${chBusy ? 'disabled' : ''}>Tekshirish va qo‘shish</button>
     </section>`;
@@ -3968,14 +3968,14 @@ async function renderChannelsView() {
     if (/^@[\w.-]+$/.test(url)) url = 'https://www.youtube.com/' + url;
     url = url.replace(/^https?:\/\/(m\.)?youtube\.com/i, 'https://www.youtube.com').replace(/[?#].*$/, '').replace(/\/(videos|playlists|featured|about|shorts|streams)\/?$/, '').replace(/\/+$/, '');
     if (!/^https:\/\/www\.youtube\.com\/(@[\w.-]+|channel\/UC[\w-]{22}|c\/[\w.-]+)$/.test(url)) return show('YouTube kanal havolasini kiriting: https://www.youtube.com/@kanal');
-    if (!$('#chRights').checked) return show('Kanal rasmiy ekanini tasdiqlang.');
+    if (!$('#chRights').checked) return show('Kanal rasmiy ekanini yoki shartnoma borligini tasdiqlang.');
     show(''); btn.disabled = true; btn.textContent = 'Tekshirilmoqda…';
     try {
       const info = await dc('/api/yt/channel?url=' + encodeURIComponent(url));
-      if (!info.verified) throw new Error(`«${info.name}» kanali YouTube’da tasdiqlanmagan (✓ yo‘q) — faqat rasmiy kanallar qo‘shiladi.`);
+      // ✓ belgisi shart emas: kanal egasi bilan shartnoma bo'lsa ham qo'shiladi (yuqoridagi tasdiq — admin javobgarligi)
       if (chState.channels.some(c => c.url === info.url || c.id === info.id)) throw new Error('Bu kanal allaqachon ro‘yxatda — «Yangilash» ni bosing.');
       const key = (info.url.match(/@([\w.-]+)/)?.[1] || info.id).toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 20) || 'ch' + Date.now();
-      const ch = { key, id: info.id, name: info.name, url: info.url, kind: $('#chKind').value, franchise: $('#chFr').value, prefix: key.slice(0, 6), updatedAt: null, count: 0 };
+      const ch = { key, id: info.id, name: info.name, url: info.url, kind: $('#chKind').value, franchise: $('#chFr').value, prefix: key.slice(0, 6), updatedAt: null, count: 0, ...(info.verified ? {} : { agreement: true }) };
       await saveChannels(st => ({ channels: [...st.channels, ch], items: st.items }), `Kanal qo‘shildi: ${ch.name}`);
       toast(`«${ch.name}» qo‘shildi (${info.subs || ''} obunachi) — videolari yuklanmoqda…`);
       syncChannel(ch);
@@ -4122,7 +4122,7 @@ async function syncChannel(ch) {
   if (view === 'channels') renderChannelsView();
   try {
     if (ch.kind === 'playlist') { await syncPlaylist(ch); return; }
-    const { job } = await dc('/api/yt/sync', { method: 'POST', body: JSON.stringify({ url: ch.url, kind: ch.kind, franchise: ch.franchise, prefix: ch.prefix }) });
+    const { job } = await dc('/api/yt/sync', { method: 'POST', body: JSON.stringify({ url: ch.url, kind: ch.kind, franchise: ch.franchise, prefix: ch.prefix, agreement: true }) });   // agreement — admin kanal rasmiy yoki shartnoma borligini tasdiqlagan
     let j;
     for (;;) {
       await new Promise(r => setTimeout(r, 3000));
