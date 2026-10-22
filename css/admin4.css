@@ -215,3 +215,6 @@
 @media (max-width: 1020px) { #admListBox .acc-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 900px) { #admListBox .acc-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } }
 @media (max-width: 560px) { #admListBox .acc-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.adm-namefix { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; margin: 0 0 10px; border-radius: 12px;
+  background: rgba(198, 255, 61, .08); border: 1px solid rgba(198, 255, 61, .3); font-size: 13px; }
+.adm-namefix span { flex: 1; min-width: 200px; }

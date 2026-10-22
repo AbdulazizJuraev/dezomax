@@ -1288,6 +1288,7 @@ function cleanRawTitle(t) {
     .replace(/\bqsim\b/gi, 'qism')
     .replace(/\b(?:480|720|1080|2160)p\b|\bfull\s*hd\b|\bhd\b/gi, ' ')
     .replace(/\(?\s*(?:uzbek|o['‘’`]?zbek)\s*tilida\s*\)?/gi, ' ')
+    .replace(/\s*\(?\s*(?:uzbek|o['‘’`]?zbek)\s+til\p{L}*\s*\)?\s*$/iu, ' ')   // kesilgan: «… O'zbek tilid»
     .replace(/\b(?:dezomax\s+)?premyera(?:si)?\b\s*:?\s*(?:\d{4}\s*-?\s*yil)?/gi, ' ')
     .replace(/\b(?:tarjima\s+kino|yangi\s+kino|to['‘’]?liq\s+(?:kino|film))\b/gi, ' ')
     .replace(/@\w+|https?:\/\/\S+|t\.me\/\S+/gi, ' ')
@@ -1373,6 +1374,12 @@ function renderCleanView() {
   $('#clMore')?.addEventListener('click', () => { cleanLimit += 120; renderCleanView(); });
   $('#clSave').addEventListener('click', e => runAction(e.currentTarget, async () => {
     const want = new Map(items.filter(x => cleanSel.has(x.m.id)).map(x => [x.m.id, String(cleanEdit.get(x.m.id) ?? x.next).trim()]).filter(([, t]) => t));
+    await saveCleanTitles(want);
+    cleanSel.clear(); cleanEdit.clear();
+  }, 'Nomlar saqlandi — ~1 daqiqada saytda'));
+}
+// nomlarni bitta saqlashda yangilash (want: id -> yangi nom); asl kinolar — tahrirlangan nusxa bo'lib qo'shiladi
+async function saveCleanTitles(want) {
     await saveCustom(list => {
       const byId = new Map(list.map(m => [m.id, m]));
       for (const [id, t] of want) {
@@ -1384,8 +1391,6 @@ function renderCleanView() {
       }
       return list;
     }, `Nomlar tozalandi: ${want.size} ta kino (admin → Nomlarni tozalash)`);
-    cleanSel.clear(); cleanEdit.clear();
-  }, 'Nomlar saqlandi — ~1 daqiqada saytda'));
 }
 
 async function loadCommits(force = false) {
@@ -1590,11 +1595,20 @@ function renderListView() {
   const fill = () => {
     const items = listItems();
     const shown = items.slice(0, limit);
+    // «Film nomi: X» kabi nomlar — shu ro'yxatdagilarini bir tugmada tozalash
+    const fix = items.filter(m => !hiddenList.includes(m.id) && isRawTitle(m.title?.uz))
+      .map(m => [m.id, cleanRawTitle(m.title.uz), m.title.uz]).filter(([, t, old]) => t && t.length >= 2 && t !== old);
     $('#admListBox').innerHTML = items.length
-      ? `<p class="acc-muted adm-count">${items.length} ta kino</p><div class="acc-list">${shown.map(itemHTML).join('')}</div>
+      ? `${fix.length ? `<div class="adm-namefix"><span>${fix.length} ta kino nomida «Film nomi:», emoji yoki ortiqcha so‘zlar bor</span>
+           <button class="btn btn-primary btn-sm" type="button" id="admNameFix">Shu ${fix.length} ta nomni tozalash</button></div>` : ''}
+         <p class="acc-muted adm-count">${items.length} ta kino</p><div class="acc-list">${shown.map(itemHTML).join('')}</div>
          ${items.length > limit ? `<button class="btn btn-ghost adm-more" type="button" id="admMore">Yana ko‘rsatish (${items.length - limit})</button>` : ''}`
       : `<div class="acc-empty"><b>Hech narsa topilmadi</b></div>`;
     $('#admMore')?.addEventListener('click', () => { limit += 60; const y = window.scrollY; fill(); window.scrollTo(0, y); });
+    $('#admNameFix')?.addEventListener('click', e => {
+      if (!confirm(`${fix.length} ta kino nomi tozalanadi (masalan: «${fix[0][2]}» → «${fix[0][1]}»). Davom etamizmi?`)) return;
+      runAction(e.currentTarget, async () => { await saveCleanTitles(new Map(fix.map(([id, t]) => [id, t]))); fill(); }, 'Nomlar saqlandi — ~1 daqiqada saytda');
+    });
     bindList();
   };
 
