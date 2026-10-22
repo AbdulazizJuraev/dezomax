@@ -25,7 +25,7 @@ const SITE_CONFIG = /*CONFIG*/{
       99697217,
       97279673
     ],
-    "delay": 30
+    "delay": 7
   },
   "rows": [
     {
