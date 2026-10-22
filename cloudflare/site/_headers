@@ -7,3 +7,19 @@
   Cache-Control: public, max-age=86400
 /sw.js
   Cache-Control: no-cache
+# Kinolar ro'yxati: har safar faqat tekshiriladi (o'zgarmagan bo'lsa 304 — bir necha bayt)
+/js/data-site.js
+  ! Cache-Control
+  Cache-Control: no-cache
+/js/data-desc.js
+  ! Cache-Control
+  Cache-Control: no-cache
+/js/site-config.js
+  ! Cache-Control
+  Cache-Control: no-cache
+/js/lang-videos.js
+  ! Cache-Control
+  Cache-Control: no-cache
+/js/data-custom.js
+  ! Cache-Control
+  Cache-Control: no-cache
