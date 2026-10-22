@@ -135,7 +135,7 @@
 
   /* Telefonda karusel (foydalanuvchi maketi): o'rtada katta poster, yonlarida qo'shnilari; surib almashtiriladi.
      Yengil: faqat transform/opacity, xiralashtirish yo'q, rasm faqat yaqin kartalarga yuklanadi (w500). */
-  const PHONE = matchMedia('(max-width: 760px)');
+  const PHONE = matchMedia('(max-width: 900px)');
   const flowImg = m => { const v = tallOf(m); return v ? v.replace('/t/p/w780/', '/t/p/w500/') : cardImg(m); };
   function flowHTML() {
     return picks.map((m, i) => `<button class="v4-fc" type="button" data-i="${i}" aria-label="${esc(title(m))}">
@@ -435,7 +435,7 @@
       // tanlangan kino ikkinchi marta bosilsa — kino sahifasi
       if (+b.dataset.i === cur) { location.href = movieHref(picks[cur]); return; }
       show(+b.dataset.i); restart();
-      if (matchMedia('(max-width: 760px)').matches) $('v4Hero').scrollIntoView({ behavior: 'smooth' });
+      if (matchMedia('(max-width: 900px)').matches) $('v4Hero').scrollIntoView({ behavior: 'smooth' });
     });
     show(0); restart();
   } else $('v4Hero').classList.add('is-empty');
