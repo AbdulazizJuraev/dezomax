@@ -652,7 +652,7 @@ function mxOf(m) {
 
 /* Kino nomidan ortiqcha qismlarni olib tashlash: «Nomi: X», «Kino nomi - X», emoji, #teg, qo'shtirnoq */
 function cleanTitle(v) {
-  let t = String(v || '')
+  let t = (typeof stripNamePrefix === 'function' ? stripNamePrefix(v) : String(v || ''))
     .replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}✎➫]/gu, '')
     .replace(/#[\p{L}\p{N}_]+/gu, '')
     // «Film nomi:», «# Kino Nomi:», «Tepadegi MultFilm nomi:», «1. nomi:» (js/site-data-build.js bilan bir xil)

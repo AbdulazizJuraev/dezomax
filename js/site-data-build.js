@@ -13,7 +13,14 @@
 (function (root) {
   const DEF_COLORS = '["#2a3142","#0d1018"]';
   const NAME_PREFIX = /^[^\p{L}\p{N}]*(?:\d+\.\s*)?(?:\p{L}+\s+){0,2}?(?:nomi|название)\s*[:\-–—]\s*/iu;
-  const stripNamePrefix = t => { const s = String(t || ''); const c = s.replace(NAME_PREFIX, '').trim(); return c.length >= 2 ? c : s; };
+  // butun izoh nom bo'lib qolgan bo'lsa («🎬 Nomi: Atlas\n🌎 Davlati: …») — «nomi:» dan keyingi qator olinadi
+  const NAME_LINE = /(?:^|[^\p{L}])(?:\p{L}+\s+){0,2}?nomi\s*[:\-–—]\s*([^\n]+)/iu;
+  const stripNamePrefix = t => {
+    const s = String(t || '');
+    const line = s.includes('\n') ? (s.match(NAME_LINE) || [])[1] : '';
+    const c = (line || s).replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}\u{200B}]/gu, ' ').replace(NAME_PREFIX, '').replace(/\s{2,}/g, ' ').trim();
+    return c.length >= 2 ? c : s;
+  };
   root.stripNamePrefix = stripNamePrefix;
   function slim(m) {
     const o = Object.assign({}, m);
