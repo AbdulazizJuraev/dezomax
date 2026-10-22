@@ -655,7 +655,8 @@ function cleanTitle(v) {
   let t = String(v || '')
     .replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}✎➫]/gu, '')
     .replace(/#[\p{L}\p{N}_]+/gu, '')
-    .replace(/^\s*(?:kino(?:ning)?\s+)?nomi\s*[:\-–—]\s*/i, '')
+    // «Film nomi:», «# Kino Nomi:», «Tepadegi MultFilm nomi:», «1. nomi:» (js/site-data-build.js bilan bir xil)
+    .replace(/^[^\p{L}\p{N}]*(?:\d+\.\s*)?(?:\p{L}+\s+){0,2}?nomi\s*[:\-–—]\s*/iu, '')
     .replace(/^\s*(?:название|фильм)\s*[:\-–—]\s*/i, '')
     .replace(/\s{2,}/g, ' ').trim();
   t = t.replace(/^[«“"']+|[»”"']+$/g, '').trim();
@@ -1347,6 +1348,7 @@ function renderCleanView() {
       <div class="a4-bulk"><label class="a4-chk"><input type="checkbox" id="clAll"${cleanSel.size && cleanSel.size === items.length ? ' checked' : ''}><span></span></label>
         <b id="clCount">${cleanSel.size} ta tanlandi</b><span class="a4-gap"></span>
         <button class="a4-btn" type="button" id="clPickAll">Hammasini belgilash (${items.length})</button>
+        <button class="a4-btn is-p" type="button" id="clAuto"${items.length ? '' : ' disabled'}>${A4_ICONS.broom}<span>Hammasini bir tugmada tozalash</span></button>
         <button class="a4-btn is-p" type="button" id="clSave"${cleanSel.size ? '' : ' disabled'}>${A4_ICONS.broom}<span>Tanlanganlarni saqlash</span></button></div>
       <div class="a4-clean">${shown.map(({ m, next }) => `
         <div class="a4-cl" data-cl="${m.id}">
@@ -1363,6 +1365,11 @@ function renderCleanView() {
   box.querySelectorAll('[data-clin]').forEach(i => i.addEventListener('input', () => { cleanEdit.set(+i.dataset.clin, i.value); }));
   $('#clAll').addEventListener('change', e => { if (e.target.checked) items.forEach(x => cleanSel.add(x.m.id)); else cleanSel.clear(); renderCleanView(); });
   $('#clPickAll').addEventListener('click', () => { items.forEach(x => cleanSel.add(x.m.id)); renderCleanView(); });
+  // avtomatik: ro'yxatdagi hamma nom bitta saqlashda («Film nomi: X» → «X»)
+  $('#clAuto').addEventListener('click', () => {
+    if (!confirm(`${items.length} ta kino nomi tozalanadi. Davom etamizmi?`)) return;
+    items.forEach(x => cleanSel.add(x.m.id)); paint(); $('#clSave').click();
+  });
   $('#clMore')?.addEventListener('click', () => { cleanLimit += 120; renderCleanView(); });
   $('#clSave').addEventListener('click', e => runAction(e.currentTarget, async () => {
     const want = new Map(items.filter(x => cleanSel.has(x.m.id)).map(x => [x.m.id, String(cleanEdit.get(x.m.id) ?? x.next).trim()]).filter(([, t]) => t));
@@ -1371,7 +1378,8 @@ function renderCleanView() {
       for (const [id, t] of want) {
         let m = byId.get(id);
         if (!m) { const src = allMovies().find(x => x.id === id); if (!src) continue; m = structuredClone(src); list.push(m); byId.set(id, m); }   // asl kino — tahrirlangan nusxasi
-        m.title = { ...(m.title || {}), uz: t };
+        const old = m.title?.uz;
+        m.title = { ...(m.title || {}), uz: t, ...(m.title?.ru && m.title.ru !== old ? {} : { ru: t }) };
         m.updatedAt = Date.now();
       }
       return list;

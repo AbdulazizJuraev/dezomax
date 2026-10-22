@@ -201,3 +201,17 @@
   .a4-sitewrap { flex-direction: column; }
   .a4-prev { position: static; width: 100%; }
 }
+
+/* Kinolar ro'yxati — 6 ustunli to'r (poster tepada, nomi va tugmalar pastda) */
+#admListBox .acc-list { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px !important; }
+#admListBox .acc-item.adm-item { display: flex !important; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 8px; padding: 8px !important; margin: 0; min-width: 0; }
+#admListBox .adm-thumb { width: 100%; height: auto; aspect-ratio: 2 / 3; border-radius: 0; }
+#admListBox .acc-item-main { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+#admListBox .acc-item-main b { font-size: 13px; line-height: 1.3; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+#admListBox .acc-item-main small { font-size: 11px; line-height: 1.35; }
+#admListBox .adm-actions { justify-content: flex-start; gap: 4px; margin: 0; }
+#admListBox .adm-ibtn { width: 30px; height: 30px; }
+@media (max-width: 1200px) { #admListBox .acc-list { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 1020px) { #admListBox .acc-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 900px) { #admListBox .acc-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } }
+@media (max-width: 560px) { #admListBox .acc-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

@@ -12,6 +12,9 @@
    ============================================================ */
 (function (root) {
   const DEF_COLORS = '["#2a3142","#0d1018"]';
+  const NAME_PREFIX = /^[^\p{L}\p{N}]*(?:\d+\.\s*)?(?:\p{L}+\s+){0,2}?(?:nomi|название)\s*[:\-–—]\s*/iu;
+  const stripNamePrefix = t => { const s = String(t || ''); const c = s.replace(NAME_PREFIX, '').trim(); return c.length >= 2 ? c : s; };
+  root.stripNamePrefix = stripNamePrefix;
   function slim(m) {
     const o = Object.assign({}, m);
     delete o.updatedAt; delete o.size;
@@ -20,6 +23,8 @@
     if (!o.trailer) delete o.trailer;
     if (Array.isArray(o.cast) && !o.cast.length) delete o.cast;
     // takror/standart — sahifada tiklanadi (pastdagi sikl): nomi ikki tilda bir xil, davlat «—»
+    // Telegram'dan kelgan nomlar: «Film nomi: X», «# Kino Nomi: X», «✓• Drama nomi: X» → «X» (saytda avtomatik)
+    if (o.title) o.title = { uz: stripNamePrefix(o.title.uz), ru: o.title.ru && stripNamePrefix(o.title.ru) };
     if (o.title && o.title.ru === o.title.uz) o.title = { uz: o.title.uz };
     if (o.country && o.country.uz === '—' && (!o.country.ru || o.country.ru === '—')) delete o.country;
     return o;
