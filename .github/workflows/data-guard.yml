@@ -50,6 +50,21 @@ jobs:
           done
           echo "done=1" >> "$GITHUB_OUTPUT"
 
+      # «Film nomi: X» → «X» (Telegram'dan avto-yuklash va admin yozgan yangi kinolar ham) — tools/clean-names.js
+      - name: Nomlarni avtomatik tozalash
+        if: steps.restore.outputs.done != '1'
+        run: |
+          node tools/clean-names.js
+          git diff --quiet js/data-custom.js && exit 0
+          git config user.name "dezomax-guard"
+          git config user.email "dezomax-guard@users.noreply.github.com"
+          git add js/data-custom.js
+          git commit -q -m "Nomlar avtomatik tozalandi («Film nomi:» va h.k.)"
+          for i in 1 2 3 4 5; do
+            git pull --rebase -q origin main && git push -q origin HEAD:main && break
+            sleep 5
+          done
+
       - name: Ogohlantirish (issue — egasiga email)
         if: steps.restore.outputs.done == '1'
         env:

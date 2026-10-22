@@ -35,6 +35,7 @@ jobs:
       - name: Sayt fayllarini yig'ish
         if: steps.chk.outputs.ok == '1'
         run: |
+          node tools/gen-site-data.js   # Telegram avto-yuklash faqat data-custom.js yozadi — sayt ro'yxati shu yerda yangilanadi
           node tools/gen-home-data.js   # bosh sahifa ro'yxati admin o'zgarishlari bilan yangi bo'lsin
           mkdir -p _site
           git ls-files -z \
