@@ -1,6 +1,41 @@
 {
- "updated": "2026-10-23T10:53:18.957Z",
+ "updated": "2026-10-23T11:21:14.066Z",
  "items": [
+  {
+   "id": "fbb178e81eab2c378a83d602202de1d0",
+   "status": "pending",
+   "addedAt": "2026-10-23",
+   "title": "Мстители - Эра Альтрона - смотрим с Ильёй",
+   "rawTitle": "Мстители - Эра Альтрона - смотрим с Ильёй",
+   "year": null,
+   "desc": "Стримы проходят тут - https://www.twitch.tv/ilyakinopes",
+   "lang": "ru",
+   "genres": [
+    "drama"
+   ],
+   "poster": "https://pic.rtbcdn.ru/video/2025-11-27/59/20/59209f6e5df3eaf38ad40922b7e3efa6.jpg",
+   "duration": 9132,
+   "author": {
+    "name": "КиноПес",
+    "url": "https://rutube.ru/video/person/26448522/"
+   },
+   "category": "Фильмы",
+   "video": "https://rutube.ru/video/fbb178e81eab2c378a83d602202de1d0/",
+   "check": {
+    "at": "2026-10-23",
+    "exists": true,
+    "deleted": false,
+    "hidden": false,
+    "paid": false,
+    "adult": false,
+    "uz": true,
+    "embed": true,
+    "official": true,
+    "licensed": false,
+    "reason": "",
+    "ok": true
+   }
+  },
   {
    "id": "8901f9ce990d160c13a4472ab3004b77",
    "status": "pending",
