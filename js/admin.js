@@ -1811,8 +1811,8 @@ function titleFromDesc(m) {
   return t && !titleUnknown(t) ? t : '';
 }
 const GUESS_KEY = 'dzxTitleGuess';
-async function guessTitle(m) {
-  const fromDesc = titleFromDesc(m);
+async function guessTitle(m, aiOnly = false) {
+  const fromDesc = aiOnly ? '' : titleFromDesc(m);
   if (fromDesc) return { title: fromDesc, how: 'tavsifdan' };
   let cache = {};
   try { cache = JSON.parse(localStorage.getItem(GUESS_KEY) || '{}'); } catch {}
@@ -2361,13 +2361,19 @@ function bindTmdb(form, { setHeroImg, setCover }) {
   $('#trText')?.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); trRun(); } });
 
   // nomi noma'lum («#PREMYERA») — haqiqiy nomi topilib, qidiruvga qo'yiladi va TMDB'da qidiriladi
+  // TMDB ma'lumoti yo'q kinolar (Telegram'dan kelganlar): nomi noma'lum bo'lsa — topiladi; ma'lum bo'lsa («Jon Uik 1») —
+  // AI asl nomini («John Wick») aniqlaydi; AI kaliti bo'lmasa shu nom bilan qidiriladi
   const cur = formMovie;
-  if (cur?.id && titleUnknown(form.titleUz.value) && !bindTmdb.guessed?.has(cur.id)) {
+  if (cur?.id && !cur.tmdb && !bindTmdb.guessed?.has(cur.id)) {
     (bindTmdb.guessed ||= new Set()).add(cur.id);
     const g = $('#tmdbGuess');
-    g.hidden = false; g.textContent = 'Nomi noma’lum — tavsif va posterdan haqiqiy nomi aniqlanmoqda…';
-    guessTitle(cur).then(r => {
+    const unknown = titleUnknown(form.titleUz.value);
+    g.hidden = false;
+    g.textContent = unknown ? 'Nomi noma’lum — tavsif va posterdan haqiqiy nomi aniqlanmoqda…' : 'Asl nomi aniqlanmoqda va TMDB’da qidirilmoqda…';
+    const job = unknown ? guessTitle(cur) : aiKey() ? guessTitle({ ...cur, desc: { uz: `${cur.title?.uz}\n${cur.desc?.uz || cur.desc?.ru || ''}` }, id: 'o' + cur.id }, true) : Promise.resolve(null);
+    job.then(r => {
       if (!$('#tmdbGuess')) return;
+      if (!r && !unknown) { g.textContent = 'TMDB’da shu nom bilan qidirildi — mosini tanlang (AI kaliti bo‘lsa, asl nomi ham aniqlanadi).'; search(); return; }
       if (!r) { g.textContent = aiKey() ? 'Nomini aniqlab bo‘lmadi — qo‘lda yozing.' : 'Nomini tavsifdan topib bo‘lmadi. AI kalitini kiritsangiz, posterdan ham aniqlanadi.'; return; }
       g.innerHTML = `Taxminiy nomi (${esc(r.how)}): <b>${esc(r.title)}</b>${r.year ? ` · ${esc(r.year)}` : ''}${r.uz && r.uz !== r.title ? ` · o‘zbekcha: ${esc(r.uz)}` : ''} — TMDB’da qidirildi, mosini tanlang.`;
       q.value = r.title;
