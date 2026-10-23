@@ -1539,6 +1539,26 @@ function activeList() {
   return allMovies().filter(m => ids.has(m.id) && !hiddenList.includes(m.id));
 }
 
+/* Bo'limlar (Kinolar ro'yxati, filtrlar ostida): har kino bittasiga tushadi — tartib muhim (birinchi mos kelgani) */
+const LIST_CATS = [
+  ['uzbek', 'O‘zbek filmlar'], ['tahlil', 'Kino tahlillari'], ['jahon', 'Jahon filmlari'], ['hind', 'Hind filmlari'],
+  ['rus', 'Rus filmlari'], ['osiyo', 'Koreya, Yaponiya, Xitoy'], ['multfilm', 'Multfilmlar'], ['noma', 'Davlati noma’lum']];
+const UZ_CH = /^(rizanova|uzbekkinoofficial|uzbekkino)/;
+let listCat = '', listCatCounts = {};
+function catOf(m) {
+  // davlat — kino ma'lumotidan yoki Telegram post matnidagi «🌎 Davlati: AQSH» qatoridan
+  const d = String(m.desc?.uz || m.desc?.ru || '').match(/(?:davlati|mamlakat|страна)\s*[:\-–]\s*([^\n]{2,60})/i)?.[1] || '';
+  const c = `${m.country?.uz || ''} ${m.country?.ru || ''} ${d}`.toLowerCase().replace(/[‘’ʻ`']/g, '');
+  if (m.franchise === 'tahlil') return 'tahlil';
+  if (m.franchise === 'uzbek' || UZ_CH.test(m.ch || '') || /o.?zbekiston|uzbekistan|узбекистан/i.test(c) || String(m.poster || '').startsWith('images/uz/')) return 'uzbek';
+  if (m.type === 'multfilm') return 'multfilm';
+  if (m.franchise === 'hind' || /hindiston|hindston|india|индия/i.test(c)) return 'hind';
+  if (m.rt || m.franchise === 'klassika' || /rossiya|russia|sssr|россия|ссср/i.test(c)) return 'rus';
+  if (m.franchise === 'dorama' || m.franchise === 'anime' || /koreya|korea|yaponiya|japan|xitoy|china|tailand|корея|япония|китай|таиланд/i.test(c)) return 'osiyo';
+  if (/[\p{L}]/u.test(c.replace(/—/g, '')) || m.ch || m.tmdb || ['marvel', 'dc', 'hollywood'].includes(m.franchise)) return 'jahon';
+  return 'noma';
+}
+
 function listItems() {
   let items = allMovies();
   if (listFilter === 'active') items = activeList();
@@ -1559,6 +1579,9 @@ function listItems() {
   if (listGenre === '-') items = items.filter(m => !(m.genres || []).length);
   else if (listGenre === 'only-drama') items = items.filter(m => (m.genres || []).join() === 'drama');
   else if (listGenre) items = items.filter(m => (m.genres || []).includes(listGenre));
+  listCatCounts = {};
+  for (const m of items) { const c = catOf(m); listCatCounts[c] = (listCatCounts[c] || 0) + 1; }
+  if (listCat) items = items.filter(m => catOf(m) === listCat);
   return items;
 }
 
@@ -1569,6 +1592,7 @@ function renderListView() {
       ${[...(draftIds().size || listFilter === 'ai' ? [['ai', 'O‘zgarishlar']] : []), ['active', 'Faol'], ['all', 'Hammasi'], ['added', 'Qo‘shilgan'], ['edited', 'Tahrirlangan'], ['hidden', 'Yashirilgan'], ['marvel', 'Marvel'], ['channels', 'Kanallardan']].map(([id, l]) =>
         `<button type="button" data-filter="${id}" class="${listFilter === id ? 'is-active' : ''}">${l} <small>${counts[id]}</small></button>`).join('')}
     </div>
+    <div class="adm-filters adm-cats" id="admCats"></div>
     <div class="adm-search-row">
       <input class="acc-input adm-search" id="admSearch" type="search" placeholder="Nomi, yili yoki ID bo‘yicha qidirish" value="${esc(listQuery)}">
       <select class="acc-input adm-gfilter" id="admGenreFilter" aria-label="Janr bo‘yicha">
@@ -1604,6 +1628,12 @@ function renderListView() {
   let limit = 60, moreObs = null;
   const fill = () => {
     const items = listItems();
+    // bo'limlar (soni — yuqoridagi filtr, qidiruv va janr bo'yicha)
+    const all = Object.values(listCatCounts).reduce((s, n) => s + n, 0);
+    $('#admCats').innerHTML = [['', 'Barcha bo‘limlar', all], ...LIST_CATS.map(([id, l]) => [id, l, listCatCounts[id] || 0])]
+      .filter(([id, , n]) => !id || n || listCat === id)
+      .map(([id, l, n]) => `<button type="button" data-cat="${id}" class="${listCat === id ? 'is-active' : ''}">${l} <small>${n}</small></button>`).join('');
+    $('#admCats').querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => { listCat = b.dataset.cat; limit = 60; fill(); }));
     const shown = items.slice(0, limit);
     // «Film nomi: X» kabi nomlar — shu ro'yxatdagilarini bir tugmada tozalash
     const fix = items.filter(m => !hiddenList.includes(m.id) && isRawTitle(m.title?.uz))

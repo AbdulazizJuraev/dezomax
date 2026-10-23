@@ -226,3 +226,4 @@
 .adm-tr-btns { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; }
 .adm-guess { margin: 10px 0 0; padding: 9px 12px; border-radius: 10px; font-size: 13px; background: rgba(198, 255, 61, .08); border: 1px solid rgba(198, 255, 61, .3); }
 .adm-more-auto { text-align: center; padding: 18px 0; }
+.adm-cats { margin-top: -6px; } .adm-cats button { font-size: 12.5px; }
