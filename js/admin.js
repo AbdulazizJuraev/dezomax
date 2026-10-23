@@ -81,6 +81,12 @@ async function putFile(path, contentB64, message, sha) {
 /* ---------- data-custom.js o'qish / yozish ---------- */
 
 let hiddenList = [];      // saytdan yashirilgan kinolar id'lari
+// tezlik: yashirilganlar (3000+) — Set orqali; ro'yxat almashsa yoki o'zgarsa qayta tuziladi
+let hidSet = null, hidFor = null, hidN = -1;
+function isHidden(id) {
+  if (hidFor !== hiddenList || hidN !== hiddenList.length) { hidSet = new Set(hiddenList); hidFor = hiddenList; hidN = hiddenList.length; }
+  return hidSet.has(id);
+}
 
 /* Tez yo'l: sahifa o'zi yuklagan data-custom.js (brauzer keshida turibdi) GitHub'dagi joriy versiya bilan
    bir xil bo'lsa — uni qayta yuklamaymiz. Fayl ~10 MB: oldin har ochilishda ikki marta yuklanardi
@@ -1194,7 +1200,7 @@ function a4Source(m) {
   return v ? 'Fayl' : '—';
 }
 function a4Status(m) {
-  if (hiddenList.includes(m.id)) return ['n', 'Yashirilgan'];
+  if (isHidden(m.id)) return ['n', 'Yashirilgan'];
   if (!m.video && !(Array.isArray(m.parts) && m.parts.length)) return m.trailer ? ['s', 'Faqat treyler'] : ['o', 'Videosi yo‘q'];
   if (!(m.desc && (m.desc.uz || m.desc.ru))) return ['a', 'Tavsif yo‘q'];
   if (isRawTitle(m.title?.uz)) return ['a', 'Nomi xom'];
@@ -1302,7 +1308,14 @@ async function loadHealth() {
    hammasi katta harfda. Qoida bo'yicha toza nom taklif qilinadi (tahrirlash mumkin), belgilanganlari BITTA saqlashda yoziladi. */
 // «O‘zbek tilida» o'zi xom emas (ko'p rasmiy nomlarda bor) — faqat sifat/«kino»/«full» bilan birga kelsa
 const RAW_RE = /[\p{Extended_Pictographic}✓•►▶✅🎬]|\b(?:480|720|1080|2160)p\b|\bfull\s*hd\b|tarjima\s*kino|premyera|premiera|@\w|t\.me\/|#\p{L}|\(\s*\)|\bnomi\s*:|\bdrama\s+nomi\b|to['‘’]?liq\s+(?:kino|film)\b|(?:uzbek|o['‘’`]?zbek)\s*tilida\s*(?:\d{3,4}p|hd|kino|film|full)/iu;
+const rawMemo = new Map();
 function isRawTitle(t) {
+  const k = String(t || '');
+  let v = rawMemo.get(k);
+  if (v === undefined) { v = isRawTitleRaw(k); rawMemo.set(k, v); }
+  return v;
+}
+function isRawTitleRaw(t) {
   const s = String(t || '').trim();
   if (!s) return false;
   if (RAW_RE.test(s)) return true;
@@ -1342,19 +1355,25 @@ function rawTitleItems() {
   if (rawCache && rawCache.for === customList) return rawCache.items;
   const seen = new Set();
   const ch = channelIds();
-  const items = customList.filter(m => !hiddenList.includes(m.id) && !ch.has(m.id) && m.franchise !== 'tahlil' && !seen.has(m.id) && seen.add(m.id) && isRawTitle(m.title?.uz))
+  const items = customList.filter(m => !isHidden(m.id) && !ch.has(m.id) && m.franchise !== 'tahlil' && !seen.has(m.id) && seen.add(m.id) && isRawTitle(m.title?.uz))
     .map(m => ({ m, next: cleanRawTitle(m.title.uz) }))
     .filter(x => x.next && x.next !== x.m.title.uz && x.next.length >= 2);
   rawCache = { for: customList, items };
   return items;
 }
 /* Bitta serialning alohida qo'shilgan qismlari: «Qashqirlar makoni 64-qism», «… 65-qism» — guruhlanmaganlari */
+let segMemo = null;
 function splitEpisodeGroups() {
+  if (segMemo && segMemo.all === allMovies() && segMemo.h === hiddenList.length) return segMemo.v;
+  segMemo = { all: allMovies(), h: hiddenList.length, v: splitEpisodeGroupsRaw() };
+  return segMemo.v;
+}
+function splitEpisodeGroupsRaw() {
   const inParts = new Set();
   for (const m of allMovies()) if (Array.isArray(m.parts)) m.parts.forEach(id => inParts.add(id));
   const map = new Map();
   for (const m of allMovies()) {
-    if (inParts.has(m.id) || hiddenList.includes(m.id)) continue;
+    if (inParts.has(m.id) || isHidden(m.id)) continue;
     const t = String(m.title?.uz || '');
     const mt = t.match(/^(.*?)[\s,.:–—-]*\d{1,4}\s*-?\s*(?:qism|seriya)\b/i);
     if (!mt || mt[1].trim().length < 3) continue;
@@ -1469,7 +1488,7 @@ const admIconBtn = (label, icon, attrs, cls = '') =>
 function itemHTML(m) {
   const base = isBase(m.id);
   const edited = base && customList.some(x => x.id === m.id);
-  const hidden = hiddenList.includes(m.id);
+  const hidden = isHidden(m.id);
   const tags = [
     m.year, typeName(m.type), Array.isArray(m.parts) && m.parts.length > 1 ? `${m.parts.length} qism` : m.video ? 'To‘liq kino' : m.trailer ? 'Treyler' : 'Faqat ma’lumot', `ID ${m.id}`
   ].filter(Boolean);
@@ -1563,7 +1582,7 @@ function activeList() {
   const ids = channelIds();
   for (const m of customList) ids.add(m.id);
   for (const m of (typeof RUTUBE_MOVIES !== 'undefined' ? RUTUBE_MOVIES : [])) ids.add(m.id);   // RuTube avto-importi
-  return allMovies().filter(m => ids.has(m.id) && !hiddenList.includes(m.id));
+  return allMovies().filter(m => ids.has(m.id) && !isHidden(m.id));
 }
 
 /* Bo'limlar (Kinolar ro'yxati, filtrlar ostida): har kino bittasiga tushadi — tartib muhim (birinchi mos kelgani) */
@@ -1572,7 +1591,13 @@ const LIST_CATS = [
   ['rus', 'Rus filmlari'], ['osiyo', 'Koreya, Yaponiya, Xitoy'], ['multfilm', 'Multfilmlar'], ['noma', 'Davlati noma’lum']];
 const UZ_CH = /^(rizanova|uzbekkinoofficial|uzbekkino)/;
 let listCat = '', listCatCounts = {};
+const catMemo = new WeakMap();   // tezlik: har kino bo'limi bir marta aniqlanadi
 function catOf(m) {
+  let c = catMemo.get(m);
+  if (c === undefined) { c = catOfRaw(m); catMemo.set(m, c); }
+  return c;
+}
+function catOfRaw(m) {
   // davlat — kino ma'lumotidan yoki Telegram post matnidagi «🌎 Davlati: AQSH» qatoridan
   const d = String(m.desc?.uz || m.desc?.ru || '').match(/(?:davlati|mamlakat|страна)\s*[:\-–]\s*([^\n]{2,60})/i)?.[1] || '';
   const c = `${m.country?.uz || ''} ${m.country?.ru || ''} ${d}`.toLowerCase().replace(/[‘’ʻ`']/g, '');
@@ -1587,20 +1612,30 @@ function catOf(m) {
   return 'noma';
 }
 
+// guruh qismlari (bosh kartadan tashqari) — kinolar ro'yxati o'zgarmaguncha bir marta hisoblanadi
+let partMemo = null, partFor = null;
+function partIds() {
+  const all = allMovies();
+  if (partFor === all && partMemo) return partMemo;
+  partMemo = new Set();
+  for (const m of all) if (Array.isArray(m.parts) && m.parts.length > 1) m.parts.forEach(id => { if (id !== m.id) partMemo.add(id); });
+  partFor = all;
+  return partMemo;
+}
+
 function listItems() {
   let items = allMovies();
   if (listFilter === 'active') items = activeList();
   if (listFilter === 'added') items = addedList();
   if (listFilter === 'edited') items = editedList();
-  if (listFilter === 'hidden') items = items.filter(m => hiddenList.includes(m.id));
+  if (listFilter === 'hidden') items = items.filter(m => isHidden(m.id));
   if (listFilter === 'marvel') items = items.filter(m => m.franchise === 'marvel');
   if (listFilter === 'channels') { const ids = channelIds(); items = items.filter(m => ids.has(m.id)); }
   if (listFilter === 'ai') { const ids = draftIds(); items = items.filter(m => ids.has(m.id)); }
   const q = norm(listQuery);
   // serial qismlari alohida karta bo'lib chiqmaydi — faqat guruh kartasi («N qism»); ID bilan qidirilsa qism ham topiladi
   if (listFilter !== 'hidden' && !/^\d+$/.test(q)) {
-    const inParts = new Set();
-    for (const m of allMovies()) if (Array.isArray(m.parts) && m.parts.length > 1) m.parts.forEach(id => { if (id !== m.id) inParts.add(id); });
+    const inParts = partIds();
     items = items.filter(m => !inParts.has(m.id));
   }
   if (q) items = items.filter(m => hayOf(m).includes(q));
@@ -1664,7 +1699,7 @@ function renderListView() {
     $('#admCats').querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => { listCat = b.dataset.cat; limit = 60; fill(); }));
     const shown = items.slice(0, limit);
     // «Film nomi: X» kabi nomlar — shu ro'yxatdagilarini bir tugmada tozalash
-    const fix = items.filter(m => !hiddenList.includes(m.id) && isRawTitle(m.title?.uz))
+    const fix = items.filter(m => !isHidden(m.id) && isRawTitle(m.title?.uz))
       .map(m => [m.id, cleanRawTitle(m.title.uz), m.title.uz]).filter(([, t, old]) => t && t.length >= 2 && t !== old);
     $('#admListBox').innerHTML = items.length
       ? `${fix.length ? `<div class="adm-namefix"><span>${fix.length} ta kino nomida «Film nomi:», emoji yoki ortiqcha so‘zlar bor</span>
@@ -2796,7 +2831,7 @@ function bindList() {
   document.querySelectorAll('[data-hide]').forEach(b => b.addEventListener('click', () => {
     const id = +b.dataset.hide;
     const m = currentMovie(id);
-    const hide = !hiddenList.includes(id);
+    const hide = !isHidden(id);
     if (hide && !confirm(`«${m.title.uz}» saytdan yashirilsinmi? (Keyin qayta ko‘rsatish mumkin)`)) return;
     runAction(b, () => saveCustom((list, hidden) => {
       const i = hidden.indexOf(id);
@@ -2901,7 +2936,7 @@ const hasWide = m => !!m && (heroWideOk(m.hposter) || (heroWideOk(m.cover) && /^
    yashirilgan. null — chiqadi (kompyuterda yana 16:9 rasm kerak) */
 function heroSkipReason(m) {
   if (!m) return 'saytda yo‘q';
-  if (hiddenList.includes(m.id)) return 'yashirilgan';
+  if (isHidden(m.id)) return 'yashirilgan';
   const vids = [m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(x => x && String(x).trim());
   if (!vids.length) return m.trailer ? 'videosi yo‘q, faqat treyler (bosh sahifada treyler chiqmaydi)' : 'videosi yo‘q';
   const uz = m.franchise === 'uzbek' || m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial' || /^(rn|uzbekk)-/.test(m.slug || '')
@@ -3287,7 +3322,7 @@ async function renderLogoView() {
   // har bir turda saytda nechta (videosi bor, yashirilmagan) kino bor
   const LOGO_CATS = [['film', 'Kinolar'], ['serial', 'Seriallar'], ['multfilm', 'Multfilmlar']];
   const catCount = {};
-  for (const m of allMovies()) if (hasFilm(m) && !hiddenList.includes(m.id)) catCount[m.type] = (catCount[m.type] || 0) + 1;
+  for (const m of allMovies()) if (hasFilm(m) && !isHidden(m.id)) catCount[m.type] = (catCount[m.type] || 0) + 1;
   // eski sozlama: scope 'all' — uchala tur yoqilgan
   if (L.scope !== 'ids') L.types = L.scope === 'all' || !Array.isArray(L.types) ? LOGO_CATS.map(c => c[0]) : L.types;
   const seg = (key, opts) => `<div class="adm-seg" data-lg="${key}">${opts.map(([v, t]) => `<button type="button" data-v="${v}">${t}</button>`).join('')}</div>`;
@@ -3583,14 +3618,22 @@ function partNoOf(title) {
 
 /* Avtomatik guruhlash: guruhga kirmagan, nomi bir xil qismlar («Абдулҳамидхон – Сўнгги Император» ×18, «… 12-qism»)
    bitta kartaga. Faqat seriallar yoki 3+ qism (bir xil nomli alohida filmlar qo'shilib ketmasin). Tartib — qism raqami, keyin ID */
+// bir chizishda bir necha marta chaqiriladi — kinolar ro'yxati o'zgarmaguncha natija saqlanadi
+let agMemo = null;
 function autoGroups() {
+  const k = [allMovies(), hiddenList.length];
+  if (agMemo && agMemo.k[0] === k[0] && agMemo.k[1] === k[1]) return agMemo.v;
+  agMemo = { k, v: autoGroupsRaw() };
+  return agMemo.v;
+}
+function autoGroupsRaw() {
   const inParts = new Set();
   for (const m of allMovies()) if (Array.isArray(m.parts)) m.parts.forEach(id => inParts.add(id));
   const key = t => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
   const cleanOf = t => isRawTitle(t) ? cleanRawTitle(t) : cleanTitle(t);
   const keyOf = t => key(stripPartNo(cleanOf(t)));
   // mavjud seriallar: nomi (yoki qismlaridan birining nomi) mos kelsa — yangi qismlar shu serialga qo'shiladi
-  const heads = groupsList().filter(h => !hiddenList.includes(h.id)).map(h => {
+  const heads = groupsList().filter(h => !isHidden(h.id)).map(h => {
     const keys = new Set([keyOf(h.title?.uz), keyOf(h.groupOrig?.title?.uz)]);
     for (const id of h.parts) { const p = movieById(id); if (p) keys.add(keyOf(p.title?.uz)); }
     return { h, keys, main: ` ${keyOf(h.title?.uz)} ` };
@@ -3598,7 +3641,7 @@ function autoGroups() {
   const headFor = k => heads.find(x => x.keys.has(k)) || (k.length >= 8 && heads.find(x => x.main.includes(` ${k} `)));
   const map = new Map();
   for (const m of allMovies()) {
-    if (inParts.has(m.id) || hiddenList.includes(m.id) || m.ch || m.franchise === 'tahlil') continue;
+    if (inParts.has(m.id) || isHidden(m.id) || m.ch || m.franchise === 'tahlil') continue;
     const t = m.title?.uz;
     const clean = cleanOf(t);
     const base = stripPartNo(clean);
@@ -3644,7 +3687,13 @@ async function saveAutoGroups(gs) {
   }, `Seriallar avtomatik guruhlandi: ${gs.length} ta (${gs.reduce((s, g) => s + g.ids.length, 0)} qism)`);
 }
 // qismlarining posteri guruh kartasinikidan farq qiladigan seriallar
+let pmMemo = null;
 function posterMismatch() {
+  if (pmMemo && pmMemo.all === allMovies()) return pmMemo.v;
+  pmMemo = { all: allMovies(), v: posterMismatchRaw() };
+  return pmMemo.v;
+}
+function posterMismatchRaw() {
   const byId = new Map(allMovies().map(m => [m.id, m]));
   return groupsList().filter(h => h.poster && h.parts.some(id => id !== h.id && byId.get(id) && byId.get(id).poster !== h.poster));
 }
@@ -4949,7 +4998,7 @@ function fixIdCollisions(list) {
 }
 
 function findDuplicates(skipIds = new Set()) {
-  const items = allMovies().filter(m => hasFilm(m) && !hiddenList.includes(m.id) && !skipIds.has(m.id) && !(Array.isArray(m.parts) && m.parts.length > 1));
+  const items = allMovies().filter(m => hasFilm(m) && !isHidden(m.id) && !skipIds.has(m.id) && !(Array.isArray(m.parts) && m.parts.length > 1));
   const parent = new Map(items.map(m => [m.id, m.id]));
   const find = x => { while (parent.get(x) !== x) { parent.set(x, parent.get(parent.get(x))); x = parent.get(x); } return x; };
   const why = new Map();      // ildiz → 'video' | 'title'
@@ -5224,7 +5273,7 @@ function brokenSave(r) { try { localStorage.setItem(BROKEN_KEY, JSON.stringify(r
 
 function brokenItems() {
   const seen = new Set();
-  return allMovies().filter(m => hasFilm(m) && !hiddenList.includes(m.id) && !seen.has(m.id) && seen.add(m.id));
+  return allMovies().filter(m => hasFilm(m) && !isHidden(m.id) && !seen.has(m.id) && seen.add(m.id));
 }
 
 function brokenTest(url) {
