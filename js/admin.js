@@ -1541,7 +1541,7 @@ function activeList() {
 
 /* Bo'limlar (Kinolar ro'yxati, filtrlar ostida): har kino bittasiga tushadi — tartib muhim (birinchi mos kelgani) */
 const LIST_CATS = [
-  ['uzbek', 'O‘zbek filmlar'], ['tahlil', 'Kino tahlillari'], ['jahon', 'Jahon filmlari'], ['hind', 'Hind filmlari'],
+  ['uzbek', 'O‘zbek filmlar'], ['tahlil', 'Kino tahlillari'], ['treyler', 'Treylerlar'], ['jahon', 'Jahon filmlari'], ['hind', 'Hind filmlari'],
   ['rus', 'Rus filmlari'], ['osiyo', 'Koreya, Yaponiya, Xitoy'], ['multfilm', 'Multfilmlar'], ['noma', 'Davlati noma’lum']];
 const UZ_CH = /^(rizanova|uzbekkinoofficial|uzbekkino)/;
 let listCat = '', listCatCounts = {};
@@ -1550,6 +1550,7 @@ function catOf(m) {
   const d = String(m.desc?.uz || m.desc?.ru || '').match(/(?:davlati|mamlakat|страна)\s*[:\-–]\s*([^\n]{2,60})/i)?.[1] || '';
   const c = `${m.country?.uz || ''} ${m.country?.ru || ''} ${d}`.toLowerCase().replace(/[‘’ʻ`']/g, '');
   if (m.franchise === 'tahlil') return 'tahlil';
+  if (!String(m.video || '').trim() && m.trailer) return 'treyler';   // to'liq video yo'q — faqat treyler (studiya kanallari va h.k.)
   if (m.franchise === 'uzbek' || UZ_CH.test(m.ch || '') || /o.?zbekiston|uzbekistan|узбекистан/i.test(c) || String(m.poster || '').startsWith('images/uz/')) return 'uzbek';
   if (m.type === 'multfilm') return 'multfilm';
   if (m.franchise === 'hind' || /hindiston|hindston|india|индия/i.test(c)) return 'hind';
