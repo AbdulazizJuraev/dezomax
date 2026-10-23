@@ -5601,21 +5601,34 @@ function rtCheckBadges(c) {
 }
 
 /* Dublikatlar: shu RuTube ID saytda/navbatda bormi; shu nom (va yil ±1) bilan film bormi */
-function rtDupes(id, title, year, queue = []) {
-  const same = [], similar = [];
-  for (const m of allMovies()) {
-    const urls = [m.video, m.trailer, ...Object.values(m.langs || {})];
-    if (urls.some(u => rtParse(String(u || ''))?.rt === id)) same.push(m.title?.uz || m.id);
+// tezlik: kinolar bo'yicha indeks bir marta tuziladi (oldin navbatdagi har bir video uchun ~22 ming kino 2 marta ko'rilardi)
+let rtIdx = null;
+function rtIndex() {
+  const all = allMovies();
+  if (rtIdx && rtIdx.all === all && rtIdx.n === all.length) return rtIdx;
+  const byRt = new Map(), byKey = new Map();
+  for (const m of all) {
+    for (const u of [m.video, m.trailer, ...Object.values(m.langs || {})]) {
+      const s = String(u || '');
+      if (!/rutube|^[0-9a-f]{32}$/i.test(s)) continue;
+      const rt = rtParse(s)?.rt;
+      if (rt) (byRt.get(rt) || byRt.set(rt, []).get(rt)).push(m.title?.uz || m.id);
+    }
+    if (m.type === 'tahlil') continue;
+    for (const k of new Set([m.title?.uz, m.title?.ru, ...(m.tags || [])].map(rtTitleKey))) if (k.length > 2) (byKey.get(k) || byKey.set(k, []).get(k)).push(m);
   }
+  return (rtIdx = { all, n: all.length, byRt, byKey });
+}
+function rtDupes(id, title, year, queue = []) {
+  const idx = rtIndex();
+  const same = [...(idx.byRt.get(id) || [])], similar = [];
   for (const [k, langs] of Object.entries(window.LANG_VIDEOS || {})) {
     for (const v of Object.values(langs || {})) if (v && v.rt === id) same.push(`til videosi (${k})`);
   }
   const inQueue = queue.find(x => x.id === id);
   const key = rtTitleKey(title);
   if (key.length > 2) {
-    for (const m of allMovies()) {
-      if (m.type === 'tahlil') continue;
-      if (![m.title?.uz, m.title?.ru, ...(m.tags || [])].some(t => rtTitleKey(t) === key)) continue;
+    for (const m of idx.byKey.get(key) || []) {
       if (year && m.year && Math.abs(m.year - year) > 1) continue;
       similar.push(m);
     }
