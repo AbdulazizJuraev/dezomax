@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-23T12:01:53.718Z",
+ "updated": "2026-10-23T12:14:18.221Z",
  "items": [
   {
    "id": "d259de84f7a4d1bd96b5325710e90c78",
@@ -76,7 +76,7 @@
   },
   {
    "id": "8901f9ce990d160c13a4472ab3004b77",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-15",
    "auto": true,
    "title": "Утёс — Армянский фильм / Ժայռը - Հայկական Ֆիլմ / Zhayry - Haykakan Film",
@@ -106,11 +106,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18873,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c425cf5069a8fabd2fe00b2fec6057e7",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "АЭЛИТА. ХУДОЖЕСТВЕННЫЙ КОЛЛЕКТИВ «РУСЬ» 1924 г.",
@@ -140,11 +142,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18874,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8a08eb8085117bc479025e36cbbb2a5b",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "БРОНЕНОСЕЦ ПОТЕМКИН",
@@ -174,11 +178,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18875,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6952733a021fa1172227a35366262784",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Великий гражданин, 1 серия",
@@ -208,11 +214,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18876,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "21cbee16c2d86ad7aa051932307418af",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Великий гражданин, 2 серия",
@@ -242,11 +250,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18877,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "b2d592f88f4d42c75b110b8346ba6da9",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "МОЛЧИ, ГРУСТЬ, МОЛЧИ. ПРОИЗВОДСТВО КИНОАТЕЛЬЕ Д. ХАРИТОНОВА. 1918 г.",
@@ -276,11 +286,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18878,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "220cd1926f105612731a7eab121f8250",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ГАЙЧИ. СОЮЗДЕТФИЛЬМ. 1938 г.",
@@ -310,11 +322,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18879,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "01ff590e54300fa35c7d53a0731e521b",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Путевка в жизнь",
@@ -344,11 +358,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18880,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c9bb7ccf664678f86520014e9f0b3ac1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ЗАКРОЙЩИК ИЗ ТОРЖКА. МЕЖРАБПОМ-РУСЬ. 1925 г.",
@@ -378,11 +394,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18881,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f68f9efa05e31eb6f4f882c00aa86a58",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ПОЛИКУШКА.Т/Д «РУСЬ» 1919 г.",
@@ -412,11 +430,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18882,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ca3502676c7ebe2f2748bbb7ff14540f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Коллежский регистратор",
@@ -446,7 +466,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18883,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "4b6cc03b7c277da51c0edf8f8fb75245",
@@ -484,7 +506,7 @@
   },
   {
    "id": "923ea7ac8a2b40c7e87dd69c14e2aa98",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Старое и новое",
@@ -514,11 +536,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18884,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d620ebdf02d9009b62b7e0c87186d813",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Парень из тайги",
@@ -548,11 +572,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18885,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0bb7d9c8ba293f6bf4324ae8414797e6",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Кинопрограмма \"Шедевры Госфильмофонда\" Фильм Евгения Червякова \"Города и годы\".",
@@ -582,11 +608,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18886,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0d38c0da6f957f9c2ff1e18f587b2f9c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Два друга, модель и подруга",
@@ -616,11 +644,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18887,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3824835788b78d1b1d3fc8a4b81a4fa4",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Княжна Мери",
@@ -650,11 +680,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18888,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a03f8ee72a1d40c4f3b9a4ac4b4431b2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Вратарь",
@@ -684,11 +716,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18889,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "4877b208cae0d03aaf178e0acfe1db40",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Маскарад",
@@ -718,11 +752,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18890,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7f3c3316938020cb46575097bfa1773c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Груня Корнакова",
@@ -752,11 +788,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18891,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "05c39a49c9c013813d1b88d86ee10fbc",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ты помнишь",
@@ -786,11 +824,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18892,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d39a433dc9139221772cffe50c5b3c42",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Сын полка - Серия 2",
@@ -820,11 +860,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18893,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "337e99d8c3ac96429d86fed2295be77b",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Сын полка - Серия 1",
@@ -854,11 +896,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18894,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0149110668aa0350760d4a2007ece80f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Сильные духом - Серия 2",
@@ -888,11 +932,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18895,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "4aa1bce9cb8a975277b9587c28212f9a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Сильные духом - Серия 1",
@@ -922,11 +968,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18896,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d9b4f81170ecc732aece2171866405b0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Перед рассветом",
@@ -956,11 +1004,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18897,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "621f073f5d5f94fbd80e45bb532ccf20",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Охота на единорога",
@@ -990,11 +1040,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18898,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "86dd30f5c92354265267ccdca151d5c1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отряд специального назначения - Серия 5",
@@ -1024,11 +1076,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18899,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7ae444cdd2b459712858da56e51eee3b",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отряд специального назначения - Серия 4",
@@ -1058,11 +1112,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18900,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c98582441478235f1800de895ec517c8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отряд специального назначения - Серия 3",
@@ -1092,11 +1148,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18901,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "17b34eaad3aaa3255da903aaa420b2fc",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отряд специального назначения - Серия 2",
@@ -1126,11 +1184,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18902,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c366628321c5566ee7f35616cfeaebd7",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отряд специального назначения - Серия 1",
@@ -1160,11 +1220,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18903,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3cf1a2bfd9110d96d23b0e3728e8479a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Назначаешься внучкой - Серия 2",
@@ -1194,11 +1256,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18904,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "cd28ba4f756164daedff465f43612e4e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Назначаешься внучкой - Серия 1",
@@ -1228,11 +1292,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18905,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "cb0a62a5753199a10360f5d05a18ed6e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "И ты увидишь небо",
@@ -1262,11 +1328,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18906,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f63eceb9e39fa6c014ca1860566baa99",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Здесь твой фронт",
@@ -1296,11 +1364,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18907,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c888a1b70bb66dd5dd6660a1324be814",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Звезда",
@@ -1330,11 +1400,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18908,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "bafb77219614519c6642a4cdfd17e765",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Железное поле",
@@ -1364,7 +1436,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18909,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "bb4852f92c1c51310f99c4624fb5e7a9",
@@ -1402,7 +1476,7 @@
   },
   {
    "id": "03c5148ff4bb17bd9f82fb79f1c22599",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Молодая гвардия - Серия 2",
@@ -1432,11 +1506,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18910,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "94585d01f41297bc6315e387622d6608",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Молодая гвардия - Серия 1",
@@ -1466,11 +1542,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18911,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d4ab83e6f681f426714b5893e6bc0ec2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Грозные ночи",
@@ -1500,11 +1578,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18912,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "2835458b50594448613b6f682b9d12a7",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Самый сильный",
@@ -1534,11 +1614,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18913,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a383f76df2ee1b0854303ed7b8d87dae",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Сувенир для прокурора",
@@ -1568,11 +1650,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18914,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "522e9a629eae36587c2adb9a318006e7",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Я объявляю вам войну",
@@ -1604,11 +1688,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18915,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c68a0af47de482f976d25b240523ef0d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Демидовы - Серия 1",
@@ -1638,11 +1724,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18916,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "461d4d25062042c540a1facb7a85f29f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Демидовы - Серия 2",
@@ -1672,11 +1760,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18917,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "fde4c2c2608e2a23d0e682bebe7a71da",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Похищение чародея",
@@ -1706,11 +1796,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18918,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e54a603ea4f6d41bd69a153ee424aa62",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Василиса Прекрасная",
@@ -1740,11 +1832,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18919,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e3e68cdc4c1b850beaadf9c6695c1699",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Я буду ждать",
@@ -1774,11 +1868,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18920,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "dce1bda85b8556c0c841ef4f860b7812",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Лекарство против страха",
@@ -1808,7 +1904,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18921,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "80ae7d5553f7263d94d7e65f5740619a",
@@ -1846,7 +1944,7 @@
   },
   {
    "id": "d2a06d062499778329bdc9a8c127ff8e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Трембита",
@@ -1876,11 +1974,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18922,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "670a5bd1df023ec1915e728d709441eb",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Команда 33",
@@ -1910,11 +2010,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18923,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "83838c21262bcf89ab5ff0164c91631c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Здравия желаю или бешеный дембель",
@@ -1944,11 +2046,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18924,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "87f013173ca4f10dc9159d3de70c129d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Груз 300",
@@ -1978,11 +2082,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18925,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c748b79e4235289848d120d979abf6f2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Безымянная звезда - Серия 1",
@@ -2012,11 +2118,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18926,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7870637d3d52501bd2b21e939198b9dd",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Безымянная звезда - Серия 2",
@@ -2046,11 +2154,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18927,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a8eee07a44a5c087e6974a3684dd0c77",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Прощание славянки",
@@ -2080,11 +2190,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18928,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8278288659b34b999c5c271d0ac94178",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Очередной рейс",
@@ -2114,11 +2226,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18929,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c8d06c86f66935905bdb58f9775a88a8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Главный конструктор",
@@ -2148,11 +2262,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18930,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "5a53180fd699b2f9d56167fce7f50a5a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Освобождённая земля",
@@ -2182,7 +2298,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18931,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "02f3fd8af4f43b6ffed96c170daa04df",
@@ -2220,7 +2338,7 @@
   },
   {
    "id": "7f0ba7e7f1483dfca2d20a274586b8f0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Смелого пуля боится или Мишка принимает бой",
@@ -2250,11 +2368,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18932,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "cb7829adc0d040c6793526cc894d7ca2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Цирк зажигает огни",
@@ -2284,11 +2404,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18933,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "343859d569aa2d1caa3ad629ff1ba9ac",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Алло, Варшава!",
@@ -2318,11 +2440,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18934,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "35b2c189a3efbb563b820e95f6a6b151",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Девочка из города",
@@ -2352,11 +2476,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18935,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "177c41aa943a5f986ccd5276532acdf5",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ищи ветра...",
@@ -2386,11 +2512,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18936,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6b1eb62a52700fdbaaa5b07365bfc874",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "В стреляющей глуши",
@@ -2420,11 +2548,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18937,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3f92918a2bdd961fad0cf60ffa80deea",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "В погоне за славой",
@@ -2454,11 +2584,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18938,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "70806819145a4365e5c2e5eb5051b652",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Во власти золота",
@@ -2488,11 +2620,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18939,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "53c7411fe991e9e1c619f3f7d34d98fe",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Золотая баба",
@@ -2522,11 +2656,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18940,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e79d705e9896f6ea51009c2e2591802d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Однофамилец - Серия 1",
@@ -2556,11 +2692,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18941,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "400cdcb0445d62f6b6522ae51761650e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Онлайн-трансляция фильма «Аэлита»",
@@ -2590,11 +2728,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18942,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "1bb0887faa3a625b601ad11688fb70a8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Однофамилец - Серия 2",
@@ -2624,11 +2764,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18943,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "821d15e491bf8dba2ab9beb58322fff0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приваловские миллионы - Серия 1",
@@ -2658,11 +2800,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18944,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0a29b7281f795c67a9f9d51e21b4df0b",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "«ЖДИ МЕНЯ» 1943 год, СССР",
@@ -2692,11 +2836,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18945,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "07a79ddfb597d502aeb2a93a26868222",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приваловские миллионы - Серия 2",
@@ -2726,11 +2872,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18946,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6f02550289e4bcc50496ec2a43340192",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Транзит - Серия 1",
@@ -2760,11 +2908,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18947,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7b1a2e6729bb1d783f24f8572d5eb968",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "«Глазами кино», реж.",
@@ -2794,11 +2944,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18948,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "66e1b25cd76978005e83950892e9ef5c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "\"Великий Перелом\", 1945 год, СССР",
@@ -2828,11 +2980,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18949,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "63e5f5d1dd000a915af81a47e5ff01c5",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Транзит - Серия 2",
@@ -2862,11 +3016,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18950,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9cea75d16171a4ee23f4a55b0b19a59e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Небесный тихоход",
@@ -2896,11 +3052,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18951,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "29593e52d41009ab65bc4177c4a2ed0f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Необычайные приключения мистера Веста",
@@ -2932,11 +3090,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18952,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9f1b52f2d7bdf04afcf327a14d3fca43",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "СЫН ПОЛКА 1981 год, СССР,",
@@ -2966,11 +3126,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18953,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "bce08eb58c659f83d1b31a2317574561",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Она защищает Родину",
@@ -3000,11 +3162,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18954,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "609366fab37eb941f406fe057b534185",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Воздушный извозчик",
@@ -3034,11 +3198,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18955,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "edb8e39d23ff98a818055ba11039ceee",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Третий удар",
@@ -3068,11 +3234,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18956,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9eabe31538a7580becee95ec48df00a8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "СИЛЬНЫЕ ДУХОМ (2 серии) 1967",
@@ -3102,11 +3270,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18957,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9776f5148ea7c5260a0eed97c3e96f63",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Фронтовые подруги",
@@ -3136,11 +3306,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18958,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "321369ea79fb0deac2ec64d09de5850f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ГЛАВНЫЙ КОНСТРУКТОР 1980 год",
@@ -3170,11 +3342,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18959,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "292384e91eb4bef6498638fe97918cd9",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ЗВЕЗДА 1949 год, СССР, Реж. Александр Иванов",
@@ -3204,11 +3378,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18960,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3c6ca285392a4d6b8adf4cc821071a69",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ОХОТА НА ЕДИНОРОГА 1989 год, СССР, реж. Владимир Лаптев",
@@ -3238,11 +3414,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18961,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c8ea87b02eb7bfed81ec9c78703199cf",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Покушение на ГОЭЛРО - Серия 1",
@@ -3272,11 +3450,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18962,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9a5763655c8ed11a827c072c4dd69aea",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ОСВОБОЖДЕННАЯ ЗЕМЛЯ",
@@ -3306,11 +3486,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18963,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a2110da8fd949c98b1d950e070c0d1ac",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Покушение на ГОЭЛРО - Серия 2",
@@ -3340,11 +3522,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18964,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "451b7750a0a58ecfbf15130ef95d9664",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ПОДВИГ РАЗВЕДЧИКА",
@@ -3374,11 +3558,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18965,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "830899780767f42d10acf66221380e36",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Покушение на ГОЭЛРО - Серия 3",
@@ -3408,11 +3594,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18966,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "db8618a2a9e7ac05d99b993e547d81fc",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ВЕЛИКАЯ ОТЕЧЕСТВЕННАЯ.. 1965 год",
@@ -3442,11 +3630,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18967,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c9011cafcf9f6d4c4bfa8e3a8adb1c8a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "РЯДОВОЙ АЛЕКСАНДР МАТРОСОВ 1947 год, СССР",
@@ -3476,11 +3666,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18968,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "799aba35f98b8a0f26b69768458472ec",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Только вдвоём",
@@ -3510,11 +3702,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18969,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "207eb74f9b5e042fb48d7172d33233b3",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ПОМНИ 1985 г.",
@@ -3544,11 +3738,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18970,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e117de093496c2a18d13c8610507049d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "БАРЫШНЯ И ХУЛИГАН 1918 год, Россия",
@@ -3578,11 +3774,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18971,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "99bb87a02545350b9c7bc2d3dba89102",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ЛЮБОЙ ЦЕНОЙ",
@@ -3612,11 +3810,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18972,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f4dcb401be0e40a62091cddc860d3993",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Валькины паруса",
@@ -3646,11 +3846,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18973,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6181402d596208a4eb18b449cd30af0e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Грозные ночи, реж.",
@@ -3680,11 +3882,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18974,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "761263ff0b216b27e85cb33f2ce4cde1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Рядом с солдатом, реж.",
@@ -3714,11 +3918,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18975,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8c36267fa6c35a6357ea3d8cda9d8ee2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "На исходе лета",
@@ -3748,11 +3954,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18976,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "16b5d0cf34b623e0234224a7b70e5770",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Закройщик из Торжка, реж.",
@@ -3782,11 +3990,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18977,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3b1f1cf47086cb161512805af0352a4c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Во бору брусника - Серия 1",
@@ -3816,11 +4026,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18978,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "19d995475cfb5c28b44cea6cc9260016",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Самый медленный поезд",
@@ -3850,11 +4062,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18979,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "b2d304f4c4592ae092a45993b3a851af",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Смелого пуля боится или Мишка принимает бой",
@@ -3884,11 +4098,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18980,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "25ccba41235713f195e5bae0bdc7a158",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Во бору брусника - Серия 2",
@@ -3918,11 +4134,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18981,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c13a33fe6d9fb90251f440ca5fda5bcd",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Назначаешься внучкой, реж.",
@@ -3952,11 +4170,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18982,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7f82cd030994ad764aa2cb3d998727b9",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Дитя большого города, реж.",
@@ -3986,11 +4206,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18983,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f6840191ea06048504c91c0984ea0979",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Путешествие будет приятным",
@@ -4020,11 +4242,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18984,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6564eb9f7772d3363133214366cbdb22",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ждите писем",
@@ -4054,11 +4278,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18985,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "883304d8ed1a1df93247f49719f7d1cb",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Патриотическая комедия",
@@ -4090,11 +4316,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18986,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f78d8061291a9d723cddd9ebf781f8c5",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Крылья холопа",
@@ -4124,11 +4352,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18987,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9863def36c95b7543c3fd023b182f571",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Конференция «Архивное кино. Этика реставрации и реконструкции»",
@@ -4158,11 +4388,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18988,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "08378a64988755555fcd90d40612a91c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Юность поэта",
@@ -4192,11 +4424,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18989,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3baaee9e7c7b331c64275eb928a51298",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ГОСФИЛЬМОФОНД. НАЧАЛО. ЧАПАЕВ",
@@ -4226,11 +4460,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18990,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "31b375b0ae3e5b0201d0ce1a4daf9ac0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "По улицам комод водили",
@@ -4260,11 +4496,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18991,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "417755e9a063ccab8960484331d42a31",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Щедрое лето",
@@ -4294,11 +4532,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18992,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "759b4fe0f6192f6c855617d1c5295800",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Болевой прием",
@@ -4328,11 +4568,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18993,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0cbfb9aa199ecfd74fce99d6a87c1a25",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Алёша",
@@ -4362,11 +4604,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18994,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "79a691c0a124391986e18e58b56c4f75",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Время свиданий",
@@ -4396,11 +4640,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18995,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9969bf54794b4f2e72a56cc96ad9745d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Будни и праздники Серафимы Глюкиной - Серия 1",
@@ -4430,11 +4676,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18996,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "2cba67ed6508a03ddc80a969d81fb54f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Будни и праздники Серафимы Глюкиной - Серия 2",
@@ -4464,11 +4712,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18997,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "34a126e3c88aa24f0190ae17727e6e83",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Дикое поле",
@@ -4498,11 +4748,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18998,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "526d15a4b84d87bf8bbe16aee2fda779",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Длинный день",
@@ -4532,11 +4784,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18999,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "be373a674ecf5e76d71409ba417661fa",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Дом на дюнах",
@@ -4566,11 +4820,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19000,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "cab23b4fb6df8b37a2d9059060b1ee93",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ждите писем.mp4",
@@ -4600,11 +4856,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19001,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "1d044a45033e7d9e7c2bfad2b722d84d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "За кем замужем певица",
@@ -4634,11 +4892,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19002,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "50c5d2eb0f362c242c83f191669ccf0a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Казачья застава",
@@ -4668,11 +4928,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19003,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "adb29f3992b8d982d4a964bab2488f76",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Исчадье ада",
@@ -4702,11 +4964,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19004,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "512a95e98bf94f74173f4c0b37bd6758",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Какая у вас улыбка",
@@ -4736,11 +5000,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19005,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "337fd00be698127e1430a4ec5cb947dd",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Два друга, модель и подруга, реж. Алексей Попов",
@@ -4770,11 +5036,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19006,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "224b163287af9f548c7ae23838b61ba0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "На чужом празднике",
@@ -4804,11 +5072,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19007,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ac8a48981898ac2141bfad3e0f8b4046",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Один и без оружия",
@@ -4838,11 +5108,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19008,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "cff9bb7f720b9887593f8e4365afaf26",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "4-0 в пользу Танечки",
@@ -4872,11 +5144,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19009,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c88a3aa7019fd86d25303da048114bc0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Просто Саша",
@@ -4906,11 +5180,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19010,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "1cb105c91f8e0b6ba6d6729705916726",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Обломок империи, реж. Фридрих Эрмлер",
@@ -4940,11 +5216,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19011,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3ec36c56f0af3a6d96819bb3e98d874e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Рой - Серия 1",
@@ -4974,11 +5252,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19012,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f0fd85ec58ad43513a826d35ef13cf96",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Рой — Серия 2",
@@ -5008,11 +5288,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19013,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "87c524ff6fc0fcd1ae91e83563711d33",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Тимур и его команда",
@@ -5042,11 +5324,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19014,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0c9e8065417f23026e2daa512e7539df",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Так и будет - Серия 1",
@@ -5076,11 +5360,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19015,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "2e1f1ffefc84eca553cbc1eb625d50b7",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Так и будет - Серия 2",
@@ -5110,11 +5396,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19016,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f4146928c84c89e047cb7bbf7215a252",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "55 градусов ниже нуля",
@@ -5144,11 +5432,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19017,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "358aa348d62dceed69530b8105934564",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Воздушный извозчик, реж. Герберт Раппапорт",
@@ -5178,11 +5468,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19018,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "38e25a4fe8071d089b7f304d24d07a00",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Третий удар, реж. Игорь Савченко",
@@ -5212,11 +5504,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19019,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3a2b03d61da9b522ffc1583d11991269",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Тайна золотой горы.mp4",
@@ -5246,11 +5540,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19020,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a6c83588be5c99d985bb86f2712e04a2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Фронтовые подруги, реж. Виктор Эйсымонт",
@@ -5280,11 +5576,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19021,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "812ec37b12f8e09ddd50fb6e1f3d474f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Продлись, продлись, очарованье...",
@@ -5314,11 +5612,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19022,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3ce972a1de75fed6a1e547df881b0d6a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Перед рассветом, реж. Ярополк Лапшин",
@@ -5348,11 +5648,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19023,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "344a7c777b39f6d4dfed503cff7ad592",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Шестнадцатая весна",
@@ -5382,11 +5684,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19024,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "40d30ffe67272b075133881020de68bf",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Фотография на память",
@@ -5416,11 +5720,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19025,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "db3baf84ce83c6d91d7b4f1b47559f76",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отряд специального назначения, реж. — Г. Кузнецов.",
@@ -5450,11 +5756,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19026,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "77dc9209b636b3731f3eb4fd289902d3",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отряд специального назначения, (4-5 серии)",
@@ -5484,11 +5792,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19027,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8fae998d126b813b76839c984776b4ac",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отряд специального назначения",
@@ -5518,11 +5828,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19028,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d998cd44640ea9655bd435410f228fbb",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Уход великого старца, реж.",
@@ -5552,11 +5864,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19029,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a957c1aaa0e1f6384952564ba4a8d3c1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Грёзы, реж.",
@@ -5586,11 +5900,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19030,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "70f71452498d48342dae93a78e83db84",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Собачье сердце",
@@ -5622,11 +5938,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19031,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "770888c4e173aac4a50aaa0e166a6d91",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ваня",
@@ -5656,11 +5974,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19032,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0036e44e4bfe30a511250e91959f6be6",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Республика ШКИД",
@@ -5692,11 +6012,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19033,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3aa3464078260682505a21d1efff2fbe",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Железное поле, реж.",
@@ -5726,11 +6048,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19034,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f59e87072fe8a6532e8b502663527527",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "\"Король Лир\" 1 и 2 серия",
@@ -5760,11 +6084,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19035,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "5c11655c61be8ab905acde66371b30fd",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Здесь твой фронт, реж.",
@@ -5794,11 +6120,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19036,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "baa2dcce8f4c887b40da5e02ac2327fd",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Неоконченная повесть",
@@ -5830,11 +6158,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19037,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6219d58f72719c82fe1c288b3d32ceea",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Немые свидетели, реж.",
@@ -5864,11 +6194,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19038,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "99d815aeea43d4467654d9fd98f80212",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Скандальное происшествие в Брикмилле - Серия 1",
@@ -5898,11 +6230,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19039,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d5eefb2c10092632f8016e6c76a4ec99",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ленфильм-клуб/ Молодое кино",
@@ -5932,11 +6266,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19040,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "95f265c33cdc1ac472820440bb00cedb",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ленфильм-Клуб #10",
@@ -5966,11 +6302,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19041,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9a5e8347103d7f431a87442879f5d484",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Скандальное происшествие в Брикмилле - Серия 2",
@@ -6000,11 +6338,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19042,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "aed73d479a31f1b4cb9c975068a8512d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ленфильмклуб #11/ Творческая встреча с режиссером - Филиппом Юрьевым",
@@ -6034,11 +6374,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19043,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f94a14e18e5b17060c7acf31ebf125d5",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ты помнишь, реж.",
@@ -6068,11 +6410,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19044,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "cf09477ca709bc5603e897eea177f3fe",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ленфильмклуб #13/ Творческая встреча с режиссером - Владимиром Койфманом",
@@ -6102,11 +6446,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19045,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3ac95b112de7e88ebaa31256643092d0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Путешествие будет приятным.mp4",
@@ -6136,11 +6482,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19046,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "37ad67cd9c67cd44fda5d83b9d148456",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ленфильмклуб #8/ Творческая встреча с режиссером - Ириной Евтеевой",
@@ -6170,11 +6518,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19047,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "4577d34ff61cd2fcffcb2489bf93cdc6",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "И ты увидишь небо, реж.",
@@ -6204,11 +6554,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19048,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "b3b94bff7ec101ad53122fcfe21eacb7",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "На берегу большой реки",
@@ -6238,11 +6590,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19049,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d96da6fdb2d9c4db4f9f01d4e6752d16",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Творческая встреча с режиссером фильма \"Дочь рыбака\" Юлдус Бахтиозиной",
@@ -6272,11 +6626,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19050,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a8805ce61a8f29dfc380db82f9c879b7",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Проверка на дорогах",
@@ -6306,7 +6662,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19051,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "4e98719456ce8ca0932260fddcec2c18",
@@ -6344,7 +6702,7 @@
   },
   {
    "id": "a69edf8d3e03547fbce6dd59b7326a4b",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Медвежья свадьба - Последний Шемет",
@@ -6374,11 +6732,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19052,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ccdcb9121ab8d8fdb2ed0eb58857717f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Маскарад. Часть 1",
@@ -6408,11 +6768,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19053,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "55668dae8f859f77df9ad690ce09a85d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Маскарад. Часть 2",
@@ -6442,11 +6804,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19054,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "04b3da7286a90b3b49406ab4fcc1d23c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Трамвай идет на фронт",
@@ -6476,11 +6840,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19055,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ef394de7943f493533a05feea291049e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Голоса в старых стенах",
@@ -6510,11 +6876,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19056,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "1a88ec24d0e60937fe1129c731fda635",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Сладкая женщина",
@@ -6544,11 +6912,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19057,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "1409a397f7f0a438e4df4558fe23c34a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Трое / Дети",
@@ -6578,11 +6948,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19058,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8cb38002c8ff0d455490307bc738983f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Случайная встреча / Месяц май. Иринкин рекорд",
@@ -6612,11 +6984,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19059,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3d159933f79f448c3413395ec14c7e61",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Два билета на дневной сеанс",
@@ -6646,11 +7020,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19060,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "fc608a0e99258f971297587d1091ceca",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ЧАПАЕВ. ЛЕНФИЛЬМ",
@@ -6680,11 +7056,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19061,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6770e2ca3c41b68360e5fcf94cfa4cbb",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Шельменко-денщик",
@@ -6714,11 +7092,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19062,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "95b3a031c4e95ad92cdc2e993725de55",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Выступление актера Петра Мамонова",
@@ -6748,11 +7128,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19063,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "1a327796e4a8f26a5dcf82e17c43a39b",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ключ без права передачи",
@@ -6782,7 +7164,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19064,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "526465ffc49feb9d0005cc6c8f8b96b5",
@@ -6820,7 +7204,7 @@
   },
   {
    "id": "e5b1bac2ec7ab0648eb96a5295a50a5e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "АЭЛИТА. ХУДОЖЕСТВЕННЫЙ КОЛЛЕКТИВ «РУСЬ»",
@@ -6850,11 +7234,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19065,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "246ea98e3e10858ceb8724eee5911683",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "В моей смерти прошу винить Клаву К.",
@@ -6884,11 +7270,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19066,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "05493f15f7393c99dbdeee2745219e97",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Начало",
@@ -6918,11 +7306,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19067,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "26dfa0efecad4774cc7ba0ba2e1ded80",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Обрыв",
@@ -6952,11 +7342,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19068,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "87e3e8597e4566529eb3c22f05f8d42f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Катерина Измайлова",
@@ -6986,11 +7378,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19069,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "382306f02d6653f5c7847a0c8b5a16a1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "День 1. Международная конференция по киноведению и архивному делу в Москве",
@@ -7020,11 +7414,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19070,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e64e89f3eee5cc812a9ed112b6ab179c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Влюблен по собственному желанию",
@@ -7054,11 +7450,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19071,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ba4fa253a84272144b138a9280c9a874",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "День 2. Международная конференция по киноведению и архивному делу",
@@ -7088,11 +7486,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19072,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d3edb8845d1045fddc3d2b1e8ac463ef",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Трое в лодке, не считая собаки. 1 серия",
@@ -7122,11 +7522,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19073,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "4a098365dc33cbf6fad709c0f65ecd23",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "#1 История Госфильмофонда: как создавали главный киноархив страны и кто за этим стоял",
@@ -7158,11 +7560,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19074,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "76e0e0d0b8522c781b33255c1d8f8ac4",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Масленников. Есть ли жизнь после Шерлока Холмса?",
@@ -7192,11 +7596,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19075,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f53ee5284bafb91ec005f488e828dc35",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Иван Грозный / 2 серия",
@@ -7226,11 +7632,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19076,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f313b4d8a24cccfaaede935c54396495",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Трое в лодке, не считая собаки. 2 серия",
@@ -7260,11 +7668,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19077,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ffff64600d6956229e09665a9b70afa4",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Иван Грозный / 1 серия",
@@ -7294,11 +7704,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19078,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "2326d09b409c1b9123f600863b4661e1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Корюшка для фронта",
@@ -7328,11 +7740,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19079,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c414ca4c0392818cf51d3126ff6d41f6",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Жила-была девочка",
@@ -7362,11 +7776,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19080,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6fe2463cebef299cf5fc1960c148840e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Петроградские гавроши",
@@ -7396,11 +7812,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19081,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "79c9a840463ae56756df1250ca542831",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Лермонтов",
@@ -7430,11 +7848,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19082,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0b1e6806fe6c8f99c752dd1b98d4894c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Степанова памятка",
@@ -7464,11 +7884,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19083,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "dbab9acd36ff2710a45e80f1290e6538",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Клятва",
@@ -7498,11 +7920,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19084,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "39f44687dc7f1a5961a5202cad1b3e71",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Голубой лёд",
@@ -7532,11 +7956,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19085,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "20f8c13ce02570d717f449dcc7c3ffa5",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Лесные братья",
@@ -7566,11 +7992,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19086,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "28003132890e23ac78405395232298ea",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Контрибуция",
@@ -7600,7 +8028,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19087,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f08a6410d0efcaa8775cfa8907afa6f8",
@@ -7638,7 +8068,7 @@
   },
   {
    "id": "63b74e3b6b8ddb9c88c0a67480cafb4f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Посетитель музея",
@@ -7668,11 +8098,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19088,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f29e710f0852d78352d57d76e130b014",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Сельская учительница",
@@ -7702,11 +8134,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19089,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f19a49080364a302521f00ddf78153fa",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона. Собака Баскервилей, 1 серия",
@@ -7738,11 +8172,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19090,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "15405b114b1f090d963d2365ff440fa2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Иван Петрович Павлов",
@@ -7772,11 +8208,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19091,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ffcf39f54977ee96b8a761ff0a692dad",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона. Собака Баскервилей, 2 серия",
@@ -7808,11 +8246,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19092,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "75e0f0891ac07f39ca0d0b7f7e0c1121",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Рядовой Александр Матросов",
@@ -7842,11 +8282,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19093,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "fc09b99562cae7f8b4ca925603d3fbd1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Лично известен 1957 - КАМО (русский язык) / Անձամբ ճանաչում եմ (Կամո) 1957թ․",
@@ -7876,11 +8318,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19094,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8c32be11bd3aafdee7011681bb1fdc78",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона. Двадцатый век начинается, 1 серия",
@@ -7912,7 +8356,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19095,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "1c2bfb032c21d7775d29e02a2d9cc912",
@@ -7950,7 +8396,7 @@
   },
   {
    "id": "9f828b5d49cc95bd11331c167d1ae6d0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Давид Бек Часть 1 / Русский язык / Դավիթ Բեկ Մաս 1 / Армянский фильм",
@@ -7980,11 +8426,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19096,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ebf181e8de981c08ff62af717c70100c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона. Двадцатый век начинается, 2 серия",
@@ -8016,11 +8464,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19097,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "884ae579d87ad9ebda01fcdac5241333",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "#2 История Госфильмофонда_ как создавали главный киноархив страны и кто за этим стоял",
@@ -8052,11 +8502,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19098,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "621588107e2b4eea5379e4556c85a602",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона. Сокровища Агры, 1 серия",
@@ -8088,11 +8540,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19099,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "74b2270d33c679d34cf08d08306bc65a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Давид Бек Часть 2 / Русский язык / Դավիթ Բեկ Մաս 2 / Армянский фильм",
@@ -8122,11 +8576,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19100,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "1ef20c99c1ecc7c83391a6b338fe0369",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "#1 История Госфильмофонда_ как создавали главный киноархив страны и кто за этим стоял",
@@ -8158,11 +8614,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19101,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6b609f84cb8f2bd4c2464db0971aaf32",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Живите долго 1979 - Армянский фильм / Ապրեցեք երկար - Հայկական ֆիլմ / Apreceq yerkar - Haykakan film",
@@ -8192,11 +8650,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19102,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "29bf99255e040fe520020b1ea8a67ea8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона. Сокровища Агры, 2 серия",
@@ -8228,11 +8688,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19103,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7b536fbf5dacb2abcace042d2a9c930e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Как я (не) стал киноведом — Открытый архив",
@@ -8262,11 +8724,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19104,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "14cf4869765e6c8420b800a01d8f7e49",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Максим Перепелица",
@@ -8296,11 +8760,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19105,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "cb8559e3e339b49028f54d019da00026",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Анаит 1947 - Армянский фильм / Անահիտ 1947 - Հայկական ֆիլմ / Anahit - Haykakan Film",
@@ -8330,11 +8796,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19106,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f120924c5a3f8b9a9662daab724b16e9",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Иллюзион. История кинотеатра на Котельнической набережной",
@@ -8366,11 +8834,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19107,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "5ff101264fee401a2789766da957cbf6",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Девушка Араратской долины 1949 - Армянский фильм / Արարատյան դաշտի աղջիկը 1949 - Հայկական ֆիլմ",
@@ -8400,11 +8870,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19108,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8e76f783aa0523c2f347796361232bd1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Человек-амфибия",
@@ -8434,11 +8906,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19109,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "728a163b1f9df4c014e1374c30aab03f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Иллюзион. История кинотеатра на Котельнической набережной",
@@ -8470,11 +8944,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19110,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3ab0ad4dc13b250db3bdd24a0964fef3",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Полосатый рейс",
@@ -8504,11 +8980,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19111,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9a9d70fbf56d55855b8a6811b809dc0f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Этот зеленый, красный мир — Армянский фильм / Այս կանաչ, կարմիր աշխարհը - Հայկական Ֆիլմ",
@@ -8538,11 +9016,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19112,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "69d1b1b77f95098d431ef1b32fbd3724",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Киноархив и зритель",
@@ -8572,11 +9052,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19113,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e06912c6d0d9a2a89dfa6a6df5ee2b52",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Влюблен по собственному желанию",
@@ -8606,11 +9088,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19114,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "41327ad61dc5a0232d5d855bb428d25a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Осеннее солнце 1977 - Армянский фильм / Աշնան արև - Հայկական Ֆիլմ / Ashnan arev - Haykakan film",
@@ -8640,11 +9124,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19115,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "ecc10759ded4fffd380b8975cd8e5ad7",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Киноархив и зритель / Открытый архив",
@@ -8674,11 +9160,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19116,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7461064aebd85ae35f20b882558127fb",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Катастрофа - Армянскиյ фильм / Աղետ - Հայկական Ֆիլմ / Aghet - Haykakan film",
@@ -8708,11 +9196,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19117,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "2205ab762b44ba620f7b1cef0c5f1d49",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Шерлок Холмс и доктор Ватсон, 1 серия. Знакомство",
@@ -8742,11 +9232,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19118,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "06f3a9b846aa7d0b4fd3683c25edb84c",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Великий перелом",
@@ -8776,11 +9268,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19119,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d59b229476a813445ada7af12e5a2e4b",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Шерлок Холмс и доктор Ватсон, 2 серия. Кровавая надпись",
@@ -8810,11 +9304,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19120,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "4347b763b93b713d6737f242a483abf8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Перед рассветом 1961 — Армянский фильм / Արևածագից առաջ - Հայկական ֆիլմ / Haykakan Film",
@@ -8844,11 +9340,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19121,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "b05a9926fd37b291dfe6f7733fdf2e74",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Встретимся у фонтана",
@@ -8878,11 +9376,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19122,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "69719519094b316de680262f9630ada8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона, 3 серия. Охота на тигра",
@@ -8914,11 +9414,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19123,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "28e581a6dbbd552cf3b459ee3ee38fcf",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Схватка / Жизнь волка — Армянский фильм / Գոտեմարտ - Գայլի կյանք - Հայկական Ֆիլմ / Gotemart",
@@ -8948,11 +9450,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19124,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3ccec617e7fd1a8c7c78c1a8fb6974ec",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Два бойца",
@@ -8982,11 +9486,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19125,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a4b60b032eab14847ade91754e717d70",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона, 2 серия. Смертельная схватка",
@@ -9018,11 +9524,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19126,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0e470fce208042c54d15270eed040f3d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Огонь, мерцающий в ночи — Армянский фильм / Գիշերվա մեջ առկայծող կրակը - Հայկական Ֆիլմ",
@@ -9052,11 +9560,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19127,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "81f542a458fde6f1731f38c4dae1ca17",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Дети века",
@@ -9086,11 +9596,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19128,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8f7301236bc8472bad1f864df937a9e8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Приключения Шерлока Холмса и доктора Ватсона, 1 серия. Король шантажа",
@@ -9122,11 +9634,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19129,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e14d9fd8c46217bf520f6afda1696b05",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Рождение 1976 — Армянский фильм / Երկունք - Հայկական ֆիլմ / Erkunq - Haykakan Film",
@@ -9156,11 +9670,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19130,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "d20879261e0ac7b8f734353851c18baf",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Зеркало для героя",
@@ -9190,11 +9706,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19131,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9ce2683c8d28ec0c2e96c6e6b7f90c8d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Айрик / Отец 1972",
@@ -9224,11 +9742,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19132,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c9ff42cb47db568ee516b94f49f98d3d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Дон Кихот",
@@ -9258,7 +9778,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19133,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "aba463ffa9604093645583058af09021",
@@ -9296,7 +9818,7 @@
   },
   {
    "id": "6978d22699772443ac3575f56eaa8568",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "ПОЖАР - 1983 / ՀՐԴԵՀ - Հայկական ֆիլմ / Hrdeh - Haykakan Film",
@@ -9326,11 +9848,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19134,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "a476ba0a690fd614c77673e329dba9e9",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Мама вышла замуж",
@@ -9360,11 +9884,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19135,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c719d6acd733a3b68eefd98609327512",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Молчи, грусть, молчи",
@@ -9394,11 +9920,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19136,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f5ee13fcfd3588532068857155e64cb0",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Найти и обезвредить",
@@ -9428,11 +9956,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19137,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7071a8e38cd3d6997cb5882434d63d0e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Терпкий виноград — Армянский фильм /Հնձան - Հայկական ֆիլմ / Hndzan - Haykakan Film",
@@ -9462,11 +9992,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19138,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "05989c8fedf8c33d852d9e43f7a4c484",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Ослиная шкура, 1982",
@@ -9496,7 +10028,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19139,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "db91a217e53ab6d17a9b24e003ac9ad6",
@@ -9536,7 +10070,7 @@
   },
   {
    "id": "ad4b512d48385c2817df91f201798cda",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Звезда Надежды (Давид Бек) - 1978 / ՀՈՒՍՈ ԱՍՏՂ (Դավիթ Բեկ) - Հայկական ֆիլմ / Huso Astgh (David Bek)",
@@ -9566,11 +10100,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19140,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "50e1fb16b8761573fe506d9193f46e2e",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Царевич Алексей 1 серия",
@@ -9600,11 +10136,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19141,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "3dd641c5f8e5585c7ebf058ea1e5e262",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Звезда надежды: Мхитар Спарапет 1978 — Армянский фильм / ՀՈՒՍՈ ԱՍՏՂ - Մխիթար Սպարապետ",
@@ -9634,11 +10172,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19142,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8300b7f15462c57c18f68b5b2c709c81",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Старая, старая сказка",
@@ -9670,11 +10210,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19143,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "b9bc65a93469c3846d8d6d1383b4424a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Осетинская легенда",
@@ -9704,11 +10246,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19144,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "110af00c8ce7e5137001ae582b859eef",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Тайный советник — Армянский фильм / Գաղտնի խորհրդականը - Հայկական Ֆիլմ / Gaghtni khorhrdakany",
@@ -9738,11 +10282,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19145,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "0466db4eae584dcb2415401c568bc87a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Радуга",
@@ -9772,11 +10318,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19146,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "8425b078877fecb9e4cde6065bca5acd",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Прохиндиада, или бег на месте",
@@ -9806,11 +10354,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19147,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6fab0bcbb887510abdbe2bd4d2e676ba",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Пленники Барсова ущелья — Армянский фильм / Հովազաձորի գերիները - Հայկական Ֆիլմ",
@@ -9840,11 +10390,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19148,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "507f696cf08a72238a1cf23f885f4219",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Последнее дело Вареного",
@@ -9874,11 +10426,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19149,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9582d497376feacd4394beb6c08f4a6f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Отец и сын",
@@ -9908,11 +10462,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19150,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "af984f94d4e88ccedf00b55ad79ae3f5",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Пётр Первый 1, 2 серия",
@@ -9942,11 +10498,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19151,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "2cf92f5d4f38a8eb0caa7a9d77f63b1d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Северная радуга — Армянский фильм / Հյուսիսային ծիածան - Հայկական Ֆիլմ / Hyusisayin Tsiatsan",
@@ -9976,11 +10534,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19152,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "bc879f52f76e74b04d4de22750b6fee5",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Silhouetten",
@@ -10010,11 +10570,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19153,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e82e29b082b57956dedcf8308982113a",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Царевич Алексей 2 серия",
@@ -10044,11 +10606,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19154,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "e8f080b57f4e47248259b049c163beba",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Чрезвычайное поручение — Армянский фильм / Արտակարգ հանձնարարություն - Հայկական Ֆիլմ",
@@ -10078,11 +10642,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19155,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "9c07b3ffa326e3088884653642b7fcc8",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "«Черное лицо», 1921, реж. Франц Остен / «The Black Face», 1921, dir. Franz Osten",
@@ -10112,11 +10678,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19156,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "675c1d43e6dc871a441f3b08147762f9",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Путь на арену — Армянский фильм / Ճանապարհ դեպի կրկես - Հայկական ֆիլմ / Chanaparh depi krkes",
@@ -10146,11 +10714,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19157,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "23342db2181cb7feb5f9beeba2694778",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Контракт века. 1 серия",
@@ -10180,11 +10750,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19158,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f71555c7a7d1554731df5c773c7f0ba1",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "«Визуальный и словесный текст в киноархиве». Секция 1",
@@ -10214,11 +10786,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19159,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "91596aaa9d31a2eecc5e54fa61e08261",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Белые грезы — Армянский фильм / Ճերմակ անուրջներ - Հայկական Ֆիլմ / Tchermak anurjner",
@@ -10248,11 +10822,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19160,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "82839b537ad6986497449ee8a51bb141",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Контракт века. 2 серия",
@@ -10282,11 +10858,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19161,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "7812a78abdc2a216f0a19878c86cd634",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "«Визуальный и словесный текст в киноархиве». Секция 2",
@@ -10316,11 +10894,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19162,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "722836db24dfda5ee548ab283ffdc95f",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Каринэ — Армянский фильм / Կարինե - Հայկական Ֆիլմ / Karine - Haykakan film",
@@ -10350,11 +10930,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19163,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "6687927d95aae627809eb46d4feb63c2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Укротительница тигров",
@@ -10384,7 +10966,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19164,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "947b7d08b3a5edbeee65a6a6ea716df0",
@@ -10422,7 +11006,7 @@
   },
   {
    "id": "d4cd2f2cc8f430ea9b1a0d8b60e23414",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "«Визуальный и словесный текст в киноархиве». Секция 3",
@@ -10452,11 +11036,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19165,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "cc23e390e8836d5d4d7f00879ec2c11d",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Каро",
@@ -10486,11 +11072,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19166,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "f65cbf188ff6324d4f5d92fccff67f46",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "«Визуальный и словесный текст в киноархиве». Секция 4",
@@ -10520,11 +11108,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19167,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "97e551cd57239fd6984f346eeb38a333",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Она вас любит",
@@ -10554,11 +11144,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19168,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "454e3ddf11b7c2ac36da3a34cf42b430",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Рожденные жить — Армянский фильм / Կոչված են ապրելու - Հայկական Ֆիլմ / Kochvats en aprelu",
@@ -10588,11 +11180,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19169,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "c05fc7c94a4805d0d23004e1a6530772",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "«Визуальный и словесный текст в киноархиве». Секция 5",
@@ -10622,11 +11216,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19170,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "be1e1f4dc5b959d96fccca6b061ae409",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Свадьба в Малиновке",
@@ -10656,11 +11252,13 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19171,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "4c6f4f92427ed701984197e64aad7312",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Добрая половина жизни — Армянский фильм / Կյանքի լավագույն կեսը - / Kyanqi lavaguyn kesy",
@@ -10690,11 +11288,13 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19172,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "03154c7c680db4e3fcbdea4fd0384dd2",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Круглый стол научной конференции «Визуальный и словесный текст в киноархиве»",
@@ -10724,7 +11324,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 19173,
+   "decidedAt": "2026-10-23"
   }
  ]
 }
