@@ -187,6 +187,33 @@ async function remoteSha(path) {
 }
 
 async function saveCustom(mutate, message, opts = {}) {
+  // tez yo'l: 14 MB faylni yuklash o'rniga faqat o'zgargan kinolar DezoCloud serveriga yuboriladi (server GitHub'ga yozadi)
+  if (!opts.dropCopies && dcKey() && !saveCustom.noPatch) {
+    const hidden = [...hiddenList];
+    const next = mutate(structuredClone(customList), hidden);
+    const ids = new Set(next.map(m => m.id));
+    const del = customList.filter(m => !ids.has(m.id)).map(m => m.id);
+    if (del.length > 1 || hidden.length < hiddenList.length - 1) {
+      throw new Error(`Saqlash to‘xtatildi: ${del.length} ta kino yo‘qolardi. Hech narsa o‘zgarmadi — sahifani yangilab, qayta urining.`);
+    }
+    const old = new Map(customList.map(m => [m.id, JSON.stringify(m)]));
+    const set = next.filter(m => old.get(m.id) !== JSON.stringify(m));
+    const hOld = new Set(hiddenList), hNew = new Set(hidden);
+    const body = JSON.stringify({ set, del, hideAdd: hidden.filter(id => !hOld.has(id)), hideDel: hiddenList.filter(id => !hNew.has(id)), message });
+    if (!set.length && !del.length && body.includes('"hideAdd":[],"hideDel":[]')) return;
+    if (body.length < 900000) {
+      try {
+        const r = await dc('/api/dezomax/patch', { method: 'POST', body });
+        customList = next; hiddenList = hidden;
+        dataSha = r.sha; listSha = null;   // GitHub'dagi fayl bizdagidan to'liqroq bo'lishi mumkin — keyingi to'liq saqlash qayta o'qiydi
+        return;
+      } catch (e) {
+        // server bu yo'lni bilmasa / tokeni yo'q bo'lsa — eski yo'l (to'liq fayl); boshqa xatolar — foydalanuvchiga
+        if (![401, 404, 412, 413, 503].includes(e.status) && e.status) throw e;
+        if (e.status === 404 || e.status === 412) saveCustom.noPatch = true;
+      }
+    }
+  }
   // tezlik: avval faqat versiyani tekshiramiz (bir necha KB). GitHub'dagi fayl bizda turganining aynan o'zi bo'lsa —
   // 1,8 MB ni qayta yuklamaymiz (oldin har saqlashda yuklanardi: 2,4 MB yuklash + 2,4 MB yozish + 2,4 MB tekshiruv)
   const [sha] = await Promise.all([remoteSha(DATA_PATH), ensureFreshAdmin()]);
@@ -217,7 +244,7 @@ async function saveCustom(mutate, message, opts = {}) {
       customList = next;
       hiddenList = hidden;
       verifySaved(text);
-      saveSiteFiles(next, hidden);   // sayt uchun yengil nusxa (fonda)
+      // sayt uchun yengil nusxa (data-site/desc/home) — GitHub o'zi yasaydi (.github/workflows/data-guard.yml), admin 7 MB yuklamaydi
       return;
     } catch (e) {
       if (e.status !== 409 || attempt) throw e;
