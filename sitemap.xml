@@ -193,13 +193,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/studiya-kinokontsern-mosfilm.html</loc>
+    <loc>https://dezomax.uz/teg/ozbek-tilida-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/ozbek-tilida-film.html</loc>
+    <loc>https://dezomax.uz/teg/studiya-kinokontsern-mosfilm.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -553,13 +553,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/2010-yillar.html</loc>
+    <loc>https://dezomax.uz/teg/2020-yillar-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/2020-yillar-film.html</loc>
+    <loc>https://dezomax.uz/teg/2010-yillar.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1027,6 +1027,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/janr-action.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/war-1960.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -1087,7 +1093,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/janr-action.html</loc>
+    <loc>https://dezomax.uz/teg/janr-scifi.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1147,13 +1153,19 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/yil-2021.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/janr-detective.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/janr-scifi.html</loc>
+    <loc>https://dezomax.uz/teg/scifi-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1178,18 +1190,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/comedy-2020.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/yil-2021.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/scifi-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1315,6 +1315,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/action-film.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/detective-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -1352,12 +1358,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/comedy-1980.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/action-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -2101,6 +2101,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/2021-film.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/yil-2024.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -2114,6 +2120,12 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/2020-yillar-serial.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/teg/adventure-ozbek-tilida-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -2233,12 +2245,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/2021-film.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://dezomax.uz/teg/aktyor-avaz-oxun.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -2287,7 +2293,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/adventure-ozbek-tilida-film.html</loc>
+    <loc>https://dezomax.uz/teg/action-ozbek-tilida-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -2491,6 +2497,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/action-2020.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/action-qisqa.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -2582,12 +2594,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/drama-va-romance-2010.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/action-ozbek-tilida-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -2827,12 +2833,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/action-2020.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://dezomax.uz/teg/action-2010.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -2984,6 +2984,12 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/drama-2024.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/teg/scifi-uzun.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -3841,6 +3847,18 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/adventure-2020.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/teg/adventure-va-scifi.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/2022-tahlil.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -3914,12 +3932,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/aktyor-anatoliy-solonitsin.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/scifi-uzun.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -58225,6 +58237,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/kino/fz-orgimchak-odam-uydan-uzoqda-tahlil.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/kino/rn-ofitser-55.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -58646,7 +58664,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/kino/fz-fantastik-tortlik-ilk-qadamlar-tahlil-yangi-davr-boshlandi.html</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -67459,12 +67477,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=1000466186</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://dezomax.uz/movie.html?id=1000466354</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -69013,12 +69025,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=1011232729</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://dezomax.uz/movie.html?id=1012596149</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -69205,12 +69211,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=1039060992</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://dezomax.uz/movie.html?id=1041092841</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -69271,12 +69271,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/movie.html?id=1065248888</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://dezomax.uz/movie.html?id=1097194459</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -69297,12 +69291,6 @@
   <url>
     <loc>https://dezomax.uz/movie.html?id=1117771492</loc>
     <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/movie.html?id=1127211220</loc>
-    <lastmod>2026-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
