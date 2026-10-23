@@ -52,3 +52,12 @@
     MOVIES.push(m);
   }
 })();
+// linki yo'q (na video, na treyler) kutubxona yozuvlari admin ro'yxatiga qo'shilmaydi — saytda ham ko'rinmas edi
+(function () {
+  if (typeof MOVIES === 'undefined') return;
+  var keep = window.SITE_BASE_IDS;
+  for (var i = MOVIES.length - 1; i >= 0; i--) {
+    var x = MOVIES[i];
+    if (!String(x.video || '').trim() && !String(x.trailer || '').trim() && !(keep && keep.has(x.id))) MOVIES.splice(i, 1);
+  }
+})();
