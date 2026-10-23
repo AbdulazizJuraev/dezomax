@@ -780,6 +780,8 @@ function bindForm(old) {
         const i = list.findIndex(x => x.id === movie.id);
         if (i > -1) list[i] = movie; else list.unshift(movie);
         if (partUrls.length) addParts(list, movie, partUrls);
+        // serial kartasining posteri o'zgarsa — barcha qismlarga ham
+        syncGroupPoster(movie, id => { let m = list.find(x => x.id === id); if (!m) { const src = baseById().get(id); if (!src) return null; m = structuredClone(src); list.push(m); } return m; });
         return list;
       }, `${old.id ? 'Kino tahrirlandi' : 'Kino qo‘shildi'}: ${movie.title.uz}${partUrls.length ? ` (+${partUrls.length} qism)` : ''}`);
       if (rtq) await rtqSet(rtq, { status: 'approved', movieId: movie.id }).catch(e => console.warn('rutube navbati', e));
@@ -1440,7 +1442,7 @@ function itemHTML(m) {
   const edited = base && customList.some(x => x.id === m.id);
   const hidden = hiddenList.includes(m.id);
   const tags = [
-    m.year, typeName(m.type), m.video ? 'To‘liq kino' : m.trailer ? 'Treyler' : 'Faqat ma’lumot', `ID ${m.id}`
+    m.year, typeName(m.type), Array.isArray(m.parts) && m.parts.length > 1 ? `${m.parts.length} qism` : m.video ? 'To‘liq kino' : m.trailer ? 'Treyler' : 'Faqat ma’lumot', `ID ${m.id}`
   ].filter(Boolean);
   const state = hidden ? '<span class="adm-state is-hide" title="Yashirilgan" aria-label="Yashirilgan"></span>'
     : !base ? '<span class="adm-state is-add" title="Qo‘shilgan" aria-label="Qo‘shilgan"></span>'
@@ -1545,6 +1547,12 @@ function listItems() {
   if (listFilter === 'channels') { const ids = channelIds(); items = items.filter(m => ids.has(m.id)); }
   if (listFilter === 'ai') { const ids = draftIds(); items = items.filter(m => ids.has(m.id)); }
   const q = norm(listQuery);
+  // serial qismlari alohida karta bo'lib chiqmaydi — faqat guruh kartasi («N qism»); ID bilan qidirilsa qism ham topiladi
+  if (listFilter !== 'hidden' && !/^\d+$/.test(q)) {
+    const inParts = new Set();
+    for (const m of allMovies()) if (Array.isArray(m.parts) && m.parts.length > 1) m.parts.forEach(id => { if (id !== m.id) inParts.add(id); });
+    items = items.filter(m => !inParts.has(m.id));
+  }
   if (q) items = items.filter(m => hayOf(m).includes(q));
   if (listGenre === '-') items = items.filter(m => !(m.genres || []).length);
   else if (listGenre === 'only-drama') items = items.filter(m => (m.genres || []).join() === 'drama');
@@ -3369,6 +3377,70 @@ function partNoOf(title) {
   return all ? +all[all.length - 1] : 1;
 }
 
+/* Avtomatik guruhlash: guruhga kirmagan, nomi bir xil qismlar («Абдулҳамидхон – Сўнгги Император» ×18, «… 12-qism»)
+   bitta kartaga. Faqat seriallar yoki 3+ qism (bir xil nomli alohida filmlar qo'shilib ketmasin). Tartib — qism raqami, keyin ID */
+function autoGroups() {
+  const inParts = new Set();
+  for (const m of allMovies()) if (Array.isArray(m.parts)) m.parts.forEach(id => inParts.add(id));
+  const key = t => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const map = new Map();
+  for (const m of allMovies()) {
+    if (inParts.has(m.id) || hiddenList.includes(m.id) || m.ch || m.franchise === 'tahlil') continue;
+    const t = m.title?.uz;
+    const clean = isRawTitle(t) ? cleanRawTitle(t) : cleanTitle(t);
+    const base = stripPartNo(clean);
+    const k = key(base);
+    // umumiy nomlar («Video», «#Premyera», «Drama nomi», «Reaksiya bo'lsa keyingi qism…») — turli kinolar, guruhlanmaydi
+    if (!clean || k.length < 3 || /#|reaksiya|yuklanadi|obuna|kanal|^(?:video|kino|film|serial|premyera|yangi|treyler|trailer|drama|dorama|multfilm|anime|nomi|drama nomi|admin)$/i.test(k)) continue;
+    if (!map.has(k)) map.set(k, []);
+    map.get(k).push({ m, base });
+  }
+  const out = [];
+  for (const list of map.values()) {
+    if (list.length < 2 || (list.length < 3 && !list.every(x => x.m.type === 'serial'))) continue;
+    list.sort((a, b) => partNoOf(a.m.title?.uz) - partNoOf(b.m.title?.uz) || a.m.id - b.m.id);
+    // nom — katta harflarsiz, qo'shtirnoqsiz variant
+    const nice = (list.map(x => x.base).find(b => b !== b.toUpperCase()) || list[0].base).replace(/^[^\p{L}\p{N}]+/u, '');
+    out.push({ name: nice, ids: list.map(x => x.m.id), type: list.length >= 3 || list.some(x => x.m.type === 'serial') ? 'serial' : list[0].m.type });
+  }
+  return out.sort((a, b) => b.ids.length - a.ids.length);
+}
+async function saveAutoGroups(gs) {
+  await saveCustom(list => {
+    const byId = new Map(list.map(m => [m.id, m]));
+    const get = id => { let m = byId.get(id); if (!m) { const src = baseById().get(id) || movieById(id); if (!src) return null; m = structuredClone(src); list.push(m); byId.set(id, m); } return m; };
+    for (const g of gs) {
+      const h = get(g.ids[0]);
+      if (!h) continue;
+      if (!h.groupOrig) h.groupOrig = { title: h.title, type: h.type };
+      h.parts = g.ids;
+      h.title = { uz: g.name, ru: g.name };
+      h.type = g.type;
+      // bitta poster — hamma qismga (guruh kartasining posteri o'zgarsa ham shunday: syncGroupPoster)
+      syncGroupPoster(h, get);
+      h.updatedAt = Date.now();
+    }
+    return list;
+  }, `Seriallar avtomatik guruhlandi: ${gs.length} ta (${gs.reduce((s, g) => s + g.ids.length, 0)} qism)`);
+}
+// qismlarining posteri guruh kartasinikidan farq qiladigan seriallar
+function posterMismatch() {
+  const byId = new Map(allMovies().map(m => [m.id, m]));
+  return groupsList().filter(h => h.poster && h.parts.some(id => id !== h.id && byId.get(id) && byId.get(id).poster !== h.poster));
+}
+// guruh kartasining posteri barcha qismlarga
+function syncGroupPoster(h, get) {
+  if (!Array.isArray(h.parts) || !h.poster) return;
+  for (const id of h.parts) {
+    if (id === h.id) continue;
+    const m = get(id);
+    if (!m || (m.poster === h.poster && m.vposter === h.vposter)) continue;
+    m.poster = h.poster;
+    if (h.vposter) m.vposter = h.vposter; else delete m.vposter;
+    m.updatedAt = Date.now();
+  }
+}
+
 function groupRowHTML(id, i, n) {
   const m = movieById(id);
   if (!m) return '';
@@ -3394,6 +3466,8 @@ function renderGroupsView() {
         <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.group}</span><h3>Guruhlar</h3><small>bir nechta video — bitta karta</small></div>
         <p class="acc-muted">Qismlarga bo‘lingan kino yoki serialni bitta kartaga yig‘ing. Saytda faqat birinchi qism karta bo‘lib ko‘rinadi, ichiga kirganda «1-qism, 2-qism…» tugmalari chiqadi. Videolar o‘chirilmaydi.</p>
         <button class="btn btn-primary" type="button" id="grpNew">${NAV_ICONS.plus}<span>Yangi guruh</span></button>
+        ${autoGroups().length ? `<button class="btn btn-ghost" type="button" id="grpAuto">${NAV_ICONS.group}<span>Seriallarni avtomatik guruhlash (${autoGroups().length} ta serial)</span></button>` : ''}
+        ${posterMismatch().length ? `<button class="btn btn-ghost" type="button" id="grpPosters">🖼<span>Har serialga bitta poster (${posterMismatch().length} ta serial)</span></button>` : ''}
       </section>
       <section class="adm-sec">
         <div class="adm-sec-head"><h3>Mavjud guruhlar</h3><small>${groups.length} ta</small></div>
@@ -3409,6 +3483,22 @@ function renderGroupsView() {
           </div>`).join('')}</div>` : '<p class="acc-muted">Hozircha guruh yo‘q.</p>'}
       </section>`;
     $('#grpNew').addEventListener('click', () => { grpDraft = { orig: null, ids: [], name: '', nameRu: '', type: 'serial', langMain: '', langTab: 'uz', langs: {} }; renderGroupsView(); });
+    $('#grpAuto')?.addEventListener('click', e => {
+      const gs = autoGroups();
+      const parts = gs.reduce((s, g) => s + g.ids.length, 0);
+      if (!confirm(`${gs.length} ta serial (${parts} ta qism) bittadan kartaga yig‘iladi. Masalan: «${gs[0].name}» — ${gs[0].ids.length} qism.\nHar serialning posteri birinchi qismniki bo‘ladi. Davom etamizmi?`)) return;
+      runAction(e.currentTarget, () => saveAutoGroups(gs), `${gs.length} ta serial guruhlandi — ~1 daqiqada saytda`);
+    });
+    $('#grpPosters')?.addEventListener('click', e => {
+      const hs = posterMismatch();
+      if (!confirm(`${hs.length} ta serialda qismlarning posteri asosiy karta posteriga almashtiriladi. Davom etamizmi?`)) return;
+      runAction(e.currentTarget, () => saveCustom(list => {
+        const byId = new Map(list.map(m => [m.id, m]));
+        const get = id => { let m = byId.get(id); if (!m) { const src = baseById().get(id) || movieById(id); if (!src) return null; m = structuredClone(src); list.push(m); byId.set(id, m); } return m; };
+        for (const h of hs) syncGroupPoster(get(h.id) || h, get);
+        return list;
+      }, `Seriallar: har biriga bitta poster (${hs.length} ta)`), 'Posterlar birlashtirildi — ~1 daqiqada saytda');
+    });
     box.querySelectorAll('[data-gedit]').forEach(b => b.addEventListener('click', () => {
       const g = movieById(+b.dataset.gedit);
       const ids = g.parts.filter(id => movieById(id));
@@ -3617,6 +3707,7 @@ function renderGroupsView() {
         h.type = d.type;
         if (cover) h.cover = cover; else delete h.cover;
         if (poster) h.poster = poster;
+        syncGroupPoster(h, get);
         // ovoz tillari: har bir qismga — asosiy til (lang) va boshqa tildagi versiyalar (langs)
         for (const id of ids) {
           const m = get(id);
