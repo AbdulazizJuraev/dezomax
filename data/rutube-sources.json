@@ -1,13 +1,103 @@
 {
   "about": "Avtomatik import manbalari (tools/rutube-import.js). rights: owner — studiyaning o'z rasmiy kanali (o'z filmlarining huquq egasi): tekshiruvdan o'tgan videolar saytga AVTOMATIK chiqadi. rights: review — huquqi aniq emas (telekanal, arxiv, tasdiqlanmagan kanal): videolar admin → «RuTube» navbatiga tushadi, saytga chiqmaydi.",
   "sources": [
-    { "id": 25963146, "name": "Киноконцерн «Мосфильм»", "kind": "film", "rights": "owner", "country": "ru" },
-    { "id": 48160110, "name": "Киностудия Горького", "kind": "film", "rights": "owner", "country": "ru" },
-    { "id": 1028413, "name": "Беларусьфильм", "kind": "film", "rights": "owner", "country": "by" },
-    { "id": 12056, "name": "Союзмультфильм", "kind": "multfilm", "rights": "owner", "country": "ru" },
-    { "id": 80482456, "name": "Союзмультфильм – мультики для детей", "kind": "multfilm", "rights": "owner", "country": "ru" },
-    { "id": 23635314, "name": "Госфильмофонд России", "kind": "film", "rights": "review", "country": "ru" },
-    { "id": 1792500, "name": "Киностудия Ленфильм", "kind": "film", "rights": "review", "country": "ru" },
-    { "id": 78896220, "name": "Фонд кино Армении", "kind": "film", "rights": "review", "country": "am" }
+    {
+      "id": 25963146,
+      "name": "Киноконцерн «Мосфильм»",
+      "kind": "film",
+      "rights": "owner",
+      "country": "ru"
+    },
+    {
+      "id": 48160110,
+      "name": "Киностудия Горького",
+      "kind": "film",
+      "rights": "owner",
+      "country": "ru"
+    },
+    {
+      "id": 1028413,
+      "name": "Беларусьфильм",
+      "kind": "film",
+      "rights": "owner",
+      "country": "by"
+    },
+    {
+      "id": 12056,
+      "name": "Союзмультфильм",
+      "kind": "multfilm",
+      "rights": "owner",
+      "country": "ru"
+    },
+    {
+      "id": 80482456,
+      "name": "Союзмультфильм – мультики для детей",
+      "kind": "multfilm",
+      "rights": "owner",
+      "country": "ru"
+    },
+    {
+      "id": 23635314,
+      "name": "Госфильмофонд России",
+      "kind": "film",
+      "rights": "review",
+      "country": "ru"
+    },
+    {
+      "id": 1792500,
+      "name": "Киностудия Ленфильм",
+      "kind": "film",
+      "rights": "review",
+      "country": "ru"
+    },
+    {
+      "id": 78896220,
+      "name": "Фонд кино Армении",
+      "kind": "film",
+      "rights": "review",
+      "country": "am"
+    },
+    {
+      "id": 141565,
+      "name": "Star Media",
+      "kind": "film",
+      "rights": "owner",
+      "country": "ru"
+    },
+    {
+      "id": 29207414,
+      "name": "Марс Медиа",
+      "kind": "film",
+      "rights": "owner",
+      "country": "ru"
+    },
+    {
+      "id": 24620649,
+      "name": "Телеканал Культура",
+      "kind": "film",
+      "rights": "review",
+      "country": "ru"
+    },
+    {
+      "id": 23178409,
+      "name": "НТВ",
+      "kind": "film",
+      "rights": "review",
+      "country": "ru"
+    },
+    {
+      "id": 42945571,
+      "name": "ПРИОРитетное кино",
+      "kind": "film",
+      "rights": "review",
+      "country": "ru"
+    },
+    {
+      "id": 56273839,
+      "name": "Иви | Турция",
+      "kind": "film",
+      "rights": "review",
+      "country": "tr"
+    }
   ]
 }
