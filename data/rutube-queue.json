@@ -1,6 +1,41 @@
 {
- "updated": "2026-10-23T11:27:05.000Z",
+ "updated": "2026-10-23T12:01:30.757Z",
  "items": [
+  {
+   "id": "d259de84f7a4d1bd96b5325710e90c78",
+   "status": "pending",
+   "addedAt": "2026-10-23",
+   "title": "Мстители_Финал",
+   "rawTitle": "Мстители_Финал",
+   "year": null,
+   "desc": "Пришелец Танос разгромил отряд мстителей и получил все камни бесконечности. Космическому тирану удалось заполучить могущественную силу и теперь противостоять галактическому завоевателю практически невозможно. Уничтожив 50% землян, Танос приступает к следующей стадии своего бескомпромиссного вторжения на Землю.",
+   "lang": "ru",
+   "genres": [
+    "drama"
+   ],
+   "poster": "https://pic.rtbcdn.ru/video/2026-03-28/ef/71/ef711de1740d9a107b49567229998bd9.jpg",
+   "duration": 10908,
+   "author": {
+    "name": "ФИЛЬМЫ ТУТ",
+    "url": "https://rutube.ru/video/person/77029330/"
+   },
+   "category": "Фильмы",
+   "video": "https://rutube.ru/video/d259de84f7a4d1bd96b5325710e90c78/",
+   "check": {
+    "at": "2026-10-23",
+    "exists": true,
+    "deleted": false,
+    "hidden": false,
+    "paid": false,
+    "adult": false,
+    "uz": true,
+    "embed": true,
+    "official": false,
+    "licensed": false,
+    "reason": "",
+    "ok": true
+   }
+  },
   {
    "id": "fbb178e81eab2c378a83d602202de1d0",
    "status": "rejected",
