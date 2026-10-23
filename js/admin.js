@@ -5752,7 +5752,10 @@ async function renderRutubeView() {
       <div class="rtq-tabs" role="tablist">
         ${[['pending', 'Kutilmoqda'], ['approved', 'Tasdiqlangan'], ['rejected', 'Rad etilgan']].map(([k, l]) =>
           `<button type="button" class="chip${rtqTab === k ? ' is-active' : ''}" data-tab="${k}">${l} (${counts(k)})</button>`).join('')}
-        ${rtqTab === 'pending' && counts('pending') ? '<button type="button" class="btn btn-ghost btn-sm" id="rtqRecheck">Hammasini qayta tekshirish</button>' : ''}
+        ${rtqTab === 'pending' && counts('pending') ? `<span class="rtq-bulk">
+          <button type="button" class="btn btn-ghost btn-sm" id="rtqSelAll">Hammasini tanlash</button>
+          <button type="button" class="btn btn-primary btn-sm" id="rtqBulk" disabled>Tanlanganlarni tasdiqlash (0)</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="rtqRecheck">Hammasini qayta tekshirish</button></span>` : ''}
       </div>
       <div class="rtq-list" id="rtqList">${rtqGridHTML(queue)}</div>
     </section>`;
@@ -5858,6 +5861,27 @@ Dublikat bo‘lmasligi uchun «…ga biriktirish» tugmasi tavsiya etiladi. Bari
     } catch (ex) { toast(friendlyError(ex), true); b.disabled = false; }
     rtqBusy = false;
   });
+  // tanlash va birdaniga tasdiqlash (faqat rasmiy/litsenziyali, tekshiruvdan o'tgan, saytda o'xshashi yo'q videolar)
+  const pendIds = queue.filter(x => x.status === 'pending').map(x => x.id);
+  const drawSel = () => {
+    box.querySelectorAll('[data-sel]').forEach(i => { i.checked = rtqSel.has(i.dataset.sel); });
+    const bb = $('#rtqBulk'), sa = $('#rtqSelAll');
+    if (bb) { bb.textContent = `Tanlanganlarni tasdiqlash (${rtqSel.size})`; bb.disabled = !rtqSel.size; }
+    if (sa) sa.textContent = rtqSel.size && pendIds.every(id => rtqSel.has(id)) ? 'Tanlovni bekor qilish' : 'Hammasini tanlash';
+  };
+  for (const id of [...rtqSel]) if (!pendIds.includes(id)) rtqSel.delete(id);
+  drawSel();
+  $('#rtqList').addEventListener('change', e => {
+    const i = e.target.closest('[data-sel]');
+    if (!i) return;
+    if (i.checked) rtqSel.add(i.dataset.sel); else rtqSel.delete(i.dataset.sel);
+    drawSel();
+  });
+  $('#rtqSelAll')?.addEventListener('click', () => {
+    if (pendIds.every(id => rtqSel.has(id))) rtqSel.clear(); else pendIds.forEach(id => rtqSel.add(id));
+    drawSel();
+  });
+  $('#rtqBulk')?.addEventListener('click', e => rtqBulkApprove(queue, e.currentTarget));
   $('#rtqRecheck')?.addEventListener('click', async e => {
     const btn = e.currentTarget;
     const pend = queue.filter(x => x.status === 'pending');
@@ -5901,6 +5925,54 @@ function rtqResultsHTML(queue) {
 
 /* Navbat — 6 ustunli ixcham to'r: rasmiy poster (TMDB, kadr emas), nomi, yili, holat nuqtasi, 3 ta belgi-tugma.
    Poster ko'ringanda TMDB'dan qidiriladi va shu brauzerda eslab qolinadi (dzxRtqPoster) */
+const rtqSel = new Set();
+async function rtqBulkApprove(queue, btn) {
+  const pick = queue.filter(x => x.status === 'pending' && rtqSel.has(x.id));
+  if (!pick.length || rtqBusy) return;
+  if (!confirm(`${pick.length} ta video tekshirilib, saytga yangi kino sifatida qo‘shiladi.\n\nRasmiy deb belgilanmagan kanallar, tekshiruvdan o‘tmaganlar va saytda o‘xshashi borlar o‘tkazib yuboriladi (ularni alohida ko‘ring).`)) return;
+  rtqBusy = true; btn.disabled = true;
+  const pos = rtqPosMap(), add = [], skip = { 'tekshiruvdan o‘tmadi': 0, 'rasmiy emas': 0, 'saytda bor/o‘xshash': 0 };
+  let id = nextId();
+  for (let i = 0; i < pick.length; i++) {
+    const it = pick[i];
+    btn.textContent = `Tekshirilmoqda ${i + 1}/${pick.length}…`;
+    let c;
+    try { c = (await rtCheck(it.id)).c; } catch { c = null; }
+    if (!c?.ok) { skip['tekshiruvdan o‘tmadi']++; continue; }
+    if (!c.official && !c.licensed) { skip['rasmiy emas']++; continue; }
+    const d = rtDupes(it.id, it.title, it.year);
+    if (d.same.length || d.similar.length || add.some(x => x.m.title.uz === it.title && x.m.year === it.year)) { skip['saytda bor/o‘xshash']++; continue; }
+    const poster = pos[it.id] || it.poster || '';
+    const m = {
+      id, slug: `${slugify(it.title)}-${id}`, type: 'film', lang: it.lang || 'ru',
+      title: { uz: it.title, ru: it.title }, genres: (it.genres || []).slice(0, 3),
+      ...(it.year ? { year: it.year } : {}), ...(it.duration ? { duration: Math.max(1, Math.round(it.duration / 60)) } : {}),
+      country: { uz: '—', ru: '—' }, desc: { uz: '', ru: it.desc || '' },
+      poster, hposter: it.poster || poster, trailer: '', video: it.video,
+      source: { name: it.author?.name || 'RuTube', url: it.author?.url || it.video, official: true },
+      addedAt: Date.now()
+    };
+    add.push({ it, m, c });
+    id++;
+  }
+  try {
+    if (add.length) {
+      btn.textContent = 'Saqlanmoqda…';
+      await saveCustom(list => { list.unshift(...add.map(x => x.m)); return list; }, `RuTube navbatidan ${add.length} ta kino qo‘shildi`);
+      const done = new Map(add.map(x => [x.it.id, x]));
+      const day = new Date().toISOString().slice(0, 10);
+      await saveRtQueue(items => items.map(x => done.has(x.id) ? { ...x, status: 'approved', movieId: done.get(x.id).m.id, check: done.get(x.id).c, decidedAt: day } : x),
+        `RuTube navbati: ${add.length} ta tasdiqlandi`);
+      add.forEach(x => rtqSel.delete(x.it.id));
+      commitsCache = null;
+    }
+    const sk = Object.entries(skip).filter(([, n]) => n).map(([k, n]) => `${k}: ${n}`).join(', ');
+    toast(`${add.length} ta kino qo‘shildi — saytda 1–2 daqiqada chiqadi${sk ? ` · o‘tkazildi — ${sk}` : ''}`, !add.length);
+  } catch (ex) { toast(friendlyError(ex), true); }
+  rtqBusy = false;
+  renderRutubeView();
+}
+
 const RTQ_POS_KEY = 'dzxRtqPoster';
 let rtqPos = null;
 const rtqPosMap = () => { if (!rtqPos) { try { rtqPos = JSON.parse(localStorage.getItem(RTQ_POS_KEY) || '{}'); } catch { rtqPos = {}; } } return rtqPos; };
@@ -5916,6 +5988,7 @@ function rtqGridHTML(queue) {
     const why = c ? rtCheckBadges(c).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() : 'tekshirilmagan';
     return `
     <div class="rtq-c" data-id="${esc(it.id)}">
+      ${it.status === 'pending' ? `<label class="rtq-c-sel" title="Tanlash"><input type="checkbox" data-sel="${esc(it.id)}"${rtqSel.has(it.id) ? ' checked' : ''}></label>` : ''}
       <a class="rtq-c-pos" href="${esc(it.video)}" target="_blank" rel="noopener" title="RuTube’da ochish">
         ${p ? `<img src="${esc(p)}" alt="" loading="lazy">` : `<img data-rtq-pos src="${esc(it.poster || '')}" alt="" loading="lazy" class="is-frame">`}
         <span class="rtq-c-dur">${rtDur(it.duration)}</span>
