@@ -203,7 +203,7 @@ async function saveCustom(mutate, message, opts = {}) {
     if (!set.length && !del.length && body.includes('"hideAdd":[],"hideDel":[]')) return;
     if (body.length < 900000) {
       try {
-        const r = await dc('/api/dezomax/patch', { method: 'POST', body });
+        const r = await dc('/api/tg/dezomax-patch', { method: 'POST', body });
         customList = next; hiddenList = hidden;
         dataSha = r.sha; listSha = null;   // GitHub'dagi fayl bizdagidan to'liqroq bo'lishi mumkin — keyingi to'liq saqlash qayta o'qiydi
         return;
