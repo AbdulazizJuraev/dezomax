@@ -1,9 +1,9 @@
 {
- "updated": "2026-10-23T12:01:30.757Z",
+ "updated": "2026-10-23T12:01:53.718Z",
  "items": [
   {
    "id": "d259de84f7a4d1bd96b5325710e90c78",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-23",
    "title": "Мстители_Финал",
    "rawTitle": "Мстители_Финал",
@@ -34,7 +34,9 @@
     "licensed": false,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 18872,
+   "decidedAt": "2026-10-23"
   },
   {
    "id": "fbb178e81eab2c378a83d602202de1d0",
