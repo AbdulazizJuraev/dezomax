@@ -5754,11 +5754,12 @@ async function renderRutubeView() {
           `<button type="button" class="chip${rtqTab === k ? ' is-active' : ''}" data-tab="${k}">${l} (${counts(k)})</button>`).join('')}
         ${rtqTab === 'pending' && counts('pending') ? '<button type="button" class="btn btn-ghost btn-sm" id="rtqRecheck">Hammasini qayta tekshirish</button>' : ''}
       </div>
-      <div class="rtq-list" id="rtqList">${rtqListHTML(queue)}</div>
+      <div class="rtq-list" id="rtqList">${rtqGridHTML(queue)}</div>
     </section>`;
 
   const drawResults = () => { $('#rtqResults').innerHTML = rtqResultsHTML(queue); };
   drawResults();
+  rtqLoadPosters(queue);
   $('#rtqForm').addEventListener('submit', async e => {
     e.preventDefault();
     rtqQuery = $('#rtqQ').value.trim();
@@ -5896,6 +5897,64 @@ function rtqResultsHTML(queue) {
         ${state || `<button class="btn btn-ghost btn-sm" type="button" data-rtq-add="${v.id}">Tekshirib navbatga qo‘shish</button>`}
       </div>`;
     }).join('')}</div>`;
+}
+
+/* Navbat — 6 ustunli ixcham to'r: rasmiy poster (TMDB, kadr emas), nomi, yili, holat nuqtasi, 3 ta belgi-tugma.
+   Poster ko'ringanda TMDB'dan qidiriladi va shu brauzerda eslab qolinadi (dzxRtqPoster) */
+const RTQ_POS_KEY = 'dzxRtqPoster';
+let rtqPos = null;
+const rtqPosMap = () => { if (!rtqPos) { try { rtqPos = JSON.parse(localStorage.getItem(RTQ_POS_KEY) || '{}'); } catch { rtqPos = {}; } } return rtqPos; };
+function rtqGridHTML(queue) {
+  const list = queue.filter(x => x.status === rtqTab);
+  if (!list.length) return `<p class="acc-muted">${rtqTab === 'pending' ? 'Tasdiq kutayotgan video yo‘q. Yuqorida qidirib qo‘shing.' : 'Bo‘sh.'}</p>`;
+  const pos = rtqPosMap();
+  return `<div class="rtq-grid6">${list.map(it => {
+    const d = rtqTab === 'pending' ? rtDupes(it.id, it.title, it.year) : { same: [], similar: [] };
+    const c = it.check || null;
+    const p = pos[it.id];
+    const ok = c?.ok && !d.same.length;
+    const why = c ? rtCheckBadges(c).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() : 'tekshirilmagan';
+    return `
+    <div class="rtq-c" data-id="${esc(it.id)}">
+      <a class="rtq-c-pos" href="${esc(it.video)}" target="_blank" rel="noopener" title="RuTube’da ochish">
+        ${p ? `<img src="${esc(p)}" alt="" loading="lazy">` : `<img data-rtq-pos src="${esc(it.poster || '')}" alt="" loading="lazy" class="is-frame">`}
+        <span class="rtq-c-dur">${rtDur(it.duration)}</span>
+        <i class="rtq-c-dot ${d.same.length ? 'is-dup' : ok ? 'is-ok' : 'is-bad'}" title="${esc(d.same.length ? 'Saytda bor' : why)}"></i>
+      </a>
+      <b title="${esc(it.title)}">${esc(it.title)}</b>
+      <small>${[it.year, it.author?.name].filter(Boolean).map(esc).join(' · ')}</small>
+      ${d.same.length ? '<small class="rtq-dup">⛔ Saytda bor</small>' : d.similar.length ? `<small class="rtq-dup">⚠ Saytda o‘xshashi bor — <button class="acc-link" type="button" data-act="attach" data-movie="${d.similar[0].id}"${c?.ok ? '' : ' disabled'}>til videosi qilish</button></small>` : ''}
+      ${it.status === 'approved' && it.movieId ? `<small><a href="${SITE_URL}movie.html?id=${it.movieId}" target="_blank" rel="noopener">Saytda ↗</a></small>` : ''}
+      <div class="rtq-c-acts">
+        ${it.status === 'pending' ? `
+          <button class="rtq-i is-p" type="button" data-act="approve" title="Tasdiqlash"${ok ? '' : ' disabled'}>✓</button>
+          <button class="rtq-i" type="button" data-act="recheck" title="Qayta tekshirish">↻</button>
+          <button class="rtq-i" type="button" data-act="reject" title="Rad etish">✕</button>`
+        : it.status === 'rejected' ? '<button class="rtq-i" type="button" data-act="restore" title="Navbatga qaytarish">↺</button>' : ''}
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+// ko'ringan kartalar uchun rasmiy poster (TMDB): kadr o'rniga
+let rtqPosObs = null;
+function rtqLoadPosters(queue) {
+  rtqPosObs?.disconnect();
+  if (!tmdbKey() || !('IntersectionObserver' in window)) return;
+  const pos = rtqPosMap();
+  rtqPosObs = new IntersectionObserver(es => es.forEach(async e => {
+    if (!e.isIntersecting) return;
+    rtqPosObs.unobserve(e.target);
+    const card = e.target.closest('[data-id]'), it = queue.find(x => x.id === card?.dataset.id);
+    if (!it || it.id in pos) return;
+    try {
+      const j = await tmdb('/search/multi', { query: rtCleanTitle(it.title).replace(/\(.*?\)/g, '').trim(), language: 'ru-RU', include_adult: 'false', ...(it.year ? { year: it.year } : {}) });
+      const hit = (j.results || []).find(x => x.poster_path && (x.media_type === 'movie' || x.media_type === 'tv'));
+      pos[it.id] = hit ? `${TMDB_IMG}w342${hit.poster_path}` : '';
+    } catch { return; }
+    try { localStorage.setItem(RTQ_POS_KEY, JSON.stringify(pos)); } catch {}
+    if (pos[it.id]) { e.target.src = pos[it.id]; e.target.classList.remove('is-frame'); }
+  }), { rootMargin: '300px 0px' });
+  document.querySelectorAll('#rtqList img[data-rtq-pos]').forEach(i => rtqPosObs.observe(i));
 }
 
 function rtqListHTML(queue) {
