@@ -218,3 +218,10 @@
 .adm-namefix { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; margin: 0 0 10px; border-radius: 12px;
   background: rgba(198, 255, 61, .08); border: 1px solid rgba(198, 255, 61, .3); font-size: 13px; }
 .adm-namefix span { flex: 1; min-width: 200px; }
+/* Avtomatik to'ldirish: tarjimon va taxminiy nom */
+.adm-tr { display: grid; gap: 8px; margin: 10px 0 0; padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(255, 255, 255, .08); }
+.adm-tr-row { display: flex; gap: 8px; align-items: center; }
+.adm-tr-row .acc-input { flex: 1; min-width: 0; }
+.adm-tr-out { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; font-size: 14px; }
+.adm-tr-btns { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; }
+.adm-guess { margin: 10px 0 0; padding: 9px 12px; border-radius: 10px; font-size: 13px; background: rgba(198, 255, 61, .08); border: 1px solid rgba(198, 255, 61, .3); }

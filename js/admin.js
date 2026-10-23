@@ -663,6 +663,7 @@ function cleanTitle(v) {
   return t || String(v || '').trim();
 }
 
+let formMovie = null;   // tahrirlanayotgan kino (bindTmdb — nomi noma'lum bo'lsa aniqlash uchun)
 function bindForm(old) {
   const form = $('#admForm');
   const err = $('#admErr');
@@ -714,6 +715,7 @@ function bindForm(old) {
   });
   form.coverUrl.addEventListener('change', () => setCover(form.coverUrl.value.trim()));
 
+  formMovie = old; bindTmdb.guessed = new Set();
   bindTmdb(form, { setHeroImg, setCover });
   bindVideoUpload(form);
   bindParts(form, old);
@@ -1733,6 +1735,70 @@ async function tmdb(path, params = {}) {
   return r.json();
 }
 
+/* Tarjimon (Avtomatik to'ldirish yonida): Google Translate (kalitsiz) → Gemini → MyMemory */
+const TR_LANGS = [['uz', 'O‘zbekcha'], ['ru', 'Ruscha'], ['en', 'Inglizcha'], ['tr', 'Turkcha'], ['ko', 'Koreyscha'], ['ja', 'Yaponcha'], ['zh-CN', 'Xitoycha'],
+  ['hi', 'Hindcha'], ['ar', 'Arabcha'], ['fa', 'Forscha'], ['fr', 'Fransuzcha'], ['de', 'Nemischa'], ['es', 'Ispancha'], ['it', 'Italyancha'], ['pt', 'Portugalcha'],
+  ['kk', 'Qozoqcha'], ['ky', 'Qirg‘izcha'], ['tg', 'Tojikcha'], ['az', 'Ozarbayjoncha'], ['tk', 'Turkmancha'], ['th', 'Taycha'], ['id', 'Indonezcha']];
+async function trAny(text, from, to) {
+  text = String(text || '').trim();
+  if (!text) return '';
+  try {
+    const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text.slice(0, 4500))}`);
+    const j = await r.json();
+    const s = (j?.[0] || []).map(x => x?.[0] || '').join('').trim();
+    if (s) return s;
+  } catch {}
+  if (aiKey()) {
+    try { const j = await gemini(`Translate${from !== 'auto' ? ` from ${from}` : ''} to ${to}. Return JSON {"text":"..."} only.\n\n${text}`); if (j?.text) return String(j.text).trim(); } catch {}
+  }
+  return translateText(text, from === 'auto' ? 'en' : from.slice(0, 2), to.slice(0, 2));
+}
+
+/* Nomi noma'lum kinolar («#PREMYERA», «Video», «Drama nomi»): haqiqiy nomini tavsifdagi «Nomi: …» qatoridan,
+   bo'lmasa AI (Gemini) post matni va posteridan topadi — forma ochilganda «Avtomatik to'ldirish»ga qo'yiladi va TMDB'da qidiriladi */
+const GENERIC_TITLE = /^(?:premyera|premiera|super premyera|video|kino|film|serial|yangi|yangi kino|treyler|trailer|drama|dorama|multfilm|multik|anime|nomi|drama nomi|admin|super|top|hd)$/i;
+function titleUnknown(t) {
+  const s = String(t || '');
+  const c = isRawTitle(s) ? cleanRawTitle(s) : cleanTitle(s);
+  const k = String(c || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  return !c || k.length < 2 || GENERIC_TITLE.test(k);
+}
+function titleFromDesc(m) {
+  const d = [m.desc?.uz, m.desc?.ru].filter(Boolean).join('\n');
+  const line = d.match(/(?:^|[^\p{L}])(?:\p{L}+\s+){0,2}?(?:nomi|название)\s*[:\-–—]\s*([^\n]{2,90})/iu)?.[1];
+  const t = line ? (cleanRawTitle(line) || cleanTitle(line)) : '';
+  return t && !titleUnknown(t) ? t : '';
+}
+const GUESS_KEY = 'dzxTitleGuess';
+async function guessTitle(m) {
+  const fromDesc = titleFromDesc(m);
+  if (fromDesc) return { title: fromDesc, how: 'tavsifdan' };
+  let cache = {};
+  try { cache = JSON.parse(localStorage.getItem(GUESS_KEY) || '{}'); } catch {}
+  if (cache[m.id]) return cache[m.id];
+  if (!aiKey()) return null;
+  const text = [m.title?.uz, m.desc?.uz || m.desc?.ru, (m.tags || []).join(', ')].filter(Boolean).join('\n').slice(0, 1500);
+  const parts = [{ text: `Bu Telegram'dan olingan film/serial posti${m.poster ? ' va uning posteri' : ''}. Film yoki serialning haqiqiy nomini aniqla (TMDB'da qidirish uchun). Posterdagi yozuvni ham o'qi. Faqat JSON: {"title":"asl yoki inglizcha nomi","uz":"o'zbekcha nomi yoki bo'sh","year":yil yoki null}. Aniqlab bo'lmasa {"title":""}.\n\n${text}` }];
+  // poster — rasm sifatida (yuklab bo'lmasa faqat matn)
+  if (m.poster) {
+    try {
+      const r = await fetch(m.poster);
+      const b = r.ok ? await r.blob() : null;
+      if (b && b.size < 4e6 && /^image\//.test(b.type)) {
+        const data = await new Promise(ok => { const fr = new FileReader(); fr.onload = () => ok(String(fr.result).split(',')[1]); fr.readAsDataURL(b); });
+        parts.push({ inline_data: { mime_type: b.type, data } });
+      }
+    } catch {}
+  }
+  const j = await gemini('', { contents: [{ role: 'user', parts }] }).catch(() => null);
+  const title = String(j?.title || '').trim();
+  if (!title) return null;
+  const out = { title, uz: String(j.uz || '').trim(), year: j.year || null, how: 'AI' };
+  cache[m.id] = out;
+  try { localStorage.setItem(GUESS_KEY, JSON.stringify(cache)); } catch {}
+  return out;
+}
+
 function tmdbSectionHTML(m) {
   const key = tmdbKey();
   return `
@@ -1744,7 +1810,21 @@ function tmdbSectionHTML(m) {
           <input class="acc-input" id="tmdbQ" type="search" value="${esc(m.title?.uz || '')}" placeholder="Kino nomi — masalan: Inception yoki Qizil oyna" autocomplete="off">
           <select class="acc-input" id="tmdbType"><option value="multi">Hammasi</option><option value="movie">Film</option><option value="tv">Serial</option></select>
           <button class="btn btn-primary" type="button" id="tmdbGo">Qidirish</button>
+          <button class="btn btn-ghost" type="button" id="trToggle" title="Tarjimon">🌐<span>Tarjimon</span></button>
         </div>
+        <div class="adm-tr" id="trBox" hidden>
+          <div class="adm-tr-row">
+            <select class="acc-input" id="trFrom" aria-label="Qaysi tildan"><option value="auto">Avto aniqlash</option>${TR_LANGS.map(([c, n]) => `<option value="${c}">${n}</option>`).join('')}</select>
+            <button class="btn btn-ghost btn-sm" type="button" id="trSwap" aria-label="Tillarni almashtirish">⇄</button>
+            <select class="acc-input" id="trTo" aria-label="Qaysi tilga">${TR_LANGS.map(([c, n]) => `<option value="${c}"${c === 'en' ? ' selected' : ''}>${n}</option>`).join('')}</select>
+          </div>
+          <div class="adm-tr-row">
+            <input class="acc-input" id="trText" type="text" placeholder="Matn yoki kino nomi" autocomplete="off">
+            <button class="btn btn-primary btn-sm" type="button" id="trGo">Tarjima</button>
+          </div>
+          <div class="adm-tr-out" id="trOut" hidden></div>
+        </div>
+        <p class="adm-guess" id="tmdbGuess" hidden></p>
         <p class="acc-error" id="tmdbErr" hidden></p>
         <div class="adm-tmdb-res" id="tmdbRes"></div>
         <div class="adm-tmdb-foot"><button class="acc-link" type="button" id="tmdbKeyReset">Kalitni o‘zgartirish</button><span>Ma’lumotlar: The Movie Database (TMDB)</span></div>` : `
@@ -2203,6 +2283,56 @@ function bindTmdb(form, { setHeroImg, setCover }) {
   };
   $('#tmdbGo').addEventListener('click', search);
   q.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); search(); } });
+
+  // tarjimon
+  $('#trToggle')?.addEventListener('click', () => {
+    const b = $('#trBox'); b.hidden = !b.hidden;
+    if (!b.hidden && !$('#trText').value) $('#trText').value = q.value;
+    if (!b.hidden) $('#trText').focus();
+  });
+  $('#trSwap')?.addEventListener('click', () => {
+    const f = $('#trFrom'), t = $('#trTo');
+    if (f.value === 'auto') return;
+    [f.value, t.value] = [t.value, f.value];
+  });
+  const trRun = async () => {
+    const out = $('#trOut'), text = $('#trText').value.trim();
+    if (!text) return;
+    out.hidden = false; out.innerHTML = '<span class="acc-muted">Tarjima qilinmoqda…</span>';
+    try {
+      const r = await trAny(text, $('#trFrom').value, $('#trTo').value);
+      out.innerHTML = `<b>${esc(r)}</b><span class="adm-tr-btns">
+        <button class="acc-link" type="button" data-tr="q">Qidiruvga qo‘yish</button>
+        <button class="acc-link" type="button" data-tr="uz">O‘zbekcha nomga</button>
+        <button class="acc-link" type="button" data-tr="ru">Ruscha nomga</button>
+        <button class="acc-link" type="button" data-tr="copy">Nusxalash</button></span>`;
+      out.querySelectorAll('[data-tr]').forEach(b => b.addEventListener('click', () => {
+        const k = b.dataset.tr;
+        if (k === 'q') { q.value = r; search(); }
+        if (k === 'uz') form.titleUz.value = r;
+        if (k === 'ru' && form.titleRu) form.titleRu.value = r;
+        if (k === 'copy') navigator.clipboard?.writeText(r);
+        toast(k === 'copy' ? 'Nusxalandi' : 'Qo‘yildi');
+      }));
+    } catch (ex) { out.innerHTML = `<span class="acc-error">${esc(friendlyError(ex))}</span>`; }
+  };
+  $('#trGo')?.addEventListener('click', trRun);
+  $('#trText')?.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); trRun(); } });
+
+  // nomi noma'lum («#PREMYERA») — haqiqiy nomi topilib, qidiruvga qo'yiladi va TMDB'da qidiriladi
+  const cur = formMovie;
+  if (cur?.id && titleUnknown(form.titleUz.value) && !bindTmdb.guessed?.has(cur.id)) {
+    (bindTmdb.guessed ||= new Set()).add(cur.id);
+    const g = $('#tmdbGuess');
+    g.hidden = false; g.textContent = 'Nomi noma’lum — tavsif va posterdan haqiqiy nomi aniqlanmoqda…';
+    guessTitle(cur).then(r => {
+      if (!$('#tmdbGuess')) return;
+      if (!r) { g.textContent = aiKey() ? 'Nomini aniqlab bo‘lmadi — qo‘lda yozing.' : 'Nomini tavsifdan topib bo‘lmadi. AI kalitini kiritsangiz, posterdan ham aniqlanadi.'; return; }
+      g.innerHTML = `Taxminiy nomi (${esc(r.how)}): <b>${esc(r.title)}</b>${r.year ? ` · ${esc(r.year)}` : ''}${r.uz && r.uz !== r.title ? ` · o‘zbekcha: ${esc(r.uz)}` : ''} — TMDB’da qidirildi, mosini tanlang.`;
+      q.value = r.title;
+      search();
+    }).catch(() => { g.textContent = 'Nomini aniqlab bo‘lmadi — qo‘lda yozing.'; });
+  }
 
   async function pick(type, id, btn) {
     res.querySelectorAll('.adm-tmdb-item').forEach(x => x.classList.toggle('is-on', x === btn));
