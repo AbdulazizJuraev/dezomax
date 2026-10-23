@@ -1601,7 +1601,7 @@ function renderListView() {
   if (!siteDraft) loadConfig().then(() => fill()).catch(() => {});
 
   // kinolar 1000+ — ro'yxat 60 tadan chiziladi
-  let limit = 60;
+  let limit = 60, moreObs = null;
   const fill = () => {
     const items = listItems();
     const shown = items.slice(0, limit);
@@ -1612,9 +1612,19 @@ function renderListView() {
       ? `${fix.length ? `<div class="adm-namefix"><span>${fix.length} ta kino nomida «Film nomi:», emoji yoki ortiqcha so‘zlar bor</span>
            <button class="btn btn-primary btn-sm" type="button" id="admNameFix">Shu ${fix.length} ta nomni tozalash</button></div>` : ''}
          <p class="acc-muted adm-count">${items.length} ta kino</p><div class="acc-list">${shown.map(itemHTML).join('')}</div>
-         ${items.length > limit ? `<button class="btn btn-ghost adm-more" type="button" id="admMore">Yana ko‘rsatish (${items.length - limit})</button>` : ''}`
+         ${items.length > limit ? `<p class="acc-muted adm-more-auto" id="admMore">Yuklanmoqda… (yana ${items.length - limit})</p>` : ''}`
       : `<div class="acc-empty"><b>Hech narsa topilmadi</b></div>`;
-    $('#admMore')?.addEventListener('click', () => { limit += 60; const y = window.scrollY; fill(); window.scrollTo(0, y); });
+    // pastga yetganda keyingi 60 tasi o'zi yuklanadi (tugmasiz)
+    moreObs?.disconnect();
+    const more = $('#admMore');
+    if (more && 'IntersectionObserver' in window) {
+      moreObs = new IntersectionObserver(es => {
+        if (!es.some(x => x.isIntersecting)) return;
+        moreObs.disconnect();
+        limit += 60; const y = window.scrollY; fill(); window.scrollTo(0, y);
+      }, { rootMargin: '600px 0px' });
+      moreObs.observe(more);
+    }
     $('#admNameFix')?.addEventListener('click', e => {
       if (!confirm(`${fix.length} ta kino nomi tozalanadi (masalan: «${fix[0][2]}» → «${fix[0][1]}»). Davom etamizmi?`)) return;
       runAction(e.currentTarget, async () => { await saveCleanTitles(new Map(fix.map(([id, t]) => [id, t]))); fill(); }, 'Nomlar saqlandi — ~1 daqiqada saytda');
