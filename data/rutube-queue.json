@@ -1,4 +1,5 @@
 {
+ "updated": "2026-10-23T10:53:18.957Z",
  "items": [
   {
    "id": "8901f9ce990d160c13a4472ab3004b77",
@@ -20,6 +21,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8901f9ce990d160c13a4472ab3004b77/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -29,9 +31,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-15"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -54,6 +55,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c425cf5069a8fabd2fe00b2fec6057e7/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -63,9 +65,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -88,6 +89,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8a08eb8085117bc479025e36cbbb2a5b/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -97,9 +99,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -122,6 +123,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6952733a021fa1172227a35366262784/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -131,9 +133,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -156,6 +157,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/21cbee16c2d86ad7aa051932307418af/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -165,9 +167,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -190,6 +191,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/b2d592f88f4d42c75b110b8346ba6da9/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -199,9 +201,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -224,6 +225,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/220cd1926f105612731a7eab121f8250/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -233,9 +235,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -258,6 +259,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/01ff590e54300fa35c7d53a0731e521b/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -267,9 +269,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -292,6 +293,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c9bb7ccf664678f86520014e9f0b3ac1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -301,9 +303,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -326,6 +327,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f68f9efa05e31eb6f4f882c00aa86a58/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -335,9 +337,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -360,6 +361,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/ca3502676c7ebe2f2748bbb7ff14540f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -369,9 +371,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -394,6 +395,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/4b6cc03b7c277da51c0edf8f8fb75245/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -403,9 +405,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -428,6 +429,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/923ea7ac8a2b40c7e87dd69c14e2aa98/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -437,9 +439,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -462,6 +463,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d620ebdf02d9009b62b7e0c87186d813/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -471,9 +473,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -496,6 +497,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/0bb7d9c8ba293f6bf4324ae8414797e6/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -505,9 +507,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -530,6 +531,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/0d38c0da6f957f9c2ff1e18f587b2f9c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -539,9 +541,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -564,6 +565,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3824835788b78d1b1d3fc8a4b81a4fa4/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -573,9 +575,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -598,6 +599,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/a03f8ee72a1d40c4f3b9a4ac4b4431b2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -607,9 +609,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -632,6 +633,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/4877b208cae0d03aaf178e0acfe1db40/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -641,9 +643,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -666,6 +667,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/7f3c3316938020cb46575097bfa1773c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -675,9 +677,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -700,6 +701,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/05c39a49c9c013813d1b88d86ee10fbc/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -709,9 +711,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -734,6 +735,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d39a433dc9139221772cffe50c5b3c42/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -743,9 +745,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -768,6 +769,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/337e99d8c3ac96429d86fed2295be77b/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -777,9 +779,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -802,6 +803,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/0149110668aa0350760d4a2007ece80f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -811,9 +813,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -836,6 +837,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/4aa1bce9cb8a975277b9587c28212f9a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -845,9 +847,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -870,6 +871,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d9b4f81170ecc732aece2171866405b0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -879,9 +881,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -904,6 +905,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/621f073f5d5f94fbd80e45bb532ccf20/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -913,9 +915,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -938,6 +939,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/86dd30f5c92354265267ccdca151d5c1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -947,9 +949,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -972,6 +973,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/7ae444cdd2b459712858da56e51eee3b/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -981,9 +983,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1006,6 +1007,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c98582441478235f1800de895ec517c8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1015,9 +1017,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1040,6 +1041,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/17b34eaad3aaa3255da903aaa420b2fc/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1049,9 +1051,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1074,6 +1075,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c366628321c5566ee7f35616cfeaebd7/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1083,9 +1085,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1108,6 +1109,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3cf1a2bfd9110d96d23b0e3728e8479a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1117,9 +1119,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1142,6 +1143,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/cd28ba4f756164daedff465f43612e4e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1151,9 +1153,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1176,6 +1177,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/cb0a62a5753199a10360f5d05a18ed6e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1185,9 +1187,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1210,6 +1211,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f63eceb9e39fa6c014ca1860566baa99/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1219,9 +1221,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1244,6 +1245,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c888a1b70bb66dd5dd6660a1324be814/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1253,9 +1255,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1278,6 +1279,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/bafb77219614519c6642a4cdfd17e765/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1287,9 +1289,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1312,6 +1313,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/bb4852f92c1c51310f99c4624fb5e7a9/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1321,9 +1323,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1346,6 +1347,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/03c5148ff4bb17bd9f82fb79f1c22599/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1355,9 +1357,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1380,6 +1381,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/94585d01f41297bc6315e387622d6608/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1389,9 +1391,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1414,6 +1415,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d4ab83e6f681f426714b5893e6bc0ec2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1423,9 +1425,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1448,6 +1449,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/2835458b50594448613b6f682b9d12a7/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1457,9 +1459,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1482,6 +1483,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/a383f76df2ee1b0854303ed7b8d87dae/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1491,9 +1493,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1518,6 +1519,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/522e9a629eae36587c2adb9a318006e7/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1527,9 +1529,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1552,6 +1553,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c68a0af47de482f976d25b240523ef0d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1561,9 +1563,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1586,6 +1587,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/461d4d25062042c540a1facb7a85f29f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1595,9 +1597,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1620,6 +1621,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/fde4c2c2608e2a23d0e682bebe7a71da/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1629,9 +1631,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1654,6 +1655,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e54a603ea4f6d41bd69a153ee424aa62/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1663,9 +1665,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1688,6 +1689,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e3e68cdc4c1b850beaadf9c6695c1699/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1697,9 +1699,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1722,6 +1723,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/dce1bda85b8556c0c841ef4f860b7812/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1731,9 +1733,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1756,6 +1757,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/80ae7d5553f7263d94d7e65f5740619a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1765,9 +1767,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1790,6 +1791,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d2a06d062499778329bdc9a8c127ff8e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1799,9 +1801,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1824,6 +1825,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/670a5bd1df023ec1915e728d709441eb/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1833,9 +1835,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1858,6 +1859,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/83838c21262bcf89ab5ff0164c91631c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1867,9 +1869,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1892,6 +1893,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/87f013173ca4f10dc9159d3de70c129d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1901,9 +1903,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1926,6 +1927,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c748b79e4235289848d120d979abf6f2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1935,9 +1937,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1960,6 +1961,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/7870637d3d52501bd2b21e939198b9dd/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -1969,9 +1971,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -1994,6 +1995,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/a8eee07a44a5c087e6974a3684dd0c77/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2003,9 +2005,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2028,6 +2029,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8278288659b34b999c5c271d0ac94178/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2037,9 +2039,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2062,6 +2063,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c8d06c86f66935905bdb58f9775a88a8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2071,9 +2073,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2096,6 +2097,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/5a53180fd699b2f9d56167fce7f50a5a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2105,9 +2107,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2130,6 +2131,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/02f3fd8af4f43b6ffed96c170daa04df/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2139,9 +2141,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2164,6 +2165,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/7f0ba7e7f1483dfca2d20a274586b8f0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2173,9 +2175,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2198,6 +2199,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/cb7829adc0d040c6793526cc894d7ca2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2207,9 +2209,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2232,6 +2233,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/343859d569aa2d1caa3ad629ff1ba9ac/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2241,9 +2243,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2266,6 +2267,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/35b2c189a3efbb563b820e95f6a6b151/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2275,9 +2277,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2300,6 +2301,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/177c41aa943a5f986ccd5276532acdf5/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2309,9 +2311,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2334,6 +2335,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6b1eb62a52700fdbaaa5b07365bfc874/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2343,9 +2345,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2368,6 +2369,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3f92918a2bdd961fad0cf60ffa80deea/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2377,9 +2379,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2402,6 +2403,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/70806819145a4365e5c2e5eb5051b652/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2411,9 +2413,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2436,6 +2437,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/53c7411fe991e9e1c619f3f7d34d98fe/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2445,9 +2447,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2470,6 +2471,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e79d705e9896f6ea51009c2e2591802d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2479,9 +2481,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2504,6 +2505,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/400cdcb0445d62f6b6522ae51761650e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2513,9 +2515,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2538,6 +2539,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/1bb0887faa3a625b601ad11688fb70a8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2547,9 +2549,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2572,6 +2573,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/821d15e491bf8dba2ab9beb58322fff0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2581,9 +2583,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2606,6 +2607,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/0a29b7281f795c67a9f9d51e21b4df0b/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2615,9 +2617,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2640,6 +2641,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/07a79ddfb597d502aeb2a93a26868222/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2649,9 +2651,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2674,6 +2675,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6f02550289e4bcc50496ec2a43340192/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2683,9 +2685,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2708,6 +2709,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/7b1a2e6729bb1d783f24f8572d5eb968/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2717,9 +2719,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2742,6 +2743,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/66e1b25cd76978005e83950892e9ef5c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2751,9 +2753,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2776,6 +2777,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/63e5f5d1dd000a915af81a47e5ff01c5/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2785,9 +2787,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2810,6 +2811,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9cea75d16171a4ee23f4a55b0b19a59e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2819,9 +2821,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2846,6 +2847,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/29593e52d41009ab65bc4177c4a2ed0f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2855,9 +2857,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2880,6 +2881,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9f1b52f2d7bdf04afcf327a14d3fca43/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2889,9 +2891,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2914,6 +2915,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/bce08eb58c659f83d1b31a2317574561/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2923,9 +2925,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2948,6 +2949,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/609366fab37eb941f406fe057b534185/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2957,9 +2959,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -2982,6 +2983,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/edb8e39d23ff98a818055ba11039ceee/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -2991,9 +2993,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3016,6 +3017,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9eabe31538a7580becee95ec48df00a8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3025,9 +3027,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3050,6 +3051,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9776f5148ea7c5260a0eed97c3e96f63/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3059,9 +3061,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3084,6 +3085,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/321369ea79fb0deac2ec64d09de5850f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3093,9 +3095,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3118,6 +3119,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/292384e91eb4bef6498638fe97918cd9/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3127,9 +3129,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3152,6 +3153,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3c6ca285392a4d6b8adf4cc821071a69/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3161,9 +3163,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3186,6 +3187,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c8ea87b02eb7bfed81ec9c78703199cf/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3195,9 +3197,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3220,6 +3221,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9a5763655c8ed11a827c072c4dd69aea/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3229,9 +3231,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3254,6 +3255,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/a2110da8fd949c98b1d950e070c0d1ac/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3263,9 +3265,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3288,6 +3289,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/451b7750a0a58ecfbf15130ef95d9664/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3297,9 +3299,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3322,6 +3323,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/830899780767f42d10acf66221380e36/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3331,9 +3333,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3356,6 +3357,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/db8618a2a9e7ac05d99b993e547d81fc/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3365,9 +3367,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3390,6 +3391,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c9011cafcf9f6d4c4bfa8e3a8adb1c8a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3399,9 +3401,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3424,6 +3425,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/799aba35f98b8a0f26b69768458472ec/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3433,9 +3435,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3458,6 +3459,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/207eb74f9b5e042fb48d7172d33233b3/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3467,9 +3469,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3492,6 +3493,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e117de093496c2a18d13c8610507049d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3501,9 +3503,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3526,6 +3527,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/99bb87a02545350b9c7bc2d3dba89102/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3535,9 +3537,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3560,6 +3561,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f4dcb401be0e40a62091cddc860d3993/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3569,9 +3571,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3594,6 +3595,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6181402d596208a4eb18b449cd30af0e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3603,9 +3605,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3628,6 +3629,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/761263ff0b216b27e85cb33f2ce4cde1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3637,9 +3639,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3662,6 +3663,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8c36267fa6c35a6357ea3d8cda9d8ee2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3671,9 +3673,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3696,6 +3697,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/16b5d0cf34b623e0234224a7b70e5770/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3705,9 +3707,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3730,6 +3731,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3b1f1cf47086cb161512805af0352a4c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3739,9 +3741,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3764,6 +3765,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/19d995475cfb5c28b44cea6cc9260016/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3773,9 +3775,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3798,6 +3799,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/b2d304f4c4592ae092a45993b3a851af/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3807,9 +3809,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3832,6 +3833,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/25ccba41235713f195e5bae0bdc7a158/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3841,9 +3843,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3866,6 +3867,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c13a33fe6d9fb90251f440ca5fda5bcd/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3875,9 +3877,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3900,6 +3901,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/7f82cd030994ad764aa2cb3d998727b9/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3909,9 +3911,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3934,6 +3935,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f6840191ea06048504c91c0984ea0979/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3943,9 +3945,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -3968,6 +3969,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6564eb9f7772d3363133214366cbdb22/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -3977,9 +3979,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4004,6 +4005,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/883304d8ed1a1df93247f49719f7d1cb/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4013,9 +4015,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4038,6 +4039,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f78d8061291a9d723cddd9ebf781f8c5/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4047,9 +4049,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4072,6 +4073,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9863def36c95b7543c3fd023b182f571/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4081,9 +4083,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4106,6 +4107,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/08378a64988755555fcd90d40612a91c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4115,9 +4117,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4140,6 +4141,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/3baaee9e7c7b331c64275eb928a51298/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4149,9 +4151,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4174,6 +4175,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/31b375b0ae3e5b0201d0ce1a4daf9ac0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4183,9 +4185,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4208,6 +4209,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/417755e9a063ccab8960484331d42a31/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4217,9 +4219,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4242,6 +4243,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/759b4fe0f6192f6c855617d1c5295800/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4251,9 +4253,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4276,6 +4277,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/0cbfb9aa199ecfd74fce99d6a87c1a25/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4285,9 +4287,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4310,6 +4311,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/79a691c0a124391986e18e58b56c4f75/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4319,9 +4321,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4344,6 +4345,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/9969bf54794b4f2e72a56cc96ad9745d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4353,9 +4355,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4378,6 +4379,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/2cba67ed6508a03ddc80a969d81fb54f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4387,9 +4389,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4412,6 +4413,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/34a126e3c88aa24f0190ae17727e6e83/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4421,9 +4423,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4446,6 +4447,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/526d15a4b84d87bf8bbe16aee2fda779/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4455,9 +4457,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4480,6 +4481,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/be373a674ecf5e76d71409ba417661fa/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4489,9 +4491,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4514,6 +4515,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/cab23b4fb6df8b37a2d9059060b1ee93/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4523,9 +4525,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4548,6 +4549,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/1d044a45033e7d9e7c2bfad2b722d84d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4557,9 +4559,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4582,6 +4583,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/50c5d2eb0f362c242c83f191669ccf0a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4591,9 +4593,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4616,6 +4617,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/adb29f3992b8d982d4a964bab2488f76/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4625,9 +4627,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4650,6 +4651,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/512a95e98bf94f74173f4c0b37bd6758/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4659,9 +4661,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4684,6 +4685,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/337fd00be698127e1430a4ec5cb947dd/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4693,9 +4695,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4718,6 +4719,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/224b163287af9f548c7ae23838b61ba0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4727,9 +4729,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4752,6 +4753,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/ac8a48981898ac2141bfad3e0f8b4046/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4761,9 +4763,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4786,6 +4787,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/cff9bb7f720b9887593f8e4365afaf26/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4795,9 +4797,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4820,6 +4821,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/c88a3aa7019fd86d25303da048114bc0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4829,9 +4831,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4854,6 +4855,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/1cb105c91f8e0b6ba6d6729705916726/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4863,9 +4865,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4888,6 +4889,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/3ec36c56f0af3a6d96819bb3e98d874e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4897,9 +4899,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4922,6 +4923,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/f0fd85ec58ad43513a826d35ef13cf96/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4931,9 +4933,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4956,6 +4957,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/87c524ff6fc0fcd1ae91e83563711d33/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4965,9 +4967,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -4990,6 +4991,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/0c9e8065417f23026e2daa512e7539df/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -4999,9 +5001,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5024,6 +5025,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/2e1f1ffefc84eca553cbc1eb625d50b7/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5033,9 +5035,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5058,6 +5059,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/f4146928c84c89e047cb7bbf7215a252/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5067,9 +5069,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5092,6 +5093,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/358aa348d62dceed69530b8105934564/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5101,9 +5103,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5126,6 +5127,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/38e25a4fe8071d089b7f304d24d07a00/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5135,9 +5137,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5160,6 +5161,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/3a2b03d61da9b522ffc1583d11991269/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5169,9 +5171,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5194,6 +5195,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/a6c83588be5c99d985bb86f2712e04a2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5203,9 +5205,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5228,6 +5229,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/812ec37b12f8e09ddd50fb6e1f3d474f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5237,9 +5239,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5262,6 +5263,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/3ce972a1de75fed6a1e547df881b0d6a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5271,9 +5273,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5296,6 +5297,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/344a7c777b39f6d4dfed503cff7ad592/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5305,9 +5307,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5330,6 +5331,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/40d30ffe67272b075133881020de68bf/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5339,9 +5341,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5364,6 +5365,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/db3baf84ce83c6d91d7b4f1b47559f76/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5373,9 +5375,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5398,6 +5399,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/77dc9209b636b3731f3eb4fd289902d3/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5407,9 +5409,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5432,6 +5433,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/8fae998d126b813b76839c984776b4ac/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5441,9 +5443,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5466,6 +5467,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/d998cd44640ea9655bd435410f228fbb/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5475,9 +5477,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5500,6 +5501,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/a957c1aaa0e1f6384952564ba4a8d3c1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5509,9 +5511,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5536,6 +5537,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/70f71452498d48342dae93a78e83db84/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5545,9 +5547,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5570,6 +5571,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/770888c4e173aac4a50aaa0e166a6d91/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5579,9 +5581,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5606,6 +5607,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/0036e44e4bfe30a511250e91959f6be6/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5615,9 +5617,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5640,6 +5641,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/3aa3464078260682505a21d1efff2fbe/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5649,9 +5651,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5674,6 +5675,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f59e87072fe8a6532e8b502663527527/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5683,9 +5685,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5708,6 +5709,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/5c11655c61be8ab905acde66371b30fd/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5717,9 +5719,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5744,6 +5745,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/baa2dcce8f4c887b40da5e02ac2327fd/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5753,9 +5755,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5778,6 +5779,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/6219d58f72719c82fe1c288b3d32ceea/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5787,9 +5789,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5812,6 +5813,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/99d815aeea43d4467654d9fd98f80212/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5821,9 +5823,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5846,6 +5847,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d5eefb2c10092632f8016e6c76a4ec99/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5855,9 +5857,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5880,6 +5881,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/95f265c33cdc1ac472820440bb00cedb/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5889,9 +5891,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5914,6 +5915,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/9a5e8347103d7f431a87442879f5d484/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5923,9 +5925,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5948,6 +5949,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/aed73d479a31f1b4cb9c975068a8512d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5957,9 +5959,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -5982,6 +5983,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/f94a14e18e5b17060c7acf31ebf125d5/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -5991,9 +5993,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6016,6 +6017,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/cf09477ca709bc5603e897eea177f3fe/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6025,9 +6027,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6050,6 +6051,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/3ac95b112de7e88ebaa31256643092d0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6059,9 +6061,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6084,6 +6085,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/37ad67cd9c67cd44fda5d83b9d148456/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6093,9 +6095,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6118,6 +6119,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/4577d34ff61cd2fcffcb2489bf93cdc6/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6127,9 +6129,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6152,6 +6153,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/b3b94bff7ec101ad53122fcfe21eacb7/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6161,9 +6163,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6186,6 +6187,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d96da6fdb2d9c4db4f9f01d4e6752d16/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6195,9 +6197,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6220,6 +6221,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/a8805ce61a8f29dfc380db82f9c879b7/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6229,9 +6231,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6254,6 +6255,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/4e98719456ce8ca0932260fddcec2c18/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6263,9 +6265,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6288,6 +6289,7 @@
    "category": "Развлечения",
    "video": "https://rutube.ru/video/a69edf8d3e03547fbce6dd59b7326a4b/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6297,9 +6299,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6322,6 +6323,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/ccdcb9121ab8d8fdb2ed0eb58857717f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6331,9 +6333,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6356,6 +6357,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/55668dae8f859f77df9ad690ce09a85d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6365,9 +6367,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6390,6 +6391,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/04b3da7286a90b3b49406ab4fcc1d23c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6399,9 +6401,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6424,6 +6425,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/ef394de7943f493533a05feea291049e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6433,9 +6435,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6458,6 +6459,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/1a88ec24d0e60937fe1129c731fda635/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6467,9 +6469,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6492,6 +6493,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/1409a397f7f0a438e4df4558fe23c34a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6501,9 +6503,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6526,6 +6527,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8cb38002c8ff0d455490307bc738983f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6535,9 +6537,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6560,6 +6561,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3d159933f79f448c3413395ec14c7e61/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6569,9 +6571,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6594,6 +6595,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/fc608a0e99258f971297587d1091ceca/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6603,9 +6605,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6628,6 +6629,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6770e2ca3c41b68360e5fcf94cfa4cbb/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6637,9 +6639,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6662,6 +6663,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/95b3a031c4e95ad92cdc2e993725de55/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6671,9 +6673,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6696,6 +6697,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/1a327796e4a8f26a5dcf82e17c43a39b/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6705,9 +6707,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6730,6 +6731,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/526465ffc49feb9d0005cc6c8f8b96b5/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6739,9 +6741,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6764,6 +6765,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/e5b1bac2ec7ab0648eb96a5295a50a5e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6773,9 +6775,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6798,6 +6799,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/246ea98e3e10858ceb8724eee5911683/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6807,9 +6809,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6832,6 +6833,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/05493f15f7393c99dbdeee2745219e97/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6841,9 +6843,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6866,6 +6867,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/26dfa0efecad4774cc7ba0ba2e1ded80/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6875,9 +6877,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6900,6 +6901,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/87e3e8597e4566529eb3c22f05f8d42f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6909,9 +6911,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6934,6 +6935,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/382306f02d6653f5c7847a0c8b5a16a1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6943,9 +6945,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -6968,6 +6969,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e64e89f3eee5cc812a9ed112b6ab179c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -6977,9 +6979,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7002,6 +7003,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/ba4fa253a84272144b138a9280c9a874/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7011,9 +7013,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7036,6 +7037,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d3edb8845d1045fddc3d2b1e8ac463ef/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7045,9 +7047,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7072,6 +7073,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/4a098365dc33cbf6fad709c0f65ecd23/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7081,9 +7083,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7106,6 +7107,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/76e0e0d0b8522c781b33255c1d8f8ac4/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7115,9 +7117,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7140,6 +7141,7 @@
    "category": "Лайфстайл",
    "video": "https://rutube.ru/video/f53ee5284bafb91ec005f488e828dc35/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7149,9 +7151,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7174,6 +7175,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f313b4d8a24cccfaaede935c54396495/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7183,9 +7185,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7208,6 +7209,7 @@
    "category": "Лайфхаки",
    "video": "https://rutube.ru/video/ffff64600d6956229e09665a9b70afa4/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7217,9 +7219,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7242,6 +7243,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/2326d09b409c1b9123f600863b4661e1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7251,9 +7253,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7276,6 +7277,7 @@
    "category": "Разное",
    "video": "https://rutube.ru/video/c414ca4c0392818cf51d3126ff6d41f6/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7285,9 +7287,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7310,6 +7311,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6fe2463cebef299cf5fc1960c148840e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7319,9 +7321,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7344,6 +7345,7 @@
    "category": "Лайфхаки",
    "video": "https://rutube.ru/video/79c9a840463ae56756df1250ca542831/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7353,9 +7355,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7378,6 +7379,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/0b1e6806fe6c8f99c752dd1b98d4894c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7387,9 +7389,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7412,6 +7413,7 @@
    "category": "Лайфстайл",
    "video": "https://rutube.ru/video/dbab9acd36ff2710a45e80f1290e6538/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7421,9 +7423,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7446,6 +7447,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/39f44687dc7f1a5961a5202cad1b3e71/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7455,9 +7457,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7480,6 +7481,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/20f8c13ce02570d717f449dcc7c3ffa5/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7489,9 +7491,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7514,6 +7515,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/28003132890e23ac78405395232298ea/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7523,9 +7525,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7548,6 +7549,7 @@
    "category": "Лайфхаки",
    "video": "https://rutube.ru/video/f08a6410d0efcaa8775cfa8907afa6f8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7557,9 +7559,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7582,6 +7583,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/63b74e3b6b8ddb9c88c0a67480cafb4f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7591,9 +7593,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7616,6 +7617,7 @@
    "category": "Лайфстайл",
    "video": "https://rutube.ru/video/f29e710f0852d78352d57d76e130b014/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7625,9 +7627,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7652,6 +7653,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f19a49080364a302521f00ddf78153fa/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7661,9 +7663,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7686,6 +7687,7 @@
    "category": "Лайфхаки",
    "video": "https://rutube.ru/video/15405b114b1f090d963d2365ff440fa2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7695,9 +7697,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7722,6 +7723,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/ffcf39f54977ee96b8a761ff0a692dad/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7731,9 +7733,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7756,6 +7757,7 @@
    "category": "Путешествия",
    "video": "https://rutube.ru/video/75e0f0891ac07f39ca0d0b7f7e0c1121/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7765,9 +7767,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7790,6 +7791,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/fc09b99562cae7f8b4ca925603d3fbd1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7799,9 +7801,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7826,6 +7827,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8c32be11bd3aafdee7011681bb1fdc78/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7835,9 +7837,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7860,6 +7861,7 @@
    "category": "Лайфхаки",
    "video": "https://rutube.ru/video/1c2bfb032c21d7775d29e02a2d9cc912/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7869,9 +7871,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7894,6 +7895,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9f828b5d49cc95bd11331c167d1ae6d0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7903,9 +7905,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7930,6 +7931,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/ebf181e8de981c08ff62af717c70100c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7939,9 +7941,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -7966,6 +7967,7 @@
    "category": "Интервью",
    "video": "https://rutube.ru/video/884ae579d87ad9ebda01fcdac5241333/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -7975,9 +7977,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8002,6 +8003,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/621588107e2b4eea5379e4556c85a602/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8011,9 +8013,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8036,6 +8037,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/74b2270d33c679d34cf08d08306bc65a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8045,9 +8047,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8072,6 +8073,7 @@
    "category": "Лайфстайл",
    "video": "https://rutube.ru/video/1ef20c99c1ecc7c83391a6b338fe0369/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8081,9 +8083,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8106,6 +8107,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6b609f84cb8f2bd4c2464db0971aaf32/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8115,9 +8117,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8142,6 +8143,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/29bf99255e040fe520020b1ea8a67ea8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8151,9 +8153,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8176,6 +8177,7 @@
    "category": "Интервью",
    "video": "https://rutube.ru/video/7b536fbf5dacb2abcace042d2a9c930e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8185,9 +8187,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8210,6 +8211,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/14cf4869765e6c8420b800a01d8f7e49/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8219,9 +8221,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8244,6 +8245,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/cb8559e3e339b49028f54d019da00026/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8253,9 +8255,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8280,6 +8281,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f120924c5a3f8b9a9662daab724b16e9/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8289,9 +8291,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8314,6 +8315,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/5ff101264fee401a2789766da957cbf6/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8323,9 +8325,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8348,6 +8349,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8e76f783aa0523c2f347796361232bd1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8357,9 +8359,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8384,6 +8385,7 @@
    "category": "Лайфхаки",
    "video": "https://rutube.ru/video/728a163b1f9df4c014e1374c30aab03f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8393,9 +8395,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8418,6 +8419,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3ab0ad4dc13b250db3bdd24a0964fef3/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8427,9 +8429,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8452,6 +8453,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9a9d70fbf56d55855b8a6811b809dc0f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8461,9 +8463,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8486,6 +8487,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/69d1b1b77f95098d431ef1b32fbd3724/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8495,9 +8497,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8520,6 +8521,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e06912c6d0d9a2a89dfa6a6df5ee2b52/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8529,9 +8531,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8554,6 +8555,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/41327ad61dc5a0232d5d855bb428d25a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8563,9 +8565,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8588,6 +8589,7 @@
    "category": "Интервью",
    "video": "https://rutube.ru/video/ecc10759ded4fffd380b8975cd8e5ad7/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8597,9 +8599,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8622,6 +8623,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/7461064aebd85ae35f20b882558127fb/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8631,9 +8633,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8656,6 +8657,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/2205ab762b44ba620f7b1cef0c5f1d49/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8665,9 +8667,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8690,6 +8691,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/06f3a9b846aa7d0b4fd3683c25edb84c/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8699,9 +8701,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8724,6 +8725,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d59b229476a813445ada7af12e5a2e4b/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8733,9 +8735,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8758,6 +8759,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/4347b763b93b713d6737f242a483abf8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8767,9 +8769,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8792,6 +8793,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/b05a9926fd37b291dfe6f7733fdf2e74/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8801,9 +8803,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8828,6 +8829,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/69719519094b316de680262f9630ada8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8837,9 +8839,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8862,6 +8863,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/28e581a6dbbd552cf3b459ee3ee38fcf/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8871,9 +8873,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8896,6 +8897,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3ccec617e7fd1a8c7c78c1a8fb6974ec/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8905,9 +8907,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8932,6 +8933,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/a4b60b032eab14847ade91754e717d70/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8941,9 +8943,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -8966,6 +8967,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/0e470fce208042c54d15270eed040f3d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -8975,9 +8977,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9000,6 +9001,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/81f542a458fde6f1731f38c4dae1ca17/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9009,9 +9011,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9036,6 +9037,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8f7301236bc8472bad1f864df937a9e8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9045,9 +9047,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9070,6 +9071,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e14d9fd8c46217bf520f6afda1696b05/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9079,9 +9081,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9104,6 +9105,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/d20879261e0ac7b8f734353851c18baf/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9113,9 +9115,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9138,6 +9139,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9ce2683c8d28ec0c2e96c6e6b7f90c8d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9147,9 +9149,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9172,6 +9173,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c9ff42cb47db568ee516b94f49f98d3d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9181,9 +9183,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9206,6 +9207,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/aba463ffa9604093645583058af09021/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9215,9 +9217,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9240,6 +9241,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6978d22699772443ac3575f56eaa8568/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9249,9 +9251,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9274,6 +9275,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/a476ba0a690fd614c77673e329dba9e9/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9283,9 +9285,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9308,6 +9309,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/c719d6acd733a3b68eefd98609327512/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9317,9 +9319,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9342,6 +9343,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/f5ee13fcfd3588532068857155e64cb0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9351,9 +9353,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9376,6 +9377,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/7071a8e38cd3d6997cb5882434d63d0e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9385,9 +9387,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9410,6 +9411,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/05989c8fedf8c33d852d9e43f7a4c484/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9419,9 +9421,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9446,6 +9447,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/db91a217e53ab6d17a9b24e003ac9ad6/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9455,9 +9457,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9480,6 +9481,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/ad4b512d48385c2817df91f201798cda/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9489,9 +9491,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9514,6 +9515,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/50e1fb16b8761573fe506d9193f46e2e/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9523,9 +9525,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9548,6 +9549,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/3dd641c5f8e5585c7ebf058ea1e5e262/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9557,9 +9559,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9584,6 +9585,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/8300b7f15462c57c18f68b5b2c709c81/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9593,9 +9595,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9618,6 +9619,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/b9bc65a93469c3846d8d6d1383b4424a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9627,9 +9629,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9652,6 +9653,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/110af00c8ce7e5137001ae582b859eef/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9661,9 +9663,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9686,6 +9687,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/0466db4eae584dcb2415401c568bc87a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9695,9 +9697,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9720,6 +9721,7 @@
    "category": "Разное",
    "video": "https://rutube.ru/video/8425b078877fecb9e4cde6065bca5acd/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9729,9 +9731,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9754,6 +9755,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6fab0bcbb887510abdbe2bd4d2e676ba/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9763,9 +9765,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9788,6 +9789,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/507f696cf08a72238a1cf23f885f4219/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9797,9 +9799,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9822,6 +9823,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9582d497376feacd4394beb6c08f4a6f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9831,9 +9833,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9856,6 +9857,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/af984f94d4e88ccedf00b55ad79ae3f5/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9865,9 +9867,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9890,6 +9891,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/2cf92f5d4f38a8eb0caa7a9d77f63b1d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9899,9 +9901,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9924,6 +9925,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/bc879f52f76e74b04d4de22750b6fee5/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9933,9 +9935,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9958,6 +9959,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e82e29b082b57956dedcf8308982113a/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -9967,9 +9969,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -9992,6 +9993,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/e8f080b57f4e47248259b049c163beba/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10001,9 +10003,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10026,6 +10027,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/9c07b3ffa326e3088884653642b7fcc8/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10035,9 +10037,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10060,6 +10061,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/675c1d43e6dc871a441f3b08147762f9/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10069,9 +10071,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10094,6 +10095,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/23342db2181cb7feb5f9beeba2694778/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10103,9 +10105,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10128,6 +10129,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/f71555c7a7d1554731df5c773c7f0ba1/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10137,9 +10139,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10162,6 +10163,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/91596aaa9d31a2eecc5e54fa61e08261/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10171,9 +10173,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10196,6 +10197,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/82839b537ad6986497449ee8a51bb141/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10205,9 +10207,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10230,6 +10231,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/7812a78abdc2a216f0a19878c86cd634/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10239,9 +10241,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10264,6 +10265,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/722836db24dfda5ee548ab283ffdc95f/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10273,9 +10275,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10298,6 +10299,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/6687927d95aae627809eb46d4feb63c2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10307,9 +10309,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10332,6 +10333,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/947b7d08b3a5edbeee65a6a6ea716df0/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10341,9 +10343,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10366,6 +10367,7 @@
    "category": "Обучение",
    "video": "https://rutube.ru/video/d4cd2f2cc8f430ea9b1a0d8b60e23414/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10375,9 +10377,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10400,6 +10401,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/cc23e390e8836d5d4d7f00879ec2c11d/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10409,9 +10411,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10434,6 +10435,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/f65cbf188ff6324d4f5d92fccff67f46/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10443,9 +10445,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10468,6 +10469,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/97e551cd57239fd6984f346eeb38a333/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10477,9 +10479,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10502,6 +10503,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/454e3ddf11b7c2ac36da3a34cf42b430/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10511,9 +10513,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10536,6 +10537,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/c05fc7c94a4805d0d23004e1a6530772/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10545,9 +10547,8 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10570,6 +10571,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/be1e1f4dc5b959d96fccca6b061ae409/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10579,9 +10581,8 @@
     "embed": true,
     "official": false,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10604,6 +10605,7 @@
    "category": "Фильмы",
    "video": "https://rutube.ru/video/4c6f4f92427ed701984197e64aad7312/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10613,9 +10615,8 @@
     "embed": true,
     "official": true,
     "licensed": false,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   },
   {
@@ -10638,6 +10639,7 @@
    "category": "Культура",
    "video": "https://rutube.ru/video/03154c7c680db4e3fcbdea4fd0384dd2/",
    "check": {
+    "at": "2026-10-23",
     "exists": true,
     "deleted": false,
     "hidden": false,
@@ -10647,11 +10649,9 @@
     "embed": true,
     "official": true,
     "licensed": true,
-    "ok": true,
-    "why": "",
-    "at": "2026-10-13"
+    "reason": "",
+    "ok": true
    }
   }
- ],
- "updated": "2026-10-15T05:53:58.426Z"
+ ]
 }
