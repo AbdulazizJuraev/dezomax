@@ -307,13 +307,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/sssr-1960.html</loc>
+    <loc>https://dezomax.uz/teg/1960-yillar-film.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/1960-yillar-film.html</loc>
+    <loc>https://dezomax.uz/teg/sssr-1960.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -475,13 +475,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/tur-multfilm.html</loc>
+    <loc>https://dezomax.uz/teg/janr-animation.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/janr-animation.html</loc>
+    <loc>https://dezomax.uz/teg/tur-multfilm.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1591,6 +1591,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/comedy-serial.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/2021-tahlil.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -1670,18 +1676,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/2018-film.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/comedy-serial.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/family-sssr.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1801,6 +1795,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/family-serial.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/crime-qisqa.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -1808,6 +1808,12 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/scifi-orta.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/teg/family-sssr.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1898,12 +1904,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/yil-2026.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/family-serial.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -3547,6 +3547,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/comedy-rossiya.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/rejissyor-vadim-abdrashitov.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -3578,18 +3584,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/rejissyor-igor-talankin.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/family-multfilm.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/comedy-multfilm.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -3956,6 +3950,12 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/rejissyor-georgiy-natanson.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/teg/aktyor-anatoliy-papanov.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -4657,12 +4657,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/comedy-rossiya.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://dezomax.uz/teg/aktyor-zolotuxin-valeriy.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -4765,6 +4759,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/family-multfilm.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/family-2023.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -4772,6 +4772,12 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/family-ozbek-tilida-multfilm.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/teg/comedy-multfilm.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -5186,12 +5192,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/aktyor-koroleva-elena.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/aktyor-anatoliy-papanov.html</loc>
     <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -15674,7 +15674,7 @@
   </url>
   <url>
     <loc>https://dezomax.uz/kino/nu-pogodi-barcha-qismlar.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>

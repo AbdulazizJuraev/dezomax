@@ -3383,11 +3383,20 @@ function autoGroups() {
   const inParts = new Set();
   for (const m of allMovies()) if (Array.isArray(m.parts)) m.parts.forEach(id => inParts.add(id));
   const key = t => String(t || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const cleanOf = t => isRawTitle(t) ? cleanRawTitle(t) : cleanTitle(t);
+  const keyOf = t => key(stripPartNo(cleanOf(t)));
+  // mavjud seriallar: nomi (yoki qismlaridan birining nomi) mos kelsa — yangi qismlar shu serialga qo'shiladi
+  const heads = groupsList().filter(h => !hiddenList.includes(h.id)).map(h => {
+    const keys = new Set([keyOf(h.title?.uz), keyOf(h.groupOrig?.title?.uz)]);
+    for (const id of h.parts) { const p = movieById(id); if (p) keys.add(keyOf(p.title?.uz)); }
+    return { h, keys, main: ` ${keyOf(h.title?.uz)} ` };
+  });
+  const headFor = k => heads.find(x => x.keys.has(k)) || (k.length >= 8 && heads.find(x => x.main.includes(` ${k} `)));
   const map = new Map();
   for (const m of allMovies()) {
     if (inParts.has(m.id) || hiddenList.includes(m.id) || m.ch || m.franchise === 'tahlil') continue;
     const t = m.title?.uz;
-    const clean = isRawTitle(t) ? cleanRawTitle(t) : cleanTitle(t);
+    const clean = cleanOf(t);
     const base = stripPartNo(clean);
     const k = key(base);
     // umumiy nomlar («Video», «#Premyera», «Drama nomi», «Reaksiya bo'lsa keyingi qism…») — turli kinolar, guruhlanmaydi
@@ -3396,9 +3405,17 @@ function autoGroups() {
     map.get(k).push({ m, base });
   }
   const out = [];
-  for (const list of map.values()) {
-    if (list.length < 2 || (list.length < 3 && !list.every(x => x.m.type === 'serial'))) continue;
+  for (const [k, list] of map) {
     list.sort((a, b) => partNoOf(a.m.title?.uz) - partNoOf(b.m.title?.uz) || a.m.id - b.m.id);
+    const hd = headFor(k);
+    if (hd) {   // mavjud serialga qo'shiladi (nomi, turi, posteri o'zgarmaydi)
+      const g = out.find(x => x.head === hd.h.id);
+      if (g) g.ids.push(...list.map(x => x.m.id));
+      else out.push({ head: hd.h.id, name: hd.h.title?.uz, ids: [...hd.h.parts, ...list.map(x => x.m.id)], type: hd.h.type, add: 0 });
+      out.find(x => x.head === hd.h.id).add += list.length;
+      continue;
+    }
+    if (list.length < 2 || (list.length < 3 && !list.every(x => x.m.type === 'serial'))) continue;
     // nom — katta harflarsiz, qo'shtirnoqsiz variant
     const nice = (list.map(x => x.base).find(b => b !== b.toUpperCase()) || list[0].base).replace(/^[^\p{L}\p{N}]+/u, '');
     out.push({ name: nice, ids: list.map(x => x.m.id), type: list.length >= 3 || list.some(x => x.m.type === 'serial') ? 'serial' : list[0].m.type });
@@ -3410,12 +3427,11 @@ async function saveAutoGroups(gs) {
     const byId = new Map(list.map(m => [m.id, m]));
     const get = id => { let m = byId.get(id); if (!m) { const src = baseById().get(id) || movieById(id); if (!src) return null; m = structuredClone(src); list.push(m); byId.set(id, m); } return m; };
     for (const g of gs) {
-      const h = get(g.ids[0]);
+      const h = get(g.head || g.ids[0]);
       if (!h) continue;
       if (!h.groupOrig) h.groupOrig = { title: h.title, type: h.type };
-      h.parts = g.ids;
-      h.title = { uz: g.name, ru: g.name };
-      h.type = g.type;
+      h.parts = [...new Set(g.ids)];
+      if (!g.head) { h.title = { uz: g.name, ru: g.name }; h.type = g.type; }
       // bitta poster — hamma qismga (guruh kartasining posteri o'zgarsa ham shunday: syncGroupPoster)
       syncGroupPoster(h, get);
       h.updatedAt = Date.now();
@@ -3486,7 +3502,8 @@ function renderGroupsView() {
     $('#grpAuto')?.addEventListener('click', e => {
       const gs = autoGroups();
       const parts = gs.reduce((s, g) => s + g.ids.length, 0);
-      if (!confirm(`${gs.length} ta serial (${parts} ta qism) bittadan kartaga yig‘iladi. Masalan: «${gs[0].name}» — ${gs[0].ids.length} qism.\nHar serialning posteri birinchi qismniki bo‘ladi. Davom etamizmi?`)) return;
+      const ext = gs.filter(g => g.head);
+      if (!confirm(`${gs.length - ext.length} ta yangi serial bittadan kartaga yig‘iladi${ext.length ? `, ${ext.length} ta mavjud serialga yangi qismlar qo‘shiladi (${ext.slice(0, 3).map(g => `«${g.name}» +${g.add}`).join(', ')})` : ''}. Jami ${parts} qism.\nHar serialning posteri asosiy kartaniki bo‘ladi. Davom etamizmi?`)) return;
       runAction(e.currentTarget, () => saveAutoGroups(gs), `${gs.length} ta serial guruhlandi — ~1 daqiqada saytda`);
     });
     $('#grpPosters')?.addEventListener('click', e => {
