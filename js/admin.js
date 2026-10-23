@@ -5703,7 +5703,10 @@ async function renderRutubeView() {
     if (rtqQuery.length < 2) return;
     $('#rtqResults').innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
     try {
-      const pages = await Promise.all([1, 2].map(p => rtApi(`search?query=${encodeURIComponent(rtqQuery)}&page=${p}`).catch(() => ({ results: [] }))));
+      // RuTube qidiruvi sahifalab beradi (20 tadan) — 10 sahifagacha (200 ta natija), birinchisida keyingisi bo'lmasa to'xtaydi
+      const first = await rtApi(`search?query=${encodeURIComponent(rtqQuery)}&page=1`).catch(() => ({ results: [] }));
+      const more = first.has_next === false ? [] : await Promise.all([2, 3, 4, 5, 6, 7, 8, 9, 10].map(p => rtApi(`search?query=${encodeURIComponent(rtqQuery)}&page=${p}`).catch(() => ({ results: [] }))));
+      const pages = [first, ...more];
       const seen = new Set();
       rtqResults = pages.flatMap(j => j.results || []).filter(v => v && /^[0-9a-f]{32}$/.test(v.id) && !seen.has(v.id) && seen.add(v.id));
     } catch (ex) { rtqResults = null; $('#rtqResults').innerHTML = `<p class="acc-error">${esc(friendlyError(ex))}</p>`; return; }
@@ -5817,7 +5820,7 @@ function rtqResultsHTML(queue) {
   const hiddenN = rtqResults.length - list.length;
   if (!list.length) return `<p class="acc-muted">Mos video topilmadi${hiddenN ? ` (${hiddenN} tasi filtrlar bilan yashirildi — filtrlarni o‘chirib ko‘ring)` : ''}.</p>`;
   return `<p class="acc-muted rtq-count">${list.length} ta natija${hiddenN ? ` · ${hiddenN} tasi filtrlar bilan yashirildi` : ''}</p>
-    <div class="rtq-grid">${list.slice(0, 40).map(v => {
+    <div class="rtq-grid">${list.map(v => {
       const title = rtCleanTitle(v.title), year = rtYearOf(v.title, v.description);
       const d = rtDupes(v.id, title, year, queue);
       const state = d.same.length ? `<span class="rtq-b is-ok">Saytda bor</span>`
