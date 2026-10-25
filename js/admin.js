@@ -4170,6 +4170,8 @@ async function dcUploadVideo(file, onProg, ctl) {
   let h = 2166136261;
   for (const ch of `${file.name}|${file.size}|${file.lastModified}`) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
   const uploadId = `dm${h.toString(36)}${file.size.toString(36)}`;
+  // ovozi tuzatiladigan formatlar — server faylni vaqtincha o'zida ham saqlaydi (keep=1), tuzatish Telegram'dan qayta yuklamaydi
+  const needFix = /\.(mkv|avi|mov|ts|m2ts|wmv|flv)$/i.test(file.name);
   const meta = await videoMeta(file);
   const status = () => dc('/api/tg/up/status?uploadId=' + uploadId).then(j => j.receivedBytes || 0);
   let off = await status().catch(() => 0), fails = 0;
@@ -4179,7 +4181,7 @@ async function dcUploadVideo(file, onProg, ctl) {
     if (ctl.stop) throw new Error('To‘xtatildi. Shu faylni qayta tanlasangiz, qolgan joyidan davom etadi.');
     let r = null, j = {};
     try {
-      r = await fetch(`${DC_URL}/api/tg/up/chunk?uploadId=${uploadId}&offset=${off}`, {
+      r = await fetch(`${DC_URL}/api/tg/up/chunk?uploadId=${uploadId}&offset=${off}${needFix ? '&keep=1' : ''}`, {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + dcKey(), 'Content-Type': 'application/octet-stream' },
         body: file.slice(off, Math.min(file.size, off + CHUNK))
@@ -4215,7 +4217,7 @@ async function dcUploadVideo(file, onProg, ctl) {
   }
   const sh = await dc('/api/tg/up/share', { method: 'POST', body: JSON.stringify({ id: fin.id }) });
   // MKV/AVI/MOV: ovoz ko'pincha AC3/DTS — brauzer o'qimaydi. Server ovozni AAC'ga o'tkazadi (video o'zgarmaydi)
-  if (/\.(mkv|avi|mov|ts|m2ts|wmv|flv)$/i.test(file.name)) {
+  if (needFix) {
     try {
       const fx = await dcFixAudio(sh.url, (pct, ph) => onProg(pct, 100, 0, 'audio:' + ph));
       if (!fx.same && fx.url) return { ...sh, url: fx.url, thumb: fx.thumb || sh.thumb, fixed: fx.audio || true, audio: fixLangs(fx.tracks) };
