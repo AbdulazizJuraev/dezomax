@@ -801,11 +801,6 @@ function bindForm(old) {
       const rtq = movie._rtq;   // RuTube navbatidan kelgan bo'lsa — saqlangach «tasdiqlangan» deb belgilanadi
       delete movie._rtq;
       if (form._tmdb) movie.tmdb = form._tmdb;
-      // ovozni tuzatishda bir nechta til chiqqan bo'lsa — saytda til tugmalari (js/movie.js langsOf)
-      if (form._audio && movie.video === form._audio.url) {
-        movie.lang = form._audio.main;
-        movie.langs = { ...(movie.langs || {}), ...form._audio.langs };
-      }
       // tezlik: TMDB rasmlari TMDB'ning o'z serveridan ko'rsatiladi (GitHub'ga yuklanmaydi — oldin har kinoga
       // 2 ta qo'shimcha yuklash va saqlash ketardi). Faqat telefondan tanlangan rasm yuklanadi; poster va muqova — parallel.
       const safe = `${String(movie.slug || 'kino').replace(/[^a-z0-9-]+/gi, '-').replace(/^-+|-+$/g, '') || 'kino'}-${movie.id}`;
@@ -912,7 +907,8 @@ function bindParts(form, old) {
           say(ph === 'finish' ? 'DezoCloud faylni saqlayapti…' : String(ph).startsWith('audio:') ? fixNote(d, ph.slice(6)) : `${f.name}: ${Math.floor(d / t * 100)}% · ${fmtSize(d)} / ${fmtSize(t)}`);
         }, r._ctl);
         url.value = res.url;
-        say(`✓ Yuklandi: ${f.name}${res.fixed ? ' (ovoz moslashtirildi)' : ''}${partId ? ' — saqlaganda shu qism videosi almashadi' : ''}${res.fixErr ? ` ⚠ ${res.fixErr}` : ''}`, !!res.fixErr);
+        say(`✓ Yuklandi: ${f.name}${partId ? ' — saqlaganda shu qism videosi almashadi' : ''}${res.fixJob ? `. ${FIX_BG}` : ''}${res.fixErr ? ` ⚠ ${res.fixErr}` : ''}`, !!res.fixErr);
+        if (res.fixJob) fixWatch(res.fixJob, Object.assign(say, { el: note }));
       } catch (e) {
         say(e.message || 'Yuklab bo‘lmadi', true);
         bar.style.width = '0';
@@ -4217,38 +4213,36 @@ async function dcUploadVideo(file, onProg, ctl) {
   }
   const sh = await dc('/api/tg/up/share', { method: 'POST', body: JSON.stringify({ id: fin.id }) });
   // MKV/AVI/MOV: ovoz ko'pincha AC3/DTS — brauzer o'qimaydi. Server ovozni AAC'ga o'tkazadi (video o'zgarmaydi)
+  // fonda: kutilmaydi — server tugagach saytdagi havolani o'zi almashtiradi (apply), tillarni ham qo'shadi
   if (needFix) {
-    try {
-      const fx = await dcFixAudio(sh.url, (pct, ph) => onProg(pct, 100, 0, 'audio:' + ph));
-      if (!fx.same && fx.url) return { ...sh, url: fx.url, thumb: fx.thumb || sh.thumb, fixed: fx.audio || true, audio: fixLangs(fx.tracks) };
-    } catch (e) { return { ...sh, fixErr: e.message }; }
+    try { return { ...sh, fixJob: (await dc('/api/tg/fixaudio', { method: 'POST', body: JSON.stringify({ url: sh.url, apply: true }) })).job }; }
+    catch (e) { return { ...sh, fixErr: e.message }; }
   }
   return sh;
 }
 
-/* Ovozni tuzatish: DezoCloud serveri (ffmpeg) videoni o'zgartirmay, ovozni AAC'ga o'tkazadi va yangi havola beradi.
-   onProg(foiz, bosqich) — bosqich: navbatda | tekshirish | ovoz | yuklash | saqlash */
-async function dcFixAudio(url, onProg) {
-  const { job } = await dc('/api/tg/fixaudio', { method: 'POST', body: JSON.stringify({ url }) });
-  for (let fails = 0; ;) {
-    await dcSleep(3000);
+/* Fondagi ovoz tuzatish holatini yozuvda ko'rsatib turadi (kutish shart emas — sahifadan ketsa ham server tugatadi) */
+async function fixWatch(job, say) {
+  const alive = () => say.el ? say.el.isConnected : true;
+  for (let fails = 0; alive();) {
+    await dcSleep(5000);
     let st;
     try { st = await dc('/api/tg/fixaudio?job=' + job); fails = 0; }
-    catch (e) { if (e.status || ++fails > 10) throw e; continue; }
-    if (st.error) throw new Error('Ovozni tuzatib bo‘lmadi: ' + st.error);
-    if (st.phase === 'tayyor') return st;
+    catch (e) { if (e.status === 404 || ++fails > 6) return; continue; }
+    if (st.error) return say(`⚠ Ovozni tuzatib bo‘lmadi: ${st.error}`, true);
+    if (st.phase === 'tayyor') {
+      return say(st.same ? '✓ Ovoz brauzerga mos — o‘zgartirish shart emas'
+        : `✓ Ovoz tuzatildi${(st.tracks || []).length > 1 ? ` (${st.tracks.length} xil til — saytda til tugmalari)` : ''}. Saytdagi havola o‘zi almashtirildi.`);
+    }
     fixLast = st;
-    onProg(st.pct || 0, st.phase);
+    say(fixNote(st.pct || 0, st.phase) + ' — kutmang, saqlayvering');
   }
 }
+const FIX_BG = '⏳ Ovoz fonda tuzatiladi — kutmang, saqlayvering. Tayyor bo‘lgach saytdagi havola o‘zi almashadi.';
 let fixLast = {};   // oxirgi holat: qolgan vaqt (eta) va qaysi til (step) — fixNote ko'rsatadi
 const FIX_PHASE = { navbatda: 'navbatda (oldingi video tugashini kutyapti)', tekshirish: 'fayl tekshirilmoqda', olish: 'fayl serverga olinmoqda', ovoz: 'ovoz AAC’ga o‘tkazilmoqda', yuklash: 'Telegram’ga saqlanmoqda' };
 const fixEta = s => s == null ? '' : s < 60 ? ' · 1 daqiqadan kam qoldi' : ` · ~${Math.ceil(s / 60)} daqiqa qoldi`;
 const fixNote = (pct, ph) => `🔊 Ovoz moslashtirilmoqda${fixLast.step ? ` (${fixLast.step})` : ''}: ${FIX_PHASE[ph] || ph}${pct ? ` · ${pct}%` : ''}${fixEta(fixLast.eta)}`;
-// bir nechta til: asosiysi — «To‘liq kino havolasi», qolganlari — m.langs (saytda pleyer tepasida bayroqlar)
-const fixLangs = tracks => tracks && tracks.length > 1
-  ? { url: tracks[0].url, main: tracks[0].code, langs: Object.fromEntries(tracks.slice(1).map(t => [t.code, t.url])), names: tracks.map(t => `${t.code.toUpperCase()}${t.title ? ` «${t.title}»` : ''}`).join(', ') }
-  : null;
 
 function bindVideoUpload(form) {
   const inp = $('#admVupFile'), note = $('#admVupNote'), prog = $('#admVupProg'), bar = prog.querySelector('i');
@@ -4284,10 +4278,9 @@ function bindVideoUpload(form) {
         form.titleUz.value = file.name.replace(/\.[^.]+$/, '').replace(/[._]+/g, ' ').trim();
         form.titleUz.dispatchEvent(new Event('input'));
       }
-      form._audio = res.audio || null;
-      setNote(`✓ Yuklandi: ${file.name}${res.fixed ? ' (ovoz brauzer uchun moslashtirildi)' : ''}` +
-        `${res.audio ? `. ${Object.keys(res.audio.langs).length + 1} xil til: ${res.audio.names} — saytda til tugmalari chiqadi` : ''}. Havola qo‘yildi — endi pastdagi tugma bilan saqlang.` +
-        (res.fixErr ? ` ⚠ ${res.fixErr} — «Ovozni tuzatish» tugmasini keyinroq bosing.` : ''), !!res.fixErr);
+      setNote(`✓ Yuklandi: ${file.name}. Havola qo‘yildi — endi pastdagi tugma bilan saqlang.` +
+        (res.fixJob ? ` ${FIX_BG}` : '') + (res.fixErr ? ` ⚠ ${res.fixErr} — «Ovozni tuzatish» tugmasini keyinroq bosing.` : ''), !!res.fixErr);
+      if (res.fixJob) { const say = Object.assign((t, err) => setNote(t, err), { el: note }); fixWatch(res.fixJob, say); }
     } catch (e) {
       if (e.status === 401) { pending = file; keyBox.hidden = false; }
       setNote(e.message || 'Yuklab bo‘lmadi', true);
@@ -4306,21 +4299,13 @@ function bindVideoUpload(form) {
   showFix();
   fixBtn.addEventListener('click', async () => {
     if (!dcKey()) { keyBox.hidden = false; pass.focus(); return setNote('Avval DezoCloud’ga ulaning — parol bir marta so‘raladi', true); }
-    fixBtn.disabled = true; $('#admSubmit').disabled = true; prog.hidden = false; bar.style.width = '0';
+    // fonda: server tugagach saytdagi havolani o'zi almashtiradi — formani yopib, boshqa ishga o'tsa bo'ladi
+    fixBtn.disabled = true;
     try {
-      const fx = await dcFixAudio(form.video.value.trim(), (pct, ph) => { bar.style.width = pct + '%'; setNote(fixNote(pct, ph)); });
-      bar.style.width = '100%';
-      if (fx.same) setNote(`Ovoz allaqachon brauzerga mos (${fx.audio || 'AAC'}) — o‘zgartirish shart emas.`);
-      else {
-        form.video.value = fx.url;
-        form.video.dispatchEvent(new Event('input'));
-        form._audio = fixLangs(fx.tracks);
-        setNote(form._audio
-          ? `✓ Ovoz tuzatildi: ${(fx.tracks || []).length} xil til (${form._audio.names}). Saytda til tugmalari chiqadi — endi «Saqlash» ni bosing.`
-          : `✓ Ovoz tuzatildi (${fx.audio} → AAC). Yangi havola qo‘yildi — endi «Saqlash» ni bosing.`);
-      }
-    } catch (e) { setNote(e.message, true); bar.style.width = '0'; }
-    fixBtn.disabled = false; $('#admSubmit').disabled = false;
+      const { job } = await dc('/api/tg/fixaudio', { method: 'POST', body: JSON.stringify({ url: form.video.value.trim(), apply: true }) });
+      setNote(FIX_BG);
+      fixWatch(job, Object.assign((t, err) => setNote(t, err), { el: note }));
+    } catch (e) { setNote(e.message, true); fixBtn.disabled = false; }
   });
   stopBtn.addEventListener('click', () => { if (ctl) { ctl.stop = true; setNote('To‘xtatilmoqda…'); } });
   const connect = async () => {
