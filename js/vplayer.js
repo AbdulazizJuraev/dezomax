@@ -21,6 +21,22 @@ function destroyVideo() {
   vpActive = null;
 }
 
+/* Ovoz tilini almashtirish (js/movie.js bayroqlari): video ko'rilayotgan bo'lsa — havola almashadi,
+   vaqt, tezlik va holat saqlanadi (reklama ham, muqova ham qayta chiqmaydi). Hali boshlanmagan bo'lsa — false */
+function vpSwapSrc(url) {
+  const a = vpActive;
+  if (!a || a.hls || !a.video.currentSrc || a.video.readyState < 1) return false;
+  const video = a.video, at = video.currentTime, paused = video.paused, rate = video.playbackRate;
+  video.src = url;
+  a.url = url;
+  video.addEventListener('loadedmetadata', () => {
+    video.currentTime = at;
+    video.playbackRate = rate;
+    if (!paused) video.play().catch(() => {});
+  }, { once: true });
+  return true;
+}
+
 function loadHlsLib() {
   if (window.Hls) return Promise.resolve();
   return new Promise((resolve, reject) => {

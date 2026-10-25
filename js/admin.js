@@ -801,6 +801,11 @@ function bindForm(old) {
       const rtq = movie._rtq;   // RuTube navbatidan kelgan bo'lsa — saqlangach «tasdiqlangan» deb belgilanadi
       delete movie._rtq;
       if (form._tmdb) movie.tmdb = form._tmdb;
+      // ovozni tuzatishda bir nechta til chiqqan bo'lsa — saytda til tugmalari (js/movie.js langsOf)
+      if (form._audio && movie.video === form._audio.url) {
+        movie.lang = form._audio.main;
+        movie.langs = { ...(movie.langs || {}), ...form._audio.langs };
+      }
       // tezlik: TMDB rasmlari TMDB'ning o'z serveridan ko'rsatiladi (GitHub'ga yuklanmaydi — oldin har kinoga
       // 2 ta qo'shimcha yuklash va saqlash ketardi). Faqat telefondan tanlangan rasm yuklanadi; poster va muqova — parallel.
       const safe = `${String(movie.slug || 'kino').replace(/[^a-z0-9-]+/gi, '-').replace(/^-+|-+$/g, '') || 'kino'}-${movie.id}`;
@@ -4213,7 +4218,7 @@ async function dcUploadVideo(file, onProg, ctl) {
   if (/\.(mkv|avi|mov|ts|m2ts|wmv|flv)$/i.test(file.name)) {
     try {
       const fx = await dcFixAudio(sh.url, (pct, ph) => onProg(pct, 100, 0, 'audio:' + ph));
-      if (!fx.same && fx.url) return { ...sh, url: fx.url, thumb: fx.thumb || sh.thumb, fixed: fx.audio || true };
+      if (!fx.same && fx.url) return { ...sh, url: fx.url, thumb: fx.thumb || sh.thumb, fixed: fx.audio || true, audio: fixLangs(fx.tracks) };
     } catch (e) { return { ...sh, fixErr: e.message }; }
   }
   return sh;
@@ -4230,11 +4235,18 @@ async function dcFixAudio(url, onProg) {
     catch (e) { if (e.status || ++fails > 10) throw e; continue; }
     if (st.error) throw new Error('Ovozni tuzatib bo‘lmadi: ' + st.error);
     if (st.phase === 'tayyor') return st;
+    fixLast = st;
     onProg(st.pct || 0, st.phase);
   }
 }
-const FIX_PHASE = { navbatda: 'navbatda', tekshirish: 'fayl tekshirilmoqda', ovoz: 'ovoz AAC’ga o‘tkazilmoqda', yuklash: 'Telegram’ga saqlanmoqda', saqlash: 'havola tayyorlanmoqda' };
-const fixNote = (pct, ph) => `🔊 Ovoz moslashtirilmoqda: ${FIX_PHASE[ph] || ph}${pct ? ` · ${pct}%` : ''}`;
+let fixLast = {};   // oxirgi holat: qolgan vaqt (eta) va qaysi til (step) — fixNote ko'rsatadi
+const FIX_PHASE = { navbatda: 'navbatda (oldingi video tugashini kutyapti)', tekshirish: 'fayl tekshirilmoqda', olish: 'fayl serverga olinmoqda', ovoz: 'ovoz AAC’ga o‘tkazilmoqda', yuklash: 'Telegram’ga saqlanmoqda' };
+const fixEta = s => s == null ? '' : s < 60 ? ' · 1 daqiqadan kam qoldi' : ` · ~${Math.ceil(s / 60)} daqiqa qoldi`;
+const fixNote = (pct, ph) => `🔊 Ovoz moslashtirilmoqda${fixLast.step ? ` (${fixLast.step})` : ''}: ${FIX_PHASE[ph] || ph}${pct ? ` · ${pct}%` : ''}${fixEta(fixLast.eta)}`;
+// bir nechta til: asosiysi — «To‘liq kino havolasi», qolganlari — m.langs (saytda pleyer tepasida bayroqlar)
+const fixLangs = tracks => tracks && tracks.length > 1
+  ? { url: tracks[0].url, main: tracks[0].code, langs: Object.fromEntries(tracks.slice(1).map(t => [t.code, t.url])), names: tracks.map(t => `${t.code.toUpperCase()}${t.title ? ` «${t.title}»` : ''}`).join(', ') }
+  : null;
 
 function bindVideoUpload(form) {
   const inp = $('#admVupFile'), note = $('#admVupNote'), prog = $('#admVupProg'), bar = prog.querySelector('i');
@@ -4270,7 +4282,9 @@ function bindVideoUpload(form) {
         form.titleUz.value = file.name.replace(/\.[^.]+$/, '').replace(/[._]+/g, ' ').trim();
         form.titleUz.dispatchEvent(new Event('input'));
       }
-      setNote(`✓ Yuklandi: ${file.name}${res.fixed ? ' (ovoz brauzer uchun moslashtirildi)' : ''}. Havola qo‘yildi — endi pastdagi tugma bilan saqlang.` +
+      form._audio = res.audio || null;
+      setNote(`✓ Yuklandi: ${file.name}${res.fixed ? ' (ovoz brauzer uchun moslashtirildi)' : ''}` +
+        `${res.audio ? `. ${Object.keys(res.audio.langs).length + 1} xil til: ${res.audio.names} — saytda til tugmalari chiqadi` : ''}. Havola qo‘yildi — endi pastdagi tugma bilan saqlang.` +
         (res.fixErr ? ` ⚠ ${res.fixErr} — «Ovozni tuzatish» tugmasini keyinroq bosing.` : ''), !!res.fixErr);
     } catch (e) {
       if (e.status === 401) { pending = file; keyBox.hidden = false; }
@@ -4298,7 +4312,10 @@ function bindVideoUpload(form) {
       else {
         form.video.value = fx.url;
         form.video.dispatchEvent(new Event('input'));
-        setNote(`✓ Ovoz tuzatildi (${fx.audio} → AAC). Yangi havola qo‘yildi — endi «Saqlash» ni bosing.`);
+        form._audio = fixLangs(fx.tracks);
+        setNote(form._audio
+          ? `✓ Ovoz tuzatildi: ${(fx.tracks || []).length} xil til (${form._audio.names}). Saytda til tugmalari chiqadi — endi «Saqlash» ni bosing.`
+          : `✓ Ovoz tuzatildi (${fx.audio} → AAC). Yangi havola qo‘yildi — endi «Saqlash» ni bosing.`);
       }
     } catch (e) { setNote(e.message, true); bar.style.width = '0'; }
     fixBtn.disabled = false; $('#admSubmit').disabled = false;

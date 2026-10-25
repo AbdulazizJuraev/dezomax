@@ -379,7 +379,17 @@ const LANG_NAMES = {
   ru: { uz: 'Rus tilida', ru: 'На русском' },
   tr: { uz: 'Turk tilida', ru: 'На турецком' },
   hi: { uz: 'Hind tilida', ru: 'На хинди' },
-  orig: { uz: 'Asl nusxa', ru: 'Оригинал' }
+  orig: { uz: 'Asl nusxa', ru: 'Оригинал' },
+  // ovozni tuzatishda MKV yo'laklaridan chiqadigan boshqa tillar (bayrog'i yo'q — kod yoziladi)
+  kk: { uz: 'Qozoq tilida', ru: 'На казахском' }, ky: { uz: 'Qirg‘iz tilida', ru: 'На киргизском' },
+  tg: { uz: 'Tojik tilida', ru: 'На таджикском' }, tk: { uz: 'Turkman tilida', ru: 'На туркменском' },
+  az: { uz: 'Ozarbayjon tilida', ru: 'На азербайджанском' }, uk: { uz: 'Ukrain tilida', ru: 'На украинском' },
+  de: { uz: 'Nemis tilida', ru: 'На немецком' }, fr: { uz: 'Fransuz tilida', ru: 'На французском' },
+  es: { uz: 'Ispan tilida', ru: 'На испанском' }, it: { uz: 'Italyan tilida', ru: 'На итальянском' },
+  pt: { uz: 'Portugal tilida', ru: 'На португальском' }, ja: { uz: 'Yapon tilida', ru: 'На японском' },
+  ko: { uz: 'Koreys tilida', ru: 'На корейском' }, zh: { uz: 'Xitoy tilida', ru: 'На китайском' },
+  ar: { uz: 'Arab tilida', ru: 'На арабском' }, fa: { uz: 'Fors tilida', ru: 'На персидском' },
+  pl: { uz: 'Polyak tilida', ru: 'На польском' }
 };
 
 /* ---------- Kartochka ---------- */

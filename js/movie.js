@@ -320,9 +320,12 @@ function pickLang(list) {
 
 function langsHTML(list, active) {
   if (!list.length) return '';
-  return `<div class="player-langs" role="group" aria-label="${LANG === 'ru' ? 'Язык озвучки' : 'Ovoz tili'}">${list.map(l => {
-    const name = (LANG_NAMES[l.code] || {})[LANG] || l.code.toUpperCase();
-    return `<button type="button" class="player-lang${l === active ? ' is-active' : ''}" data-lang="${esc(l.code)}" data-src="${esc(l.url)}" title="${esc(name)}" aria-label="${esc(name)}" aria-pressed="${l === active}">${LANG_FLAGS[l.code] || `<b>${esc(l.code.toUpperCase())}</b>`}</button>`;
+  // 2 va undan ko'p til — ko'rinadigan yozuv: «🔊 3 xil tilda — almashtirish mumkin»
+  const note = list.length > 1 ? `<span class="player-langs-note">🔊 ${LANG === 'ru' ? `${list.length} языка озвучки — можно переключать` : `${list.length} xil tilda — almashtirish mumkin`}</span>` : '';
+  return `<div class="player-langs" role="group" aria-label="${LANG === 'ru' ? 'Язык озвучки' : 'Ovoz tili'}">${note}${list.map(l => {
+    const base = l.code.replace(/\d+$/, ''), n = l.code.slice(base.length);
+    const name = ((LANG_NAMES[l.code] || LANG_NAMES[base] || {})[LANG] || base.toUpperCase()) + (n ? ` ${n}` : '');
+    return `<button type="button" class="player-lang${l === active ? ' is-active' : ''}" data-lang="${esc(l.code)}" data-src="${esc(l.url)}" title="${esc(name)}" aria-label="${esc(name)}" aria-pressed="${l === active}">${LANG_FLAGS[l.code] || LANG_FLAGS[base] || `<b>${esc(base.toUpperCase())}</b>`}${n ? `<i class="player-lang-n">${n}</i>` : ""}</button>`;
   }).join('')}</div>`;
 }
 
@@ -648,7 +651,12 @@ function renderMovie() {
       flags.forEach(x => { x.classList.toggle('is-active', x === f); x.setAttribute('aria-pressed', x === f); });
       try { localStorage.setItem(AUDIO_KEY, f.dataset.lang); } catch (e) {}
       const film = tabs.find(x => x.dataset.key === 'film');
-      if (film) { film.dataset.src = f.dataset.src; selectTab(film); } else mountPlayer(f.dataset.src);
+      if (film) film.dataset.src = f.dataset.src;
+      // film ko'rilayotgan bo'lsa — DezoCloud videosi joyida almashadi (vaqt saqlanadi), aks holda pleyer qayta quriladi
+      const dcTok = (f.dataset.src.match(/^https?:\/\/(?:www\.)?dezocloud\.uz\/s\/([\w-]+)/i) || [])[1];
+      const filmOn = !film || film.classList.contains('is-active');
+      if (dcTok && filmOn && /dezocloud\.uz\/(s|v)\//.test(window.dzxNowUrl || '') && typeof vpSwapSrc === 'function' && vpSwapSrc(`https://dezocloud.uz/v/${dcTok}`)) window.dzxNowUrl = f.dataset.src;
+      else if (film) selectTab(film); else mountPlayer(f.dataset.src);
       syncOfficial(f.dataset.src);
     }));
   }
