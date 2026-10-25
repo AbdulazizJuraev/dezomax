@@ -573,7 +573,8 @@ function formHTML(m = {}) {
 
       ${section('list', 'Qismlar (serial)', `
         <p class="adm-hint">Serial yoki ko‘p qismli kino: 1-qism — yuqoridagi «To‘liq kino havolasi». Keyingi qismlarni shu yerga qo‘shing — saytda bitta karta, ichida «1-qism, 2-qism…» tugmalari chiqadi.</p>
-        ${(m.parts || []).length > 1 ? `<div class="adm-parts-old">${m.parts.map((id, i) => `<span class="adm-chip-sm">${i + 1}-qism${id === m.id ? ' (shu kino)' : ` · ID ${id}`}</span>`).join('')}</div>` : ''}
+        ${(m.parts || []).length > 1 ? '<p class="adm-hint">1-qism (shu kino) — yuqoridagi havola. Mavjud qismning videosini almashtirish: yangi havola qo‘ying yoki ⬆ bilan yuklang; ✕ — qismni seriadan olib tashlaydi (saytdan yashiriladi).</p>' : ''}
+        <div class="adm-parts" id="admPartsOld"></div>
         <div class="adm-parts" id="admParts"></div>
         <button class="btn btn-ghost btn-sm" type="button" id="admPartAdd">+ Qism qo‘shish</button>
       `, 'bir yo‘la bir nechta qism')}
@@ -784,6 +785,11 @@ function bindForm(old) {
       const r = checkVideoUrl(u);
       if (!r.ok) return showErr('Qism havolasi: ' + r.msg);
     }
+    const partEdits = form._partsOld ? form._partsOld() : [];
+    for (const e of partEdits) {
+      const r = e.url ? checkVideoUrl(e.url) : { ok: true };
+      if (!r.ok) return showErr(`Qism (ID ${e.id}) havolasi: ${r.msg}`);
+    }
     if (form._partsBusy()) return showErr('Qism videosi hali yuklanmoqda — tugashini kuting');
 
     const btn = $('#admSubmit');
@@ -811,9 +817,10 @@ function bindForm(old) {
       if (tmImg(movie.cover)) movie.hposter = movie.cover.replace(/\/t\/p\/w\d+\//, '/t/p/w1280/');
       if (tmImg(movie.poster)) movie.vposter = movie.poster.replace(/\/t\/p\/w\d+\//, '/t/p/w780/');
 
-      await saveCustom(list => {
+      await saveCustom((list, hidden) => {
         const i = list.findIndex(x => x.id === movie.id);
         if (i > -1) list[i] = movie; else list.unshift(movie);
+        editParts(list, hidden, movie, partEdits);
         if (partUrls.length) addParts(list, movie, partUrls);
         // serial kartasining posteri o'zgarsa — barcha qismlarga ham
         syncGroupPoster(movie, id => { let m = list.find(x => x.id === id); if (!m) { const src = baseById().get(id); if (!src) return null; m = structuredClone(src); list.push(m); } return m; });
@@ -837,19 +844,30 @@ function bindForm(old) {
    Yangi qismlar alohida kino yozuvlari bo'ladi (nomi «<nom> N-qism», boshqa ma'lumotlari shu kinodan),
    shu kino esa guruh kartasi: parts = [o'zi, 2-qism, 3-qism...] — «Guruhlar» bo'limidagi bilan bir xil tuzilma. */
 function bindParts(form, old) {
-  const box = $('#admParts'), add = $('#admPartAdd');
-  const base = (old.parts || []).length > 1 ? old.parts.length : 1;
+  const box = $('#admParts'), add = $('#admPartAdd'), oldBox = $('#admPartsOld');
   form._parts = () => [...box.querySelectorAll('.adm-part input.acc-input')].map(i => i.value.trim()).filter(Boolean);
+  // mavjud qismlar: { id, url } (video almashtirilgan) yoki { id, del: true } (seriadan olib tashlangan)
+  form._partsOld = () => [...oldBox.querySelectorAll('.adm-part')].flatMap(r => {
+    const id = Number(r.dataset.part);
+    if (r._del) return [{ id, del: true }];
+    const url = r.querySelector('input.acc-input').value.trim();
+    return url && url !== r._was ? [{ id, url }] : [];
+  });
   let busy = 0;
   form._partsBusy = () => busy > 0;
   const pof = typeof PART_OF !== 'undefined' && old.id ? PART_OF.get(old.id) : null;
   if (pof) {
-    box.innerHTML = `<p class="adm-hint">Bu kino — ID ${pof.parent} guruhining ${pof.n}-qismi. Yangi qism qo‘shish uchun guruh kartasini (1-qism) oching.</p>`;
+    box.innerHTML = `<p class="adm-hint">Bu kino — ID ${pof.parent} guruhining ${pof.n}-qismi. Qismlarni o‘zgartirish uchun guruh kartasini (1-qism) oching.</p>`;
     add.hidden = true;
     return;
   }
-  const renum = () => box.querySelectorAll('.adm-part > b').forEach((b, i) => { b.textContent = `${base + i + 1}-qism`; });
-  add.addEventListener('click', () => {
+  const liveOld = () => [...oldBox.querySelectorAll('.adm-part')].filter(r => !r._del).length;
+  const renum = () => {
+    let n = 1;
+    oldBox.querySelectorAll('.adm-part').forEach(r => { if (!r._del) r.querySelector('b').textContent = `${++n}-qism`; });
+    box.querySelectorAll('.adm-part > b').forEach((b, i) => { b.textContent = `${liveOld() + i + 2}-qism`; });
+  };
+  const makeRow = (value, partId) => {
     const r = document.createElement('div');
     r.className = 'adm-part';
     r.innerHTML = `<b></b><input class="acc-input" placeholder="Video havolasi yoki yonidagi tugma bilan yuklang" inputmode="url" autocomplete="off">
@@ -859,7 +877,19 @@ function bindParts(form, old) {
     const url = r.querySelector('input.acc-input'), file = r.querySelector('input[type=file]'), note = r.querySelector('small');
     const prog = r.querySelector('.adm-vup-prog'), bar = prog.querySelector('i');
     const say = (t, err) => { note.hidden = !t; note.textContent = t || ''; note.classList.toggle('is-error', !!err); };
-    r.querySelector('.adm-part-del').addEventListener('click', () => { if (r._ctl) r._ctl.stop = true; r.remove(); renum(); });
+    url.value = value || '';
+    if (partId) { r.dataset.part = partId; r._was = url.value; say(`ID ${partId}`); }
+    r.querySelector('.adm-part-del').addEventListener('click', () => {
+      if (r._ctl) r._ctl.stop = true;
+      if (!partId) { r.remove(); renum(); return; }
+      // mavjud qism: saqlashgacha bekor qilsa bo'ladi
+      r._del = !r._del;
+      r.classList.toggle('is-del', r._del);
+      url.disabled = file.disabled = r._del;
+      r.querySelector('b').textContent = r._del ? 'O‘chiriladi' : '';
+      say(r._del ? `ID ${partId} — saqlaganda seriadan olib tashlanadi (✕ ni qayta bossangiz bekor bo‘ladi)` : `ID ${partId}`);
+      renum();
+    });
     file.addEventListener('change', async () => {
       const f = file.files[0];
       file.value = '';
@@ -876,7 +906,7 @@ function bindParts(form, old) {
           say(ph === 'finish' ? 'DezoCloud faylni saqlayapti…' : `${f.name}: ${Math.floor(d / t * 100)}% · ${fmtSize(d)} / ${fmtSize(t)}`);
         }, r._ctl);
         url.value = res.url;
-        say(`✓ Yuklandi: ${f.name}`);
+        say(`✓ Yuklandi: ${f.name}${partId ? ' — saqlaganda shu qism videosi almashadi' : ''}`);
       } catch (e) {
         say(e.message || 'Yuklab bo‘lmadi', true);
         bar.style.width = '0';
@@ -884,10 +914,45 @@ function bindParts(form, old) {
         busy--; file.disabled = false; r._ctl = null;
       }
     });
+    return r;
+  };
+  for (const id of (old.parts || []).length > 1 ? old.parts : []) {
+    if (id === old.id) continue;
+    oldBox.appendChild(makeRow(currentMovie(id)?.video || '', id));
+  }
+  renum();
+  add.addEventListener('click', () => {
+    const r = makeRow('');
     box.appendChild(r);
     renum();
-    url.focus();
+    r.querySelector('input.acc-input').focus();
   });
+}
+
+/* Mavjud qismlar: videoni almashtirish va seriadan olib tashlash (olib tashlangan qism o'chirilmaydi — saytdan yashiriladi).
+   Qolganlarning «N-qism» nomlari qayta raqamlanadi */
+function editParts(list, hidden, head, edits) {
+  if (!edits.length || (head.parts || []).length < 2) return;
+  const get = id => { let m = list.find(x => x.id === id); if (!m) { const src = baseById().get(id); if (!src) return null; m = structuredClone(src); list.push(m); } return m; };
+  for (const e of edits) {
+    if (e.del) {
+      head.parts = head.parts.filter(id => id !== e.id);
+      if (!hidden.includes(e.id)) hidden.push(e.id);
+    } else {
+      const p = get(e.id);
+      if (p) { p.video = e.url; p.updatedAt = Date.now(); }
+    }
+  }
+  head.parts.forEach((id, i) => {
+    if (id === head.id) return;
+    const p = get(id);
+    if (!p || !/ \d+-qism$/.test(p.title?.uz || '')) return;
+    const no = i + 1;
+    if (p.title.uz.endsWith(` ${no}-qism`)) return;
+    p.title = { ...p.title, uz: p.title.uz.replace(/ \d+-qism$/, ` ${no}-qism`), ...(p.title.ru ? { ru: p.title.ru.replace(/ \d+ часть$/, ` ${no} часть`) } : {}) };
+    p.updatedAt = Date.now();
+  });
+  if (head.parts.length < 2) { delete head.parts; delete head.groupOrig; }
 }
 
 function addParts(list, head, urls) {
