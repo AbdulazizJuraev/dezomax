@@ -561,6 +561,7 @@ function formHTML(m = {}) {
           </div>
           <div class="adm-vup-prog" id="admVupProg" hidden><i></i></div>
           <button class="acc-link" type="button" id="admVupStop" hidden>To‘xtatish</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="admFixAudio" hidden title="Saytda video ovozsiz chiqsa (MKV: AC3/DTS ovoz) — server ovozni AAC'ga o'tkazib, havolani almashtiradi">🔊 Ovozni tuzatish</button>
         </div>
         <details class="adm-more-q"${(m.videos || []).length ? ' open' : ''}>
           <summary>Qo‘shimcha sifatlar (.mp4 uchun)</summary>
@@ -903,10 +904,10 @@ function bindParts(form, old) {
       try {
         const res = await dcUploadVideo(f, (d, t, sp, ph) => {
           bar.style.width = (d / t * 100).toFixed(1) + '%';
-          say(ph === 'finish' ? 'DezoCloud faylni saqlayapti…' : `${f.name}: ${Math.floor(d / t * 100)}% · ${fmtSize(d)} / ${fmtSize(t)}`);
+          say(ph === 'finish' ? 'DezoCloud faylni saqlayapti…' : String(ph).startsWith('audio:') ? fixNote(d, ph.slice(6)) : `${f.name}: ${Math.floor(d / t * 100)}% · ${fmtSize(d)} / ${fmtSize(t)}`);
         }, r._ctl);
         url.value = res.url;
-        say(`✓ Yuklandi: ${f.name}${partId ? ' — saqlaganda shu qism videosi almashadi' : ''}`);
+        say(`✓ Yuklandi: ${f.name}${res.fixed ? ' (ovoz moslashtirildi)' : ''}${partId ? ' — saqlaganda shu qism videosi almashadi' : ''}${res.fixErr ? ` ⚠ ${res.fixErr}` : ''}`, !!res.fixErr);
       } catch (e) {
         say(e.message || 'Yuklab bo‘lmadi', true);
         bar.style.width = '0';
@@ -4207,8 +4208,33 @@ async function dcUploadVideo(file, onProg, ctl) {
       await dcSleep(5000 * (i + 1));
     }
   }
-  return dc('/api/tg/up/share', { method: 'POST', body: JSON.stringify({ id: fin.id }) });
+  const sh = await dc('/api/tg/up/share', { method: 'POST', body: JSON.stringify({ id: fin.id }) });
+  // MKV/AVI/MOV: ovoz ko'pincha AC3/DTS — brauzer o'qimaydi. Server ovozni AAC'ga o'tkazadi (video o'zgarmaydi)
+  if (/\.(mkv|avi|mov|ts|m2ts|wmv|flv)$/i.test(file.name)) {
+    try {
+      const fx = await dcFixAudio(sh.url, (pct, ph) => onProg(pct, 100, 0, 'audio:' + ph));
+      if (!fx.same && fx.url) return { ...sh, url: fx.url, thumb: fx.thumb || sh.thumb, fixed: fx.audio || true };
+    } catch (e) { return { ...sh, fixErr: e.message }; }
+  }
+  return sh;
 }
+
+/* Ovozni tuzatish: DezoCloud serveri (ffmpeg) videoni o'zgartirmay, ovozni AAC'ga o'tkazadi va yangi havola beradi.
+   onProg(foiz, bosqich) — bosqich: navbatda | tekshirish | ovoz | yuklash | saqlash */
+async function dcFixAudio(url, onProg) {
+  const { job } = await dc('/api/tg/fixaudio', { method: 'POST', body: JSON.stringify({ url }) });
+  for (let fails = 0; ;) {
+    await dcSleep(3000);
+    let st;
+    try { st = await dc('/api/tg/fixaudio?job=' + job); fails = 0; }
+    catch (e) { if (e.status || ++fails > 10) throw e; continue; }
+    if (st.error) throw new Error('Ovozni tuzatib bo‘lmadi: ' + st.error);
+    if (st.phase === 'tayyor') return st;
+    onProg(st.pct || 0, st.phase);
+  }
+}
+const FIX_PHASE = { navbatda: 'navbatda', tekshirish: 'fayl tekshirilmoqda', ovoz: 'ovoz AAC’ga o‘tkazilmoqda', yuklash: 'Telegram’ga saqlanmoqda', saqlash: 'havola tayyorlanmoqda' };
+const fixNote = (pct, ph) => `🔊 Ovoz moslashtirilmoqda: ${FIX_PHASE[ph] || ph}${pct ? ` · ${pct}%` : ''}`;
 
 function bindVideoUpload(form) {
   const inp = $('#admVupFile'), note = $('#admVupNote'), prog = $('#admVupProg'), bar = prog.querySelector('i');
@@ -4229,6 +4255,7 @@ function bindVideoUpload(form) {
       const res = await dcUploadVideo(file, (done, total, speed, phase) => {
         bar.style.width = (done / total * 100).toFixed(1) + '%';
         if (phase === 'finish') return setNote('DezoCloud faylni saqlayapti… (katta faylda bir necha daqiqa)');
+        if (String(phase).startsWith('audio:')) return setNote(fixNote(done, phase.slice(6)));
         const eta = speed > 0 ? Math.ceil((total - done) / speed / 60) : 0;
         setNote(`${file.name}: ${Math.floor(done / total * 100)}% · ${fmtSize(done)} / ${fmtSize(total)}` +
           (speed > 0 ? ` · ${(speed / 1048576).toFixed(1)} MB/s · ~${eta} daq.` : ''));
@@ -4243,7 +4270,8 @@ function bindVideoUpload(form) {
         form.titleUz.value = file.name.replace(/\.[^.]+$/, '').replace(/[._]+/g, ' ').trim();
         form.titleUz.dispatchEvent(new Event('input'));
       }
-      setNote(`✓ Yuklandi: ${file.name}. Havola qo‘yildi — endi pastdagi tugma bilan saqlang.`);
+      setNote(`✓ Yuklandi: ${file.name}${res.fixed ? ' (ovoz brauzer uchun moslashtirildi)' : ''}. Havola qo‘yildi — endi pastdagi tugma bilan saqlang.` +
+        (res.fixErr ? ` ⚠ ${res.fixErr} — «Ovozni tuzatish» tugmasini keyinroq bosing.` : ''), !!res.fixErr);
     } catch (e) {
       if (e.status === 401) { pending = file; keyBox.hidden = false; }
       setNote(e.message || 'Yuklab bo‘lmadi', true);
@@ -4255,6 +4283,26 @@ function bindVideoUpload(form) {
   };
 
   inp.addEventListener('change', () => { const f = inp.files[0]; inp.value = ''; if (f) start(f); });
+  // «Ovozni tuzatish» — DezoCloud havolasi bo'lsa ko'rinadi (eski ovozsiz videolar uchun)
+  const fixBtn = $('#admFixAudio');
+  const showFix = () => { fixBtn.hidden = !/dezocloud\.uz\/(s|v)\//i.test(form.video.value); };
+  form.video.addEventListener('input', showFix);
+  showFix();
+  fixBtn.addEventListener('click', async () => {
+    if (!dcKey()) { keyBox.hidden = false; pass.focus(); return setNote('Avval DezoCloud’ga ulaning — parol bir marta so‘raladi', true); }
+    fixBtn.disabled = true; $('#admSubmit').disabled = true; prog.hidden = false; bar.style.width = '0';
+    try {
+      const fx = await dcFixAudio(form.video.value.trim(), (pct, ph) => { bar.style.width = pct + '%'; setNote(fixNote(pct, ph)); });
+      bar.style.width = '100%';
+      if (fx.same) setNote(`Ovoz allaqachon brauzerga mos (${fx.audio || 'AAC'}) — o‘zgartirish shart emas.`);
+      else {
+        form.video.value = fx.url;
+        form.video.dispatchEvent(new Event('input'));
+        setNote(`✓ Ovoz tuzatildi (${fx.audio} → AAC). Yangi havola qo‘yildi — endi «Saqlash» ni bosing.`);
+      }
+    } catch (e) { setNote(e.message, true); bar.style.width = '0'; }
+    fixBtn.disabled = false; $('#admSubmit').disabled = false;
+  });
   stopBtn.addEventListener('click', () => { if (ctl) { ctl.stop = true; setNote('To‘xtatilmoqda…'); } });
   const connect = async () => {
     if (!pass.value) return pass.focus();
