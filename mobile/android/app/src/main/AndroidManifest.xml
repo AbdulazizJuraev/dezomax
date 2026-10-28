@@ -40,12 +40,6 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- Kinoni telefonga parallel yuklab olish (foydalanuvchi bosganda; ilova yopilsa ham davom etadi) -->
-        <service
-            android:name=".DownloadService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
-
         <!-- Bosh ekran vidjetlari (DzxWidgets.java). Admin ilovasida yo'q — src/admin/AndroidManifest.xml -->
         <receiver
             android:name=".WidgetNew"
@@ -103,9 +97,8 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <!-- QR kod skanerlash (Televizorda ko'ring banneri) -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <!-- Yuklab olish xizmati (bildirishnomada foiz) -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- AdMob reklama identifikatori — Play Console deklaratsiyasida «ishlatiladi» deb belgilangan -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <!-- Android TV: sensorli ekran va leanback majburiy emas — bitta APK telefon va televizorda -->
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
