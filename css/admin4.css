@@ -10,6 +10,8 @@
 /* saytning yuqori menyusi admin'da kerak emas — logotip va bo'limlar chap panelda */
 .page-admin > .header, .page-admin .footer, .page-admin .tabbar, .page-admin .to-top { display: none !important; }
 .page-admin main.adm-page { max-width: none !important; width: 100% !important; padding: 0 !important; margin: 0 !important; min-height: 100vh; }
+/* GitHub token oynasi: ekran chetiga yopishmasin */
+.page-admin .adm-token { margin: max(24px, calc(12px + var(--app-sat, 0px))) auto 24px; width: calc(100% - 28px); }
 
 .a4 { display: flex; min-height: 100vh; }
 .a4 button { font-family: inherit; cursor: pointer; }
@@ -151,8 +153,8 @@
 .a4-scrim { display: none; }
 
 @media (max-width: 1180px) {
-  .a4-row { flex-direction: column; }
-  .a4-side2 { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .a4-row { flex-direction: column; align-items: stretch; }
+  .a4-side2 { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
 }
 @media (max-width: 900px) {
   .a4-side { position: fixed; left: 0; top: 0; bottom: 0; z-index: 60; transform: translateX(-102%); transition: transform .25s ease; box-shadow: 0 0 40px rgba(0, 0, 0, .6); }
@@ -161,7 +163,7 @@
   .a4-scrim[hidden] { display: none; }
   .a4-burger { display: grid; }
   .a4-top { padding: calc(12px + var(--app-sat, 0px)) 14px 12px; gap: 10px; }
-  .a4-srch kbd, .a4-add { display: none; }
+  .a4-srch kbd, .a4-add, .a4-gap { display: none; }
   .a4-ct { padding: 18px 14px calc(96px + var(--sab, 0px)); }
   .a4-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
   .a4-card { padding: 16px; border-radius: 18px; }
@@ -174,6 +176,10 @@
   .a4-tabs .a4-plus { width: 56px; height: 56px; min-width: 0; border-radius: 50%; background: var(--a-lime); color: #000; display: grid; place-items: center;
     margin-top: -26px; box-shadow: 0 8px 24px rgba(198, 255, 61, .3); }
   .a4-tabs .a4-plus svg { width: 26px; height: 26px; }
+}
+/* telefon: matnli tugmalar (Tahrirlash, Ko'rish...) nomni siqib qo'ymasin — pastki qatorga */
+@media (max-width: 600px) {
+  .page-admin .acc-item.adm-item > .adm-actions:not(.adm-icons) { grid-column: 1 / -1; }
 }
 /* AI yordamchi tugmasi pastki menyu ustida turmasin */
 @media (max-width: 900px) {
@@ -198,7 +204,7 @@
 .a4-prev-scale iframe { width: 100%; height: 100%; border: 0; display: block; background: #0a0a0b; }
 .a4-prev .a4-sub { text-align: center; font-size: 12px; margin: 0; }
 @media (max-width: 1180px) {
-  .a4-sitewrap { flex-direction: column; }
+  .a4-sitewrap { flex-direction: column; align-items: stretch; }
   .a4-prev { position: static; width: 100%; }
 }
 
