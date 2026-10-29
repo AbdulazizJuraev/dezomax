@@ -87,12 +87,14 @@
     return fullP || (fullP = (async () => {
       const v = (document.querySelector('script[src*="data-home.js"]')?.src.split('?')[1]) || '';
       const urls = ['data-channels', 'data-rutube', 'data-site'].map(n => `js/${n}.js${v ? '?' + v : ''}`);
-      // avval hammasi yuklanadi (MOVIES yarim holatda qolmasin), keyin ketma-ket ishga tushadi
-      if (!(await Promise.all(urls.map(u => fetch(u).then(r => r.ok, () => false)))).every(Boolean)) { fullP = null; return false; }
+      // avval hammasi yuklanadi (MOVIES yarim holatda qolmasin), keyin ketma-ket ishga tushadi —
+      // matn bir marta olinadi va shu matn ishga tushiriladi (fayllar ikki marta yuklanmasin)
+      const codes = await Promise.all(urls.map(u => fetch(u).then(r => r.ok ? r.text() : null, () => null)));
+      if (!codes.every(Boolean)) { fullP = null; return false; }
       const keep = MOVIES.slice();
       MOVIES.splice(0, MOVIES.length, ...window.DZX_BASE);
       try {
-        for (const u of urls) await new Promise((ok, no) => { const s = document.createElement('script'); s.src = u; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+        for (const code of codes) { const s = document.createElement('script'); s.text = code; document.head.appendChild(s); }
       } catch { MOVIES.splice(0, MOVIES.length, ...keep); fullP = null; return false; }
       if (typeof buildParts === 'function') buildParts();
       window.DZX_HOME_PART = false;

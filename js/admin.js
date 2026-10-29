@@ -1111,7 +1111,7 @@ const A4_NAV = [
   ['ASOSIY', [['home', 'home', 'Boshqaruv paneli'], ['list', 'list', 'Kinolar', () => allMovies().length], ['form', 'plus', 'Kino qo‘shish'], ['groups', 'group', 'Seriallar va qismlar']]],
   ['SAYT', [['site', 'layout', 'Bosh sahifa va sayt'], ['notify', 'bell', 'Xabarnoma'], ['logo', 'film', 'Video belgisi']]],
   ['MANBALAR', [['channels', 'yt', 'YouTube kanallar'], ['tg', 'tg', 'Telegram import'], ['rutube', 'rutube', 'RuTube'], ['langvid', 'lang', 'Til videolari']]],
-  ['NAZORAT', [['clean', 'broom', 'Nomlarni tozalash', () => rawTitleItems().length, 'n'], ['broken', 'bolt', 'Ishlamaydiganlar', () => brokenBadCount(), 'w'], ['dups', 'copy', 'Dublikatlar'], ['backup', 'shield', 'Zaxira']]]
+  ['NAZORAT', [['clean', 'broom', 'Nomlarni tozalash', () => rawTitleItems().length, 'n'], ['broken', 'bolt', 'Ishlamaydiganlar', () => brokenBadCount(), 'w'], ['posters', 'film', 'Muammoli posterlar', () => posterBadCount(), 'w'], ['dups', 'copy', 'Dublikatlar'], ['backup', 'shield', 'Zaxira']]]
 ];
 const a4Icon = k => A4_ICONS[k] || NAV_ICONS[k] || '';
 let a4Counts = null;   // badge sonlari — har renderMain'da qayta hisoblanmaydi (13 000+ kino), kino saqlanganda yangilanadi
@@ -1192,6 +1192,7 @@ function renderMain() {
   else if (view === 'backup') renderBackupView();
   else if (view === 'dups') renderDupView();
   else if (view === 'broken') renderBrokenView();
+  else if (view === 'posters') renderPosterView();
   else if (view === 'logo') renderLogoView();
   else if (view === 'langvid') renderLangVidView();
   else if (view === 'rutube') renderRutubeView();
@@ -5440,6 +5441,117 @@ async function brokenRun(onlyBad) {
   brokenState.running = false;
   if (view === 'broken') renderBrokenView();
   toast(brokenState.stop ? 'Tekshiruv to‘xtatildi' : 'Tekshiruv tugadi');
+}
+
+/* ---------- Muammoli posterlar: saytdagi kinolarning posteri shu brauzerda ochib ko'riladi ----------
+   Posteri yo'q, ochilmaydi, juda kichik (Telegram muqovasi kabi) yoki yotiq (kartochkada kesiladi) — ro'yxatga chiqadi.
+   Hech narsa avtomatik o'zgartirilmaydi: Telegramdan kelgan kinolarga tegilmaydi, faqat ko'rsatiladi — tuzatish adminning o'zida.
+   Natija shu brauzerda saqlanadi (dzx_posters). */
+const POSTER_KEY = 'dzx_posters';
+const POSTER_WHY = { none: 'Poster yo‘q', error: 'Poster ochilmadi', small: 'Juda kichik (sifatsiz)', wide: 'Yotiq rasm — kartochkada kesiladi', slow: '15 soniyada ochilmadi' };
+const posterState = { running: false, stop: false, done: 0, total: 0, tab: 'all', limit: 120 };
+
+function posterLoad() { try { return JSON.parse(localStorage.getItem(POSTER_KEY) || '{}'); } catch { return {}; } }
+function posterSave(r) { try { localStorage.setItem(POSTER_KEY, JSON.stringify(r)); } catch {} }
+// Telegram (DezoCloud) orqali kelgan kino — poster yoki video dezocloud / t.me'da
+const posterIsTg = m => [m.poster, m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : [])
+  .some(u => /dezocloud\.uz|\/\/(www\.)?(t\.me|telegram\.me)\//i.test(String(u || '')));
+const posterFresh = (res, m) => res[m.id] && res[m.id].v === String(m.poster || '') ? res[m.id] : null;
+function posterBadCount() {
+  const res = posterLoad();
+  return Object.values(res).filter(x => x && x.s && x.s !== 'ok').length;
+}
+
+function posterTest(url) {
+  const u = String(url || '').trim();
+  if (!u) return Promise.resolve('none');
+  return new Promise(res => {
+    const img = new Image(), t = setTimeout(() => { img.src = ''; res('slow'); }, 15000);
+    img.onload = () => {
+      clearTimeout(t);
+      const w = img.naturalWidth, h = img.naturalHeight;
+      res(w < 200 || h < 200 ? 'small' : w / h > 1.15 ? 'wide' : 'ok');
+    };
+    img.onerror = () => { clearTimeout(t); res('error'); };
+    img.src = u;
+  });
+}
+
+async function posterRun(onlyBad) {
+  const res = posterLoad();
+  let list = brokenItems();
+  if (onlyBad) list = list.filter(m => { const r = posterFresh(res, m); return !r || r.s !== 'ok'; });
+  Object.assign(posterState, { running: true, stop: false, done: 0, total: list.length });
+  renderPosterView();
+  let i = 0, last = 0;
+  await Promise.all(Array.from({ length: 8 }, async () => {
+    while (i < list.length && !posterState.stop) {
+      const m = list[i++];
+      let s = await posterTest(m.poster);
+      if (s === 'slow' || s === 'error') s = await posterTest(m.poster);     // bir marta qayta urinamiz
+      res[m.id] = { s, v: String(m.poster || ''), at: Date.now() };
+      posterState.done++;
+      if (Date.now() - last > 800) { last = Date.now(); posterSave(res); if (view === 'posters') renderPosterView(); }
+    }
+  }));
+  posterSave(res);
+  posterState.running = false;
+  if (view === 'posters') renderPosterView();
+  toast(posterState.stop ? 'Tekshiruv to‘xtatildi' : 'Tekshiruv tugadi');
+}
+
+function renderPosterView() {
+  const box = $('#admView');
+  const res = posterLoad(), items = brokenItems();
+  const bad = items.filter(m => { const r = posterFresh(res, m); return r && r.s !== 'ok'; });
+  const checked = items.filter(m => posterFresh(res, m)).length;
+  const tg = bad.filter(posterIsTg);
+  const tabs = [['all', 'Hammasi', bad.length], ['tg', 'Telegramdan', tg.length], ['other', 'Boshqalar', bad.length - tg.length]];
+  const shown = posterState.tab === 'tg' ? tg : posterState.tab === 'other' ? bad.filter(m => !posterIsTg(m)) : bad;
+  const pct = posterState.total ? Math.round(posterState.done / posterState.total * 100) : 0;
+  const by = {};
+  for (const m of bad) by[posterFresh(res, m).s] = (by[posterFresh(res, m).s] || 0) + 1;
+  const scroll = window.scrollY;
+  box.innerHTML = `
+    <section class="adm-sec">
+      <div class="adm-sec-head"><span class="adm-sec-icon">${a4Icon('film')}</span><h3>Muammoli posterlar</h3><small>${checked}/${items.length} tekshirilgan · ${bad.length} ta muammoli</small></div>
+      <p class="adm-hint">Har bir kinoning posteri shu brauzerda ochib ko‘riladi: yo‘q, ochilmaydi, juda kichik yoki yotiq bo‘lsa — shu yerga chiqadi. Hech narsa avtomatik o‘zgarmaydi; Telegramdan kelgan kinolar faqat ko‘rsatiladi.</p>
+      ${posterState.running ? `
+        <div class="adm-progress"><i style="width:${pct}%"></i></div>
+        <p class="adm-hint">${posterState.done} / ${posterState.total} · ${pct}%</p>
+        <button class="btn btn-ghost" type="button" id="pstStop">To‘xtatish</button>` : `
+        <div class="adm-actions">
+          <button class="btn btn-primary" type="button" id="pstRun">${checked ? 'Qaytadan tekshirish' : 'Tekshirishni boshlash'}</button>
+          ${checked ? '<button class="btn btn-ghost" type="button" id="pstRecheck">Faqat yangi va muammolilarni</button>' : ''}
+        </div>`}
+      ${Object.keys(by).length ? `<p class="adm-hint">${Object.entries(by).map(([k, n]) => `${esc(POSTER_WHY[k] || k)}: <b>${n}</b>`).join(' · ')}</p>` : ''}
+      ${bad.length ? `<div class="adm-actions">${tabs.map(([k, l, n]) => `<button class="btn ${posterState.tab === k ? 'btn-primary' : 'btn-ghost'} btn-sm" type="button" data-psttab="${k}">${l} (${n})</button>`).join('')}</div>` : ''}
+    </section>
+    ${shown.length ? `<section class="adm-sec">${shown.slice(0, posterState.limit).map(m => `
+      <div class="acc-item adm-item">
+        <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
+        <span class="acc-item-main"><b>${esc(m.title?.uz || '')}</b>
+          <small>${[m.year, POSTER_WHY[posterFresh(res, m).s] || posterFresh(res, m).s, posterIsTg(m) ? 'Telegram' : '', `ID ${m.id}`].filter(Boolean).map(esc).join(' · ')}</small></span>
+        <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
+        <button class="btn btn-ghost btn-sm" type="button" data-pstedit="${m.id}">Tahrirlash</button>
+      </div>`).join('')}
+      ${shown.length > posterState.limit ? `<button class="btn btn-ghost" type="button" id="pstMore">Yana ko‘rsatish (${shown.length - posterState.limit} ta qoldi)</button>` : ''}</section>`
+      : checked && !posterState.running ? '<section class="adm-sec"><p class="acc-muted">Tekshirilgan posterlarning hammasi joyida 🎉</p></section>' : ''}`;
+  if (posterState.running) window.scrollTo(0, scroll);
+
+  $('#pstRun')?.addEventListener('click', () => posterRun(false));
+  $('#pstRecheck')?.addEventListener('click', () => posterRun(true));
+  $('#pstStop')?.addEventListener('click', () => { posterState.stop = true; });
+  $('#pstMore')?.addEventListener('click', () => { posterState.limit += 120; renderPosterView(); window.scrollTo(0, scroll); });
+  box.querySelectorAll('[data-psttab]').forEach(b => b.addEventListener('click', () => {
+    posterState.tab = b.dataset.psttab; posterState.limit = 120; renderPosterView();
+  }));
+  box.querySelectorAll('[data-pstedit]').forEach(b => b.addEventListener('click', () => {
+    editingId = +b.dataset.pstedit;
+    view = 'form';
+    renderMain();
+    window.scrollTo({ top: 0 });
+  }));
 }
 
 function renderBrokenView() {

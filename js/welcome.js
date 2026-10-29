@@ -23,10 +23,12 @@
     'wc.s3.title': 'Telekanallar va sport jonli',
     'wc.s3.sub': 'Futbol, telekanallar va yangiliklar — hammasi bir ilovada',
     'wc.next': 'Keyingi',
+    'wc.skip': 'O‘tkazib yuborish',
     'wc.live': 'JONLI',
     'wc.trial': '7 kun bepul',
     'wc.auth.title': 'Ro‘yxatdan o‘ting yoki kiring',
     'wc.auth.sub': 'Ro‘yxatdan o‘tgach 7 kun bepul. Keyin har 7 kun uchun {price} so‘m — obunani istalgan vaqtda bekor qilish mumkin.',
+    'wc.auth.subFree': 'Ro‘yxatdan o‘tgach 7 kun bepul Standart tarif. Bir bosishda, parolsiz.',
     'wc.auth.later': 'Keyinroq',
     'wc.googleBtn': 'Google bilan davom etish',
     'wc.googleSub': 'Bir bosishda, parolsiz',
@@ -48,10 +50,12 @@
     'wc.s3.title': 'Телеканалы и спорт в прямом эфире',
     'wc.s3.sub': 'Футбол, телеканалы и новости — всё в одном приложении',
     'wc.next': 'Далее',
+    'wc.skip': 'Пропустить',
     'wc.live': 'LIVE',
     'wc.trial': '7 дней бесплатно',
     'wc.auth.title': 'Зарегистрируйтесь или войдите',
     'wc.auth.sub': 'После регистрации 7 дней бесплатно. Затем {price} сум за каждые 7 дней — подписку можно отменить в любой момент.',
+    'wc.auth.subFree': 'После регистрации 7 дней тарифа Стандарт бесплатно. В один клик, без пароля.',
     'wc.auth.later': 'Позже',
     'wc.googleBtn': 'Продолжить с Google',
     'wc.googleSub': 'В один клик, без пароля',
@@ -118,6 +122,8 @@
 
   let step = 0;              // 0..2 — slaydlar, 3 — kirish
   const SLIDES = 3;
+  // Click to'lovlari o'chiq bo'lsa (PAYMENTS_ON=false) — keyingi to'lov narxi yozilmaydi
+  const paid = typeof PAYMENTS_ON === 'undefined' || !!PAYMENTS_ON;
   const root = document.createElement('div');
   root.className = 'wc';
   root.setAttribute('role', 'dialog');
@@ -166,7 +172,7 @@
         <section class="wc-auth">
           <span class="wc-trial">${ICON.gift}<b>${t('wc.trial')}</b></span>
           <h1>${t('wc.auth.title')}</h1>
-          <p>${text('wc.auth.sub')}</p>
+          <p>${text(paid ? 'wc.auth.sub' : 'wc.auth.subFree')}</p>
           <p class="wc-err" id="wcErr" hidden></p>
           <div class="wc-gwrap">
             <button class="wc-google" id="wcGoogle" type="button">
@@ -191,7 +197,7 @@
           <p>${text('wc.s' + s + '.sub')}</p>
         </section>
         <footer class="wc-bar">
-          <span aria-hidden="true"></span>
+          <button class="wc-skip" id="wcSkip" type="button">${t('wc.skip')}</button>
           <div class="wc-dots">${[0, 1, 2].map(i => `<i class="${i === step ? 'is-on' : ''}"></i>`).join('')}</div>
           <button class="wc-next" id="wcNext" type="button" aria-label="${t('wc.next')}">${ICON.arrow}</button>
         </footer>`;
@@ -219,6 +225,7 @@
 
   function bind() {
     root.querySelector('#wcNext')?.addEventListener('click', () => go(step + 1));
+    root.querySelector('#wcSkip')?.addEventListener('click', () => go(SLIDES));   // slaydlarni o'tkazib — kirish oynasiga
     root.querySelector('#wcLater')?.addEventListener('click', () => finish(false));
     if (step >= SLIDES) bindAuth();
   }
