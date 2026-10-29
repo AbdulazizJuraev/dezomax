@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-23T12:14:18.221Z",
+ "updated": "2026-10-29T20:29:28.715Z",
  "items": [
   {
    "id": "d259de84f7a4d1bd96b5325710e90c78",
@@ -10034,7 +10034,7 @@
   },
   {
    "id": "db91a217e53ab6d17a9b24e003ac9ad6",
-   "status": "pending",
+   "status": "approved",
    "addedAt": "2026-10-13",
    "auto": true,
    "title": "Необычайные приключения мистера Веста в стране большевиков",
@@ -10066,7 +10066,9 @@
     "licensed": true,
     "reason": "",
     "ok": true
-   }
+   },
+   "movieId": 20092,
+   "decidedAt": "2026-10-29"
   },
   {
    "id": "ad4b512d48385c2817df91f201798cda",
