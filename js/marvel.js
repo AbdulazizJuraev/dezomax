@@ -15,7 +15,7 @@ const MX_TXT = {
     release: 'Premyera', runtime: 'Davomiyligi', min: 'daq.', budget: 'Byudjet', gross: 'Kassa (butun dunyo)',
     ratio: 'byudjetdan', profit: 'Foyda', noData: 'Ma’lumot hali yo‘q', play: 'Treylerni ko‘rish', watch: 'Kinoni ko‘rish', video: 'Video', pickLang: 'Tilni tanlang — video shu yerda ochiladi',
     src: 'Byudjet, kassa va aktyorlar: Wikidata (ochiq ma’lumotlar), yangi filmlar kassasi — Box Office Mojo. Aktyor suratlari: Wikimedia Commons.', srcYt: 'Treyler: {ch} rasmiy YouTube kanali.', trailerPlain: 'Treyler',
-    mln: 'mln', mlrd: 'mlrd', notFound: 'Film topilmadi', live: 'Jonli efir'
+    mln: 'mln', mlrd: 'mlrd', notFound: 'Film topilmadi', live: 'Jonli efir', soundOn: 'Ovozni yoqish', soundOff: 'Ovozni o‘chirish'
   },
   ru: {
     kicker: 'Marvel Studios', title: 'Фильмы Marvel', sub: 'Официальные трейлеры, актёры, бюджет и кассовые сборы',
@@ -24,7 +24,7 @@ const MX_TXT = {
     release: 'Премьера', runtime: 'Длительность', min: 'мин.', budget: 'Бюджет', gross: 'Сборы (мир)',
     ratio: 'от бюджета', profit: 'Прибыль', noData: 'Данных пока нет', play: 'Смотреть трейлер', watch: 'Смотреть фильм', video: 'Видео', pickLang: 'Выберите язык — видео откроется здесь',
     src: 'Бюджет, сборы и актёры: Wikidata (открытые данные), сборы новых фильмов — Box Office Mojo. Фото актёров: Wikimedia Commons.', srcYt: 'Трейлер: официальный YouTube-канал {ch}.', trailerPlain: 'Трейлер',
-    mln: 'млн', mlrd: 'млрд', notFound: 'Фильм не найден', live: 'Прямой эфир'
+    mln: 'млн', mlrd: 'млрд', notFound: 'Фильм не найден', live: 'Прямой эфир', soundOn: 'Включить звук', soundOff: 'Выключить звук'
   }
 };
 const mx = k => (MX_TXT[LANG] || MX_TXT.uz)[k];
@@ -74,11 +74,16 @@ const mxYt = url => (String(url || '').match(/(?:youtube\.com\/(?:watch\?v=|embe
    (bosilganda pauza bo'lmaydi). Hozir: «Avengers: Doomsday» premyerasigacha teskari soat — premyeradan keyin o'zi yo'qoladi. */
 const MX_LIVE = { yt: 'f17J3AXVK5w', until: '2026-12-19' };
 const mxLiveOn = () => MX_LIVE.yt && new Date().toISOString().slice(0, 10) < MX_LIVE.until;
+const MX_SND = {
+  off: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>',
+  on: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>'
+};
 
 function mxMountLive(root) {
   const box = root.querySelector('#mxLive');
   if (!box || typeof loadYouTubeApi !== 'function') return;
   const hide = () => { box.closest('.mx-hero')?.classList.remove('has-live'); box.remove(); };
+  let showT = 0;
   loadYouTubeApi().then(() => {
     if (!box.isConnected) return;
     const p = new YT.Player(box.querySelector('div'), {
@@ -88,15 +93,31 @@ function mxMountLive(root) {
       events: {
         onReady: e => { e.target.mute(); e.target.playVideo(); },
         // to'xtab qolsa (fon, tarmoq) — darhol davom ettiramiz; efir tugasa — blok yashiriladi
+        // YouTube to'xtash/davom etishda o'rtada pauza/play belgisini ko'rsatadi — video faqat o'ynab turganda ko'rinadi
+        // (to'xtasa darhol yashiriladi, ostidagi efir rasmi qoladi; qayta o'ynasa belgi yo'qolgach chiqadi)
         onStateChange: e => {
-          if (e.data === YT.PlayerState.PLAYING) box.classList.add('is-on');
-          else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.CUED) e.target.playVideo();
-          else if (e.data === YT.PlayerState.ENDED) hide();
+          clearTimeout(showT);
+          if (e.data === YT.PlayerState.PLAYING) showT = setTimeout(() => box.classList.add('is-on'), 900);
+          else {
+            box.classList.remove('is-on');
+            if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.CUED) e.target.playVideo();
+            else if (e.data === YT.PlayerState.ENDED) hide();
+          }
         },
         onError: hide
       }
     });
     document.addEventListener('visibilitychange', () => { if (!document.hidden && box.isConnected) try { p.playVideo(); } catch {} });
+    // ovoz: brauzerlar ovozli videoni o'zi boshlashga ruxsat bermaydi — avval ovozsiz, foydalanuvchi tugma bilan yoqadi
+    const snd = box.querySelector('.mx-live-snd');
+    const setSnd = on => {
+      try { if (on) { p.unMute(); p.setVolume(100); p.playVideo(); } else p.mute(); } catch { return; }
+      snd.innerHTML = on ? MX_SND.on : MX_SND.off;
+      snd.setAttribute('aria-label', mx(on ? 'soundOff' : 'soundOn'));
+      snd.title = mx(on ? 'soundOff' : 'soundOn');
+      snd.classList.toggle('is-on', on);
+    };
+    snd?.addEventListener('click', () => setSnd(!snd.classList.contains('is-on')));
   }).catch(hide);
 }
 
@@ -115,7 +136,7 @@ function mxListHTML() {
   const live = mxLiveOn();
   return `
     <section class="mx-hero${live ? ' has-live' : ''}">
-      ${live ? `<div class="mx-live" id="mxLive" aria-label="Marvel — ${mx('live')}"><div></div><span class="mx-live-tag"><i></i>${mx('live')}</span></div>` : ''}
+      ${live ? `<div class="mx-live" id="mxLive" aria-label="Marvel — ${mx('live')}" style="background-image:url('https://i.ytimg.com/vi/${MX_LIVE.yt}/maxresdefault_live.jpg')"><div></div><span class="mx-live-tag"><i></i>${mx('live')}</span><button class="mx-live-snd" type="button" aria-label="${mx('soundOn')}" title="${mx('soundOn')}">${MX_SND.off}</button></div>` : ''}
       <div class="wrap">
         <span class="mx-logo">MARVEL</span>
         <h1>${mx('title')}</h1>
