@@ -1548,10 +1548,14 @@ const ITEM_ICONS = {
   eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
   eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.3 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/></svg>',
   tag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>',
-  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>'
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  split: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  sync: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8"/><path d="M4 3v5h5"/><path d="M4 13a8 8 0 0 0 14.3 4.9L20 16"/><path d="M20 21v-5h-5"/></svg>'
 };
 const admIconBtn = (label, icon, attrs, cls = '') =>
   `<button class="adm-ibtn${cls}" type="button" ${attrs} title="${label}" aria-label="${label}">${icon}</button>`;
+const admOpenLink = id =>
+  `<a class="adm-ibtn" href="${SITE_URL}movie.html?id=${id}" target="_blank" rel="noopener" title="Ko‘rish" aria-label="Ko‘rish">${ITEM_ICONS.open}</a>`;
 
 function itemHTML(m) {
   const base = isBase(m.id);
@@ -3812,10 +3816,10 @@ function renderGroupsView() {
           <div class="acc-item adm-item">
             <span class="adm-thumb">${g.poster ? `<img src="${esc(g.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
             <div class="acc-item-main"><b>${esc(g.title.uz)}</b><small>${g.parts.length} qism${(() => { const min = g.parts.reduce((s, id) => s + (movieById(id)?.duration || 0), 0); return min ? ` · jami ${fmtDur(min * 60)}` : ''; })()} · ${esc(typeName(g.type))} · ID ${g.id}</small></div>
-            <div class="adm-actions">
-              <button class="btn btn-ghost btn-sm" type="button" data-gedit="${g.id}">Tahrirlash</button>
-              <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${g.id}" target="_blank" rel="noopener">Ko‘rish</a>
-              <button class="btn btn-ghost btn-sm adm-del" type="button" data-gsplit="${g.id}">Tarqatish</button>
+            <div class="adm-actions adm-icons">
+              ${admIconBtn('Tahrirlash', ITEM_ICONS.edit, `data-gedit="${g.id}"`)}
+              ${admOpenLink(g.id)}
+              ${admIconBtn('Tarqatish (guruhni alohida kinolarga ajratish)', ITEM_ICONS.split, `data-gsplit="${g.id}"`, ' is-danger')}
             </div>
           </div>`).join('')}</div>` : '<p class="acc-muted">Hozircha guruh yo‘q.</p>'}
       </section>`;
@@ -4392,9 +4396,9 @@ async function renderChannelsView() {
             <small><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url.replace('https://www.', ''))}</a></small>
             ${chBusy && chBusy.key === c.key ? `<div class="adm-ch-prog"><i style="width:${chBusy.total ? Math.round(chBusy.done / chBusy.total * 100) : 5}%"></i></div><small class="adm-ch-note">${chBusy.total ? `${chBusy.done}/${chBusy.total} · ` : ''}${esc(chBusy.note || 'Kanal o‘qilmoqda…')}</small>` : ''}
           </div>
-          <div class="adm-actions">
-            <button class="btn btn-primary btn-sm" type="button" data-chsync="${esc(c.key)}" ${chBusy ? 'disabled' : ''}>Yangilash</button>
-            <button class="btn btn-ghost btn-sm adm-del" type="button" data-chdel="${esc(c.key)}" ${chBusy ? 'disabled' : ''}>O‘chirish</button>
+          <div class="adm-actions adm-icons">
+            ${admIconBtn('Yangilash', ITEM_ICONS.sync, `data-chsync="${esc(c.key)}" ${chBusy ? 'disabled' : ''}`, ' is-ok')}
+            ${admIconBtn('O‘chirish', ITEM_ICONS.trash, `data-chdel="${esc(c.key)}" ${chBusy ? 'disabled' : ''}`, ' is-danger')}
           </div>
         </div>`).join('') || '<p class="acc-muted">Hozircha kanal yo‘q.</p>'}
       </div>
@@ -5532,8 +5536,10 @@ function renderPosterView() {
         <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
         <span class="acc-item-main"><b>${esc(m.title?.uz || '')}</b>
           <small>${[m.year, POSTER_WHY[posterFresh(res, m).s] || posterFresh(res, m).s, posterIsTg(m) ? 'Telegram' : '', `ID ${m.id}`].filter(Boolean).map(esc).join(' · ')}</small></span>
-        <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
-        <button class="btn btn-ghost btn-sm" type="button" data-pstedit="${m.id}">Tahrirlash</button>
+        <div class="adm-actions adm-icons">
+          ${admIconBtn('Tahrirlash', ITEM_ICONS.edit, `data-pstedit="${m.id}"`)}
+          ${admOpenLink(m.id)}
+        </div>
       </div>`).join('')}
       ${shown.length > posterState.limit ? `<button class="btn btn-ghost" type="button" id="pstMore">Yana ko‘rsatish (${shown.length - posterState.limit} ta qoldi)</button>` : ''}</section>`
       : checked && !posterState.running ? '<section class="adm-sec"><p class="acc-muted">Tekshirilgan posterlarning hammasi joyida 🎉</p></section>' : ''}`;
@@ -5585,9 +5591,11 @@ function renderBrokenView() {
         <span class="adm-thumb">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}</span>
         <span class="acc-item-main"><b>${esc(m.title?.uz || '')}</b>
           <small>${[m.year, BROKEN_WHY[fresh(m).s] || fresh(m).s, dupHost(m), `ID ${m.id}`].filter(Boolean).map(esc).join(' · ')}</small></span>
-        <a class="btn btn-ghost btn-sm" href="${SITE_URL}movie.html?id=${m.id}" target="_blank" rel="noopener">Ko‘rish</a>
-        <button class="btn btn-ghost btn-sm" type="button" data-brkedit="${m.id}">Tahrirlash</button>
-        <button class="btn btn-ghost btn-sm" type="button" data-brkhide="${m.id}">Yashirish</button>
+        <div class="adm-actions adm-icons">
+          ${admIconBtn('Tahrirlash', ITEM_ICONS.edit, `data-brkedit="${m.id}"`)}
+          ${admOpenLink(m.id)}
+          ${admIconBtn('Yashirish', ITEM_ICONS.eyeOff, `data-brkhide="${m.id}"`, ' is-warn')}
+        </div>
       </div>`).join('')}</section>`
       : checked && !brokenState.running ? '<section class="adm-sec"><p class="acc-muted">Tekshirilgan kinolarning hammasi ochilyapti 🎉</p></section>' : ''}`;
   if (brokenState.running) window.scrollTo(0, scroll);

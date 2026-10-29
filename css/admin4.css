@@ -177,6 +177,8 @@
     margin-top: -26px; box-shadow: 0 8px 24px rgba(198, 255, 61, .3); }
   .a4-tabs .a4-plus svg { width: 26px; height: 26px; }
 }
+.adm-ibtn.is-ok { color: var(--a-lime); }
+.adm-ibtn:disabled { opacity: .45; cursor: default; }
 /* telefon: matnli tugmalar (Tahrirlash, Ko'rish...) nomni siqib qo'ymasin — pastki qatorga */
 @media (max-width: 600px) {
   .page-admin .acc-item.adm-item > .adm-actions:not(.adm-icons) { grid-column: 1 / -1; }
