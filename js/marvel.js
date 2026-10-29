@@ -15,7 +15,7 @@ const MX_TXT = {
     release: 'Premyera', runtime: 'Davomiyligi', min: 'daq.', budget: 'Byudjet', gross: 'Kassa (butun dunyo)',
     ratio: 'byudjetdan', profit: 'Foyda', noData: 'Ma’lumot hali yo‘q', play: 'Treylerni ko‘rish', watch: 'Kinoni ko‘rish', video: 'Video', pickLang: 'Tilni tanlang — video shu yerda ochiladi',
     src: 'Byudjet, kassa va aktyorlar: Wikidata (ochiq ma’lumotlar), yangi filmlar kassasi — Box Office Mojo. Aktyor suratlari: Wikimedia Commons.', srcYt: 'Treyler: {ch} rasmiy YouTube kanali.', trailerPlain: 'Treyler',
-    mln: 'mln', mlrd: 'mlrd', notFound: 'Film topilmadi'
+    mln: 'mln', mlrd: 'mlrd', notFound: 'Film topilmadi', live: 'Jonli efir'
   },
   ru: {
     kicker: 'Marvel Studios', title: 'Фильмы Marvel', sub: 'Официальные трейлеры, актёры, бюджет и кассовые сборы',
@@ -24,7 +24,7 @@ const MX_TXT = {
     release: 'Премьера', runtime: 'Длительность', min: 'мин.', budget: 'Бюджет', gross: 'Сборы (мир)',
     ratio: 'от бюджета', profit: 'Прибыль', noData: 'Данных пока нет', play: 'Смотреть трейлер', watch: 'Смотреть фильм', video: 'Видео', pickLang: 'Выберите язык — видео откроется здесь',
     src: 'Бюджет, сборы и актёры: Wikidata (открытые данные), сборы новых фильмов — Box Office Mojo. Фото актёров: Wikimedia Commons.', srcYt: 'Трейлер: официальный YouTube-канал {ch}.', trailerPlain: 'Трейлер',
-    mln: 'млн', mlrd: 'млрд', notFound: 'Фильм не найден'
+    mln: 'млн', mlrd: 'млрд', notFound: 'Фильм не найден', live: 'Прямой эфир'
   }
 };
 const mx = k => (MX_TXT[LANG] || MX_TXT.uz)[k];
@@ -70,6 +70,36 @@ const MX_OFFICIAL = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|upload\
 const mxHref = f => MX_OFFICIAL.test(String(f.m.video || f.m.trailer || '').trim()) ? `marvel/${mxSlug(f.m, f.info)}.html` : `marvel.html?id=${f.m.id}`;
 const mxYt = url => (String(url || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/) || [])[1] || '';
 
+/* Marvel'ning rasmiy YouTube jonli efiri — ro'yxat sahifasining tepasida, ovozsiz va to'xtovsiz
+   (bosilganda pauza bo'lmaydi). Hozir: «Avengers: Doomsday» premyerasigacha teskari soat — premyeradan keyin o'zi yo'qoladi. */
+const MX_LIVE = { yt: 'f17J3AXVK5w', until: '2026-12-19' };
+const mxLiveOn = () => MX_LIVE.yt && new Date().toISOString().slice(0, 10) < MX_LIVE.until;
+
+function mxMountLive(root) {
+  const box = root.querySelector('#mxLive');
+  if (!box || typeof loadYouTubeApi !== 'function') return;
+  const hide = () => { box.closest('.mx-hero')?.classList.remove('has-live'); box.remove(); };
+  loadYouTubeApi().then(() => {
+    if (!box.isConnected) return;
+    const p = new YT.Player(box.querySelector('div'), {
+      videoId: MX_LIVE.yt,
+      host: 'https://www.youtube-nocookie.com',
+      playerVars: { autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0, rel: 0, iv_load_policy: 3, playsinline: 1, modestbranding: 1 },
+      events: {
+        onReady: e => { e.target.mute(); e.target.playVideo(); },
+        // to'xtab qolsa (fon, tarmoq) — darhol davom ettiramiz; efir tugasa — blok yashiriladi
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.PLAYING) box.classList.add('is-on');
+          else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.CUED) e.target.playVideo();
+          else if (e.data === YT.PlayerState.ENDED) hide();
+        },
+        onError: hide
+      }
+    });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && box.isConnected) try { p.playVideo(); } catch {} });
+  }).catch(hide);
+}
+
 /* ---------- Ro'yxat ---------- */
 function mxListHTML() {
   const films = mxFilms();
@@ -82,8 +112,10 @@ function mxListHTML() {
       <b>${esc(title(f.m))}</b>
       <small>${esc(mxDate(f, true))}${f.info.gross ? ` · <em class="mx-card-gross">${mxMoney(f.info.gross)}</em>` : ''}</small>
     </a>`;
+  const live = mxLiveOn();
   return `
-    <section class="mx-hero">
+    <section class="mx-hero${live ? ' has-live' : ''}">
+      ${live ? `<div class="mx-live" id="mxLive" aria-label="Marvel — ${mx('live')}"><div></div><span class="mx-live-tag"><i></i>${mx('live')}</span></div>` : ''}
       <div class="wrap">
         <span class="mx-logo">MARVEL</span>
         <h1>${mx('title')}</h1>
@@ -180,6 +212,7 @@ function mxRender() {
     return;
   }
   root.innerHTML = f ? mxFilmHTML(f) : mxListHTML();
+  if (!f) mxMountLive(root);
   // tayyor sahifalarning sarlavhasi qidiruv uchun yozilgan — o'zbekchada o'zgartirmaymiz
   if (!(LANG === 'uz' && (window.MX_ID || (!f && !id)))) {
     document.title = f ? `${title(f.m)} — Marvel | DezoMax` : `${mx('title')} — ${mx('sub').toLowerCase()} | DezoMax`;

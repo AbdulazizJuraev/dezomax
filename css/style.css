@@ -5962,6 +5962,17 @@ html.soc-lock { overflow: hidden; }
 .mx-logo-sm { font-size: 14px; padding: 4px 8px 3px; letter-spacing: .02em; }
 .mx-hero { position: relative; padding: calc(var(--header-h) + 44px) 0 40px; overflow: hidden;
   background: radial-gradient(70% 140% at 85% 0%, rgba(236, 29, 36, .38), transparent 60%), linear-gradient(180deg, #1a0507, var(--bg)); }
+/* Marvel jonli efiri (tepada, ovozsiz, to'xtovsiz): bosish pleyerga yetmaydi — pauza/tugmalar chiqmaydi */
+.mx-hero.has-live { padding-top: var(--header-h); }
+.mx-live { position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 72vh; margin-bottom: 22px; overflow: hidden; background: #000; }
+.mx-live > div, .mx-live iframe { position: absolute; left: 0; top: 50%; width: 100%; height: auto; aspect-ratio: 16 / 9; transform: translateY(-50%);
+  border: 0; pointer-events: none; opacity: 0; transition: opacity .6s; }
+.mx-live.is-on iframe { opacity: 1; }
+.mx-live::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, transparent 70%, var(--bg)); }
+.mx-live-tag { position: absolute; left: 14px; top: 12px; z-index: 2; display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px;
+  background: rgba(236, 29, 36, .92); color: #fff; font-weight: 800; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+.mx-live-tag i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: mxLive 1.4s infinite; }
+@keyframes mxLive { 50% { opacity: .25; } }
 .mx-hero h1 { margin: 16px 0 6px; font-family: 'Oswald', sans-serif; font-size: clamp(34px, 6vw, 64px); line-height: 1; text-transform: uppercase; }
 .mx-hero p { margin: 0; color: var(--text-dim); font-size: 15px; }
 .mx-stats { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
