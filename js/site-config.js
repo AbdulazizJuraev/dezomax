@@ -22,22 +22,22 @@ const SITE_CONFIG = /*CONFIG*/{
       4483,
       2613,
       7482407,
-      99697217,
-      97279673
+      7406264,
+      7222691
     ],
-    "delay": 7
+    "delay": 10
   },
   "rows": [
     {
-      "source": "uzbek",
-      "visible": false
-    },
-    {
-      "source": "new",
+      "source": "trending",
       "visible": true
     },
     {
-      "source": "trending",
+      "source": "marvel",
+      "visible": true
+    },
+    {
+      "source": "new",
       "visible": true
     },
     {
@@ -46,6 +46,10 @@ const SITE_CONFIG = /*CONFIG*/{
     },
     {
       "source": "konsert",
+      "visible": true
+    },
+    {
+      "source": "uzbek",
       "visible": true
     },
     {
@@ -58,10 +62,6 @@ const SITE_CONFIG = /*CONFIG*/{
     },
     {
       "source": "hind",
-      "visible": true
-    },
-    {
-      "source": "marvel",
       "visible": true
     },
     {
