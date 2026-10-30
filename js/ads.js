@@ -128,8 +128,13 @@ const Ads = (() => {
     return native() ? !!(C.admob.interstitial && window.Capacitor?.Plugins?.DezoAds) : !!C.vastUrl;
   }
 
-  /* box — pleyer (.player-wrap). Reklama tugagach / o'tkazilganda / xato bo'lsa resolve bo'ladi */
+  /* box — pleyer (.player-wrap). Reklama (bo'lsa), keyin DezoMax intro'si; tugagach / o'tkazilganda / xato bo'lsa resolve bo'ladi */
   async function preroll(box) {
+    await adPreroll(box);
+    await brandIntro(box);
+  }
+
+  async function adPreroll(box) {
     if (!wantsPreroll()) return;
     if (native()) {
       const plugin = window.Capacitor.Plugins.DezoAds;
@@ -141,6 +146,38 @@ const Ads = (() => {
     if (!ad) return;
     markShown();
     await playVast(box, ad);
+  }
+
+  /* DezoMax intro'si (media/intro.mp4, 9 s) — to'liq film oldidan. Seriya qismlarini ketma-ket ko'rganda
+     har safar chiqmasin: oxirgi marta INTRO_GAP daqiqa ichida ko'rsatilgan bo'lsa — o'tkaziladi */
+  const INTRO_KEY = 'dezomax_film_intro', INTRO_GAP = 20;
+  function brandIntro(box) {
+    try { if (Date.now() - (+localStorage.getItem(INTRO_KEY) || 0) < INTRO_GAP * 60000) return Promise.resolve(); } catch {}
+    if (/[?&]nointro\b/.test(location.search)) return Promise.resolve();
+    return new Promise(resolve => {
+      const layer = document.createElement('div');
+      layer.className = 'ad-preroll dz-film-intro';
+      layer.innerHTML = `
+        <video playsinline preload="auto" src="media/intro.mp4"></video>
+        <span class="dz-film-intro-credit">♪ Sascha Ende · filmmusic.io · CC BY 4.0</span>
+        <button class="ad-preroll-skip" type="button">${L('O‘tkazib yuborish ›', 'Пропустить ›')}</button>`;
+      box.appendChild(layer);
+      const v = layer.querySelector('video');
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        try { v.pause(); v.removeAttribute('src'); v.load(); } catch {}
+        layer.remove();
+        resolve();
+      };
+      v.addEventListener('playing', () => { try { localStorage.setItem(INTRO_KEY, String(Date.now())); } catch {} }, { once: true });
+      v.addEventListener('ended', finish);
+      v.addEventListener('error', finish);
+      layer.querySelector('.ad-preroll-skip').addEventListener('click', finish);
+      v.play().catch(() => { v.muted = true; v.play().catch(finish); });
+      setTimeout(() => { if (!done && v.currentTime === 0) finish(); }, 4000);   // sekin internetda kino kutib qolmasin
+    });
   }
 
   function withTimeout(p, ms) {
