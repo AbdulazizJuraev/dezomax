@@ -172,6 +172,11 @@ async function ensureFreshAdmin(auto = false) {
     const html = await (await fetch(`admin.html?t=${Date.now()}`, { cache: 'no-store' })).text();
     const live = html.match(/js\/admin\.js\?v=(\d+)/)?.[1];
     if (live && live !== mine) {
+      if (uploadsActive) {
+        // video yuklanyapti — sahifa yangilanmaydi; avtomatik tekshiruv keyinroq qayta urinadi
+        if (auto) { freshAt = 0; return; }
+        throw new Error('Admin panel eskirgan — video yuklash tugagach sahifani yangilang, keyin qayta urining.');
+      }
       toast(auto ? 'Admin panelning yangi versiyasi — yangilanmoqda…' : 'Admin panelning yangi versiyasi chiqqan — sahifa yangilanmoqda. Keyin qayta urining.', true);
       // ?v= — brauzer keshidagi eski admin.html emas, yangisi ochilsin (oddiy reload 10 daqiqagacha eskisini berardi)
       setTimeout(() => location.replace(location.pathname + '?v=' + live + location.hash), auto ? 600 : 1200);
@@ -4166,7 +4171,13 @@ function videoMeta(file) {
   });
 }
 
-async function dcUploadVideo(file, onProg, ctl) {
+let uploadsActive = 0;   // video yuklanayotganda admin o'zini qayta yuklamaydi (yuklash yo'qolardi)
+async function dcUploadVideo(...a) {
+  uploadsActive++;
+  try { return await dcUploadVideoRun(...a); } finally { uploadsActive--; }
+}
+
+async function dcUploadVideoRun(file, onProg, ctl) {
   const CHUNK = 32 * 1048576;   // katta bo'lak — so'rovlar orasidagi kutish kamroq
   let h = 2166136261;
   for (const ch of `${file.name}|${file.size}|${file.lastModified}`) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
