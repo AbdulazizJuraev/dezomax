@@ -4588,7 +4588,9 @@ async function saveShorts(ch, shorts, lenOf) {
     if (!m) throw new Error('data-shorts.js o‘qilmadi — saqlanmadi');
     cur = JSON.parse(m[1]);
   }
-  const mine = shorts.filter(v => SHORTS_MOVIE_RX.test(v.title)).map(v => ({ id: v.id, t: ytShortTitle(v.title), ch: ch.key, n: ch.name, u: ch.url, s: secs(lenOf.get(v.id)) }));
+  // m/p — mos kino va posteri (tools/fetch-studio-shorts.js bog'laydi) — yangilanganda saqlanadi
+  const linkOf = new Map(cur.filter(x => x.m).map(x => [x.id, { m: x.m, p: x.p }]));
+  const mine = shorts.filter(v => SHORTS_MOVIE_RX.test(v.title)).map(v => ({ id: v.id, t: ytShortTitle(v.title), ch: ch.key, n: ch.name, u: ch.url, s: secs(lenOf.get(v.id)), ...linkOf.get(v.id) }));
   // himoya: YouTube bir martada kam qaytarsa ham avvalgilari o'chmaydi
   const keepOld = cur.filter(x => x.ch === ch.key && !mine.some(y => y.id === x.id));
   const next = [...mine, ...keepOld, ...cur.filter(x => x.ch !== ch.key)];

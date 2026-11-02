@@ -364,27 +364,35 @@
         : `<span class="v4-st is-soon" style="--st:${s.bg}"><span>${s.logo}</span><small>${esc(s.name)}</small><em>${soon}</em></span>`).join('')}</div></section>`;
   }
 
-  /* Shorts (js/data-shorts.js) — tik kartalar, bosilsa shorts.html lentasi */
+  /* Shorts (js/data-shorts.js) — tik kartalar, bosilsa shorts.html lentasi.
+     Kanallar aralash (FarZidGuy, rasmiy studiyalar…); short qaysi kino haqida bo'lsa (p) — kartada o'sha kinoning
+     posteri (bunday shortslar oldinroq), aks holda YouTube kadri */
   function shortsHTML() {
-    const list = typeof SHORTS !== 'undefined' ? SHORTS.slice(0, 24) : [];
-    if (!list.length) return '';
+    const all = typeof SHORTS !== 'undefined' ? SHORTS.filter(s => s && s.id) : [];
+    if (!all.length) return '';
+    const groups = {};
+    all.forEach(s => (groups[s.ch] = groups[s.ch] || []).push(s));
+    const q = Object.values(groups).map(g => g.sort(() => Math.random() - .5).sort((a, b) => !!b.p - !!a.p));
+    const list = [];
+    for (let i = 0; list.length < 24 && q.some(g => g[i]); i++) q.forEach(g => { if (g[i] && list.length < 24) list.push(g[i]); });
     return `<section class="v4-row">${headHTML('Shorts', 'shorts.html')}
       <div class="v4-row-l v4-sh-row">${list.map(s => `<a class="v4-sh" href="shorts.html#${s.id}" aria-label="${esc(s.t)}">
-        <img src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" loading="lazy" decoding="async"><span>${esc(s.t)}</span></a>`).join('')}</div></section>`;
+        <img src="${esc(s.p || `https://i.ytimg.com/vi/${s.id}/oardefault.jpg`)}" alt="" loading="lazy" decoding="async"><span>${esc(s.t)}</span></a>`).join('')}</div></section>`;
   }
 
   function renderRows() {
     let rows = (CFG.rows && CFG.rows.length) ? CFG.rows : DEFAULT_ROWS;
-    // kanal videolari (Shorts va «Kino tahlillari») — doim eng oxirida; kinostudiyalar — TOP 10 dan keyin
+    // «Kino tahlillari» — doim eng oxirida; Shorts — 2-qatordan keyin (2026-11-02, foydalanuvchi so'rovi); kinostudiyalar — TOP 10 dan keyin
     const tahlilRow = rows.find(r => r.source === 'tahlil') || { source: 'tahlil', visible: true };
     rows = [...rows.filter(r => r.source !== 'tahlil'), tahlilRow];
     if (!rows.some(r => r.source === 'studios')) {
       const at = rows.findIndex(r => r.source === 'popular');
       rows = [...rows.slice(0, at + 1), { source: 'studios', visible: true }, ...rows.slice(at + 1)];
     }
-    let shown = 0, hasTop = false;
+    let shown = 0, hasTop = false, shortsAt = false;
+    const withShorts = html => { if (html && !shortsAt && shown >= 2) { shortsAt = true; return html + shortsHTML(); } return html; };
     const box = $('v4Rows');
-    box.innerHTML = continueHTML() + rows.map(row => {
+    box.innerHTML = continueHTML() + rows.map(row => withShorts((() => {
       if (row.visible === false) return '';
       const title = (row.title && (row.title[LANG] || row.title.uz)) || (row.source !== 'custom' ? t('row.' + row.source) : '');
       // har 3 qatordan keyin reklama joyi (js/ads.js; reklama ulanmagan bo'lsa — o'zi yo'qoladi)
@@ -394,10 +402,9 @@
       const src = ROW_SOURCES[row.source] || ROW_SOURCES.custom;
       const list = uniq(src.list(row).filter(m => cardImg(m))).slice(0, 18);
       if (list.length < (row.source === 'custom' ? 1 : 4)) return '';
-      const pre = row.source === 'tahlil' ? shortsHTML() : '';
-      return `${pre}<section class="v4-row">${headHTML(title, src.all)}
+      return `<section class="v4-row">${headHTML(title, src.all)}
         <div class="v4-row-l">${list.map(cardHTML4).join('')}</div></section>${ad}`;
-    }).join('');
+    })())).join('') + (shortsAt ? '' : shortsHTML());
 
     if (typeof Ads !== 'undefined') Ads.fill(box);
     box.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => {

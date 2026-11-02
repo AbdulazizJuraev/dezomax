@@ -73,11 +73,22 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     const p = fetchLive().catch(() => null);                    // eskirgan bo'lsa — fonda yangilanadi
     if (!live) live = await Promise.race([p, new Promise(r => setTimeout(() => r(null), 1500))]);   // birinchi marta — 1,5 s kutamiz
   }
-  // har ochilganda aralash tartib (har safar bir xil ketma-ketlik zeriktirardi);
+  // har ochilganda aralash tartib (har safar bir xil ketma-ketlik zeriktirardi): har kanal ichida tasodifiy, kanallar esa
+  // bir tekis navbatlashadi — bir kanal ketma-ket kelmaydi (avval lenta deyarli faqat FarZidGuy edi);
   // havola bilan ochilgan short (shorts.html#ID) — birinchi bo'lib
   const list = (arr => {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    const groups = {};
+    arr.forEach(x => (groups[x.ch] = groups[x.ch] || []).push(x));
+    const q = Object.values(groups).map(g => ({ g: shuffle(g), k: 0 }));
+    const a = [];
+    let prev = null;
+    while (a.length < arr.length) {
+      let best = null, br = 2;                                // ulushi eng kam olingan kanal (oldingisidan boshqa)
+      for (const c of q) if (c.k < c.g.length && c !== prev) { const r = (c.k + Math.random() * 0.6) / c.g.length; if (r < br) { best = c; br = r; } }
+      const c = best || prev;
+      a.push(c.g[c.k++]); prev = c;
+    }
     const k = a.findIndex(x => x.id === location.hash.slice(1));
     if (k > 0) a.unshift(a.splice(k, 1)[0]);
     return a;

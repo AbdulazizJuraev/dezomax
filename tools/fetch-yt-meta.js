@@ -139,6 +139,11 @@ if (typeof MOVIES !== 'undefined') for (var i = 0; i < CHANNEL_MOVIES.length; i+
     channels = channels.some(c => c.key === pl.key) ? channels.map(c => c.key === pl.key ? { ...c, ...entry } : c) : [...channels, entry];
   }
   if (shortsAll.length) {
+    // boshqa kanallar va rasmiy studiyalar shortslari (tools/fetch-studio-shorts.js) hamda m/p (mos kino, poster) saqlanadi
+    const old = (fs.readFileSync(path.join(root, 'js', 'data-shorts.js'), 'utf8').match(/\/\*SHORTS\*\/([\s\S]*?)\/\*ENDSHORTS\*\//) || [, '[]'])[1];
+    const oldList = JSON.parse(old), mineKeys = new Set(PLAYLISTS.map(p => p.key));
+    for (const x of shortsAll) { const o = oldList.find(y => y.id === x.id); if (o && o.m) Object.assign(x, { m: o.m, p: o.p }); }
+    shortsAll.push(...oldList.filter(y => !mineKeys.has(y.ch) && !shortsAll.some(x => x.id === y.id)));
     fs.writeFileSync(path.join(root, 'js', 'data-shorts.js'),
       `/* DezoMax Shorts — ruxsat berilgan kanallarning qisqa videolari (tools/fetch-yt-meta.js, admin → «Kanallar» yozadi).\n   YouTube pleyeri orqali ko'rsatiladi (shorts.html). id — YouTube video ID, t — nomi, s — soniya. */\nvar SHORTS = /*SHORTS*/[\n${shortsAll.map(x => JSON.stringify(x)).join(',\n')}\n]/*ENDSHORTS*/;\n`);
     console.log(`js/data-shorts.js — ${shortsAll.length} ta shorts`);

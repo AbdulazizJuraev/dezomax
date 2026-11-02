@@ -511,6 +511,30 @@ function setMovieSeo(m) {
 
 /* ---------- Sahifani chizish ---------- */
 
+/* «Shorts» — shu kino haqidagi qisqa videolar (js/data-shorts.js; m — tools/fetch-studio-shorts.js bog'laydi).
+   Fayl sahifa ochilgandan keyin, bo'sh vaqtda yuklanadi — kino sahifasi og'irlashmaydi; mos short bo'lmasa qator chiqmaydi */
+function mountShorts(m) {
+  const box = document.getElementById('mvShorts');
+  if (!box) return;
+  const draw = () => {
+    const list = (typeof SHORTS !== 'undefined' ? SHORTS : []).filter(s => s && Array.isArray(s.m) && s.m.includes(m.id)).slice(0, 16);
+    if (!list.length) return;
+    box.querySelector('.shorts-row').innerHTML = list.map(s => `
+      <a class="short-card" href="shorts.html#${s.id}" aria-label="${esc(s.t)}">
+        <img src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" loading="lazy" decoding="async">
+        ${ICONS.shorts.replace('<svg', '<svg class="short-ic"')}
+        <span>${esc(s.t)}</span>
+      </a>`).join('');
+    box.hidden = false;
+  };
+  if (typeof SHORTS !== 'undefined') return draw();
+  const v = (document.querySelector('script[src*="js/movie.js"]')?.getAttribute('src') || '').split('?')[1];
+  const s = document.createElement('script');
+  s.src = 'js/data-shorts.js' + (v ? '?' + v : '');
+  s.onload = draw;
+  (window.requestIdleCallback || setTimeout)(() => document.head.appendChild(s));
+}
+
 function renderMovie() {
   const page = document.getElementById('page');
   if (partRedirect) return;
@@ -622,11 +646,18 @@ function renderMovie() {
       <!-- bosh sahifadagi kabi bitta qatorli karusel -->
       <div class="row" id="similar"></div>
     </section>
+
+    <section class="section shorts" id="mvShorts" hidden>
+      <div class="section-head"><span class="shorts-head-ic">${ICONS.shorts}</span><h2>Shorts</h2>
+        <a class="row-all" href="shorts.html">${t('row.seeAll')}</a></div>
+      <div class="row shorts-row"></div>
+    </section>
   </div>`;
 
   bindStills(page);
   const similarRow = document.getElementById('similar');
   renderCards(similarRow, similarOf(movie));
+  mountShorts(movie);
   if (typeof Ads !== 'undefined') Ads.fill(page);
   document.querySelectorAll('#similarNav button').forEach(b => b.addEventListener('click', () => {
     similarRow.scrollBy({ left: +b.dataset.dir * Math.max(similarRow.clientWidth * .8, 240), behavior: 'smooth' });
