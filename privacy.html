@@ -10,19 +10,22 @@
 <script>(function(){var h=location.hostname,u=navigator.userAgent;if(!h||h==='dezomax.uz'||/^(localhost|127\.|10\.|192\.168\.)|\.localhost$/.test(h)||/DezoMaxApp|; wv\)/.test(u)||window.Capacitor)return;location.replace('https://dezomax.uz'+location.pathname.replace(/^\/dezomax(?=\/|$)/,'')+location.search+location.hash)})()</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <title>Maxfiylik siyosati — DezoMax</title>
-<meta name="description" content="DezoMax maxfiylik siyosati: qanday ma'lumot yig'iladi va qanday ishlatiladi.">
+<meta name="description" content="DezoMax maxfiylik siyosati: qanday ma’lumot yig‘iladi, cookie fayllar, Google AdSense reklamasi, statistika va ma’lumotni o‘chirish.">
 <meta name="theme-color" content="#07080c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DezoMax">
 <meta property="og:title" content="Maxfiylik siyosati — DezoMax">
-<meta property="og:description" content="DezoMax maxfiylik siyosati: qanday ma'lumot yig'iladi va qanday ishlatiladi.">
+<meta property="og:description" content="DezoMax maxfiylik siyosati: qanday ma’lumot yig‘iladi, cookie fayllar, Google AdSense reklamasi, statistika va ma’lumotni o‘chirish.">
 <meta property="og:url" content="https://dezomax.uz/privacy.html">
 <link rel="canonical" href="https://dezomax.uz/privacy.html">
+<link rel="alternate" hreflang="uz" href="https://dezomax.uz/privacy.html">
+<link rel="alternate" hreflang="ru" href="https://dezomax.uz/ru/privacy.html">
+<link rel="alternate" hreflang="x-default" href="https://dezomax.uz/privacy.html">
 <meta property="og:locale" content="uz_UZ">
 <meta property="og:locale:alternate" content="ru_RU">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maxfiylik siyosati — DezoMax">
-<meta name="twitter:description" content="DezoMax maxfiylik siyosati: qanday ma'lumot yig'iladi va qanday ishlatiladi.">
+<meta name="twitter:description" content="DezoMax maxfiylik siyosati: qanday ma’lumot yig‘iladi, cookie fayllar, Google AdSense reklamasi, statistika va ma’lumotni o‘chirish.">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="120x120" href="images/logo/favicon-120.png?v=3">
 <link rel="icon" type="image/png" sizes="192x192" href="images/logo/favicon-192.png?v=3">
@@ -31,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="css/style.css?v=202610301352">
+<link rel="stylesheet" href="css/style.css?v=202611020938">
 <style>
   .legal{max-width:760px;margin:0 auto;padding:calc(var(--header-h) + 40px) 20px 80px}
   .legal h1{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
@@ -45,9 +48,8 @@
   .legal .lang-toggle{display:flex;gap:8px;margin-bottom:28px}
   .legal .lang-btn{padding:7px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--text-dim);font-size:13px;font-weight:600;cursor:pointer}
   .legal .lang-btn.is-active{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .legal [data-lang]{display:none}
-  .legal [data-lang].is-active{display:block}
-</style>
+  .legal a.lang-btn{text-decoration:none}
+    </style>
 <!-- Google AdSense (reklama: js/ads.js) -->
 <meta name="google-adsense-account" content="ca-pub-3356248514435871">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3356248514435871" crossorigin="anonymous"></script>
@@ -66,10 +68,12 @@
     ym(113203097, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
 </script>
 <!-- /Yandex.Metrika counter -->
+<meta name="dzx:ru-title" content="Политика конфиденциальности — DezoMax">
+<meta name="dzx:ru-desc" content="Политика конфиденциальности DezoMax: какие данные собираются, файлы cookie, реклама Google AdSense, статистика и удаление данных.">
 </head>
 <body>
 <noscript><div><img src="https://mc.yandex.ru/watch/113203097" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<script src="js/logo.js?v=202610301352"></script>
+<script src="js/logo.js?v=202611020938"></script>
 
 <header class="header scrolled">
   <div class="wrap">
@@ -77,7 +81,7 @@
       <img class="logo-img" src="images/logo/dezomax-name.webp" alt="DezoMax" width="208" height="34">
     </a>
     <nav class="nav">
-      <a href="index.html">Bosh sahifa</a>
+      <a href="index.html" data-i18n="nav.home">Bosh sahifa</a>
       <a href="catalog.html">Katalog</a>
       <a href="sport.html">Sport</a>
       <a href="tv.html">Telekanallar</a>
@@ -88,18 +92,66 @@
 
 <main class="legal">
   <div class="lang-toggle">
-    <button type="button" class="lang-btn is-active" data-set="uz">UZ</button>
-    <button type="button" class="lang-btn" data-set="ru">RU</button>
+    <a class="lang-btn is-active" href="./privacy.html" hreflang="uz">UZ</a>
+    <a class="lang-btn" href="ru/privacy.html" hreflang="ru">RU</a>
   </div>
 
-  <div data-lang="uz" class="is-active">
+  <div data-lang-block="uz">
     <h1>Maxfiylik siyosati</h1>
-    <p>Sahifa matni yangilanmoqda.</p>
-  </div>
+    <p><em>Oxirgi yangilanish: 2026-yil 31-oktabr</em></p>
+    <p>Ushbu siyosat DezoMax sayti (dezomax.uz) va DezoMax ilovalari foydalanuvchilardan qanday ma’lumot olishini, uni nima uchun ishlatishini va siz uni qanday boshqarishingiz mumkinligini tushuntiradi. Saytdan foydalanib, siz ushbu siyosatga rozilik bildirasiz.</p>
+    <h2>1. Qanday ma’lumot yig‘iladi</h2>
+    <ul>
+      <li><strong>Akkaunt ma’lumotlari.</strong> Google yoki Telegram orqali kirsangiz — ismingiz, email manzilingiz yoki Telegram ID, profil rasmi. Saytni ko‘rish uchun akkaunt shart emas.</li>
+      <li><strong>Foydalanish ma’lumotlari.</strong> Sevimlilar, ko‘rish tarixi va sozlamalar — avvalo brauzeringizda (localStorage), akkauntga kirsangiz — serverimizda saqlanadi.</li>
+      <li><strong>Texnik ma’lumotlar.</strong> Brauzer turi, qurilma, taxminiy hudud, ochilgan sahifalar — statistika xizmatlari orqali, anonim ko‘rinishda.</li>
+      <li><strong>To‘lovlar.</strong> Obuna to‘lovlari Click to‘lov tizimi orqali amalga oshiriladi; karta ma’lumotlari DezoMax’ga berilmaydi.</li>
+    </ul>
+    <h2>2. Cookie fayllar va reklama</h2>
+    <p>Saytda Google AdSense reklamasi ko‘rsatiladi. Google va uning hamkorlari (uchinchi tomon yetkazib beruvchilar) cookie fayllardan foydalanib, sizning shu va boshqa saytlarga oldingi tashriflaringiz asosida reklama ko‘rsatadi. Google’ning reklama cookie fayllari (jumladan DoubleClick) unga va hamkorlariga sizga mos reklama ko‘rsatish imkonini beradi.</p>
+    <p>Shaxsiylashtirilgan reklamani <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google reklama sozlamalarida</a> o‘chirib qo‘yishingiz mumkin. Uchinchi tomon cookie fayllaridan voz kechish uchun <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info</a> sahifasidan foydalaning. Google ma’lumotlardan qanday foydalanishi haqida: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a>.</p>
+    <p>Cookie fayllarni brauzer sozlamalarida istalgan vaqtda o‘chirib qo‘yishingiz yoki tozalashingiz mumkin; bunda saytning ayrim qismlari (masalan, kirish holati) ishlamasligi mumkin.</p>
+    <h2>3. Statistika xizmatlari</h2>
+    <p>Saytni yaxshilash uchun Google Analytics va Yandex.Metrika ishlatiladi: ular qaysi sahifalar ko‘p ochilishini va sayt qanday ishlatilishini anonim tarzda hisoblaydi. Bu xizmatlar o‘z cookie fayllaridan foydalanadi va o‘z maxfiylik siyosatlariga amal qiladi.</p>
+    <h2>4. Videolar</h2>
+    <p>Filmlar va treylerlar mualliflik huquqi egalarining rasmiy YouTube va RuTube kanallaridan pleyer orqali ko‘rsatiladi. Video ochilganda YouTube yoki RuTube o‘z cookie fayllarini qo‘yishi mumkin.</p>
+    <h2>5. Ma’lumotlardan qanday foydalanamiz</h2>
+    <p>Ma’lumotlar faqat saytni ishlatish uchun: akkauntga kirish, sevimlilar va tarixni saqlash, obunani faollashtirish, xatolarni tuzatish va statistikaga ishlatiladi. Shaxsiy ma’lumotlaringizni sotmaymiz va reklama beruvchilarga bermaymiz.</p>
+    <h2>6. Bolalar</h2>
+    <p>Sayt 13 yoshgacha bo‘lgan bolalardan ataylab shaxsiy ma’lumot yig‘maydi. Bunday ma’lumot yig‘ilganini bilsangiz, biz bilan bog‘laning — u o‘chiriladi.</p>
+    <h2>7. Ma’lumotni o‘chirish</h2>
+    <p>Akkauntingiz va unga tegishli ma’lumotlarni o‘chirish tartibi — <a href="delete-account.html">«Akkauntni o‘chirish»</a> sahifasida. Brauzerdagi ma’lumotlar brauzer tarixini tozalaganda o‘chadi.</p>
+    <h2>8. Bog‘lanish</h2>
+    <p>Savollar bo‘yicha: <a href="mailto:newaccaunt0404@gmail.com">newaccaunt0404@gmail.com</a> yoki Telegram: <a href="https://t.me/dezomaxuz" target="_blank" rel="noopener">@dezomaxuz</a>. Batafsil — <a href="contacts.html">«Aloqa»</a> sahifasida.</p>
+  </div><!--/uz-->
 
-  <div data-lang="ru">
+  <div data-lang-block="ru" hidden>
     <h1>Политика конфиденциальности</h1>
-    <p>Текст страницы обновляется.</p>
+    <p><em>Последнее обновление: 31 октября 2026 г.</em></p>
+    <p>Эта политика объясняет, какие данные сайт DezoMax (dezomax.uz) и приложения DezoMax получают от пользователей, для чего их используют и как вы можете ими управлять. Пользуясь сайтом, вы соглашаетесь с этой политикой.</p>
+    <h2>1. Какие данные собираются</h2>
+    <ul>
+      <li><strong>Данные аккаунта.</strong> Если вы входите через Google или Telegram — имя, адрес электронной почты или Telegram ID, фото профиля. Для просмотра сайта аккаунт не нужен.</li>
+      <li><strong>Данные использования.</strong> Избранное, история просмотров и настройки хранятся прежде всего в вашем браузере (localStorage), а после входа в аккаунт — на нашем сервере.</li>
+      <li><strong>Технические данные.</strong> Тип браузера, устройство, примерный регион, открытые страницы — через сервисы статистики, в обезличенном виде.</li>
+      <li><strong>Платежи.</strong> Оплата подписки проходит через платёжную систему Click; данные карты DezoMax не передаются.</li>
+    </ul>
+    <h2>2. Файлы cookie и реклама</h2>
+    <p>На сайте показывается реклама Google AdSense. Google и его партнёры (сторонние поставщики) используют файлы cookie, чтобы показывать рекламу на основе ваших прошлых посещений этого и других сайтов. Рекламные файлы cookie Google (в том числе DoubleClick) позволяют Google и его партнёрам показывать вам подходящую рекламу.</p>
+    <p>Отключить персонализированную рекламу можно в <a href="https://adssettings.google.com" target="_blank" rel="noopener">настройках рекламы Google</a>. Отказаться от сторонних файлов cookie можно на сайте <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info</a>. Как Google использует данные: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a>.</p>
+    <p>Вы можете в любой момент отключить или удалить файлы cookie в настройках браузера; при этом некоторые функции сайта (например, вход в аккаунт) могут не работать.</p>
+    <h2>3. Сервисы статистики</h2>
+    <p>Для улучшения сайта используются Google Analytics и Яндекс Метрика: они в обезличенном виде считают, какие страницы открываются чаще и как используется сайт. Эти сервисы используют собственные файлы cookie и следуют своим политикам конфиденциальности.</p>
+    <h2>4. Видео</h2>
+    <p>Фильмы и трейлеры показываются через плеер с официальных YouTube- и RuTube-каналов правообладателей. При открытии видео YouTube или RuTube могут устанавливать собственные файлы cookie.</p>
+    <h2>5. Как мы используем данные</h2>
+    <p>Данные используются только для работы сайта: вход в аккаунт, сохранение избранного и истории, активация подписки, исправление ошибок и статистика. Мы не продаём ваши персональные данные и не передаём их рекламодателям.</p>
+    <h2>6. Дети</h2>
+    <p>Сайт намеренно не собирает персональные данные детей младше 13 лет. Если вы узнали, что такие данные были собраны, свяжитесь с нами — они будут удалены.</p>
+    <h2>7. Удаление данных</h2>
+    <p>Порядок удаления аккаунта и связанных с ним данных описан на странице <a href="delete-account.html">«Удаление аккаунта»</a>. Данные в браузере удаляются при очистке истории браузера.</p>
+    <h2>8. Контакты</h2>
+    <p>По вопросам: <a href="mailto:newaccaunt0404@gmail.com">newaccaunt0404@gmail.com</a> или Telegram: <a href="https://t.me/dezomaxuz" target="_blank" rel="noopener">@dezomaxuz</a>. Подробнее — на странице <a href="contacts.html">«Контакты»</a>.</p>
   </div>
 </main>
 
@@ -126,6 +178,8 @@
     <div class="footer-bottom">
       <span>© <span id="year"></span> DezoMax. <span data-i18n="footer.rights">Barcha huquqlar himoyalangan.</span></span>
       <nav class="footer-legal">
+        <a href="about.html" data-i18n="footer.aboutUs">Biz haqimizda</a>
+        <a href="contacts.html" data-i18n="footer.contacts">Aloqa</a>
         <a href="privacy.html" data-i18n="footer.privacy">Maxfiylik siyosati</a>
         <a href="delete-account.html" data-i18n="footer.delete">Akkauntni o‘chirish</a>
       </nav>
@@ -135,11 +189,6 @@
 
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
-document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => {
-  const l = b.dataset.set;
-  document.querySelectorAll('.lang-btn').forEach(x => x.classList.toggle('is-active', x === b));
-  document.querySelectorAll('[data-lang]').forEach(x => x.classList.toggle('is-active', x.dataset.lang === l));
-}));
 </script>
 </body>
 </html>

@@ -17,6 +17,10 @@ const vm = require('vm');
 const root = path.join(__dirname, '..');
 const SITE = 'https://dezomax.uz/';
 const DIR = path.join(root, 'marvel');
+// ruscha nusxa: ru/marvel/ (tools/ru-lib.js) — sahifalar ikki marta yasaladi: L = 'uz', keyin L = 'ru'
+const { toRu, withHreflang } = require('./ru-lib.js');
+let L = 'uz';
+const T = (uz, ru) => (L === 'ru' ? ru : uz);
 
 const ctx = { console, window: {}, document: { write() {} }, location: { pathname: '/' } };
 vm.createContext(ctx);
@@ -40,9 +44,10 @@ const films = (ctx.MARVEL_FILMS || []).filter(m => m && OFFICIAL.test(String(m.v
 const slugOf = (m, info) => String(info.en || m.slug || m.id).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const abs = p => p ? new URL(p, SITE).href : '';
-const mln = n => n >= 1e9 ? `${(n / 1e9).toFixed(2).replace(/\.?0+$/, '')} mlrd $` : `${Math.round(n / 1e6)} mln $`;
+const mln = n => n >= 1e9 ? `${(n / 1e9).toFixed(2).replace(/\.?0+$/, '')} ${T('mlrd', 'млрд')} $` : `${Math.round(n / 1e6)} ${T('mln', 'млн')} $`;
+const MON_RU = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 const MON = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr'];
-const dateUz = d => { const [y, mo, day] = d.split('-').map(Number); return `${y}-yil ${day}-${MON[mo - 1]}`; };
+const dateUz = d => { const [y, mo, day] = d.split('-').map(Number); return L === 'ru' ? `${day} ${MON_RU[mo - 1]} ${y} г.` : `${y}-yil ${day}-${MON[mo - 1]}`; };
 const ytOf = url => (String(url || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1] || '';
 
 let template = fs.readFileSync(path.join(root, 'marvel.html'), 'utf8');
@@ -62,11 +67,12 @@ function page({ id, title, desc, url, image, type, ld, body }) {
     .replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(desc)}">`)
     .replace('</head>', `<script>window.MX_ID=${id}</script>\n<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>\n</head>`)
     .replace('<main id="marvel" class="mx-page"></main>', `<main id="marvel" class="mx-page">${body}</main>`);
-  return html;
+  const rel = url.slice(SITE.length);
+  return L === 'ru' ? toRu(html, rel) : withHreflang(html, rel);
 }
 
 function filmPage({ m, info }) {
-  const uz = m.title.uz, ru = m.title.ru !== uz ? m.title.ru : '', en = info.en && info.en !== uz ? info.en : '';
+  const uz = L === 'ru' ? (m.title.ru || m.title.uz) : m.title.uz, ru = L === 'ru' ? (m.title.uz !== uz ? m.title.uz : '') : m.title.ru !== uz ? m.title.ru : '', en = info.en && info.en !== uz ? info.en : '';
   const year = (info.date || '').slice(0, 4) || m.year || '';
   const aka = [...new Set([ru, en, ...(m.tags || [])])].filter(x => x && x.length > 2 && x.toLowerCase() !== uz.toLowerCase() && !/^(marvel|dc|tez orada|скоро)$/i.test(x));
   const cast = [...new Set([...(m.cast || []), ...(info.cast || [])])].slice(0, 12);
@@ -76,13 +82,17 @@ function filmPage({ m, info }) {
   const slug = slugOf(m, info);
   const url = `${SITE}marvel/${slug}.html`;
   const image = abs(m.poster);
-  const title = `${uz}${en ? ` (${en})` : ''}${year ? ` ${year}` : ''} — treyler, aktyorlar, byudjet | Marvel | DezoMax`;
-  const money = [info.budget ? `byudjeti ${mln(info.budget)}` : '', info.gross ? `kassasi ${mln(info.gross)}` : ''].filter(Boolean).join(', ');
-  const desc = `${uz}${year ? ` (${year})` : ''} — Marvel filmi: ${official ? 'rasmiy ' : ''}treyler, aktyorlar${cast.length ? ` (${cast.slice(0, 3).join(', ')})` : ''}${money ? `, ${money}` : ''}. ${m.desc && m.desc.uz ? m.desc.uz : ''}`.replace(/\s+/g, ' ').trim().slice(0, 300);
+  const dtext = (m.desc && m.desc[L]) || '';
+  const title = `${uz}${en ? ` (${en})` : ''}${year ? ` ${year}` : ''} — ${T('treyler, aktyorlar, byudjet', 'трейлер, актёры, бюджет')} | Marvel | DezoMax`;
+  const money = [info.budget ? `${T('byudjeti', 'бюджет')} ${mln(info.budget)}` : '', info.gross ? `${T('kassasi', 'сборы')} ${mln(info.gross)}` : ''].filter(Boolean).join(', ');
+  const about = T(`«${uz}»${year ? ` (${year})` : ''} — Marvel Studios filmi${director ? `, rejissyor — ${director}` : ''}${cast.length ? `. Asosiy rollarda: ${cast.slice(0, 4).join(', ')}` : ''}${info.runtime ? `. Davomiyligi — ${info.runtime} daqiqa` : ''}${money ? `; ${money}` : ''}. Bu sahifada filmning ${official ? 'rasmiy ' : ''}treyleri, premyera sanasi va asosiy ma’lumotlari jamlangan. Filmning to‘liq versiyasi DezoMax’da joylanmaydi.`,
+    `«${uz}»${year ? ` (${year})` : ''} — фильм Marvel Studios${director ? `, режиссёр — ${director}` : ''}${cast.length ? `. В главных ролях: ${cast.slice(0, 4).join(', ')}` : ''}${info.runtime ? `. Продолжительность — ${info.runtime} мин.` : ''}${money ? `; ${money}` : ''}. На этой странице собраны ${official ? 'официальный ' : ''}трейлер, дата премьеры и основные сведения о фильме. Полная версия фильма на DezoMax не размещается.`);
+  const desc = T(`${uz}${year ? ` (${year})` : ''} — Marvel filmi: ${official ? 'rasmiy ' : ''}treyler, aktyorlar${cast.length ? ` (${cast.slice(0, 3).join(', ')})` : ''}${money ? `, ${money}` : ''}. ${dtext}`,
+    `${uz}${year ? ` (${year})` : ''} — фильм Marvel: ${official ? 'официальный ' : ''}трейлер, актёры${cast.length ? ` (${cast.slice(0, 3).join(', ')})` : ''}${money ? `, ${money}` : ''}. ${dtext || about}`).replace(/\s+/g, ' ').trim().slice(0, 300);
   const ld = {
     '@context': 'https://schema.org', '@type': 'Movie', name: uz, url,
     ...(aka.length ? { alternateName: aka } : {}),
-    ...(m.desc && m.desc.uz ? { description: m.desc.uz } : {}),
+    ...(dtext ? { description: dtext } : {}),
     ...(image ? { image } : {}),
     ...(info.date ? { datePublished: info.date } : year ? { datePublished: String(year) } : {}),
     ...(info.runtime ? { duration: `PT${info.runtime}M` } : {}),
@@ -93,24 +103,25 @@ function filmPage({ m, info }) {
       thumbnailUrl: `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`, embedUrl: `https://www.youtube.com/embed/${yt}`, ...(info.date ? { uploadDate: info.date } : {}) } } : {})
   };
   const facts = [
-    ['Premyera', info.date ? dateUz(info.date) : year],
-    ['Davomiyligi', info.runtime ? `${info.runtime} daqiqa` : ''],
-    ['Rejissyor', director],
-    ['Byudjet', info.budget ? mln(info.budget) : ''],
-    ['Kassa (butun dunyo)', info.gross ? mln(info.gross) : '']
+    [T('Premyera', 'Премьера'), info.date ? dateUz(info.date) : year],
+    [T('Davomiyligi', 'Продолжительность'), info.runtime ? `${info.runtime} ${T('daqiqa', 'мин.')}` : ''],
+    [T('Rejissyor', 'Режиссёр'), director],
+    [T('Byudjet', 'Бюджет'), info.budget ? mln(info.budget) : ''],
+    [T('Kassa (butun dunyo)', 'Сборы (в мире)'), info.gross ? mln(info.gross) : '']
   ].filter(f => f[1]);
   const body = `
 <div class="wrap seo-pre">
-  <nav class="seo-crumbs"><a href="index.html">Bosh sahifa</a> › <a href="marvel.html">Marvel</a></nav>
+  <nav class="seo-crumbs"><a href="index.html">${T('Bosh sahifa', 'Главная')}</a> › <a href="marvel.html">Marvel</a></nav>
   <div class="seo-head">
-    ${image ? `<img class="seo-poster" src="${esc(m.poster)}" alt="${esc(uz)} — poster" width="220" height="330">` : ''}
+    ${image ? `<img class="seo-poster" src="${esc(m.poster)}" alt="${esc(uz)} — ${T('poster', 'постер')}" width="220" height="330">` : ''}
     <div>
       <h1>${esc(uz)}${year ? ` (${year})` : ''}</h1>
       ${aka.length ? `<p class="seo-alt">${esc(aka.join(' · '))}</p>` : ''}
-      ${m.desc && m.desc.uz ? `<p>${esc(m.desc.uz)}</p>` : ''}
+      ${dtext ? `<p>${esc(dtext)}</p>` : ''}
+      <p class="seo-about">${esc(about)}</p>
       <dl>${facts.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
-      ${cast.length ? `<h2>Aktyorlar</h2><ul class="seo-list">${cast.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
-      ${yt ? `<p><a class="btn btn-primary" href="https://www.youtube.com/watch?v=${yt}" target="_blank" rel="noopener">${official ? 'Rasmiy treyler' : 'Treyler'} (YouTube)</a></p>` : ''}
+      ${cast.length ? `<h2>${T('Aktyorlar', 'Актёры')}</h2><ul class="seo-list">${cast.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
+      ${yt ? `<p><a class="btn btn-primary" href="https://www.youtube.com/watch?v=${yt}" target="_blank" rel="noopener">${official ? T('Rasmiy treyler', 'Официальный трейлер') : T('Treyler', 'Трейлер')} (YouTube)</a></p>` : ''}
     </div>
   </div>
 </div>`;
@@ -126,15 +137,22 @@ for (const f of films) {
   pages[f.m.id] = slug;
 }
 for (const f of fs.readdirSync(DIR)) if (f.endsWith('.html') && !keep.has(f)) fs.unlinkSync(path.join(DIR, f));
+// ruscha nusxa — ru/marvel/
+L = 'ru';
+const RU_DIR = path.join(root, 'ru', 'marvel');
+fs.mkdirSync(RU_DIR, { recursive: true });
+for (const f of films) fs.writeFileSync(path.join(RU_DIR, slugOf(f.m, f.info) + '.html'), filmPage(f).html);
+for (const f of fs.readdirSync(RU_DIR)) if (f.endsWith('.html') && !keep.has(f)) fs.unlinkSync(path.join(RU_DIR, f));
+L = 'uz';
 
 // marvel.html — ro'yxat HTML'ning o'zida (qidiruv robotlari barcha film sahifalarini topsin)
 const sorted = [...films].sort((a, b) => String(b.info.date || b.m.year).localeCompare(String(a.info.date || a.m.year)));
 const list = `
 <div class="wrap seo-pre seo-index">
-  <h1>Marvel filmlari — treylerlar, aktyorlar, byudjet va kassa</h1>
-  <p>Marvel Studios filmlari o‘zbek tilida: rasmiy treylerlar, aktyorlar, premyera sanasi, byudjet va kassa daromadi.</p>
+  <h1 data-ru="Фильмы Marvel — трейлеры, актёры, бюджет и сборы">Marvel filmlari — treylerlar, aktyorlar, byudjet va kassa</h1>
+  <p data-ru="Фильмы Marvel Studios: официальные трейлеры, актёры, даты премьер, бюджет и кассовые сборы. Откройте фильм, чтобы посмотреть трейлер и узнать подробности.">Marvel Studios filmlari o‘zbek tilida: rasmiy treylerlar, aktyorlar, premyera sanasi, byudjet va kassa daromadi.</p>
   <ul class="seo-grid">${sorted.map(({ m, info }) => `
-    <li><a href="marvel/${pages[m.id]}.html">${m.poster ? `<img src="${esc(m.poster)}" alt="${esc(m.title.uz)}" loading="lazy" width="160" height="240">` : ''}<span>${esc(m.title.uz)}</span><small>${esc((info.date || '').slice(0, 4) || m.year || '')}</small></a></li>`).join('')}
+    <li><a href="marvel/${pages[m.id]}.html">${m.poster ? `<img src="${esc(m.poster)}" alt="${esc(m.title.uz)}" loading="lazy" width="160" height="240">` : ''}<span data-ru="${esc(m.title.ru || m.title.uz)}">${esc(m.title.uz)}</span><small>${esc((info.date || '').slice(0, 4) || m.year || '')}</small></a></li>`).join('')}
   </ul>
 </div>`;
 const mp = path.join(root, 'marvel.html');

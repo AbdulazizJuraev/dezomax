@@ -19,6 +19,9 @@
 <meta property="og:description" content="DezoMax (Dezo Max) — o‘zbek kinolari, tarjima filmlar, seriallar, multfilmlar, telekanallar va sport onlayn. Узбекские фильмы, сериалы и мультфильмы онлайн.">
 <meta property="og:url" content="https://dezomax.uz/">
 <link rel="canonical" href="https://dezomax.uz/">
+<link rel="alternate" hreflang="uz" href="https://dezomax.uz/">
+<link rel="alternate" hreflang="ru" href="https://dezomax.uz/ru/">
+<link rel="alternate" hreflang="x-default" href="https://dezomax.uz/">
 <meta property="og:locale" content="uz_UZ">
 <meta property="og:locale:alternate" content="ru_RU">
 <meta name="twitter:card" content="summary">
@@ -32,8 +35,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="css/style.css?v=202610301352">
-<link rel="stylesheet" href="css/v4.css?v=202610301352">
+<link rel="stylesheet" href="css/style.css?v=202611020938">
+<link rel="stylesheet" href="css/v4.css?v=202611020938">
 <!-- Google AdSense (reklama: js/ads.js) -->
 <meta name="google-adsense-account" content="ca-pub-3356248514435871">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3356248514435871" crossorigin="anonymous"></script>
@@ -55,8 +58,8 @@
 </head>
 <body class="v4">
 <noscript><div><img src="https://mc.yandex.ru/watch/113203097" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<script src="js/logo.js?v=202610301352"></script>
-<script src="js/intro.js?v=202610301352"></script>
+<script src="js/logo.js?v=202611020938"></script>
+<script src="js/intro.js?v=202611020938"></script>
 
 <header class="v4-head">
   <a class="v4-logo" href="index.html" aria-label="DezoMax"><img class="logo-img" src="images/logo/dezomax-name.webp" alt="DezoMax" width="208" height="34"></a>
@@ -69,7 +72,7 @@
   </nav>
   <!-- telefonda: logo ostidagi bo'limlar qatori (maket) -->
   <nav class="v4-mini" aria-label="Bo‘limlar">
-    <a class="is-on" href="index.html">Bosh sahifa</a><a href="sport.html">Sport</a><a href="tv.html">Kanallar</a><a href="plans.html">Obuna</a><a href="downloads.html">Yuklab olinganlar</a><a href="marvel.html">Marvel</a><a href="catalog.html">Katalog</a>
+    <a class="is-on" href="index.html" data-i18n="nav.home">Bosh sahifa</a><a href="sport.html" data-i18n="nav.sport">Sport</a><a href="tv.html" data-ru="Каналы">Kanallar</a><a href="plans.html" data-i18n="nav.plans">Obuna</a><a href="downloads.html" data-i18n="nav.downloads">Yuklab olinganlar</a><a href="marvel.html">Marvel</a><a href="catalog.html" data-i18n="nav.catalog">Katalog</a>
   </nav>
   <div class="v4-head-r">
     <a class="v4-ic" href="search.html" aria-label="Qidiruv"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></a>
@@ -85,8 +88,8 @@
       <form class="v4-dezo" id="v4Dezo" action="search.html" role="search">
         <button class="v4-orb" type="button" id="v4Mic" aria-label="Ovoz bilan qidirish"><i></i></button>
         <label>
-          <small>Dezo’ga yozing yoki ayting</small>
-          <input name="q" id="v4Q" autocomplete="off" placeholder="«Vision haqidagi yangi serialni qo‘y»">
+          <small data-ru="Напишите или скажите Dezo">Dezo’ga yozing yoki ayting</small>
+          <input name="q" id="v4Q" autocomplete="off" placeholder="«Vision haqidagi yangi serialni qo‘y»" data-ru-ph="«Включи новый сериал про Вижна»">
         </label>
       </form>
       <div class="v4-flow" id="v4Flow" aria-label="Tanlangan kinolar"></div>
@@ -95,51 +98,78 @@
       <div class="v4-langs" id="v4Langs"></div>
     </div>
     <div class="v4-pick">
-      <h2>Yoki shulardan biri</h2>
+      <h2 data-ru="Или один из этих">Yoki shulardan biri</h2>
       <div class="v4-pick-row" id="v4Pick"></div>
     </div>
   </section>
 
   <div class="v4-rows" id="v4Rows"></div>
+  <!-- Sayt haqida — HTML'ning o'zida (qidiruv tizimlari, AdSense). Ruscha blok — ru/index.html da (tools/gen-ru.js) -->
+  <section class="v4-about" aria-label="DezoMax haqida">
+    <div data-lang-block="uz">
+      <h2>DezoMax — o‘zbek tilidagi onlayn kinoteatr</h2>
+      <p>DezoMax’da o‘zbek kinolari, tarjima filmlar, seriallar, multfilmlar, kino tahlillari, telekanallar va sport yangiliklari bitta joyda jamlangan. Filmlar mualliflik huquqi egalarining rasmiy YouTube va RuTube kanallaridan ko‘rsatiladi, shuning uchun ularni bepul va ro‘yxatdan o‘tmasdan ko‘rish mumkin — kompyuterda, telefonda va televizorda.</p>
+      <p>Katalogda filmlarni janr, yil, davlat va til bo‘yicha saralash mumkin; har bir filmning o‘z sahifasi bor: qisqacha mazmuni, rejissyori, aktyorlari va o‘xshash filmlar ro‘yxati. Yoqqan filmlarni sevimlilarga qo‘shing, ko‘rishni to‘xtagan joyingizdan davom ettiring.</p>
+      <ul>
+        <li><a href="kino/index.html">Barcha filmlar ro‘yxati</a> — yangi va mashhur filmlar</li>
+        <li><a href="toplam/ozbek-filmlari.html">O‘zbek filmlari</a>, <a href="toplam/ozbek-seriallari.html">o‘zbek seriallari</a> va <a href="toplam/ozbek-komediya.html">komediyalar</a></li>
+        <li><a href="marvel.html">Marvel filmlari</a> — treylerlar, premyeralar, byudjet va kassa</li>
+        <li><a href="tv.html">Telekanallar</a> va <a href="sport.html">sport</a> — natijalar va yangiliklar</li>
+      </ul>
+      <p>Loyiha haqida — <a href="about.html">«Biz haqimizda»</a>, savol va takliflar uchun — <a href="contacts.html">«Aloqa»</a>.</p>
+    </div><!--/uz-->
+    <div data-lang-block="ru" hidden>
+      <h2>DezoMax — онлайн-кинотеатр узбекского кино</h2>
+      <p>На DezoMax собраны узбекские фильмы, кино в переводе, сериалы, мультфильмы, видеоразборы фильмов, телеканалы и спортивные новости. Фильмы показываются с официальных YouTube- и RuTube-каналов правообладателей, поэтому смотреть их можно бесплатно и без регистрации — на компьютере, телефоне и телевизоре.</p>
+      <p>В каталоге фильмы можно отбирать по жанру, году, стране и языку; у каждого фильма есть своя страница с описанием, режиссёром, актёрами и списком похожих фильмов. Добавляйте понравившееся в избранное и продолжайте просмотр с того места, где остановились.</p>
+      <ul>
+        <li><a href="kino/index.html">Список всех фильмов</a> — новые и популярные фильмы</li>
+        <li><a href="toplam/ozbek-filmlari.html">Узбекские фильмы</a>, <a href="toplam/ozbek-seriallari.html">узбекские сериалы</a> и <a href="toplam/ozbek-komediya.html">комедии</a></li>
+        <li><a href="marvel.html">Фильмы Marvel</a> — трейлеры, премьеры, бюджет и сборы</li>
+        <li><a href="tv.html">Телеканалы</a> и <a href="sport.html">спорт</a> — результаты и новости</li>
+      </ul>
+      <p>О проекте — <a href="about.html">«О нас»</a>, вопросы и предложения — <a href="contacts.html">«Контакты»</a>.</p>
+    </div>
+  </section>
 </main>
 
 <footer class="v4-foot">
   <div class="v4-foot-top">
     <div>
       <a class="v4-logo" href="index.html"><img class="logo-img" src="images/logo/dezomax-name.webp" alt="DezoMax" width="208" height="34" loading="lazy"></a>
-      <p>DezoMax — o‘zbek tilidagi kinolar, tarjima filmlar, seriallar, multfilmlar, telekanallar va sport onlayn: saytda, telefonda va televizorda.</p>
+      <p data-ru="DezoMax — узбекское кино, фильмы в переводе, сериалы, мультфильмы, телеканалы и спорт онлайн: на сайте, в телефоне и на телевизоре.">DezoMax — o‘zbek tilidagi kinolar, tarjima filmlar, seriallar, multfilmlar, telekanallar va sport onlayn: saytda, telefonda va televizorda.</p>
       <div class="v4-socials"><a class="v4-so fs-yt" href="https://www.youtube.com/@dezomax" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg></a>
           <a class="v4-so fs-ig" href="https://www.instagram.com/dmaxuz" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
           <a class="v4-so fs-tg" href="https://t.me/dezomaxuz" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3 18.6 19.9c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L5.9 13.4l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6L20.4 2.9c.9-.3 1.7.2 1.5 1.4z"/></svg></a></div>
     </div>
     <!--noindex-->
     <div class="v4-foot-ads" data-nosnippet>
-      <h4>Reklama yuzasidan</h4>
-      <p>Saytda va DezoMax ilovasida reklama joylashtirish bo‘yicha biz bilan bog‘laning.</p>
-      <a class="v4-foot-btn" href="https://t.me/dezomaxuz" target="_blank" rel="noopener">Telegram orqali yozish</a>
+      <h4 data-i18n="footer.ads">Reklama yuzasidan</h4>
+      <p data-i18n="footer.adsText">Saytda va DezoMax ilovasida reklama joylashtirish bo‘yicha biz bilan bog‘laning.</p>
+      <a class="v4-foot-btn" href="https://t.me/dezomaxuz" target="_blank" rel="noopener" data-ru="Написать в Telegram">Telegram orqali yozish</a>
     </div>
     <!--/noindex-->
   </div>
   <div class="v4-foot-bot">
-    <span>© <span id="v4Year"></span> DezoMax. Barcha huquqlar himoyalangan.</span>
-    <nav><a href="privacy.html">Maxfiylik siyosati</a><a href="delete-account.html">Akkauntni o‘chirish</a></nav>
+    <span>© <span id="v4Year"></span> DezoMax. <span data-i18n="footer.rights">Barcha huquqlar himoyalangan.</span></span>
+    <nav><a href="about.html" data-i18n="footer.aboutUs">Biz haqimizda</a><a href="contacts.html" data-i18n="footer.contacts">Aloqa</a><a href="privacy.html" data-i18n="footer.privacy">Maxfiylik siyosati</a><a href="delete-account.html" data-i18n="footer.delete">Akkauntni o‘chirish</a></nav>
   </div>
 </footer>
 
-<script src="js/data.js?v=202610301352"></script>
-<script src="js/data-shorts.js?v=202610301352"></script>
-<script src="js/seo-pages.js?v=202610301352"></script>
-<script src="js/thumbs.js?v=202610301352"></script>
-<script src="js/data-lib-gate.js?v=202610301352"></script>
-<script src="js/data-home.js?v=202610301352"></script>
-<script src="js/site-config.js?v=202610301352"></script>
-<script src="js/i18n.js?v=202610301352"></script>
-<script src="js/common.js?v=202610301352"></script>
-<script src="js/firebase-config.js?v=202610301352"></script>
-<script src="js/auth.js?v=202610301352"></script>
-<script src="js/role.js?v=202610301352"></script>
-<script src="js/ads.js?v=202610301352"></script>
-<script src="js/welcome.js?v=202610301352"></script>
-<script src="js/v4.js?v=202610301352"></script>
+<script src="js/data.js?v=202611020938"></script>
+<script src="js/data-shorts.js?v=202611020938"></script>
+<script src="js/seo-pages.js?v=202611020938"></script>
+<script src="js/thumbs.js?v=202611020938"></script>
+<script src="js/data-lib-gate.js?v=202611020938"></script>
+<script src="js/data-home.js?v=202611020938"></script>
+<script src="js/site-config.js?v=202611020938"></script>
+<script src="js/i18n.js?v=202611020938"></script>
+<script src="js/common.js?v=202611020938"></script>
+<script src="js/firebase-config.js?v=202611020938"></script>
+<script src="js/auth.js?v=202611020938"></script>
+<script src="js/role.js?v=202611020938"></script>
+<script src="js/ads.js?v=202611020938"></script>
+<script src="js/welcome.js?v=202611020938"></script>
+<script src="js/v4.js?v=202611020938"></script>
 </body>
 </html>

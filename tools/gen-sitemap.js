@@ -31,6 +31,9 @@ for (const m of [...byId.values()]) {
 const GEN = require('./gen-pages.js');
 const SEO = GEN.pages;
 const MARVEL = require('./gen-marvel-pages.js').pages;
+// ruscha nusxa — ru/… (tools/gen-ru.js; kino/, toplam/, marvel/ ning ruschasini generatorlarning o'zi yasaydi)
+require('./gen-ru.js');
+const { hasRu } = require('./ru-lib.js');
 
 const today = new Date().toISOString().slice(0, 10);
 const day = ts => ts ? new Date(ts).toISOString().slice(0, 10) : today;
@@ -43,8 +46,9 @@ const pages = [
   ['sport.html', 'daily', '0.7'],
   ['tv.html', 'weekly', '0.7'],
   ['plans.html', 'monthly', '0.5'],
-  ['downloads.html', 'monthly', '0.3'],
-  ['privacy.html', 'yearly', '0.2'],
+  ['about.html', 'monthly', '0.4'],
+  ['contacts.html', 'monthly', '0.4'],
+  ['privacy.html', 'yearly', '0.3'],
   ['delete-account.html', 'yearly', '0.2']
 ].map(([p, freq, pr]) => ({ loc: SITE + p, lastmod: today, freq, pr }));
 
@@ -66,9 +70,14 @@ const collections = (GEN.collections || []).map(k => ({ loc: `${SITE}toplam/${k}
 // teg sahifalari — teg/<key>.html (janr, yil, davlat, aktyor, rejissyor…)
 const tagUrls = [`${SITE}teg/index.html`, ...(GEN.tags || []).map(k => `${SITE}teg/${k}.html`)].map(loc => ({ loc, lastmod: today, freq: 'weekly', pr: '0.6' }));
 
+// ruscha manzillar: o'zbekchasining ruscha nusxasi bor bo'lsa — dezomax.uz/ru/…
+const ruUrls = [...pages, ...collections, ...marvel, ...movies]
+  .filter(u => hasRu(u.loc.slice(SITE.length) || 'index.html') && !/\?/.test(u.loc))
+  .map(u => ({ ...u, loc: SITE + 'ru/' + u.loc.slice(SITE.length) }));
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...pages, ...collections, ...tagUrls, ...studios, ...marvel, ...movies].map(u => `  <url>
+${[...pages, ...collections, ...tagUrls, ...studios, ...marvel, ...movies, ...ruUrls].map(u => `  <url>
     <loc>${u.loc.replace(/&/g, '&amp;')}</loc>
     <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.freq}</changefreq>
@@ -78,4 +87,4 @@ ${[...pages, ...collections, ...tagUrls, ...studios, ...marvel, ...movies].map(u
 `;
 
 fs.writeFileSync(path.join(root, 'sitemap.xml'), xml);
-console.log(`sitemap.xml — ${pages.length} sahifa + ${movies.length} kino`);
+console.log(`sitemap.xml — ${pages.length} sahifa + ${movies.length} kino + ${ruUrls.length} ruscha`);

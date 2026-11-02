@@ -397,7 +397,9 @@ const LANG_NAMES = {
 /* Kino havolasi: qidiruv tizimlari uchun tayyor sahifasi bo'lsa (js/seo-pages.js) — kino/<slug>.html */
 function movieHref(m) {
   const p = typeof SEO_PAGES !== 'undefined' && SEO_PAGES[m.id];
-  return p ? `kino/${p}.html` : `movie.html?id=${m.id}`;
+  // ruscha nusxada (dezomax.uz/ru/…, js/i18n.js) — ruscha kino sahifalari
+  const ru = typeof RU_PATH !== 'undefined' && RU_PATH ? 'ru/' : '';
+  return p ? `${ru}kino/${p}.html` : `${ru}movie.html?id=${m.id}`;
 }
 
 function cardHTML(m) {

@@ -8052,3 +8052,11 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
   .hd-ic { background: none; color: var(--accent); width: 38px; height: 38px; }
   .hd-ic svg { width: 24px; height: 24px; }
 }
+
+/* Sahifa haqida matn (catalog.html .seo-text) — qidiruv tizimlari uchun, yengil */
+.seo-text { margin: 40px 0 56px; max-width: 980px; color: var(--text-dim); font-size: 15px; line-height: 1.7; }
+.seo-text h2 { color: var(--text); font-size: 20px; margin: 0 0 12px; }
+.seo-text p { margin: 0 0 12px; }
+.seo-text a { color: var(--accent); }
+.seo-text [hidden], .seo-pre [hidden] { display: none; }
+.seo-about { margin-top: 10px; }

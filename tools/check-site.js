@@ -74,6 +74,20 @@ for (const h of htmls) {
   }
 }
 
+// ruscha nusxa (dezomax.uz/ru/…, tools/gen-ru.js): asosiy sahifalari bormi, fayllari to'g'rimi, lang="ru"
+const ruDir = path.join(root, 'ru');
+const ruHtmls = fs.existsSync(ruDir) ? fs.readdirSync(ruDir).filter(f => f.endsWith('.html')) : [];
+if (!ruHtmls.includes('index.html')) err("ru/index.html yo'q — ruscha nusxa yasalmagan (node tools/gen-ru.js)");
+for (const h of ruHtmls) {
+  const src = fs.readFileSync(path.join(ruDir, h), 'utf8');
+  if (!/<html lang="ru"/.test(src)) err(`ru/${h}: <html lang="ru"> emas`);
+  if (!/<base href="\.\.\/">/.test(src)) err(`ru/${h}: <base href="../"> yo'q — fayllar ochilmaydi`);
+  for (const [, ref] of src.matchAll(/(?:src|href)="((?:js|css)\/[^"?#]+)/g)) {
+    if (!fs.existsSync(path.join(root, ref))) err(`ru/${h}: «${ref}» fayli yo'q`);
+  }
+}
+const ruFilm = fs.existsSync(path.join(ruDir, 'kino')) && fs.readdirSync(path.join(ruDir, 'kino')).find(f => f.endsWith('.html') && f !== 'index.html');
+
 /* ---------- 4) Haqiqiy brauzerda (--smoke) ---------- */
 async function smoke() {
   let puppeteer;
@@ -107,7 +121,10 @@ async function smoke() {
     ['Marvel', 'marvel.html?nointro', () => document.querySelectorAll('.mx-card').length >= 1],
     ['Sport', 'sport.html?nointro', () => true],
     ['TV', 'tv.html?nointro', () => true],
-    ['Akkaunt', 'account.html?nointro', () => !!document.querySelector('#account')?.children.length]
+    ['Akkaunt', 'account.html?nointro', () => !!document.querySelector('#account')?.children.length],
+    // ruscha nusxa: LANG='ru' (js/i18n.js — /ru/ manzil), fayllar <base href> orqali ildizdan
+    ['Bosh sahifa (RU)', 'ru/index.html?nowelcome&nointro', () => LANG === 'ru' && document.querySelectorAll('#v4Rows .v4-card').length >= 5],
+    ...(ruFilm ? [['Kino sahifasi (RU)', `ru/kino/${ruFilm}?nointro`, () => LANG === 'ru' && !!document.querySelector('h1')]] : [])
   ];
   const browser = await puppeteer.launch({ executablePath: chrome, headless: 'new', args: ['--no-sandbox', '--disable-gpu'] });
   try {

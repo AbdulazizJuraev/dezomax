@@ -213,6 +213,8 @@ const I18N = {
     'footer.adsText': 'Saytda va DezoMax ilovasida reklama joylashtirish bo‘yicha biz bilan bog‘laning.',
     'footer.adsBtn': 'Telegram’da bog‘lanish',
     'footer.privacy': 'Maxfiylik siyosati',
+    'footer.aboutUs': 'Biz haqimizda',
+    'footer.contacts': 'Aloqa',
     'footer.delete': 'Akkauntni o‘chirish',
 
     'common.all': 'Barchasi',
@@ -429,6 +431,8 @@ const I18N = {
     'footer.adsText': 'Свяжитесь с нами, чтобы разместить рекламу на сайте и в приложении DezoMax.',
     'footer.adsBtn': 'Написать в Telegram',
     'footer.privacy': 'Политика конфиденциальности',
+    'footer.aboutUs': 'О нас',
+    'footer.contacts': 'Контакты',
     'footer.delete': 'Удаление аккаунта',
 
     'common.all': 'Все',
@@ -437,14 +441,23 @@ const I18N = {
   }
 };
 
-/* Joriy til / Текущий язык */
-let LANG = localStorage.getItem('dezomax_lang') || 'uz';
+/* Joriy til / Текущий язык. dezomax.uz/ru/… — ruscha nusxa (tools/gen-ru.js): u yerda doim rus tili */
+const RU_PATH = /^\/ru\//.test(location.pathname);
+let LANG = RU_PATH ? 'ru' : (localStorage.getItem('dezomax_lang') || 'uz');
+if (RU_PATH) try { localStorage.setItem('dezomax_lang', 'ru'); } catch (e) {}
 
 function t(key) {
   return (I18N[LANG] && I18N[LANG][key]) || (I18N.uz[key]) || key;
 }
 
 function setLang(lang) {
+  // dezomax.uz da til — manzilda: /ru/… ↔ o'zbekcha sahifa (hreflang) — qidiruv tizimlari ham shu manzillarni ko'radi
+  const alt = location.hostname === 'dezomax.uz' && document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
+  if (alt && (lang === 'ru') !== RU_PATH) {
+    localStorage.setItem('dezomax_lang', lang);
+    location.href = new URL(alt.href).pathname + location.search + location.hash;
+    return;
+  }
   LANG = lang;
   localStorage.setItem('dezomax_lang', lang);
   document.documentElement.lang = lang;
@@ -460,6 +473,7 @@ function applyI18n() {
   document.querySelectorAll('[data-i18n-ph]').forEach(el => {
     el.placeholder = t(el.getAttribute('data-i18n-ph'));
   });
+  document.querySelectorAll('[data-lang-block]').forEach(el => { el.hidden = el.dataset.langBlock !== LANG; });
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('is-active', btn.dataset.lang === LANG);
   });
