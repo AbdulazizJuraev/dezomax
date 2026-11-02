@@ -129,7 +129,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
 
   feed.innerHTML = list.map((s, i) => `
     <section class="sh-slide" data-i="${i}" data-id="${s.id}">
-      <img class="sh-thumb" src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" ${i > 1 ? 'loading="lazy"' : ''} decoding="async">
+      <img class="sh-thumb" data-src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" decoding="async">
       <div class="sh-frame"></div>
       <button class="sh-tap" type="button" aria-label="${ru ? 'Пауза / воспроизвести' : 'Pauza / davom ettirish'}"><span class="sh-paused">${ICON.play}</span></button>
       <div class="sh-info">
@@ -148,6 +148,8 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     </section>`).join('');
 
   const slides = [...feed.querySelectorAll('.sh-slide')];
+  const thumbEls = slides.map(sl => sl.querySelector('.sh-thumb'));
+  const isApp = /DezoMaxApp|; wv\)/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
   // ovoz bilan boshlanadi (foydalanuvchi so'rovi); brauzer ovozli avtoijroga ruxsat bermasa — 1,5 s dan keyin ovozsiz
   // davom etadi va birinchi teginishda ovoz o'zi yoqiladi
   let muted = false, autoMuted = false, active = -1;
@@ -241,55 +243,110 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     finally { const i2 = sheet.querySelector('#shSheetForm input'); if (i2) { i2.disabled = false; i2.focus(); } }
   });
 
+  /* Qotmaslik uchun (2026-11-02):
+     - bir vaqtda ko'pi bilan 2 ta YouTube pleyeri: ko'rinib turgani va (u o'ynay boshlagach) keyingisi — oldindan, pauzada;
+       ekrandan chiqqan pleyer DOM'dan olib tashlanadi — xotira bo'shaydi;
+     - muqovalar faqat yonidagi slaydlarda (oldingi 1 ta, keyingi 2 ta): har biri 1080×1920 (~8 MB xotira), avval ko'rilganlari
+       yig'ilib qolib telefonni qotirardi;
+     - pleyer surish tugagandan keyin almashtiriladi — surish o'rtasida iframe yaratish/o'chirish animatsiyani to'xtatardi. */
+  const frames = new Map();                                   // slayd raqami → iframe
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  let prewarmT;
+  function thumbs(i) {
+    thumbEls.forEach((img, k) => {
+      const near = k >= i - 1 && k <= i + 2;
+      if (near && !img.getAttribute('src')) img.src = img.dataset.src;
+      else if (!near && img.getAttribute('src')) img.removeAttribute('src');
+    });
+  }
+  function dropFrame(k) {
+    const f = frames.get(k);
+    if (!f) return;
+    frames.delete(k);
+    f.src = 'about:blank';                                    // pleyer darhol to'xtaydi
+    f.remove();
+    slides[k].classList.remove('is-playing', 'is-paused', 'is-live', 'is-yt-stop');
+  }
+  function mountFrame(k, play) {
+    const sl = slides[k], id = sl.dataset.id;
+    sl.querySelector('.sh-frame').innerHTML =
+      `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=${play ? 1 : 0}&mute=${play && !muted ? 0 : 1}&playsinline=1&loop=1&playlist=${id}` +
+      `&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"` +
+      ` allow="autoplay; encrypted-media; picture-in-picture" title="${esc(list[k].t)}"></iframe>`;
+    const fr = sl.querySelector('iframe');
+    frames.set(k, fr);
+    // YouTube holatini eshitamiz: video haqiqatan o'ynay boshlaganda muqova olinadi (is-live)
+    fr.addEventListener('load', () => {
+      try { fr.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: k, channel: 'widget' }), '*'); } catch {}
+    });
+  }
+  const startFrame = k => { const sl = slides[k]; send(sl, muted ? 'mute' : 'unMute'); send(sl, 'playVideo'); };
+
   function activate(i) {
-    if (i === active) return;
-    // avvalgi pleyer olib tashlanadi — bir vaqtda faqat bitta video (telefon xotirasi va trafigi)
-    slides.forEach((sl, k) => { if (k !== i) { sl.querySelector('.sh-frame').innerHTML = ''; sl.classList.remove('is-playing', 'is-paused'); } });
+    if (i === active || !slides[i]) return;
+    for (const k of [...frames.keys()]) if (k !== i) dropFrame(k);
+    clearTimeout(prewarmT);
     active = i;
     const sl = slides[i], id = sl.dataset.id;
-    sl.querySelector('.sh-frame').innerHTML =
-      `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=${muted ? 1 : 0}&playsinline=1&loop=1&playlist=${id}` +
-      `&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"` +
-      ` allow="autoplay; encrypted-media; picture-in-picture" title="${esc(list[i].t)}"></iframe>`;
+    sl.classList.remove('is-paused', 'is-live', 'is-yt-stop');
+    if (frames.has(i)) startFrame(i);                         // oldindan yuklangan — darhol o'ynaydi
+    else mountFrame(i, true);
     sl.classList.add('is-playing');
     clearTimeout(sl._soundT);
     // Brauzer ovozli avtoijroni taqiqlagan bo'lsagina ovozsizga o'tamiz. Avval 1,5 s kutilardi — internet sekin bo'lsa
     // video kech boshlanib, ovoz bekorga o'chib qolardi. Ilovada (WebView) ovozli avtoijro doim ruxsat — o'chirilmaydi.
-    const isApp = /DezoMaxApp|; wv\)/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
     if (!muted && !isApp) sl._soundT = setTimeout(() => {
       if (active !== i || sl.classList.contains('is-live')) return;
       muted = true; autoMuted = true; send(sl, 'mute'); send(sl, 'playVideo'); paintSound();
     }, 4500);
     loadSocial(i);
-    sl.classList.remove('is-live');
-    // YouTube holatini eshitamiz: video haqiqatan o'ynay boshlaganda muqova olinadi (is-live)
-    const fr = sl.querySelector('iframe');
-    fr.addEventListener('load', () => {
-      try { fr.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: i, channel: 'widget' }), '*'); } catch {}
-    });
+    thumbs(i);
     try { history.replaceState(null, '', '#' + id); } catch {}
-    // keyingi shortning muqovasi oldindan
-    const next = slides[i + 1] && slides[i + 1].querySelector('.sh-thumb');
-    if (next) next.loading = 'eager';
+  }
+  // joriy video o'ynay boshlagach — keyingisining pleyeri oldindan (pauzada, ovozsiz); trafik tejash rejimida — yo'q
+  function prewarm(k) {
+    clearTimeout(prewarmT);
+    if (saveData || !slides[k + 1] || frames.has(k + 1)) return;
+    prewarmT = setTimeout(() => { if (active === k && !frames.has(k + 1)) mountFrame(k + 1, false); }, 1500);
   }
 
   addEventListener('message', e => {
+    // YouTube sekundiga bir necha marta vaqt yuboradi — holatsiz xabarlar tahlil qilinmay o'tkaziladi
+    if (typeof e.data === 'string' && !/playerState|onStateChange|onReady/.test(e.data)) return;
     if (!/youtube(-nocookie)?\.com$/.test(String(e.origin).replace(/^https?:\/\/(www\.)?/, ''))) return;
     let d;
     try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
-    const st = d && (d.event === 'onStateChange' ? d.info : d.info && d.info.playerState);
+    let k = -1;
+    for (const [n, f] of frames) if (f.contentWindow === e.source) { k = n; break; }
+    if (k < 0 || !d) return;
+    const sl = slides[k];
+    // oldindan yuklangan pleyerga u tayyor bo'lmasdan o'tilgan bo'lsa — tayyor bo'lganda boshlanadi
+    if (d.event === 'onReady') { if (k === active && !sl.classList.contains('is-paused')) startFrame(k); return; }
+    const st = d.event === 'onStateChange' ? d.info : d.info && d.info.playerState;
     if (st === undefined || st === null) return;
-    const sl = slides.find(s => { const f = s.querySelector('iframe'); return f && f.contentWindow === e.source; });
-    if (!sl) return;
-    if (st === 1) { sl.classList.add('is-live'); sl.classList.remove('is-yt-stop'); }     // 1 — o'ynayapti
+    if (st === 1 && k !== active) { send(sl, 'pauseVideo'); return; }   // oldindan yuklangani o'zi o'ynamasin
+    if (st === 1) { sl.classList.add('is-live'); sl.classList.remove('is-yt-stop'); prewarm(k); }     // 1 — o'ynayapti
     // YouTube o'zi to'xtatsa (pauza/tugadi/boshlanmadi) — uning tugmalari ko'rinmasin: muqova yopib turadi
     else if (st === 2 || st === 0 || st === -1 || st === 5) sl.classList.add('is-yt-stop');
   });
 
+  // surish tugagach (scrollend yoki 180 ms jimlik) — eng ko'p ko'rinib turgan slayd faollashadi
+  let cand = -1, settleT;
+  const settle = () => { clearTimeout(settleT); if (cand >= 0) activate(cand); };
+  const settleSoon = () => { clearTimeout(settleT); settleT = setTimeout(settle, 180); };
   const io = new IntersectionObserver(entries => {
-    for (const e of entries) if (e.isIntersecting && e.intersectionRatio >= 0.6) activate(+e.target.dataset.i);
+    for (const e of entries) if (e.isIntersecting && e.intersectionRatio >= 0.6) { cand = +e.target.dataset.i; settleSoon(); }
   }, { root: feed, threshold: [0.6] });
   slides.forEach(sl => io.observe(sl));
+  feed.addEventListener('scroll', settleSoon, { passive: true });
+  feed.addEventListener('scrollend', settle);
+
+  // boshqa ilova/varaqqa o'tilganda video to'xtaydi (fonda batareya va trafik sarflamasin), qaytganda davom etadi
+  document.addEventListener('visibilitychange', () => {
+    const sl = slides[active];
+    if (!sl || sl.classList.contains('is-paused')) return;
+    send(sl, document.hidden ? 'pauseVideo' : 'playVideo');
+  });
 
   // ovoz avtomatik o'chirilgan bo'lsa — birinchi teginishda (har qanday joyda) yoqiladi
   addEventListener('pointerup', () => {
