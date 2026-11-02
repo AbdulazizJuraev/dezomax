@@ -27,6 +27,14 @@ for (const f of files) {
   if (after !== before) { fs.writeFileSync(p, after); changed++; }
 }
 
+// admin.js — versiya kodning o'zidan (hash): ochiq admin «yangi versiya» deb o'zi yangilanadi,
+// har sayt deployida emas, faqat admin.js haqiqatan o'zgarganda
+{
+  const hash = parseInt(require('crypto').createHash('sha1').update(fs.readFileSync(path.join(root, 'js', 'admin.js'))).digest('hex').slice(0, 10), 16);
+  const p = path.join(root, 'admin.html');
+  fs.writeFileSync(p, fs.readFileSync(p, 'utf8').replace(/(js\/admin\.js)\?v=[^"]*"/, `$1?v=${hash}"`));
+}
+
 console.log(`versiya ${version} — ${changed} ta HTML fayl yangilandi`);
 
 // Qidiruv tizimlari uchun kinolar ro'yxati ham yangilansin

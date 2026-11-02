@@ -37,7 +37,16 @@
     return m.poster ? imgBig(m.poster) || m.poster : null;
   }
   // kartadagi rasm: keng bo'lsa keng, bo'lmasa tik poster (kartada o'rtasidan kesiladi)
-  const cardImg = m => wideOf(m, 'w780') || (m.poster ? imgSmall(m.poster) : null);
+  // kinodan kadr (RuTube/YouTube rasmi) — kinoning rasmiy posteri bo'lsa, kartada poster chiqadi (foydalanuvchi so'rovi, 2026-11-02)
+  const isFrame = u => /rtbcdn\.ru|i\.ytimg\.com/.test(String(u || ''));
+  const hasPoster = m => /image\.tmdb\.org|wikimedia\.org/.test(String(m.poster || ''));
+  const cardImg = m => { const w = wideOf(m, 'w780'); return w && !(isFrame(w) && hasPoster(m)) ? w : (m.poster ? imgSmall(m.poster) : null); };
+  // keng kartada tik poster — butunligicha (kesilmaydi), yonlari kinoning ranglari
+  const tallAttr = (m, img) => {
+    if (!img || img === wideOf(m, 'w780')) return '';
+    const [c1, c2] = m.colors || ['#1c1d22', '#0d0e12'];
+    return ` is-tall" style="background:linear-gradient(135deg,${esc(c1)},${esc(c2)})`;
+  };
 
   /* ---------- matnlar ---------- */
   const DAY = 86400000;
@@ -273,7 +282,7 @@
     const sub = [st === 'uz' ? (ru ? 'на узбекском' : 'o‘zbekcha') : st === 'trailer' ? (ru ? 'трейлер' : 'treyler') : '',
       m.year, parts > 1 ? `${parts} ${ru ? 'серий' : 'qism'}` : genreName((m.genres || [])[0])].filter(Boolean).join(' · ');
     return `<a class="v4-card" href="${movieHref(m)}">
-      <div class="v4-card-im">${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
+      <div class="v4-card-im${tallAttr(m, img)}">${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
         ${m.rating ? `<i class="v4-rt">★ ${(+m.rating).toFixed(1)}</i>` : ''}</div>
       <b>${esc(title(m))}</b><small>${esc(sub)}</small></a>`;
   }
@@ -304,7 +313,7 @@
         const pct = Math.min(100, Math.max(2, x.t / x.dur * 100));
         const img = cardImg(m);
         return `<div class="v4-card is-cw"><a href="${esc(x.path || `movie.html?id=${m.id}`)}">
-          <div class="v4-card-im">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+          <div class="v4-card-im${tallAttr(m, img)}">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
             <span class="v4-cw-play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg></span>
             <i class="v4-cw-bar"><i style="width:${pct.toFixed(1)}%"></i></i></div>
           <b>${esc(title(m))}</b><small>${[x.part ? `${x.part}-${ru ? 'я серия' : 'qism'}` : '', `${left(x.dur - x.t)} ${ru ? 'осталось' : 'qoldi'}`].filter(Boolean).join(' · ')}</small></a>

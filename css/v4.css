@@ -381,3 +381,6 @@ html body :is(.v4-title, .v4-row-h h2, .v4-dezo input, .v4-t10-n, .v4-clock, .v4
 .v4-about-foot a:hover { border-color: var(--v4-lime); color: var(--v4-lime); }
 @media (max-width: 900px) { .v4-about-in { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 480px) { .v4-about-in { border-radius: 20px; } .v4-chip { gap: 10px; padding: 10px; } .v4-chip svg { width: 32px; height: 32px; padding: 7px; } .v4-chip small { display: none; } }
+
+/* keng kartada tik poster (js/v4.js tallAttr) — kesilmaydi */
+.v4-card-im.is-tall img { object-fit: contain; }
