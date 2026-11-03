@@ -312,7 +312,9 @@
       catch (e) {
         console.warn(e);
         const msg = String(e?.message || e?.code || '');
-        if (!/cancel/i.test(msg)) showErr(e.code === 'plugin' ? t('acc.errGoogleLoad') : t('acc.errGeneric'));
+        // sabab ko'rinsin (masalan Google Credential Manager kodi) — aks holda tashxis qo'yib bo'lmaydi
+        const detail = msg && msg !== 'plugin' ? ` (${msg.slice(0, 160)})` : '';
+        if (!/cancel/i.test(msg)) showErr((e.code === 'plugin' ? t('acc.errGoogleLoad') : t('acc.errGeneric')) + detail);
       } finally { btn.disabled = false; }
     });
   }
