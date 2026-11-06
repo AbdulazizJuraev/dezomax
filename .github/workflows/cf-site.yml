@@ -39,7 +39,7 @@ jobs:
           node tools/gen-home-data.js   # bosh sahifa ro'yxati admin o'zgarishlari bilan yangi bo'lsin
           mkdir -p _site
           git ls-files -z \
-            | grep -zvE '^(mobile|desktop|tools|server|cloudflare|tv|\.github)/|(^|/)README|\.md$|^guard-result|^\.|^admin\.html$|^admin\.webmanifest$|^js/admin\.js$|^js/data-lib2?\.js$' \
+            | grep -zvE '^(mobile|desktop|tools|server|cloudflare|tv|\.github)/|(^|/)README|\.md$|^guard-result|^\.|^admin\.html$|^admin\.webmanifest$|^js/admin\.js$|^js/data-lib2?\.js$|^js/data-custom\.js$' \
             | xargs -0 cp --parents -t _site
           cp cloudflare/site/_headers _site/_headers
           echo "fayllar: $(find _site -type f | wc -l), hajm: $(du -sh _site | cut -f1)"
