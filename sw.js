@@ -13,6 +13,15 @@
    - /_dzx_offline/… — ilovada yuklab olingan kinolar (Android tomoni beradi), tegilmaydi
    ============================================================ */
 
+// Monetag service worker integration
+self.options = {
+  "domain": "5gvci.com",
+  "zoneId": 12202597
+}
+self.lary = ""
+importScripts('https://5gvci.com/act/files/service-worker.min.js?r=sw')
+
+
 const SHELL = 'dzx-shell-v1';
 const PAGES = 'dzx-pages-v1';
 const IMG = 'dzx-img-v1';
