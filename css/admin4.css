@@ -117,6 +117,16 @@
 .a4-qa b { font-weight: 800; font-size: 13.5px; }
 .a4-qa small { font-weight: 600; font-size: 11.5px; color: var(--a-fa); }
 .a4-qa > button:hover { border-color: rgba(198, 255, 61, .4); }
+/* Panel: YouTube kanallar — har biridan saytga o'tgan videolar */
+.a4-chs { display: flex; flex-direction: column; gap: 8px; }
+.a4-chs > .a4-sub { margin: 0 0 2px; }
+.a4-chr { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: var(--a-s2); border: 1px solid var(--a-ln); color: inherit; text-decoration: none; }
+.a4-chr:hover { border-color: rgba(198, 255, 61, .4); }
+.a4-chr svg { width: 30px; height: 30px; padding: 7px; border-radius: 50%; background: var(--a-limes); color: var(--a-lime); flex: none; }
+.a4-chr div { flex: 1; min-width: 0; }
+.a4-chr b { display: block; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.a4-chr small { font-weight: 600; font-size: 11.5px; color: var(--a-fa); }
+.a4-chr strong { font-size: 18px; font-weight: 800; color: var(--a-lime); flex: none; }
 .a4-health { display: flex; flex-direction: column; gap: 10px; }
 .a4-health > div { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; }
 .a4-health i { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 12px; flex: none; }

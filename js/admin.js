@@ -1280,6 +1280,39 @@ function a4Status(m) {
   return ['l', 'Saytda'];
 }
 
+/* Panel: har bir YouTube kanalidan saytga o'tgan videolar (yashirilganlar hisoblanmaydi).
+   Serialda har bir qism alohida video (eps); Shorts — js/data-shorts.js (admin'da kerak bo'lganda yuklanadi) */
+let chFocusAdd = false;
+function a4ChannelRows() {
+  const chans = typeof CHANNELS !== 'undefined' ? CHANNELS : [];
+  if (!chans.length) return '<p class="a4-sub">Hali kanal qo‘shilmagan</p>';
+  const byId = new Map((typeof CHANNEL_MOVIES !== 'undefined' ? CHANNEL_MOVIES : []).map(m => [m.id, m]));
+  for (const m of customList) if (m.ch) byId.set(m.id, m);   // admin tahrirlagan nusxa ustun
+  const items = [...byId.values()].filter(m => !isHidden(m.id));
+  const shorts = typeof SHORTS !== 'undefined' ? SHORTS : null;
+  const fmt = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
+  const rows = chans.map(c => {
+    const mine = items.filter(m => m.ch === c.key);
+    const videos = mine.reduce((s, m) => s + (Array.isArray(m.eps) && m.eps.length ? m.eps.length : m.video || m.trailer ? 1 : 0), 0);
+    const sh = shorts ? shorts.filter(x => x.ch === c.key).length : 0;
+    return { c, titles: mine.length, videos, sh, total: videos + sh };
+  }).sort((a, b) => b.total - a.total);
+  const sum = rows.reduce((s, r) => s + r.total, 0);
+  return `<p class="a4-sub">${chans.length} ta kanal · saytda jami <b>${fmt(sum)}</b> ta video${shorts ? '' : ' (Shorts hisoblanmoqda…)'}</p>` +
+    rows.map(({ c, titles, videos, sh, total }) => `
+    <a class="a4-chr" href="${esc(c.url)}" target="_blank" rel="noopener">${NAV_ICONS.yt}
+      <div><b>${esc(c.name)}</b><small>${[videos ? `${fmt(videos)} video` : '', titles ? `${fmt(titles)} ta kino/serial` : '', sh ? `${fmt(sh)} ta shorts` : ''].filter(Boolean).join(' · ') || 'hali video o‘tmagan'}</small></div>
+      <strong>${fmt(total)}</strong></a>`).join('');
+}
+function a4LoadShorts() {
+  if (typeof SHORTS !== 'undefined' || document.getElementById('a4ShortsJs')) return;
+  const v = (document.querySelector('script[src*="data-channels.js"]')?.src.split('?')[1]) || '';
+  const s = document.createElement('script');
+  s.id = 'a4ShortsJs'; s.src = 'js/data-shorts.js' + (v ? '?' + v : '');
+  s.onload = () => { const box = document.getElementById('a4Chs'); if (box) box.innerHTML = a4ChannelRows(); };
+  document.head.appendChild(s);
+}
+
 function renderHome() {
   const all = allMovies();
   const active = activeList();
@@ -1325,6 +1358,8 @@ function renderHome() {
           <button type="button" data-go="tg">${NAV_ICONS.tg}<b>Telegramdan</b><small>post havolasi</small></button>
           <button type="button" data-go="channels">${NAV_ICONS.yt}<b>YouTube</b><small>kanallarni yangilash</small></button>
           <button type="button" data-go="site">${A4_ICONS.layout}<b>Bosh sahifa</b><small>karusel va qatorlar</small></button></div></section>
+        <section class="a4-card"><div class="a4-ch"><b>YouTube kanallar</b><button class="a4-link" type="button" id="a4ChAdd">+ Kanal qo‘shish</button></div>
+          <div class="a4-chs" id="a4Chs">${a4ChannelRows()}</div></section>
         <section class="a4-card"><div class="a4-ch"><b>Sayt sog‘lig‘i</b><span class="a4-pill is-n" id="a4HealthAll">tekshirilmoqda…</span></div><div class="a4-health" id="a4Health"><div class="mt-loading"><i></i><i></i><i></i></div></div></section>
         <section class="a4-card"><div class="a4-ch"><b class="a4-ai"><i class="a4-orb"></i>Dezo tavsiya qiladi</b></div><div class="a4-tips">
           ${raw ? `<div class="a4-tip"><b>${fmt(raw)} ta kinoning nomi xom</b> (Telegram’dan): emoji, «720p», «PREMYERA»… Toza nomlarni tayyorlab qo‘ydim.<div><button class="a4-btn is-p" type="button" data-go="clean">Ko‘rib chiqish</button></div></div>` : ''}
@@ -1340,6 +1375,8 @@ function renderHome() {
     </details>`;
 
   document.querySelectorAll('#admView [data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
+  $('#a4ChAdd')?.addEventListener('click', () => { chFocusAdd = true; go('channels'); });
+  a4LoadShorts();
   document.querySelectorAll('#admView [data-stat]').forEach(b => b.addEventListener('click', () => { listFilter = b.dataset.stat; listQuery = ''; go('list'); }));
   document.querySelectorAll('#admView [data-edit]').forEach(b => b.addEventListener('click', () => { editingId = +b.dataset.edit; view = 'form'; renderMain(); window.scrollTo({ top: 0 }); }));
   loadHealth();
@@ -4441,6 +4478,8 @@ async function renderChannelsView() {
     </section>`;
 
   box.querySelectorAll('[data-chsync]').forEach(b => b.addEventListener('click', () => syncChannel(chState.channels.find(c => c.key === b.dataset.chsync))));
+  // Paneldagi «+ Kanal qo'shish» — to'g'ridan-to'g'ri qo'shish formasiga
+  if (chFocusAdd) { chFocusAdd = false; $('#chAddSec')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); $('#chUrl')?.focus({ preventScroll: true }); }
   // studiya tugmasi — formani to'ldiradi (rasmiy kanal, «Treylerlar», bo'lim — studiya)
   box.querySelectorAll('[data-studio]').forEach(b => b.addEventListener('click', () => {
     const x = STUDIOS.find(y => y.key === b.dataset.studio);
