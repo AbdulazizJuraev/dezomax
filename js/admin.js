@@ -4665,7 +4665,8 @@ async function syncPlaylist(ch) {
   let shorts = null;
   if (ch.shorts && ch.id) { chBusy.note = 'Shorts o‘qilmoqda…'; shorts = (await ytApi('/api/yt/shorts?ch=' + encodeURIComponent(ch.id))).items; }
   const shortIds = new Set((shorts || []).map(x => x.id));
-  const have = new Set(chState.items.filter(m => m.ch === ch.key).map(m => m.id));
+  // playlist serialining qismlari (tools/yt-channel-playlists.js) ham «bor» hisoblanadi — alohida qayta qo'shilmaydi
+  const have = new Set(chState.items.filter(m => m.ch === ch.key).flatMap(m => [m.id, ...(m.eps || []).map(e => ytStableId(`${ch.prefix}:${e[0]}`))]));
   const fresh = pl.items.map((v, k) => ({ v, k, id: ytStableId(`${ch.prefix}:${v.id}`) }))
     .filter(x => !have.has(x.id) && x.v.len && !shortIds.has(x.v.id) && (ch.shorts || (ytSecs(x.v.len) > 60 && !/#shorts?\b/i.test(x.v.title)))).slice(0, 40);
   const uz = (ch.audio || 'uz') === 'uz';
