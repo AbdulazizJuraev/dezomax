@@ -1294,7 +1294,7 @@ function a4ChannelRows() {
   const rows = chans.map(c => {
     const mine = items.filter(m => m.ch === c.key);
     const videos = mine.reduce((s, m) => s + (Array.isArray(m.eps) && m.eps.length ? m.eps.length : m.video || m.trailer ? 1 : 0), 0);
-    const sh = shorts ? shorts.filter(x => x.ch === c.key).length : 0;
+    const sh = shorts ? shorts.filter(x => chShortOf(c, x)).length : 0;
     return { c, titles: mine.length, videos, sh, total: videos + sh };
   }).sort((a, b) => b.total - a.total);
   const sum = rows.reduce((s, r) => s + r.total, 0);
@@ -4385,6 +4385,8 @@ function bindVideoUpload(form) {
 const CH_PATH = 'js/data-channels.js';
 let chState = null;           // { channels, items, sha }
 let chBusy = null;            // { key, done, total, note }
+// kanal shortsi: kanal kaliti bilan yoki studiya kaliti bilan (tools/fetch-studio-shorts.js: dc, universal…)
+const chShortOf = (c, x) => x.ch === c.key || (!!c.franchise && x.ch === c.franchise && typeof STUDIOS !== 'undefined' && STUDIOS.some(s => s.key === c.franchise));
 let chFilter = 'all';         // «Kanallar reytingi» filtri: all | series | trailers | playlist
 let chAllRun = false;         // «Hammasini yangilash» ishlayapti
 const CH_KINDS = { series: 'Seriallar va filmlar (playlistlar)', trailers: 'Rasmiy treylerlar (Marvel kabi)' };
@@ -4439,17 +4441,18 @@ async function renderChannelsView() {
   // saytga o'tgan videolar: serialning har bir qismi (eps) alohida, yashirilganlar hisoblanmaydi; shorts — js/data-shorts.js
   const fmtN = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
   const shorts = typeof SHORTS !== 'undefined' ? SHORTS : null;
-  const stat = key => {
+  const stat = c => {
+    const key = c.key;
     const mine = chState.items.filter(m => m.ch === key && !isHidden(m.id));
     const videos = mine.reduce((s, m) => s + (Array.isArray(m.eps) && m.eps.length ? m.eps.length : m.video || m.trailer ? 1 : 0), 0);
-    const sh = shorts ? shorts.filter(x => x.ch === key).length : 0;
+    const sh = shorts ? shorts.filter(x => chShortOf(c, x)).length : 0;
     return { titles: mine.length, videos, sh, total: videos + sh };
   };
-  const stats = new Map(chState.channels.map(c => [c.key, stat(c.key)]));
+  const stats = new Map(chState.channels.map(c => [c.key, stat(c)]));
   const sumAll = [...stats.values()].reduce((s, x) => s + x.total, 0);
   // 4.0 dizayn (Figma «DezoMax Admin — YouTube kanallar»): raqam kartalari, turi bo'yicha filtr, reyting jadvali
-  const kindOf = c => c.kind === 'playlist' ? 'playlist' : c.kind === 'trailers' ? 'trailers' : 'series';
-  const KIND_L = { series: 'Serial va filmlar', trailers: 'Rasmiy treylerlar', playlist: 'Ruxsat berilgan playlist' };
+  const kindOf = c => c.kind === 'trailers' || c.asTrailer ? 'trailers' : c.type === 'tahlil' ? 'playlist' : 'series';
+  const KIND_L = { series: 'Kino va seriallar', trailers: 'Treyler va kliplar', playlist: 'Kino tahlillari' };
   const MON = ['yan', 'fev', 'mar', 'apr', 'may', 'iyn', 'iyl', 'avg', 'sen', 'okt', 'noy', 'dek'];
   const when = t => { if (!t) return 'hali yangilanmagan'; const d = new Date(t); return `${d.getDate()}-${MON[d.getMonth()]}, ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
   const pctTxt = n => !n || !sumAll ? '0%' : n / sumAll < .001 ? '<0.1%' : (n / sumAll * 100).toFixed(1).replace(/\.0$/, '') + '%';
@@ -4479,7 +4482,7 @@ async function renderChannelsView() {
       <div class="chx-card">
         <div class="chx-ch">
           <div><b>Kanallar reytingi</b><small>Saytga o‘tgan videolar soni bo‘yicha · yashirilganlar sanalmaydi</small></div>
-          <div class="chx-flt">${[['all', 'Hammasi', all.length], ['series', 'Serial va filmlar', nKind('series')], ['trailers', 'Treylerlar', nKind('trailers')], ['playlist', 'Playlist', nKind('playlist')]]
+          <div class="chx-flt">${[['all', 'Hammasi', all.length], ['series', 'Kino va seriallar', nKind('series')], ['trailers', 'Treylerlar', nKind('trailers')], ['playlist', 'Tahlillar', nKind('playlist')]]
             .filter(([k, , n]) => k === 'all' || n).map(([k, l, n]) => `<button type="button" data-chflt="${k}" class="${chFilter === k ? 'is-on' : ''}">${l} · ${n}</button>`).join('')}</div>
         </div>
         <div class="chx-th"><span>#</span><span>KANAL</span><span>TURI</span><span>SAYTDA</span><span>ULUSH</span><span>YANGILANGAN</span><span></span></div>
@@ -4589,6 +4592,29 @@ async function ytApi(p) {
 const ytStableId = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return 7000000 + (h % 1000000); };
 const ytSlug = s => s.toLowerCase().replace(/[‘’'`ʻ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'video';
 const ytMinutes = len => { const p = String(len).split(':').map(Number); if (!p.length || p.some(isNaN)) return 0; const s = p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0); return Math.max(1, Math.round(s / 60)); };
+const ytSecs = len => { const p = String(len || '').split(':').map(Number); return p.some(isNaN) ? 0 : p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0); };
+// ruscha/inglizcha kanal videosi (tools/yt-channel-all.js bilan bir xil yozuv): nom — sarlavhaning birinchi qismi
+const YT_TR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya' };
+function ytForeignItem(ch, v, k, id) {
+  const parts = String(v.title).replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/#[\p{L}\p{N}_]+/gu, '').split(/\s*\|\s*/)
+    .map(p => p.replace(/\s{2,}/g, ' ').replace(/^[\s\-–—:]+|[\s\-–—:]+$/g, '').trim()).filter(Boolean);
+  let name = parts[0] || String(v.title).trim();
+  const letters = name.replace(/[^\p{L}]/gu, ''), caps = letters.replace(/[^\p{Lu}]/gu, '').length;
+  if (letters && caps / letters.length > .5) name = name.toLowerCase();
+  name = name.replace(/(^|[.!?]\s+)(\p{L})/gu, (m, a, b) => a + b.toUpperCase());
+  const rest = parts.slice(1).join(' · '), url = `https://www.youtube.com/watch?v=${v.id}`;
+  return {
+    id, slug: `${ch.prefix}-${ytSlug(name.toLowerCase().replace(/[а-яё]/g, c => YT_TR[c] ?? ''))}`, type: ch.type || 'film', ...(ch.franchise ? { franchise: ch.franchise } : {}), audio: ch.audio,
+    title: { uz: name, ru: name }, genres: ch.type === 'multfilm' ? ['animation'] : [], cast: [],
+    desc: ch.asTrailer
+      ? { uz: `«${name}»${rest ? ` — ${rest}` : ''}. ${ch.name} rasmiy YouTube kanalidan (ingliz tilida).`, ru: `«${name}»${rest ? ` — ${rest}` : ''}. Видео с официального YouTube-канала ${ch.name}.` }
+      : { uz: `«${name}»${rest ? ` (${rest})` : ''} — ${ch.name} YouTube kanalidan, rus tilida.`, ru: `«${name}»${rest ? ` (${rest})` : ''} — видео с YouTube-канала ${ch.name}.` },
+    colors: ['#1a2a4a', '#070a12'],
+    poster: `https://i.ytimg.com/vi/${v.id}/hq720.jpg`, wide: true, cover: `https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`,
+    trailer: ch.asTrailer ? url : '', video: ch.asTrailer ? '' : url, duration: ytMinutes(v.len) || 0,
+    source: { name: ch.name, url: ch.url }, featured: false, addedAt: Date.now() - k * 60000, ch: ch.key,
+  };
+}
 const ytUz = s => String(s).replace(/([oOgG])['‘’`ʻ]/g, '$1‘').replace(/['`ʻ]/g, '’');
 function ytVideoTitle(raw) {
   const parts = String(raw).replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').split(/\s*\|\s*/).map(p => p.replace(/\s{2,}/g, ' ').trim())
@@ -4641,11 +4667,13 @@ async function syncPlaylist(ch) {
   const shortIds = new Set((shorts || []).map(x => x.id));
   const have = new Set(chState.items.filter(m => m.ch === ch.key).map(m => m.id));
   const fresh = pl.items.map((v, k) => ({ v, k, id: ytStableId(`${ch.prefix}:${v.id}`) }))
-    .filter(x => !have.has(x.id) && x.v.len && !shortIds.has(x.v.id)).slice(0, 40);
+    .filter(x => !have.has(x.id) && x.v.len && !shortIds.has(x.v.id) && (ch.shorts || (ytSecs(x.v.len) > 60 && !/#shorts?\b/i.test(x.v.title)))).slice(0, 40);
+  const uz = (ch.audio || 'uz') === 'uz';
   const add = [];
   for (const [n, { v, k, id }] of fresh.entries()) {
     Object.assign(chBusy, { done: n, total: fresh.length, note: v.title });
     if (view === 'channels') renderChannelsView();
+    if (!uz) { add.push(ytForeignItem(ch, v, k, id)); continue; }
     let meta = {};
     try { meta = await ytApi('/api/yt/meta?v=' + v.id); } catch {}
     const t = ytVideoTitle(v.title);
