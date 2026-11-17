@@ -13,6 +13,108 @@ const HOST = 'dezomax.uz';
 const DATA_FILES = {
   '/_n/news-uz.json': 'https://raw.githubusercontent.com/AbdulazizJuraev/dezomax/news-data/news-uz.json'
 };
+const SEO_SHARDS = 128;
+
+const escapeAttr = value => String(value || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function movieRequestId(url) {
+  if (url.pathname === '/movie.html') {
+    const id = url.searchParams.get('id') || '';
+    return /^\d{1,12}$/.test(id) ? String(Number(id)) : '';
+  }
+  const match = url.pathname.match(/^\/film\/[a-z0-9-]+-(\d{1,12})\.html$/i);
+  return match ? String(Number(match[1])) : '';
+}
+
+async function getMovieMetadata(requestUrl, assets, id) {
+  const shard = String(Number(id) % SEO_SHARDS).padStart(3, '0');
+  const url = new URL(`/_seo/${shard}.json`, requestUrl);
+  const response = await assets.fetch(new Request(url));
+  if (!response.ok) return null;
+  const index = await response.json();
+  return index[id] || null;
+}
+
+async function movieNotFound(request, env, url) {
+  const pageUrl = new URL('/404.html', url);
+  const page = await env.ASSETS.fetch(new Request(pageUrl, { headers: request.headers }));
+  if (!page.ok) return new Response('Not Found', { status: 404, headers: { 'content-type': 'text/plain; charset=utf-8' } });
+  const headers = new Headers(page.headers);
+  for (const key of ['content-length', 'content-encoding', 'etag', 'last-modified', 'content-md5']) headers.delete(key);
+  headers.set('content-type', 'text/html; charset=utf-8');
+  return new Response(request.method === 'HEAD' ? null : await page.text(), { status: 404, headers });
+}
+
+async function serveMoviePage(request, env, url, id, metadata) {
+  const shellUrl = new URL('/movie.html', url);
+  shellUrl.search = '';
+  shellUrl.hash = '';
+  const shell = await env.ASSETS.fetch(new Request(shellUrl, { headers: request.headers }));
+  if (!shell.ok) return shell;
+  let html = await shell.text();
+  const title = escapeAttr(metadata.title);
+  const description = escapeAttr(metadata.description);
+  const canonical = escapeAttr(metadata.canonical);
+  const image = escapeAttr(metadata.shareImage);
+  if (url.pathname.startsWith('/film/')) {
+    html = html.replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n<base href="/">');
+  }
+  html = html
+    .replace(/<!-- Har bir kino[\s\S]*?<\/script>/, '')
+    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`)
+    .replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i, '')
+    .replace(/<meta\s+property="og:(?:title|description|url|image|type)"[^>]*>\s*/gi, '')
+    .replace(/<meta\s+name="twitter:(?:card|title|description|image)"[^>]*>\s*/gi, '')
+    .replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '')
+    .replace(/<script\s+type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>\s*/gi, '');
+  const movieSchema = {
+    '@type': metadata.type, '@id': `${metadata.canonical}#title`, name: metadata.name, url: metadata.canonical,
+    description: metadata.description
+  };
+  if (metadata.alternateName) movieSchema.alternateName = metadata.alternateName;
+  if (metadata.poster) movieSchema.image = metadata.poster;
+  if (metadata.year) movieSchema.datePublished = String(metadata.year);
+  if (metadata.genres.length) movieSchema.genre = metadata.genres;
+  if (/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/.test(metadata.language)) movieSchema.inLanguage = metadata.language;
+  if (metadata.duration) movieSchema.duration = `PT${metadata.duration}M`;
+  if (metadata.director.length) movieSchema.director = metadata.director.map(name => ({ '@type': 'Person', name }));
+  if (metadata.cast.length) movieSchema.actor = metadata.cast.map(name => ({ '@type': 'Person', name }));
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'Organization', '@id': 'https://dezomax.uz/#organization', name: 'DezoMax', url: 'https://dezomax.uz/', logo: 'https://dezomax.uz/images/logo/dezomax-name.webp' },
+      { '@type': 'WebSite', '@id': 'https://dezomax.uz/#website', name: 'DezoMax', url: 'https://dezomax.uz/', publisher: { '@id': 'https://dezomax.uz/#organization' }, inLanguage: 'uz' },
+      movieSchema,
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Bosh sahifa', item: 'https://dezomax.uz/' },
+        { '@type': 'ListItem', position: 2, name: 'Kinolar', item: 'https://dezomax.uz/kino/index.html' },
+        { '@type': 'ListItem', position: 3, name: metadata.name, item: metadata.canonical }
+      ] }
+    ]
+  };
+  const jsonLd = JSON.stringify(schema).replace(/</g, '\\u003c');
+  const tags = `
+<meta name="description" content="${description}">
+<link rel="canonical" href="${canonical}">
+<meta property="og:type" content="${metadata.type === 'TVSeries' ? 'video.tv_show' : metadata.type === 'VideoObject' ? 'video.other' : 'video.movie'}">
+<meta property="og:site_name" content="DezoMax">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${description}">
+<meta property="og:url" content="${canonical}">
+<meta property="og:image" content="${image}">
+<meta name="twitter:card" content="${metadata.poster ? 'summary_large_image' : 'summary'}">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${description}">
+<meta name="twitter:image" content="${image}">
+<script>window.DZX_ID=${Number(id)}</script>
+<script type="application/ld+json">${jsonLd}</script>`;
+  html = html.replace('</head>', `${tags}\n</head>`);
+  const headers = new Headers(shell.headers);
+  for (const key of ['content-length', 'content-encoding', 'etag', 'last-modified', 'content-md5']) headers.delete(key);
+  headers.set('content-type', 'text/html; charset=utf-8');
+  headers.set('cache-control', 'public, max-age=300');
+  return new Response(request.method === 'HEAD' ? null : html, { status: shell.status, headers });
+}
 
 export default {
   async fetch(request, env) {
@@ -22,6 +124,33 @@ export default {
       url.hostname = HOST; url.protocol = 'https:'; url.port = '';
       return Response.redirect(url.toString(), 301);
     }
+
+    // Legacy query URLs permanently redirect to the one canonical movie URL.
+    // Clean /film/<slug>-<id>.html routes are served from the metadata shard and movie shell.
+    const isMovieGet = request.method === 'GET' || request.method === 'HEAD';
+    const isMoviePath = url.pathname === '/movie.html' || url.pathname.startsWith('/film/');
+    const seoId = isMovieGet ? movieRequestId(url) : '';
+    if (isMovieGet && url.pathname === '/movie.html' && !seoId) return movieNotFound(request, env, url);
+    if (seoId) {
+      try {
+        const metadata = await getMovieMetadata(url, env.ASSETS, seoId);
+        if (metadata) {
+          // part/play/t kabi parametrlar saqlanadi (serial qismi, «ko'rish», davom ettirish); faqat id tushib qoladi
+          const target = new URL(metadata.canonicalPath, url);
+          for (const [k, v] of url.searchParams) if (k !== 'id') target.searchParams.append(k, v);
+          if (url.pathname === '/movie.html') {
+            return Response.redirect(target.toString(), 301);
+          }
+          if (url.pathname.startsWith('/film/') && url.pathname !== metadata.canonicalPath) {
+            return Response.redirect(target.toString(), 301);
+          }
+          return serveMoviePage(request, env, url, seoId, metadata);
+        }
+      } catch (e) {
+        if (isMoviePath) return movieNotFound(request, env, url);
+      }
+    }
+    if (isMovieGet && isMoviePath) return movieNotFound(request, env, url);
 
     const data = DATA_FILES[url.pathname];
     if (data) {

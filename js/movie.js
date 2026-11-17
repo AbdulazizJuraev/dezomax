@@ -501,7 +501,8 @@ function setMovieSeo(m) {
   if (!s) { s = document.createElement('script'); s.type = 'application/ld+json'; s.id = 'movieLd'; document.head.appendChild(s); }
   s.textContent = JSON.stringify(ld);
   // qidiruv uchun tayyor sahifasi bor kino — asosiy manzil o'sha (movie.html?id=N uning nusxasi)
-  if (!partNo) {
+  // /film/… sahifasida canonical'ni Worker to'liq bazadan qo'yadi — JS uni almashtirmaydi
+  if (!partNo && !location.pathname.startsWith('/film/')) {
     let c = document.head.querySelector('link[rel="canonical"]');
     if (!c) { c = document.createElement('link'); c.rel = 'canonical'; document.head.appendChild(c); }
     c.href = ld.url;

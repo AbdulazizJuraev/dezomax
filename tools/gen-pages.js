@@ -93,7 +93,6 @@ const crumbs = items => ({
 function page({ id, title, desc, url, image, type, ld, body, keywords }) {
   const rel = url.slice(SITE.length).replace(/^ru\//, '');
   url = SITE + rel;   // canonical — o'zbekcha manzil; ruscha nusxada toRu() almashtiradi
-  const kw = [...new Set((keywords || []).map(k => String(k || '').trim()).filter(Boolean))].join(', ');
   let html = template
     .replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n<base href="../">')
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
@@ -103,7 +102,6 @@ function page({ id, title, desc, url, image, type, ld, body, keywords }) {
     .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(desc)}">`)
     .replace(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${esc(title)}">`)
     .replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(desc)}">`)
-    .replace(/<meta name="description" content="[^"]*">/, m => m + (kw ? `\n<meta name="keywords" content="${esc(kw)}">` : ''))
     // \r?\n — movie.html CRLF bilan saqlangan; avval faqat \n qidirilgani uchun almashmay qolib, 1000+ sahifa
     // «canonical = movie.html» deb ketgan edi (qidiruv tizimlari ularni bitta sahifaning nusxasi deb hisoblagan)
     .replace(/<!-- Har bir kino[\s\S]*?<\/script>\r?\n/, `<link rel="canonical" href="${url}">\n<meta property="og:url" content="${url}">\n`
@@ -114,6 +112,37 @@ function page({ id, title, desc, url, image, type, ld, body, keywords }) {
   if (!html.includes(`<link rel="canonical" href="${url}">`)) throw new Error(`canonical qo'yilmadi: ${url}`);
   if (!id) html = html.replace(/<script src="js\/(?:ytplayer|vplayer|social|offline|movie)\.js[^"]*"><\/script>\r?\n/g, '').replace('</body>', '<script>initLayout();</script>\n</body>');
   return L === 'ru' ? toRu(html, rel) : hasRu(rel) ? withHreflang(html, rel) : html;
+}
+
+function uniqueMovieMetadata(items) {
+  const counts = key => {
+    const out = new Map();
+    for (const item of items) {
+      const value = item.html.match(key)?.[1] || '';
+      if (value) out.set(value, (out.get(value) || 0) + 1);
+    }
+    return out;
+  };
+  const titleCounts = counts(/<title>([\s\S]*?)<\/title>/i);
+  const descCounts = counts(/<meta\s+name="description"\s+content="([^"]*)"/i);
+  return items.map(({ movie, html }) => {
+    let title = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
+    let desc = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1] || '';
+    if (titleCounts.get(title) > 1) {
+      title = title.replace(/\s*\|\s*DezoMax$/, '') + ` · ID ${movie.id} | DezoMax`;
+      html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`)
+        .replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/i, (all, before, after) => before + title + after)
+        .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/i, (all, before, after) => before + title + after);
+    }
+    if (descCounts.get(desc) > 1) {
+      const suffix = ` Kino ID: ${movie.id}.`;
+      desc = Array.from(desc).slice(0, Math.max(1, 280 - suffix.length)).join('').trim() + suffix;
+      html = html.replace(/(<meta\s+name="description"\s+content=")[^"]*(")/i, (all, before, after) => before + desc + after)
+        .replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/i, (all, before, after) => before + desc + after)
+        .replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/i, (all, before, after) => before + desc + after);
+    }
+    return { movie, html };
+  });
 }
 
 /* Film haqida to'liq gapli matn (qidiruv tizimlari va AdSense sahifani «kontent kam» demasin) — ma'lumotlardan */
@@ -424,9 +453,10 @@ const collections = COLLECTIONS.map(c => ({ ...c, items: list.filter(c.pick) }))
 
 fs.mkdirSync(DIR, { recursive: true });
 const keep = new Set(['index.html']);
-for (const m of list) {
-  fs.writeFileSync(path.join(DIR, m._page + '.html'), m._trailer ? trailerPage(m) : moviePage(m));
-  keep.add(m._page + '.html');
+const uzPages = uniqueMovieMetadata(list.map(movie => ({ movie, html: movie._trailer ? trailerPage(movie) : moviePage(movie) })));
+for (const { movie, html } of uzPages) {
+  fs.writeFileSync(path.join(DIR, movie._page + '.html'), html);
+  keep.add(movie._page + '.html');
 }
 fs.writeFileSync(path.join(DIR, 'index.html'), indexPage());
 // endi ro'yxatda yo'q kinolarning eski sahifalari o'chiriladi
@@ -451,7 +481,8 @@ for (const f of fs.readdirSync(COLL_DIR)) if (f.endsWith('.html') && !collection
 L = 'ru';
 const RU_KINO = path.join(root, 'ru', 'kino'), RU_COLL = path.join(root, 'ru', 'toplam');
 fs.mkdirSync(RU_KINO, { recursive: true }); fs.mkdirSync(RU_COLL, { recursive: true });
-for (const m of list) fs.writeFileSync(path.join(RU_KINO, m._page + '.html'), m._trailer ? trailerPage(m) : moviePage(m));
+const ruPages = uniqueMovieMetadata(list.map(movie => ({ movie, html: movie._trailer ? trailerPage(movie) : moviePage(movie) })));
+for (const { movie, html } of ruPages) fs.writeFileSync(path.join(RU_KINO, movie._page + '.html'), html);
 fs.writeFileSync(path.join(RU_KINO, 'index.html'), indexPage());
 for (const f of fs.readdirSync(RU_KINO)) if (f.endsWith('.html') && !keep.has(f)) fs.unlinkSync(path.join(RU_KINO, f));
 for (const c of collections) fs.writeFileSync(path.join(RU_COLL, c.key + '.html'), collectionPage(c, c.items, collections));
@@ -464,7 +495,7 @@ L = 'uz';
 const TAG_DIR = path.join(root, 'teg');
 const TAG_LAT = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'yo', ж: 'j', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'x', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '', ы: 'i', ь: '', э: 'e', ю: 'yu', я: 'ya', ў: 'o', қ: 'q', ғ: 'g', ҳ: 'h' };
 const tslug = s => String(s || '').toLowerCase().replace(/[а-яёўқғҳ]/g, c => TAG_LAT[c] ?? c).replace(/[‘’'`ʻʼ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 70);
-const TYPE_UZ = { film: 'filmlar', serial: 'seriallar', multfilm: 'multfilmlar' };
+const TYPE_UZ = { film: 'filmlar', serial: 'seriallar', multfilm: 'multfilmlar', tahlil: 'tahlillar', konsert: 'konsertlar' };
 const capf = s => s.charAt(0).toUpperCase() + s.slice(1);
 const tagMap = new Map();
 const addTag = (group, rawKey, name, m) => {

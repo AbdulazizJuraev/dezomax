@@ -1,6 +1,6 @@
 /* ============================================================
    sitemap.xml ni yaratish: asosiy sahifalar + har bir kino sahifasi
-   (movie.html?id=N). Qidiruv tizimlari (Google, Yandex) barcha kinolarni
+   SEO-friendly kino URLlari va mavjud kino sahifalari. Qidiruv tizimlari (Google, Yandex) barcha kinolarni
    shu ro'yxat orqali topadi. tools/bump-version.js har safar chaqiradi.
 
    Ishlatish:  node tools/gen-sitemap.js
@@ -52,12 +52,12 @@ const pages = [
   ['delete-account.html', 'yearly', '0.2']
 ].map(([p, freq, pr]) => ({ loc: SITE + p, lastmod: today, freq, pr }));
 
+const { moviePath } = require('./movie-seo.js');
+
 const movies = [...byId.values()]
   .sort((a, b) => a.id - b.id)
   // to'liq filmi borlar muhimroq, faqat treylerlilar — pastroq
-  .map(m => SEO[m.id]
-    ? { loc: `${SITE}kino/${SEO[m.id]}.html`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: m.video ? '0.9' : '0.7' }
-    : { loc: `${SITE}movie.html?id=${m.id}`, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: m.video ? '0.8' : '0.5' });
+  .map(m => ({ loc: new URL(moviePath(m, SEO).slice(1), SITE).href, lastmod: day(m.updatedAt || m.addedAt), freq: 'weekly', pr: m.video ? '0.9' : '0.5' }));
 
 // Marvel filmlari — marvel/<nom>.html (tools/gen-marvel-pages.js)
 const marvel = Object.values(MARVEL).map(slug => ({ loc: `${SITE}marvel/${slug}.html`, lastmod: today, freq: 'monthly', pr: '0.7' }));
@@ -75,9 +75,12 @@ const ruUrls = [...pages, ...collections, ...marvel, ...movies]
   .filter(u => hasRu(u.loc.slice(SITE.length) || 'index.html') && !/\?/.test(u.loc))
   .map(u => ({ ...u, loc: SITE + 'ru/' + u.loc.slice(SITE.length) }));
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>
+// Google bitta sitemap faylida ko'pi bilan 50 000 manzil qabul qiladi — ko'p bo'lsa sitemap.xml indeks bo'ladi,
+// manzillar esa sitemap-1.xml, sitemap-2.xml … fayllariga bo'linadi
+const all = [...pages, ...collections, ...tagUrls, ...studios, ...marvel, ...movies, ...ruUrls];
+const urlset = list => `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...pages, ...collections, ...tagUrls, ...studios, ...marvel, ...movies, ...ruUrls].map(u => `  <url>
+${list.map(u => `  <url>
     <loc>${u.loc.replace(/&/g, '&amp;')}</loc>
     <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.freq}</changefreq>
@@ -85,6 +88,24 @@ ${[...pages, ...collections, ...tagUrls, ...studios, ...marvel, ...movies, ...ru
   </url>`).join('\n')}
 </urlset>
 `;
+const PER_FILE = 40000;
+for (const f of fs.readdirSync(root)) if (/^sitemap-\d+\.xml$/.test(f)) fs.unlinkSync(path.join(root, f));
+if (all.length <= PER_FILE) fs.writeFileSync(path.join(root, 'sitemap.xml'), urlset(all));
+else {
+  const parts = [];
+  for (let i = 0; i < all.length; i += PER_FILE) {
+    const name = `sitemap-${parts.length + 1}.xml`;
+    fs.writeFileSync(path.join(root, name), urlset(all.slice(i, i + PER_FILE)));
+    parts.push(name);
+  }
+  fs.writeFileSync(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${parts.map(name => `  <sitemap>
+    <loc>${SITE}${name}</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>`).join('\n')}
+</sitemapindex>
+`);
+}
 
-fs.writeFileSync(path.join(root, 'sitemap.xml'), xml);
-console.log(`sitemap.xml — ${pages.length} sahifa + ${movies.length} kino + ${ruUrls.length} ruscha`);
+console.log(`sitemap.xml (${Math.ceil(all.length / PER_FILE)} fayl) — ${pages.length} sahifa + ${movies.length} kino + ${ruUrls.length} ruscha`);

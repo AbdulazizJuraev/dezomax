@@ -13,6 +13,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const http = require('http');
+const os = require('os');
 const { execFileSync } = require('child_process');
 
 const root = path.join(__dirname, '..');
@@ -136,15 +137,36 @@ async function smoke() {
       await page.setRequestInterception(true);
       page.on('request', r => (r.url().startsWith(base) || r.url().startsWith('data:') ? r.continue() : r.abort()));
       try {
-        await page.setViewport({ width: 1280, height: 900 });
-        await page.goto(base + url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-        await new Promise(r => setTimeout(r, 3500));
-        const ok = await page.evaluate(check).catch(e => { jsErrors.push('tekshiruv: ' + e.message); return false; });
-        if (!ok) err(`${name} (${url}): kerakli qism chiqmadi`);
+        for (const viewport of [
+          { name: 'desktop', width: 1280, height: 900 },
+          { name: 'mobile', width: 390, height: 844, isMobile: true, hasTouch: true }
+        ]) {
+          await page.setViewport(viewport);
+          await page.goto(base + url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+          await new Promise(r => setTimeout(r, 3500));
+          const ok = await page.evaluate(check).catch(e => { jsErrors.push('tekshiruv: ' + e.message); return false; });
+          if (!ok) err(`${name} (${url}, ${viewport.name}): kerakli qism chiqmadi`);
+          const layout = await page.evaluate(() => ({
+            viewportWidth: window.innerWidth,
+            documentWidth: Math.max(document.documentElement.scrollWidth, document.body?.scrollWidth || 0),
+            hasViewportMeta: !!document.querySelector('meta[name="viewport"]')
+          }));
+          if (viewport.name === 'mobile' && (!layout.hasViewportMeta || layout.viewportWidth > 430)) {
+            err(`${name} (${url}): mobil viewport ishlamadi (${JSON.stringify(layout)})`);
+          }
+          if (layout.documentWidth > layout.viewportWidth + 2) {
+            err(`${name} (${url}, ${viewport.name}): gorizontal overflow ${layout.documentWidth}px > ${layout.viewportWidth}px`);
+          }
+          if (['Bosh sahifa', 'Kino sahifasi'].includes(name)) {
+            const file = path.join(os.tmpdir(), `dezomax-${name === 'Bosh sahifa' ? 'home' : 'movie'}-${viewport.name}.png`);
+            await page.screenshot({ path: file, fullPage: false });
+            console.log(`  Screenshot ${viewport.name}: ${file}`);
+          }
+        }
         // tashqi so'rovlar to'xtatilgani sababli chiqqan tarmoq xatolari hisobga olinmaydi
         const real = jsErrors.filter(m => !/fetch|network|Failed to load|NetworkError|aborted|ERR_/i.test(m));
         if (real.length) err(`${name} (${url}): JavaScript xatosi — ${real.slice(0, 3).join(' | ')}`);
-        else console.log(`  ✓ ${name}`);
+        else console.log(`  ✓ ${name} — desktop + mobile`);
       } catch (e) { err(`${name} (${url}): ochilmadi — ${e.message}`); }
       await page.close();
     }

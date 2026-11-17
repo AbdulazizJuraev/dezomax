@@ -394,12 +394,21 @@ const LANG_NAMES = {
 
 /* ---------- Kartochka ---------- */
 
-/* Kino havolasi: qidiruv tizimlari uchun tayyor sahifasi bo'lsa (js/seo-pages.js) — kino/<slug>.html */
+/* Kino havolasi: qidiruv tizimlari uchun tayyor sahifasi bo'lsa (js/seo-pages.js) — kino/<slug>.html,
+   aks holda dezomax.uz'da film/<slug>-<id>.html (Cloudflare Worker beradi, tools/movie-seo.js bilan bir xil qoida).
+   GitHub Pages / ilovada Worker yo'q — u yerda movie.html?id= qoladi */
+const FILM_URLS = /(^|\.)dezomax\.uz$/.test(location.hostname);
+function filmSlug(m) {
+  const s = String(m.slug || (m.title && (m.title.uz || m.title.ru)) || 'kino').normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 90);
+  return `${s || 'kino'}-${Number(m.id)}.html`;
+}
 function movieHref(m) {
   const p = typeof SEO_PAGES !== 'undefined' && SEO_PAGES[m.id];
   // ruscha nusxada (dezomax.uz/ru/…, js/i18n.js) — ruscha kino sahifalari
   const ru = typeof RU_PATH !== 'undefined' && RU_PATH ? 'ru/' : '';
-  return p ? `${ru}kino/${p}.html` : `${ru}movie.html?id=${m.id}`;
+  if (p) return `${ru}kino/${p}.html`;
+  return !ru && FILM_URLS ? `film/${filmSlug(m)}` : `${ru}movie.html?id=${m.id}`;
 }
 
 function cardHTML(m) {

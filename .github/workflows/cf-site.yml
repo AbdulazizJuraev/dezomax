@@ -42,6 +42,8 @@ jobs:
             | grep -zvE '^(mobile|desktop|tools|server|cloudflare|tv|\.github)/|(^|/)README|\.md$|^guard-result|^\.|^admin\.html$|^admin\.webmanifest$|^js/admin\.js$|^js/data-lib2?\.js$|^js/data-custom\.js$' \
             | xargs -0 cp --parents -t _site
           cp cloudflare/site/_headers _site/_headers
+          # har bir kino uchun SEO ma'lumoti (128 ta shard) — Worker /film/<nom>-<id>.html sahifasini shundan yasaydi
+          node tools/gen-seo-metadata.js --out _site/_seo
           echo "fayllar: $(find _site -type f | wc -l), hajm: $(du -sh _site | cut -f1)"
 
       - uses: actions/setup-node@v4
@@ -55,6 +57,7 @@ jobs:
         if: steps.chk.outputs.ok == '1'
         run: |
           npm i --no-save --no-audit --no-fund puppeteer-core@23 > /dev/null
+          node tools/test-movie-seo.mjs   # har bir kino manzili: 200/301, canonical, title, sitemap
           node tools/check-site.js --smoke
 
       - name: Tekshiruvdan o'tmadi — xabar (GitHub Issues)
