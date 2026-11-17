@@ -5318,6 +5318,9 @@ html[data-fitw] .tabbar { right: auto; width: calc(var(--fit-w) - 2 * max(10px, 
 .mv-parts-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
 .mv-parts-head b { font-size: 15px; font-weight: 700; }
 .mv-parts-head span { font-size: 13px; color: var(--text-faint); }
+.mv-parts-sec { margin: 14px 0 8px; font-size: 13.5px; font-weight: 700; color: var(--text); }
+.mv-parts-head + .mv-parts-sec { margin-top: 2px; }
+.mv-parts-sec small { margin-left: 6px; font-weight: 600; color: var(--text-faint); }
 .mv-parts-list {
   position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px;
   /* hamma qismlar ochiq turadi — ichki aylantirish yo'q */

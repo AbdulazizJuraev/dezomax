@@ -23,14 +23,15 @@ const DRY = process.argv.includes('--dry');
 
 const PLAN = {
   transformersrussian: {
-    mode: 'serials', skip: /новинки канала/i, genres: ['animation', 'adventure'],
-    // playlist nomi → serial nomi (bo'lmasa — playlist nomi tozalanadi)
-    names: [
-      [/Боты Спасатели: Season (\d+)/i, (m) => `Трансформеры: Боты-спасатели — ${m[1]} сезон`],
-      [/Сборники.*Ботов Спасателей/i, () => 'Трансформеры: Боты-спасатели — сборники'],
-      [/Сборники.*Прайм/i, () => 'Трансформеры Прайм — сборники'],
-      [/^Мультфильм Трансформеры Прайм$/i, () => 'Трансформеры Прайм'],
-      [/Роботы под прикрытием/i, () => 'Трансформеры: Роботы под прикрытием'],
+    // bitta multfilm — bitta karta: mavsumlar va to'plamlar uning ichida bo'lim (eps[i][2]), qismlar yoyilib yotmaydi
+    mode: 'shows', genres: ['animation', 'adventure'],
+    shows: [
+      { title: 'Трансформеры: Боты-спасатели', match: /боты.?спасател|rescue bots/i,
+        sections: [[/Боты Спасатели: Season (\d+)/i, m => +m[1]], [/Сборники.*Ботов Спасателей/i, 'sb']] },
+      { title: 'Трансформеры Прайм', match: /трансформеры\s+прайм|transformers prime/i,
+        sections: [[/^Мультфильм Трансформеры Прайм$/i, 'ep'], [/Сборники.*Прайм/i, 'sb']] },
+      { title: 'Трансформеры: Роботы под прикрытием', match: /под прикрытием|robots in disguise/i,
+        sections: [[/Роботы под прикрытием/i, 'ep']] },
     ],
   },
   kinomurashki: {
@@ -40,7 +41,7 @@ const PLAN = {
 };
 
 const ytStableId = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return 7000000 + (h % 1000000); };
-const secs = l => { const p = String(l || '').split(':').map(Number); return p.some(isNaN) ? 0 : p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0); };
+const secs_ = l => { const p = String(l || '').split(':').map(Number); return p.some(isNaN) ? 0 : p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0); };
 const TR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya' };
 const slugOf = s => String(s).toLowerCase().replace(/[а-яё]/g, c => TR[c] ?? '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'serial';
 const vidOf = m => String(m.video || m.trailer || '').match(/[?&]v=([\w-]{11})/)?.[1];
@@ -99,7 +100,7 @@ const cleanName = t => t.replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu
     const uploads = new Map(((await (await fetch(LIST_API + 'UU' + ch.id.slice(2), { signal: AbortSignal.timeout(120000) })).json()).items || []).map(v => [v.id, v]));
     const pls = await channelPlaylists(ch.url);
     const data = [];
-    for (const p of pls) { const v = (await playlistItems(p.id)).filter(x => uploads.has(x.id) && secs(x.len) > 60); data.push({ ...p, vids: v }); }
+    for (const p of pls) { const v = (await playlistItems(p.id)).filter(x => uploads.has(x.id) && secs_(x.len) > 60); data.push({ ...p, vids: v }); }
     console.log(`${ch.name}: ${pls.length} ta playlist, ${uploads.size} ta yuklama`);
 
     if (plan.mode === 'genres') {
@@ -113,6 +114,48 @@ const cleanName = t => t.replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu
       let n = 0;
       items = items.map(m => { if (m.ch !== key) return m; const s = gOf.get(vidOf(m)); if (!s) return m; n++; return { ...m, genres: [...s].slice(0, 3) }; });
       console.log(`✓ ${ch.name}: ${n} ta filmga playlist janri qo‘yildi`);
+      continue;
+    }
+
+    if (plan.mode === 'shows') {
+      const used = new Set(), made = [];
+      const SEC_ORDER = s => typeof s === 'number' ? s : { ep: 100, sb: 200, etc: 300 }[s] ?? 400;
+      for (const show of plan.shows) {
+        const secs = [];
+        for (const [rx, sec] of show.sections) for (const p of data) {
+          const m = p.title.match(rx); if (!m) continue;
+          const key = typeof sec === 'function' ? sec(m) : sec;
+          const vids = p.vids.filter(v => !used.has(v.id));
+          vids.forEach(v => used.add(v.id));
+          if (vids.length) secs.push({ key, vids: ordered(vids) });
+        }
+        // playlistga kirmagan, lekin nomidan shu multfilmniki — «Boshqa qismlar»
+        const etc = secs.length ? [...uploads.values()].filter(v => !used.has(v.id) && show.match.test(v.title) && secs_(v.len) > 60) : [];
+        etc.forEach(v => used.add(v.id));
+        if (etc.length) secs.push({ key: 'etc', vids: etc.reverse() });
+        if (!secs.length) continue;
+        secs.sort((a, b) => SEC_ORDER(a.key) - SEC_ORDER(b.key));
+        const single = secs.length === 1;
+        const eps = secs.flatMap(x => x.vids.map(v => single ? [v.id, Math.max(1, Math.round(secs_(v.len) / 60))] : [v.id, Math.max(1, Math.round(secs_(v.len) / 60)), x.key]));
+        const first = eps[0][0], nm = show.title;
+        const nSeasons = secs.filter(x => typeof x.key === 'number').length;
+        made.push({
+          id: ytStableId(`${prefix}:show:${nm}`), slug: `${prefix}-${slugOf(nm)}`, type: 'serial', audio: ch.audio || 'ru',
+          title: { uz: nm, ru: nm }, genres: plan.genres || [], cast: [], ...(nSeasons > 1 ? { seasons: nSeasons } : {}),
+          desc: { uz: `«${nm}» — ${ch.name} rasmiy YouTube kanalidan, ${eps.length} qism${nSeasons > 1 ? `, ${nSeasons} mavsum` : ''}, rus tilida.`, ru: `«${nm}» — с официального YouTube-канала ${ch.name}, серий: ${eps.length}${nSeasons > 1 ? `, сезонов: ${nSeasons}` : ''}.` },
+          colors: ['#1a2a4a', '#070a12'],
+          poster: `https://i.ytimg.com/vi/${first}/hq720.jpg`, wide: true, cover: `https://i.ytimg.com/vi/${first}/maxresdefault.jpg`,
+          trailer: '', video: `https://www.youtube.com/watch?v=${first}`, source: { name: ch.name, url: ch.url }, featured: false,
+          eps, show: 1, addedAt: Date.now(), ch: key,
+        });
+        console.log(`  + ${nm}: ${eps.length} qism — ${secs.map(x => `${x.key}:${x.vids.length}`).join(', ')}`);
+      }
+      const before = items.filter(m => m.ch === key).length;
+      // alohida yozuvlar va avvalgi playlist-seriallar (playlist/show belgili) — yangi kartalar bilan almashtiriladi
+      items = items.filter(m => !(m.ch === key && (m.playlist || m.show || (!m.eps && used.has(vidOf(m)))))).concat(made);
+      const after = items.filter(m => m.ch === key);
+      console.log(`✓ ${ch.name}: ${before} ta yozuv → ${made.length} ta karta + ${after.length - made.length} ta alohida video (jami ${after.reduce((s, m) => s + (m.eps ? m.eps.length : 1), 0)} video)`);
+      Object.assign(ch, { count: after.length });
       continue;
     }
 
@@ -132,7 +175,7 @@ const cleanName = t => t.replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu
         colors: ['#1a2a4a', '#070a12'],
         poster: `https://i.ytimg.com/vi/${first}/hq720.jpg`, wide: true, cover: `https://i.ytimg.com/vi/${first}/maxresdefault.jpg`,
         trailer: '', video: `https://www.youtube.com/watch?v=${first}`, source: { name: ch.name, url: ch.url }, featured: false,
-        eps: eps.map(v => [v.id, Math.max(1, Math.round(secs(v.len) / 60))]), playlist: p.id, addedAt: Date.now(), ch: key,
+        eps: eps.map(v => [v.id, Math.max(1, Math.round(secs_(v.len) / 60))]), playlist: p.id, addedAt: Date.now(), ch: key,
       });
       console.log(`  + ${nm}: ${eps.length} qism`);
     }

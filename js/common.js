@@ -78,7 +78,8 @@ buildParts();
 function partsOf(m) {
   // ixcham qismlar (YouTube kanal seriallari, js/data-channels.js): eps: [[youtubeId, daqiqa], ...]
   if (m && Array.isArray(m.eps) && m.eps.length) {
-    return m.eps.map(([yt, min]) => ({ id: m.id, title: m.title, video: 'https://www.youtube.com/watch?v=' + yt, cover: 'https://i.ytimg.com/vi/' + yt + '/maxresdefault.jpg', duration: min || undefined, source: m.source, audio: m.audio }));
+    // 3-element (ixtiyoriy) — bo'lim: mavsum raqami yoki 'ep' (qismlar), 'sb' (to'plamlar), 'etc' (boshqa qismlar)
+    return m.eps.map(([yt, min, sec]) => ({ id: m.id, title: m.title, sec, video: 'https://www.youtube.com/watch?v=' + yt, cover: 'https://i.ytimg.com/vi/' + yt + '/maxresdefault.jpg', duration: min || undefined, source: m.source, audio: m.audio }));
   }
   if (!m || !Array.isArray(m.parts) || m.parts.length < 2) return [];
   const list = m.parts.map(id => id === m.id ? m : PART_MOVIES.get(id) || MOVIES.find(x => x.id === id)).filter(Boolean);

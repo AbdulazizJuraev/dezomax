@@ -409,7 +409,16 @@ function syncOfficial(url) {
 }
 
 /* ---------- Guruh qismlari: «1-qism, 2-qism…» tugmalari ---------- */
-const partLabel = n => LANG === 'ru' ? `${n} серия` : `${n}-qism`;
+// bo'limli seriallar (eps[i][2]: mavsum raqami yoki 'ep' | 'sb' | 'etc') — qism raqami bo'lim ichida sanaladi
+const PART_SECS = PARTS.some(p => p.sec != null);
+const secName = s => typeof s === 'number' ? (LANG === 'ru' ? `${s} сезон` : `${s}-mavsum`)
+  : ({ ep: LANG === 'ru' ? 'Серии' : 'Qismlar', sb: LANG === 'ru' ? 'Сборники' : 'To‘plamlar', etc: LANG === 'ru' ? 'Другие серии' : 'Boshqa qismlar' })[s] || String(s);
+const secNo = n => { const s = PARTS[n - 1].sec; let k = 0; for (let i = 0; i < n; i++) if (PARTS[i].sec === s) k++; return k; };
+const partLabel = n => {
+  const k = PART_SECS ? secNo(n) : n, one = LANG === 'ru' ? `${k} серия` : `${k}-qism`;
+  return PART_SECS && PARTS[n - 1].sec != null ? `${secName(PARTS[n - 1].sec)}, ${one}` : one;
+};
+const partBtn = (p, i, label) => `<a class="mv-part${i + 1 === partNo ? ' is-on' : ''}" href="${partUrl(i + 1)}"${i + 1 === partNo ? ' aria-current="true"' : ''}><b>${label}</b>${p.duration ? `<small>${p.duration} ${t('movie.min')}</small>` : ''}</a>`;
 
 function partsBarHTML() {
   if (!partNo) return '';
@@ -419,9 +428,14 @@ function partsBarHTML() {
         <b>${LANG === 'ru' ? 'Серии' : 'Qismlar'}</b>
         <span>${esc(durationText(group))}</span>
       </div>
+      ${PART_SECS ? [...new Set(PARTS.map(p => p.sec))].map(s => `
+      <div class="mv-parts-sec">${esc(secName(s))} <small>${PARTS.filter(p => p.sec === s).length}</small></div>
       <div class="mv-parts-list">
-        ${PARTS.map((p, i) => `<a class="mv-part${i + 1 === partNo ? ' is-on' : ''}" href="${partUrl(i + 1)}"${i + 1 === partNo ? ' aria-current="true"' : ''}><b>${partLabel(i + 1)}</b>${p.duration ? `<small>${p.duration} ${t('movie.min')}</small>` : ''}</a>`).join('')}
-      </div>
+        ${PARTS.map((p, i) => [p, i]).filter(([p]) => p.sec === s).map(([p, i], k) => partBtn(p, i, LANG === 'ru' ? `${k + 1} серия` : `${k + 1}-qism`)).join('')}
+      </div>`).join('') : `
+      <div class="mv-parts-list">
+        ${PARTS.map((p, i) => partBtn(p, i, partLabel(i + 1))).join('')}
+      </div>`}
     </div>`;
 }
 
