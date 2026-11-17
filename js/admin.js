@@ -4385,6 +4385,8 @@ function bindVideoUpload(form) {
 const CH_PATH = 'js/data-channels.js';
 let chState = null;           // { channels, items, sha }
 let chBusy = null;            // { key, done, total, note }
+let chFilter = 'all';         // «Kanallar reytingi» filtri: all | series | trailers | playlist
+let chAllRun = false;         // «Hammasini yangilash» ishlayapti
 const CH_KINDS = { series: 'Seriallar va filmlar (playlistlar)', trailers: 'Rasmiy treylerlar (Marvel kabi)' };
 
 async function loadChannels() {
@@ -4445,22 +4447,53 @@ async function renderChannelsView() {
   };
   const stats = new Map(chState.channels.map(c => [c.key, stat(c.key)]));
   const sumAll = [...stats.values()].reduce((s, x) => s + x.total, 0);
+  // 4.0 dizayn (Figma «DezoMax Admin — YouTube kanallar»): raqam kartalari, turi bo'yicha filtr, reyting jadvali
+  const kindOf = c => c.kind === 'playlist' ? 'playlist' : c.kind === 'trailers' ? 'trailers' : 'series';
+  const KIND_L = { series: 'Serial va filmlar', trailers: 'Rasmiy treylerlar', playlist: 'Ruxsat berilgan playlist' };
+  const MON = ['yan', 'fev', 'mar', 'apr', 'may', 'iyn', 'iyl', 'avg', 'sen', 'okt', 'noy', 'dek'];
+  const when = t => { if (!t) return 'hali yangilanmagan'; const d = new Date(t); return `${d.getDate()}-${MON[d.getMonth()]}, ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
+  const pctTxt = n => !n || !sumAll ? '0%' : n / sumAll < .001 ? '<0.1%' : (n / sumAll * 100).toFixed(1).replace(/\.0$/, '') + '%';
+  const all = chState.channels.map(c => ({ c, st: stats.get(c.key), k: kindOf(c) })).sort((x, y) => y.st.total - x.st.total);
+  all.forEach((x, i) => { x.rank = i + 1; });
+  const nKind = k => all.filter(x => x.k === k).length;
+  if (chFilter !== 'all' && !nKind(chFilter)) chFilter = 'all';
+  const rows = all.filter(x => chFilter === 'all' || x.k === chFilter);
+  const sum = f => fmtN([...stats.values()].reduce((s, x) => s + x[f], 0));
+  const active = all.filter(x => x.st.total).length;
+  const tile = (ic, l, n, sub, hot) => `<div class="chx-tile${hot ? ' is-hot' : ''}"><span>${NAV_ICONS[ic] || ''}${l}</span><b>${n}</b><small>${sub}</small></div>`;
   box.innerHTML = `
-    <section class="adm-sec">
-      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>YouTube kanallari</h3><small>${chState.channels.length} ta · saytda ${fmtN(sumAll)} video</small>
-        <button class="a4-link adm-ch-addtop" type="button" id="chGoAdd">+ Kanal qo‘shish</button></div>
-      <p class="adm-hint">Yangi videolar uchun — «Yangilash». O‘ngdagi raqam — shu kanaldan saytga o‘tgan videolar${shorts ? '' : ' (shorts hisoblanmoqda…)'}.</p>
-      <div class="acc-list">${chState.channels.map(c => { const st = stats.get(c.key); return `
-        <div class="acc-item adm-item adm-ch">
-          <span class="adm-ch-ico">${NAV_ICONS.yt}</span>
-          <div class="acc-item-main"><b>${esc(c.name)}</b>
-            <small>${esc(CH_KINDS[c.kind] || (c.kind === 'playlist' ? 'Ruxsat berilgan playlist' : c.kind))} · ${c.updatedAt ? 'yangilangan: ' + new Date(c.updatedAt).toLocaleString('uz') : 'hali yangilanmagan'}</small>
-            <small class="adm-ch-stat">${[st.videos ? `${fmtN(st.videos)} video` : '', st.titles ? `${fmtN(st.titles)} ta kino/serial` : '', st.sh ? `${fmtN(st.sh)} ta shorts` : ''].filter(Boolean).join(' · ') || 'hali saytga video o‘tmagan'}</small>
-            <small><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url.replace('https://www.', ''))}</a></small>
-            ${chBusy && chBusy.key === c.key ? `<div class="adm-ch-prog"><i style="width:${chBusy.total ? Math.round(chBusy.done / chBusy.total * 100) : 5}%"></i></div><small class="adm-ch-note">${chBusy.total ? `${chBusy.done}/${chBusy.total} · ` : ''}${esc(chBusy.note || 'Kanal o‘qilmoqda…')}</small>` : ''}
-          </div>
-          <strong class="adm-ch-num${st.total ? '' : ' is-zero'}" title="saytga o‘tgan videolar">${fmtN(st.total)}</strong>
-          <div class="adm-actions adm-icons">
+    <section class="chx">
+      <div class="chx-head">
+        <div class="chx-tt"><small>ADMIN · KANALLAR</small><h2>YouTube kanallar</h2><p>Rasmiy va egasi ruxsat bergan kanallar — har biridan saytga nechta video o‘tgani</p></div>
+        <div class="chx-btns">
+          <button class="chx-ghost" type="button" id="chSyncAll" ${chBusy ? 'disabled' : ''}>${ITEM_ICONS.sync}<span>${chAllRun ? 'Yangilanmoqda…' : 'Hammasini yangilash'}</span></button>
+          <button class="chx-prim" type="button" id="chGoAdd">${NAV_ICONS.plus}<span>Kanal qo‘shish</span></button>
+        </div>
+      </div>
+      <div class="chx-tiles">
+        ${tile('yt', 'Saytdagi videolar', fmtN(sumAll), `${all.length} ta kanaldan, serial qismlari alohida${shorts ? '' : ' · shorts hisoblanmoqda…'}`, true)}
+        ${tile('film', 'Kino va seriallar', sum('titles'), `${sum('videos')} ta video ichida`)}
+        ${tile('bolt', 'Shorts', shorts ? sum('sh') : '…', `${all.filter(x => x.st.sh).length} ta kanaldan`)}
+        ${tile('yt', 'Faol kanallar', `${active} / ${all.length}`, all.length - active ? `${all.length - active} tasidan hali video o‘tmagan` : 'hammasidan video bor')}
+      </div>
+      <div class="chx-card">
+        <div class="chx-ch">
+          <div><b>Kanallar reytingi</b><small>Saytga o‘tgan videolar soni bo‘yicha · yashirilganlar sanalmaydi</small></div>
+          <div class="chx-flt">${[['all', 'Hammasi', all.length], ['series', 'Serial va filmlar', nKind('series')], ['trailers', 'Treylerlar', nKind('trailers')], ['playlist', 'Playlist', nKind('playlist')]]
+            .filter(([k, , n]) => k === 'all' || n).map(([k, l, n]) => `<button type="button" data-chflt="${k}" class="${chFilter === k ? 'is-on' : ''}">${l} · ${n}</button>`).join('')}</div>
+        </div>
+        <div class="chx-th"><span>#</span><span>KANAL</span><span>TURI</span><span>SAYTDA</span><span>ULUSH</span><span>YANGILANGAN</span><span></span></div>
+        ${rows.map(({ c, st, k, rank }) => { const z = !st.total, busy = chBusy && chBusy.key === c.key; return `
+        <div class="chx-row${z ? ' is-zero' : ''}${busy ? ' is-busy' : ''}">
+          <span class="chx-rk${rank <= 3 && !z ? ' is-top' : ''}">${String(rank).padStart(2, '0')}</span>
+          <div class="chx-nm"><span class="chx-av">${NAV_ICONS.yt}</span><div><b>${esc(c.name)}</b>
+            <a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url.replace(/^https?:\/\/(www\.)?/, ''))}</a>
+            ${busy ? `<div class="adm-ch-prog"><i style="width:${chBusy.total ? Math.round(chBusy.done / chBusy.total * 100) : 5}%"></i></div><small class="chx-note">${chBusy.total ? `${chBusy.done}/${chBusy.total} · ` : ''}${esc(chBusy.note || 'Kanal o‘qilmoqda…')}</small>` : ''}</div></div>
+          <span class="chx-kind is-${k}">${KIND_L[k]}</span>
+          <div class="chx-num"><b>${fmtN(st.total)}</b><small>${z ? 'hali saytga o‘tmagan' : [st.videos ? `${fmtN(st.videos)} video` : '', st.sh ? `${fmtN(st.sh)} shorts` : ''].filter(Boolean).join(' · ')}</small>${st.titles ? `<small class="is-dim">${fmtN(st.titles)} ta kino/serial</small>` : ''}</div>
+          <div class="chx-pct"><b>${pctTxt(st.total)}</b><i><em style="width:${st.total ? Math.max(2, st.total / sumAll * 100) : 0}%"></em></i></div>
+          <div class="chx-upd"><b>${when(c.updatedAt)}</b><small class="${z ? 'is-warn' : ''}">${z ? 'video topilmadi' : 'muvaffaqiyatli'}</small></div>
+          <div class="chx-act">
             ${admIconBtn('Yangilash', ITEM_ICONS.sync, `data-chsync="${esc(c.key)}" ${chBusy ? 'disabled' : ''}`, ' is-ok')}
             ${admIconBtn('O‘chirish', ITEM_ICONS.trash, `data-chdel="${esc(c.key)}" ${chBusy ? 'disabled' : ''}`, ' is-danger')}
           </div>
@@ -4494,6 +4527,13 @@ async function renderChannelsView() {
     </section>`;
 
   box.querySelectorAll('[data-chsync]').forEach(b => b.addEventListener('click', () => syncChannel(chState.channels.find(c => c.key === b.dataset.chsync))));
+  box.querySelectorAll('[data-chflt]').forEach(b => b.addEventListener('click', () => { chFilter = b.dataset.chflt; renderChannelsView(); }));
+  $('#chSyncAll')?.addEventListener('click', async () => {
+    if (chBusy || chAllRun || !confirm(`${chState.channels.length} ta kanal ketma-ket yangilansinmi? Bir necha daqiqa olishi mumkin.`)) return;
+    chAllRun = true;
+    try { for (const c of chState.channels.slice()) { if (view !== 'channels') break; await syncChannel(chState.channels.find(x => x.key === c.key)); } }
+    finally { chAllRun = false; if (view === 'channels') renderChannelsView(); }
+  });
   $('#chGoAdd')?.addEventListener('click', () => { $('#chAddSec').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('#chUrl').focus({ preventScroll: true }); });
   // shorts soni — data-shorts.js yuklangach ro'yxat qayta chiziladi
   if (!shorts) a4LoadShorts(() => { if (view === 'channels') renderChannelsView(); });
