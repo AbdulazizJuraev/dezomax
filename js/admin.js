@@ -1304,12 +1304,15 @@ function a4ChannelRows() {
       <div><b>${esc(c.name)}</b><small>${[videos ? `${fmt(videos)} video` : '', titles ? `${fmt(titles)} ta kino/serial` : '', sh ? `${fmt(sh)} ta shorts` : ''].filter(Boolean).join(' · ') || 'hali video o‘tmagan'}</small></div>
       <strong>${fmt(total)}</strong></a>`).join('');
 }
-function a4LoadShorts() {
-  if (typeof SHORTS !== 'undefined' || document.getElementById('a4ShortsJs')) return;
+function a4LoadShorts(done) {
+  const after = done || (() => { const box = document.getElementById('a4Chs'); if (box) box.innerHTML = a4ChannelRows(); });
+  if (typeof SHORTS !== 'undefined') return;
+  const old = document.getElementById('a4ShortsJs');
+  if (old) { old.addEventListener('load', after, { once: true }); return; }
   const v = (document.querySelector('script[src*="data-channels.js"]')?.src.split('?')[1]) || '';
   const s = document.createElement('script');
   s.id = 'a4ShortsJs'; s.src = 'js/data-shorts.js' + (v ? '?' + v : '');
-  s.onload = () => { const box = document.getElementById('a4Chs'); if (box) box.innerHTML = a4ChannelRows(); };
+  s.addEventListener('load', after, { once: true });
   document.head.appendChild(s);
 }
 
@@ -4431,24 +4434,37 @@ async function renderChannelsView() {
     try { await loadChannels(); } catch (e) { box.innerHTML = `<p class="acc-error">${esc(friendlyError(e))}</p>`; return; }
     if (view !== 'channels') return;
   }
-  const count = key => chState.items.filter(m => m.ch === key).length;
+  // saytga o'tgan videolar: serialning har bir qismi (eps) alohida, yashirilganlar hisoblanmaydi; shorts — js/data-shorts.js
+  const fmtN = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
+  const shorts = typeof SHORTS !== 'undefined' ? SHORTS : null;
+  const stat = key => {
+    const mine = chState.items.filter(m => m.ch === key && !isHidden(m.id));
+    const videos = mine.reduce((s, m) => s + (Array.isArray(m.eps) && m.eps.length ? m.eps.length : m.video || m.trailer ? 1 : 0), 0);
+    const sh = shorts ? shorts.filter(x => x.ch === key).length : 0;
+    return { titles: mine.length, videos, sh, total: videos + sh };
+  };
+  const stats = new Map(chState.channels.map(c => [c.key, stat(c.key)]));
+  const sumAll = [...stats.values()].reduce((s, x) => s + x.total, 0);
   box.innerHTML = `
     <section class="adm-sec">
-      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>YouTube kanallari</h3><small>${chState.channels.length} ta</small></div>
-      <p class="adm-hint">Yangi videolar uchun — «Yangilash».</p>
-      <div class="acc-list">${chState.channels.map(c => `
+      <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>YouTube kanallari</h3><small>${chState.channels.length} ta · saytda ${fmtN(sumAll)} video</small>
+        <button class="a4-link adm-ch-addtop" type="button" id="chGoAdd">+ Kanal qo‘shish</button></div>
+      <p class="adm-hint">Yangi videolar uchun — «Yangilash». O‘ngdagi raqam — shu kanaldan saytga o‘tgan videolar${shorts ? '' : ' (shorts hisoblanmoqda…)'}.</p>
+      <div class="acc-list">${chState.channels.map(c => { const st = stats.get(c.key); return `
         <div class="acc-item adm-item adm-ch">
           <span class="adm-ch-ico">${NAV_ICONS.yt}</span>
           <div class="acc-item-main"><b>${esc(c.name)}</b>
-            <small>${esc(CH_KINDS[c.kind] || (c.kind === 'playlist' ? 'Ruxsat berilgan playlist' : c.kind))} · ${count(c.key)} ta · ${c.updatedAt ? 'yangilangan: ' + new Date(c.updatedAt).toLocaleString('uz') : 'hali yangilanmagan'}</small>
+            <small>${esc(CH_KINDS[c.kind] || (c.kind === 'playlist' ? 'Ruxsat berilgan playlist' : c.kind))} · ${c.updatedAt ? 'yangilangan: ' + new Date(c.updatedAt).toLocaleString('uz') : 'hali yangilanmagan'}</small>
+            <small class="adm-ch-stat">${[st.videos ? `${fmtN(st.videos)} video` : '', st.titles ? `${fmtN(st.titles)} ta kino/serial` : '', st.sh ? `${fmtN(st.sh)} ta shorts` : ''].filter(Boolean).join(' · ') || 'hali saytga video o‘tmagan'}</small>
             <small><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url.replace('https://www.', ''))}</a></small>
             ${chBusy && chBusy.key === c.key ? `<div class="adm-ch-prog"><i style="width:${chBusy.total ? Math.round(chBusy.done / chBusy.total * 100) : 5}%"></i></div><small class="adm-ch-note">${chBusy.total ? `${chBusy.done}/${chBusy.total} · ` : ''}${esc(chBusy.note || 'Kanal o‘qilmoqda…')}</small>` : ''}
           </div>
+          <strong class="adm-ch-num${st.total ? '' : ' is-zero'}" title="saytga o‘tgan videolar">${fmtN(st.total)}</strong>
           <div class="adm-actions adm-icons">
             ${admIconBtn('Yangilash', ITEM_ICONS.sync, `data-chsync="${esc(c.key)}" ${chBusy ? 'disabled' : ''}`, ' is-ok')}
             ${admIconBtn('O‘chirish', ITEM_ICONS.trash, `data-chdel="${esc(c.key)}" ${chBusy ? 'disabled' : ''}`, ' is-danger')}
           </div>
-        </div>`).join('') || '<p class="acc-muted">Hozircha kanal yo‘q.</p>'}
+        </div>`; }).join('') || '<p class="acc-muted">Hozircha kanal yo‘q.</p>'}
       </div>
     </section>
 
@@ -4478,6 +4494,9 @@ async function renderChannelsView() {
     </section>`;
 
   box.querySelectorAll('[data-chsync]').forEach(b => b.addEventListener('click', () => syncChannel(chState.channels.find(c => c.key === b.dataset.chsync))));
+  $('#chGoAdd')?.addEventListener('click', () => { $('#chAddSec').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('#chUrl').focus({ preventScroll: true }); });
+  // shorts soni — data-shorts.js yuklangach ro'yxat qayta chiziladi
+  if (!shorts) a4LoadShorts(() => { if (view === 'channels') renderChannelsView(); });
   // Paneldagi «+ Kanal qo'shish» — to'g'ridan-to'g'ri qo'shish formasiga
   if (chFocusAdd) { chFocusAdd = false; $('#chAddSec')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); $('#chUrl')?.focus({ preventScroll: true }); }
   // studiya tugmasi — formani to'ldiradi (rasmiy kanal, «Treylerlar», bo'lim — studiya)

@@ -117,6 +117,11 @@
 .a4-qa b { font-weight: 800; font-size: 13.5px; }
 .a4-qa small { font-weight: 600; font-size: 11.5px; color: var(--a-fa); }
 .a4-qa > button:hover { border-color: rgba(198, 255, 61, .4); }
+/* «Kanallar» ro'yxati: o'ngda saytga o'tgan videolar soni, tepada «+ Kanal qo'shish» */
+.adm-ch-addtop { flex: none; }
+.adm-ch-stat { color: var(--a-lime) !important; font-weight: 700; }
+.adm-ch-num { flex: none; min-width: 48px; text-align: right; font-size: 20px; font-weight: 800; color: var(--a-lime); margin-right: 4px; }
+.adm-ch-num.is-zero { color: var(--a-dim); }
 /* Panel: YouTube kanallar — har biridan saytga o'tgan videolar */
 .a4-chs { display: flex; flex-direction: column; gap: 8px; }
 .a4-chs > .a4-sub { margin: 0 0 2px; }
