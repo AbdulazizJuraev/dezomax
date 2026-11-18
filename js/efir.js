@@ -13,7 +13,7 @@
   const L = (uz, r) => (ru ? r : uz);
   const API = String(typeof PAY_API !== 'undefined' ? PAY_API : 'https://pay.dezomax.uz').replace(/\/+$/, '');
   const WS = API.replace(/^http/, 'ws') + '/efir/ingest';
-  const HLS = API + '/efir/hls/index.m3u8';
+  let HLS = API + '/efir/hls/index.m3u8';
   const token = () => (typeof Pay !== 'undefined' && Pay.token ? Pay.token() : '');
   const watchOnly = /[?&]watch\b/.test(location.search);
   const $ = s => app.querySelector(s);
@@ -39,14 +39,30 @@
           <input id="efTitle" class="ef-input" maxlength="120" placeholder="${L('Efir nomi (masalan: DezoMax test efiri)', 'Название эфира')}">
           <button type="button" class="ef-go" id="efGo" disabled>${L('Efirni boshlash', 'Начать эфир')}</button>
           <div class="ef-stats" id="efStats"></div>
-          <p class="ef-note">${L('Test: brauzer orqali (Chrome tavsiya etiladi). OBS’dan efir — keyingi bosqichda.', 'Тест: через браузер (рекомендуется Chrome). OBS — на следующем этапе.')}</p>
+          <p class="ef-note">${L('Brauzer orqali (Chrome tavsiya etiladi) yoki pastdagi OBS sozlamalari bilan.', 'Через браузер (рекомендуется Chrome) или через OBS — настройки ниже.')}</p>
+          <div class="ef-obs">
+            <h3>${L('OBS orqali efir', 'Эфир через OBS')}</h3>
+            <p class="ef-note">${L('OBS → Sozlamalar → Efir (Stream): Xizmat — «Maxsus» (Custom), keyin quyidagilarni qo‘ying.', 'OBS → Настройки → Трансляция: Сервис — «Настраиваемый», затем вставьте:')}</p>
+            <label class="ef-lbl">${L('Server', 'Сервер')}</label>
+            <div class="ef-link"><input readonly id="efObsUrl" value="…"><button type="button" data-copy="efObsUrl">${L('Nusxalash', 'Копировать')}</button></div>
+            <label class="ef-lbl">${L('Efir kaliti (maxfiy — hech kimga bermang)', 'Ключ потока (секретный)')}</label>
+            <div class="ef-link"><input readonly id="efObsKey" type="password" value="…"><button type="button" class="ef-eye" id="efObsEye" aria-label="${L('Ko‘rsatish', 'Показать')}">👁</button><button type="button" data-copy="efObsKey">${L('Nusxalash', 'Копировать')}</button></div>
+            <button type="button" class="ef-chip ef-newkey" id="efObsNew">↻ ${L('Yangi kalit', 'Новый ключ')}</button>
+            <ul class="ef-tips">
+              <li>${L('Chiqish (Output) → Kodlovchi: NVIDIA NVENC H.264 (yoki x264)', 'Вывод → Кодировщик: NVIDIA NVENC H.264 (или x264)')}</li>
+              <li>${L('Bitreyt: 720p — 2500–3000 Kbps, 1080p — 4500–6000 Kbps', 'Битрейт: 720p — 2500–3000, 1080p — 4500–6000 Kbps')}</li>
+              <li>${L('Kalit kadr oralig‘i (Keyframe Interval): 2 s', 'Интервал ключевых кадров: 2 с')}</li>
+              <li>${L('Audio: AAC, 128–160 Kbps, 48 kHz', 'Аудио: AAC, 128–160 Kbps, 48 kHz')}</li>
+            </ul>
+            <p class="ef-note">${L('Efir nomi — yuqoridagi maydondan olinadi. «Efirni boshlash» OBS’da bosiladi.', 'Название эфира берётся из поля выше. «Начать трансляцию» — в OBS.')}</p>
+          </div>
         </div>
       </section>
       <section class="ef-card ef-watch">
         <h2>${L('Tomoshabinlar shunday ko‘radi', 'Так видят зрители')}</h2>
         <div class="ef-player"><video id="efView" controls playsinline></video><div class="ef-off" id="efOff">${L('Hozir efir yo‘q', 'Сейчас эфира нет')}</div></div>
         <div class="ef-info"><b id="efVTitle"></b><span id="efVMeta"></span></div>
-        <div class="ef-link"><input readonly value="https://dezomax.uz/efir-test.html?watch" aria-label="${L('Havola', 'Ссылка')}"><button type="button" id="efCopy">${L('Nusxalash', 'Копировать')}</button></div>
+        <div class="ef-link"><input readonly id="efWatchUrl" value="https://dezomax.uz/efir-test.html?watch" aria-label="${L('Havola', 'Ссылка')}"><button type="button" id="efCopy">${L('Nusxalash', 'Копировать')}</button></div>
       </section>
     </div>`;
 
@@ -69,7 +85,10 @@
     const live = !!(s && s.live);
     $('#efOff').hidden = live;
     $('#efVTitle').textContent = live ? s.title : '';
-    $('#efVMeta').textContent = live ? `● ${L('Jonli', 'В эфире')} · ${clock(Date.now() - s.started)} · ${s.viewers} ${L('tomoshabin', 'зрит.')} · ${s.quality}p` : '';
+    $('#efVMeta').textContent = live ? `● ${L('Jonli', 'В эфире')} · ${clock(Date.now() - s.started)} · ${s.viewers} ${L('tomoshabin', 'зрит.')} · ${s.src === 'obs' ? 'OBS' : s.quality + 'p'}` : '';
+    if (!watchOnly && live && s.src === 'obs' && !rec) $('#efStats').textContent = L('OBS orqali efir ketmoqda', 'Идёт эфир через OBS') + ' · ' + clock(Date.now() - s.started);
+    const url = live && s.playlist ? API + s.playlist : HLS;
+    if (live && url !== HLS) { detach(); HLS = url; wasLive = false; }      // manba o'zgardi (brauzer ↔ OBS)
     if (live && !wasLive) setTimeout(attach, 4000);       // birinchi bo'laklar tayyor bo'lishini kutamiz
     if (live && wasLive && !hls && !view.src) attach();
     if (!live && wasLive) detach();
@@ -77,8 +96,8 @@
   }
   poll(); setInterval(() => { if (!document.hidden) poll(); }, 5000);
   $('#efCopy').addEventListener('click', async e => {
-    const v = $('.ef-link input').value;
-    try { await navigator.clipboard.writeText(v); } catch (er) { $('.ef-link input').select(); document.execCommand('copy'); }
+    const v = $('#efWatchUrl').value;
+    try { await navigator.clipboard.writeText(v); } catch (er) { $('#efWatchUrl').select(); document.execCommand('copy'); }
     e.target.textContent = L('Nusxalandi ✓', 'Скопировано ✓');
   });
   if (watchOnly) return;
@@ -92,7 +111,27 @@
     if (!c) { lock.textContent = L('Efir serveri javob bermadi — keyinroq urinib ko‘ring.', 'Сервер эфира не отвечает.'); return; }
     if (!c.admin) { lock.textContent = c.login ? L('Efir qilish hozircha faqat adminlar uchun (test).', 'Эфир пока только для админов (тест).') : L('Akkaunt sessiyasi eskirgan — qayta kiring.', 'Сессия устарела — войдите снова.'); return; }
     lock.hidden = true; $('#efCtl').hidden = false;
+    loadObs();
   })();
+
+  const authH = () => ({ Authorization: 'Bearer ' + token() });
+  function showObs(j) { if (j && j.key) { $('#efObsUrl').value = j.server; $('#efObsKey').value = j.key; } }
+  async function loadObs() {
+    try { showObs(await (await fetch(API + '/efir/obs', { headers: authH(), cache: 'no-store' })).json()); } catch (e) {}
+  }
+  $('#efObsEye').addEventListener('click', () => { const k = $('#efObsKey'); k.type = k.type === 'password' ? 'text' : 'password'; });
+  app.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+    const v = $('#' + b.dataset.copy).value;
+    try { await navigator.clipboard.writeText(v); b.textContent = L('Nusxalandi ✓', 'Скопировано ✓'); setTimeout(() => { b.textContent = L('Nusxalash', 'Копировать'); }, 1500); } catch (e) {}
+  }));
+  $('#efObsNew').addEventListener('click', async () => {
+    if (!confirm(L('Yangi kalit yaratilsinmi? Eski kalit ishlamay qoladi — OBS’ga yangisini qo‘yish kerak bo‘ladi.', 'Создать новый ключ? Старый перестанет работать.'))) return;
+    try { showObs(await (await fetch(API + '/efir/obs/key', { method: 'POST', headers: authH() })).json()); $('#efObsKey').type = 'text'; } catch (e) {}
+  });
+  // efir nomi — OBS efiri uchun ham (serverda saqlanadi)
+  $('#efTitle').addEventListener('change', () => {
+    fetch(API + '/efir/meta', { method: 'POST', headers: { ...authH(), 'Content-Type': 'application/json' }, body: JSON.stringify({ title: $('#efTitle').value.trim() }) }).catch(() => {});
+  });
 
   let stream = null, rec = null, ws = null, t0 = 0, tick = null, actx = null;
   const prev = $('#efPrev'), go = $('#efGo'), stats = $('#efStats');

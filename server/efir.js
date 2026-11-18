@@ -19,11 +19,31 @@ const PORT = Number(process.env.EFIR_PORT || 3600);
 const PAY = process.env.EFIR_PAY || 'http://127.0.0.1:8787';
 const DIR = process.env.EFIR_DIR || '/var/lib/dezomax-efir/hls';
 const ADMINS = new Set((process.env.ADMIN_UIDS || '').split(',').map(s => s.trim()).filter(Boolean));
+const OBS_DIR = process.env.EFIR_OBS_DIR || '/var/lib/dezomax-efir-obs';      // nginx-rtmp HLS (OBS)
+const KEY_FILE = path.join(path.dirname(DIR), 'obs-key.json');                 // OBS efir kaliti (faqat serverda)
+const RTMP_URL = process.env.EFIR_RTMP_URL || 'rtmp://2.29.52.42/live';
 const ORIGINS = /^https:\/\/(dezomax\.uz|www\.dezomax\.uz|[\w-]+\.github\.io)$|^http:\/\/localhost(:\d+)?$/;
 
 fs.mkdirSync(DIR, { recursive: true });
 
-const S = { live: false, title: '', started: 0, uid: '', bytes: 0, ff: null, sock: null, quality: '' };
+const S = { live: false, src: '', title: '', nextTitle: '', started: 0, uid: '', bytes: 0, ff: null, sock: null, quality: '' };
+const readKey = () => { try { return JSON.parse(fs.readFileSync(KEY_FILE, 'utf8')); } catch { return null; } };
+function newKey(uid) {
+  const k = { key: 'dzx_' + crypto.randomBytes(18).toString('base64url'), uid, at: Date.now() };
+  fs.writeFileSync(KEY_FILE, JSON.stringify(k), { mode: 0o600 });
+  return k;
+}
+const sameKey = (a, b) => typeof a === 'string' && typeof b === 'string' && a.length === b.length && crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
+// nginx-rtmp chaqiruvlari faqat server ichidan (tashqi nginx /efir/ orqali kelganlarda X-Real-IP bo'ladi)
+const local = req => !req.headers['x-real-ip'] && /^(::ffff:)?127\.0\.0\.1$|^::1$/.test(req.socket.remoteAddress || '');
+function readBody(req, max = 16384) {
+  return new Promise((ok, no) => { let b = ''; req.on('data', c => { b += c; if (b.length > max) { req.destroy(); no(new Error('big')); } }); req.on('end', () => ok(b)); req.on('error', no); });
+}
+async function adminOf(req) {
+  const m = /^Bearer\s+(\S+)$/.exec(req.headers.authorization || '');
+  const uid = m ? await whoIs(m[1], String(req.headers['x-real-ip'] || '')) : null;
+  return uid && ADMINS.has(uid) ? uid : null;
+}
 const viewers = new Map();     // ip -> oxirgi so'rov vaqti (m3u8)
 const viewerCount = () => { const t = Date.now() - 15000; let n = 0; for (const [k, v] of viewers) { if (v > t) n++; else viewers.delete(k); } return n; };
 
@@ -48,13 +68,51 @@ function send(req, res, code, obj) {
   res.writeHead(code, cors(req, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }));
   res.end(JSON.stringify(obj));
 }
-const status = () => ({ live: S.live, title: S.title, started: S.started, viewers: viewerCount(), quality: S.quality });
+const status = () => ({ live: S.live, src: S.src, title: S.title, started: S.started, viewers: viewerCount(), quality: S.quality,
+  playlist: S.live ? (S.src === 'obs' ? '/efir/obs/main.m3u8' : '/efir/hls/index.m3u8') : '' });
 
 /* ---------- HTTP ---------- */
 const server = http.createServer(async (req, res) => {
   const u = new URL(req.url, 'http://x');
   const p = u.pathname;
-  if (req.method === 'OPTIONS') { res.writeHead(204, cors(req, { 'Access-Control-Allow-Methods': 'GET' })); return res.end(); }
+  if (req.method === 'OPTIONS') { res.writeHead(204, cors(req, { 'Access-Control-Allow-Methods': 'GET, POST', 'Access-Control-Allow-Headers': 'Authorization, Content-Type' })); return res.end(); }
+
+  /* --- OBS (nginx-rtmp): kalit tekshiruvi va efir tugashi — faqat server ichidan --- */
+  if (p === '/efir/obs/auth' && req.method === 'POST') {
+    if (!local(req)) return send(req, res, 403, { error: 'no' });
+    const f = new URLSearchParams(await readBody(req).catch(() => ''));
+    const k = readKey();
+    if (!k || !sameKey(f.get('name') || '', k.key)) { console.log('[obs] noto‘g‘ri kalit', f.get('addr')); res.writeHead(403); return res.end(); }
+    if (S.live && S.src === 'web') stopLive('OBS efiri boshlandi');
+    Object.assign(S, { live: true, src: 'obs', title: S.nextTitle || 'DezoMax efiri', started: Date.now(), uid: k.uid, quality: 'OBS' });
+    console.log('[obs] efir boshlandi', f.get('addr'));
+    res.writeHead(302, { Location: 'main' }); return res.end();          // oqim nomi «main» — kalit tomoshabinlarga ko'rinmaydi
+  }
+  if (p === '/efir/obs/done' && req.method === 'POST') {
+    if (!local(req)) return send(req, res, 403, { error: 'no' });
+    if (S.src === 'obs') { Object.assign(S, { live: false, src: '', title: '', started: 0, uid: '', quality: '' }); console.log('[obs] efir tugadi'); }
+    res.writeHead(200); return res.end();
+  }
+  /* --- OBS sozlamalari (faqat adminlar): server manzili + kalit, yangi kalit, efir nomi --- */
+  if (p === '/efir/obs' && req.method === 'GET') {
+    const uid = await adminOf(req);
+    if (!uid) return send(req, res, 403, { error: 'Faqat adminlar uchun' });
+    const k = readKey() || newKey(uid);
+    return send(req, res, 200, { server: RTMP_URL, key: k.key });
+  }
+  if (p === '/efir/obs/key' && req.method === 'POST') {
+    const uid = await adminOf(req);
+    if (!uid) return send(req, res, 403, { error: 'Faqat adminlar uchun' });
+    return send(req, res, 200, { server: RTMP_URL, key: newKey(uid).key });
+  }
+  if (p === '/efir/meta' && req.method === 'POST') {
+    const uid = await adminOf(req);
+    if (!uid) return send(req, res, 403, { error: 'Faqat adminlar uchun' });
+    let b = {}; try { b = JSON.parse(await readBody(req)); } catch {}
+    S.nextTitle = String(b.title || '').slice(0, 120);
+    if (S.live && S.nextTitle) S.title = S.nextTitle;
+    return send(req, res, 200, { ok: true });
+  }
   if (p === '/efir/status') return send(req, res, 200, status());
   if (p === '/efir/check') {
     const m = /^Bearer\s+(\S+)$/.exec(req.headers.authorization || '');
@@ -62,15 +120,16 @@ const server = http.createServer(async (req, res) => {
     return send(req, res, 200, { login: !!uid, admin: !!uid && ADMINS.has(uid) });
   }
   // HLS: ro'yxat (m3u8) va bo'laklar (ts). Tomoshabinlar soni m3u8 so'rovlaridan
-  const hm = /^\/efir\/hls\/([\w.-]+\.(m3u8|ts))$/.exec(p);
+  const hm = /^\/efir\/(hls|obs)\/([\w.-]+\.(m3u8|ts))$/.exec(p);
   if (hm) {
-    const f = path.join(DIR, hm[1]);
+    hm.splice(1, 1, hm[1] === 'obs' ? OBS_DIR : DIR);
+    const f = path.join(hm[1], hm[2]);
     if (!fs.existsSync(f)) return send(req, res, 404, { error: 'efir yo‘q' });
     const ip = String(req.headers['x-real-ip'] || req.socket.remoteAddress || '');
-    if (hm[2] === 'm3u8') viewers.set(ip, Date.now());
+    if (hm[3] === 'm3u8') viewers.set(ip, Date.now());
     res.writeHead(200, cors(req, {
-      'Content-Type': hm[2] === 'm3u8' ? 'application/vnd.apple.mpegurl' : 'video/mp2t',
-      'Cache-Control': hm[2] === 'm3u8' ? 'no-cache' : 'public, max-age=60'
+      'Content-Type': hm[3] === 'm3u8' ? 'application/vnd.apple.mpegurl' : 'video/mp2t',
+      'Cache-Control': hm[3] === 'm3u8' ? 'no-cache' : 'public, max-age=60'
     }));
     return fs.createReadStream(f).on('error', () => res.end()).pipe(res);
   }
@@ -90,7 +149,7 @@ const wsText = (sock, obj) => { try { sock.write(wsFrame(1, Buffer.from(JSON.str
 function stopLive(reason) {
   if (S.ff) { try { S.ff.stdin.end(); } catch {} const ff = S.ff; setTimeout(() => { try { ff.kill('SIGKILL'); } catch {} }, 4000); }
   if (S.sock) { wsText(S.sock, { type: 'stopped', reason }); try { S.sock.end(wsFrame(8, Buffer.alloc(0))); } catch {} }
-  S.live = false; S.ff = null; S.sock = null; S.title = ''; S.started = 0; S.uid = ''; S.quality = '';
+  S.live = false; S.src = ''; S.ff = null; S.sock = null; S.title = ''; S.started = 0; S.uid = ''; S.quality = '';
   setTimeout(() => { if (!S.live) clearDir(); }, 30000);
 }
 
@@ -132,10 +191,11 @@ server.on('upgrade', (req, sock) => {
     if (m.type === 'hello' && !authed) {
       const uid = await whoIs(String(m.token || ''), String(req.headers['x-real-ip'] || ''));
       if (!uid || !ADMINS.has(uid)) { wsText(sock, { type: 'error', error: uid ? 'Efir faqat adminlar uchun' : 'Avval akkauntga kiring' }); return sock.end(wsFrame(8, Buffer.alloc(0))); }
+      if (S.live && S.src === 'obs') { wsText(sock, { type: 'error', error: 'Hozir OBS orqali efir ketmoqda — avval uni to‘xtating' }); return sock.end(wsFrame(8, Buffer.alloc(0))); }
       authed = true; clearTimeout(authTimer);
       if (S.live) stopLive('yangi efir boshlandi');
       const { ff, copy } = startFfmpeg(String(m.mime || ''), String(m.quality || '720'));
-      Object.assign(S, { live: true, title: String(m.title || 'DezoMax efiri').slice(0, 120), started: Date.now(), uid, bytes: 0, ff, sock, quality: String(m.quality || '720') });
+      Object.assign(S, { live: true, src: 'web', title: String(m.title || 'DezoMax efiri').slice(0, 120), started: Date.now(), uid, bytes: 0, ff, sock, quality: String(m.quality || '720') });
       mine = true;
       wsText(sock, { type: 'ready', copy });
       let last = 0;
