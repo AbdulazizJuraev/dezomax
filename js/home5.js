@@ -377,6 +377,202 @@
     <p>${L('Saytda va DezoMax ilovasida reklama joylashtirish uchun bog‘laning.', 'Свяжитесь с нами, чтобы разместить рекламу на сайте и в приложении DezoMax.')}</p></div>
     <a class="h5-btn" href="https://t.me/dezomaxuz" target="_blank" rel="noopener">${L('Bog‘lanish', 'Связаться')} ↗</a></div></section>`;
 
+  /* ================= Reklama-uslubidagi bloklar (foydalanuvchi namunalari, 2026-11-18) =================
+     Hammasi yengil: harakat faqat CSS transform, ekrandan chiqsa to'xtaydi (initAnims), rasmlar kichik o'lchamda va lazy */
+  const TN = window.DZX_TYPE_N || {};
+  const nOf = (k, f) => fmtN(Math.max(TN[k] || 0, f()));
+  const ICO = {
+    film: '<path d="M4 4h16v16H4zM8 4v16M16 4v16M4 9h4M4 15h4M16 9h4M16 15h4"/>',
+    tv: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+    toon: '<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/>',
+    shorts: '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="m10.5 9.5 4 2.5-4 2.5z"/>',
+    live: '<circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
+    cup: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+    speed: '<path d="M12 13l4-4"/><path d="M3.5 18a9 9 0 1 1 17 0"/>',
+    resume: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/>',
+    next: '<path d="m5 4 10 8-10 8z"/><path d="M19 5v14"/>',
+    spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
+    inf: '<path d="M7 9a3 3 0 1 0 0 6c2.5 0 7.5-6 10-6a3 3 0 1 1 0 6c-2.5 0-7.5-6-10-6"/>',
+    ext: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'
+  };
+  const ic = (k, cls = '') => `<svg class="h5-ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg>`;
+  const backOf = (m, s = 'w780') => wideOf(m, s) || tallOf(m, 'w342');
+  const pool = (pred, n) => tallFirst(ROW_SOURCES.popular.list()).filter(m => pred(m)).slice(0, n);
+  const pickOne = (list, used) => { const m = list.find(x => !used.has(x.id)); if (m) used.add(m.id); return m; };
+
+  /* 1) To'q banner + yelpig'ich kartalar (namuna 1) */
+  function fanHTML() {
+    const used = new Set();
+    const cards = [
+      [L('Multfilmlar', 'Мультфильмы'), 'toon', 'catalog.html?type=multfilm', m => m.type === 'multfilm' || (m.genres || []).includes('animation')],
+      [L('Kinolar', 'Фильмы'), 'film', 'catalog.html?type=film', m => m.type === 'film'],
+      [L('Seriallar', 'Сериалы'), 'tv', 'catalog.html?type=serial', m => m.type === 'serial'],
+      ['Shorts', 'shorts', 'shorts.html', m => m.franchise === 'marvel'],
+      [L('Jonli efir', 'Прямой эфир'), 'live', 'tv.html', m => m.type === 'film' && rt(m) > 7.5],
+      [L('Sport', 'Спорт'), 'cup', 'sport.html', m => (m.genres || []).includes('action')]
+    ].map(([n, i, h, f]) => [n, i, h, pickOne(pool(f, 40), used)]).filter(x => x[3]);
+    if (cards.length < 4) return '';
+    return `<section class="h5-sec h5-wrap"><div class="h5-fan">
+      <div class="h5-fan-copy">
+        <h2><b>${L('Cheksiz tomosha', 'Смотрите без ограничений')}</b> <a href="catalog.html?type=film">${L('kinolar', 'фильмы')}</a>, <a href="catalog.html?type=serial">${L('seriallar', 'сериалы')}</a>, <a href="catalog.html?type=multfilm">${L('multfilmlar', 'мультфильмы')}</a> ${L('va yana ko‘p.', 'и многое другое.')}</h2>
+        <p>${L('O‘zbek tilidagi eng katta onlayn kino katalogi — bepul, ro‘yxatdan o‘tmasdan.', 'Крупнейший онлайн-каталог кино на узбекском — бесплатно и без регистрации.')}</p>
+        <a class="h5-sq" href="catalog.html">${L('Boshlash', 'Начать')} ${ic('ext')}</a>
+      </div>
+      <div class="h5-fan-cards">${cards.map(([n, i, h, m], k) => `<a class="h5-fan-c" href="${h}" style="--k:${k};--n:${cards.length}">
+        <img src="${esc(tallOf(m, 'w342') || backOf(m, 'w500'))}" alt="" loading="lazy" onerror="this.remove()"><span>${ic(i)}${esc(n)}</span></a>`).join('')}</div>
+    </div></section>`;
+  }
+
+  /* 2) Och fonli «hammasi bir joyda» bloki (namuna 2) */
+  function aioHTML() {
+    const used = new Set();
+    const T = [
+      ['Kinolar', 'Фильмы', 'catalog.html?type=film', m => m.type === 'film', 'is-g'], ['Seriallar', 'Сериалы', 'catalog.html?type=serial', m => m.type === 'serial', 'is-g'],
+      ['O‘zbek kinolari', 'Узбекское кино', 'catalog.html?watch=uz', m => m.franchise === 'uzbek', ''], ['Marvel', 'Marvel', 'marvel.html', m => m.franchise === 'marvel', ''],
+      ['Multfilmlar', 'Мультфильмы', 'catalog.html?type=multfilm', m => m.type === 'multfilm', 'is-g'], ['Anime', 'Аниме', 'catalog.html?franchise=anime', m => m.franchise === 'anime', 'is-g'],
+      ['Konsertlar', 'Концерты', 'catalog.html?franchise=konsert', m => m.franchise === 'konsert', ''], ['Dorama', 'Дорамы', 'catalog.html?franchise=dorama', m => m.franchise === 'dorama', ''],
+      ['Hind kinolari', 'Индийское кино', 'catalog.html?franchise=hind', m => m.franchise === 'hind', 'is-g'], ['Klassika', 'Классика', 'catalog.html?franchise=klassika', m => m.franchise === 'klassika', ''],
+      ['DC', 'DC', 'catalog.html?franchise=dc', m => m.franchise === 'dc', ''], ['Va yana…', 'И ещё…', 'catalog.html', m => rt(m) > 8, '']
+    ].map(([u, r, h, f, c]) => { const all = MOVIES.filter(f).filter(m => backOf(m, 'w342')); const m = pickOne(tallFirst(all.sort((a, b) => rt(b) - rt(a))), used); return m && [ru ? r : u, h, m, c]; }).filter(Boolean);
+    if (T.length < 8) return '';
+    const cols = [0, 1, 2, 3].map(c => T.filter((_, i) => i % 4 === c));
+    return `<section class="h5-sec"><div class="h5-aio"><div class="h5-aio-in h5-wrap">
+      <div class="h5-aio-copy">
+        <div class="h5-aio-logo"><span>Dezo</span><b>Max</b></div>
+        <h2>${L('Sizning <em>hammasi bir joyda</em> kinoteatringiz', 'Ваш кинотеатр <em>всё в одном</em>')}</h2>
+        <ul><li>${ic('spark')}${L('O‘zbek tilida kinolar, seriallar va multfilmlar', 'Фильмы, сериалы и мультфильмы на узбекском')}</li>
+          <li>${ic('inf')}${L('Cheksiz va bepul — rasmiy kanallardan', 'Без ограничений и бесплатно — с официальных каналов')}</li></ul>
+        <p>${L('Telekanallar, sport va Shorts ham shu yerda.', 'Телеканалы, спорт и Shorts — тоже здесь.')}</p>
+        <a class="h5-sq" href="catalog.html">${L('Boshlash', 'Начать')} ${ic('ext')}</a>
+      </div>
+      <div class="h5-aio-grid">${cols.map((col, c) => `<div class="h5-aio-col" style="--o:${[0, 18, -12, 10][c]}px">${col.map(([n, h, m, cl]) => `<a class="h5-aio-t ${cl}" href="${h}">
+        <span>${esc(n)}</span><img src="${esc(cl ? backOf(m, 'w342') : (tallOf(m, 'w342') || backOf(m, 'w342')))}" alt="" loading="lazy" onerror="this.remove()"></a>`).join('')}</div>`).join('')}</div>
+    </div></div></section>`;
+  }
+
+  /* 3) Pleyerning yangi funksiyalari — mini ko'rsatma (namuna 3): uchta belgi navbat bilan yonadi */
+  const TOUR = [
+    ['speed', L('Tezlik va sifat', 'Скорость и качество'), L('0.5× dan 2× gacha tezlik, 360p dan 1080p gacha sifat — bitta menyuda.', 'Скорость от 0.5× до 2× и качество от 360p до 1080p — в одном меню.')],
+    ['resume', L('To‘xtagan joydan', 'С места остановки'), L('Kinoni yopsangiz ham, keyingi safar aynan o‘sha daqiqadan davom etadi.', 'Закрыли фильм — в следующий раз он продолжится с той же минуты.')],
+    ['next', L('Keyingi qism', 'Следующая серия'), L('Serialda keyingi qism bir bosishda, qismlar mavsumlar bo‘yicha pleyer ostida.', 'Следующая серия в одно касание, серии по сезонам — под плеером.')]
+  ];
+  function tourHTML() {
+    const m = pool(m => okBig(m.hposter) || (okBig(m.cover) && /tmdb/.test(m.cover)), 12)[3];
+    const img = m && wideOf(m, 'w1280');
+    if (!img) return '';
+    return `<section class="h5-sec h5-wrap">${headHTML(L('Yangi pleyer', 'Новый плеер'), null, `<span class="h5-tag" style="background:#2FA84A">${L('YANGI', 'НОВОЕ')}</span>`)}
+      <div class="h5-tour" id="h5Tour" data-anim>
+        <img class="h5-tour-bg" src="${esc(img)}" alt="" loading="lazy">
+        <div class="h5-tour-bar" role="tablist">${TOUR.map(([k, t], i) => `<button type="button" role="tab" data-t="${i}" aria-label="${esc(t)}"${i ? '' : ' class="is-on"'}>${ic(k)}</button>`).join('')}</div>
+        <div class="h5-tour-demo" aria-hidden="true">
+          <div class="h5-td is-on" data-d="0"><b>${L('Tezlik', 'Скорость')}</b><span>0.5×</span><span>1×</span><span class="is-on">1.5×</span><span>2×</span><b>${L('Sifat', 'Качество')}</b><span>720p</span><span class="is-on">1080p</span></div>
+          <div class="h5-td" data-d="1">${ic('resume')}<span>${L('Davom ettirish:', 'Продолжить с')} <b>42:15</b></span><i></i></div>
+          <div class="h5-td" data-d="2"><small>${L('Keyingi qism', 'Следующая серия')}</small><b>${esc(title(m))} · 2</b><i></i></div>
+        </div>
+        <div class="h5-tour-cap">${TOUR.map(([, t, d], i) => `<div class="h5-tc${i ? '' : ' is-on'}" data-c="${i}"><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('')}</div>
+      </div></section>`;
+  }
+  function initTour() {
+    const box = $('h5Tour');
+    if (!box) return;
+    let i = 0, tm = null;
+    const set = n => { i = n; box.querySelectorAll('[data-t],[data-d],[data-c]').forEach(el => el.classList.toggle('is-on', +(el.dataset.t ?? el.dataset.d ?? el.dataset.c) === n)); };
+    const run = on => { clearInterval(tm); if (on && !matchMedia('(prefers-reduced-motion: reduce)').matches) tm = setInterval(() => set((i + 1) % TOUR.length), 3800); };
+    box.addEventListener('click', e => { const b = e.target.closest('[data-t]'); if (b) { set(+b.dataset.t); run(true); } });
+    box._anim = run;
+  }
+
+  /* 4) Bento: katta karta + Kinolar / Seriallar / Multfilmlar + O'zbek kinolari (namuna 4) */
+  function bentoHTML() {
+    const used = new Set();
+    const bg = f => { const m = pickOne(MOVIES.filter(m => f(m) && okBig(m.hposter || m.cover) && /tmdb/.test(m.hposter || m.cover || '')).sort((a, b) => rt(b) - rt(a)), used); return m ? wideOf(m, 'w780') : ''; };
+    const big = bg(m => (m.genres || []).includes('scifi'));
+    const C = [
+      [L('Kinolar', 'Фильмы'), L(`${nOf('film', () => 0)} ta kino: jangari, drama, komediya, fantastika — har kuni yangilari.`, `${nOf('film', () => 0)} фильмов: боевики, драмы, комедии, фантастика — новые каждый день.`), L('Kinolarni ko‘rish', 'Смотреть фильмы'), 'catalog.html?type=film', bg(m => m.type === 'film')],
+      [L('Seriallar', 'Сериалы'), L(`${nOf('serial', () => 0)} ta serial — qism-baqism, to‘xtagan joydan davom eting.`, `${nOf('serial', () => 0)} сериалов — серия за серией, с места остановки.`), L('Seriallarni ko‘rish', 'Смотреть сериалы'), 'catalog.html?type=serial', bg(m => m.type === 'serial')],
+      [L('Multfilmlar', 'Мультфильмы'), L('Butun oila uchun: klassik va yangi multfilmlar, bolalar rejimi bilan.', 'Для всей семьи: классика и новинки, с детским режимом.'), L('Multfilmlarni ko‘rish', 'Смотреть мультфильмы'), 'catalog.html?type=multfilm', bg(m => m.type === 'multfilm' || (m.genres || []).includes('animation'))]
+    ];
+    const wide = bg(m => (m.genres || []).includes('history') || (m.genres || []).includes('adventure'));
+    return `<section class="h5-sec h5-wrap"><div class="h5-bento">
+      <a class="h5-bc is-big" href="catalog.html" style="--bg:url('${esc(big)}')"><h3>${L('Har kayfiyatga — kino, serial va multfilm', 'На любое настроение — фильмы, сериалы и мультфильмы')}</h3></a>
+      ${C.map(([t, d, b, h, im]) => `<a class="h5-bc" href="${h}" style="--bg:url('${esc(im)}')"><h3>${esc(t)}</h3><p>${esc(d)}</p><span class="h5-pill">${esc(b)}</span></a>`).join('')}
+      <a class="h5-bc is-wide" href="catalog.html?watch=uz" style="--bg:url('${esc(wide)}')"><h3>${L('O‘zbek kinolari va seriallari', 'Узбекские фильмы и сериалы')}</h3>
+        <p>${L(`${nOf('uzbek', () => 0)} ta milliy kino va serial — o‘zbek tilida, rasmiy kanallardan.`, `${nOf('uzbek', () => 0)} национальных фильмов и сериалов — на узбекском, с официальных каналов.`)}</p><span class="h5-pill">${L('O‘zbek kinolari', 'Узбекское кино')}</span></a>
+    </div></section>`;
+  }
+
+  /* 5) Aylanib turadigan kadrlar mozaikasi (namuna 5): ustunlar — bitta baland yoki ikkita ustma-ust */
+  function marqueeHTML() {
+    const list = uniq(MOVIES.filter(m => rt(m) >= 6.8 && /tmdb/.test(m.hposter || m.cover || '') && okBig(m.hposter || m.cover)).sort((a, b) => rt(b) - rt(a))).slice(0, 22);
+    if (list.length < 10) return '';
+    const im = m => `<a href="${movieHref(m)}" tabindex="-1" aria-label="${esc(title(m))}"><img src="${esc(wideOf(m, 'w500'))}" alt="" loading="lazy" onerror="this.remove()"><span>${esc(title(m))}</span></a>`;
+    const cols = [];
+    for (let i = 0, k = 0; i < list.length; k++) {
+      if (k % 3 === 1) cols.push(`<div class="h5-mq-c is-tall">${im(list[i++])}</div>`);
+      else if (list[i + 1]) { cols.push(`<div class="h5-mq-c${k % 3 === 2 ? ' is-w' : ''}">${im(list[i])}${im(list[i + 1])}</div>`); i += 2; } else break;
+    }
+    return `<section class="h5-sec"><div class="h5-wrap">${headHTML(L('Eng yaxshi kadrlar', 'Лучшие кадры'), 'catalog.html')}</div>
+      <div class="h5-mq" data-anim><div class="h5-mq-t">${cols.join('')}${cols.join('')}</div></div></section>`;
+  }
+
+  /* 6) Oq kartalar: ustida nomi; sichqoncha borsa — treyler yoki kinodan sahna (ovozsiz, boshqaruvlarsiz) (namuna 6–7) */
+  const ytId = u => (String(u || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
+  function hoverHTML() {
+    const list = uniq(MOVIES.filter(m => (ytId(m.trailer) || ytId(m.video)) && rt(m) >= 6.5 && !isExtraVideo(m)).sort((a, b) => rt(b) - rt(a))).slice(0, 14);
+    if (list.length < 6) return '';
+    return `<section class="h5-sec h5-wrap">${headHTML(L('Treylerlar', 'Трейлеры'), 'catalog.html?watch=trailer', '', `<small class="h5-hint">${L('sichqonchani olib boring', 'наведите курсор')}</small>`)}
+      <div class="h5-row h5-hv-row">${list.map(m => { const tr = ytId(m.trailer), id = tr || ytId(m.video);
+        return `<a class="h5-hv" href="${movieHref(m)}" data-yt="${id}" data-st="${tr ? 0 : 300}"><span class="h5-hv-t">${ic(m.type === 'serial' ? 'tv' : m.type === 'multfilm' ? 'toon' : 'film')}${esc(title(m))}</span><small>${esc(subOf(m))}</small></a>`; }).join('')}</div></section>`;
+  }
+  function initHover() {
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    let tm = null;
+    document.addEventListener('mouseover', e => {
+      const c = e.target.closest('.h5-hv');
+      if (!c || c.querySelector('iframe')) return;
+      clearTimeout(tm);
+      tm = setTimeout(() => {
+        if (!c.matches(':hover')) return;
+        document.querySelectorAll('.h5-hv iframe').forEach(f => { f.parentNode.classList.remove('is-play'); f.remove(); });
+        const id = c.dataset.yt, st = +c.dataset.st || 0;
+        const f = document.createElement('iframe');
+        f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&loop=1&playlist=${id}&start=${st}`;
+        f.allow = 'autoplay; encrypted-media'; f.tabIndex = -1; f.setAttribute('aria-hidden', 'true');
+        f.onload = () => setTimeout(() => c.classList.add('is-play'), 900);   // YouTube sarlavhasi yo'qolguncha kutiladi
+        c.appendChild(f);
+      }, 400);
+    });
+    document.addEventListener('mouseout', e => {
+      const c = e.target.closest('.h5-hv');
+      if (!c || c.contains(e.relatedTarget)) return;
+      clearTimeout(tm);
+      c.classList.remove('is-play');
+      c.querySelector('iframe')?.remove();
+    });
+  }
+
+  /* 7) Posterlar ustunlari yuqoriga-pastga aylanadi + yozuv (namuna 8) */
+  function mosaicHTML() {
+    const list = tallFirst(ROW_SOURCES.popular.list()).filter(hasTall).slice(40, 80);
+    if (list.length < 16) return '';
+    const cols = [0, 1, 2, 3, 4].map(c => list.filter((_, i) => i % 5 === c));
+    const col = (c, k) => `<div class="h5-mos-c${k % 2 ? ' is-down' : ''}" style="--d:${48 + k * 7}s"><div>${[...c, ...c].map(m => `<img src="${esc(tallOf(m, 'w185'))}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`).join('')}</div></div>`;
+    return `<section class="h5-sec h5-wrap"><div class="h5-mos" data-anim>
+      <div class="h5-mos-in" aria-hidden="true">${cols.map(col).join('')}</div>
+      <div class="h5-mos-cap"><b>${L(`${nOf('all', () => MOVIES.length)} ta kino — yoki faqat sevganlaringiz.`, `${nOf('all', () => MOVIES.length)} фильмов — или только любимые.`)}</b>
+        <p>${L('Sevimlilarga qo‘shing va istalgan ekranda davom ettiring.', 'Добавляйте в избранное и продолжайте на любом экране.')}</p><a class="h5-pill is-dark" href="favorites.html">${L('Kutubxonam', 'Моя библиотека')}</a></div>
+    </div></section>`;
+  }
+
+  /* animatsiyalar faqat ekranda ko'ringanda (CPU tejaladi) */
+  function initAnims() {
+    const els = document.querySelectorAll('[data-anim]');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) { els.forEach(el => { el.classList.add('is-run'); el._anim && el._anim(true); }); return; }
+    const io = new IntersectionObserver(es => es.forEach(e => { e.target.classList.toggle('is-run', e.isIntersecting); e.target._anim && e.target._anim(e.isIntersecting); }), { rootMargin: '100px' });
+    els.forEach(el => io.observe(el));
+  }
+
   /* ---------- barcha bloklar ---------- */
   function renderRows() {
     const rows = ((CFG.rows && CFG.rows.length) ? CFG.rows : DEFAULT_ROWS).filter(r => r.visible !== false);
@@ -394,10 +590,15 @@
     if (trending) { const l = listOf(trending); if (l.length >= 4) push(rowSec(L('Hozir trendda', 'Сейчас в тренде'), ROW_SOURCES.trending.all, l)); }
     if (uzbek) { const l = listOf(uzbek); if (l.length >= 4) push(rowSec(titleOf(uzbek), ROW_SOURCES.uzbek.all, l)); }
     push(genresHTML());
+    push(bentoHTML());
     if (popular) push(top10HTML(L('Bugungi TOP 10', 'ТОП-10 сегодня')));
+    push(hoverHTML());
     push(shortsHTML());
+    push(fanHTML());
     if (fresh) { const l = uniq(tallFirst(ROW_SOURCES.new.list().filter(cardImg)).slice(0, 40)).slice(0, 14); if (l.length >= 4) push(gridSec(L('Yangi kinolar', 'Новые фильмы'), ROW_SOURCES.new.all, l)); }
+    push(marqueeHTML());
     push(liveHTML());
+    push(tourHTML());
     // qolgan admin qatorlari (o'zbek klassikasi, konsertlar, dorama, anime, hind, Marvel, DC, tanlanganlar…) — admin tartibida
     let extra = 0, appDone = false;
     rows.forEach(row => {
@@ -408,8 +609,10 @@
       if (++extra === 2) { push(appHTML()); appDone = true; }
     });
     if (!appDone) push(appHTML());
+    push(aioHTML());
     if (series) { const l = listOf(series); if (l.length >= 4) push(rowSec(titleOf(series), ROW_SOURCES.series.all, l, ' is-sm')); }
     if (cartoons) { const l = uniq(tallFirst(ROW_SOURCES.cartoons.list().filter(cardImg))).slice(0, 12); if (l.length >= 4) push(gridSec(titleOf(cartoons), ROW_SOURCES.cartoons.all, l)); }
+    push(mosaicHTML());
     push(studiosHTML(studios ? titleOf(studios) : t('row.studios')));
     if (tahlil) { const l = listOf(tahlil); if (l.length >= 4) push(rowSec(titleOf(tahlil), ROW_SOURCES.tahlil.all, l, ' is-sm')); }
     out.push(ctaHTML());
@@ -423,6 +626,8 @@
       loadTop10();
     }));
     if (popular) loadTop10();
+    initTour();
+    initAnims();
   }
 
   /* ---------- janr chiplari ---------- */
@@ -536,6 +741,7 @@
   }
   document.querySelectorAll('[data-setlang]').forEach(a => a.toggleAttribute('aria-current', a.dataset.setlang === LANG));
   initNav();
+  initHover();
   initChips();
   initHero();
   renderRows();

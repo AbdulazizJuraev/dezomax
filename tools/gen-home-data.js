@@ -77,6 +77,10 @@ const GENRE_N = {};
 for (const g of ['comedy', 'action', 'drama', 'scifi', 'history', 'thriller', 'animation'])
   GENRE_N[g] = watchable.filter(m => g === 'animation' ? (m.type === 'multfilm' || (m.genres || []).includes('animation')) : (m.genres || []).includes(g)).length;
 
+// bosh sahifa bloklari (js/home5.js): kino / serial / multfilm / o'zbek kinolari soni
+const TYPE_N = { film: watchable.filter(m => m.type === 'film').length, serial: watchable.filter(m => m.type === 'serial').length,
+  multfilm: watchable.filter(m => m.type === 'multfilm').length, uzbek: watchable.filter(m => m.franchise === 'uzbek').length, all: watchable.length };
+
 const out = ALL.filter(m => pick.has(m.id));
 // admin tanlagan, lekin o'chirilgan/yashirilgan kinolar — ular uchun to'liq ro'yxat yuklanmasin
 const gone = [...pick].filter(id => !ids.has(id));
@@ -86,6 +90,7 @@ const src = `/* DezoMax — bosh sahifa uchun yengil kinolar ro'yxati (tools/gen
 window.DZX_HOME_PART = true;
 window.DZX_TOTAL = ${ALL.length};
 window.DZX_GENRE_N = ${JSON.stringify(GENRE_N)};
+window.DZX_TYPE_N = ${JSON.stringify(TYPE_N)};
 window.DZX_GONE = ${JSON.stringify(gone)};
 var HIDDEN_MOVIES = ${JSON.stringify(hidden)};
 (function () {

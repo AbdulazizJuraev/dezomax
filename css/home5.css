@@ -299,3 +299,155 @@ body.d5 .v4-chip small { display: none; }
 body.d5 .v4-about-more p + p { margin-top: 8px; }
 body.d5 .v4-foot-btn { background: var(--grad); color: #07160A !important; }
 @media (prefers-reduced-motion: reduce) { .h5 * { transition: none !important; animation: none !important; } }
+
+/* ================= Reklama-uslubidagi bloklar (namunalar, 2026-11-18) — harakat faqat transform, ekrandan chiqsa to'xtaydi ================= */
+.h5-ic { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.h5-sq { display: inline-flex; align-items: center; gap: .5em; padding: .85em 1.3em; border-radius: 8px; background: #8BE04E; color: #0B1A06; font-weight: 700; font-size: .95rem; }
+.h5-sq .h5-ic { width: 15px; height: 15px; }
+.h5-sq:hover { background: #A6E22E; }
+.h5-pill { display: inline-flex; align-items: center; padding: .5em 1em; border-radius: 999px; background: rgba(255, 255, 255, .16); font-size: .82rem; font-weight: 700; color: #fff; }
+.h5-pill.is-dark { background: #111; color: #fff; }
+.h5-hint { color: var(--muted); font-size: .8rem; font-weight: 500; }
+@media (hover: none) { .h5-hint { display: none; } }
+
+/* 1) to'q banner + yelpig'ich */
+.h5-fan { position: relative; overflow: hidden; display: flex; align-items: center; min-height: clamp(300px, 26vw, 380px); border-radius: 16px; background: #1B1B1B;
+  background-image: radial-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px); background-size: 18px 18px; }
+.h5-fan-copy { position: relative; z-index: 2; max-width: min(620px, 56%); padding: clamp(24px, 4vw, 64px); }
+.h5-fan h2 { margin: 0 0 .7rem; font-size: clamp(1.5rem, 2.6vw, 2.4rem); line-height: 1.12; letter-spacing: -.03em; color: #fff; }
+.h5-fan h2 b { display: block; color: #8BE04E; }
+.h5-fan h2 a { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 5px; }
+.h5-fan h2 a:hover { color: #8BE04E; }
+.h5-fan p { margin: 0 0 1.4rem; color: rgba(255, 255, 255, .85); }
+.h5-fan-cards { position: absolute; right: 2%; top: 0; bottom: 0; width: 50%; }
+/* yoy: o = k - (n-1)/2; chetdagilar pastroq va ko'proq qiyshaygan */
+.h5-fan-c { --o: calc(var(--k) - (var(--n) - 1) / 2); position: absolute; left: 50%; top: 50%; width: clamp(120px, 11vw, 170px); aspect-ratio: 3/4; border-radius: 14px; overflow: hidden; background: #333;
+  transform: translate(-50%, -38%) translateX(calc(var(--o) * 78%)) translateY(calc(var(--o) * var(--o) * 9px)) rotate(calc(var(--o) * 9deg));
+  box-shadow: -8px 6px 24px rgba(0, 0, 0, .5); transition: transform .3s; }
+.h5-fan-c:hover { transform: translate(-50%, -38%) translateX(calc(var(--o) * 78%)) translateY(calc(var(--o) * var(--o) * 9px - 14px)) rotate(calc(var(--o) * 9deg)); z-index: 2; }
+.h5-fan-c img { width: 100%; height: 100%; object-fit: cover; }
+.h5-fan-c span { position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: .9rem; color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, .8); }
+@media (max-width: 760px) {
+  .h5-fan { flex-direction: column; align-items: stretch; }
+  .h5-fan-copy { max-width: none; }
+  .h5-fan-cards { position: relative; right: auto; width: 100%; height: 230px; }
+  .h5-fan-c { width: 96px; }
+}
+
+/* 2) och fonli «hammasi bir joyda» */
+.h5-aio { background: #FFF6EE; color: #141414; overflow: hidden; }
+.h5-aio-in { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 4vw, 64px); padding-block: clamp(28px, 4vw, 56px); }
+.h5-aio-copy { max-width: 420px; }
+.h5-aio-logo { font-family: var(--display); font-size: 1.9rem; font-weight: 700; letter-spacing: -.03em; margin-bottom: .6rem; }
+.h5-aio-logo b { color: #2FA84A; }
+.h5-aio h2 { margin: 0 0 .9rem; font-size: clamp(1.5rem, 2.4vw, 2.1rem); line-height: 1.1; letter-spacing: -.03em; color: #141414; }
+.h5-aio h2 em { font-style: normal; color: #B23CCB; }
+.h5-aio ul { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 6px; font-size: .95rem; }
+.h5-aio li { display: flex; align-items: center; gap: 8px; }
+.h5-aio p { margin: 0 0 1.1rem; font-size: .92rem; }
+.h5-aio-grid { display: flex; gap: 10px; height: clamp(300px, 26vw, 360px); overflow: hidden; -webkit-mask-image: linear-gradient(#000 80%, transparent); mask-image: linear-gradient(#000 80%, transparent); }
+.h5-aio-col { display: flex; flex-direction: column; align-self: flex-start; gap: 10px; width: clamp(110px, 9vw, 140px); transform: translateY(var(--o)); }
+.h5-aio-t { position: relative; display: block; flex: none; aspect-ratio: 4/5; border-radius: 6px; overflow: hidden; background: #fff; border: 1px solid #ddd; padding: 22px 6px 6px; box-shadow: 0 2px 6px rgba(0, 0, 0, .08); transition: transform .2s; }
+.h5-aio-t span { position: absolute; top: 4px; left: 7px; font-size: .68rem; font-weight: 700; color: #222; }
+.h5-aio-t img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+.h5-aio-t.is-g { padding: 0; border: 0; }
+.h5-aio-t.is-g span { top: 6px; left: 6px; z-index: 1; padding: 2px 6px; border-radius: 4px; background: #8BE04E; color: #0B1A06; }
+.h5-aio-t:hover { transform: translateY(-3px); }
+@media (max-width: 860px) { .h5-aio-in { flex-direction: column; align-items: flex-start; } .h5-aio-grid { width: 100%; height: 280px; } .h5-aio-col { flex: 1; width: auto; } .h5-aio-col:nth-child(4) { display: none; } }
+
+/* 3) pleyer ko'rsatmasi */
+.h5-tour { position: relative; overflow: hidden; aspect-ratio: 16/6.2; min-height: 300px; border-radius: 18px; background: #000; }
+.h5-tour-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.h5-tour::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, .45), transparent 40%, transparent 60%, rgba(0, 0, 0, .55)); pointer-events: none; }
+.h5-tour-bar { position: absolute; z-index: 2; left: clamp(14px, 3vw, 56px); top: 50%; transform: translateY(-50%); display: grid; gap: 12px; padding: 12px; border-radius: 16px; background: #000; }
+.h5-tour-bar button { display: grid; place-items: center; width: clamp(54px, 5.4vw, 76px); aspect-ratio: 1; border-radius: 14px; background: #1E1E1E !important; color: #fff; transition: background .25s, transform .25s; }
+.h5-tour-bar button .h5-ic { width: 46%; height: 46%; stroke-width: 1.8; }
+.h5-tour-bar button.is-on { background: #3a3a3a !important; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .5); transform: scale(1.04); }
+.h5-tour-demo { position: absolute; z-index: 2; left: calc(clamp(14px, 3vw, 56px) + clamp(54px, 5.4vw, 76px) + 44px); top: 50%; }
+.h5-td { position: absolute; top: 0; left: 0; transform: translateY(-50%) translateX(-10px); opacity: 0; transition: opacity .35s, transform .35s; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  width: max-content; max-width: 300px; padding: 12px 14px; border-radius: 14px; background: rgba(0, 0, 0, .82); color: #fff; font-size: .84rem; }
+.h5-td.is-on { opacity: 1; transform: translateY(-50%); }
+.h5-td b { width: 100%; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: #B8EC4A; }
+.h5-td span { padding: .25em .7em; border-radius: 99px; background: rgba(255, 255, 255, .12); }
+.h5-td span.is-on { background: var(--grad); color: #07160A; font-weight: 700; }
+.h5-td[data-d="1"], .h5-td[data-d="2"] { flex-direction: column; align-items: flex-start; gap: 6px; min-width: 230px; }
+.h5-td[data-d="1"] span, .h5-td[data-d="2"] span { background: none; padding: 0; }
+.h5-td[data-d="1"] b, .h5-td[data-d="2"] b { width: auto; font-size: .95rem; letter-spacing: 0; text-transform: none; color: #fff; }
+.h5-td small { color: #B8EC4A; font-weight: 700; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+.h5-td i { display: block; width: 100%; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .25); position: relative; overflow: hidden; }
+.h5-td i::after { content: ""; position: absolute; inset: 0; width: 64%; background: var(--grad); }
+.h5-td[data-d="2"] i::after { width: 100%; transform-origin: left; transform: scaleX(0); }
+.h5-tour.is-run .h5-td[data-d="2"].is-on i::after { animation: h5count 3.6s linear forwards; }
+@keyframes h5count { to { transform: scaleX(1); } }
+.h5-tour-cap { position: absolute; z-index: 2; right: clamp(14px, 3vw, 40px); bottom: clamp(14px, 2.4vw, 32px); width: min(360px, 44%); }
+.h5-tc { display: none; padding: 14px 16px; border-radius: 14px; background: rgba(0, 0, 0, .78); }
+.h5-tc.is-on { display: block; }
+.h5-tc b { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+.h5-tc p { margin: 0; color: rgba(255, 255, 255, .82); font-size: .88rem; }
+@media (max-width: 760px) {
+  .h5-tour { aspect-ratio: auto; min-height: 380px; }
+  .h5-tour-bar { top: 18px; transform: none; display: flex; left: 14px; padding: 8px; gap: 8px; }
+  .h5-tour-bar button { width: 48px; }
+  .h5-tour-demo { left: 14px; top: 150px; }
+  .h5-tour-cap { left: 14px; right: 14px; width: auto; }
+}
+
+/* 4) bento */
+.h5-bento { display: grid; grid-template-columns: 1.15fr 1fr 1fr 1fr; grid-template-rows: auto auto; gap: 14px; }
+.h5-bc { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; min-height: 220px; padding: 22px; border-radius: 18px; background: #14181f var(--bg) center/cover no-repeat; }
+.h5-bc::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10, 14, 30, .72), rgba(10, 14, 30, .45) 55%, rgba(10, 14, 30, .8)); }
+.h5-bc h3 { margin: 0 0 .5rem; font-size: 1.15rem; font-weight: 700; }
+.h5-bc p { margin: 0 0 1rem; font-size: .88rem; line-height: 1.45; color: rgba(255, 255, 255, .85); }
+.h5-bc .h5-pill { margin-top: auto; align-self: flex-start; background: rgba(0, 0, 0, .45); }
+.h5-bc:hover .h5-pill { background: var(--grad); color: #07160A; }
+.h5-bc.is-big { grid-row: 1 / 3; justify-content: flex-start; }
+.h5-bc.is-big::before { background: linear-gradient(180deg, rgba(10, 10, 30, .55), transparent 45%); }
+.h5-bc.is-big h3 { font-size: clamp(1.4rem, 2vw, 1.8rem); line-height: 1.15; max-width: 14em; }
+.h5-bc.is-wide { grid-column: 2 / 5; }
+@media (max-width: 1000px) { .h5-bento { grid-template-columns: 1fr 1fr; } .h5-bc.is-big { grid-row: auto; grid-column: 1 / -1; min-height: 240px; } .h5-bc.is-wide { grid-column: 1 / -1; } }
+@media (max-width: 560px) { .h5-bento { grid-template-columns: 1fr; } .h5-bc { min-height: 190px; } }
+
+/* 5) kadrlar lentasi */
+.h5-mq { overflow: hidden; }
+.h5-mq-t { display: flex; gap: 12px; width: max-content; animation: h5mq 70s linear infinite; animation-play-state: paused; }
+.h5-mq.is-run .h5-mq-t { animation-play-state: running; }
+.h5-mq.is-run:hover .h5-mq-t { animation-play-state: paused; }
+@keyframes h5mq { to { transform: translateX(calc(-50% - 6px)); } }
+.h5-mq-c { display: flex; flex-direction: column; gap: 12px; width: clamp(220px, 21vw, 320px); height: clamp(300px, 26vw, 400px); }
+.h5-mq-c.is-w { width: clamp(260px, 25vw, 390px); }
+.h5-mq-c.is-tall { width: clamp(260px, 24vw, 380px); }
+.h5-mq-c a { position: relative; flex: 1; min-height: 0; border-radius: 16px; overflow: hidden; background: #111; }
+.h5-mq-c img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.h5-mq-c a:hover img { transform: scale(1.04); }
+.h5-mq-c span { position: absolute; left: 12px; bottom: 10px; right: 12px; font-weight: 700; font-size: .88rem; text-shadow: 0 1px 8px rgba(0, 0, 0, .9); opacity: 0; transition: opacity .25s; }
+.h5-mq-c a:hover span { opacity: 1; }
+@media (max-width: 760px) { .h5-mq-c, .h5-mq-c.is-w, .h5-mq-c.is-tall { width: 200px; height: 260px; } .h5-mq-c span { opacity: 1; } }
+
+/* 6) oq kartalar + treyler */
+.h5-hv-row { gap: 8px; }
+.h5-hv { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; width: clamp(170px, 14vw, 220px); aspect-ratio: 4/5;
+  padding: 14px; border-radius: 4px; background: #fff; color: #3A0E0E; text-align: center; }
+.h5-hv-t { display: flex; align-items: center; justify-content: center; gap: 7px; font-weight: 600; font-size: .95rem; line-height: 1.25; }
+.h5-hv-t .h5-ic { width: 17px; height: 17px; stroke-width: 2.2; }
+.h5-hv small { color: #8a6a6a; font-size: .74rem; }
+.h5-hv iframe { position: absolute; z-index: 0; top: 50%; left: 50%; height: 100%; width: auto; aspect-ratio: 16/9; transform: translate(-50%, -50%) scale(1.25); border: 0; pointer-events: none; opacity: 0; transition: opacity .4s; }
+.h5-hv.is-play iframe { opacity: 1; }
+.h5-hv.is-play::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(transparent 55%, rgba(0, 0, 0, .55)); }
+.h5-hv.is-play .h5-hv-t, .h5-hv.is-play small { position: relative; z-index: 2; color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, .8); }
+.h5-hv.is-play { justify-content: flex-end; }
+
+/* 7) posterlar ustunlari */
+.h5-mos { position: relative; overflow: hidden; height: clamp(380px, 34vw, 500px); border-radius: 22px; background: #F2EFEA; }
+.h5-mos-in { position: absolute; inset: -20px; display: flex; gap: 12px; padding: 0 12px; }
+.h5-mos-c { flex: 1; min-width: 0; overflow: hidden; }
+.h5-mos-c > div { display: flex; flex-direction: column; gap: 12px; animation: h5up var(--d, 50s) linear infinite; animation-play-state: paused; }
+.h5-mos-c.is-down > div { animation-name: h5down; }
+.h5-mos.is-run .h5-mos-c > div { animation-play-state: running; }
+@keyframes h5up { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 6px)); } }
+@keyframes h5down { from { transform: translateY(calc(-50% - 6px)); } to { transform: translateY(0); } }
+.h5-mos-c img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 12px; background: #ddd; }
+.h5-mos-cap { position: absolute; z-index: 2; left: 18px; bottom: 18px; max-width: 360px; padding: 16px 18px; border-radius: 16px; background: #fff; color: #141414; box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
+.h5-mos-cap b { display: block; font-size: 1.02rem; margin-bottom: 4px; }
+.h5-mos-cap p { margin: 0 0 10px; font-size: .88rem; color: #555; }
+@media (max-width: 760px) { .h5-mos-c:nth-child(n+4) { display: none; } .h5-mos-cap { right: 18px; } }
+@media (prefers-reduced-motion: reduce) { .h5-mq-t, .h5-mos-c > div { animation: none !important; } }
