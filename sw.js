@@ -133,7 +133,10 @@ self.addEventListener('fetch', e => {
     const p = url.pathname;
     if (/\.(js|css)$/i.test(p)) {
       // admin va tez o'zgaradigan ma'lumot — avval internet
-      if (url.searchParams.has('t') || /data-(custom|site|desc|home)\.js$|lang-videos\.js$|site-config\.js$|admin/i.test(p)) e.respondWith(networkFirst(req, SHELL, url.origin + p));
+      // katta kino bazasi (18 MB va h.k.) — telefondagi nusxadan DARHOL, yangisi orqa fonda yuklanadi (keyingi ochilishda ko'rinadi).
+      // Avval har bo'limda internet kutilardi (1–2 s), 2026-11-18
+      if (!url.searchParams.has('t') && /data-(site|desc|home|channels|rutube|rutube-desc|shorts)\.js$|seo-pages\.js$/i.test(p)) e.respondWith(staleWhileRevalidate(e, req, SHELL, url.origin + p));
+      else if (url.searchParams.has('t') || /data-custom\.js$|lang-videos\.js$|site-config\.js$|admin/i.test(p)) e.respondWith(networkFirst(req, SHELL, url.origin + p));
       else e.respondWith(cacheFirst(req, SHELL));
       return;
     }
@@ -256,6 +259,21 @@ async function pack(items, port) {
   // 2 tadan — telefon tarmog'i va xotirasi band bo'lib, ilova qotmasin
   await Promise.all([0, 1].map(async () => { while (list.length) await one(list.shift()); }));
   if (port) port.postMessage({ ok, fail });
+}
+
+async function staleWhileRevalidate(e, req, name, key) {
+  const cache = await caches.open(name);
+  const hit = await cache.match(key, { ignoreSearch: true });
+  const net = fetch(req).then(res => {
+    if (!res || !res.ok) return res;
+    const copy = res.clone();
+    // eski nusxalar (?v=eski) o'chiriladi — keyingi safar aynan shu yangi nusxa ochilsin
+    return cache.keys(key, { ignoreSearch: true }).then(ks => Promise.all(ks.map(k => cache.delete(k))))
+      .then(() => cache.put(key, copy)).then(() => res, () => res);
+  });
+  if (!hit) return net;
+  e.waitUntil(net.catch(() => {}));   // orqa fonda yangilanadi
+  return hit;
 }
 
 async function networkFirst(req, name, key, max) {
