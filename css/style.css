@@ -8070,3 +8070,51 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
 .seo-more[open] summary { margin-bottom: 14px; }
 .seo-more h2 { font-size: 17px !important; }
 .seo-about { margin-top: 10px; }
+
+/* ---------------- DezoMax 5.0 pleyer (maket: Desktop\index.html .pl) — 2026-11-18 ----------------
+   Faqat ko'rinish: ID va JS o'zgarmagan. Yashil chegara nuri, gradient o'rta tugma, gradient chiziq,
+   sozlamalar oynasi — to'q yashil panel, TEZLIK/SIFAT sarlavhalari, faol tanlov gradientda. */
+.player-wrap.ytp { box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(166,226,46,.2); }
+.player-wrap.ytp:fullscreen, .player-wrap.ytp.ytp-pseudo-fs { box-shadow: none; }
+.vp-ui { background: linear-gradient(to bottom, rgba(0,0,0,.7), transparent 24%, transparent 58%, rgba(0,0,0,.88)); }
+.vp-title { font-family: 'Space Grotesk', Inter, system-ui, sans-serif; letter-spacing: -.02em; }
+
+.vp-menu {
+  top: 62px; right: clamp(10px, 1.6vw, 22px);
+  width: min(300px, calc(100% - 24px)); max-height: calc(100% - 140px);
+  gap: 14px; padding: 14px; border-radius: 16px;
+  background: rgba(6,12,8,.94); border: 1px solid rgba(166,226,46,.28);
+  backdrop-filter: none; box-shadow: 0 18px 50px rgba(0,0,0,.55);
+}
+.vp-menu-sec small { margin-bottom: 8px; font-size: 11.5px; font-weight: 700; letter-spacing: .14em; color: #B8EC4A; }
+.vp-menu-sec small span { letter-spacing: 0; color: rgba(255,255,255,.7); }
+.vp-menu-chips button { padding: 6px 13px; font-size: 13px; font-weight: 600; background: rgba(255,255,255,.1); transition: background .15s; }
+.vp-menu-chips button:hover { background: rgba(255,255,255,.18); }
+.vp-menu-chips button.is-active { background: linear-gradient(135deg,#D4F23C 0%,#8FD62F 38%,#2FA84A 72%,#0E7A5E 100%); color: #07160A; }
+.vp-menu-row { border-top: 1px solid rgba(255,255,255,.08); border-radius: 0 0 10px 10px; padding-top: 12px; }
+.vp-menu-row.is-active { color: #B8EC4A; }
+.vp-menu-open #vpGear { background: rgba(166,226,46,.18); color: #B8EC4A; }
+
+/* o'rta tugma (vpMidFlash bilan 2 soniya chiqadi): pauzada — gradient doira yashil halqa bilan;
+   ijroda — to'q doira (telefonda YouTube'ning o'z pauza belgisini to'liq yopishi kerak, shuning uchun shaffof emas) */
+.player-wrap.ytp .vp-center { color: #07160A;
+  background: linear-gradient(135deg,#D4F23C 0%,#8FD62F 38%,#2FA84A 72%,#0E7A5E 100%);
+  box-shadow: 0 0 0 10px rgba(166,226,46,.18), 0 16px 50px rgba(0,0,0,.5); }
+.player-wrap.ytp.vp-paused .vp-center svg { transform: translateX(6%); }
+.player-wrap.ytp:not(.vp-paused) .vp-center { color: #fff; background: rgba(6,12,8,.94); box-shadow: 0 0 0 1px rgba(166,226,46,.35), 0 6px 24px rgba(0,0,0,.45); }
+.vp-skip:hover { color: #B8EC4A; }
+
+/* chiziq: gradient to'ldirish, oq tugmacha yashil nur bilan */
+.vp-seek { height: 5px; box-shadow: none;
+  background: linear-gradient(90deg, #8FD62F var(--p, 0%), rgba(255,255,255,.28) var(--p, 0%)); }
+.vp-seek:hover, .vp-seek:active { height: 7px; }
+.vp-seek::-webkit-slider-thumb { width: 14px; height: 14px; box-shadow: 0 0 0 4px rgba(166,226,46,.4); }
+.vp-seek::-moz-range-thumb { width: 14px; height: 14px; box-shadow: 0 0 0 4px rgba(166,226,46,.4); }
+.vp-vol { background: linear-gradient(90deg, #A6E22E var(--p, 100%), rgba(255,255,255,.3) var(--p, 100%)); }
+.vp-circ, .vp-pill { background: rgba(6,12,8,.55); border-color: rgba(166,226,46,.16); backdrop-filter: none; }
+.vp-circ:hover { background: rgba(166,226,46,.2); }
+.vp-ico:hover { background: rgba(255,255,255,.16); }
+.ytp.is-muted #vpMute { color: #B8EC4A; }
+@media (max-width: 640px) {
+  .vp-menu { top: 52px; max-height: calc(100% - 64px); padding: 10px; gap: 10px; }
+}
