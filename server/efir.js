@@ -1,0 +1,171 @@
+/* ============================================================
+   DezoMax — o'z jonli efirimiz (TEST), 2026-11-18
+   Brauzer (efir-test.html) kamera/ekranni MediaRecorder bilan WebSocket orqali yuboradi →
+   ffmpeg → HLS (/var/lib/dezomax-efir/hls) → tomoshabinlar hls.js bilan ko'radi.
+   Hammasi 443 (nginx) orqali — yangi port ochilmaydi.
+   - Efir qilish: faqat adminlar (ADMIN_UIDS, /etc/dezomax-pay.env). Kirish tokeni to'lov serverining
+     /api/me orqali tekshiriladi (to'lov serveri o'zgartirilmagan).
+   - Bitta efir (test): yangi efir boshlansa — eskisi to'xtaydi.
+   Tashqi kutubxonasiz (Node 22): WebSocket shu faylda yozilgan.
+   ============================================================ */
+'use strict';
+const http = require('http');
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
+const { spawn } = require('child_process');
+
+const PORT = Number(process.env.EFIR_PORT || 3600);
+const PAY = process.env.EFIR_PAY || 'http://127.0.0.1:8787';
+const DIR = process.env.EFIR_DIR || '/var/lib/dezomax-efir/hls';
+const ADMINS = new Set((process.env.ADMIN_UIDS || '').split(',').map(s => s.trim()).filter(Boolean));
+const ORIGINS = /^https:\/\/(dezomax\.uz|www\.dezomax\.uz|[\w-]+\.github\.io)$|^http:\/\/localhost(:\d+)?$/;
+
+fs.mkdirSync(DIR, { recursive: true });
+
+const S = { live: false, title: '', started: 0, uid: '', bytes: 0, ff: null, sock: null, quality: '' };
+const viewers = new Map();     // ip -> oxirgi so'rov vaqti (m3u8)
+const viewerCount = () => { const t = Date.now() - 15000; let n = 0; for (const [k, v] of viewers) { if (v > t) n++; else viewers.delete(k); } return n; };
+
+function clearDir() { for (const f of fs.readdirSync(DIR)) fs.rmSync(path.join(DIR, f), { force: true }); }
+
+async function whoIs(token, ip) {
+  if (!/^[\w-]{20,}$/.test(token || '')) return null;
+  try {
+    const r = await fetch(PAY + '/api/me', { headers: { Authorization: 'Bearer ' + token, ...(ip ? { 'X-Real-IP': ip, 'X-Forwarded-For': ip } : {}) } });
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j && j.uid ? j.uid : null;
+  } catch { return null; }
+}
+
+function cors(req, h = {}) {
+  const o = req.headers.origin || '';
+  if (ORIGINS.test(o)) { h['Access-Control-Allow-Origin'] = o; h['Vary'] = 'Origin'; h['Access-Control-Allow-Headers'] = 'Authorization'; }
+  return h;
+}
+function send(req, res, code, obj) {
+  res.writeHead(code, cors(req, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }));
+  res.end(JSON.stringify(obj));
+}
+const status = () => ({ live: S.live, title: S.title, started: S.started, viewers: viewerCount(), quality: S.quality });
+
+/* ---------- HTTP ---------- */
+const server = http.createServer(async (req, res) => {
+  const u = new URL(req.url, 'http://x');
+  const p = u.pathname;
+  if (req.method === 'OPTIONS') { res.writeHead(204, cors(req, { 'Access-Control-Allow-Methods': 'GET' })); return res.end(); }
+  if (p === '/efir/status') return send(req, res, 200, status());
+  if (p === '/efir/check') {
+    const m = /^Bearer\s+(\S+)$/.exec(req.headers.authorization || '');
+    const uid = m ? await whoIs(m[1], String(req.headers['x-real-ip'] || '')) : null;
+    return send(req, res, 200, { login: !!uid, admin: !!uid && ADMINS.has(uid) });
+  }
+  // HLS: ro'yxat (m3u8) va bo'laklar (ts). Tomoshabinlar soni m3u8 so'rovlaridan
+  const hm = /^\/efir\/hls\/([\w.-]+\.(m3u8|ts))$/.exec(p);
+  if (hm) {
+    const f = path.join(DIR, hm[1]);
+    if (!fs.existsSync(f)) return send(req, res, 404, { error: 'efir yo‘q' });
+    const ip = String(req.headers['x-real-ip'] || req.socket.remoteAddress || '');
+    if (hm[2] === 'm3u8') viewers.set(ip, Date.now());
+    res.writeHead(200, cors(req, {
+      'Content-Type': hm[2] === 'm3u8' ? 'application/vnd.apple.mpegurl' : 'video/mp2t',
+      'Cache-Control': hm[2] === 'm3u8' ? 'no-cache' : 'public, max-age=60'
+    }));
+    return fs.createReadStream(f).on('error', () => res.end()).pipe(res);
+  }
+  send(req, res, 404, { error: 'topilmadi' });
+});
+
+/* ---------- WebSocket (RFC 6455, minimal) ---------- */
+function wsFrame(op, payload) {
+  const len = payload.length;
+  const head = len < 126 ? Buffer.from([0x80 | op, len])
+    : len < 65536 ? Buffer.from([0x80 | op, 126, len >> 8, len & 255])
+    : (() => { const b = Buffer.alloc(10); b[0] = 0x80 | op; b[1] = 127; b.writeBigUInt64BE(BigInt(len), 2); return b; })();
+  return Buffer.concat([head, payload]);
+}
+const wsText = (sock, obj) => { try { sock.write(wsFrame(1, Buffer.from(JSON.stringify(obj)))); } catch {} };
+
+function stopLive(reason) {
+  if (S.ff) { try { S.ff.stdin.end(); } catch {} const ff = S.ff; setTimeout(() => { try { ff.kill('SIGKILL'); } catch {} }, 4000); }
+  if (S.sock) { wsText(S.sock, { type: 'stopped', reason }); try { S.sock.end(wsFrame(8, Buffer.alloc(0))); } catch {} }
+  S.live = false; S.ff = null; S.sock = null; S.title = ''; S.started = 0; S.uid = ''; S.quality = '';
+  setTimeout(() => { if (!S.live) clearDir(); }, 30000);
+}
+
+function startFfmpeg(mime, quality) {
+  clearDir();
+  const copy = /avc1|h264/i.test(mime);              // Chrome H.264 — qayta kodlanmaydi (server yengil)
+  const h = { '480': 480, '720': 720, '1080': 1080 }[quality] || 720;
+  const br = { 480: '1200k', 720: '2800k', 1080: '5000k' }[h];
+  const v = copy ? ['-c:v', 'copy']
+    : ['-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'zerolatency', '-vf', `scale=-2:'min(${h},ih)'`, '-r', '30', '-g', '60', '-keyint_min', '60', '-sc_threshold', '0',
+       '-b:v', br, '-maxrate', br, '-bufsize', String(parseInt(br) * 2) + 'k', '-pix_fmt', 'yuv420p'];
+  const args = ['-hide_banner', '-loglevel', 'warning', '-fflags', '+genpts+nobuffer', '-i', 'pipe:0',
+    ...v, '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
+    '-f', 'hls', '-hls_time', '2', '-hls_list_size', '8', '-hls_flags', 'delete_segments+independent_segments+omit_endlist',
+    '-hls_segment_filename', path.join(DIR, 's%05d.ts'), path.join(DIR, 'index.m3u8')];
+  const ff = spawn('ffmpeg', args, { stdio: ['pipe', 'ignore', 'pipe'] });
+  ff.stderr.on('data', d => { const t = String(d).trim(); if (t) console.log('[ffmpeg]', t.slice(0, 300)); });
+  ff.stdin.on('error', () => {});
+  ff.on('exit', code => { console.log('[ffmpeg] exit', code); if (S.ff === ff) stopLive('ffmpeg'); });
+  return { ff, copy };
+}
+
+server.on('upgrade', (req, sock) => {
+  if (new URL(req.url, 'http://x').pathname !== '/efir/ingest' || !req.headers['sec-websocket-key'] || !ORIGINS.test(req.headers.origin || '')) return sock.destroy();
+  const accept = crypto.createHash('sha1').update(req.headers['sec-websocket-key'] + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11').digest('base64');
+  sock.write('HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ' + accept + '\r\n\r\n');
+  sock.setNoDelay(true);
+
+  let buf = Buffer.alloc(0), authed = false, mine = false, stats = null;
+  const authTimer = setTimeout(() => { if (!authed) sock.destroy(); }, 8000);
+  const close = () => {
+    clearTimeout(authTimer); clearInterval(stats);
+    if (mine && S.sock === sock) stopLive('uzildi');
+  };
+  sock.on('close', close); sock.on('error', close);
+
+  async function onText(t) {
+    let m; try { m = JSON.parse(t); } catch { return; }
+    if (m.type === 'hello' && !authed) {
+      const uid = await whoIs(String(m.token || ''), String(req.headers['x-real-ip'] || ''));
+      if (!uid || !ADMINS.has(uid)) { wsText(sock, { type: 'error', error: uid ? 'Efir faqat adminlar uchun' : 'Avval akkauntga kiring' }); return sock.end(wsFrame(8, Buffer.alloc(0))); }
+      authed = true; clearTimeout(authTimer);
+      if (S.live) stopLive('yangi efir boshlandi');
+      const { ff, copy } = startFfmpeg(String(m.mime || ''), String(m.quality || '720'));
+      Object.assign(S, { live: true, title: String(m.title || 'DezoMax efiri').slice(0, 120), started: Date.now(), uid, bytes: 0, ff, sock, quality: String(m.quality || '720') });
+      mine = true;
+      wsText(sock, { type: 'ready', copy });
+      let last = 0;
+      stats = setInterval(() => { wsText(sock, { type: 'stats', kbps: Math.round((S.bytes - last) * 8 / 5000), viewers: viewerCount(), hls: fs.existsSync(path.join(DIR, 'index.m3u8')) }); last = S.bytes; }, 5000);
+    } else if (m.type === 'title' && mine) S.title = String(m.title || '').slice(0, 120);
+  }
+
+  sock.on('data', chunk => {
+    buf = Buffer.concat([buf, chunk]);
+    for (;;) {
+      if (buf.length < 2) return;
+      const op = buf[0] & 15, masked = buf[1] & 128;
+      let len = buf[1] & 127, off = 2;
+      if (len === 126) { if (buf.length < 4) return; len = buf.readUInt16BE(2); off = 4; }
+      else if (len === 127) { if (buf.length < 10) return; len = Number(buf.readBigUInt64BE(2)); off = 10; }
+      if (len > 16 * 1024 * 1024) return sock.destroy();
+      const need = off + (masked ? 4 : 0) + len;
+      if (buf.length < need) return;
+      let data = buf.subarray(off + (masked ? 4 : 0), need);
+      if (masked) { const k = buf.subarray(off, off + 4); data = Buffer.from(data); for (let i = 0; i < data.length; i++) data[i] ^= k[i & 3]; }
+      buf = buf.subarray(need);
+      if (op === 8) { try { sock.end(wsFrame(8, Buffer.alloc(0))); } catch {} return; }
+      if (op === 9) { try { sock.write(wsFrame(10, data)); } catch {} continue; }
+      if (op === 1) { onText(data.toString()); continue; }
+      if ((op === 2 || op === 0) && mine && S.ff && S.sock === sock) {
+        S.bytes += data.length;
+        if (!S.ff.stdin.write(data)) { sock.pause(); S.ff.stdin.once('drain', () => sock.resume()); }
+      }
+    }
+  });
+});
+
+server.listen(PORT, '127.0.0.1', () => console.log('DezoMax efir (test): port ' + PORT + ', adminlar: ' + ADMINS.size));
