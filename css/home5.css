@@ -81,7 +81,8 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
   .h5-nav.is-solid:not(.is-up) .h5-links { max-height: 0; opacity: 0; pointer-events: none; }
   .h5-nav.is-solid:not(.is-up) .h5-nav-in { row-gap: 0; }
   .h5-links::-webkit-scrollbar { display: none; }
-  .h5-links a { flex: none; padding: .5em 1.05em; border-radius: 999px; font-size: .84rem; font-weight: 600; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); color: rgba(255, 255, 255, .82); }
+  /* rasm ustida ham o'qilsin: to'q fon, oq yozuv, soya (blur yo'q — telefon sekinlashmasin) */
+  .h5-links a { flex: none; padding: .5em 1.05em; border-radius: 999px; font-size: .84rem; font-weight: 600; background: rgba(8, 12, 9, .82); border: 1px solid rgba(255, 255, 255, .14); color: #fff; box-shadow: 0 4px 14px rgba(0, 0, 0, .45); }
   .h5-links a[aria-current] { border-color: transparent; }
   /* o'ng chetda xiralashish — qator davom etishi bilinadi */
   .h5-links { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); padding-right: 36px; }
