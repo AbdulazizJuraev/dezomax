@@ -8062,4 +8062,11 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
 .seo-text p { margin: 0 0 12px; }
 .seo-text a { color: var(--accent); }
 .seo-text [hidden], .seo-pre [hidden] { display: none; }
+/* katalog matni yopiq turadi (foydalanuvchi so'rovi, 2026-11-18): qidiruv tizimlari o'qiydi, sahifada esa bitta qator */
+.seo-text { margin: 28px 0 40px; }
+.seo-more summary { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; font-size: 14px; font-weight: 600; color: var(--text-faint, rgba(255, 255, 255, .5)); }
+.seo-more summary::-webkit-details-marker { display: none; }
+.seo-more summary::after { content: ''; width: 6px; height: 6px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); }
+.seo-more[open] summary { margin-bottom: 14px; }
+.seo-more h2 { font-size: 17px !important; }
 .seo-about { margin-top: 10px; }

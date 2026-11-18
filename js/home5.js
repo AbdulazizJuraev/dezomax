@@ -713,8 +713,30 @@
     const SEEN = 'dzxBellSeen';
     const newest = Math.max(0, ...MOVIES.filter(m => m.addedAt && hasFilm(m)).map(m => m.addedAt));
     const seen = +localStorage.getItem(SEEN) || 0;
-    $('h5Bell').querySelector('i').hidden = !(newest > seen);
-    $('h5Bell').addEventListener('click', () => { try { localStorage.setItem(SEEN, String(newest || Date.now())); } catch {} });
+    const bell = $('h5Bell');
+    bell.querySelector('i').hidden = !(newest > seen);
+    // bosilganda — bildirishnomalar oynasi: oxirgi qo'shilgan kinolar (yangilari belgili), katalogga o'tib ketmaydi
+    const box = document.createElement('div');
+    box.className = 'h5-notif';
+    box.hidden = true;
+    bell.after(box);
+    const ago = t => { const d = Math.floor((Date.now() - t) / DAY); return d < 1 ? L('bugun', 'сегодня') : d === 1 ? L('kecha', 'вчера') : d < 30 ? L(`${d} kun oldin`, `${d} дн. назад`) : L(`${Math.floor(d / 30)} oy oldin`, `${Math.floor(d / 30)} мес. назад`); };
+    const fill = () => {
+      const list = uniq(MOVIES.filter(m => m.addedAt && hasFilm(m) && !isExtraVideo(m)).sort((a, b) => b.addedAt - a.addedAt)).slice(0, 8);
+      box.innerHTML = `<div class="h5-notif-h"><b>${L('Bildirishnomalar', 'Уведомления')}</b><small>${L('Yangi qo‘shilgan kinolar', 'Новые фильмы')}</small></div>
+        ${list.length ? list.map(m => { const img = wideOf(m, 'w300') || cardImg(m);
+          return `<a class="h5-notif-it${m.addedAt > seen ? ' is-new' : ''}" href="${movieHref(m)}">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : '<span></span>'}
+          <span><b>${esc(title(m))}</b><small>${esc(subOf(m))} · ${ago(m.addedAt)}</small></span></a>`; }).join('') : `<p>${L('Hozircha yangilik yo‘q', 'Пока ничего нового')}</p>`}
+        <a class="h5-notif-all" href="catalog.html?sort=new">${L('Barcha yangi kinolar', 'Все новинки')} ›</a>`;
+    };
+    bell.addEventListener('click', e => {
+      e.preventDefault(); e.stopPropagation();
+      if (box.hidden) { fill(); box.hidden = false; $('h5Menu').classList.remove('is-open'); } else box.hidden = true;
+      bell.querySelector('i').hidden = true;
+      try { localStorage.setItem(SEEN, String(newest || Date.now())); } catch {}
+    });
+    document.addEventListener('click', e => { if (!box.hidden && !e.target.closest('.h5-notif')) box.hidden = true; });
+    addEventListener('keydown', e => { if (e.key === 'Escape') box.hidden = true; });
 
     // profil menyusi
     const user = typeof Auth !== 'undefined' && Auth.user ? Auth.user() : null;
