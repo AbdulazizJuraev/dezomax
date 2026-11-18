@@ -337,7 +337,7 @@
     return `<section class="h5-sec h5-wrap"><div class="h5-panel is-violet">
       ${headHTML('Shorts', 'shorts.html', `<span class="h5-tag" style="background:#7B5CFF">${L('YANGI', 'НОВОЕ')}</span>`).replace('class="h5-all"', 'class="h5-all" style="color:var(--violet)"')}
       <div class="h5-row">${list.map(s => `<a class="h5-short" href="shorts.html#${s.id}" aria-label="${esc(s.t)}">
-        <img src="${esc(s.p || `https://i.ytimg.com/vi/${s.id}/oardefault.jpg`)}" alt="" loading="lazy" decoding="async" onerror="this.remove()"><span class="h5-shade"></span>
+        <img src="${esc(s.p || `https://i.ytimg.com/vi/${s.id}/oardefault.jpg`)}" alt="" loading="lazy" decoding="async" onerror="this.closest('a').remove()"><span class="h5-shade"></span>
         <span class="h5-play"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z" fill="#fff"/></svg></span><span class="h5-sc">${esc(s.t)}</span></a>`).join('')}</div></div></section>`;
   }
 
@@ -465,8 +465,9 @@
         <p>${L('Telekanallar, sport va Shorts ham shu yerda.', 'Телеканалы, спорт и Shorts — тоже здесь.')}</p>
         <a class="h5-sq" href="catalog.html">${L('Boshlash', 'Начать')} ${ic('ext')}</a>
       </div>
-      <div class="h5-aio-grid">${cols.map((col, c) => `<div class="h5-aio-col" style="--o:${[0, 18, -12, 10][c]}px">${col.map(([n, h, m, cl]) => `<a class="h5-aio-t ${cl}" href="${h}">
-        <span>${esc(n)}</span><img src="${esc(cl ? backOf(m, 'w342') : (tallOf(m, 'w342') || backOf(m, 'w342')))}" alt="" loading="lazy" onerror="this.remove()"></a>`).join('')}</div>`).join('')}</div>
+      <div class="h5-aio-grid">${cols.map((col, c) => `<div class="h5-aio-col" style="--o:${[0, 18, -12, 10][c]}px">${col.map(([n, h, m, cl]) => { const tall = tallOf(m, 'w342');   // rasm shakliga mos karta: tik poster — tik karta, albom kadr — albom karta (kesilmaydi)
+        return `<a class="h5-aio-t ${cl}${tall ? '' : ' is-land'}" href="${h}">
+        <span>${esc(n)}</span><img src="${esc(tall || backOf(m, 'w342'))}" alt="" loading="lazy" onerror="this.remove()"></a>`; }).join('')}</div>`).join('')}</div>
     </div></div></section>`;
   }
 
@@ -482,7 +483,7 @@
     if (!img) return '';
     return `<section class="h5-sec h5-wrap">${headHTML(L('Yangi pleyer', 'Новый плеер'), null, `<span class="h5-tag" style="background:#2FA84A">${L('YANGI', 'НОВОЕ')}</span>`)}
       <div class="h5-tour" id="h5Tour" data-anim>
-        <img class="h5-tour-bg" src="${esc(img)}" alt="" loading="lazy">
+        <img class="h5-tour-bg" src="${esc(wideOf(m, 'w780'))}" srcset="${esc(wideOf(m, 'w780'))} 780w, ${esc(img)} 1280w" sizes="(max-width: 900px) 100vw, 1100px" alt="" loading="lazy" decoding="async">
         <div class="h5-tour-bar" role="tablist">${TOUR.map(([k, t], i) => `<button type="button" role="tab" data-t="${i}" aria-label="${esc(t)}"${i ? '' : ' class="is-on"'}>${ic(k)}</button>`).join('')}</div>
         <div class="h5-tour-demo" aria-hidden="true">
           <div class="h5-td is-on" data-d="0"><b>${L('Tezlik', 'Скорость')}</b><span>0.5×</span><span>1×</span><span class="is-on">1.5×</span><span>2×</span><b>${L('Sifat', 'Качество')}</b><span>720p</span><span class="is-on">1080p</span></div>
@@ -553,20 +554,29 @@
         return `<a class="h5-hv" href="${movieHref(m)}" data-yt="${id}" data-st="${tr ? 0 : 300}"><span class="h5-hv-t">${ic(m.type === 'serial' ? 'tv' : m.type === 'multfilm' ? 'toon' : 'film')}${esc(title(m))}</span><small>${esc(subOf(m))}</small></a>`; }).join('')}</div></section>`;
   }
   function initHover() {
-    // bitta karta — bitta pleyer: avval darhol YouTube rasmi (kutib qolmasin), keyin ovozsiz video ustiga chiqadi
-    const stop = c => { c.classList.remove('is-play', 'is-hov'); c.querySelector('iframe')?.remove(); };
-    const play = c => {
-      document.querySelectorAll('.h5-hv.is-hov').forEach(x => { if (x !== c) stop(x); });
-      if (c.querySelector('iframe')) return;
+    /* Yengil (foydalanuvchi: «qotib ochilyapti», 2026-11-18): YouTube pleyeri og'ir — telefonda sahifa bilan bir oqimda
+       ishlab qotiradi. Shuning uchun avval faqat treylerning 3 ta tayyor kadri (i.ytimg.com hq1–3) almashinib turadi
+       (CSS opacity/transform). Haqiqiy video — faqat kompyuterda, sichqoncha 1 soniyadan ko'p tursa. */
+    const desk = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const stop = c => { clearTimeout(c._vt); c.classList.remove('is-play', 'is-hov'); c.querySelector('iframe')?.remove(); c.querySelector('.h5-hv-sl')?.remove(); };
+    const video = c => {
+      if (c.querySelector('iframe') || !c.classList.contains('is-hov')) return;
       const id = c.dataset.yt, st = +c.dataset.st || 0;
-      c.style.setProperty('--thumb', `url('https://i.ytimg.com/vi/${id}/hqdefault.jpg')`);
-      c.classList.add('is-hov');
       const f = document.createElement('iframe');
       f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&loop=1&playlist=${id}&start=${st}`;
       f.allow = 'autoplay; encrypted-media'; f.tabIndex = -1; f.setAttribute('aria-hidden', 'true');
       f.referrerPolicy = 'strict-origin-when-cross-origin';
       f.onload = () => setTimeout(() => c.classList.contains('is-hov') && c.classList.add('is-play'), 700);   // YouTube sarlavhasi yo'qolguncha
       c.appendChild(f);
+    };
+    const play = c => {
+      document.querySelectorAll('.h5-hv.is-hov').forEach(x => { if (x !== c) stop(x); });
+      if (c.classList.contains('is-hov')) return;
+      const id = c.dataset.yt;
+      c.style.setProperty('--thumb', `url('https://i.ytimg.com/vi/${id}/hqdefault.jpg')`);
+      c.classList.add('is-hov');
+      c.insertAdjacentHTML('afterbegin', `<span class="h5-hv-sl" aria-hidden="true">${[1, 2, 3].map(n => `<img src="https://i.ytimg.com/vi/${id}/hq${n}.jpg" alt="" decoding="async" onerror="this.remove()">`).join('')}</span>`);
+      if (desk) c._vt = setTimeout(() => video(c), 1000);
     };
     if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
       let tm = null;

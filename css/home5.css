@@ -10,8 +10,9 @@ body.d5 {
   --grad: linear-gradient(135deg, #D4F23C 0%, #8FD62F 38%, #2FA84A 72%, #0E7A5E 100%);
   --red: #E5484D; --violet: #C9B3FF; --blue: #7CC4FF;
   --gutter: clamp(16px, 4.4vw, 64px);
-  --display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* shrift: Manrope (foydalanuvchi: «zamonaviy», 2026-11-18) — saytning boshqa sahifalarida ham yuklanadi */
+  --display: 'Manrope', system-ui, sans-serif;
+  --body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
   /* v4 bloklari (Biz haqimizda, footer) ham shu ranglarda */
   --v4-lime: #A6E22E; --v4-bg: #030604; --v4-head: var(--display);
   /* overflow-x: clip — hidden bo'lsa body o'zi aylanuvchi blokka aylanib, window.scrollY ishlamay qolardi */
@@ -363,18 +364,26 @@ body.d5 .v4-foot-btn { background: var(--grad); color: #07160A !important; }
 .h5-aio-t span { position: absolute; top: 4px; left: 7px; font-size: .68rem; font-weight: 700; color: #222; }
 .h5-aio-t img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
 .h5-aio-t.is-g { padding: 0; border: 0; }
+.h5-aio-t:not(.is-g) { aspect-ratio: auto; }
+.h5-aio-t:not(.is-g) img { aspect-ratio: 2/3; height: auto; }
+.h5-aio-t.is-g { aspect-ratio: 2/3; }
+.h5-aio-t.is-land { aspect-ratio: 16/10; }
+.h5-aio-t:not(.is-g).is-land { aspect-ratio: auto; }
+.h5-aio-t:not(.is-g).is-land img { aspect-ratio: 16/10; }
 .h5-aio-t.is-g span { top: 6px; left: 6px; z-index: 1; padding: 2px 6px; border-radius: 4px; background: #8BE04E; color: #0B1A06; }
 .h5-aio-t:hover { transform: translateY(-3px); }
 @media (max-width: 860px) { .h5-aio-in { flex-direction: column; align-items: flex-start; } .h5-aio-grid { width: 100%; height: 280px; } .h5-aio-col { flex: 1; width: auto; } .h5-aio-col:nth-child(4) { display: none; } }
 
 /* 3) pleyer ko'rsatmasi */
 .h5-tour { position: relative; overflow: hidden; aspect-ratio: 16/6.2; min-height: 300px; border-radius: 18px; background: #000; }
+/* yengil (foydalanuvchi: «qotmasin»): blok alohida qatlam — o'zgarishlar sahifaning qolgan qismini qayta chizdirmaydi */
+.h5-tour { contain: layout paint; transform: translateZ(0); }
 .h5-tour-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .h5-tour::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, .45), transparent 40%, transparent 60%, rgba(0, 0, 0, .55)); pointer-events: none; }
 .h5-tour-bar { position: absolute; z-index: 2; left: clamp(14px, 3vw, 56px); top: 50%; transform: translateY(-50%); display: grid; gap: 12px; padding: 12px; border-radius: 16px; background: #000; }
 .h5-tour-bar button { display: grid; place-items: center; width: clamp(54px, 5.4vw, 76px); aspect-ratio: 1; border-radius: 14px; background: #1E1E1E !important; color: #fff; transition: background .25s, transform .25s; }
 .h5-tour-bar button .h5-ic { width: 46%; height: 46%; stroke-width: 1.8; }
-.h5-tour-bar button.is-on { background: #3a3a3a !important; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .5); transform: scale(1.04); }
+.h5-tour-bar button.is-on { background: #3a3a3a !important; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .5); }
 .h5-tour-demo { position: absolute; z-index: 2; left: calc(clamp(14px, 3vw, 56px) + clamp(54px, 5.4vw, 76px) + 44px); top: 50%; }
 .h5-td { position: absolute; top: 0; left: 0; transform: translateY(-50%) translateX(-10px); opacity: 0; transition: opacity .35s, transform .35s; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
   width: max-content; max-width: 300px; padding: 12px 14px; border-radius: 14px; background: rgba(0, 0, 0, .82); color: #fff; font-size: .84rem; }
@@ -450,6 +459,14 @@ body.d5 .v4-foot-btn { background: var(--grad); color: #07160A !important; }
 .h5-hv.is-play iframe { opacity: 1; }
 /* sichqoncha borishi bilan (yoki telefonda o'ynayotgan karta) — darhol treyler rasmi, video yuklanguncha */
 .h5-hv.is-hov { background: #000 var(--thumb) center / cover no-repeat; justify-content: flex-end; }
+/* treyler kadrlari: 3 ta rasm navbat bilan (faqat opacity/transform — yengil) */
+.h5-hv-sl { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.h5-hv-sl img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: h5sl 7.5s linear infinite; will-change: opacity, transform; }
+.h5-hv-sl img:nth-child(2) { animation-delay: 2.5s; }
+.h5-hv-sl img:nth-child(3) { animation-delay: 5s; }
+@keyframes h5sl { 0% { opacity: 0; transform: scale(1.06); } 5% { opacity: 1; } 33% { opacity: 1; } 40% { opacity: 0; transform: scale(1.16); } 100% { opacity: 0; transform: scale(1.16); } }
+.h5-hv.is-play iframe { z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .h5-hv-sl img { animation: none; } .h5-hv-sl img:first-child { opacity: 1; } }
 .h5-hv.is-hov::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(transparent 55%, rgba(0, 0, 0, .6)); }
 .h5-hv.is-hov .h5-hv-t, .h5-hv.is-hov small { position: relative; z-index: 2; color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, .8); }
 .h5-hv.is-play::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(transparent 55%, rgba(0, 0, 0, .55)); }
@@ -487,3 +504,20 @@ body.d5 .v4-foot-btn { background: var(--grad); color: #07160A !important; }
 .h5-notif p { padding: 18px 10px; color: var(--muted); margin: 0; }
 .h5-notif-all { display: block; margin-top: 4px; padding: 10px; border-top: 1px solid rgba(255, 255, 255, .08); color: var(--green-t); font-weight: 700; font-size: .88rem; text-align: center; }
 @media (max-width: 860px) { .h5-notif { right: var(--gutter); width: calc(100vw - 2 * var(--gutter)); } }
+
+/* «DezoMax haqida» — minimalist, footer ustida bitta yupqa qator (foydalanuvchi so'rovi, 2026-11-18).
+   Matn HTML'da qoladi (qidiruv tizimlari uchun), ko'rinishi: kichik sarlavha + «Batafsil» + oddiy havolalar. */
+body.d5 .v4-about { padding: 0 var(--gutter); margin-top: clamp(28px, 4vw, 48px); }
+body.d5 .v4-about-in { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 28px; max-width: none; padding: 18px 0 4px; border: 0; border-top: 1px solid rgba(255, 255, 255, .08); border-radius: 0; background: none; box-shadow: none; }
+body.d5 .v4-about-in[hidden] { display: none; }
+body.d5 .v4-about-k, body.d5 .v4-about-tx > p, body.d5 .v4-about-foot { display: none; }
+body.d5 .v4-about-tx { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+body.d5 .v4-about h2 { margin: 0; font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, .78); }
+body.d5 .v4-about-more summary { font-size: 13px; color: var(--muted); }
+body.d5 .v4-about-more[open] { flex-basis: 100%; }
+body.d5 .v4-about-more p { font-size: 13px; color: rgba(255, 255, 255, .55); }
+body.d5 .v4-about-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; }
+body.d5 .v4-chip { display: inline; padding: 0; border: 0; background: none !important; box-shadow: none; min-height: 0; }
+body.d5 .v4-chip svg, body.d5 .v4-chip small { display: none; }
+body.d5 .v4-chip b { font-size: 13px; font-weight: 600; color: var(--muted); }
+body.d5 .v4-chip:hover b { color: var(--green-t); }

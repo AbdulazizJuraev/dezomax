@@ -8077,7 +8077,7 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
 .player-wrap.ytp { box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(166,226,46,.2); }
 .player-wrap.ytp:fullscreen, .player-wrap.ytp.ytp-pseudo-fs { box-shadow: none; }
 .vp-ui { background: linear-gradient(to bottom, rgba(0,0,0,.7), transparent 24%, transparent 58%, rgba(0,0,0,.88)); }
-.vp-title { font-family: 'Space Grotesk', Inter, system-ui, sans-serif; letter-spacing: -.02em; }
+.vp-title { font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; letter-spacing: -.02em; }
 
 .vp-menu {
   top: 62px; right: clamp(10px, 1.6vw, 22px);
@@ -8136,7 +8136,7 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
 .m5-poster .poster-img { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; object-fit: cover; display: block; }
 .m5-poster .poster-blur, .m5-poster .poster-land { display: none; }
 .m5-t { min-width: 0; flex: 1; }
-.m5 .mv-title { margin: 0 0 .6rem; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-weight: 700; font-size: clamp(1.6rem, 3.8vw, 3.2rem); line-height: 1.02; letter-spacing: -.04em; }
+.m5 .mv-title { margin: 0 0 .6rem; font-family: 'Manrope', system-ui, sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3.8vw, 3.2rem); line-height: 1.02; letter-spacing: -.04em; }
 .m5 .mv-sub, .m5 .mv-aka { margin: -.2rem 0 .7rem; font-size: 14px; color: var(--text-dim); }
 .m5-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .m5-meta > span { display: inline-flex; align-items: center; gap: .45em; padding: .4em .85em; border-radius: 999px; background: rgba(255,255,255,.08); font-size: 14px; white-space: nowrap; }
@@ -8164,14 +8164,14 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
 .m5-ch { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .m5-ch b { display: block; }
 .m5-ch small { display: block; font-size: 13px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 46vw; }
-.m5-av { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 50%; color: #07160A; font: 700 1.2rem 'Space Grotesk', Inter, sans-serif; background: linear-gradient(135deg,#D4F23C 0%,#8FD62F 38%,#2FA84A 72%,#0E7A5E 100%); }
+.m5-av { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 50%; color: #07160A; font: 800 1.2rem 'Manrope', sans-serif; background: linear-gradient(135deg,#D4F23C 0%,#8FD62F 38%,#2FA84A 72%,#0E7A5E 100%); }
 .m5 .mv-meta-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .m5-desc { margin-top: 14px; padding: 14px 18px; border-radius: 16px; background: rgba(255,255,255,.07); }
 .m5-desc .mv-desc { margin: .5rem 0 0; max-width: 60em; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,.88); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .m5-desc .mv-stats-btn { color: var(--text); font-weight: 650; }
 
 .m5-side { display: grid; gap: 10px; }
-.m5-side h3 { margin: 0 0 2px; font: 700 1.1rem 'Space Grotesk', Inter, sans-serif; }
+.m5-side h3 { margin: 0 0 2px; font: 800 1.1rem 'Manrope', sans-serif; }
 .m5-item { display: flex; gap: 12px; align-items: flex-start; padding: 6px; border-radius: 12px; }
 .m5-item:hover { background: rgba(255,255,255,.07); }
 .m5-thumb { position: relative; width: clamp(150px, 46%, 200px); aspect-ratio: 16/9; flex: none; border-radius: 10px; overflow: hidden; }
@@ -8207,8 +8207,8 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
 .h5-nav {
   --grad: linear-gradient(135deg, #D4F23C 0%, #8FD62F 38%, #2FA84A 72%, #0E7A5E 100%);
   --muted: #A9C0B1; --green-t: #B8EC4A; --gutter: clamp(16px, 4.4vw, 64px);
-  --display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; line-height: 1.4; color: #fff;
+  --display: 'Manrope', system-ui, sans-serif;
+  font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif; line-height: 1.4; color: #fff;
 }
 :where(.h5-nav) a { color: inherit; text-decoration: none; }
 :where(.h5-nav) button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
