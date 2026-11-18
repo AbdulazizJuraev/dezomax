@@ -1,8 +1,8 @@
 /* Bosh sahifa uchun yengil kinolar ro'yxati: js/data-home.js (sekin internet uchun).
    index.html data-channels/data-rutube/data-site (~1.3 MB) o'rniga faqat shuni yuklaydi — bosh sahifa qatorlari,
    slayder, studiyalar va salomlashuv oynasiga kerakli kinolar. Kerakli kino topilmasa (davom ettirish, Top 10,
-   bolalar rejimi, admin tanlagan kino) js/v4.js to'liq ro'yxatni o'zi yuklaydi (dzxLoadFull).
-   Tanlov js/v4.js ROW_SOURCES bilan mos — u yerda qator qo'shilsa, bu yerga ham qo'shing.
+   bolalar rejimi, admin tanlagan kino) js/home5.js to'liq ro'yxatni o'zi yuklaydi (dzxLoadFull).
+   Tanlov js/home5.js ROW_SOURCES bilan mos — u yerda qator qo'shilsa, bu yerga ham qo'shing.
    tools/bump-version.js va .github/workflows/cf-site.yml (yuklashdan oldin) chaqiradi. */
 const fs = require('fs');
 const path = require('path');
@@ -71,14 +71,21 @@ const hero = CFG.hero || {};
 // tanlangan seriallarning qismlari ham (kino kartasidagi «N qism»)
 for (const m of ALL) if (pick.has(m.id) && Array.isArray(m.parts)) m.parts.forEach(id => pick.add(id));
 
+// janr plitkalari (js/home5.js genresHTML): to'liq ro'yxatdagi soni — yengil ro'yxatda kam chiqmasin
+const watchable = M.filter(m => !extra(m) && (hasFilm(m) || m.trailer || (Array.isArray(m.eps) && m.eps.length)));
+const GENRE_N = {};
+for (const g of ['comedy', 'action', 'drama', 'scifi', 'history', 'thriller', 'animation'])
+  GENRE_N[g] = watchable.filter(m => g === 'animation' ? (m.type === 'multfilm' || (m.genres || []).includes('animation')) : (m.genres || []).includes(g)).length;
+
 const out = ALL.filter(m => pick.has(m.id));
 // admin tanlagan, lekin o'chirilgan/yashirilgan kinolar — ular uchun to'liq ro'yxat yuklanmasin
 const gone = [...pick].filter(id => !ids.has(id));
 const hidden = ctx.HIDDEN_MOVIES || [];
 const src = `/* DezoMax — bosh sahifa uchun yengil kinolar ro'yxati (tools/gen-home-data.js yasaydi, qo'lda o'zgartirmang).
-   ${out.length} / ${ALL.length} ta kino; to'liq ro'yxat kerak bo'lsa js/v4.js dzxLoadFull() yuklaydi. */
+   ${out.length} / ${ALL.length} ta kino; to'liq ro'yxat kerak bo'lsa js/home5.js dzxLoadFull() yuklaydi. */
 window.DZX_HOME_PART = true;
 window.DZX_TOTAL = ${ALL.length};
+window.DZX_GENRE_N = ${JSON.stringify(GENRE_N)};
 window.DZX_GONE = ${JSON.stringify(gone)};
 var HIDDEN_MOVIES = ${JSON.stringify(hidden)};
 (function () {

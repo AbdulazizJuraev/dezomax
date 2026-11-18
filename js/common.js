@@ -191,6 +191,7 @@ const ICONS = {
   user:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20.5c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5"/></svg>',
   close:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   film:   '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M2.5 12h19M2.5 8h4.5M2.5 16h4.5M17 8h4.5M17 16h4.5"/></svg>',
+  films:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 3v18M17 3v18M3 8h4M3 16h4M17 8h4M17 16h4"/></svg>',
   library: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h12v17l-6-4-6 4z"/></svg>',
   shorts: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3.2"/><path d="M10.4 9.3v5.4l4.3-2.7z" fill="currentColor"/></svg>',
   empty:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M8.5 11h5"/></svg>'
@@ -719,12 +720,13 @@ function enhanceHeader(header, page) {
    Beshta asosiy bo'lim. Multfilmlar katalog filtri orqali ochiladi.
    Markup shu yerda yasaladi — har bir HTML faylga nusxalash shart emas. */
 
+// DezoMax 5.0 maketi (2026-11-18): Bosh sahifa, Filmlar, Shorts, Jonli, Kutubxona; qidiruv — yuqori paneldagi belgi
 const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
-  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tvShort' },
-  { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
-  { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' },   // Kutubxona: sevimlilar va yuklanganlar
-  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' }
+  { key: 'films',   href: 'catalog.html?type=film', icon: 'films', label: 'nav.films' },
+  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' },
+  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.live' },
+  { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' }   // Kutubxona: sevimlilar va yuklanganlar
   // Sport — bosh sahifadagi mini navbarda (logo ostida)
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
 ];
@@ -790,6 +792,7 @@ const studioHref = s => s.href || 'catalog.html?studio=' + s.key;
 function activeTab() {
   const page = /\/kino\//.test(location.pathname) ? 'kino' : location.pathname.split('/').pop() || 'index.html';   // kino/*.html — tools/gen-pages.js
   if (page === 'sport.html') return 'sport';
+  if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'film') return 'films';
   if (page === 'tv.html') return 'tv';
   if (page === 'search.html') return 'search';
   if (page === 'shorts.html') return 'shorts';

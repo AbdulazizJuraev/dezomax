@@ -7,6 +7,7 @@ const I18N = {
   uz: {
     'nav.home': 'Bosh sahifa',
     'nav.films': 'Filmlar',
+    'nav.live': 'Jonli',
     'nav.marvel': 'Marvel',
     'nav.series': 'Seriallar',
     'nav.cartoons': 'Multfilmlar',
@@ -225,6 +226,7 @@ const I18N = {
   ru: {
     'nav.home': 'Главная',
     'nav.films': 'Фильмы',
+    'nav.live': 'Эфир',
     'nav.marvel': 'Marvel',
     'nav.series': 'Сериалы',
     'nav.cartoons': 'Мультфильмы',
