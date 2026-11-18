@@ -667,6 +667,9 @@
       if (Math.abs(y - lastY) > 6) { nav.classList.toggle('is-up', y < lastY); lastY = y; }
     };
     addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    // menyu balandligi (bo'limlar qatori ochiq holatda) — telefonda katta rasm shundan pastda boshlanadi
+    const navH = () => { if (scrollY < 40) document.documentElement.style.setProperty('--h5nav', nav.offsetHeight + 'px'); };
+    navH(); addEventListener('resize', navH); document.fonts && document.fonts.ready.then(navH);
     const pal = $('h5Pal'), inp = $('h5PalQ'), res = $('h5PalRes');
     let items = [], sel = 0;
     const hay = m => norm([m.title.uz, m.title.ru, m.title.en, m.year, m.director, ...(m.cast || [])].filter(Boolean).join(' '));
