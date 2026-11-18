@@ -553,30 +553,61 @@
         return `<a class="h5-hv" href="${movieHref(m)}" data-yt="${id}" data-st="${tr ? 0 : 300}"><span class="h5-hv-t">${ic(m.type === 'serial' ? 'tv' : m.type === 'multfilm' ? 'toon' : 'film')}${esc(title(m))}</span><small>${esc(subOf(m))}</small></a>`; }).join('')}</div></section>`;
   }
   function initHover() {
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    let tm = null;
-    document.addEventListener('mouseover', e => {
-      const c = e.target.closest('.h5-hv');
-      if (!c || c.querySelector('iframe')) return;
-      clearTimeout(tm);
-      tm = setTimeout(() => {
-        if (!c.matches(':hover')) return;
-        document.querySelectorAll('.h5-hv iframe').forEach(f => { f.parentNode.classList.remove('is-play'); f.remove(); });
-        const id = c.dataset.yt, st = +c.dataset.st || 0;
-        const f = document.createElement('iframe');
-        f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&loop=1&playlist=${id}&start=${st}`;
-        f.allow = 'autoplay; encrypted-media'; f.tabIndex = -1; f.setAttribute('aria-hidden', 'true');
-        f.onload = () => setTimeout(() => c.classList.add('is-play'), 900);   // YouTube sarlavhasi yo'qolguncha kutiladi
-        c.appendChild(f);
-      }, 400);
+    // bitta karta — bitta pleyer: avval darhol YouTube rasmi (kutib qolmasin), keyin ovozsiz video ustiga chiqadi
+    const stop = c => { c.classList.remove('is-play', 'is-hov'); c.querySelector('iframe')?.remove(); };
+    const play = c => {
+      document.querySelectorAll('.h5-hv.is-hov').forEach(x => { if (x !== c) stop(x); });
+      if (c.querySelector('iframe')) return;
+      const id = c.dataset.yt, st = +c.dataset.st || 0;
+      c.style.setProperty('--thumb', `url('https://i.ytimg.com/vi/${id}/hqdefault.jpg')`);
+      c.classList.add('is-hov');
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&playsinline=1&rel=0&loop=1&playlist=${id}&start=${st}`;
+      f.allow = 'autoplay; encrypted-media'; f.tabIndex = -1; f.setAttribute('aria-hidden', 'true');
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      f.onload = () => setTimeout(() => c.classList.contains('is-hov') && c.classList.add('is-play'), 700);   // YouTube sarlavhasi yo'qolguncha
+      c.appendChild(f);
+    };
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      let tm = null;
+      document.addEventListener('mouseover', e => {
+        const c = e.target.closest('.h5-hv');
+        if (!c || c.classList.contains('is-hov')) return;
+        clearTimeout(tm);
+        tm = setTimeout(() => { if (c.matches(':hover')) play(c); }, 180);
+      });
+      document.addEventListener('mouseout', e => {
+        const c = e.target.closest('.h5-hv');
+        if (!c || c.contains(e.relatedTarget)) return;
+        clearTimeout(tm);
+        stop(c);
+      });
+      return;
+    }
+    /* Telefon/planshet (sichqoncha yo'q): qator ekranda bo'lsa — o'rtadagi karta o'zi ovozsiz o'ynaydi; suring — keyingisi.
+       Bir vaqtda faqat bitta pleyer; qator ekrandan chiqsa yoki trafik tejash yoqilgan bo'lsa — o'ynamaydi. */
+    if (navigator.connection && navigator.connection.saveData) return;
+    const bind = () => document.querySelectorAll('.h5-hv-row:not([data-hvb])').forEach(row => {
+      row.dataset.hvb = 1;
+      let on = false, tm = null;
+      const pick = () => {
+        if (!on) return;
+        const mid = row.getBoundingClientRect().left + row.clientWidth / 2;
+        let best = null, bd = 1e9;
+        row.querySelectorAll('.h5-hv').forEach(c => { const r = c.getBoundingClientRect(); const d = Math.abs(r.left + r.width / 2 - mid); if (d < bd) { bd = d; best = c; } });
+        if (best) play(best);
+      };
+      new IntersectionObserver(([en]) => {
+        on = en.isIntersecting && en.intersectionRatio >= 0.6;
+        clearTimeout(tm);
+        if (on) tm = setTimeout(pick, 500); else row.querySelectorAll('.h5-hv.is-hov').forEach(stop);
+      }, { threshold: [0, 0.6] }).observe(row);
+      row.addEventListener('scroll', () => { clearTimeout(tm); tm = setTimeout(pick, 250); }, { passive: true });
     });
-    document.addEventListener('mouseout', e => {
-      const c = e.target.closest('.h5-hv');
-      if (!c || c.contains(e.relatedTarget)) return;
-      clearTimeout(tm);
-      c.classList.remove('is-play');
-      c.querySelector('iframe')?.remove();
-    });
+    bind();
+    // qatorlar qayta chizilsa (to'liq ro'yxat yuklangach) — yangi qator ham kuzatiladi
+    const rows = $('h5Rows');
+    rows && new MutationObserver(bind).observe(rows, { childList: true });
   }
 
   /* 7) Posterlar ustunlari yuqoriga-pastga aylanadi + yozuv (namuna 8) */
@@ -794,10 +825,10 @@
   }
   document.querySelectorAll('[data-setlang]').forEach(a => a.toggleAttribute('aria-current', a.dataset.setlang === LANG));
   initNav();
-  initHover();
   initChips();
   initHero();
   renderRows();
+  initHover();   // qatorlar chizilgandan keyin (telefonda treyler qatori kuzatiladi)
   // yengil ro'yxatda yo'q kino kerak bo'lsa — to'liq ro'yxat
   (() => {
     if (!window.DZX_HOME_PART) return;
