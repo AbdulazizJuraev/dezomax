@@ -18,7 +18,8 @@ const { spawn } = require('child_process');
 const PORT = Number(process.env.EFIR_PORT || 3600);
 const PAY = process.env.EFIR_PAY || 'http://127.0.0.1:8787';
 const DIR = process.env.EFIR_DIR || '/var/lib/dezomax-efir/hls';
-const ADMINS = new Set((process.env.ADMIN_UIDS || '').split(',').map(s => s.trim()).filter(Boolean));
+// efir adminlari: to'lov serverining ADMIN_UIDS + faqat efir uchun EFIR_ADMIN_UIDS (systemd unit'da)
+const ADMINS = new Set(((process.env.ADMIN_UIDS || '') + ',' + (process.env.EFIR_ADMIN_UIDS || '')).split(',').map(s => s.trim()).filter(Boolean));
 const OBS_DIR = process.env.EFIR_OBS_DIR || '/var/lib/dezomax-efir-obs';      // nginx-rtmp HLS (OBS)
 const KEY_FILE = path.join(path.dirname(DIR), 'obs-key.json');                 // OBS efir kaliti (faqat serverda)
 const RTMP_URL = process.env.EFIR_RTMP_URL || 'rtmp://2.29.52.42/live';
