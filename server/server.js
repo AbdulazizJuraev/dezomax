@@ -220,6 +220,56 @@ async function ytMeta(id) {
     genres: [...new Set(YT_GENRES.filter(([re]) => re.test(titleParts)).map(([, g]) => g))].slice(0, 3),
   };
 }
+/* ---------- Jonli efirlar (DezoMax «Jonli efir», tv.html) ----------
+   /api/yt/live — YouTube'da HOZIR efirda bo'lgan o'zbekcha jonli efirlar (qidiruvning «Live» filtri, API kalitsiz).
+   Faqat saytga joylash (embed) mumkin bo'lganlari; qimor/18+ so'zlari bo'lganlari chiqarilmaydi. 5 daqiqa kesh.
+   Javob: { at, items: [{ id, title, channel, channelId, viewers, thumb, avatar }] } — tomoshabin soni bo'yicha. */
+const LIVE_QUERIES = ['jonli efir', "o'zbekcha jonli efir", 'uzbek stream', "o'zbekcha stream", 'pubg mobile uzbek live', 'стрим узбекча', 'efirda', 'jonli translyatsiya'];
+const LIVE_BAD = /kazino|casino|1xbet|melbet|mostbet|bet ?winner|stavka|ставк|казино|слот|slot|18\+|xxx|porn|onlyfans|aviator|lucky ?jet/i;
+// o'zbekcha belgisi: o‘/g‘ harflari, o'zbekcha so'zlar yoki kirill o'zbek harflari (ў қ ғ ҳ)
+const LIVE_UZ = /[oOgG][‘'’`ʻ][a-zA-Z]|[ўқғҳЎҚҒҲ]|(va|bilan|keldi|qildik|bizda|bugungi|o'?yin|turnir|lobbi\S*|do'?stlar|jonli|efir|efirda|o'?zbek(cha)?|uzbek(cha)?|toshkent|tashkent|uchun|bilan|bugun|yangiliklar|ko'?rsatuv|qism|узбек\S*|ташкент|жонли|эфир)/i;
+let liveCache = null;
+const numOf = t => { const m = String(t || '').replace(/[,\s ]/g, '').match(/([\d.]+)([KkMm]?)/); if (!m) return 0; return Math.round(parseFloat(m[1]) * (/k/i.test(m[2]) ? 1e3 : /m/i.test(m[2]) ? 1e6 : 1)); };
+async function ytLiveSearch(q) {
+  // sp=EgJAAQ%3D%3D — faqat jonli efirlar; gl=UZ — O'zbekiston uchun
+  const html = await (await fetch(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}&sp=EgJAAQ%253D%253D&gl=UZ&hl=en`, { headers: YT_HEAD, signal: AbortSignal.timeout(20000) })).text();
+  const data = ytPageJson(html, 'ytInitialData');
+  const out = [];
+  (function walk(o) {
+    if (!o || typeof o !== 'object') return;
+    if (o.videoRenderer) {
+      const v = o.videoRenderer, js = JSON.stringify(v);
+      const live = /BADGE_STYLE_TYPE_LIVE_NOW|"style":"LIVE"|watching/i.test(js);
+      if (live && v.videoId) out.push({
+        id: v.videoId,
+        title: v.title?.runs?.map(r => r.text).join('') || '',
+        channel: v.ownerText?.runs?.[0]?.text || v.longBylineText?.runs?.[0]?.text || '',
+        channelId: v.ownerText?.runs?.[0]?.navigationEndpoint?.browseEndpoint?.browseId || '',
+        viewers: numOf(v.viewCountText?.runs?.map(r => r.text).join('') || v.viewCountText?.simpleText || ''),
+        avatar: v.channelThumbnailSupportedRenderers?.channelThumbnailWithLinkRenderer?.thumbnail?.thumbnails?.[0]?.url || '',
+      });
+      return;
+    }
+    for (const k in o) walk(o[k]);
+  })(data);
+  return out;
+}
+async function ytLive() {
+  if (liveCache && Date.now() - liveCache.at < 5 * 60000) return liveCache.data;
+  const lists = await Promise.all(LIVE_QUERIES.map(q => ytLiveSearch(q).catch(() => [])));
+  const seen = new Set();
+  let items = lists.flat().filter(x => x.id && !seen.has(x.id) && seen.add(x.id))
+    .filter(x => !LIVE_BAD.test(x.title + ' ' + x.channel) && LIVE_UZ.test(x.title + ' ' + x.channel))
+    .sort((a, b) => b.viewers - a.viewers);
+  const perCh = new Set();   // bitta kanaldan bittasi (bir kanal butun ro'yxatni egallamasin)
+  items = items.filter(x => { const k = x.channelId || x.channel; return !perCh.has(k) && perCh.add(k); }).slice(0, 30);
+  // saytga joylab bo'lmaydigan (embed o'chirilgan) efirlar chiqmasin — har biri 6 soat keshlanadi
+  const ok = await Promise.all(items.map(x => ytCached('v:' + x.id, () => ytMeta(x.id)).then(m => !m.error && m.embed !== false && m.uz !== false && m.status !== 'LOGIN_REQUIRED').catch(() => false)));
+  items = items.filter((_, i) => ok[i]).slice(0, 24).map(x => ({ ...x, thumb: `https://i.ytimg.com/vi/${x.id}/hqdefault_live.jpg` }));
+  const data = { at: Date.now(), items };
+  if (items.length || !liveCache) liveCache = { at: Date.now(), data };
+  return liveCache.data;
+}
 const ytCache = new Map();
 async function ytCached(key, fn) {
   const hit = ytCache.get(key);
@@ -569,6 +619,13 @@ function createApp(cfg, deps = {}) {
           : await ytCached('v:' + url.searchParams.get('v'), () => ytMeta(url.searchParams.get('v')));
         return send(res, r.error ? r.status || 502 : 200, r.error ? { error: r.error } : r);
       }
+      if (path === '/api/yt/live' && req.method === 'GET') {
+        if (limited(req, 'ytlive', 60)) return send(res, 429, { error: 'Ko‘p so‘rov' });
+        let r;
+        try { r = await ytLive(); } catch { r = { at: Date.now(), items: [] }; }
+        res.setHeader('Cache-Control', 'public, max-age=120');
+        return send(res, 200, r);
+      }
       if (path === '/api/candles' && req.method === 'GET') {
         if (limited(req, 'candles', 120)) return send(res, 429, { error: 'Ko‘p so‘rov' });
         const r = await (deps.candles || yahooCandles)(url.searchParams);
@@ -739,7 +796,7 @@ function createApp(cfg, deps = {}) {
   return { handler, db, clickPrepare, clickComplete };
 }
 
-module.exports = { createApp, openDb, googleVerifier, md5, ytPlaylist, ytMeta, ytShorts };
+module.exports = { createApp, openDb, googleVerifier, md5, ytPlaylist, ytMeta, ytShorts, ytLive };
 
 /* ---------- Ishga tushirish ---------- */
 if (require.main === module) {

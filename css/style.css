@@ -8294,3 +8294,40 @@ html.has-nav5 .mini-nav { display: none; }
 .h5-notif p { padding: 18px 10px; color: var(--muted); margin: 0; }
 .h5-notif-all { display: block; margin-top: 4px; padding: 10px; border-top: 1px solid rgba(255, 255, 255, .08); color: var(--green-t); font-weight: 700; font-size: .88rem; text-align: center; }
 @media (max-width: 860px) { .h5-notif { right: var(--gutter); width: calc(100vw - 2 * var(--gutter)); } }
+
+/* ---------------- Jonli efirlar (tv.html, js/live.js) — YouTube'dagi o'zbekcha jonli efirlar ---------------- */
+.lv { margin-bottom: 34px; }
+.lv[hidden] { display: none; }
+.lv h2 { display: inline-flex; align-items: center; gap: 10px; }
+.lv-dot { width: 10px; height: 10px; border-radius: 50%; background: #FF3B3B; box-shadow: 0 0 0 0 rgba(255, 59, 59, .6); animation: lvpulse 1.8s infinite; }
+@keyframes lvpulse { 70% { box-shadow: 0 0 0 8px rgba(255, 59, 59, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 59, 0); } }
+.lv-stage { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
+.lv-player { position: relative; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 24px 60px rgba(0, 0, 0, .5), 0 0 0 1px rgba(166, 226, 46, .2); }
+.lv-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.lv-cover { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; cursor: pointer; background: #000; }
+.lv-cover img { width: 100%; height: 100%; object-fit: cover; opacity: .85; }
+.lv-play { position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px; display: grid; place-items: center; border-radius: 50%; color: #07160A;
+  background: linear-gradient(135deg, #D4F23C 0%, #8FD62F 38%, #2FA84A 72%, #0E7A5E 100%); box-shadow: 0 0 0 10px rgba(166, 226, 46, .18); }
+.lv-play svg { width: 34px; height: 34px; margin-left: 4px; }
+.lv-info { padding: 16px 18px; border-radius: 16px; background: rgba(255, 255, 255, .06); }
+.lv-badge { display: inline-block; padding: 3px 8px; border-radius: 6px; background: #FF3B3B; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+.lv-info h3 { margin: 10px 0 12px; font-size: 17px; line-height: 1.3; font-weight: 700; }
+.lv-ch { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; margin-bottom: 14px; font-size: 14px; }
+.lv-ch img { width: 32px; height: 32px; border-radius: 50%; }
+.lv-ch small { flex-basis: 100%; color: var(--text-dim); }
+.lv-yt { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, .1); font-size: 13px; font-weight: 600; }
+.lv-yt:hover { background: rgba(255, 255, 255, .18); }
+.lv-row { display: flex; gap: 14px; overflow-x: auto; margin-top: 16px; padding-bottom: 6px; scrollbar-width: thin; }
+.lv-card { flex: none; width: 240px; padding: 0; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; }
+.lv-th { position: relative; display: block; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; background: #111; outline: 2px solid transparent; transition: outline-color .15s; }
+.lv-card.is-on .lv-th { outline-color: #A6E22E; }
+.lv-th img { width: 100%; height: 100%; object-fit: cover; }
+.lv-th i { position: absolute; top: 8px; left: 8px; padding: 2px 7px; border-radius: 5px; background: #FF3B3B; color: #fff; font-style: normal; font-size: 10px; font-weight: 800; letter-spacing: .08em; }
+.lv-th em { position: absolute; bottom: 8px; right: 8px; padding: 2px 7px; border-radius: 5px; background: rgba(0, 0, 0, .7); font-style: normal; font-size: 11px; font-weight: 700; }
+.lv-card b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: 14px; line-height: 1.3; }
+.lv-card small { display: block; margin-top: 3px; font-size: 12.5px; color: var(--text-dim); }
+@media (max-width: 900px) {
+  .lv-stage { grid-template-columns: minmax(0, 1fr); }
+  .lv-player { border-radius: 12px; }
+  .lv-card { width: 200px; }
+}
