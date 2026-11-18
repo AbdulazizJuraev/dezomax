@@ -720,12 +720,13 @@ function enhanceHeader(header, page) {
    Beshta asosiy bo'lim. Multfilmlar katalog filtri orqali ochiladi.
    Markup shu yerda yasaladi — har bir HTML faylga nusxalash shart emas. */
 
+// DezoMax 5.0 (2026-11-18): Bosh sahifa, Filmlar, Shorts, Jonli, Kutubxona; qidiruv — yuqori paneldagi belgi
 const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
-  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tvShort' },
-  { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
-  { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' },   // Kutubxona: sevimlilar va yuklanganlar
-  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' }
+  { key: 'films',   href: 'catalog.html?type=film', icon: 'films', label: 'nav.films' },
+  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' },
+  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.live' },
+  { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' }   // Kutubxona: sevimlilar va yuklanganlar
   // Sport — bosh sahifadagi mini navbarda (logo ostida)
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
 ];
@@ -791,6 +792,7 @@ const studioHref = s => s.href || 'catalog.html?studio=' + s.key;
 function activeTab() {
   const page = /\/kino\//.test(location.pathname) ? 'kino' : location.pathname.split('/').pop() || 'index.html';   // kino/*.html — tools/gen-pages.js
   if (page === 'sport.html') return 'sport';
+  if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'film') return 'films';
   if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'film') return 'films';
   if (page === 'tv.html') return 'tv';
   if (page === 'search.html') return 'search';
