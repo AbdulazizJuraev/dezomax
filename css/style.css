@@ -8364,3 +8364,25 @@ html.has-nav5 .mini-nav { display: none; }
   .lv-stage { grid-template-columns: minmax(0, 1fr); }
   .lv-side .lv-th { width: 150px; }
 }
+
+/* jonli efir: Yoqdi/Yoqmadi, Ulashish, Shikoyat, Chat va donat (js/live.js) */
+.lv-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.lv-b { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .1); color: #fff; font: 600 13.5px 'Manrope', sans-serif; cursor: pointer; white-space: nowrap; }
+.lv-b:hover { background: rgba(255, 255, 255, .18); }
+.lv-b svg { width: 19px; height: 19px; flex: none; }
+.lv-b span:empty { display: none; }
+.lv-b.is-on { color: #B8EC4A; }
+.lv-b[data-act="report"]:hover { color: #FF6B6B; }
+.lv-rate { display: inline-flex; align-items: center; border-radius: 999px; background: rgba(255, 255, 255, .1); }
+.lv-rate .lv-b { background: none; }
+.lv-rate .lv-b:hover { background: rgba(255, 255, 255, .08); }
+.lv-rate i { width: 1px; height: 22px; background: rgba(255, 255, 255, .22); }
+.lv-toast { position: fixed; left: 50%; bottom: calc(84px + var(--sab, 0px)); z-index: 3000; max-width: calc(100vw - 32px); padding: 11px 18px; border-radius: 12px; background: #1d221e; color: #fff; font-size: 14px; box-shadow: 0 12px 30px rgba(0, 0, 0, .5); transform: translate(-50%, 20px); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+.lv-toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+.lv-rep { position: fixed; inset: 0; z-index: 2500; display: grid; place-items: center; padding: 16px; background: rgba(0, 0, 0, .6); }
+.lv-rep-box { width: min(360px, 100%); padding: 16px; border-radius: 16px; background: #111612; border: 1px solid rgba(166, 226, 46, .2); display: grid; gap: 6px; }
+.lv-rep-box h4 { margin: 0 0 6px; font-size: 16px; }
+.lv-rep-box button { padding: 11px 12px; border: 0; border-radius: 10px; background: rgba(255, 255, 255, .06); color: #fff; font: 600 14px 'Manrope', sans-serif; text-align: left; cursor: pointer; }
+.lv-rep-box button:hover { background: rgba(255, 255, 255, .12); }
+.lv-rep-box .lv-rep-x { background: none; color: var(--text-dim); text-align: center; }
+@media (max-width: 640px) { .lv-b { height: 36px; padding: 0 12px; } .lv-acts { width: 100%; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; } }

@@ -64,6 +64,8 @@ function openDb(file) {
     -- kunlik ko'rishlar (TOP 10: kunlik / haftalik / oylik); day — 1970-yildan beri kun (UTC+5, Toshkent)
     CREATE TABLE IF NOT EXISTS views_daily (movie_id INTEGER NOT NULL, day INTEGER NOT NULL, n INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (movie_id, day));
     CREATE INDEX IF NOT EXISTS views_daily_day ON views_daily(day);
+    -- jonli efirlarga shikoyatlar (live.html): 3 ta foydalanuvchi yoki 1 ta admin shikoyat qilsa — efir ro'yxatdan chiqadi
+    CREATE TABLE IF NOT EXISTS live_reports (video TEXT NOT NULL, uid TEXT NOT NULL, reason TEXT, admin INTEGER NOT NULL DEFAULT 0, at INTEGER NOT NULL, PRIMARY KEY (video, uid));
   `);
   // qurilmalar: har bir sessiya — bitta qurilma (eski bazalarga ustunlar qo'shiladi)
   for (const col of ['device_id TEXT', 'device TEXT', 'created_at INTEGER', 'last_seen INTEGER', 'ip TEXT']) {
@@ -344,6 +346,8 @@ function createApp(cfg, deps = {}) {
 
   const q = {
     user: db.prepare('SELECT * FROM users WHERE uid = ?'),
+    addReport: db.prepare('INSERT OR REPLACE INTO live_reports (video, uid, reason, admin, at) VALUES (?, ?, ?, ?, ?)'),
+    blockedLive: db.prepare('SELECT video FROM live_reports GROUP BY video HAVING COUNT(*) >= 3 OR SUM(admin) > 0'),
     upsertUser: db.prepare(`INSERT INTO users (uid, email, name, balance, created_at) VALUES (?, ?, ?, 0, ?)
                             ON CONFLICT(uid) DO UPDATE SET email = excluded.email, name = excluded.name`),
     addSession: db.prepare('INSERT INTO sessions (token_hash, uid, expires_at) VALUES (?, ?, ?)'),
@@ -637,6 +641,8 @@ function createApp(cfg, deps = {}) {
         if (limited(req, 'ytlive', 60)) return send(res, 429, { error: 'Ko‘p so‘rov' });
         let r;
         try { r = await ytLive(); } catch { r = { at: Date.now(), items: [] }; }
+        // shikoyat qilinganlar chiqmaydi
+        try { const bad = new Set(q.blockedLive.all().map(x => x.video)); if (bad.size) r = { ...r, items: r.items.filter(x => !bad.has(x.id)) }; } catch { /* jadval hali yo'q */ }
         res.setHeader('Cache-Control', 'public, max-age=120');
         return send(res, 200, r);
       }
@@ -719,6 +725,14 @@ function createApp(cfg, deps = {}) {
       if (path.startsWith('/api/')) {
         if (!user) return send(res, 401, { error: 'Qayta kiring' });
 
+        if (path === '/api/report' && req.method === 'POST') {
+          if (limited(req, 'report', 20)) return send(res, 429, { error: 'Ko‘p urinish' });
+          const b = await readBody(req);
+          const video = String(b.video || ''), reason = String(b.reason || '').slice(0, 40);
+          if (!/^[\w-]{11}$/.test(video)) return send(res, 400, { error: 'Noto‘g‘ri so‘rov' });
+          q.addReport.run(video, user.uid, reason, admins.has(user.uid) ? 1 : 0, now());
+          return send(res, 200, { ok: true });
+        }
         if (path === '/api/react' && req.method === 'POST') {
           if (limited(req, 'react', 60)) return send(res, 429, { error: 'Ko‘p urinish' });
           const b = await readBody(req);

@@ -310,7 +310,8 @@ async function ytStart(box, id) {
     events: {
       onReady: () => {
         const q = QUALITIES.find(x => x.id === getQuality());
-        if (q && q.id !== 'auto') try { player.setPlaybackQuality(q.yt); } catch {}
+        // jonli efirda — avto sifat (majburiy 1080p internet sekin bo'lsa uzilishlarga olib kelardi)
+        if (q && q.id !== 'auto' && !box.classList.contains('is-live')) try { player.setPlaybackQuality(q.yt); } catch {}
         player.playVideo();
         // Telefonda ovozli avtoijro taqiqlangan bo'lsa — ovozsiz boshlaymiz
         setTimeout(() => {
