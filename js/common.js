@@ -183,6 +183,12 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
 
 /* ---------- Ikonkalar ---------- */
 const ICONS = {
+  // pastki panel (telefon, 2026-11-18 maketi): to'ldirilgan oq belgilar
+  tbHome:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6 1.6 11.9c-.4.4-.1 1 .4 1h2.3V21c0 .6.4 1 1 1h4.2v-6.3h5V22h4.2c.6 0 1-.4 1-1v-8.1h2.3c.5 0 .8-.6.4-1L19.4 9.2V3.6c0-.3-.3-.6-.6-.6h-2c-.3 0-.6.3-.6.6v2.7z"/></svg>',
+  tbFilm:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3.5" width="18" height="17"/><path d="M3 7.2h18M3 16.8h18" /><path d="M5.6 5.35h1.6M9.2 5.35h1.6M12.8 5.35h1.6M16.4 5.35h1.6M5.6 18.65h1.6M9.2 18.65h1.6M12.8 18.65h1.6M16.4 18.65h1.6" stroke-width="1.6"/><path d="M10.3 9.6v4.8l4.1-2.4z" fill="currentColor" stroke="none"/></svg>',
+  tbShorts:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"><path d="M14.6 3.4 7.9 7.2a3.6 3.6 0 0 0 0 6.3l.8.4-.8.5a3.6 3.6 0 1 0 3.6 6.2l6.7-3.8a3.6 3.6 0 0 0 0-6.3l-.8-.4.8-.5a3.6 3.6 0 1 0-3.6-6.2z"/><path d="M10.5 9.8v4.4l3.8-2.2z" fill="currentColor" stroke="none"/></svg>',
+  tbTv:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.8 12 6.6l4-3.8"/><rect x="2.5" y="6.6" width="19" height="14.4" rx="3"/><path d="M16.5 6.6V21"/><circle cx="19" cy="11" r=".9" fill="currentColor" stroke="none"/><circle cx="19" cy="13.8" r=".9" fill="currentColor" stroke="none"/><circle cx="19" cy="16.6" r=".9" fill="currentColor" stroke="none"/></svg>',
+  tbLive:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="2.8" fill="currentColor" stroke="none"/><path d="M7.6 7.6a6.2 6.2 0 0 0 0 8.8M16.4 7.6a6.2 6.2 0 0 1 0 8.8M4.6 4.6a10.4 10.4 0 0 0 0 14.8M19.4 4.6a10.4 10.4 0 0 1 0 14.8"/></svg>',
   play:   '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
   star:   '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 5.9 6.6.95-4.8 4.65 1.14 6.5L12 17.4l-5.84 3.1L7.3 14 2.5 9.35l6.6-.95L12 2.5z"/></svg>',
   heart:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21.2l7.7-7.7 1.1-1a5.5 5.5 0 0 0 0-7.9z"/></svg>',
@@ -842,13 +848,13 @@ function enhanceHeader(header, page) {
 
 // DezoMax 5.0 (2026-11-18): Bosh sahifa, Filmlar, Shorts, Jonli, Kutubxona; qidiruv — yuqori paneldagi belgi
 const TABS = [
-  { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
-  { key: 'films',   href: 'catalog.html?type=film', icon: 'films', label: 'nav.films' },
-  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' },
-  { key: 'tv',      href: 'live.html',    icon: 'tv',   label: 'nav.live' },
-  { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' }   // Kutubxona: sevimlilar va yuklanganlar
-  // Sport — bosh sahifadagi mini navbarda (logo ostida)
-  // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
+  // DezoMax 5.0 telefon paneli (foydalanuvchi maketi, 2026-11-18): faqat belgilar — Bosh sahifa, Filmlar, Shorts, TV, Jonli efir
+  { key: 'home',   href: 'index.html',             icon: 'tbHome',   label: 'nav.home' },
+  { key: 'films',  href: 'catalog.html?type=film', icon: 'tbFilm',   label: 'nav.films' },
+  { key: 'shorts', href: 'shorts.html',            icon: 'tbShorts', label: 'nav.shorts' },
+  { key: 'tvset',  href: 'tv.html',                icon: 'tbTv',     label: 'nav.tv' },
+  { key: 'live',   href: 'live.html',              icon: 'tbLive',   label: 'nav.live' }
+  // Kutubxona, profil — yuqoridagi avatar menyusida
 ];
 
 /* Telefonda, faqat bosh sahifada — logo ostidagi mini navbar: oddiy yozuvlar, bitta qora fon (kompyuterda yashirin) */
@@ -914,7 +920,8 @@ function activeTab() {
   if (page === 'sport.html') return 'sport';
   if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'film') return 'films';
   if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'film') return 'films';
-  if (page === 'tv.html' || page === 'live.html') return 'tv';
+  if (page === 'tv.html') return 'tvset';
+  if (page === 'live.html') return 'live';
   if (page === 'search.html') return 'search';
   if (page === 'shorts.html') return 'shorts';
   if (page === 'favorites.html' || page === 'downloads.html') return 'library';
@@ -945,7 +952,7 @@ function renderTabbar() {
         ${tb.key === 'account' ? '<b class="tabbar-badge" data-more-badge hidden></b>' : ''}
       </span>
       <span class="tabbar-label">${t(tb.label)}</span>`;
-    return `<a class="${cls}" href="${tb.href}">${inner}</a>`;
+    return `<a class="${cls}" href="${tb.href}" aria-label="${esc(t(tb.label))}">${inner}</a>`;
   }).join('');
 
   updateFavCount();

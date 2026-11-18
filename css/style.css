@@ -8453,3 +8453,18 @@ html.has-nav5 .mini-nav { display: none; }
 @keyframes i5ring { 0% { opacity: 0; transform: scale(.6); } 30% { opacity: .9; } 100% { opacity: 0; transform: scale(1.6); } }
 @keyframes i5up { to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .intro-v5 * { animation-duration: .01s !important; animation-delay: 0s !important; } }
+
+/* ---------------- Telefon: pastki panel 5.0 (foydalanuvchi maketi, 2026-11-18) ----------------
+   Qora kapsula, faqat oq belgilar: Bosh sahifa · Filmlar · Shorts · TV · Jonli efir. Faol bo'lim — laym rangda.
+   Yuqoridagi chiplardan shu bo'limlar olib tashlanadi (takrorlanmasin) — Seriallar, Multfilmlar, Sport qoladi. */
+@media (max-width: 900px) {
+  html body nav.tabbar.tabbar { left: max(14px, var(--sal)) !important; right: max(14px, var(--sar)) !important; bottom: calc(12px + var(--sab)) !important; width: auto !important;
+    margin: 0 !important; padding: 6px 10px !important; gap: 0 !important; border-radius: 999px !important; border: 1px solid rgba(255, 255, 255, .07) !important;
+    background: #161817 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; box-shadow: 0 14px 34px rgba(0, 0, 0, .6) !important; }
+  html body nav.tabbar.tabbar .tabbar-item { flex: 1; height: 54px !important; padding: 0 !important; gap: 0 !important; border-radius: 999px; color: #fff !important; background: none !important; }
+  html body nav.tabbar.tabbar .tabbar-item.is-active { color: #B8EC4A !important; }
+  html body nav.tabbar.tabbar .tabbar-label { display: none !important; }
+  html body nav.tabbar.tabbar .tabbar-icon svg { width: 27px; height: 27px; }
+  .h5-links a[href$="index.html"], .h5-links a[href*="type=film"], .h5-links a[href$="live.html"], .h5-links a[href$="tv.html"] { display: none !important; }
+}
+@media (max-width: 340px) { html body nav.tabbar.tabbar { left: 8px !important; right: 8px !important; padding: 4px 6px !important; } html body nav.tabbar.tabbar .tabbar-icon svg { width: 23px; height: 23px; } }
