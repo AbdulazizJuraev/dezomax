@@ -588,79 +588,88 @@ function renderMovie() {
   const subTitle = [LANG === 'uz' ? movie.title.ru : movie.title.uz, movie.year]
     .filter(x => x && x !== title(movie)).join(' · ');
 
+  // 5.0 maket (Desktop\index.html #/film): tepada poster + ma'lumot, pastda pleyer (chapda) va «Keyingi filmlar» (o'ngda)
+  const ru = LANG === 'ru';
+  const ic = d => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8EC4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  const durT = durationText(partNo ? group : movie);
+  const pills = [
+    watchSt === 'uz' ? `<span class="m5-ok">${ICONS.play} ${t('watch.statusUz')}</span>` : '',
+    watchSt === 'full' ? `<span class="m5-ok">${ICONS.play} ${t('watch.statusFull')}</span>` : '',
+    watchSt === 'trailer' ? `<span>${t('watch.statusTrailer')}</span>` : '',
+    movie.year ? `<span>${ic('<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>')}${ru ? 'Год' : 'Chiqqan'}: <b>${movie.year}</b></span>` : '',
+    durT && durT !== '—' ? `<span>${ic('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>')}<b>${esc(durT)}</b></span>` : '',
+    `<span>${esc(typeName(movie.type))}</span>`,
+    movie.rating ? `<span class="m5-rt"><svg width="15" height="15" viewBox="0 0 24 24" fill="#F5C518"><path d="m12 2 3 6.5 7 .9-5.2 4.8 1.4 7L12 17.6l-6.2 3.6 1.4-7L2 9.4l7-.9z"/></svg><b>${movie.rating.toFixed(1)}</b></span>` : ''
+  ].join('');
+  const facts = info.filter(([k]) => ![t('movie.year'), t('movie.rating')].includes(k) && !(k === t('movie.duration') || k === t('movie.seasons') || k === 'Qismlar' || k === 'Серии'));
+  const initials = n => String(n).split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  const c1 = (movie.colors || ['#2FA84A'])[0];
+  const cast = (movie.cast || []).slice(0, 14);
+  const side = similarOf(movie);
+  const sideImg = x => {
+    const yt = typeof youTubeId === 'function' ? youTubeId(x.video || x.trailer || '') : null;
+    if (x.hposter) return [String(x.hposter).replace(/(image\.tmdb\.org\/t\/p\/)(w\d+|original)\//, '$1w500/'), 0];
+    if (x.cover) return [x.cover, 0];
+    if (yt) return [`https://i.ytimg.com/vi/${yt}/mqdefault.jpg`, 0];
+    return x.poster ? [imgSmall(x.poster) || x.poster, 1] : [null, 0];
+  };
+  const sideHTML = x => {
+    const [img, tall] = sideImg(x);
+    const [a1, a2] = x.colors || ['#17402B', '#06140C'];
+    return `<a class="m5-item" href="${movieHref(x)}"><span class="m5-thumb${tall ? ' is-tall' : ''}" style="background:linear-gradient(160deg,${esc(a1)},${esc(a2)})">${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}${x.rating ? `<span class="m5-badge">★ ${x.rating.toFixed(1)}</span>` : ''}</span>
+      <span class="m5-it"><b>${esc(title(x))}</b><small>${[x.year, typeName(x.type), x.genres[0] ? genreName(x.genres[0]) : ''].filter(Boolean).map(esc).join(' · ')}</small></span></a>`;
+  };
+  const desc = descOf(movie);
+  const altTitle = [LANG === 'uz' ? movie.title.ru : movie.title.uz].filter(x => x && x !== title(movie))[0] || '';   // yil tabletkada   // ruscha Wikipedia matni keyin wikiDesc() orqali .mv-desc ga yoziladi
+
   page.innerHTML = `
-  <section class="mv-hero mv-hero-top">
-    <div class="mv-hero-bg${movie.poster ? ' has-art' : ''}" style="background-image:${movie.poster ? `url('${esc(movie.poster)}')` : backdropCSS(movie)}"></div>
-    <div class="wrap">
-      <div class="mv-layout">
-        <div class="mv-poster">${posterHTML(movie)}</div>
-
-        <div>
-          <h1 class="mv-title">${esc(title(movie))}</h1>
-          ${subTitle ? `<div class="mv-sub">${esc(subTitle)}</div>` : ''}
-          ${akaOf(movie).length ? `<div class="mv-aka">${LANG === 'ru' ? 'Также известен как' : 'Boshqa nomlari'}: ${esc(akaOf(movie).join(' · '))}</div>` : ''}
-
-          <div class="mv-tags">
-            ${watchSt === 'uz' ? `<span class="tag tag-watch is-uz">${ICONS.play} ${t('watch.statusUz')}</span>` : ''}
-            ${watchSt === 'full' ? `<span class="tag tag-watch is-full">${ICONS.play} ${t('watch.statusFull')}</span>` : ''}
-            ${watchSt === 'trailer' ? `<span class="tag tag-watch is-trailer">${t('watch.statusTrailer')}</span>` : ''}
-            ${movie.rating ? `<span class="tag tag-rating">${ICONS.star} ${movie.rating.toFixed(1)}</span>` : ''}
-            <span class="tag">${typeName(movie.type)}</span>
-            ${movie.genres.map(g => `<a class="tag" href="catalog.html?genre=${g}">${esc(genreName(g))}</a>`).join('')}
-            <span class="tag">${esc(durationText(partNo ? group : movie))}</span>
-          </div>
-          ${officialHTML(movie)}
-
-        </div>
+  <div class="wrap m5">
+    <nav class="m5-crumbs"><a href="index.html">‹ ${ru ? 'Главная' : 'Bosh sahifa'}</a><i>/</i><a href="catalog.html?type=${esc(movie.type)}">${esc(typeName(movie.type))}</a></nav>
+    <div class="m5-head">
+      <div class="m5-poster">${posterHTML(movie)}</div>
+      <div class="m5-t">
+        <h1 class="mv-title">${esc(title(movie))}</h1>
+        ${altTitle ? `<div class="mv-sub">${esc(altTitle)}</div>` : ''}
+        ${akaOf(movie).length ? `<div class="mv-aka">${ru ? 'Также известен как' : 'Boshqa nomlari'}: ${esc(akaOf(movie).join(' · '))}</div>` : ''}
+        <div class="m5-meta">${pills}</div>
+        ${facts.length ? `<div class="m5-grid">${facts.map(([k, v]) => `<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>` : ''}
+        <div class="m5-genres">${movie.genres.map(g => `<a href="catalog.html?genre=${g}">${esc(genreName(g))}</a>`).join('')}</div>
+        ${cast.length ? `<div class="m5-cast"><small>${t('movie.cast')}</small><div>${cast.map(c => `<a class="m5-actor" href="search.html?q=${encodeURIComponent(c)}"><i style="background:linear-gradient(135deg,${esc(c1)},#0E7A5E)">${esc(initials(c))}</i>${esc(c)}</a>`).join('')}</div></div>` : ''}
+        ${officialHTML(movie)}
       </div>
     </div>
-  </section>
 
-  <div class="wrap mv-watch" id="player">
-    ${playerSectionHTML(movie)}
-    <h2 class="mv-watch-title">${esc(title(movie))}${partNo ? ` <span>· ${partLabel(partNo)}</span>` : ''}</h2>
-    <div class="mv-meta-row">
-      <div class="mv-stats" id="mvStats"></div>
-      <div class="mv-meta-right"><div class="mv-social" id="mvSocial"></div><div class="mv-dl" id="mvDl"></div></div>
+    <div class="m5-yt">
+      <div class="m5-main mv-watch" id="player">
+        ${playerSectionHTML(movie)}
+        ${partNo ? `<h2 class="mv-watch-title">${esc(title(movie))} <span>· ${partLabel(partNo)}</span></h2>` : ''}
+        ${partNo && partNo < PARTS.length ? `<div class="mv-next-wrap"><a class="btn btn-primary mv-next" href="${partUrl(partNo + 1)}"><span>${ru ? 'Следующая серия' : 'Keyingi qism'}: ${partLabel(partNo + 1)}</span>${ICONS.right}</a></div>` : ''}
+        ${partsBarHTML()}
+        <div class="m5-row">
+          <div class="m5-ch"><span class="m5-av">D</span><span><b>DezoMax</b><small>${esc(movie.source && movie.source.name ? movie.source.name : [typeName(movie.type), ...movie.genres.slice(0, 2).map(genreName)].join(' · '))}</small></span></div>
+          <div class="mv-meta-right"><div class="mv-social" id="mvSocial"></div><div class="mv-dl" id="mvDl"></div></div>
+        </div>
+        <div class="m5-desc">
+          <div class="mv-stats" id="mvStats"></div>
+          ${desc || (ru && movie.wiki) ? `<p class="mv-desc">${esc(desc)}</p>` : ''}
+        </div>
+      </div>
+      ${side.length ? `<aside class="m5-side"><h3>${ru ? 'Смотрите также' : 'Keyingi filmlar'}</h3>${side.map(sideHTML).join('')}</aside>` : ''}
     </div>
-    ${partNo && partNo < PARTS.length ? `<div class="mv-next-wrap"><a class="btn btn-primary mv-next" href="${partUrl(partNo + 1)}"><span>${LANG === 'ru' ? 'Следующая серия' : 'Keyingi qism'}: ${partLabel(partNo + 1)}</span>${ICONS.right}</a></div>` : ''}
-    ${partsBarHTML()}
-  </div>
 
-  <div class="wrap">
     <div class="ad-slot" data-ad-slot="movie"></div>
 
     ${stillsHTML(movie.stills || (group && group.stills) || [])}
 
     ${(movie.kw || (group && group.kw) || []).length ? `
     <section class="section">
-      <div class="section-head"><i class="bar"></i><h2>${LANG === 'ru' ? 'Теги' : 'Teglar'}</h2></div>
+      <div class="section-head"><i class="bar"></i><h2>${ru ? 'Теги' : 'Teglar'}</h2></div>
       <div class="cast-list mv-kw">
         ${(movie.kw || group.kw).map(k => `<a class="tag" href="search.html?q=${encodeURIComponent(k)}">#${esc(k)}</a>`).join('')}
       </div>
     </section>` : ''}
 
     <section class="section mv-comments" id="comments"></section>
-
-    ${(movie.cast || []).length ? `
-    <section class="section">
-      <div class="section-head"><i class="bar"></i><h2>${t('movie.cast')}</h2></div>
-      <div class="cast-list">
-        ${movie.cast.map(c => `<span class="tag">${esc(c)}</span>`).join('')}
-      </div>
-    </section>` : ''}
-
-    <section class="section">
-      <div class="section-head">
-        <i class="bar"></i><h2>${t('movie.similar')}</h2>
-        <div class="row-nav" id="similarNav">
-          <button data-dir="-1" aria-label="Chapga">${ICONS.left}</button>
-          <button data-dir="1" aria-label="O‘ngga">${ICONS.right}</button>
-        </div>
-      </div>
-      <!-- bosh sahifadagi kabi bitta qatorli karusel -->
-      <div class="row" id="similar"></div>
-    </section>
 
     <section class="section shorts" id="mvShorts" hidden>
       <div class="section-head"><span class="shorts-head-ic">${ICONS.shorts}</span><h2>Shorts</h2>
@@ -670,13 +679,8 @@ function renderMovie() {
   </div>`;
 
   bindStills(page);
-  const similarRow = document.getElementById('similar');
-  renderCards(similarRow, similarOf(movie));
   mountShorts(movie);
   if (typeof Ads !== 'undefined') Ads.fill(page);
-  document.querySelectorAll('#similarNav button').forEach(b => b.addEventListener('click', () => {
-    similarRow.scrollBy({ left: +b.dataset.dir * Math.max(similarRow.clientWidth * .8, 240), behavior: 'smooth' });
-  }));
 
   // Pleyer: birinchi manbani yuklaymiz, tablar orqali almashtiriladi
   const sources = sourcesOf(movie);
