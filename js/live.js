@@ -46,7 +46,8 @@
       host.innerHTML = '<div class="player-wrap is-live" id="lvBox"></div>';
       const box = host.firstElementChild;
       mountYouTube(box, 'https://www.youtube.com/watch?v=' + x.id, { title: x.title, poster: `https://i.ytimg.com/vi/${x.id}/maxresdefault_live.jpg` });
-      box.querySelector('.vp-top')?.insertAdjacentHTML('afterbegin', `<span class="vp-live"><i></i>${L('JONLI', 'ЭФИР')}</span>`);
+      box.querySelector('.vp-top')?.insertAdjacentHTML('afterbegin', `<button class="vp-live" type="button" title="${L('Hozirgi efirga o‘tish', 'К прямому эфиру')}"><i></i>${L('JONLI', 'ЭФИР')}</button>`);
+      liveControl(box);
       // kompyuterda — darhol boshlanadi (brauzer ovozni taqiqlasa ovozsiz); telefonda — muqovadagi ▶ bosilganda (sahifa qotmaydi)
       if (desk || user) box.querySelector('#ytpCover')?.click();
     } else {
@@ -62,6 +63,28 @@
       </div>`;
     document.querySelectorAll('.lv-card').forEach((c, k) => c.classList.toggle('is-on', k === i));
     if (user) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  /* Jonli efirni boshqarish (YouTube'dagidek): chiziq bo'ylab orqaga surish mumkin (efir arxivi), ±10 s;
+     «● JONLI» — hozirgi efirda bo'lsa qizil, orqada bo'lsa kulrang; bosilsa — hozirgi joyga (efir chetiga) o'tadi.
+     Boshlanganda efir orqada (boshidan) ochilib qolsa — avtomatik hozirgi joyga o'tkaziladi. */
+  let liveT = null;
+  function liveControl(box) {
+    clearInterval(liveT);
+    const btn = box.querySelector('.vp-live');
+    let fixed = false;
+    const P = () => (typeof ytActive !== 'undefined' && ytActive && ytActive.box === box ? ytActive.player : null);
+    const num = f => { try { return +f() || 0; } catch (e) { return 0; } };
+    const toEdge = () => { const p = P(); if (!p) return; const d = num(() => p.getDuration()); if (d > 0) p.seekTo(d, true); try { p.playVideo(); } catch (e) {} };
+    btn.addEventListener('click', e => { e.stopPropagation(); toEdge(); });
+    liveT = setInterval(() => {
+      if (!box.isConnected) { clearInterval(liveT); return; }
+      const p = P(); if (!p) return;
+      const cur = num(() => p.getCurrentTime()), dur = num(() => p.getDuration());
+      if (!dur || !cur) return;
+      const behind = dur - cur > 25;
+      btn.classList.toggle('is-behind', behind);
+      if (!fixed) { fixed = true; if (dur - cur > 60) toEdge(); }   // birinchi marta efir boshidan ochilsa — hozirgi joyga
+    }, 1000);
   }
   function render() {
     sec.hidden = !items.length;

@@ -280,6 +280,8 @@ function ytApplyQuality(qid) {
     const at = p.getCurrentTime();
     const wasPaused = st === YT.PlayerState.PAUSED;
     // videoni shu joyidan tanlangan sifat bilan qayta yuklaymiz
+    // jonli efirda startSeconds bilan qayta yuklash efirni BOSHIDAN boshlab yuborardi — jonli efir hozirgi joyidan davom etadi
+    if (ytActive.box && ytActive.box.classList.contains('is-live')) { p.setPlaybackQuality(q.yt); p.loadVideoById({ videoId: ytActive.id, suggestedQuality: q.yt }); return; }
     p.loadVideoById({ videoId: ytActive.id, startSeconds: at, suggestedQuality: q.yt });
     p.setPlaybackQuality(q.yt);
     if (wasPaused) setTimeout(() => p.pauseVideo(), 700);
