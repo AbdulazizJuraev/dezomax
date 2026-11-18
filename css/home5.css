@@ -166,6 +166,15 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
 .h5-badge.is-uz { left: auto; right: 8px; background: rgba(0, 0, 0, .62); color: var(--green-t); }
 .h5-row .h5-poster { width: clamp(150px, 17.5vw, 250px); }
 .h5-row.is-sm .h5-poster { width: clamp(130px, 12.6vw, 190px); }
+/* albom kartalar: gorizontal rasmlar uchun 16:9; tik qatordagi albom rasm — kesilmaydi, rangli fonda butun ko'rinadi */
+.h5-poster.is-land { aspect-ratio: 16/9; }
+.h5-row .h5-poster.is-land { width: clamp(240px, 24vw, 360px); }
+.h5-row.is-sm .h5-poster.is-land { width: clamp(220px, 20vw, 300px); }
+.h5-grid.is-land { grid-template-columns: repeat(auto-fill, minmax(clamp(220px, 21vw, 320px), 1fr)); }
+.h5-poster.is-land .h5-shade { inset: 30% 0 0 0; }
+.h5-poster.is-fit img { object-fit: contain; object-position: 50% 38%; }
+.h5-poster.is-fit:hover img { transform: none; }
+.h5-poster.is-fit:not(.is-land) .h5-shade { inset: 55% 0 0 0; }
 .h5-prog { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255, 255, 255, .25); }
 .h5-prog i { display: block; height: 100%; background: var(--grad); }
 .h5-cw { position: relative; flex: none; }

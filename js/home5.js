@@ -64,12 +64,29 @@
   const fmtN = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
   /* ---------- poster karta ---------- */
-  function posterHTML(m, extra = '') {
-    const img = cardImg(m);
+  /* Albom (gorizontal) rasmlar tik kartada kesilib qolmasin (foydalanuvchi so'rovi, 2026-11-18):
+     - qatorning ko'pchiligida tik poster bo'lmasa — butun qator gorizontal 16:9 kartalar (land)
+     - tik qatorga albom rasm tushsa (yoki aksincha) — rasm yuklanganda o'lchami tekshiriladi va kesilmay joylanadi (is-fit) */
+  window.h5Fit = img => {
+    const card = img.closest('.h5-poster');
+    if (!card || !img.naturalWidth) return;
+    const r = img.naturalWidth / img.naturalHeight;
+    if (card.classList.contains('is-land') ? r < 1.2 : r > .9) card.classList.add('is-fit');
+    // tik qatorda kartalarning yarmidan ko'pi albom rasm bo'lib chiqsa — butun qator gorizontal kartalarga o'tadi
+    const row = card.parentElement.closest('.h5-row, .h5-grid');
+    if (!row || row.classList.contains('is-land') || row.closest('.h5-top')) return;
+    const cards = row.querySelectorAll('.h5-poster');
+    if (row.querySelectorAll('.h5-poster.is-fit').length * 2 <= cards.length) return;
+    row.classList.add('is-land');
+    cards.forEach(c => { c.classList.add('is-land'); c.classList.remove('is-fit'); const i = c.querySelector('img'); if (i && i.complete) window.h5Fit(i); });
+  };
+  const landRow = list => list.filter(m => !tallOf(m)).length * 2 >= list.length;
+  function posterHTML(m, extra = '', land = false) {
+    const img = land ? (wideOf(m, 'w780') || cardImg(m)) : cardImg(m);
     const [c1, c2] = colorsOf(m);
     const st = watchStatus(m);
-    return `<a class="h5-poster" href="${movieHref(m)}" style="--c1:${esc(c1)};--c2:${esc(c2)}" aria-label="${esc(title(m))}">
-      ${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}
+    return `<a class="h5-poster${land ? ' is-land' : ''}" href="${movieHref(m)}" style="--c1:${esc(c1)};--c2:${esc(c2)}" aria-label="${esc(title(m))}">
+      ${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async" onload="h5Fit(this)" onerror="this.remove()">` : ''}
       ${m.rating ? `<span class="h5-badge">★ ${(+m.rating).toFixed(1)}</span>` : ''}
       ${st === 'uz' ? `<span class="h5-badge is-uz">UZ</span>` : ''}
       <span class="h5-shade"></span><span class="h5-info"><span class="h5-t">${esc(title(m))}</span><span class="h5-m">${esc(subOf(m))}</span></span>${extra}</a>`;
@@ -82,8 +99,10 @@
   }
   const seeAll = L('Barchasi', 'Все');
   const headHTML = (t, all, pre = '', post = '') => `<div class="h5-head">${pre}<h2>${esc(t)}</h2>${post}${all ? `<a class="h5-all" href="${all}">${seeAll} ›</a>` : ''}</div>`;
-  const rowSec = (t, all, list, cls = '') => `<section class="h5-sec h5-wrap">${headHTML(t, all)}<div class="h5-row${cls}">${list.map(m => posterHTML(m)).join('')}</div></section>`;
-  const gridSec = (t, all, list) => `<section class="h5-sec h5-wrap">${headHTML(t, all)}<div class="h5-grid">${list.map(m => posterHTML(m)).join('')}</div></section>`;
+  const rowSec = (t, all, list, cls = '') => { const land = landRow(list);
+    return `<section class="h5-sec h5-wrap">${headHTML(t, all)}<div class="h5-row${cls}${land ? ' is-land' : ''}">${list.map(m => posterHTML(m, '', land)).join('')}</div></section>`; };
+  const gridSec = (t, all, list) => { const land = landRow(list);
+    return `<section class="h5-sec h5-wrap">${headHTML(t, all)}<div class="h5-grid${land ? ' is-land' : ''}">${list.map(m => posterHTML(m, '', land)).join('')}</div></section>`; };
 
   /* ---------- hero ---------- */
   const heroIsUzbek = m => m.franchise === 'uzbek' || m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial' || /^(rn|uzbekk)-/.test(m.slug || '')
