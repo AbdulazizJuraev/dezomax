@@ -229,6 +229,7 @@ const LIVE_BAD = /kazino|casino|1xbet|melbet|mostbet|bet ?winner|stavka|став
 // o'zbekcha belgisi: o‘/g‘ harflari, o'zbekcha so'zlar yoki kirill o'zbek harflari (ў қ ғ ҳ)
 const LIVE_UZ = /[oOgG][‘'’`ʻ][a-zA-Z]|[ўқғҳЎҚҒҲ]|(va|bilan|keldi|qildik|bizda|bugungi|o'?yin|turnir|lobbi\S*|do'?stlar|jonli|efir|efirda|o'?zbek(cha)?|uzbek(cha)?|toshkent|tashkent|uchun|bilan|bugun|yangiliklar|ko'?rsatuv|qism|узбек\S*|ташкент|жонли|эфир)/i;
 let liveCache = null;
+const liveEmbed = new Map();   // video id → joylash mumkinmi (oEmbed)
 const numOf = t => { const m = String(t || '').replace(/[,\s ]/g, '').match(/([\d.]+)([KkMm]?)/); if (!m) return 0; return Math.round(parseFloat(m[1]) * (/k/i.test(m[2]) ? 1e3 : /m/i.test(m[2]) ? 1e6 : 1)); };
 async function ytLiveSearch(q) {
   // sp=EgJAAQ%3D%3D — faqat jonli efirlar; gl=UZ — O'zbekiston uchun
@@ -257,16 +258,29 @@ async function ytLiveSearch(q) {
 async function ytLive() {
   if (liveCache && Date.now() - liveCache.at < 5 * 60000) return liveCache.data;
   const lists = await Promise.all(LIVE_QUERIES.map(q => ytLiveSearch(q).catch(() => [])));
+  const raw = lists.reduce((n, l) => n + l.length, 0);
   const seen = new Set();
   let items = lists.flat().filter(x => x.id && !seen.has(x.id) && seen.add(x.id))
     .filter(x => !LIVE_BAD.test(x.title + ' ' + x.channel) && LIVE_UZ.test(x.title + ' ' + x.channel))
     .sort((a, b) => b.viewers - a.viewers);
   const perCh = new Set();   // bitta kanaldan bittasi (bir kanal butun ro'yxatni egallamasin)
   items = items.filter(x => { const k = x.channelId || x.channel; return !perCh.has(k) && perCh.add(k); }).slice(0, 30);
-  // saytga joylab bo'lmaydigan (embed o'chirilgan) efirlar chiqmasin — har biri 6 soat keshlanadi
-  const ok = await Promise.all(items.map(x => ytCached('v:' + x.id, () => ytMeta(x.id)).then(m => !m.error && m.embed !== false && m.uz !== false && m.status !== 'LOGIN_REQUIRED').catch(() => false)));
+  const found = items.length;
+  // saytga joylab bo'lmaydigan (embed o'chirilgan) efirlar chiqmasin. Server (data-markaz IP) jonli efir sahifasini ololmaydi —
+  // shuning uchun YouTube oEmbed: 401/403 — joylash o'chirilgan, 404 — video yo'q; tarmoq xatosida efir qoldiriladi.
+  const ok = await Promise.all(items.map(async x => {
+    const hit = liveEmbed.get(x.id);
+    if (hit !== undefined) return hit;
+    let v = true;
+    try {
+      const r = await fetch(`https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${x.id}`, { headers: YT_HEAD, signal: AbortSignal.timeout(10000) });
+      if ([401, 403, 404].includes(r.status)) v = false;
+    } catch { /* tarmoq xatosi — qoldiramiz */ }
+    liveEmbed.set(x.id, v); if (liveEmbed.size > 3000) liveEmbed.delete(liveEmbed.keys().next().value);
+    return v;
+  }));
   items = items.filter((_, i) => ok[i]).slice(0, 24).map(x => ({ ...x, thumb: `https://i.ytimg.com/vi/${x.id}/hqdefault_live.jpg` }));
-  const data = { at: Date.now(), items };
+  const data = { at: Date.now(), items, n: { raw, found, ok: items.length } };
   if (items.length || !liveCache) liveCache = { at: Date.now(), data };
   return liveCache.data;
 }
