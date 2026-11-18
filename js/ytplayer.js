@@ -417,8 +417,12 @@ function ytBindBar(box, player) {
     ytActive && (ytActive.seeking = false);
   });
 
+  let lastMute = null;
   const syncMute = () => {
     const muted = safe(() => player.isMuted());
+    // har 0,5 s da belgini qayta chizish video ustida keraksiz qayta chizishga olib kelardi — faqat o'zgarganda
+    if (muted === lastMute) return;
+    lastMute = muted;
     $('#vpMute').innerHTML = muted ? YT_ICONS.mute : YT_ICONS.vol;
     box.classList.toggle('is-muted', !!muted);
     vol.style.setProperty('--p', (muted ? 0 : vol.value) + '%');
@@ -437,7 +441,8 @@ function ytBindBar(box, player) {
   const syncQ = () => {
     const now = YT_Q_LABEL[safe(() => player.getPlaybackQuality())];
     const nowEl = $('#vpQNow');
-    if (nowEl) nowEl.textContent = now ? `· ${t('player.qNow')} ${now}` : '';
+    const qTxt = now ? `· ${t('player.qNow')} ${now}` : '';
+    if (nowEl && nowEl.textContent !== qTxt) nowEl.textContent = qTxt;
   };
 
   // Sichqoncha/barmoq harakati — panel ko'rinadi, 3 s dan keyin yashirinadi
@@ -460,13 +465,16 @@ function ytBindBar(box, player) {
 
   ytActive.timer = setInterval(() => {
     if (!ytActive || ytActive.player !== player) return;
+    // panel yashirin (video o'ynayapti, sichqoncha tinch) yoki varaq fonda — chiziq/vaqtni yangilamaymiz: video ustida keraksiz qayta chizish yo'q
+    if (document.hidden || box.classList.contains('ytp-idle')) return;
     const cur = safe(() => player.getCurrentTime()), dur = safe(() => player.getDuration());
     if (dur > 0 && !ytActive.seeking) {
       seek.value = Math.round(cur / dur * 1000);
       seek.style.setProperty('--p', (cur / dur * 100) + '%');
       $('#vpTime').textContent = fmtTime(cur);
     }
-    $('#vpDur').textContent = $('#vpLeft').textContent = fmtTime(dur);
+    const dTxt = fmtTime(dur);
+    if ($('#vpDur').textContent !== dTxt) $('#vpDur').textContent = $('#vpLeft').textContent = dTxt;
     syncMute();
     syncQ();
   }, 500);

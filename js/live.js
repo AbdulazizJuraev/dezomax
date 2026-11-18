@@ -86,11 +86,13 @@
     liveT = setInterval(() => {
       if (!box.isConnected) { clearInterval(liveT); return; }
       const p = P(); if (!p) return;
+      if (document.hidden) return;   // fon varaqda — hech narsa so'ramaymiz
       const cur = num(() => p.getCurrentTime()), dur = num(() => p.getDuration());
       if (!dur || !cur) return;
       const behind = dur - cur > 30;
       btn.classList.toggle('is-behind', behind);
-      if (!fixed) { fixed = true; if (dur - cur > 60) toEdge(); }   // birinchi marta efir boshidan ochilsa — hozirgi joyga
+      // birinchi marta efir boshidan (arxivdan) ochilib qolsa — hozirgi joyga; oddiy kechikishda tegmaymiz (surish ham to'xtatadi)
+      if (!fixed) { fixed = true; if (dur - cur > 180) toEdge(); }
     }, 1000);
   }
 
