@@ -568,10 +568,116 @@ function observeReveals(root = document) {
   });
 }
 
+/* ---------- DezoMax 5.0 menyu (bosh sahifadagi .h5-nav) — boshqa sahifalarda eski .header o'rniga ----------
+   Bosh sahifada (index.html) menyu HTML ichida va js/home5.js boshqaradi; bu yerda — qolgan sahifalar.
+   Admin panelda — eski header qoladi. */
+const NAV5_IC = {
+  home: '<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  film: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 3v18M17 3v18M3 8h4M3 16h4M17 8h4M17 16h4"/>',
+  serial: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  multfilm: '<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/>',
+  tv: '<circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
+  sport: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'
+};
+function mountNav5() {
+  const old = document.querySelector('header.header');
+  const file = /\/kino\//.test(location.pathname) ? 'kino' : location.pathname.split('/').pop() || 'index.html';
+  if (!old || file === 'admin.html' || document.querySelector('.h5-nav')) return;
+  const ru = LANG === 'ru';
+  const L = (uz, r) => (ru ? r : uz);
+  const type = new URLSearchParams(location.search).get('type');
+  let mv = null;   // kino sahifasida — kinoning turi bo'yicha bo'lim belgilanadi
+  try { mv = (file === 'kino' || file === 'movie.html') && typeof movie !== 'undefined' ? movie : null; } catch (e) {}
+  const cur = file === 'catalog.html' ? type : file === 'tv.html' ? 'tv' : file === 'sport.html' ? 'sport' : mv && mv.type ? mv.type : '';
+  const links = [
+    ['index.html', 'home', L('Bosh sahifa', 'Главная')],
+    ['catalog.html?type=film', 'film', L('Filmlar', 'Фильмы')],
+    ['catalog.html?type=serial', 'serial', L('Seriallar', 'Сериалы')],
+    ['catalog.html?type=multfilm', 'multfilm', L('Multfilmlar', 'Мультфильмы')],
+    ['tv.html', 'tv', L('Jonli efir', 'Прямой эфир')],
+    ['sport.html', 'sport', L('Sport', 'Спорт')]
+  ];
+  const hd = document.createElement('header');
+  hd.className = 'h5 h5-nav';
+  hd.innerHTML = `<div class="h5-nav-in">
+    <a class="h5-logo" href="index.html" aria-label="DezoMax"><img class="logo-img" src="images/logo/dezomax-name.webp" alt="DezoMax" width="184" height="30"></a>
+    <nav class="h5-links" aria-label="${L('Bo‘limlar', 'Разделы')}">${links.map(([h, k, label]) => `<a href="${h}"${k === cur ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${NAV5_IC[k]}</svg><span>${k === 'tv' ? '<i class="h5-ldot"></i>' : ''}${esc(label)}</span></a>`).join('')}</nav>
+    <div class="h5-tools">
+      <a class="h5-ib" href="search.html" aria-label="${L('Qidiruv', 'Поиск')}" title="${L('Qidiruv', 'Поиск')}"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+      <div class="h5-lang" aria-label="${L('Til', 'Язык')}"><a href="#" data-setlang="uz"${ru ? '' : ' aria-current="true"'}>UZ</a><a href="#" data-setlang="ru"${ru ? ' aria-current="true"' : ''}>RU</a></div>
+      <a class="h5-ib" id="h5Bell" href="catalog.html?sort=new" aria-label="${L('Bildirishnomalar', 'Уведомления')}" title="${L('Bildirishnomalar', 'Уведомления')}"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><i hidden></i></a>
+      <div class="h5-me">
+        <button class="h5-ava" type="button" id="h5Ava" data-account-btn aria-label="${L('Profil', 'Профиль')}" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></button>
+        <div class="h5-menu" id="h5Menu">
+          <a href="account.html">${L('Akkaunt', 'Аккаунт')}</a><a href="favorites.html">${L('Kutubxona', 'Библиотека')}</a><a href="downloads.html">${L('Yuklab olinganlar', 'Загрузки')}</a>
+          <a href="plans.html">${L('Obuna', 'Подписка')}</a><a href="marvel.html">Marvel</a><a href="shorts.html">Shorts</a><a href="contacts.html">${L('Aloqa', 'Контакты')}</a>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  old.replaceWith(hd);
+  document.documentElement.classList.add('has-nav5');
+
+  // aylantirganda (telefonda) — to'q fon, pastga — bo'limlar qatori yashirinadi, tepaga — qaytadi
+  let lastY = scrollY;
+  const onScroll = () => {
+    const y = scrollY;
+    hd.classList.toggle('is-solid', y > 40);
+    if (Math.abs(y - lastY) > 6) { hd.classList.toggle('is-up', y < lastY); lastY = y; }
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  // sahifalar --header-h bo'yicha joylashadi — menyuning haqiqiy balandligi (tepada turganda)
+  const navH = () => { if (scrollY < 40 && hd.offsetHeight) document.documentElement.style.setProperty('--header-h', (hd.offsetHeight + (innerWidth > 860 ? 8 : 0)) + 'px'); };
+  navH(); addEventListener('resize', navH); document.fonts && document.fonts.ready.then(navH);
+
+  // qo'ng'iroq — oxirgi qo'shilgan kinolar oynasi (bosh sahifadagi bilan bir xil, dzxBellSeen umumiy)
+  const SEEN = 'dzxBellSeen';
+  const pool = () => (typeof MOVIES !== 'undefined' ? MOVIES : []).filter(m => m && m.addedAt && (typeof hasFilm !== 'function' || hasFilm(m)) && (typeof isExtraVideo !== 'function' || !isExtraVideo(m)));
+  const seen = +localStorage.getItem(SEEN) || 0;
+  const newest = Math.max(0, ...pool().map(m => m.addedAt));
+  const bell = hd.querySelector('#h5Bell');
+  bell.querySelector('i').hidden = !(newest > seen);
+  const box = document.createElement('div');
+  box.className = 'h5-notif';
+  box.hidden = true;
+  bell.after(box);
+  const DAYMS = 86400000;
+  const ago = tm => { const d = Math.floor((Date.now() - tm) / DAYMS); return d < 1 ? L('bugun', 'сегодня') : d === 1 ? L('kecha', 'вчера') : d < 30 ? L(`${d} kun oldin`, `${d} дн. назад`) : L(`${Math.floor(d / 30)} oy oldin`, `${Math.floor(d / 30)} мес. назад`); };
+  const fill = () => {
+    const ids = new Set();
+    const list = pool().sort((a, b) => b.addedAt - a.addedAt).filter(m => !ids.has(m.id) && ids.add(m.id)).slice(0, 8);
+    box.innerHTML = `<div class="h5-notif-h"><b>${L('Bildirishnomalar', 'Уведомления')}</b><small>${L('Yangi qo‘shilgan kinolar', 'Новые фильмы')}</small></div>
+      ${list.length ? list.map(m => { const img = m.hposter || (m.poster ? imgSmall(m.poster) : '');
+        return `<a class="h5-notif-it${m.addedAt > seen ? ' is-new' : ''}" href="${movieHref(m)}">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : '<span></span>'}
+        <span><b>${esc(title(m))}</b><small>${esc([m.year, typeName(m.type)].filter(Boolean).join(' · '))} · ${ago(m.addedAt)}</small></span></a>`; }).join('') : `<p>${L('Hozircha yangilik yo‘q', 'Пока ничего нового')}</p>`}
+      <a class="h5-notif-all" href="catalog.html?sort=new">${L('Barcha yangi kinolar', 'Все новинки')} ›</a>`;
+  };
+  const menu = hd.querySelector('#h5Menu'), ava = hd.querySelector('#h5Ava');
+  bell.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation();
+    if (box.hidden) { fill(); box.hidden = false; menu.classList.remove('is-open'); } else box.hidden = true;
+    bell.querySelector('i').hidden = true;
+    try { localStorage.setItem(SEEN, String(newest || Date.now())); } catch (e2) {}
+  });
+  ava.addEventListener('click', e => { e.stopPropagation(); box.hidden = true; const o = menu.classList.toggle('is-open'); ava.setAttribute('aria-expanded', o); });
+  document.addEventListener('click', e => {
+    if (!box.hidden && !e.target.closest('.h5-notif')) box.hidden = true;
+    if (!e.target.closest('.h5-me')) { menu.classList.remove('is-open'); ava.setAttribute('aria-expanded', 'false'); }
+  });
+  addEventListener('keydown', e => { if (e.key === 'Escape') { box.hidden = true; menu.classList.remove('is-open'); } });
+  hd.querySelectorAll('[data-setlang]').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    if (a.dataset.setlang === LANG) return;
+    setLang(a.dataset.setlang);
+    if (location.hostname !== 'dezomax.uz') location.reload();
+  }));
+}
+
 /* ---------- Header / layout ---------- */
 
 function initLayout() {
   document.documentElement.lang = LANG;
+  mountNav5();   // DezoMax 5.0: barcha sahifalarda bosh sahifadagi menyu
 
   // Ikonkalarni joylash
   const logoMark = document.querySelector('.logo-mark');

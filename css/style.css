@@ -8128,7 +8128,13 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
 .m5-crumbs i { font-style: normal; opacity: .4; }
 .m5-head { display: flex; align-items: flex-start; gap: clamp(14px, 2vw, 26px); margin-bottom: clamp(16px, 2vw, 26px); }
 .m5-poster { width: clamp(110px, 13vw, 190px); flex: none; border-radius: 10px; overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,.55), 0 0 0 1px rgba(166,226,46,.25); }
-.m5-poster .poster, .m5-poster .poster-art { border-radius: 0; }
+.m5-poster { position: relative; aspect-ratio: 2/3; background: #0b0f0c; }
+/* posterHTML: zaxira (nom+yil) faqat rasm yuklanmasa ko'rinadi — rasm ustidan qoplaydi; xira/keng nusxalar kerak emas */
+.m5-poster .poster-art { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; }
+.m5-poster .pa-title { font-size: 14px; font-weight: 700; line-height: 1.2; }
+.m5-poster .pa-year { font-size: 12px; opacity: .7; }
+.m5-poster .poster-img { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; object-fit: cover; display: block; }
+.m5-poster .poster-blur, .m5-poster .poster-land { display: none; }
 .m5-t { min-width: 0; flex: 1; }
 .m5 .mv-title { margin: 0 0 .6rem; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-weight: 700; font-size: clamp(1.6rem, 3.8vw, 3.2rem); line-height: 1.02; letter-spacing: -.04em; }
 .m5 .mv-sub, .m5 .mv-aka { margin: -.2rem 0 .7rem; font-size: 14px; color: var(--text-dim); }
@@ -8195,3 +8201,96 @@ html body :is(.card-poster, .card-poster img, .poster-img, .poster-land, .poster
   .m5-side { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .m5-it b { font-size: 13.5px; }
 }
+.m5-poster:has(.poster-img) .poster-art > * { display: none; }
+
+/* ---------------- DezoMax 5.0 menyu — barcha sahifalarda (js/common.js mountNav5; asl nusxasi css/home5.css) ---------------- */
+.h5-nav {
+  --grad: linear-gradient(135deg, #D4F23C 0%, #8FD62F 38%, #2FA84A 72%, #0E7A5E 100%);
+  --muted: #A9C0B1; --green-t: #B8EC4A; --gutter: clamp(16px, 4.4vw, 64px);
+  --display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; line-height: 1.4; color: #fff;
+}
+:where(.h5-nav) a { color: inherit; text-decoration: none; }
+:where(.h5-nav) button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
+:where(.h5-nav) img { display: block; max-width: 100%; }
+.h5-ava .avatar { width: 100%; height: 100%; border-radius: inherit; background: none; font-weight: 800; color: #06140A; display: grid; place-items: center; }
+.h5-ava .avatar img { width: 100%; height: 100%; object-fit: cover; }
+.h5-ava .avatar svg { width: 22px; height: 22px; }
+html.has-nav5 .mini-nav { display: none; }
+.h5-nav { position: fixed; inset: 0 0 auto 0; z-index: 30; padding: calc(12px + var(--sat, 0px)) max(var(--gutter), env(safe-area-inset-right, 0px)) 0 max(var(--gutter), env(safe-area-inset-left, 0px)); pointer-events: none; }
+.h5-nav-in { pointer-events: auto; position: relative; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(8px, 1.4vw, 22px); padding: 8px 14px; border-radius: 22px;
+  background: rgba(8, 14, 10, .9); box-shadow: 0 14px 40px rgba(0, 0, 0, .45), 0 0 0 1px rgba(166, 226, 46, .16), inset 0 1px 0 rgba(255, 255, 255, .07); }
+@media (min-width: 861px) { .h5-nav-in { background: linear-gradient(180deg, rgba(14, 22, 16, .72), rgba(5, 9, 6, .72)); backdrop-filter: blur(18px) saturate(1.5); -webkit-backdrop-filter: blur(18px) saturate(1.5); } }
+.h5-nav-in::before { content: ""; position: absolute; inset: -1px; border-radius: 23px; padding: 1px; background: linear-gradient(120deg, rgba(166, 226, 46, .55), rgba(255, 255, 255, .04) 40%, rgba(14, 122, 94, .5));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: .8; }
+.h5-logo { justify-self: start; display: flex; align-items: center; }
+.h5-logo img { height: clamp(22px, 2.1vw, 30px); width: auto; }
+.h5-links { justify-self: center; position: relative; display: flex; gap: 2px; padding: 4px; border-radius: 16px; }
+.h5-links a { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: .55em; padding: .55em 1.05em; border-radius: 12px; color: var(--muted); font-weight: 600; font-size: .92rem; white-space: nowrap; transition: color .2s, background .2s; }
+.h5-links a:hover { color: #fff; background: rgba(255, 255, 255, .08); }
+.h5-links a[aria-current] { color: #06140A; font-weight: 700; background: var(--grad); box-shadow: 0 8px 22px rgba(166, 226, 46, .35), inset 0 1px 0 rgba(255, 255, 255, .5); }
+.h5-links svg { flex: none; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.h5-ldot { display: inline-block; margin-right: .45em; vertical-align: middle; width: 7px; height: 7px; border-radius: 50%; background: #FF4D4F; animation: h5pulse 1.8s infinite; }
+@keyframes h5pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 79, .6); } 70% { box-shadow: 0 0 0 7px rgba(255, 77, 79, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0); } }
+.h5-tools { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.h5-ib { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: rgba(255, 255, 255, .06); color: #fff; transition: background .2s; }
+.h5-ib:hover { background: rgba(166, 226, 46, .2); }
+.h5-ib svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+.h5-ib i { position: absolute; top: 9px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: #FF4D4F; box-shadow: 0 0 0 2px #0b120d; }
+.h5-lang { display: flex; padding: 3px; border-radius: 12px; background: rgba(255, 255, 255, .07); font-weight: 700; font-size: .72rem; letter-spacing: .04em; }
+.h5-lang a { padding: .45em .7em; border-radius: 9px; color: var(--muted); }
+.h5-lang a[aria-current] { background: rgba(255, 255, 255, .14); color: #fff; }
+.h5-me { position: relative; }
+.h5-ava { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; overflow: hidden; background: var(--grad); color: #06140A; font-family: var(--display); font-weight: 700; font-size: 1.05rem; box-shadow: 0 6px 18px rgba(166, 226, 46, .3); }
+.h5-ava img { width: 100%; height: 100%; object-fit: cover; }
+.h5-ava svg { width: 22px; height: 22px; fill: none; stroke: #06140A; stroke-width: 2.2; stroke-linecap: round; }
+.h5-menu { position: absolute; right: 0; top: calc(100% + 12px); min-width: 230px; padding: 8px; border-radius: 16px; background: rgba(8, 14, 10, .97); border: 1px solid rgba(166, 226, 46, .25); box-shadow: 0 24px 60px rgba(0, 0, 0, .6); display: none; }
+.h5-menu.is-open { display: block; }
+.h5-menu-h { padding: 10px 12px 12px; border-bottom: 1px solid rgba(255, 255, 255, .08); margin-bottom: 6px; }
+.h5-menu-h b { display: block; } .h5-menu-h small { color: var(--muted); }
+.h5-menu a { display: block; padding: .6em .8em; border-radius: 10px; color: var(--muted); font-weight: 500; }
+.h5-menu a:hover { background: rgba(255, 255, 255, .08); color: #fff; }
+@media (max-width: 1180px) { .h5-links a:not([aria-current]) span { display: none; } .h5-links a { padding: .55em .8em; } .h5-lang { display: none; } }
+/* telefon: qutisiz yengil panel — tepada logo va belgilar, ostida ixcham bo'lim tugmalari;
+   pastga aylantirilganda bo'limlar qatori yashirinadi, panel to'q fonga o'tadi (js: is-solid / is-up) */
+@media (max-width: 860px) {
+  /* telefonda menyu doim qora fonda, katta rasm uning ostidan boshlanadi (--h5nav — js/home5.js o'lchaydi) */
+  .h5-nav { padding: calc(10px + var(--sat, 0px)) 0 10px; background: #030604; box-shadow: 0 1px 0 rgba(166, 226, 46, .12); }
+  .h5-nav.is-solid { background: rgba(3, 6, 4, .97); box-shadow: 0 1px 0 rgba(166, 226, 46, .12); }
+  .h5-nav-in { display: flex; flex-wrap: wrap; row-gap: 10px; padding: 0; border-radius: 0; background: none; box-shadow: none; }
+  .h5-nav-in::before { display: none; }
+  .h5-logo { padding-left: var(--gutter); }
+  .h5-logo img { height: 24px; }
+  .h5-tools { margin-left: auto; gap: 6px; padding-right: var(--gutter); }
+  .h5-ib, .h5-ava { width: 36px; height: 36px; border-radius: 50%; }
+  .h5-ib { background: rgba(255, 255, 255, .1); }
+  .h5-ib svg { width: 18px; height: 18px; }
+  .h5-ib i { top: 7px; right: 8px; }
+  .h5-ava { box-shadow: none; }
+  .h5-links { order: 3; width: 100%; gap: 6px; padding: 0 var(--gutter); border-radius: 0; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; max-height: 40px; transition: max-height .25s, opacity .2s; }
+  .h5-nav.is-solid:not(.is-up) .h5-links { max-height: 0; opacity: 0; pointer-events: none; }
+  .h5-nav.is-solid:not(.is-up) .h5-nav-in { row-gap: 0; }
+  .h5-links::-webkit-scrollbar { display: none; }
+  /* rasm ustida ham o'qilsin: to'q fon, oq yozuv, soya (blur yo'q — telefon sekinlashmasin) */
+  .h5-links a { flex: none; padding: .5em 1.05em; border-radius: 999px; font-size: .84rem; font-weight: 600; background: rgba(8, 12, 9, .82); border: 1px solid rgba(255, 255, 255, .14); color: #fff; box-shadow: 0 4px 14px rgba(0, 0, 0, .45); }
+  .h5-links a[aria-current] { border-color: transparent; }
+  /* o'ng chetda xiralashish — qator davom etishi bilinadi */
+  .h5-links { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); padding-right: 36px; }
+  .h5-links a[aria-current] { box-shadow: none; }
+  .h5-links a svg { display: none; }
+  .h5-links a:not([aria-current]) span { display: inline; }
+}
+.h5-ldot { display: inline-block; margin-right: .45em; vertical-align: middle; width: 7px; height: 7px; border-radius: 50%; background: #FF4D4F; animation: h5pulse 1.8s infinite; }
+.h5-notif { position: absolute; right: 0; top: calc(100% + 12px); z-index: 40; width: min(360px, calc(100vw - 24px)); max-height: min(70vh, 520px); overflow: auto; padding: 8px; border-radius: 16px; background: rgba(8, 14, 10, .98); border: 1px solid rgba(166, 226, 46, .25); box-shadow: 0 24px 60px rgba(0, 0, 0, .6); }
+.h5-notif[hidden] { display: none; }
+.h5-notif-h { padding: 8px 10px 10px; border-bottom: 1px solid rgba(255, 255, 255, .08); margin-bottom: 4px; }
+.h5-notif-h b { display: block; } .h5-notif-h small { color: var(--muted); font-size: .78rem; }
+.h5-notif-it { position: relative; display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 12px; }
+.h5-notif-it:hover { background: rgba(255, 255, 255, .07); }
+.h5-notif-it > img, .h5-notif-it > span:first-child { width: 84px; aspect-ratio: 16/9; flex: none; object-fit: cover; border-radius: 8px; background: #15281D; }
+.h5-notif-it b { display: block; font-size: .9rem; line-height: 1.25; }
+.h5-notif-it small { display: block; color: var(--muted); font-size: .74rem; margin-top: 2px; }
+.h5-notif-it.is-new::after { content: ""; position: absolute; top: 12px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: #FF4D4F; }
+.h5-notif p { padding: 18px 10px; color: var(--muted); margin: 0; }
+.h5-notif-all { display: block; margin-top: 4px; padding: 10px; border-top: 1px solid rgba(255, 255, 255, .08); color: var(--green-t); font-weight: 700; font-size: .88rem; text-align: center; }
+@media (max-width: 860px) { .h5-notif { right: var(--gutter); width: calc(100vw - 2 * var(--gutter)); } }
