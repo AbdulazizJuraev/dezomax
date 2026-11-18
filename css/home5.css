@@ -81,7 +81,10 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
   .h5-nav.is-solid:not(.is-up) .h5-links { max-height: 0; opacity: 0; pointer-events: none; }
   .h5-nav.is-solid:not(.is-up) .h5-nav-in { row-gap: 0; }
   .h5-links::-webkit-scrollbar { display: none; }
-  .h5-links a { flex: none; padding: .5em 1em; border-radius: 999px; font-size: .84rem; background: rgba(255, 255, 255, .08); color: rgba(255, 255, 255, .78); }
+  .h5-links a { flex: none; padding: .5em 1.05em; border-radius: 999px; font-size: .84rem; font-weight: 600; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); color: rgba(255, 255, 255, .82); }
+  .h5-links a[aria-current] { border-color: transparent; }
+  /* o'ng chetda xiralashish — qator davom etishi bilinadi */
+  .h5-links { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); padding-right: 36px; }
   .h5-links a[aria-current] { box-shadow: none; }
   .h5-links a svg { display: none; }
   .h5-links a:not([aria-current]) span { display: inline; }
