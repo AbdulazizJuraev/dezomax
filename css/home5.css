@@ -292,5 +292,8 @@ body.d5 .tabbar-item { color: var(--muted); }
 body.d5 .tabbar-item.is-active, body.d5 .tabbar-item.is-active .tabbar-label { color: var(--green-t) !important; }
 body.d5 .v4-about-in { background: linear-gradient(140deg, rgba(14, 122, 94, .16), rgba(255, 255, 255, .03)); border-color: rgba(166, 226, 46, .16); }
 body.d5 .v4-chip:hover { border-color: rgba(166, 226, 46, .5); }
+/* «DezoMax haqida»: qisqa — bo'lim tugmalarida izoh yo'q (foydalanuvchi so'rovi, 2026-11-18) */
+body.d5 .v4-chip small { display: none; }
+body.d5 .v4-about-more p + p { margin-top: 8px; }
 body.d5 .v4-foot-btn { background: var(--grad); color: #07160A !important; }
 @media (prefers-reduced-motion: reduce) { .h5 * { transition: none !important; animation: none !important; } }
