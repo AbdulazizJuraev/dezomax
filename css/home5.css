@@ -522,3 +522,6 @@ body.d5 .v4-chip { display: inline; padding: 0; border: 0; background: none !imp
 body.d5 .v4-chip svg, body.d5 .v4-chip small { display: none; }
 body.d5 .v4-chip b { font-size: 13px; font-weight: 600; color: var(--muted); }
 body.d5 .v4-chip:hover b { color: var(--green-t); }
+
+/* ekrandan tashqaridagi bo'limlar chizilmaydi (brauzer o'zi, ekranga yaqinlashganda) — bosh sahifa yengilroq, ayniqsa telefonda */
+.h5-rows > .h5-sec { content-visibility: auto; contain-intrinsic-size: auto 460px; }

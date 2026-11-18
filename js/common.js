@@ -3,6 +3,18 @@
    Barcha sahifalarda ishlatiladi.
    ============================================================ */
 
+/* ---------- Yengil rejim (ilova va telefon/planshet) — 2026-11-18, «ilovada qotmoqda» ----------
+   html.dzx-lite: blur (backdrop-filter) yo'q, doimiy aylanuvchi bloklar to'xtaydi (qo'l bilan suriladi),
+   treyler kadrlari almashmaydi. Kompyuterda (sichqoncha) — to'liq ko'rinish. */
+(function () {
+  try {
+    const app = /DezoMaxApp|; wv\)/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+    const touch = matchMedia('(hover: none), (pointer: coarse)').matches;
+    if (app || touch) document.documentElement.classList.add('dzx-lite');
+    if (app) document.documentElement.classList.add('dzx-app');
+  } catch (e) {}
+})();
+
 /* ---------- Android ilovasi ----------
    Ilova saytni internetdan ochadi — ilovaga xos qo'shimchalar (orqaga tugmasi, bildirishnomalar,
    gorizontal video) faqat ilova ichida, sahifa skriptlaridan keyin yuklanadi. */

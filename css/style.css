@@ -8415,3 +8415,14 @@ html.has-nav5 .mini-nav { display: none; }
   .lv-sh { place-items: end center; padding: 0; }
   .lv-sh-box { width: 100%; border-radius: 20px 20px 0 0; padding-bottom: calc(18px + var(--sab, 0px)); transform: translateY(100%); }
 }
+
+/* ---------------- Yengil rejim (html.dzx-lite: ilova va telefonlar, js/common.js) ----------------
+   Telefon/ilova qotmasin: blur yo'q, doimiy animatsiyalar yo'q, ekrandan tashqaridagi bo'limlar chizilmaydi. */
+.dzx-lite *, .dzx-lite *::before, .dzx-lite *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.dzx-lite .h5-nav-in { background: rgba(5, 9, 6, .96); }
+.dzx-lite .h5-mq-t, .dzx-lite .h5-mos-c > div, .dzx-lite .h5-hv-sl img { animation: none !important; }
+.dzx-lite .h5-hv-sl img:first-child { opacity: 1; }
+.dzx-lite .h5-mq { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.dzx-lite .h5-mq::-webkit-scrollbar { display: none; }
+.dzx-lite .h5-mos { overflow: hidden; }
+.dzx-lite .h5-ldot, .dzx-lite .lv-dot, .dzx-lite .vp-live i { animation: none; }
