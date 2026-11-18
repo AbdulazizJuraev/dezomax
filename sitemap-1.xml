@@ -319,25 +319,19 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/action-orta.html</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://dezomax.uz/teg/tur-serial.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/yil-2020.html</loc>
+    <loc>https://dezomax.uz/teg/action-orta.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/1980-yillar.html</loc>
+    <loc>https://dezomax.uz/teg/yil-2020.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -350,6 +344,12 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/ozbek-tilida-serial.html</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/teg/1980-yillar.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -661,13 +661,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/family-film.html</loc>
+    <loc>https://dezomax.uz/teg/janr-detective.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/janr-detective.html</loc>
+    <loc>https://dezomax.uz/teg/family-film.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1567,6 +1567,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/teg/detective-ozbekiston.html</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/teg/detective-va-drama.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -1801,7 +1807,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dezomax.uz/teg/detective-ozbekiston.html</loc>
+    <loc>https://dezomax.uz/teg/detective-serial.html</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/teg/detective-ozbek-tilida-serial.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -2150,18 +2162,6 @@
   </url>
   <url>
     <loc>https://dezomax.uz/teg/rejissyor-akbarxon.html</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/detective-serial.html</loc>
-    <lastmod>2026-11-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://dezomax.uz/teg/detective-ozbek-tilida-serial.html</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
