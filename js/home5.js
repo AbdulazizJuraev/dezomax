@@ -283,7 +283,7 @@
     const byId = new Map(MOVIES.map(m => [m.id, m]));
     const days = topDays;
     const top = await topIds(days);
-    if (needFull(top) && await window.dzxLoadFull()) return renderRows();
+    // yengil ro'yxatda yo'q kinolar o'tkazib yuboriladi — TOP 10 uchun 12 MB to'liq ro'yxat yuklanmaydi (telefon, sekin internet)
     const real = top.map(id => byId.get(id)).filter(m => m && !isExtraVideo(m));
     if (days !== topDays) return;
     const all = real.length < 10 ? (await topIds('all')).map(id => byId.get(id)).filter(m => m && !isExtraVideo(m)) : [];
@@ -529,6 +529,12 @@
   });
 
   /* ---------- ishga tushirish ---------- */
+  // ruscha: /ru/ sahifa tools/gen-ru.js da tarjima qilinadi; boshqa joyda (test, til tugmasi) — shu yerda data-ru bo'yicha
+  if (ru && !/^\/ru\//.test(location.pathname)) {
+    document.querySelectorAll('.h5 [data-ru], .h5[data-ru]').forEach(el => { if (!el.children.length || el.matches('span')) el.lastChild.textContent = el.dataset.ru; });
+    document.querySelectorAll('.h5 [data-ru-ph]').forEach(el => { el.placeholder = el.dataset.ruPh; });
+  }
+  document.querySelectorAll('[data-setlang]').forEach(a => a.toggleAttribute('aria-current', a.dataset.setlang === LANG));
   initNav();
   initChips();
   initHero();
@@ -538,7 +544,8 @@
     if (!window.DZX_HOME_PART) return;
     let cw = [];
     try { cw = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY) || '[]').filter(x => x && !x.done).map(x => x.id); } catch {}
-    const want = [...((CFG.hero && CFG.hero.ids) || []), ...popCached.slice(0, 12), ...cw.slice(0, 12), ...(CFG.rows || []).flatMap(r => r.visible === false ? [] : r.ids || [])];
+    // eng ko'p ko'rilganlar (popCached) bu yerda yo'q — ular uchun to'liq ro'yxat yuklanmaydi, slayder borlaridan tuziladi
+    const want = [...((CFG.hero && CFG.hero.ids) || []), ...cw.slice(0, 12), ...(CFG.rows || []).flatMap(r => r.visible === false ? [] : r.ids || [])];
     if (!kidsMode() && !needFull(want)) return;
     window.dzxLoadFull().then(ok => {
       if (!ok) return;
@@ -566,7 +573,6 @@
     const week = await topIds(7);
     const ids = week.length >= 5 ? week : [...week, ...await topIds('all')];
     if (!ids.length) return;
-    if (needFull(ids.slice(0, 12))) await window.dzxLoadFull();
     try { localStorage.setItem(HERO_POP_KEY, JSON.stringify(ids.slice(0, 30))); } catch {}
     if (!popCached.length && Date.now() - t0 < 4000 && cur === 0) {
       const next = heroList(ids);

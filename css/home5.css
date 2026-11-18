@@ -121,13 +121,14 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
 .h5-slider button img { width: 100%; height: 100%; object-fit: cover; }
 .h5-slider button[aria-current="true"] { opacity: 1; box-shadow: 0 0 0 3px var(--green), 0 0 24px rgba(166, 226, 46, .45); }
 /* o'rtacha kenglikda slayder tugmalar ustiga chiqib qolardi — hero matni ostiga tushadi */
-@media (max-width: 1280px) and (min-width: 861px) { .h5-slider { position: relative; right: auto; bottom: auto; z-index: 3; margin: -90px 0 0 var(--gutter); padding-bottom: 40px; } .h5-hero-body { padding-bottom: 40px; min-height: 0; padding-top: 150px; } .h5-hero { min-height: 0; } }
+@media (max-width: 1280px) and (min-width: 861px) { .h5-slider { position: relative; right: auto; bottom: auto; z-index: 3; margin: 22px 0 0 var(--gutter); padding-bottom: 40px; } .h5-hero-body { padding-bottom: 0; min-height: 0; padding-top: 130px; } .h5-hero { min-height: 0; } }
 @media (max-width: 860px) {
   .h5-hero { min-height: calc(640px + var(--sat, 0px)); }
   .h5-hero-art { inset: 0 0 auto 0; width: 100%; height: 62%; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); }
   .h5-hero-body { max-width: none; justify-content: flex-end; align-items: center; text-align: center; padding-top: 0; padding-bottom: 56px; gap: .8rem; }
   .h5-hero h1 { font-size: clamp(2rem, 10vw, 3.2rem); } .h5-hero h1.is-long { font-size: clamp(1.6rem, 7.5vw, 2.4rem); }
   .h5-meta, .h5-acts { justify-content: center; } .h5-desc { display: none; }
+  .h5-acts { flex-wrap: nowrap; gap: .55rem; } .h5-btn { padding: .78em 1.3em; font-size: .95rem; } .h5-btn.is-ic { padding: .78em; }
   .h5-slider { display: none; }
 }
 
