@@ -22,10 +22,12 @@
     <div class="section-head" style="margin-bottom:14px"><i class="bar"></i><h2><span class="lv-dot"></span>${L('Jonli efirlar', 'Прямые эфиры')}</h2>
       <span class="result-count" id="lvCount"></span></div>
     <div class="lv-stage">
-      <div class="lv-player" id="lvPlayer"></div>
-      <div class="lv-info" id="lvInfo"></div>
-    </div>
-    <div class="lv-row" id="lvRow"></div>`;
+      <div class="lv-main">
+        <div class="lv-player" id="lvPlayer"></div>
+        <div class="lv-info" id="lvInfo"></div>
+      </div>
+      <aside class="lv-side"><h3>${L('Boshqa jonli efirlar', 'Другие эфиры')}</h3><div class="lv-row" id="lvRow"></div></aside>
+    </div>`;
   main.insertBefore(sec, main.firstElementChild);
 
   let items = [], cur = -1;
@@ -53,10 +55,11 @@
       host.querySelector('.lv-cover')?.addEventListener('click', () => { host.innerHTML = frame(x, true); });
     }
     document.getElementById('lvInfo').innerHTML = `
-      <span class="lv-badge">LIVE</span>
-      <h3>${esc(x.title)}</h3>
-      <div class="lv-ch">${x.avatar ? `<img src="${esc(x.avatar)}" alt="" loading="lazy">` : ''}<b>${esc(x.channel)}</b>${x.viewers ? `<small>${fmt(x.viewers)} ${L('kishi ko‘rmoqda', 'смотрят')}</small>` : ''}</div>
-      <a class="lv-yt" href="https://www.youtube.com/watch?v=${x.id}" target="_blank" rel="noopener">${L('YouTube’da ochish — chat va donat', 'Открыть на YouTube — чат и донаты')} ↗</a>`;
+      <h3><span class="lv-badge">LIVE</span>${esc(x.title)}</h3>
+      <div class="lv-meta">
+        <div class="lv-ch">${x.avatar ? `<img src="${esc(x.avatar)}" alt="" loading="lazy">` : `<span class="lv-av">${esc((x.channel || '?')[0])}</span>`}<span><b>${esc(x.channel)}</b>${x.viewers ? `<small>${fmt(x.viewers)} ${L('kishi ko‘rmoqda', 'смотрят')}</small>` : ''}</span></div>
+        <a class="lv-yt" href="https://www.youtube.com/watch?v=${x.id}" target="_blank" rel="noopener">${L('YouTube’da ochish — chat va donat', 'Открыть на YouTube — чат и донаты')} ↗</a>
+      </div>`;
     document.querySelectorAll('.lv-card').forEach((c, k) => c.classList.toggle('is-on', k === i));
     if (user) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -69,7 +72,7 @@
     document.getElementById('lvRow').innerHTML = items.map((x, i) => `
       <button class="lv-card" type="button" data-i="${i}">
         <span class="lv-th"><img src="${esc(thumb(x))}" alt="" loading="lazy" decoding="async" onerror="this.src='https://i.ytimg.com/vi/${x.id}/hqdefault.jpg'"><i>LIVE</i>${x.viewers ? `<em>${fmt(x.viewers)}</em>` : ''}</span>
-        <b>${esc(x.title)}</b><small>${esc(x.channel)}</small>
+        <span class="lv-ct"><b>${esc(x.title)}</b><small>${esc(x.channel)}</small>${x.viewers ? `<small>${fmt(x.viewers)} ${L('kishi ko‘rmoqda', 'смотрят')}</small>` : ''}</span>
       </button>`).join('');
     show(0, false);
   }

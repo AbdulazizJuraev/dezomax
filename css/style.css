@@ -8337,3 +8337,27 @@ html.has-nav5 .mini-nav { display: none; }
 .player-wrap.is-live .vp-skip, .player-wrap.is-live .vp-menu-sec:first-child { display: none; }
 .vp-live { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 4px 9px; border-radius: 6px; background: #FF3B3B; color: #fff; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; }
 .vp-live i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: lvpulse 1.8s infinite; }
+/* jonli efir — YouTube tartibi: chapda video va ostida nomi/kanal, o'ngda boshqa efirlar ro'yxati (2026-11-18) */
+.lv-stage { grid-template-columns: minmax(0, 1fr) clamp(300px, 27vw, 400px); gap: clamp(16px, 2vw, 28px); }
+.lv-info { padding: 14px 0 0; background: none; border-radius: 0; }
+.lv-info h3 { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 12px; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.3; font-weight: 800; }
+.lv-info .lv-badge { flex: none; margin-top: 3px; }
+.lv-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; }
+.lv-ch { margin: 0; gap: 12px; }
+.lv-ch img, .lv-av { width: 40px; height: 40px; border-radius: 50%; flex: none; }
+.lv-av { display: grid; place-items: center; font-weight: 800; color: #07160A; background: linear-gradient(135deg, #D4F23C, #2FA84A); }
+.lv-ch > span { display: flex; flex-direction: column; }
+.lv-ch small { flex-basis: auto; font-size: 13px; }
+.lv-side h3 { margin: 0 0 10px; font-size: 16px; font-weight: 800; }
+.lv-side .lv-row { flex-direction: column; gap: 10px; margin: 0; overflow: visible; padding: 0; }
+.lv-side .lv-card { display: flex; gap: 10px; width: auto; padding: 4px; border-radius: 12px; }
+.lv-side .lv-card:hover, .lv-side .lv-card.is-on { background: rgba(255, 255, 255, .07); }
+.lv-side .lv-th { width: 168px; flex: none; border-radius: 10px; }
+.lv-side .lv-card.is-on .lv-th { outline-color: transparent; }
+.lv-ct { min-width: 0; }
+.lv-side .lv-card b { margin-top: 0; font-size: 14px; }
+.lv-side .lv-card small { margin-top: 3px; }
+@media (max-width: 900px) {
+  .lv-stage { grid-template-columns: minmax(0, 1fr); }
+  .lv-side .lv-th { width: 150px; }
+}
