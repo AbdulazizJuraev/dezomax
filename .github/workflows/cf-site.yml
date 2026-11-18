@@ -39,7 +39,7 @@ jobs:
           node tools/gen-home-data.js   # bosh sahifa ro'yxati admin o'zgarishlari bilan yangi bo'lsin
           mkdir -p _site
           git ls-files -z \
-            | grep -zvE '^(mobile|desktop|tools|server|cloudflare|tv|\.github)/|(^|/)README|\.md$|^guard-result|^\.|^admin\.html$|^admin\.webmanifest$|^js/admin\.js$|^js/data-lib2?\.js$|^js/data-custom\.js$' \
+            | grep -zvE '^(mobile|desktop|tools|server|cloudflare|tv|\.github)/|(^|/)README|\.md$|^guard-result|^\.|^admin\.html$|^admin\.webmanifest$|^js/admin\.js$|^js/data-lib2?\.js$|^js/data-custom\.js$|^test5\.html$|^css/home5\.css$|^js/home5\.js$' \
             | xargs -0 cp --parents -t _site
           cp cloudflare/site/_headers _site/_headers
           # har bir kino uchun SEO ma'lumoti (128 ta shard) — Worker /film/<nom>-<id>.html sahifasini shundan yasaydi

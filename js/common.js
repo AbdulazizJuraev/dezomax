@@ -720,13 +720,12 @@ function enhanceHeader(header, page) {
    Beshta asosiy bo'lim. Multfilmlar katalog filtri orqali ochiladi.
    Markup shu yerda yasaladi — har bir HTML faylga nusxalash shart emas. */
 
-// DezoMax 5.0 maketi (2026-11-18): Bosh sahifa, Filmlar, Shorts, Jonli, Kutubxona; qidiruv — yuqori paneldagi belgi
 const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
-  { key: 'films',   href: 'catalog.html?type=film', icon: 'films', label: 'nav.films' },
-  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' },
-  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.live' },
-  { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' }   // Kutubxona: sevimlilar va yuklanganlar
+  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.tvShort' },
+  { key: 'search',  href: 'search.html',  icon: 'search', label: 'nav.search' },
+  { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' },   // Kutubxona: sevimlilar va yuklanganlar
+  { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' }
   // Sport — bosh sahifadagi mini navbarda (logo ostida)
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
 ];

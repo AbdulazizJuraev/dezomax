@@ -543,7 +543,13 @@
     });
   })();
   const yEl = $('v4Year'); if (yEl) yEl.textContent = new Date().getFullYear();
+  // 5.0 maketi pastki paneli (faqat test5.html da; boshqa sahifalar — common.js TABS o'zgarmagan)
+  if (typeof TABS !== 'undefined') TABS.splice(0, TABS.length,
+    { key: 'home', href: 'test5.html', icon: 'home', label: 'nav.home' }, { key: 'films', href: 'catalog.html?type=film', icon: 'films', label: 'nav.films' },
+    { key: 'shorts', href: 'shorts.html', icon: 'shorts', label: 'nav.shorts' }, { key: 'tv', href: 'tv.html', icon: 'tv', label: 'nav.live' },
+    { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' });
   if (typeof renderTabbar === 'function') renderTabbar();
+  document.querySelector('.tabbar-item[href="test5.html"]')?.classList.add('is-active');
   if (typeof applyI18n === 'function') applyI18n();
   // eng ko'p ko'rilganlar keyingi ochilish uchun saqlanadi
   if (!kidsMode()) (async () => {
