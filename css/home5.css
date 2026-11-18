@@ -62,12 +62,28 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
 .h5-menu a { display: block; padding: .6em .8em; border-radius: 10px; color: var(--muted); font-weight: 500; }
 .h5-menu a:hover { background: rgba(255, 255, 255, .08); color: #fff; }
 @media (max-width: 1180px) { .h5-links a:not([aria-current]) span { display: none; } .h5-links a { padding: .55em .8em; } .h5-lang { display: none; } }
+/* telefon: qutisiz yengil panel — tepada logo va belgilar, ostida ixcham bo'lim tugmalari;
+   pastga aylantirilganda bo'limlar qatori yashirinadi, panel to'q fonga o'tadi (js: is-solid / is-up) */
 @media (max-width: 860px) {
-  .h5-nav-in { display: flex; flex-wrap: wrap; row-gap: 8px; padding: 8px 10px; }
-  .h5-tools { margin-left: auto; }
-  .h5-links { order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
+  .h5-nav { padding: calc(10px + var(--sat, 0px)) 0 10px; background: linear-gradient(to bottom, rgba(3, 6, 4, .92), rgba(3, 6, 4, .55) 70%, transparent); transition: background .25s; }
+  .h5-nav.is-solid { background: rgba(3, 6, 4, .97); box-shadow: 0 1px 0 rgba(166, 226, 46, .12); }
+  .h5-nav-in { display: flex; flex-wrap: wrap; row-gap: 10px; padding: 0; border-radius: 0; background: none; box-shadow: none; }
+  .h5-nav-in::before { display: none; }
+  .h5-logo { padding-left: var(--gutter); }
+  .h5-logo img { height: 24px; }
+  .h5-tools { margin-left: auto; gap: 6px; padding-right: var(--gutter); }
+  .h5-ib, .h5-ava { width: 36px; height: 36px; border-radius: 50%; }
+  .h5-ib { background: rgba(255, 255, 255, .1); }
+  .h5-ib svg { width: 18px; height: 18px; }
+  .h5-ib i { top: 7px; right: 8px; }
+  .h5-ava { box-shadow: none; }
+  .h5-links { order: 3; width: 100%; gap: 6px; padding: 0 var(--gutter); border-radius: 0; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; max-height: 40px; transition: max-height .25s, opacity .2s; }
+  .h5-nav.is-solid:not(.is-up) .h5-links { max-height: 0; opacity: 0; pointer-events: none; }
+  .h5-nav.is-solid:not(.is-up) .h5-nav-in { row-gap: 0; }
   .h5-links::-webkit-scrollbar { display: none; }
-  .h5-links a { flex: none; }
+  .h5-links a { flex: none; padding: .5em 1em; border-radius: 999px; font-size: .84rem; background: rgba(255, 255, 255, .08); color: rgba(255, 255, 255, .78); }
+  .h5-links a[aria-current] { box-shadow: none; }
+  .h5-links a svg { display: none; }
   .h5-links a:not([aria-current]) span { display: inline; }
 }
 
@@ -104,7 +120,7 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
 @media (max-width: 1280px) and (min-width: 861px) { .h5-slider { position: relative; right: auto; bottom: auto; z-index: 3; margin: -90px 0 0 var(--gutter); padding-bottom: 40px; } .h5-hero-body { padding-bottom: 40px; min-height: 0; padding-top: 150px; } .h5-hero { min-height: 0; } }
 @media (max-width: 860px) {
   .h5-hero { min-height: calc(640px + var(--sat, 0px)); }
-  .h5-hero-art { inset: calc(108px + var(--sat, 0px)) 0 auto 0; width: 100%; height: 62%; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); }
+  .h5-hero-art { inset: 0 0 auto 0; width: 100%; height: 62%; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); }
   .h5-hero-body { max-width: none; justify-content: flex-end; align-items: center; text-align: center; padding-top: 0; padding-bottom: 56px; gap: .8rem; }
   .h5-hero h1 { font-size: clamp(2rem, 10vw, 3.2rem); } .h5-hero h1.is-long { font-size: clamp(1.6rem, 7.5vw, 2.4rem); }
   .h5-meta, .h5-acts { justify-content: center; } .h5-desc { display: none; }

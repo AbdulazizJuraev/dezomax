@@ -434,6 +434,15 @@
 
   /* ---------- navbar: qidiruv palitrasi, qo'ng'iroq, profil ---------- */
   function initNav() {
+    // telefonda: aylantirganda panel to'q fonga o'tadi, pastga — bo'limlar yashirinadi, tepaga — qaytadi
+    const nav = document.querySelector('.h5-nav');
+    let lastY = scrollY;
+    const onScroll = () => {
+      const y = scrollY;
+      nav.classList.toggle('is-solid', y > 40);
+      if (Math.abs(y - lastY) > 6) { nav.classList.toggle('is-up', y < lastY); lastY = y; }
+    };
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
     const pal = $('h5Pal'), inp = $('h5PalQ'), res = $('h5PalRes');
     let items = [], sel = 0;
     const hay = m => norm([m.title.uz, m.title.ru, m.title.en, m.year, m.director, ...(m.cast || [])].filter(Boolean).join(' '));
