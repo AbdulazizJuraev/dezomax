@@ -8331,3 +8331,9 @@ html.has-nav5 .mini-nav { display: none; }
   .lv-player { border-radius: 12px; }
   .lv-card { width: 200px; }
 }
+/* jonli efir — DezoMax o'z pleyerida (js/live.js → mountYouTube): chiziq/vaqt/10 s o'tkazish va tezlik yo'q, «JONLI» belgisi */
+.lv-player .player-wrap { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; aspect-ratio: auto; border-radius: inherit; }
+.player-wrap.is-live .vp-seek, .player-wrap.is-live .vp-left, .player-wrap.is-live .vp-times,
+.player-wrap.is-live .vp-skip, .player-wrap.is-live .vp-menu-sec:first-child { display: none; }
+.vp-live { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 4px 9px; border-radius: 6px; background: #FF3B3B; color: #fff; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; }
+.vp-live i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: lvpulse 1.8s infinite; }

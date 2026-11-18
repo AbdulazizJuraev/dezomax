@@ -38,11 +38,20 @@
     const x = items[i];
     if (!x) return;
     cur = i;
-    const box = document.getElementById('lvPlayer');
-    // kompyuterda — darhol (ovozsiz); telefonda — rasm + «Ko'rish», bosilganda pleyer (sahifa qotmaydi)
-    if (desk || user) box.innerHTML = frame(x, true);
-    else box.innerHTML = `<button class="lv-cover" type="button" aria-label="${L('Ko‘rish', 'Смотреть')}"><img src="${esc(thumb(x))}" alt="" decoding="async"><span class="lv-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span></button>`;
-    box.querySelector('.lv-cover')?.addEventListener('click', () => { box.innerHTML = frame(x, true); });
+    const host = document.getElementById('lvPlayer');
+    if (typeof mountYouTube === 'function') {
+      // DezoMax o'z pleyeri (js/ytplayer.js): bizning panel, ⚙ sifat, ovoz, katta ekran; jonli efirda chiziq va vaqt yo'q
+      host.innerHTML = '<div class="player-wrap is-live" id="lvBox"></div>';
+      const box = host.firstElementChild;
+      mountYouTube(box, 'https://www.youtube.com/watch?v=' + x.id, { title: x.title, poster: `https://i.ytimg.com/vi/${x.id}/maxresdefault_live.jpg` });
+      box.querySelector('.vp-top')?.insertAdjacentHTML('afterbegin', `<span class="vp-live"><i></i>${L('JONLI', 'ЭФИР')}</span>`);
+      // kompyuterda — darhol boshlanadi (brauzer ovozni taqiqlasa ovozsiz); telefonda — muqovadagi ▶ bosilganda (sahifa qotmaydi)
+      if (desk || user) box.querySelector('#ytpCover')?.click();
+    } else {
+      if (desk || user) host.innerHTML = frame(x, true);
+      else host.innerHTML = `<button class="lv-cover" type="button" aria-label="${L('Ko‘rish', 'Смотреть')}"><img src="${esc(thumb(x))}" alt="" decoding="async"><span class="lv-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span></button>`;
+      host.querySelector('.lv-cover')?.addEventListener('click', () => { host.innerHTML = frame(x, true); });
+    }
     document.getElementById('lvInfo').innerHTML = `
       <span class="lv-badge">LIVE</span>
       <h3>${esc(x.title)}</h3>
@@ -67,12 +76,6 @@
   document.addEventListener('click', e => {
     const c = e.target.closest('.lv-card');
     if (c) { show(+c.dataset.i, true); return; }
-    // telekanal yoqilsa — jonli efir pleyeri to'xtaydi (ikki ovoz bir vaqtda chiqmasin)
-    if (e.target.closest('#tvGroups') && cur >= 0) {
-      const x = items[cur], box = document.getElementById('lvPlayer');
-      if (box.querySelector('iframe')) box.innerHTML = `<button class="lv-cover" type="button"><img src="${esc(thumb(x))}" alt=""><span class="lv-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span></button>`;
-      box.querySelector('.lv-cover')?.addEventListener('click', () => { box.innerHTML = frame(x, true); });
-    }
   });
 
   const KEY = 'dzxLive';
