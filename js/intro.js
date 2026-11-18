@@ -21,10 +21,16 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const el = document.createElement('div');
-  el.className = 'intro intro-v3';
+  // DezoMax 5.0 intro (2026-11-18): yashil nur chizig'i → «D» belgisi gradient halqa bilan → «DezoMax» yozuvi
+  // harflab chiqadi → shior → parda yuqoriga ochiladi. Faqat transform/opacity (telefonda ham yengil).
+  el.className = 'intro intro-v5';
   el.setAttribute('aria-hidden', 'true');
-  el.innerHTML = '<div class="dz-stage"><div class="dz-dot"></div><div class="dz-icon"><div class="dz-box">'
-    + '<img class="dz-logo" alt="" src="' + LOGO + '"><div class="dz-reveal"></div><div class="dz-shine"></div></div></div></div><div class="dz-wipe"></div>';
+  const ru = /^\/ru\//.test(location.pathname) || (function () { try { return localStorage.getItem('dezomax_lang') === 'ru'; } catch (e) { return false; } })();
+  const word = '<span>D</span><span>e</span><span>z</span><span>o</span><b><span>M</span><span>a</span><span>x</span></b>';
+  el.innerHTML = '<div class="i5-glow"></div><div class="i5-line"></div>'
+    + '<div class="i5-mark"><i class="i5-ring"></i><img alt="" src="' + LOGO + '"></div>'
+    + '<div class="i5-word">' + word + '</div>'
+    + '<div class="i5-tag">' + (ru ? 'Фильмы · Сериалы · Прямой эфир' : 'Kinolar · Seriallar · Jonli efir') + '</div>';
   document.body.appendChild(el);
   document.documentElement.classList.add('intro-lock');
 
@@ -35,8 +41,8 @@
     clearTimeout(timer);
     el.classList.add('is-out');
     document.documentElement.classList.remove('intro-lock');
-    setTimeout(() => el.remove(), 450);
+    setTimeout(() => el.remove(), 700);
   };
-  const timer = setTimeout(done, reduce ? 900 : 2950);
+  const timer = setTimeout(done, reduce ? 900 : 2700);
   el.addEventListener('click', done, { once: true });   // bosilsa — o'tkazib yuborish
 })();
