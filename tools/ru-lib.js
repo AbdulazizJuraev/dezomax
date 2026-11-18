@@ -25,7 +25,7 @@ vm.runInContext(fs.readFileSync(path.join(root, 'js', 'i18n.js'), 'utf8').replac
 const RU = (ictx.I18N && ictx.I18N.ru) || {};
 
 // ruscha nusxasi bor asosiy sahifalar (tools/gen-ru.js); kino/, toplam/, marvel/ — o'z generatorlarida
-const RU_ROOT = ['index.html', 'catalog.html', 'movie.html', 'search.html', 'marvel.html', 'sport.html', 'tv.html', 'shorts.html',
+const RU_ROOT = ['index.html', 'catalog.html', 'movie.html', 'search.html', 'marvel.html', 'sport.html', 'tv.html', 'live.html', 'shorts.html',
   'plans.html', 'about.html', 'contacts.html', 'privacy.html'];
 const RU_DIRS = /^(kino|toplam|marvel)\//;
 const hasRu = rel => RU_ROOT.includes(rel) || RU_DIRS.test(rel);

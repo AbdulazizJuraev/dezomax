@@ -8250,7 +8250,7 @@ html.has-nav5 .mini-nav { display: none; }
 .h5-menu-h b { display: block; } .h5-menu-h small { color: var(--muted); }
 .h5-menu a { display: block; padding: .6em .8em; border-radius: 10px; color: var(--muted); font-weight: 500; }
 .h5-menu a:hover { background: rgba(255, 255, 255, .08); color: #fff; }
-@media (max-width: 1360px) { .h5-links a:not([aria-current]) span { display: none; } .h5-links a { padding: .55em .8em; } .h5-lang { display: none; } }
+@media (max-width: 1600px) { .h5-links a:not([aria-current]) span { display: none; } .h5-links a { padding: .55em .8em; } .h5-lang { display: none; } }
 /* telefon: qutisiz yengil panel — tepada logo va belgilar, ostida ixcham bo'lim tugmalari;
    pastga aylantirilganda bo'limlar qatori yashirinadi, panel to'q fonga o'tadi (js: is-solid / is-up) */
 @media (max-width: 860px) {

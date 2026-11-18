@@ -576,7 +576,8 @@ const NAV5_IC = {
   film: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 3v18M17 3v18M3 8h4M3 16h4M17 8h4M17 16h4"/>',
   serial: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
   multfilm: '<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/>',
-  tv: '<circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
+  tvset: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  live: '<circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
   sport: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'
 };
 function mountNav5() {
@@ -588,20 +589,21 @@ function mountNav5() {
   const type = new URLSearchParams(location.search).get('type');
   let mv = null;   // kino sahifasida — kinoning turi bo'yicha bo'lim belgilanadi
   try { mv = (file === 'kino' || file === 'movie.html') && typeof movie !== 'undefined' ? movie : null; } catch (e) {}
-  const cur = file === 'catalog.html' ? type : file === 'tv.html' ? 'tv' : file === 'sport.html' ? 'sport' : mv && mv.type ? mv.type : '';
+  const cur = file === 'catalog.html' ? type : file === 'tv.html' ? 'tvset' : file === 'live.html' ? 'live' : file === 'sport.html' ? 'sport' : mv && mv.type ? mv.type : '';
   const links = [
     ['index.html', 'home', L('Bosh sahifa', 'Главная')],
     ['catalog.html?type=film', 'film', L('Filmlar', 'Фильмы')],
     ['catalog.html?type=serial', 'serial', L('Seriallar', 'Сериалы')],
     ['catalog.html?type=multfilm', 'multfilm', L('Multfilmlar', 'Мультфильмы')],
-    ['tv.html', 'tv', L('Jonli efir', 'Прямой эфир')],
+    ['live.html', 'live', L('Jonli efir', 'Прямой эфир')],
+    ['tv.html', 'tvset', L('Telekanallar', 'Телеканалы')],
     ['sport.html', 'sport', L('Sport', 'Спорт')]
   ];
   const hd = document.createElement('header');
   hd.className = 'h5 h5-nav';
   hd.innerHTML = `<div class="h5-nav-in">
     <a class="h5-logo" href="index.html" aria-label="DezoMax"><img class="logo-img" src="images/logo/dezomax-name.webp" alt="DezoMax" width="184" height="30"></a>
-    <nav class="h5-links" aria-label="${L('Bo‘limlar', 'Разделы')}">${links.map(([h, k, label]) => `<a href="${h}"${k === cur ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${NAV5_IC[k]}</svg><span>${k === 'tv' ? '<i class="h5-ldot"></i>' : ''}${esc(label)}</span></a>`).join('')}</nav>
+    <nav class="h5-links" aria-label="${L('Bo‘limlar', 'Разделы')}">${links.map(([h, k, label]) => `<a href="${h}"${k === cur ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${NAV5_IC[k]}</svg><span>${k === 'live' ? '<i class="h5-ldot"></i>' : ''}${esc(label)}</span></a>`).join('')}</nav>
     <div class="h5-tools">
       <a class="h5-ib" href="search.html" aria-label="${L('Qidiruv', 'Поиск')}" title="${L('Qidiruv', 'Поиск')}"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
       <div class="h5-lang" aria-label="${L('Til', 'Язык')}"><a href="#" data-setlang="uz"${ru ? '' : ' aria-current="true"'}>UZ</a><a href="#" data-setlang="ru"${ru ? ' aria-current="true"' : ''}>RU</a></div>
@@ -803,7 +805,7 @@ function enhanceHeader(header, page) {
   const L = [
     ['index.html', 'nav.home'], ['catalog.html', ru ? 'Каталог' : 'Katalog'], ['catalog.html?type=film', ru ? 'Фильмы' : 'Filmlar'],
     ['catalog.html?type=serial', 'nav.series'], ['catalog.html?type=multfilm', ru ? 'Мультфильмы' : 'Multfilmlar'], ['marvel.html', 'nav.marvel'],
-    ['shorts.html', 'Shorts'], ['sport.html', 'nav.sport'], ['tv.html', 'nav.tv'], ['favorites.html', 'nav.favorites'],
+    ['shorts.html', 'Shorts'], ['sport.html', 'nav.sport'], ['live.html', ru ? 'Прямой эфир' : 'Jonli efir'], ['tv.html', 'nav.tv'], ['favorites.html', 'nav.favorites'],
     ['downloads.html', 'nav.downloads'], ['plans.html', ru ? 'Тарифы' : 'Tariflar'], ['account.html', 'nav.account']
   ];
   const lbl = k => (k.startsWith('nav.') && typeof t === 'function' ? t(k) : k);
@@ -831,7 +833,7 @@ const TABS = [
   { key: 'home',    href: 'index.html',   icon: 'home', label: 'nav.home' },
   { key: 'films',   href: 'catalog.html?type=film', icon: 'films', label: 'nav.films' },
   { key: 'shorts',  href: 'shorts.html',  icon: 'shorts', label: 'nav.shorts' },
-  { key: 'tv',      href: 'tv.html',      icon: 'tv',   label: 'nav.live' },
+  { key: 'tv',      href: 'live.html',    icon: 'tv',   label: 'nav.live' },
   { key: 'library', href: 'favorites.html', icon: 'library', label: 'nav.library' }   // Kutubxona: sevimlilar va yuklanganlar
   // Sport — bosh sahifadagi mini navbarda (logo ostida)
   // Profil — headerda (o'ng yuqorida). "Yana" bo'limidagilar akkaunt sahifasida
@@ -900,7 +902,7 @@ function activeTab() {
   if (page === 'sport.html') return 'sport';
   if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'film') return 'films';
   if (page === 'catalog.html' && new URLSearchParams(location.search).get('type') === 'film') return 'films';
-  if (page === 'tv.html') return 'tv';
+  if (page === 'tv.html' || page === 'live.html') return 'tv';
   if (page === 'search.html') return 'search';
   if (page === 'shorts.html') return 'shorts';
   if (page === 'favorites.html' || page === 'downloads.html') return 'library';
@@ -1057,7 +1059,7 @@ if (IS_TV) {
             .map(el => el.src || el.href).filter(u => u && u.startsWith(location.origin));
           reg.active?.postMessage({
             type: 'precache',
-            pages: ['index.html', 'catalog.html', 'movie.html', 'search.html', 'downloads.html', 'favorites.html', 'tv.html', 'sport.html', 'account.html', 'marvel.html', 'plans.html'],
+            pages: ['index.html', 'catalog.html', 'movie.html', 'search.html', 'downloads.html', 'favorites.html', 'tv.html', 'live.html', 'sport.html', 'account.html', 'marvel.html', 'plans.html'],
             assets
           });
         }).catch(() => {});

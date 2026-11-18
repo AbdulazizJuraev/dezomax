@@ -350,7 +350,7 @@
     const sport = `<a class="h5-live" href="sport.html" style="--c1:#1f5a2c;--c2:#04140a"><span class="h5-lg"><svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#B8EC4A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span>
       <span class="h5-shade"></span><span class="h5-kind">${L('Natijalar', 'Результаты')}</span><span class="h5-tx"><small>DezoMax Sport</small><b>${L('Futbol, tennis, F1 — natija va yangiliklar', 'Футбол, теннис, F1 — результаты и новости')}</b></span></a>`;
     return `<section class="h5-sec h5-wrap"><div class="h5-panel is-blue">
-      ${headHTML(L('Jonli efir va sport', 'Прямой эфир и спорт'), 'tv.html', `<span class="h5-tag" style="background:var(--red)">${L('JONLI', 'ЭФИР')}</span>`).replace('class="h5-all"', 'class="h5-all" style="color:var(--blue)"')}
+      ${headHTML(L('Telekanallar va sport', 'Телеканалы и спорт'), 'tv.html', `<span class="h5-tag" style="background:var(--red)">${L('JONLI', 'ЭФИР')}</span>`).replace('class="h5-all"', 'class="h5-all" style="color:var(--blue)"')}
       <div class="h5-row">${list.map(c => `<a class="h5-live" href="tv.html?ch=${encodeURIComponent(c.id)}" style="--c1:${esc(c.colors[0])};--c2:${esc(c.colors[1])}">
         <span class="h5-lg${c.tile === 'dark' ? '' : ' is-tile'}"><img src="${esc(c.logo)}" alt="" loading="lazy" onerror="this.remove()"></span><span class="h5-shade"></span>
         <span class="h5-lv"><i></i>${L('JONLI', 'ЭФИР')}</span><span class="h5-kind">${esc((CAT[c.category] || CAT.general)[ru ? 1 : 0])}</span>
@@ -428,7 +428,7 @@
       [L('Kinolar', 'Фильмы'), 'film', 'catalog.html?type=film', m => m.type === 'film'],
       [L('Seriallar', 'Сериалы'), 'tv', 'catalog.html?type=serial', m => m.type === 'serial'],
       ['Shorts', 'shorts', 'shorts.html', m => m.franchise === 'marvel'],
-      [L('Jonli efir', 'Прямой эфир'), 'live', 'tv.html', m => m.type === 'film' && rt(m) > 7.5],
+      [L('Jonli efir', 'Прямой эфир'), 'live', 'live.html', m => m.type === 'film' && rt(m) > 7.5],
       [L('Sport', 'Спорт'), 'cup', 'sport.html', m => (m.genres || []).includes('action')]
     ].map(([n, i, h, f]) => [n, i, h, pickOne(pool(f, 40), used)]).filter(x => x[3]);
     if (cards.length < 4) return '';

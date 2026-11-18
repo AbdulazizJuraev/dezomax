@@ -122,6 +122,7 @@ async function smoke() {
     ['Marvel', 'marvel.html?nointro', () => document.querySelectorAll('.mx-card').length >= 1],
     ['Sport', 'sport.html?nointro', () => true],
     ['TV', 'tv.html?nointro', () => true],
+    ['Jonli efir', 'live.html?nointro', () => !!document.querySelector('.h5-nav')],
     ['Akkaunt', 'account.html?nointro', () => !!document.querySelector('#account')?.children.length],
     // ruscha nusxa: LANG='ru' (js/i18n.js — /ru/ manzil), fayllar <base href> orqali ildizdan
     ['Bosh sahifa (RU)', 'ru/index.html?nowelcome&nointro', () => LANG === 'ru' && document.querySelectorAll('#h5Rows .h5-poster').length >= 5],

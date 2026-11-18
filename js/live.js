@@ -6,6 +6,8 @@
    ============================================================ */
 (function () {
   const main = document.querySelector('main');
+  // live.html — alohida sahifa: menyu, tilni va h.k. shu yerda ishga tushiramiz (tv.html'da tv.js qilardi)
+  if (main && main.classList.contains('lv-page') && typeof initLayout === 'function') try { initLayout(); } catch (e) {}
   if (!main || typeof PAY_API === 'undefined' || !PAY_API) return;
   const ru = typeof LANG !== 'undefined' && LANG === 'ru';
   const L = (uz, r) => (ru ? r : uz);
@@ -51,6 +53,8 @@
   }
   function render() {
     sec.hidden = !items.length;
+    const empty = document.getElementById('lvEmpty');   // live.html: hozir efir yo'q
+    if (empty) { empty.hidden = !!items.length; empty.textContent = L('Hozir o‘zbekcha jonli efir topilmadi — birozdan keyin qayta kiring.', 'Сейчас прямых эфиров нет — загляните чуть позже.'); }
     if (!items.length) return;
     document.getElementById('lvCount').textContent = L(`${items.length} ta efirda`, `${items.length} в эфире`);
     document.getElementById('lvRow').innerHTML = items.map((x, i) => `
@@ -74,10 +78,10 @@
   const KEY = 'dzxLive';
   try { const c = JSON.parse(sessionStorage.getItem(KEY) || 'null'); if (c && Date.now() - c.at < 3 * 60000) { items = c.items; render(); } } catch (e) {}
   fetch(String(PAY_API).replace(/\/+$/, '') + '/api/yt/live').then(r => r.ok ? r.json() : null).then(d => {
-    if (!d || !Array.isArray(d.items)) return;
+    if (!d || !Array.isArray(d.items)) { if (!items.length) render(); return; }
     const was = items.map(x => x.id).join();
     items = d.items.filter(x => x && /^[\w-]{11}$/.test(x.id));
     try { sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), items })); } catch (e) {}
-    if (items.map(x => x.id).join() !== was) render();
+    if (items.map(x => x.id).join() !== was || !items.length) render();
   }).catch(() => {});
 })();
