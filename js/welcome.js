@@ -236,7 +236,6 @@
     const btn = root.querySelector('#wcGoogle');
     const ok = async () => {
       const p = await Auth.loadProfile();
-      await showRolePicker(p);
       finish(true);
     };
 

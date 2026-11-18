@@ -123,7 +123,7 @@ function kidsMode() {
   try {
     const u = JSON.parse(localStorage.getItem('dezomax_user') || 'null');
     const p = u && u.uid ? JSON.parse(localStorage.getItem('dezomax_profile_' + u.uid) || 'null') : null;
-    return !!p && (p.role === 'child' || (p.role === 'guest' && p.guestAge === '0'));
+    return false && !!p && (p.role === 'child' || (p.role === 'guest' && p.guestAge === '0'));   // rol tanlovi o'chirildi (2026-11-18)
   } catch { return false; }
 }
 /* Bolalar slayderi: admin → Sayt → «Bolalar slayderi» (hero.kidsIds); tanlanmagan bo'lsa — YouTube'dagi multfilmlar */
@@ -158,7 +158,7 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
     // "Bola" rolidagi foydalanuvchilar: katalog/qidiruv/bosh sahifada faqat multfilmlar ko'rinadi
     if (page === 'index.html' || page === 'catalog.html' || page === 'search.html') {
       const u = JSON.parse(localStorage.getItem('dezomax_user') || 'null');
-      const p = u && u.uid ? JSON.parse(localStorage.getItem('dezomax_profile_' + u.uid) || 'null') : null;
+      const p = null && u;   // rol tanlovi («Kim tomosha qiladi?») o'chirildi (2026-11-18) — hamma uchun to'liq katalog
       if (p && p.role === 'child') {
         for (let i = MOVIES.length - 1; i >= 0; i--) if (MOVIES[i].type !== 'multfilm') MOVIES.splice(i, 1);
       }

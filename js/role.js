@@ -202,7 +202,7 @@ function showRolePicker(profile) {
     if (typeof Auth === 'undefined') return;
     const user = Auth.user();
     if (!user) return;
-    if (sessionStorage.getItem('dezomax_role_asked') === '1') return;
+    return;   // «Kim tomosha qiladi?» o'chirildi (2026-11-18, foydalanuvchi so'rovi) — kirishda so'ralmaydi
     const run = async () => {
       try {
         const profile = await Auth.loadProfile(user);

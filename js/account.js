@@ -554,7 +554,6 @@ function renderLogin(mode = 'login') {
 
 async function onLoggedIn() {
   profile = await Auth.loadProfile();
-  await showRolePicker(profile);
   toast(t('acc.welcome'));
   const next = new URLSearchParams(location.search).get('next');
   if (next && /^[a-z]+\.html(\?[\w=&%-]*)?$/.test(next)) { location.href = next; return; }
