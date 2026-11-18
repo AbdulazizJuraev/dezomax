@@ -144,11 +144,44 @@
     try { Object.assign(s, await req('POST', '/api/react', { movie: sid(x.id), value: v })); paintSocial(x.id); }
     catch (e) { toast(e.status === 401 ? L('Qayta kiring', 'Войдите снова') : L('Vaqtincha ishlamayapti', 'Временно недоступно')); }
   }
-  async function share() {
+  /* Ulashish — o'z oynamiz (Windows/brauzer oynasi o'rniga): havola + «Nusxalash», messenjerlar, «Boshqa» (tizim oynasi) */
+  const SH = {
+    tg: ['Telegram', '#2AABEE', '<path fill="#fff" d="M21.9 4.3 18.6 19.9c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6.1 13.4l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6L20.6 3c.9-.3 1.6.2 1.3 1.3z"/>', (u, t) => `https://t.me/share/url?url=${u}&text=${t}`],
+    wa: ['WhatsApp', '#25D366', '<path fill="#fff" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/>', (u, t) => `https://wa.me/?text=${t}%20${u}`],
+    fb: ['Facebook', '#1877F2', '<path fill="#fff" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9H16l.5-4h-3V8.8c0-.5.3-.8.5-.8z"/>', u => `https://www.facebook.com/sharer/sharer.php?u=${u}`],
+    x: ['X', '#000', '<path fill="#fff" d="M17.8 3h3.3l-7.2 8.2L22.3 21h-6.6l-5.2-6.8L4.6 21H1.3l7.7-8.8L1 3h6.8l4.7 6.2zm-1.2 16h1.8L7.5 4.9H5.6z"/>', (u, t) => `https://twitter.com/intent/tweet?url=${u}&text=${t}`],
+    vk: ['VK', '#0077FF', '<path fill="#fff" d="M12.8 17.5c-5.5 0-8.6-3.8-8.8-10h2.8c.1 4.6 2.1 6.5 3.7 6.9V7.5h2.6v3.9c1.6-.2 3.3-2 3.8-3.9h2.6c-.4 2.4-2.2 4.2-3.4 4.9 1.2.6 3.2 2.1 4 5.1h-2.9c-.6-1.9-2.2-3.4-4.1-3.6v3.6z"/>', (u, t) => `https://vk.com/share.php?url=${u}&title=${t}`],
+    mail: ['Email', '#5B6470', '<path fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" d="M3 6h18v12H3zM3 6l9 7 9-7"/>', (u, t) => `mailto:?subject=${t}&body=${u}`]
+  };
+  function share() {
     const x = items[cur]; if (!x) return;
     const url = `https://dezomax.uz/live.html#v=${x.id}`;
-    try { if (navigator.share) { await navigator.share({ title: x.title, url }); return; } } catch (e) { return; }
-    try { await navigator.clipboard.writeText(url); toast(L('Havola nusxalandi', 'Ссылка скопирована')); } catch (e) { prompt(L('Havola:', 'Ссылка:'), url); }
+    const u = encodeURIComponent(url), t = encodeURIComponent(x.title + ' — DezoMax');
+    document.querySelector('.lv-sh')?.remove();
+    const m = document.createElement('div');
+    m.className = 'lv-sh';
+    m.innerHTML = `<div class="lv-sh-box" role="dialog" aria-modal="true" aria-label="${L('Ulashish', 'Поделиться')}">
+      <div class="lv-sh-head"><b>${L('Ulashish', 'Поделиться')}</b><button type="button" class="lv-sh-x" data-x aria-label="${L('Yopish', 'Закрыть')}">✕</button></div>
+      <div class="lv-sh-prev"><img src="${esc(thumb(x))}" alt=""><span><span class="lv-badge">LIVE</span><b>${esc(x.title)}</b><small>${esc(x.channel)}</small></span></div>
+      <div class="lv-sh-grid">${Object.entries(SH).map(([k, [n, c, svg, f]]) => `<a href="${esc(f(u, t))}" target="_blank" rel="noopener"><i style="background:${c}"><svg viewBox="0 0 24 24">${svg}</svg></i><span>${n}</span></a>`).join('')}
+        ${navigator.share ? `<button type="button" data-native><i style="background:rgba(255,255,255,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></i><span>${L('Boshqa', 'Другое')}</span></button>` : ''}</div>
+      <div class="lv-sh-link"><input readonly value="${esc(url)}" aria-label="${L('Havola', 'Ссылка')}"><button type="button" data-copy>${L('Nusxalash', 'Копировать')}</button></div>
+    </div>`;
+    document.body.appendChild(m);
+    requestAnimationFrame(() => m.classList.add('is-on'));
+    const close = () => { m.classList.remove('is-on'); setTimeout(() => m.remove(), 200); };
+    m.addEventListener('click', async e => {
+      if (e.target === m || e.target.closest('[data-x]')) return close();
+      if (e.target.closest('[data-copy]')) {
+        const inp = m.querySelector('input');
+        try { await navigator.clipboard.writeText(url); } catch (er) { inp.select(); document.execCommand('copy'); }
+        const btn = m.querySelector('[data-copy]'); btn.textContent = L('Nusxalandi ✓', 'Скопировано ✓'); btn.classList.add('is-ok');
+        return;
+      }
+      if (e.target.closest('[data-native]')) { try { await navigator.share({ title: x.title, url }); } catch (er) {} return; }
+      if (e.target.closest('.lv-sh-grid a')) setTimeout(close, 300);
+    });
+    addEventListener('keydown', function esc2(e) { if (e.key === 'Escape') { close(); removeEventListener('keydown', esc2); } });
   }
   const HID = 'dzxLiveHidden';
   const hidden = () => { try { return JSON.parse(localStorage.getItem(HID) || '[]'); } catch (e) { return []; } };
