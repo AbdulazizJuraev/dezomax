@@ -61,7 +61,7 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
 .h5-menu-h b { display: block; } .h5-menu-h small { color: var(--muted); }
 .h5-menu a { display: block; padding: .6em .8em; border-radius: 10px; color: var(--muted); font-weight: 500; }
 .h5-menu a:hover { background: rgba(255, 255, 255, .08); color: #fff; }
-@media (max-width: 1180px) { .h5-links a:not([aria-current]) span { display: none; } .h5-links a { padding: .55em .8em; } .h5-lang { display: none; } }
+@media (max-width: 1360px) { .h5-links a:not([aria-current]) span { display: none; } .h5-links a { padding: .55em .8em; } .h5-lang { display: none; } }
 /* telefon: qutisiz yengil panel — tepada logo va belgilar, ostida ixcham bo'lim tugmalari;
    pastga aylantirilganda bo'limlar qatori yashirinadi, panel to'q fonga o'tadi (js: is-solid / is-up) */
 @media (max-width: 860px) {
@@ -185,6 +185,8 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
 .h5-top .h5-row { gap: clamp(8px, 2vw, 28px); }
 .h5-item { position: relative; display: flex; align-items: flex-end; flex: none; }
 .h5-num { font-weight: 700; font-size: clamp(7rem, 15vw, 15rem); line-height: .78; letter-spacing: -.08em; color: transparent; -webkit-text-stroke: 3px rgba(181, 207, 192, .9); margin-right: -.22em; position: relative; z-index: 0; }
+/* raqam poster OLDIDA (foydalanuvchi so'rovi, 2026-11-18): ustiga chiqadi, bosishga xalaqit bermaydi; to'q ichki rang — rasm ustida ham o'qiladi */
+.h5-top .h5-num { z-index: 2; pointer-events: none; color: rgba(3, 6, 4, .55); filter: drop-shadow(0 4px 14px rgba(0, 0, 0, .6)); }
 .h5-item:first-child .h5-num { -webkit-text-stroke-color: var(--green); }
 .h5-top .h5-poster { width: clamp(120px, 14vw, 210px); z-index: 1; }
 
@@ -414,6 +416,10 @@ body.d5 .v4-foot-btn { background: var(--grad); color: #07160A !important; }
 .h5-bc.is-big::before { background: linear-gradient(180deg, rgba(10, 10, 30, .55), transparent 45%); }
 .h5-bc.is-big h3 { font-size: clamp(1.4rem, 2vw, 1.8rem); line-height: 1.15; max-width: 14em; }
 .h5-bc.is-wide { grid-column: 2 / 5; }
+/* katta tik karta kompyuterda — tik poster (telefonda karta keng: keng kadr qoladi) */
+@media (min-width: 1001px) { .h5-bc.is-big { background-image: var(--bgt); background-position: 50% 20%; } }
+/* kichik kartalarda matn rasm ustida ham o'qilsin */
+.h5-bc:not(.is-big)::before { background: linear-gradient(180deg, rgba(5, 8, 6, .82), rgba(5, 8, 6, .5) 55%, rgba(5, 8, 6, .85)); }
 @media (max-width: 1000px) { .h5-bento { grid-template-columns: 1fr 1fr; } .h5-bc.is-big { grid-row: auto; grid-column: 1 / -1; min-height: 240px; } .h5-bc.is-wide { grid-column: 1 / -1; } }
 @media (max-width: 560px) { .h5-bento { grid-template-columns: 1fr; } .h5-bc { min-height: 190px; } }
 

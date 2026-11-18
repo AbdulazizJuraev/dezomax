@@ -398,8 +398,9 @@
 
   /* ================= Reklama-uslubidagi bloklar (foydalanuvchi namunalari, 2026-11-18) =================
      Hammasi yengil: harakat faqat CSS transform, ekrandan chiqsa to'xtaydi (initAnims), rasmlar kichik o'lchamda va lazy */
-  const TN = window.DZX_TYPE_N || {};
-  const nOf = (k, f) => fmtN(Math.max(TN[k] || 0, f()));
+  // sonlar data-home.js dagi DZX_TYPE_N dan (har chaqirilganda o'qiladi); topilmasa — '' va matn sonsiz chiqadi («0 ta kino» emas)
+  const nOf = (k, f) => { const n = Math.max((window.DZX_TYPE_N || {})[k] || 0, f()); return n > 0 ? fmtN(n) : ''; };
+  const withN = (n, uz, ru, uz0, ru0) => (n ? L(`${n} ${uz}`, `${n} ${ru}`) : L(uz0, ru0));
   const ICO = {
     film: '<path d="M4 4h16v16H4zM8 4v16M16 4v16M4 9h4M4 15h4M16 9h4M16 15h4"/>',
     tv: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
@@ -504,19 +505,27 @@
   /* 4) Bento: katta karta + Kinolar / Seriallar / Multfilmlar + O'zbek kinolari (namuna 4) */
   function bentoHTML() {
     const used = new Set();
-    const bg = f => { const m = pickOne(MOVIES.filter(m => f(m) && okBig(m.hposter || m.cover) && /tmdb/.test(m.hposter || m.cover || '')).sort((a, b) => rt(b) - rt(a)), used); return m ? wideOf(m, 'w780') : ''; };
-    const big = bg(m => (m.genres || []).includes('scifi'));
+    // kichik kartalar — matnsiz keng kadr (TMDB backdrop «cover»): «hposter»da kino nomi yozilgan, karta matni bilan ustma-ust tushardi
+    const isTm = u => /image\.tmdb\.org/.test(u || '');
+    const usedU = new Set(), srcOf = m => (isTm(m.cover) ? m.cover : m.hposter);   // bir xil rasm ikki kartada chiqmasin
+    const wideBg = f => { const m = pickOne(MOVIES.filter(m => f(m) && ((isTm(m.cover) && okBig(m.cover)) || (isTm(m.hposter) && okBig(m.hposter))) && !usedU.has(srcOf(m))).sort((a, b) => (isTm(b.cover) - isTm(a.cover)) || rt(b) - rt(a)), used);
+      if (m) usedU.add(srcOf(m)); return m ? tmSize(srcOf(m), 'w780') : ''; };
+    // katta tik karta — tik poster (kompyuterda); telefonda karta keng bo'ladi — keng kadr
+    const tallM = pickOne(MOVIES.filter(m => (m.genres || []).includes('scifi') && isTm(m.vposter || m.poster) && tallOf(m)).sort((a, b) => rt(b) - rt(a)), used);
+    const bigT = tallM ? tallOf(tallM, 'w500') : '';
+    const bigW = wideBg(m => (m.genres || []).includes('scifi'));
+    const nF = nOf('film', () => 0), nS = nOf('serial', () => 0), nU = nOf('uzbek', () => 0);
     const C = [
-      [L('Kinolar', 'Фильмы'), L(`${nOf('film', () => 0)} ta kino: jangari, drama, komediya, fantastika — har kuni yangilari.`, `${nOf('film', () => 0)} фильмов: боевики, драмы, комедии, фантастика — новые каждый день.`), L('Kinolarni ko‘rish', 'Смотреть фильмы'), 'catalog.html?type=film', bg(m => m.type === 'film')],
-      [L('Seriallar', 'Сериалы'), L(`${nOf('serial', () => 0)} ta serial — qism-baqism, to‘xtagan joydan davom eting.`, `${nOf('serial', () => 0)} сериалов — серия за серией, с места остановки.`), L('Seriallarni ko‘rish', 'Смотреть сериалы'), 'catalog.html?type=serial', bg(m => m.type === 'serial')],
-      [L('Multfilmlar', 'Мультфильмы'), L('Butun oila uchun: klassik va yangi multfilmlar, bolalar rejimi bilan.', 'Для всей семьи: классика и новинки, с детским режимом.'), L('Multfilmlarni ko‘rish', 'Смотреть мультфильмы'), 'catalog.html?type=multfilm', bg(m => m.type === 'multfilm' || (m.genres || []).includes('animation'))]
+      [L('Kinolar', 'Фильмы'), withN(nF, 'ta kino: jangari, drama, komediya, fantastika — har kuni yangilari.', 'фильмов: боевики, драмы, комедии, фантастика — новые каждый день.', 'Jangari, drama, komediya, fantastika — har kuni yangilari.', 'Боевики, драмы, комедии, фантастика — новые каждый день.'), L('Kinolarni ko‘rish', 'Смотреть фильмы'), 'catalog.html?type=film', wideBg(m => m.type === 'film')],
+      [L('Seriallar', 'Сериалы'), withN(nS, 'ta serial — qism-baqism, to‘xtagan joydan davom eting.', 'сериалов — серия за серией, с места остановки.', 'Qism-baqism, to‘xtagan joydan davom eting.', 'Серия за серией, с места остановки.'), L('Seriallarni ko‘rish', 'Смотреть сериалы'), 'catalog.html?type=serial', wideBg(m => m.type === 'serial')],
+      [L('Multfilmlar', 'Мультфильмы'), L('Butun oila uchun: klassik va yangi multfilmlar, bolalar rejimi bilan.', 'Для всей семьи: классика и новинки, с детским режимом.'), L('Multfilmlarni ko‘rish', 'Смотреть мультфильмы'), 'catalog.html?type=multfilm', wideBg(m => m.type === 'multfilm' || (m.genres || []).includes('animation'))]
     ];
-    const wide = bg(m => (m.genres || []).includes('history') || (m.genres || []).includes('adventure'));
+    const wide = wideBg(m => (m.genres || []).includes('history') || (m.genres || []).includes('adventure'));
     return `<section class="h5-sec h5-wrap"><div class="h5-bento">
-      <a class="h5-bc is-big" href="catalog.html" style="--bg:url('${esc(big)}')"><h3>${L('Har kayfiyatga — kino, serial va multfilm', 'На любое настроение — фильмы, сериалы и мультфильмы')}</h3></a>
+      <a class="h5-bc is-big" href="catalog.html" style="--bg:url('${esc(bigW || bigT)}');--bgt:url('${esc(bigT || bigW)}')"><h3>${L('Har kayfiyatga — kino, serial va multfilm', 'На любое настроение — фильмы, сериалы и мультфильмы')}</h3></a>
       ${C.map(([t, d, b, h, im]) => `<a class="h5-bc" href="${h}" style="--bg:url('${esc(im)}')"><h3>${esc(t)}</h3><p>${esc(d)}</p><span class="h5-pill">${esc(b)}</span></a>`).join('')}
       <a class="h5-bc is-wide" href="catalog.html?watch=uz" style="--bg:url('${esc(wide)}')"><h3>${L('O‘zbek kinolari va seriallari', 'Узбекские фильмы и сериалы')}</h3>
-        <p>${L(`${nOf('uzbek', () => 0)} ta milliy kino va serial — o‘zbek tilida, rasmiy kanallardan.`, `${nOf('uzbek', () => 0)} национальных фильмов и сериалов — на узбекском, с официальных каналов.`)}</p><span class="h5-pill">${L('O‘zbek kinolari', 'Узбекское кино')}</span></a>
+        <p>${withN(nU, 'ta milliy kino va serial — o‘zbek tilida, rasmiy kanallardan.', 'национальных фильмов и сериалов — на узбекском, с официальных каналов.', 'Milliy kino va seriallar — o‘zbek tilida, rasmiy kanallardan.', 'Национальные фильмы и сериалы — на узбекском, с официальных каналов.')}</p><span class="h5-pill">${L('O‘zbek kinolari', 'Узбекское кино')}</span></a>
     </div></section>`;
   }
 

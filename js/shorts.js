@@ -71,7 +71,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   let live = cache && cache.ch;
   if (API0 && (!cache || Date.now() - cache.at > LIVE_TTL)) {
     const p = fetchLive().catch(() => null);                    // eskirgan bo'lsa — fonda yangilanadi
-    if (!live) live = await Promise.race([p, new Promise(r => setTimeout(() => r(null), 1500))]);   // birinchi marta — 1,5 s kutamiz
+    // birinchi marta ham kutmaymiz (avval 1,5 s kutilardi — lenta sekin ochilardi): yangilari keyingi ochilishda qo'shiladi
   }
   // har ochilganda aralash tartib (har safar bir xil ketma-ketlik zeriktirardi): har kanal ichida tasodifiy, kanallar esa
   // bir tekis navbatlashadi — bir kanal ketma-ket kelmaydi (avval lenta deyarli faqat FarZidGuy edi);
@@ -318,7 +318,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   function prewarm(k) {
     clearTimeout(prewarmT);
     if (saveData || !slides[k + 1] || frames.has(k + 1)) return;
-    prewarmT = setTimeout(() => { if (active === k && !frames.has(k + 1)) mountFrame(k + 1, false); }, 1500);
+    prewarmT = setTimeout(() => { if (active === k && !frames.has(k + 1)) mountFrame(k + 1, false); }, 600);
   }
 
   addEventListener('message', e => {
