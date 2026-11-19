@@ -482,6 +482,26 @@
   const pickOne = (list, used) => { const m = list.find(x => !used.has(x.id)); if (m) used.add(m.id); return m; };
 
   /* 1) To'q banner + yelpig'ich kartalar (namuna 1) */
+  /* «Cheksiz tomosha» posterlari aylanadi (2026-11-19): har 2.6 soniyada bir pog'ona, faqat ko'rinib turganda; yengil — faqat transform */
+  let fanTimer = 0;
+  function fanSpin(box) {
+    clearInterval(fanTimer);
+    const deck = box.querySelector('.h5-fan-cards');
+    if (!deck || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cards = [...deck.children], n = cards.length;
+    const place = c => { const o = +c.style.getPropertyValue('--k') - (n - 1) / 2; c.style.zIndex = String(10 - Math.round(Math.abs(o) * 2)); };
+    cards.forEach(place);
+    let seen = false;
+    new IntersectionObserver(es => { seen = es[0].isIntersecting; }).observe(deck);
+    fanTimer = setInterval(() => {
+      if (!seen || document.hidden || deck.matches(':hover')) return;
+      cards.forEach(c => {
+        const k = (+c.style.getPropertyValue('--k') + 1) % n;
+        if (k === 0) { c.style.transition = 'none'; c.style.setProperty('--k', k); place(c); void c.offsetWidth; c.style.transition = ''; }
+        else { c.style.setProperty('--k', k); place(c); }
+      });
+    }, 2600);
+  }
   function fanHTML() {
     const used = new Set();
     const cards = [
@@ -495,7 +515,7 @@
     if (cards.length < 4) return '';
     return `<section class="h5-sec h5-wrap"><div class="h5-fan">
       <div class="h5-fan-copy">
-        <h2><b>${L('Cheksiz tomosha', 'Смотрите без ограничений')}</b> <a href="catalog.html?type=film">${L('kinolar', 'фильмы')}</a>, <a href="catalog.html?type=serial">${L('seriallar', 'сериалы')}</a>, <a href="catalog.html?type=multfilm">${L('multfilmlar', 'мультфильмы')}</a> ${L('va yana ko‘p.', 'и многое другое.')}</h2>
+        <h2><b>${L('Cheksiz tomosha', 'Смотрите без ограничений')}</b> <a href="catalog.html?type=film">${L('kinolar', 'фильмы')}</a>, <a href="catalog.html?type=serial">${L('seriallar', 'сериалы')}</a>, <a href="catalog.html?type=multfilm">${L('multfilmlar', 'мультфильмы')}</a> ${L('va', 'и')} <em class="h5-fan-more">${L('yana ko‘p.', 'многое другое.')}</em></h2>
         <p>${L('O‘zbek tilidagi eng katta onlayn kino katalogi — bepul, ro‘yxatdan o‘tmasdan.', 'Крупнейший онлайн-каталог кино на узбекском — бесплатно и без регистрации.')}</p>
         <a class="h5-sq" href="catalog.html">${L('Boshlash', 'Начать')} ${ic('ext')}</a>
       </div>
@@ -768,6 +788,7 @@
     const box = $('h5Rows');
     box.innerHTML = out.join('');
     if (typeof Ads !== 'undefined') Ads.fill(box);
+    fanSpin(box);
     box.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => {
       topDays = +b.dataset.days;
       box.querySelectorAll('[data-days]').forEach(x => x.classList.toggle('is-on', x === b));

@@ -645,7 +645,7 @@ function renderMovie() {
         <div class="m5-meta">${pills}</div>
         ${facts.length ? `<div class="m5-grid">${facts.map(([k, v]) => `<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>` : ''}
         <div class="m5-genres">${movie.genres.map(g => `<a href="catalog.html?genre=${g}">${esc(genreName(g))}</a>`).join('')}</div>
-        ${cast.length ? `<div class="m5-cast"><small>${t('movie.cast')}</small><div>${cast.map(c => `<a class="m5-actor" href="search.html?q=${encodeURIComponent(c)}"><i style="background:linear-gradient(135deg,${esc(c1)},#0E7A5E)">${esc(initials(c))}</i>${esc(c)}</a>`).join('')}</div></div>` : ''}
+        ${cast.length ? `<div class="m5-cast"><small>${t('movie.cast')}</small><div>${cast.map(c => `<a class="m5-actor" data-cast="${esc(c)}" href="search.html?q=${encodeURIComponent(c)}"><i style="background:linear-gradient(135deg,${esc(c1)},#0E7A5E)">${esc(initials(c))}</i>${esc(c)}</a>`).join('')}</div></div>` : ''}
         ${officialHTML(movie)}
       </div>
     </div>
@@ -954,3 +954,29 @@ if (window.dzxData && !dzxData.has(movieId)) {
   const go = () => dzxMovieMain();
   dzxData.need([movieId]).then(go, go);
 } else dzxMovieMain();
+
+/* Aktyorlar suratlari (2026-11-19): js/cast-photos-<k>.json (tools/fetch-cast-photos.js, TMDB) — faqat kerakli bo'laklar yuklanadi.
+   Surat topilmasa — avvalgidek bosh harflar. */
+(function () {
+  const N = 16, got = {};
+  const shard = s => { let x = 2166136261; for (const c of s) { x ^= c.codePointAt(0); x = Math.imul(x, 16777619) >>> 0; } return x % N; };
+  const ver = (document.querySelector('script[src*="movie.js"]')?.src.split('?')[1]) || '';
+  const load = k => got[k] || (got[k] = fetch(`js/cast-photos-${k}.json${ver ? '?' + ver : ''}`).then(r => r.ok ? r.json() : {}, () => ({})));
+  function fill() {
+    document.querySelectorAll('.m5-actor[data-cast]:not([data-ph])').forEach(a => {
+      a.dataset.ph = '1';
+      const n = a.dataset.cast;
+      load(shard(n)).then(map => {
+        const p = map[n];
+        if (!p) return;
+        const img = new Image();
+        img.alt = ''; img.decoding = 'async';   // loading=lazy emas: DOMdan tashqaridagi rasm lazy bo'lsa umuman yuklanmaydi
+        img.onload = () => { const i = a.querySelector('i'); if (i) { i.textContent = ''; i.style.background = 'none'; i.appendChild(img); a.classList.add('has-ph'); } };
+        img.src = 'https://image.tmdb.org/t/p/w185' + p;
+      });
+    });
+  }
+  let q = 0;   // bir kadrda bir marta (pleyer vaqti har soniya o'zgaradi)
+  new MutationObserver(() => { if (!q) q = requestAnimationFrame(() => { q = 0; fill(); }); }).observe(document.documentElement, { childList: true, subtree: true });
+  fill();
+})();

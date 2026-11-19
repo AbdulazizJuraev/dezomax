@@ -37,3 +37,4 @@ server/*.db-shm
 _site/
 .wrangler/
 cloudflare/site/.wrangler/
+tools/.cache/
