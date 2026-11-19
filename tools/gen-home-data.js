@@ -72,29 +72,46 @@ const hero = CFG.hero || {};
 (CFG.rows || []).forEach(r => (r.ids || []).forEach(id => pick.add(id)));
 // kino studiyalari paneli (js/home5.js kinoStudioHTML): Marvel/DC — franshiza, qolganlari — taniqli multfilm nomlari; chiqqan yili bo'yicha
 const W = s => new RegExp(`(?<!\\p{L})(?:${s})(?!\\p{L})`, 'iu');
-const STUDIO_RX = {
-  disney: W('pinocchio|пиноккио|dambo|дамбо|dumbo|бемби|bambi|золушка|zolushka|cinderella|питер пэн|peter pan|uyqudagi malika|спящая красавица|робин гуд|robin hood|robin gud|tulki va it|лис и пёс|лис и пес|горбун из нотр-дама|hunchback of notre dame|геркулес|hercules|gerkules|мулан|mulan|тарзан|tarzan|imperatorning sarguzashtlari|похождения императора|холодное сердце|muzyurak|frozen|зверополис|zootopiya|zootopia|ральф|ralf|rapunzel|рапунцель|энканто|enkanto|encanto|моана|moana'),
-  pixar: W('история игрушек|o[ʻ‘\'`]?yinchoqlar tarixi|toy story|рататуй|ratatuy|ratatouille|суперсемейка|super oila|incredibles|бао|bao|элио|elio|тачки|cars|в поисках немо|finding nemo|головоломка|inside out|тайна коко|coco|валл-и|wall-e|корпорация монстров|monsters inc'),
-  dreamworks: W('шрек|шрэк|shrek|мадагаскар|madagaskar|madagascar|кунг-?фу панда|kung-?fu panda|etik kiygan mushuk|кот в сапогах|puss in boots|турбо|turbo|как приручить дракона|how to train your dragon|тролли|trolls|босс-молокосос|boss baby|мегамозг|megamind|семейка крудс|croods'),
-  illumination: W('гадкий я|despicable me|minionlar|миньоны|minions|лоракс|loraks|lorax|kuyla|зверопой|uy hayvonlarining sirli hayoti|тайная жизнь домашних животных|secret life of pets|гринч|grinch'),
-  bluesky: W('muzlik davri|ледниковый период|ice age|рио|rio|хортон|horton|эпик|epic|фердинанд|ferdinand')
+// har bir studiya: bitta qator — bitta kino (uning o'zbekcha/ruscha/inglizcha nomlari). Bir kino turli tilda bir necha marta
+// qo'shilgan bo'lsa (Cinderella / Zolushka) — bitta karta qoladi; davomlari (Kung-fu Panda 2, 3…) yili bo'yicha ajraladi
+const STUDIO_FILMS = {
+  disney: ['pinocchio|пиноккио', 'dambo|дамбо|dumbo', 'бемби|bambi', 'золушка|zolushka|cinderella', 'питер пэн|peter pan', 'uyqudagi malika|спящая красавица|sleeping beauty',
+    'робин гуд|robin hood|robin gud', 'tulki va it|лис и пёс|лис и пес|fox and the hound', 'горбун из нотр-дама|hunchback of notre dame', 'геркулес|hercules|gerkules',
+    'мулан|mulan', 'тарзан|tarzan', 'imperatorning sarguzashtlari|похождения императора|emperor[’\']?s new groove', 'холодное сердце|muzyurak|frozen',
+    'зверополис|zootopiya|zootopia', 'ральф|ralf|wreck-it ralph', 'rapunzel|рапунцель|tangled', 'энканто|enkanto|encanto', 'моана|moana'],
+  pixar: ['история игрушек|o[ʻ‘\'`]?yinchoqlar tarixi|toy story', 'рататуй|ratatuy|ratatouille', 'суперсемейка|super oila|incredibles', 'бао|bao', 'элио|elio',
+    '(?<!аэро)тачки|cars', 'в поисках немо|finding nemo', 'головоломка|inside out', 'тайна коко|coco', 'валл-и|wall-e', 'корпорация монстров|monsters inc'],
+  dreamworks: ['шрек|шрэк|shrek', 'мадагаскар|madagaskar|madagascar', 'кунг-?фу панда|kung-?fu panda', 'etik kiygan mushuk|кот в сапогах|puss in boots', 'турбо|turbo',
+    'как приручить дракона|how to train your dragon', 'тролли|trolls', 'босс-молокосос|boss baby', 'мегамозг|megamind', 'семейка крудс|croods'],
+  illumination: ['гадкий я|despicable me', 'minionlar|миньоны|minions', 'лоракс|loraks|lorax', 'kuyla|зверопой', 'uy hayvonlarining sirli hayoti|тайная жизнь домашних животных|secret life of pets', 'гринч|grinch'],
+  bluesky: ['muzlik davri|ледниковый период|ice age', 'рио|rio', 'хортон|horton', 'эпик|epic', 'фердинанд|ferdinand']
 };
 const isAnim = m => m.type === 'multfilm' || (m.genres || []).includes('animation');
 const names = m => [m.title && m.title.uz, m.title && m.title.ru, m.title && m.title.en, m.orig, m.original_title].filter(Boolean).join(' | ');
 const STUDIOS = {};
-const bestOf = list => {   // bitta kino bir necha marta qo'shilgan bo'lsa — videosi va tik posteri borini
+const score = m => (hasFilm(m) ? 4 : 0) + (m.poster && !/ytimg/.test(m.poster) ? 2 : 0) + (m.rating ? 1 : 0);
+const bestOf = (list, keyOf) => {   // bitta kino bir necha marta qo'shilgan bo'lsa — videosi va tik posteri borini
   const by = new Map();
-  for (const m of list) {
-    const k = base(m).replace(/^[^\p{L}\d]+/u, '').replace(/\s*\(.*$/, '') + '|' + yr(m);
-    const sc = m2 => (hasFilm(m2) ? 4 : 0) + (m2.poster && !/ytimg/.test(m2.poster) ? 2 : 0) + (m2.rating ? 1 : 0);
-    if (!by.has(k) || sc(m) > sc(by.get(k))) by.set(k, m);
-  }
+  for (const m of list) { const k = keyOf(m); if (!by.has(k) || score(m) > score(by.get(k))) by.set(k, m); }
   return [...by.values()].sort((a, b) => yr(a) - yr(b) || a.id - b.id);
 };
 const okStudio = m => yr(m) && yr(m) <= new Date().getFullYear() + 1 && img(m) && !extra(m) && (hasFilm(m) || m.trailer);
-STUDIOS.marvel = bestOf(fr('marvel').filter(okStudio));
-STUDIOS.dc = bestOf(fr('dc').filter(okStudio));
-for (const [k, rx] of Object.entries(STUDIO_RX)) STUDIOS[k] = bestOf(M.filter(m => isAnim(m) && okStudio(m) && rx.test(names(m))));
+const frKey = m => (m.tmdb && m.tmdb.id ? 't' + m.tmdb.id : base(m).replace(/^[^\p{L}\d]+/u, '').replace(/\s*\(.*$/, '')) + '|' + yr(m);
+STUDIOS.marvel = bestOf(fr('marvel').filter(okStudio), frKey);
+STUDIOS.dc = bestOf(fr('dc').filter(okStudio), frKey);
+const taken = new Set();   // bitta kino faqat bitta studiyada
+for (const [k, films] of Object.entries(STUDIO_FILMS)) {
+  const rx = films.map(W);
+  const hit = [];
+  for (const m of M) {
+    if (taken.has(m.id) || !isAnim(m) || !okStudio(m)) continue;
+    const i = rx.findIndex(r => r.test(names(m)));
+    if (i >= 0) hit.push({ m, i });
+  }
+  const keyOf = m => hit.find(h => h.m === m).i + '|' + yr(m);
+  STUDIOS[k] = bestOf(hit.map(h => h.m), keyOf);
+  hit.forEach(h => taken.add(h.m.id));
+}
 for (const k of Object.keys(STUDIOS)) { STUDIOS[k] = STUDIOS[k].map(m => m.id); STUDIOS[k].forEach(id => pick.add(id)); }
 
 // tanlangan seriallarning qismlari ham (kino kartasidagi «N qism»)

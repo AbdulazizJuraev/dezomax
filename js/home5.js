@@ -350,8 +350,9 @@
 
   /* Kino studiyalari paneli (2026-11-19, foydalanuvchi so'rovi): Shorts paneli uslubida, tablar — Marvel, DC, Disney, Pixar…;
      kinolar chiqqan yili bo'yicha (ro'yxat — tools/gen-home-data.js → window.DZX_STUDIOS) */
-  const KS = [['marvel', 'Marvel', 'marvel.html'], ['dc', 'DC', 'catalog.html?franchise=dc'], ['disney', 'Disney', 'catalog.html?type=multfilm'], ['pixar', 'Pixar', 'catalog.html?type=multfilm'],
-    ['dreamworks', 'DreamWorks', 'catalog.html?type=multfilm'], ['illumination', 'Illumination', 'catalog.html?type=multfilm'], ['bluesky', 'Blue Sky', 'catalog.html?type=multfilm']];
+  // «Barchasi» faqat o'z sahifasi borlarida (Marvel); boshqalarida butun ro'yxat panelning o'zida — umumiy katalogga olib bormaydi
+  const KS = [['marvel', 'Marvel', 'marvel.html'], ['dc', 'DC', ''], ['disney', 'Disney', ''], ['pixar', 'Pixar', ''],
+    ['dreamworks', 'DreamWorks', ''], ['illumination', 'Illumination', ''], ['bluesky', 'Blue Sky', '']];
   let ksCur = 'marvel';
   const ksName = m => title(m).replace(/^[^\p{L}\d]+/u, '').replace(/\s*\((?:asilmedia|qisqa|\d{4}).*?\)/ig, '').replace(/\s+(multfilm|o['‘’]?zbek tilida|uzbek tilida).*$/i, '').replace(/["«»]/g, '').trim() || title(m);
   const ksList = k => { const byId = new Map(MOVIES.map(m => [m.id, m])); return ((window.DZX_STUDIOS || {})[k] || []).map(id => byId.get(id)).filter(m => m && cardImg(m)); };
@@ -362,7 +363,7 @@
     if (!tabs.some(([k]) => k === ksCur)) ksCur = tabs[0][0];
     const all = (tabs.find(([k]) => k === ksCur) || tabs[0])[2];
     return `<section class="h5-sec h5-wrap"><div class="h5-panel is-violet h5-ks" id="h5Ks">
-      ${headHTML(L('Kino studiyalar', 'Киностудии'), all).replace('class="h5-all"', 'class="h5-all" id="h5KsAll" style="color:var(--violet)"')}
+      ${headHTML(L('Kino studiyalar', 'Киностудии'), 'marvel.html').replace('class="h5-all"', `class="h5-all" id="h5KsAll" style="color:var(--violet)"${all ? '' : ' hidden'}`)}
       <div class="h5-ks-tabs" role="tablist">${tabs.map(([k, n]) => `<button type="button" role="tab" data-ks="${k}"${k === ksCur ? ' class="is-on" aria-selected="true"' : ''}>${n}</button>`).join('')}</div>
       <div class="h5-row" id="h5KsRow">${ksCards(ksCur)}</div></div></section>`;
   }
@@ -374,7 +375,7 @@
     const row = $('h5KsRow');
     if (row) { row.innerHTML = ksCards(ksCur); row.scrollLeft = 0; }
     const a = $('h5KsAll'), k = KS.find(([x]) => x === ksCur);
-    if (a && k) a.href = k[2];
+    if (a && k) { a.hidden = !k[2]; if (k[2]) a.href = k[2]; }
   });
 
   /* Jonli efir va sport paneli (js/channels.js → TV_CHANNELS) */
