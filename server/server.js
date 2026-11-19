@@ -112,7 +112,9 @@ function ytPageJson(html, name) {
 async function ytPlaylist(listId, hl = 'en') {
   if (!/^(PL|UU|OL)[\w-]{10,60}$/.test(String(listId || ''))) return { error: 'list noto‘g‘ri', status: 400 };
   if (!['en', 'ru', 'uz'].includes(hl)) hl = 'en';
-  const html = await (await fetch(`https://www.youtube.com/playlist?list=${listId}&hl=${hl}`, { headers: YT_HEAD, signal: AbortSignal.timeout(20000) })).text();
+  // sarlavha tilini hl emas, Accept-Language belgilaydi
+  const head = hl === 'en' ? YT_HEAD : { ...YT_HEAD, 'Accept-Language': `${hl};q=1, en;q=0.5` };
+  const html = await (await fetch(`https://www.youtube.com/playlist?list=${listId}&hl=${hl}`, { headers: head, signal: AbortSignal.timeout(20000) })).text();
   const cfg = { key: html.match(/"INNERTUBE_API_KEY":"([^"]+)"/)?.[1], ver: html.match(/"INNERTUBE_CLIENT_VERSION":"([^"]+)"/)?.[1] };
   const take = d => {
     const out = [];
@@ -138,7 +140,7 @@ async function ytPlaylist(listId, hl = 'en') {
   let tok = JSON.stringify(data).match(/"continuationCommand":\{"token":"([^"]+)"/)?.[1], n = 0;
   while (tok && cfg.key && n++ < 10) {
     const r = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${cfg.key}`, {
-      method: 'POST', headers: { ...YT_HEAD, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(20000),
+      method: 'POST', headers: { ...head, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(20000),
       body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: cfg.ver, hl } }, continuation: tok }),
     });
     if (!r.ok) break;

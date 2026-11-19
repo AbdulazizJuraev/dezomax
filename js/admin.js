@@ -4603,7 +4603,7 @@ const ytSecs = len => { const p = String(len || '').split(':').map(Number); retu
 // ruscha/inglizcha kanal videosi (tools/yt-channel-all.js bilan bir xil yozuv): nom — sarlavhaning birinchi qismi
 const YT_TR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sch', ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya' };
 function ytForeignItem(ch, v, k, id) {
-  const parts = String(v.title).replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/#[\p{L}\p{N}_]+/gu, '').split(/\s*\|\s*/)
+  const parts = String(v.title).replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').replace(/#[\p{L}\p{N}_]+/gu, '').split(/\s*\|\s*|\s*[–—]\s*/)   // «Nomi – Кинохиты – Новинки кино» ham
     .map(p => p.replace(/\s{2,}/g, ' ').replace(/^[\s\-–—:]+|[\s\-–—:]+$/g, '').trim()).filter(Boolean);
   let name = parts[0] || String(v.title).trim();
   const letters = name.replace(/[^\p{L}]/gu, ''), caps = letters.replace(/[^\p{Lu}]/gu, '').length;
