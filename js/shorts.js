@@ -138,10 +138,9 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   }
   const social = {};          // yid → { likes, dislikes, mine, total, comments, yt }
 
-  feed.innerHTML = list.map((s, i) => `
-    <section class="sh-slide" data-i="${i}" data-id="${s.id}">
-      <img class="sh-thumb" data-src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" decoding="async">
-      <div class="sh-frame"></div>
+  /* Tezlik (2026-11-19): 690 ta slaydning hammasi to'liq chizilsa (~27 000 element) telefonda sahifa 20 s qotardi.
+     Endi har bir slayd — yengil qobiq (muqova + pleyer joyi); matn va tugmalar faqat joriy va yonidagi slaydlarda (fill). */
+  const fullHTML = (s, i) => `
       <button class="sh-tap" type="button" aria-label="${ru ? 'Пауза / воспроизвести' : 'Pauza / davom ettirish'}"><span class="sh-paused">${ICON.play}</span></button>
       <div class="sh-info">
         <div class="sh-trow">
@@ -155,10 +154,11 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
         <button class="sh-act sh-dislike" type="button" aria-label="${T.dislike}"><span class="sh-btn">${ICON.dislike}</span><b data-n="dislike">${T.dislike}</b></button>
         <button class="sh-act sh-comments" type="button" aria-label="${T.comments}"><span class="sh-btn">${ICON.comment}</span><b data-n="comments">0</b></button>
         <button class="sh-act sh-share" type="button" aria-label="${T.share}"><span class="sh-btn">${ICON.share}</span><b>${T.share}</b></button>
-      </div>
-    </section>`).join('');
+      </div>`;
+  feed.innerHTML = list.map((s, i) => `<section class="sh-slide" data-i="${i}" data-id="${s.id}"><img class="sh-thumb" data-src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" decoding="async"><div class="sh-frame"></div></section>`).join('');
 
   const slides = [...feed.querySelectorAll('.sh-slide')];
+  const fill = k => { const sl = slides[k]; if (sl && !sl._f) { sl._f = 1; sl.insertAdjacentHTML('beforeend', fullHTML(list[k], k)); } };
   const thumbEls = slides.map(sl => sl.querySelector('.sh-thumb'));
   const isApp = /DezoMaxApp|; wv\)/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
   // ovoz bilan boshlanadi (foydalanuvchi so'rovi); brauzer ovozli avtoijroga ruxsat bermasa — 1,5 s dan keyin ovozsiz
@@ -188,7 +188,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   /* ---------- baho va izohlar ---------- */
   function paintSocial(i) {
     const sl = slides[i], s = social[list[i].id];
-    if (!sl || !s) return;
+    if (!sl || !s || !sl._f) return;
     const yt = s.yt || {};
     sl.querySelector('[data-n="like"]').textContent = (s.likes || 0) + (yt.likes || 0) ? fmtN((s.likes || 0) + (yt.likes || 0)) : T.like;
     sl.querySelector('[data-n="dislike"]').textContent = s.dislikes ? fmtN(s.dislikes) : T.dislike;
@@ -264,6 +264,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   const saveData = !!(navigator.connection && navigator.connection.saveData);
   let prewarmT;
   function thumbs(i) {
+    for (let k = Math.max(0, i - 2); k <= i + 3; k++) fill(k);
     thumbEls.forEach((img, k) => {
       const near = k >= i - 1 && k <= i + 2;
       if (near && !img.getAttribute('src')) img.src = img.dataset.src;
@@ -310,8 +311,8 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
       if (active !== i || sl.classList.contains('is-live')) return;
       muted = true; autoMuted = true; send(sl, 'mute'); send(sl, 'playVideo'); paintSound();
     }, 4500);
-    loadSocial(i);
     thumbs(i);
+    loadSocial(i);
     try { history.replaceState(null, '', '#' + id); } catch {}
   }
   // joriy video o'ynay boshlagach — keyingisining pleyeri oldindan (pauzada, ovozsiz); trafik tejash rejimida — yo'q

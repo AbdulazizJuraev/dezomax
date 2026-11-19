@@ -28,6 +28,7 @@ const IMG = 'dzx-img-v1';
 const PACK = 'dzx-pack-v1';
 const DATA = 'dzx-data-v1';
 const KEEP = [SHELL, PAGES, IMG, PACK, DATA];
+const BIG_DATA = /data-(site|desc|home|channels|rutube|rutube-desc|shorts)\.js$|seo-pages\.js$/i;
 const DATA_MAX = 200;
 const IMG_MAX = 900;
 const PAGES_MAX = 250;
@@ -85,6 +86,7 @@ self.addEventListener('message', e => {
         const url = new URL(u, self.registration.scope);
         if (url.origin !== self.location.origin || !/\.(js|css)$/i.test(url.pathname)) continue;
         if (url.searchParams.has('t')) continue;     // data-custom.js?t= — networkFirst o'zi saqlaydi
+        if (BIG_DATA.test(url.pathname)) continue;   // katta baza — har deploy'da qayta yuklanmaydi (staleWhileRevalidate)
         fresh.set(url.pathname, url.href);
         if (await shell.match(url.href)) continue;
         const res = await fetch(url.href);
@@ -135,7 +137,7 @@ self.addEventListener('fetch', e => {
       // admin va tez o'zgaradigan ma'lumot — avval internet
       // katta kino bazasi (18 MB va h.k.) — telefondagi nusxadan DARHOL, yangisi orqa fonda yuklanadi (keyingi ochilishda ko'rinadi).
       // Avval har bo'limda internet kutilardi (1–2 s), 2026-11-18
-      if (!url.searchParams.has('t') && /data-(site|desc|home|channels|rutube|rutube-desc|shorts)\.js$|seo-pages\.js$/i.test(p)) e.respondWith(staleWhileRevalidate(e, req, SHELL, url.origin + p));
+      if (!url.searchParams.has('t') && BIG_DATA.test(p)) e.respondWith(staleWhileRevalidate(e, req, SHELL, url.origin + p));
       else if (url.searchParams.has('t') || /data-custom\.js$|lang-videos\.js$|site-config\.js$|admin/i.test(p)) e.respondWith(networkFirst(req, SHELL, url.origin + p));
       else e.respondWith(cacheFirst(req, SHELL));
       return;
@@ -261,16 +263,23 @@ async function pack(items, port) {
   if (port) port.postMessage({ ok, fail });
 }
 
+// Katta bazani har kirishda qayta yuklamaymiz (18 MB — telefonda sahifa bilan internetni talashardi): ko'pi bilan 30 daqiqada bir marta.
+const SWR_FRESH = 30 * 60000;
+const swrBusy = new Set();
 async function staleWhileRevalidate(e, req, name, key) {
   const cache = await caches.open(name);
   const hit = await cache.match(key, { ignoreSearch: true });
-  const net = fetch(req).then(res => {
+  const at = hit ? Number(hit.headers.get('x-dzx-at') || 0) : 0;
+  if (hit && (Date.now() - at < SWR_FRESH || swrBusy.has(key))) return hit;
+  swrBusy.add(key);
+  const net = fetch(req).then(async res => {
     if (!res || !res.ok) return res;
-    const copy = res.clone();
+    const h = new Headers(res.headers); h.set('x-dzx-at', String(Date.now()));
+    const copy = new Response(await res.clone().blob(), { status: res.status, statusText: res.statusText, headers: h });
     // eski nusxalar (?v=eski) o'chiriladi — keyingi safar aynan shu yangi nusxa ochilsin
     return cache.keys(key, { ignoreSearch: true }).then(ks => Promise.all(ks.map(k => cache.delete(k))))
       .then(() => cache.put(key, copy)).then(() => res, () => res);
-  });
+  }).finally(() => swrBusy.delete(key));
   if (!hit) return net;
   e.waitUntil(net.catch(() => {}));   // orqa fonda yangilanadi
   return hit;
