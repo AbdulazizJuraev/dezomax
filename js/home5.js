@@ -76,7 +76,9 @@
     const row = card.parentElement.closest('.h5-row, .h5-grid');
     if (!row || row.classList.contains('is-land') || row.closest('.h5-top')) return;
     const cards = row.querySelectorAll('.h5-poster');
-    if (row.querySelectorAll('.h5-poster.is-fit').length * 2 <= cards.length) return;
+    // yuklangan rasmlarning 1/3 dan ko'pi albom bo'lsa — qator albom (masalan Konsertlar; qolganlari lazy, hali yuklanmagan)
+    const loaded = [...cards].filter(c => { const i = c.querySelector('img'); return i && i.complete && i.naturalWidth; }).length;
+    if (loaded < 3 || row.querySelectorAll('.h5-poster.is-fit').length * 3 <= loaded) return;
     row.classList.add('is-land');
     cards.forEach(c => { c.classList.add('is-land'); c.classList.remove('is-fit'); const i = c.querySelector('img'); if (i && i.complete) window.h5Fit(i); });
   };
@@ -549,9 +551,9 @@
   function hoverHTML() {
     const list = uniq(MOVIES.filter(m => (ytId(m.trailer) || ytId(m.video)) && rt(m) >= 6.5 && !isExtraVideo(m)).sort((a, b) => rt(b) - rt(a))).slice(0, 14);
     if (list.length < 6) return '';
-    return `<section class="h5-sec h5-wrap">${headHTML(L('Treylerlar', 'Трейлеры'), 'catalog.html?watch=trailer', '', `<small class="h5-hint">${L('sichqonchani olib boring', 'наведите курсор')}</small>`)}
+    return `<section class="h5-sec h5-wrap">${headHTML(L('Treylerlar', 'Трейлеры'), 'catalog.html?watch=trailer')}
       <div class="h5-row h5-hv-row">${list.map(m => { const tr = ytId(m.trailer), id = tr || ytId(m.video);
-        return `<a class="h5-hv" href="${movieHref(m)}" data-yt="${id}" data-st="${tr ? 0 : 300}"><span class="h5-hv-t">${ic(m.type === 'serial' ? 'tv' : m.type === 'multfilm' ? 'toon' : 'film')}${esc(title(m))}</span><small>${esc(subOf(m))}</small></a>`; }).join('')}</div></section>`;
+        return `<a class="h5-hv" href="${movieHref(m)}" data-yt="${id}" data-st="${tr ? 0 : 300}" style="--thumb:url('https://i.ytimg.com/vi/${id}/hqdefault.jpg')"><span class="h5-hv-t">${ic(m.type === 'serial' ? 'tv' : m.type === 'multfilm' ? 'toon' : 'film')}${esc(title(m))}</span><small>${esc(subOf(m))}</small></a>`; }).join('')}</div></section>`;
   }
   function initHover() {
     /* Yengil (foydalanuvchi: «qotib ochilyapti», 2026-11-18): YouTube pleyeri og'ir — telefonda sahifa bilan bir oqimda

@@ -525,3 +525,70 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 
 /* ekrandan tashqaridagi bo'limlar chizilmaydi (brauzer o'zi, ekranga yaqinlashganda) — bosh sahifa yengilroq, ayniqsa telefonda */
 .h5-rows > .h5-sec { content-visibility: auto; contain-intrinsic-size: auto 460px; }
+
+/* ===== 2026-11-19: bosh sahifa telefon tuzatishlari (foydalanuvchi so'rovi, 7 band) ===== */
+/* 2) Treylerlar — rasm doim ko'rinadi (oq bo'sh karta emas), matn pastda oq */
+.h5-hv { background: #0b0f0c var(--thumb) center / cover no-repeat; color: #fff; justify-content: flex-end; }
+.h5-hv::after { content: ""; position: absolute; inset: 40% 0 0 0; z-index: 0; background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .85)); pointer-events: none; }
+.h5-hv > :not(iframe):not(.h5-hv-sl) { position: relative; z-index: 2; }
+.h5-hv small { color: rgba(255, 255, 255, .75); }
+
+/* 4) Albom qatorda tik rasm — bo'sh joyli albom karta emas, tik karta (balandligi bir xil); tik qatorda albom rasm — albom karta */
+.h5-row .h5-poster.is-land.is-fit { width: calc(clamp(240px, 24vw, 360px) * .375); aspect-ratio: 2/3; }
+.h5-row.is-sm .h5-poster.is-land.is-fit { width: calc(clamp(220px, 20vw, 300px) * .375); }
+.h5-row .h5-poster.is-fit:not(.is-land) { width: calc(clamp(150px, 17.5vw, 250px) * 2.667); aspect-ratio: 16/9; }
+.h5-row.is-sm .h5-poster.is-fit:not(.is-land) { width: calc(clamp(130px, 12.6vw, 190px) * 2.667); }
+.h5-row .h5-poster.is-fit img, .h5-grid .h5-poster.is-fit img { object-fit: cover; object-position: 50% 22%; }
+.h5-row .h5-poster.is-land.is-fit .h5-shade { inset: 50% 0 0 0; }
+.h5-row .h5-poster.is-land.is-fit .h5-t { font-size: .8rem; }
+.h5-row .h5-poster.is-land.is-fit .h5-m { display: none; }
+
+@media (max-width: 760px) {
+  /* 4) to'rlar ham karusel */
+  .h5-grid { display: flex; overflow-x: auto; scroll-snap-type: x proximity; gap: 10px; padding-bottom: 6px; scrollbar-width: none; }
+  .h5-grid::-webkit-scrollbar { display: none; }
+  .h5-grid > * { flex: none; width: 150px; scroll-snap-align: start; }
+  .h5-grid.is-land > * { width: 240px; }
+  .h5-grid.is-land > .h5-poster.is-fit { width: 90px; aspect-ratio: 2/3; }
+  .h5-grid:not(.is-land) > .h5-poster.is-fit { width: 400px; aspect-ratio: 16/9; }
+
+  /* 3) Cheksiz tomosha: sarlavha → matn → kattaroq posterlar → «Boshlash» o'rtada */
+  .h5-fan { padding: 26px 18px 24px; }
+  .h5-fan-copy { display: contents; }
+  .h5-fan h2 { font-family: Manrope, system-ui, sans-serif; font-weight: 800; font-size: 1.6rem; line-height: 1.15; letter-spacing: -.02em; text-align: center; }
+  .h5-fan h2 a { text-decoration: none; color: #fff; border-bottom: 2px solid rgba(139, 224, 78, .7); }
+  .h5-fan p { text-align: center; font-size: .92rem; margin: 0 0 .4rem; }
+  .h5-fan-cards { order: 3; height: 290px; margin: 0 -18px; }
+  .h5-fan-c { width: 128px; }
+  .h5-fan .h5-sq { order: 4; align-self: center; margin-top: 6px; padding: .9em 2.2em; }
+
+  /* 5) Yangi pleyer: rasm to'liq ko'rinadi, matnlar rasm tagida */
+  .h5-tour { aspect-ratio: auto; min-height: 0; display: flex; flex-direction: column; background: transparent; border-radius: 0; overflow: visible; contain: none; transform: none; }
+  .h5-tour::after { display: none; }
+  .h5-tour-bg { position: relative; inset: auto; height: auto; aspect-ratio: 16/10; border-radius: 16px; }
+  .h5-tour-bar { position: absolute; top: 10px; left: 10px; padding: 6px; gap: 6px; border-radius: 12px; background: rgba(0, 0, 0, .55); }
+  .h5-tour-bar button { width: 38px; border-radius: 10px; background: rgba(30, 30, 30, .8) !important; }
+  .h5-tour-demo { display: none; }   /* demo oynalari rasmni yopib qo'yardi */
+  .h5-tour-cap { position: static; width: auto; margin-top: 12px; }
+  .h5-tc { padding: 0 2px; background: none; border-radius: 0; }
+  .h5-tc b { font-size: 1rem; }
+  .h5-tc p { font-size: .84rem; }
+
+  /* 7) Har qanday ekranda — ixchamroq */
+  .h5-app-copy { padding: 20px 18px 0; }
+  .h5-app-copy .h5-eyebrow { margin-bottom: .5rem; }
+  .h5-app-copy h2 { font-size: 1.5rem; margin-bottom: .6rem; }
+  .h5-app-copy p { font-size: .88rem; margin-bottom: 1rem; }
+  .h5-stores { gap: .5rem; }
+  .h5-stores > * { font-size: .78rem; padding: .55em .8em; }
+  .h5-store svg { width: 18px; height: 18px; }
+  .h5-devices { height: 190px; }
+  .h5-dev.is-phone { width: 92px; top: 8%; } .h5-dev.is-tablet { width: 52%; top: 26%; }
+}
+
+/* 1) Har kayfiyatga — telefonda karusel */
+@media (max-width: 640px) {
+  .h5-bento { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter) 4px; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+  .h5-bento::-webkit-scrollbar { display: none; }
+  .h5-bc, .h5-bc.is-big, .h5-bc.is-wide { flex: 0 0 82%; min-height: 210px; scroll-snap-align: start; }
+}
