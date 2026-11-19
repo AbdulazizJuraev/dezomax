@@ -120,7 +120,10 @@
     const byId = new Map(MOVIES.map(m => [m.id, m]));
     const pop = (popIds || []).map(id => byId.get(id)).filter(heroArtOk);
     const hid = new Set(heroHidden());
-    const list = [...new Set([...admin, ...pop])].filter(m => !hid.has(m.id)).slice(0, 8);
+    let all = [...new Set([...admin, ...pop])].filter(m => !hid.has(m.id));
+    // admin → «Katta slayder» → «Tasodifiy tartib»: har ochilishda boshqa tartib (va 8 tadan ko'p bo'lsa — boshqa kinolar)
+    if (CFG.hero && CFG.hero.random) all = all.map(m => [Math.random(), m]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+    const list = all.slice(0, 8);
     return list.length ? list : heroCompose([]).slice(0, 8);
   }
   /* Sekin internet: index.html faqat js/data-home.js ni yuklaydi — kerakli kino unda bo'lmasa, to'liq ro'yxat bir marta */

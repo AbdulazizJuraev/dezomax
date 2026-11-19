@@ -3004,7 +3004,7 @@ async function loadConfig() {
   }
   const def = defaultConfig();
   siteDraft = {
-    hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, kidsIds: cfg?.hero?.kidsIds || [], delay: Math.min(60, Math.max(3, +cfg?.hero?.delay || 7)) },
+    hero: { ids: cfg?.hero?.ids?.length ? cfg.hero.ids : def.hero.ids, kidsIds: cfg?.hero?.kidsIds || [], delay: Math.min(60, Math.max(3, +cfg?.hero?.delay || 7)), random: !!cfg?.hero?.random },
     rows: cfg?.rows?.length ? cfg.rows.map(r => ({ title: { uz: '', ru: '' }, visible: true, ...r })) : def.rows,
     logo: { ...ADM_LOGO_DEFAULT, ...(cfg?.logo || {}) },
     posters: cfg?.posters || {}
@@ -3014,7 +3014,7 @@ async function loadConfig() {
 /* Saqlanadigan sozlama (js/site-config.js): slayder, qatorlar va LogoVidio */
 function cleanSiteConfig(d) {
   return {
-    hero: { ids: d.hero.ids, ...((d.hero.kidsIds || []).length ? { kidsIds: d.hero.kidsIds } : {}), delay: d.hero.delay },
+    hero: { ids: d.hero.ids, ...((d.hero.kidsIds || []).length ? { kidsIds: d.hero.kidsIds } : {}), delay: d.hero.delay, ...(d.hero.random ? { random: true } : {}) },
     rows: d.rows.map(r => {
       const o = { source: r.source, visible: r.visible !== false };
       if (r.title?.uz || r.title?.ru) o.title = { uz: r.title.uz || '', ru: r.title.ru || '' };
@@ -3261,6 +3261,7 @@ async function renderSiteView() {
         <input class="adm-range" type="range" id="admDelay" min="3" max="60" step="1" value="${+d.hero.delay}" aria-label="Treyler davomiyligi (soniya)">
         <small class="acc-muted">3 soniyadan 1 daqiqagacha. Treyler undan qisqa bo‘lsa, tugashi bilan keyingi slaydga o‘tadi.</small>
       </div>
+      <label class="adm-rights" style="margin:4px 0 14px"><input type="checkbox" id="admHeroRandom"${d.hero.random ? ' checked' : ''}><span><b>Tasodifiy tartib</b> — saytga har kirganda slayder kinolari aralash tartibda chiqadi (ro‘yxatdan har safar boshqa 8 ta kino). O‘chirilsa — quyidagi tartib bo‘yicha.</span></label>
       <label class="adm-label">Slayderdagi kinolar (tartib bo‘yicha)</label>
       <div id="admHeroPicker">${pickerHTML('hero', d.hero.ids, 40)}</div>
       <div class="adm-actions" style="margin-top:12px">
@@ -3317,6 +3318,7 @@ async function renderSiteView() {
 
   // slayder
   box.querySelectorAll('[data-sec]').forEach(b => b.addEventListener('click', () => { d.hero.delay = +b.dataset.sec; rerender(); }));
+  $('#admHeroRandom')?.addEventListener('change', e => { d.hero.random = e.target.checked; rerender(); });
   $('#admDelay').addEventListener('input', e => {
     d.hero.delay = +e.target.value;
     $('#admDelayVal').textContent = delayText(d.hero.delay);

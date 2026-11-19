@@ -25,7 +25,8 @@ const SITE_CONFIG = /*CONFIG*/{
       7406264,
       7222691
     ],
-    "delay": 10
+    "delay": 10,
+    "random": true
   },
   "rows": [
     {
