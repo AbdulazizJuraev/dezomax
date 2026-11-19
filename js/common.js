@@ -625,6 +625,56 @@ function mountBurger() {
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mountBurger); else setTimeout(mountBurger, 0);
 
+/* ---------- Profil menyusi (YouTube uslubida, foydalanuvchi so'rovi 2026-11-19) ---------- */
+function dzxAcctMenu(menu) {
+  if (!menu) return;
+  const ru = typeof LANG !== 'undefined' && LANG === 'ru';
+  const L = (uz, r) => (ru ? r : uz);
+  const u = typeof Auth !== 'undefined' && Auth.user ? Auth.user() : null;
+  const P = {
+    g: '<path d="M20.6 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h4.8a4.2 4.2 0 0 1-1.8 2.7M15 16.6A5.6 5.6 0 0 1 6.6 13.8M6.6 10.2A5.6 5.6 0 0 1 15.6 7.8l2.6-2.6A9.2 9.2 0 1 0 18.3 18.8"/>',
+    sw: '<rect x="3" y="4" width="13" height="16" rx="2"/><circle cx="9.5" cy="10" r="2.3"/><path d="M6 16.5a3.6 3.6 0 0 1 7 0M19 7v10"/>',
+    out: '<path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M14 8l4 4-4 4M18 12H9"/>',
+    in: '<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M10 8l4 4-4 4M14 12H4"/>',
+    lib: '<path d="M4 5h4v14H4zM10 5h4v14h-4zM16.5 5.5l3.5 1-3.4 13-3.5-1"/>',
+    dl: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+    pay: '<circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-.8-1.7-1.2-3-1.2-1.7 0-3 .8-3 2s1.3 1.7 3 2 3 .8 3 2-1.3 2-3 2c-1.3 0-2.4-.4-3-1.2M12 6.5v11"/>',
+    data: '<path d="M12 3 5 6v5c0 4.5 3 8.4 7 10 4-1.6 7-5.5 7-10V6Z"/><circle cx="12" cy="10.5" r="2.2"/><path d="M8.6 16a3.8 3.8 0 0 1 6.8 0"/>',
+    lang: '<path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.6 5 7M11 5c-.8 4-3.4 7-7 8.5M13 20l4-9 4 9M14.4 17h5.2"/>',
+    key: '<rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h1M10 10h1M14 10h1M18 10h0M7 14h10"/>',
+    set: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
+    help: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17h0"/>',
+    fb: '<path d="M4 4h16v12H8l-4 4Z"/><path d="M12 7.5v4M12 13.8h0"/>'
+  };
+  const ic = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${P[k]}</svg>`;
+  const it = (k, label, href, attr = '', more = false) => `<a class="h5-mi" href="${href}"${attr}>${ic(k)}<span>${label}</span>${more ? '<i class="h5-mi-ch" aria-hidden="true"></i>' : ''}</a>`;
+  const nm = u ? (u.name || (u.email || '').split('@')[0] || 'DezoMax') : L('Mehmon', 'Гость');
+  const av = u && u.photo ? `<img src="${esc(u.photo)}" alt="" referrerpolicy="no-referrer">` : u ? esc((nm[0] || 'D').toUpperCase()) : '<svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>';
+  menu.innerHTML = `<div class="h5-menu-h" id="h5MenuH"><span class="h5-mh-av">${av}</span><span class="h5-mh-tx"><b>${esc(nm)}</b><small>${u && u.email ? esc(u.email) : L('Kirmagansiz', 'Вы не вошли')}</small>
+      <a class="h5-mh-link" href="account.html">${u ? L('Profilni ko‘rish', 'Посмотреть профиль') : L('Kirish', 'Войти')}</a></span></div>
+    ${u ? `<div class="h5-mg">${u.method === 'google' ? it('g', L('Google akkaunt', 'Аккаунт Google'), 'https://myaccount.google.com/', ' target="_blank" rel="noopener"') : ''}${it('sw', L('Akkauntni almashtirish', 'Сменить аккаунт'), 'account.html', ' data-acc-switch', true)}${it('out', L('Chiqish', 'Выйти'), '#', ' data-acc-out')}</div>`
+    : `<div class="h5-mg">${it('in', L('Kirish', 'Войти'), 'account.html')}</div>`}
+    <div class="h5-mg">${it('lib', L('Kutubxona', 'Библиотека'), 'favorites.html')}${it('dl', L('Yuklab olinganlar', 'Загрузки'), 'downloads.html')}${it('pay', L('Obuna va to‘lovlar', 'Подписка и платежи'), 'plans.html')}</div>
+    <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), 'account.html')}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${ru ? 'Русский' : 'O‘zbekcha'}`, '#', ` data-setlang="${ru ? 'uz' : 'ru'}"`, true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
+    <div class="h5-mg">${it('set', L('Sozlamalar', 'Настройки'), 'account.html')}</div>
+    <div class="h5-mg">${it('help', L('Yordam', 'Справка'), 'about.html')}${it('fb', L('Fikr yuborish', 'Отправить отзыв'), 'contacts.html')}</div>`;
+}
+// menyu tugmalari: chiqish / almashtirish / tezkor tugmalar
+document.addEventListener('click', async e => {
+  const a = e.target.closest('[data-acc-out], [data-acc-switch], [data-acc-keys]');
+  if (!a) return;
+  e.preventDefault();
+  const ru = typeof LANG !== 'undefined' && LANG === 'ru';
+  if (a.hasAttribute('data-acc-keys')) {
+    alert(ru ? 'Быстрые клавиши (плеер):\nПробел / K — пауза\n← / → — 10 сек назад / вперёд\nF — полный экран\nM — без звука\n/ — поиск'
+             : 'Tezkor tugmalar (pleyer):\nProbel / K — pauza\n← / → — 10 soniya orqaga / oldinga\nF — to‘liq ekran\nM — ovozsiz\n/ — qidiruv');
+    return;
+  }
+  if (typeof Auth !== 'undefined') { try { await Auth.signOut(); } catch (e2) {} }
+  if (a.hasAttribute('data-acc-switch')) location.href = 'account.html';
+  else location.reload();
+});
+
 function mountNav5() {
   const old = document.querySelector('header.header');
   const file = /\/kino\//.test(location.pathname) ? 'kino' : location.pathname.split('/').pop() || 'index.html';
@@ -655,14 +705,12 @@ function mountNav5() {
       <a class="h5-ib" id="h5Bell" href="catalog.html?sort=new" aria-label="${L('Bildirishnomalar', 'Уведомления')}" title="${L('Bildirishnomalar', 'Уведомления')}"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><i hidden></i></a>
       <div class="h5-me">
         <button class="h5-ava" type="button" id="h5Ava" data-account-btn aria-label="${L('Profil', 'Профиль')}" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></button>
-        <div class="h5-menu" id="h5Menu">
-          <a href="account.html">${L('Akkaunt', 'Аккаунт')}</a><a href="favorites.html">${L('Kutubxona', 'Библиотека')}</a><a href="downloads.html">${L('Yuklab olinganlar', 'Загрузки')}</a>
-          <a href="plans.html">${L('Obuna', 'Подписка')}</a><a href="marvel.html">Marvel</a><a href="shorts.html">Shorts</a><a href="contacts.html">${L('Aloqa', 'Контакты')}</a>
-        </div>
+        <div class="h5-menu" id="h5Menu"></div>
       </div>
     </div>
   </div>`;
   old.replaceWith(hd);
+  dzxAcctMenu(hd.querySelector('#h5Menu'));
   document.documentElement.classList.add('has-nav5');
   mountBurger();
 

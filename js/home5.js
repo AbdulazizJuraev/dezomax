@@ -796,8 +796,8 @@
     if (user) {
       const nm = user.name || user.email || '';
       ava.innerHTML = user.photo ? `<img src="${esc(user.photo)}" alt="" referrerpolicy="no-referrer">` : esc((nm[0] || 'D').toUpperCase());
-      $('h5MenuH').innerHTML = `<b>${esc(nm || 'DezoMax')}</b><small>${esc(user.email || '')}</small>`;
     }
+    if (typeof dzxAcctMenu === 'function') dzxAcctMenu(menu);   // YouTube uslubidagi profil menyusi (common.js)
     ava.addEventListener('click', e => { e.stopPropagation(); const o = menu.classList.toggle('is-open'); ava.setAttribute('aria-expanded', o); });
     document.addEventListener('click', e => { if (!e.target.closest('.h5-me')) { menu.classList.remove('is-open'); ava.setAttribute('aria-expanded', 'false'); } });
     addEventListener('keydown', e => { if (e.key === 'Escape') menu.classList.remove('is-open'); });
