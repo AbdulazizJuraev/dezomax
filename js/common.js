@@ -111,6 +111,8 @@ function partsOf(m) {
 /* Kanal videolari (kino tahlillari — FarZidGuy va h.k.) kino emas: faqat o'z bo'limida («Kino tahlillari»),
    bosh sahifa pastida va qidiruvda kinolardan keyin; katalog, «O'xshash kinolar», TOP-10 — faqat kinolar */
 const isExtraVideo = m => !!m && m.franchise === 'tahlil';
+/* Faqat treyleri bor (to'liq kinosi yo'q) yozuvlar — faqat «Treylerlar» bo'limida (catalog.html?watch=trailer), boshqa joyda ko'rinmaydi (2026-11-19) */
+const isTrailerOnly = m => !!m && !m.video && !!m.trailer && !(Array.isArray(m.parts) && m.parts.length) && !(Array.isArray(m.eps) && m.eps.length);
 /* Kinoning tili (ovozi): audio (YouTube kanallar, Telegram), lang (RuTube), o'zbek kinolari — 'uz' */
 const audioLang = m => (m && (m.audio || m.lang || (m.franchise === 'uzbek' ? 'uz' : ''))) || '';
 /* «Rus tilidagi kinolar», «Ingliz tilidagi kinolar» (bosh sahifa qatori, catalog.html?lang=ru|en): to'liq kino, tahlil emas */
@@ -652,7 +654,8 @@ const NAV5_IC = {
   multfilm: '<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/>',
   tvset: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
   live: '<circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
-  sport: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'
+  sport: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+  trailer: '<path d="M4 6h16v12H4zM4 9h16M4 15h16M8 6v3M12 6v3M16 6v3M8 15v3M12 15v3M16 15v3"/>'
 };
 /* Telefon: logo chapida ☰ — ichida Seriallar, Multfilmlar, Sport (yuqoridagi bo'limlar qatori telefonda yashirin;
    asosiy bo'limlar pastki panelda). Bosh sahifadagi tayyor menyuga ham qo'shiladi. 2026-11-19 */
@@ -753,12 +756,13 @@ function mountNav5() {
   const type = new URLSearchParams(location.search).get('type');
   let mv = null;   // kino sahifasida — kinoning turi bo'yicha bo'lim belgilanadi
   try { mv = (file === 'kino' || file === 'movie.html') && typeof movie !== 'undefined' ? movie : null; } catch (e) {}
-  const cur = file === 'catalog.html' ? type : file === 'tv.html' ? 'tvset' : file === 'live.html' ? 'live' : file === 'sport.html' ? 'sport' : mv && mv.type ? mv.type : '';
+  const cur = file === 'catalog.html' ? (new URLSearchParams(location.search).get('watch') === 'trailer' ? 'trailer' : type) : file === 'tv.html' ? 'tvset' : file === 'live.html' ? 'live' : file === 'sport.html' ? 'sport' : mv && mv.type ? mv.type : '';
   const links = [
     ['index.html', 'home', L('Bosh sahifa', 'Главная')],
     ['catalog.html?type=film', 'film', L('Filmlar', 'Фильмы')],
     ['catalog.html?type=serial', 'serial', L('Seriallar', 'Сериалы')],
     ['catalog.html?type=multfilm', 'multfilm', L('Multfilmlar', 'Мультфильмы')],
+    ['catalog.html?watch=trailer', 'trailer', L('Treylerlar', 'Трейлеры')],
     ['live.html', 'live', L('Jonli efir', 'Прямой эфир')],
     ['tv.html', 'tvset', L('Telekanallar', 'Телеканалы')],
     ['sport.html', 'sport', L('Sport', 'Спорт')]

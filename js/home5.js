@@ -733,6 +733,8 @@
 
   /* ---------- barcha bloklar ---------- */
   function renderRows() {
+    // faqat treylerlar — bosh sahifada yo'q (ular «Treylerlar» bo'limida); MOVIES joyida qisqartiriladi
+    { let w = 0; for (let i = 0; i < MOVIES.length; i++) if (!isTrailerOnly(MOVIES[i])) MOVIES[w++] = MOVIES[i]; MOVIES.length = w; }
     const rows = ((CFG.rows && CFG.rows.length) ? CFG.rows : DEFAULT_ROWS).filter(r => r.visible !== false);
     const titleOf = row => (row.title && (row.title[LANG] || row.title.uz)) || (row.source !== 'custom' ? t('row.' + row.source) : '');
     const take = src => { const i = rows.findIndex(r => r.source === src); return i < 0 ? null : rows.splice(i, 1)[0]; };

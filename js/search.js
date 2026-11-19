@@ -66,7 +66,7 @@ function searchTextOf(m) {
 function searchMovies(query) {
   const q = norm(query);
   if (!q) return [];
-  return MOVIES.map(m => {
+  return MOVIES.filter(m => !isTrailerOnly(m)).map(m => {
     const { titles, rest } = searchTextOf(m);
     const score = matchesQ(titles, q) ? (titles.startsWith(q) ? 3 : 2) : matchesQ(rest, q) ? 1 : 0;
     return { m, score };
