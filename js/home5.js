@@ -343,6 +343,35 @@
         <span class="h5-play"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z" fill="#fff"/></svg></span><span class="h5-sc">${esc(s.t)}</span></a>`).join('')}</div></div></section>`;
   }
 
+  /* Kino studiyalari paneli (2026-11-19, foydalanuvchi so'rovi): Shorts paneli uslubida, tablar — Marvel, DC, Disney, Pixar…;
+     kinolar chiqqan yili bo'yicha (ro'yxat — tools/gen-home-data.js → window.DZX_STUDIOS) */
+  const KS = [['marvel', 'Marvel', 'marvel.html'], ['dc', 'DC', 'catalog.html?franchise=dc'], ['disney', 'Disney', 'catalog.html?type=multfilm'], ['pixar', 'Pixar', 'catalog.html?type=multfilm'],
+    ['dreamworks', 'DreamWorks', 'catalog.html?type=multfilm'], ['illumination', 'Illumination', 'catalog.html?type=multfilm'], ['bluesky', 'Blue Sky', 'catalog.html?type=multfilm']];
+  let ksCur = 'marvel';
+  const ksName = m => title(m).replace(/^[^\p{L}\d]+/u, '').replace(/\s*\((?:asilmedia|qisqa|\d{4}).*?\)/ig, '').replace(/\s+(multfilm|o['‘’]?zbek tilida|uzbek tilida).*$/i, '').replace(/["«»]/g, '').trim() || title(m);
+  const ksList = k => { const byId = new Map(MOVIES.map(m => [m.id, m])); return ((window.DZX_STUDIOS || {})[k] || []).map(id => byId.get(id)).filter(m => m && cardImg(m)); };
+  const ksCards = k => ksList(k).map(m => `<a class="h5-ks-c" href="${movieHref(m)}"><img src="${esc(cardImg(m))}" alt="" loading="lazy" decoding="async" onerror="this.closest('a').remove()"><span class="h5-shade"></span><b class="h5-ks-y">${m.year}</b><span class="h5-sc">${esc(ksName(m))}</span></a>`).join('');
+  function kinoStudioHTML() {
+    const tabs = KS.filter(([k]) => ksList(k).length >= 3);
+    if (!tabs.length) return '';
+    if (!tabs.some(([k]) => k === ksCur)) ksCur = tabs[0][0];
+    const all = (tabs.find(([k]) => k === ksCur) || tabs[0])[2];
+    return `<section class="h5-sec h5-wrap"><div class="h5-panel is-violet h5-ks" id="h5Ks">
+      ${headHTML(L('Kino studiyalar', 'Киностудии'), all).replace('class="h5-all"', 'class="h5-all" id="h5KsAll" style="color:var(--violet)"')}
+      <div class="h5-ks-tabs" role="tablist">${tabs.map(([k, n]) => `<button type="button" role="tab" data-ks="${k}"${k === ksCur ? ' class="is-on" aria-selected="true"' : ''}>${n}</button>`).join('')}</div>
+      <div class="h5-row" id="h5KsRow">${ksCards(ksCur)}</div></div></section>`;
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-ks]');
+    if (!b) return;
+    ksCur = b.dataset.ks;
+    document.querySelectorAll('[data-ks]').forEach(x => { x.classList.toggle('is-on', x === b); x.toggleAttribute('aria-selected', x === b); });
+    const row = $('h5KsRow');
+    if (row) { row.innerHTML = ksCards(ksCur); row.scrollLeft = 0; }
+    const a = $('h5KsAll'), k = KS.find(([x]) => x === ksCur);
+    if (a && k) a.href = k[2];
+  });
+
   /* Jonli efir va sport paneli (js/channels.js → TV_CHANNELS) */
   const CAT = { general: ['Umumiy', 'Общий'], sports: ['Sport', 'Спорт'], music: ['Musiqa', 'Музыка'], kids: ['Bolalar', 'Детский'], movies: ['Kino', 'Кино'], news: ['Yangiliklar', 'Новости'] };
   function liveHTML() {
@@ -666,6 +695,8 @@
     push(hoverHTML());
     push(shortsHTML());
     push(fanHTML());
+    const marvelRow = take('marvel'), dcRow = take('dc');   // Marvel va DC qatorlari endi «Kino studiyalar» panelida
+    if (marvelRow || dcRow || window.DZX_STUDIOS) push(kinoStudioHTML());
     if (fresh) { const l = uniq(tallFirst(ROW_SOURCES.new.list().filter(cardImg)).slice(0, 40)).slice(0, 14); if (l.length >= 4) push(gridSec(L('Yangi kinolar', 'Новые фильмы'), ROW_SOURCES.new.all, l)); }
     push(marqueeHTML());
     push(liveHTML());
@@ -682,7 +713,10 @@
     if (!appDone) push(appHTML());
     push(aioHTML());
     if (series) { const l = listOf(series); if (l.length >= 4) push(rowSec(titleOf(series), ROW_SOURCES.series.all, l, ' is-sm')); }
-    if (cartoons) { const l = uniq(tallFirst(ROW_SOURCES.cartoons.list().filter(cardImg))).slice(0, 12); if (l.length >= 4) push(gridSec(titleOf(cartoons), ROW_SOURCES.cartoons.all, l)); }
+    // YouTube'dagi multfilmlar (Pomidor Do'ppi, Bek va Lola…) — alohida albom karusel, rasmi kesilmaydi
+    const ytToons = MOVIES.filter(m => (m.type === 'multfilm' || (m.genres || []).includes('animation')) && /youtube\.com|youtu\.be/.test(m.video || '') && cardImg(m));
+    if (ytToons.length >= 3) push(`<section class="h5-sec h5-wrap">${headHTML(L('Bolalar uchun', 'Детям'), 'catalog.html?type=multfilm')}<div class="h5-row is-land h5-toons">${uniq(ytToons).slice(0, 14).map(m => posterHTML(m, '', true)).join('')}</div></section>`);
+    if (cartoons) { const l = uniq(tallFirst(ROW_SOURCES.cartoons.list().filter(cardImg)).filter(m => hasTall(m) || !ytToons.includes(m))).slice(0, 12); if (l.length >= 4) push(gridSec(titleOf(cartoons), ROW_SOURCES.cartoons.all, l)); }
     push(mosaicHTML());
     push(studiosHTML(studios ? titleOf(studios) : t('row.studios')));
     if (tahlil) { const l = listOf(tahlil); if (l.length >= 4) push(rowSec(titleOf(tahlil), ROW_SOURCES.tahlil.all, l, ' is-sm')); }
