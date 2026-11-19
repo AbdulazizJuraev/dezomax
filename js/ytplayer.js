@@ -11,6 +11,15 @@
    - Video tugaganda YouTube tavsiyalari o'rniga o'z ekranimiz.
    ============================================================ */
 
+/* o'rta katta tugma: ikki bo'lak — pauzada uchburchak, ijroda ikki chiziq; CSS (d: path) bilan silliq almashadi */
+const VP_MORPH = '<svg class="vp-morph" viewBox="0 0 24 24"><path class="vp-m1" d="M7 5L10.6 5L10.6 19L7 19Z"/><path class="vp-m2" d="M13.4 5L17 5L17 19L13.4 19Z"/></svg>';
+// CSS «d» ni bilmaydigan brauzerlar (Safari) uchun — atribut ham almashtiriladi (animatsiyasiz)
+function vpMorphSet(btn, paused) {
+  const p = btn && btn.querySelectorAll('.vp-morph path');
+  if (!p || p.length < 2) return;
+  p[0].setAttribute('d', paused ? 'M8 4.6L13.6 8.2L13.6 15.8L8 19.4Z' : 'M7 5L10.6 5L10.6 19L7 19Z');
+  p[1].setAttribute('d', paused ? 'M13.6 8.2L19.4 12L19.4 12L13.6 15.8Z' : 'M13.4 5L17 5L17 19L13.4 19Z');
+}
 const YT_ICONS = {
   play:  '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z" fill="currentColor"/></svg>',
   pause: '<svg viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1.2" fill="currentColor"/><rect x="14" y="4.5" width="4" height="15" rx="1.2" fill="currentColor"/></svg>',
@@ -56,7 +65,7 @@ function vpUiHTML(o = {}) {
         </div>
         <div class="vp-mid">
           <button class="vp-skip" id="vpBack" type="button" aria-label="-10s">${VP_ICONS.rew}<span>10</span></button>
-          <button class="vp-center" id="vpPlay" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
+          <button class="vp-center" id="vpPlay" type="button" aria-label="${esc(t('player.play'))}">${VP_MORPH}</button>
           <button class="vp-skip" id="vpFwd" type="button" aria-label="+10s"><span>10</span>${VP_ICONS.ffw}</button>
         </div>
         <div class="vp-bottom">
@@ -354,7 +363,7 @@ function ytOnState(box, id, st) {
   }
   shade.hidden = st !== S.PAUSED;
   const running = st === S.PLAYING || st === S.BUFFERING;
-  $('#vpPlay').innerHTML = $('#vpPlay2').innerHTML = running ? YT_ICONS.pause : YT_ICONS.play;
+  $('#vpPlay2').innerHTML = running ? YT_ICONS.pause : YT_ICONS.play; vpMorphSet($('#vpPlay'), !running);
   box.classList.toggle('is-paused', st === S.PAUSED);
   const wasRun = !box.classList.contains('vp-paused');
   box.classList.toggle('vp-paused', !running);

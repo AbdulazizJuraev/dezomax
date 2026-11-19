@@ -8745,3 +8745,19 @@ body.dzx-mini #playerBox > :not(.dzx-mini-bar) { width: 100% !important; height:
 @media (max-width: 760px) {
   body.dzx-mini #playerBox { right: 10px; bottom: calc(84px + env(safe-area-inset-bottom)); width: 62vw !important; }
 }
+
+/* O'rta tugma (2026-11-19): bitta belgi, play ⇄ pause silliq aylanadi; bosilganda «sakraydi», ±10 tugmalari yon tomondan kiradi */
+.vp-morph { width: 46%; height: 46%; overflow: visible; }
+.vp-morph path { fill: currentColor; transition: d .28s cubic-bezier(.4, 0, .2, 1); }
+.vp-morph .vp-m1 { d: path("M7 5L10.6 5L10.6 19L7 19Z"); }
+.vp-morph .vp-m2 { d: path("M13.4 5L17 5L17 19L13.4 19Z"); }
+.vp-paused .vp-morph .vp-m1 { d: path("M8 4.6L13.6 8.2L13.6 15.8L8 19.4Z"); }
+.vp-paused .vp-morph .vp-m2 { d: path("M13.6 8.2L19.4 12L19.4 12L13.6 15.8Z"); }
+.player-wrap.ytp.vp-paused .vp-center svg.vp-morph { transform: none; }
+.player-wrap.ytp.vp-mid-flash .vp-center { animation: vpPop .38s cubic-bezier(.3, 1.5, .5, 1) both; }
+.player-wrap.ytp.vp-mid-flash .vp-skip:first-child { animation: vpSkipL .35s ease both; }
+.player-wrap.ytp.vp-mid-flash .vp-skip:last-child { animation: vpSkipR .35s ease both; }
+@keyframes vpPop { 0% { transform: scale(.72); } 60% { transform: scale(1.08); } 100% { transform: scale(1); } }
+@keyframes vpSkipL { from { transform: translateX(18px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes vpSkipR { from { transform: translateX(-18px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .player-wrap.ytp .vp-center, .player-wrap.ytp .vp-skip { animation: none !important; } }
