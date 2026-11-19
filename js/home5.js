@@ -416,17 +416,20 @@
   const studioReady = s => !!s.href || MOVIES.some(m => m.franchise === s.key && m.ch);
   // Kinostudiyalar qatori (2026-11-19 yangi dizayn): faqat ishlaydigan kartalar — rasmiy sahifasi bor (Marvel) yoki
   // «Kino studiyalar» panelida ro'yxati bor studiyalar (bosilganda panelning o'sha tabi ochiladi); «Tez orada» kartalari ko'rsatilmaydi
+  // doira fonlari — studiyaning o'z rangida gradient (foydalanuvchi tanlovi: Figma «C Doiralar», 2026-11-19)
+  const ST_GRAD = { marvel: ['#F2333B', '#7E0A10'], dc: ['#2D8BFF', '#0A2F7A'], pixar: ['#5E7189', '#141B24'], disney: ['#3F63E8', '#1A1257'],
+    dreamworks: ['#F5B942', '#7A3F0A'], warner: ['#2F6FD0', '#0C2550'], universal: ['#2E7BD6', '#071A36'], sony: ['#5A5A5A', '#121212'], lucasfilm: ['#444', '#000'], paramount: ['#2A6FDB', '#0A1F55'] };
   function studiosHTML(t) {
     const inPanel = k => KS.some(([x]) => x === k) && ksList(k).length >= 3;
     const list = STUDIOS.filter(s => studioReady(s) || inPanel(s.key));
     if (list.length < 2) return '';
-    const arrow = '<svg class="h5-st-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
-    return `<section class="h5-sec h5-wrap">${headHTML(t)}<div class="h5-row h5-st-row">${list.map(s => {
+    return `<section class="h5-sec h5-wrap">${headHTML(t)}<div class="h5-row h5-sc-row">${list.map(s => {
       const href = studioReady(s) ? studioHref(s) : '#h5Ks';
       const go = studioReady(s) ? '' : ` data-ks-go="${s.key}"`;
       const n = inPanel(s.key) ? ksList(s.key).length : 0;
-      return `<a class="h5-st" href="${href}"${go} style="--st:${s.bg}" aria-label="${esc(s.name)}"><span class="h5-st-logo">${s.logo}</span>
-        <span class="h5-st-foot"><small>${esc(s.name)}</small>${n ? `<b>${n} ${L('ta kino', 'фильмов')}</b>` : ''}</span>${arrow}</a>`;
+      const [g1, g2] = ST_GRAD[s.key] || ['#3a3f3c', '#111'];
+      return `<a class="h5-sc" href="${href}"${go} aria-label="${esc(s.name)}"><span class="h5-sc-ring" style="--g1:${g1};--g2:${g2}"><span class="h5-sc-in is-${s.key}">${s.logo}</span></span>
+        <b>${esc(s.name)}</b>${n ? `<small>${n} ${L('ta kino', 'фильмов')}</small>` : ''}</a>`;
     }).join('')}</div></section>`;
   }
   document.addEventListener('click', e => {

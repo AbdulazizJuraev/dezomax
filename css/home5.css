@@ -649,3 +649,17 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
   .h5-ae-tg { font-size: .78rem; padding: .4em .9em; }
   .h5-ae-devs { aspect-ratio: 16 / 9; }
 }
+
+/* Kinostudiyalar — doiralar (foydalanuvchi tanlovi, Figma «C», 2026-11-19): studiya rangida gradient doira, oq logotip, atrofida rangdan yashilga halqa */
+.h5-sc-row { gap: clamp(16px, 2vw, 28px); padding-top: 4px; }
+.h5-sc { flex: none; display: flex; flex-direction: column; align-items: center; gap: 4px; width: clamp(96px, 8.6vw, 124px); text-align: center; }
+.h5-sc-ring { display: grid; place-items: center; width: 100%; aspect-ratio: 1; padding: 3px; border-radius: 50%; background: linear-gradient(135deg, var(--g1), #C6FF3D); transition: transform .2s; }
+.h5-sc:hover .h5-sc-ring { transform: scale(1.05); }
+.h5-sc-in { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; border: 3px solid #050706; background: radial-gradient(120% 120% at 30% 20%, var(--g1), var(--g2) 75%); overflow: hidden; }
+.h5-sc-in svg { width: 70%; height: auto; max-height: 46%; }
+.h5-sc-in.is-dc svg { width: 56%; max-height: 56%; }
+/* logotiplar oq: Marvel qizil to'rtburchagi doira rangiga qo'shilib ketadi, DC ichki doirasi ham */
+.h5-sc-in.is-marvel svg rect, .h5-sc-in.is-dc svg circle:first-child { fill: transparent; }
+.h5-sc-in svg text { fill: #fff; }
+.h5-sc b { margin-top: 6px; font-size: .8rem; font-weight: 700; color: #fff; line-height: 1.2; }
+.h5-sc small { font-size: .72rem; font-weight: 600; color: #B8EC4A; }
