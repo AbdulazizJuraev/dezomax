@@ -647,17 +647,20 @@ function dzxAcctMenu(menu) {
     fb: '<path d="M4 4h16v12H8l-4 4Z"/><path d="M12 7.5v4M12 13.8h0"/>'
   };
   const ic = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${P[k]}</svg>`;
+  // ruscha nusxada (dezomax.uz/ru/, <base href="../">) — ruscha sahifasi bor bo'lsa o'shanga
+  const RU_PG = ['about.html', 'catalog.html', 'contacts.html', 'plans.html', 'privacy.html', 'search.html'];
+  const pg = f => (typeof RU_PATH !== 'undefined' && RU_PATH && RU_PG.includes(f.split('#')[0]) ? 'ru/' : '') + f;
   const it = (k, label, href, attr = '', more = false) => `<a class="h5-mi" href="${href}"${attr}>${ic(k)}<span>${label}</span>${more ? '<i class="h5-mi-ch" aria-hidden="true"></i>' : ''}</a>`;
   const nm = u ? (u.name || (u.email || '').split('@')[0] || 'DezoMax') : L('Mehmon', 'Гость');
   const av = u && u.photo ? `<img src="${esc(u.photo)}" alt="" referrerpolicy="no-referrer">` : u ? esc((nm[0] || 'D').toUpperCase()) : '<svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>';
   menu.innerHTML = `<div class="h5-menu-h" id="h5MenuH"><span class="h5-mh-av">${av}</span><span class="h5-mh-tx"><b>${esc(nm)}</b><small>${u && u.email ? esc(u.email) : L('Kirmagansiz', 'Вы не вошли')}</small>
-      <a class="h5-mh-link" href="account.html">${u ? L('Profilni ko‘rish', 'Посмотреть профиль') : L('Kirish', 'Войти')}</a></span></div>
-    ${u ? `<div class="h5-mg">${u.method === 'google' ? it('g', L('Google akkaunt', 'Аккаунт Google'), 'https://myaccount.google.com/', ' target="_blank" rel="noopener"') : ''}${it('sw', L('Akkauntni almashtirish', 'Сменить аккаунт'), 'account.html', ' data-acc-switch', true)}${it('out', L('Chiqish', 'Выйти'), '#', ' data-acc-out')}</div>`
-    : `<div class="h5-mg">${it('in', L('Kirish', 'Войти'), 'account.html')}</div>`}
-    <div class="h5-mg">${it('lib', L('Kutubxona', 'Библиотека'), 'favorites.html')}${it('dl', L('Yuklab olinganlar', 'Загрузки'), 'downloads.html')}${it('pay', L('Obuna va to‘lovlar', 'Подписка и платежи'), 'plans.html')}</div>
-    <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), 'account.html')}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${ru ? 'Русский' : 'O‘zbekcha'}`, '#', ` data-setlang="${ru ? 'uz' : 'ru'}"`, true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
-    <div class="h5-mg">${it('set', L('Sozlamalar', 'Настройки'), 'account.html')}</div>
-    <div class="h5-mg">${it('help', L('Yordam', 'Справка'), 'about.html')}${it('fb', L('Fikr yuborish', 'Отправить отзыв'), 'contacts.html')}</div>`;
+      <a class="h5-mh-link" href="${pg('account.html')}">${u ? L('Profilni ko‘rish', 'Посмотреть профиль') : L('Kirish', 'Войти')}</a></span></div>
+    ${u ? `<div class="h5-mg">${u.method === 'google' ? it('g', L('Google akkaunt', 'Аккаунт Google'), 'https://myaccount.google.com/', ' target="_blank" rel="noopener"') : ''}${it('sw', L('Akkauntni almashtirish', 'Сменить аккаунт'), pg('account.html'), ' data-acc-switch', true)}${it('out', L('Chiqish', 'Выйти'), '#', ' data-acc-out')}</div>`
+    : `<div class="h5-mg">${it('in', L('Kirish', 'Войти'), pg('account.html'))}</div>`}
+    <div class="h5-mg">${it('lib', L('Kutubxona', 'Библиотека'), pg('favorites.html'))}${it('dl', L('Yuklab olinganlar', 'Загрузки'), pg('downloads.html'))}${it('pay', L('Obuna va to‘lovlar', 'Подписка и платежи'), pg('plans.html'))}</div>
+    <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), pg('account.html#history'))}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${ru ? 'Русский' : 'O‘zbekcha'}`, '#', ` data-setlang="${ru ? 'uz' : 'ru'}"`, true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
+    <div class="h5-mg">${it('set', L('Sozlamalar', 'Настройки'), pg('account.html#settings'))}</div>
+    <div class="h5-mg">${it('help', L('Yordam', 'Справка'), pg(u ? 'account.html#support' : 'about.html'))}${it('fb', L('Fikr yuborish', 'Отправить отзыв'), pg('contacts.html'))}</div>`;
 }
 // menyu tugmalari: chiqish / almashtirish / tezkor tugmalar
 document.addEventListener('click', async e => {
@@ -666,12 +669,22 @@ document.addEventListener('click', async e => {
   e.preventDefault();
   const ru = typeof LANG !== 'undefined' && LANG === 'ru';
   if (a.hasAttribute('data-acc-keys')) {
-    alert(ru ? 'Быстрые клавиши (плеер):\nПробел / K — пауза\n← / → — 10 сек назад / вперёд\nF — полный экран\nM — без звука\n/ — поиск'
-             : 'Tezkor tugmalar (pleyer):\nProbel / K — pauza\n← / → — 10 soniya orqaga / oldinga\nF — to‘liq ekran\nM — ovozsiz\n/ — qidiruv');
+    a.closest('.h5-menu')?.classList.remove('is-open');
+    document.querySelector('.dzx-keys')?.remove();
+    const K = ru ? [['Пробел / K', 'Пауза / воспроизведение'], ['← / →', '10 сек назад / вперёд'], ['F', 'Полный экран'], ['M', 'Без звука'], ['/', 'Поиск (главная)'], ['Esc', 'Закрыть окно']]
+                 : [['Probel / K', 'Pauza / davom ettirish'], ['← / →', '10 soniya orqaga / oldinga'], ['F', 'To‘liq ekran'], ['M', 'Ovozsiz'], ['/', 'Qidiruv (bosh sahifa)'], ['Esc', 'Oynani yopish']];
+    const d = document.createElement('div');
+    d.className = 'dzx-keys';
+    d.innerHTML = `<div class="dzx-keys-box" role="dialog" aria-modal="true"><b>${ru ? 'Быстрые клавиши' : 'Tezkor tugmalar'}</b>
+      ${K.map(([k, v]) => `<div class="dzx-keys-r"><kbd>${k}</kbd><span>${v}</span></div>`).join('')}
+      <button type="button" class="dzx-keys-x">${ru ? 'Закрыть' : 'Yopish'}</button></div>`;
+    d.addEventListener('click', ev => { if (ev.target === d || ev.target.closest('.dzx-keys-x')) d.remove(); });
+    addEventListener('keydown', function esc(ev) { if (ev.key === 'Escape') { d.remove(); removeEventListener('keydown', esc); } });
+    document.body.appendChild(d);
     return;
   }
   if (typeof Auth !== 'undefined') { try { await Auth.signOut(); } catch (e2) {} }
-  if (a.hasAttribute('data-acc-switch')) location.href = 'account.html';
+  if (a.hasAttribute('data-acc-switch')) location.href = a.getAttribute('href');
   else location.reload();
 });
 

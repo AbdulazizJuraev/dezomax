@@ -8699,3 +8699,10 @@ html body .h5-menu a.h5-mi:hover { background: rgba(255, 255, 255, .1); color: #
 @media (max-width: 860px) {
   html body .h5-menu { position: fixed; top: 58px; right: 8px; width: min(300px, calc(100vw - 16px)); max-height: calc(100vh - 140px); }
 }
+/* tezkor tugmalar oynasi (profil menyusi) */
+.dzx-keys { position: fixed; inset: 0; z-index: 3000; display: grid; place-items: center; padding: 16px; background: rgba(0, 0, 0, .6); }
+.dzx-keys-box { width: min(380px, 100%); padding: 20px; border-radius: 14px; background: #212121; color: #f1f1f1; box-shadow: 0 16px 50px rgba(0, 0, 0, .6); }
+.dzx-keys-box > b { display: block; font-size: 1.1rem; margin-bottom: 12px; }
+.dzx-keys-r { display: flex; align-items: center; gap: 14px; padding: 7px 0; border-bottom: 1px solid rgba(255, 255, 255, .08); font-size: .9rem; }
+.dzx-keys-r kbd { flex: none; min-width: 92px; padding: .25em .6em; border-radius: 6px; background: rgba(255, 255, 255, .1); font: 600 .82rem/1.4 inherit; text-align: center; }
+.dzx-keys-x { margin-top: 14px; width: 100%; padding: .7em; border-radius: 10px; background: #8BE04E; color: #0B1A06; font-weight: 700; }
