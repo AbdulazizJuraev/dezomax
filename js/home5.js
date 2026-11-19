@@ -414,12 +414,30 @@
 
   /* Kinostudiyalar (js/common.js → STUDIOS) */
   const studioReady = s => !!s.href || MOVIES.some(m => m.franchise === s.key && m.ch);
+  // Kinostudiyalar qatori (2026-11-19 yangi dizayn): faqat ishlaydigan kartalar — rasmiy sahifasi bor (Marvel) yoki
+  // «Kino studiyalar» panelida ro'yxati bor studiyalar (bosilganda panelning o'sha tabi ochiladi); «Tez orada» kartalari ko'rsatilmaydi
   function studiosHTML(t) {
-    const list = [...STUDIOS].sort((a, b) => studioReady(b) - studioReady(a));
-    return `<section class="h5-sec h5-wrap">${headHTML(t)}<div class="h5-row">${list.map(s => studioReady(s)
-      ? `<a class="h5-st" href="${studioHref(s)}" style="--st:${s.bg}" aria-label="${esc(s.name)}"><span>${s.logo}</span><small>${esc(s.name)}</small></a>`
-      : `<span class="h5-st is-soon" style="--st:${s.bg}"><span>${s.logo}</span><small>${esc(s.name)}</small><em>${L('Tez orada', 'Скоро')}</em></span>`).join('')}</div></section>`;
+    const inPanel = k => KS.some(([x]) => x === k) && ksList(k).length >= 3;
+    const list = STUDIOS.filter(s => studioReady(s) || inPanel(s.key));
+    if (list.length < 2) return '';
+    const arrow = '<svg class="h5-st-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+    return `<section class="h5-sec h5-wrap">${headHTML(t)}<div class="h5-row h5-st-row">${list.map(s => {
+      const href = studioReady(s) ? studioHref(s) : '#h5Ks';
+      const go = studioReady(s) ? '' : ` data-ks-go="${s.key}"`;
+      const n = inPanel(s.key) ? ksList(s.key).length : 0;
+      return `<a class="h5-st" href="${href}"${go} style="--st:${s.bg}" aria-label="${esc(s.name)}"><span class="h5-st-logo">${s.logo}</span>
+        <span class="h5-st-foot"><small>${esc(s.name)}</small>${n ? `<b>${n} ${L('ta kino', 'фильмов')}</b>` : ''}</span>${arrow}</a>`;
+    }).join('')}</div></section>`;
   }
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-ks-go]');
+    if (!a) return;
+    const tab = document.querySelector(`[data-ks="${a.dataset.ksGo}"]`);
+    if (!tab) return;
+    e.preventDefault();
+    tab.click();
+    document.getElementById('h5Ks')?.scrollIntoView({ block: 'center' });
+  });
 
   const ctaHTML = () => `<section class="h5-sec h5-wrap"><div class="h5-cta"><div><h2>${L('Reklama?', 'Реклама?')}</h2>
     <p>${L('Saytda va DezoMax ilovasida reklama joylashtirish uchun bog‘laning.', 'Свяжитесь с нами, чтобы разместить рекламу на сайте и в приложении DezoMax.')}</p></div>
