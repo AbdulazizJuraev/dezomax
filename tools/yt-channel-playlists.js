@@ -13,6 +13,57 @@
    Ishlatish:  node tools/yt-channel-playlists.js transformersrussian kinomurashki [--dry]
    Keyin:      node tools/bump-version.js
    ============================================================ */
+/* TMDB ma'lumotlari — playlist-seriallar uchun (show.meta) */
+const SHOW_META = {
+ "Трансформеры: Боты-спасатели": {
+  "tmdb": {
+   "id": 38881,
+   "type": "tv"
+  },
+  "year": 2012,
+  "poster": "https://image.tmdb.org/t/p/w500/wtugHPxksnORftAs7EOGK3Oy0I5.jpg",
+  "cover": "https://image.tmdb.org/t/p/w1280/mhAWfN7iDXxINW3wiTDvxjBkwkj.jpg",
+  "genres": [
+   "animation"
+  ],
+  "desc": {
+   "uz": "Qutqaruvchi botlar — odamlarga yordam berish uchun yuborilgan avtobotlar jamoasi. Yerga yaqinda kelgan to‘rt avtobot hali odamlarning qoidalarini bilmaydi. Optimus Praym ularga muhim vazifa topshiradi: odamlarni o‘rganish, ular bilan do‘st bo‘lish va ularni turli xavflardan himoya qilish.",
+   "ru": "Боты-спасатели — дружная команда автоботов, призванная помогать людям. Четверо автоботов недавно прибыли на Землю и ещё не знают людских правил. Оптимус Прайм поручил им важную миссию: узнать всё о людях, подружиться с ними и защищать их от земных бед. Чейз, Хитвейв, Блэйдс и Болдер работают на острове вместе с семьёй спасателей."
+  }
+ },
+ "Трансформеры Прайм": {
+  "tmdb": {
+   "id": 32910,
+   "type": "tv"
+  },
+  "year": 2010,
+  "poster": "https://image.tmdb.org/t/p/w500/ilOKsGRHYc78R2tSMusAd3xGJWq.jpg",
+  "cover": "https://image.tmdb.org/t/p/w1280/owhEUs8ZVyuXpxsD2BIcriBotUo.jpg",
+  "genres": [
+   "animation"
+  ],
+  "desc": {
+   "uz": "Xavf o‘tib ketdi, deb o‘ylagan avtobotlar baribir Yerda Optimus Praym boshchiligida kichik himoyachilar guruhini qoldiradi. Ehtiyotkorlik bekor ketmaydi: uch yildan keyin Megatron Qorong‘i Energon bilan qaytib keladi va avtobotlar yana qurol olishga majbur bo‘ladi.",
+   "ru": "Уверенные, что опасность миновала, автоботы всё же оставляют на Земле небольшой отряд защитников под руководством Оптимуса Прайма. Предосторожность оказывается не напрасной: три года спустя Мегатрон возвращается с Тёмным Энергоном, чтобы отомстить за прошлое поражение, и автоботы снова берутся за оружие."
+  }
+ },
+ "Трансформеры: Роботы под прикрытием": {
+  "tmdb": {
+   "id": 63090,
+   "type": "tv"
+  },
+  "year": 2015,
+  "poster": "https://image.tmdb.org/t/p/w500/pbRpKAGbXnASnNFHCGFC4CwVPla.jpg",
+  "cover": "https://image.tmdb.org/t/p/w1280/y0khlDVRmi5h0ARCLNYHAHugDzG.jpg",
+  "genres": [
+   "animation"
+  ],
+  "desc": {
+   "uz": "Bamblbi boshchiligidagi yosh avtobotlar jamoasi Yerni himoya qilishga tayyorlanadi: qulagan qamoqxona-kemadan qochgan detseptikonlar sayyoraga yana tahdid solmoqda. Bamblbi tajribasiz transformerlardan — Saydsvayp, Strongarm va dinobot Grimlokdan jamoa tuzadi.",
+   "ru": "Команда автоботов-новичков под предводительством Бамблби готовится защищать Землю: планете снова угрожают десептиконы, сбежавшие из рухнувшего корабля-тюрьмы. Бамблби собирает команду неопытных трансформеров — бунтаря Сайдсвайпа, кадета Стронгарм и динобота Гримлока."
+  }
+ }
+};
 const fs = require('fs');
 const path = require('path');
 
@@ -26,11 +77,11 @@ const PLAN = {
     // bitta multfilm — bitta karta: mavsumlar va to'plamlar uning ichida bo'lim (eps[i][2]), qismlar yoyilib yotmaydi
     mode: 'shows', genres: ['animation', 'adventure'],
     shows: [
-      { title: 'Трансформеры: Боты-спасатели', match: /боты.?спасател|rescue bots/i,
+      { title: 'Трансформеры: Боты-спасатели', match: /боты.?спасател|rescue bots/i, meta: 'Трансформеры: Боты-спасатели',
         sections: [[/Боты Спасатели: Season (\d+)/i, m => +m[1]], [/Сборники.*Ботов Спасателей/i, 'sb']] },
-      { title: 'Трансформеры Прайм', match: /трансформеры\s+прайм|transformers prime/i,
+      { title: 'Трансформеры Прайм', match: /трансформеры\s+прайм|transformers prime/i, meta: 'Трансформеры Прайм',
         sections: [[/^Мультфильм Трансформеры Прайм$/i, 'ep'], [/Сборники.*Прайм/i, 'sb']] },
-      { title: 'Трансформеры: Роботы под прикрытием', match: /под прикрытием|robots in disguise/i,
+      { title: 'Трансформеры: Роботы под прикрытием', match: /под прикрытием|robots in disguise/i, meta: 'Трансформеры: Роботы под прикрытием',
         sections: [[/Роботы под прикрытием/i, 'ep']] },
     ],
   },
@@ -148,6 +199,9 @@ const cleanName = t => t.replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu
           trailer: '', video: `https://www.youtube.com/watch?v=${first}`, source: { name: ch.name, url: ch.url }, featured: false,
           eps, show: 1, addedAt: Date.now(), ch: key,
         });
+        // TMDB posteri, foni va tavsifi (kino sahifasida YouTube kadri emas — haqiqiy poster; 2026-11-19)
+        const sm = show.meta && SHOW_META[show.meta];
+        if (sm) { const x = made[made.length - 1]; delete x.wide; Object.assign(x, sm, { genres: [...new Set([...sm.genres, ...x.genres])] }); }
         console.log(`  + ${nm}: ${eps.length} qism — ${secs.map(x => `${x.key}:${x.vids.length}`).join(', ')}`);
       }
       const before = items.filter(m => m.ch === key).length;

@@ -156,8 +156,11 @@ function mountPlayer(url) {
     box.classList.remove('ytp');
     const next = `movie.html?id=${group?.id || movie?.id}${typeof partNo !== 'undefined' && partNo ? `&part=${partNo}` : ''}&play=1`;
     const ru = LANG === 'ru';
+    // orqa fonda — shu qismning YouTube rasmi (qism almashganda rasm ham almashadi)
+    const gid = typeof youTubeId === 'function' && youTubeId(url);
     box.innerHTML = `
-      <div class="player-placeholder player-gate">
+      <div class="player-placeholder player-gate${gid ? ' has-thumb' : ''}">
+        ${gid ? `<img class="pg-thumb" src="https://i.ytimg.com/vi/${gid}/hqdefault.jpg" alt="" aria-hidden="true">` : ''}
         <div class="pp-icon">${ICONS.user}</div>
         <h3>${ru ? 'Войдите, чтобы смотреть' : 'Ko‘rish uchun ro‘yxatdan o‘ting'}</h3>
         <p>${ru ? 'Регистрация занимает один клик — через Google или Telegram. Трейлеры доступны всем.' : 'Bir bosishda — Google yoki Telegram orqali. Treylerlarni kirmasdan ham ko‘rish mumkin.'}</p>
@@ -263,7 +266,9 @@ function mountPlayer(url) {
     // tik poster keng ekranga sig'maydi — faqat keng muqovali (o'zbek filmlari) rasmini beramiz
     const wide = movie ? movie.cover || (movie.poster && movie.poster.startsWith('images/uz/') ? movie.poster : null) : null;
     // treylerdan oldin reklama yo'q — faqat to'liq film oldidan (js/ads.js)
-    mountYouTube(box, url, { recs: playerRecs(movie), poster: wide, title: movie ? title(movie) : '', preroll: !!movie && url === movie.video });
+    // qismli seriallarda (eps / parts) — har qismning o'z YouTube rasmi: qism almashganda rasm ham almashadi
+    const epPoster = movie && ((movie.eps && movie.eps.length) || (Array.isArray(movie.parts) && movie.parts.length > 1));
+    mountYouTube(box, url, { recs: playerRecs(movie), poster: epPoster ? null : wide, title: movie ? title(movie) : '', preroll: !!movie && url === movie.video });
     if (link) { link.href = external; link.hidden = false; }
     return;
   }
@@ -370,9 +375,7 @@ function playerSectionHTML(m) {
     : '';
 
   // Rasmiy manba (masalan studiyaning YouTube kanali) — kim joylaganini ochiq ko'rsatamiz
-  const source = m.source
-    ? `<p class="player-note">${t('player.source')}: <a href="${esc(m.source.url)}" target="_blank" rel="noopener">${esc(m.source.name)}</a></p>`
-    : '';
+  const source = '';   // «Rasmiy manba: …» yozuvi olib tashlandi (foydalanuvchi so'rovi, 2026-11-19)
 
   return `
     ${tabs}
@@ -386,6 +389,8 @@ function playerSectionHTML(m) {
 
 /* Rasmiy manbadan olingan video — sahifaga kirganda darhol ko'rinadi (masalan Marvel'ning YouTube kanali) */
 function officialHTML(m) {
+  return '';   // «… rasmiy YouTube kanalidan» belgisi olib tashlandi (foydalanuvchi so'rovi, 2026-11-19)
+  // eslint-disable-next-line no-unreachable
   if (!m.source || !m.source.name || !hasFilm(m)) return '';
   const yt = /youtube\.com|youtu\.be/.test(m.source.url || '');
   // source.official === false — kanal egasi ruxsat bergan, lekin u asar mualliflik egasi emas: «rasmiy» deyilmaydi

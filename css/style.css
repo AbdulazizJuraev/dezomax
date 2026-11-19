@@ -8715,3 +8715,14 @@ html body .h5-menu a.h5-mi:hover { background: rgba(255, 255, 255, .1); color: #
   .page-shorts .sh-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--sh-nav) + 130px); z-index: 2; pointer-events: none; background: linear-gradient(0deg, rgba(0, 0, 0, .6), transparent); }
   html body.page-shorts nav.tabbar.tabbar { background: rgba(18, 20, 19, .72) !important; border-color: rgba(255, 255, 255, .08) !important; }
 }
+/* Katalog/qidiruv to'ri: albom kartalar (16:9) o'z qatorlarida, tik kartalar o'z qatorlarida (common.js shapeRows) — 2026-11-19 */
+html body .grid .card.is-wide { grid-column: span var(--ws, 1); }
+html body .grid .card.is-wide .card-poster { aspect-ratio: 16 / 9; }
+html body .grid .card.is-wide .card-poster .poster-blur { display: none; }
+html body .grid .card.is-wide .card-poster .poster-img { object-fit: cover; }
+.grid .grid-br { grid-column: 1 / -1; height: 0; }
+/* Kirish oynasi — orqasida joriy qismning YouTube rasmi (2026-11-19) */
+.player-gate.has-thumb { overflow: hidden; isolation: isolate; min-height: 220px; justify-content: center; }
+.player-gate .pg-thumb { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; opacity: .38; }
+.player-gate.has-thumb::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, .25), rgba(0, 0, 0, .7)); }
+.player-gate.has-thumb p { color: rgba(255, 255, 255, .8); }

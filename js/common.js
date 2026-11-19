@@ -240,7 +240,9 @@ const title = m => m.title[LANG] || m.title.uz;
 const stripEmoji = s => String(s || '')
   .replace(/[\p{Extended_Pictographic}\p{Regional_Indicator}\u{FE0F}\u{200D}\u{20E3}\u{1F3FB}-\u{1F3FF}]/gu, '')
   .replace(/[ \t ]{2,}/g, ' ').replace(/ +([,.!?;:])/g, '$1').replace(/^[ \t ]+|[ \t ]+$/gm, '').trim();
-const descOf = m => stripEmoji(m.desc?.[LANG] || m.desc?.uz || '');
+// «… YouTube kanalidan» kabi gaplar ko'rsatilmaydi (foydalanuvchi so'rovi, 2026-11-19) — tavsifda faqat kino haqida
+const noYtText = s => String(s || '').split(/(?<=[.!?])\s+/).filter(x => !/youtube|ютуб/i.test(x)).join(' ').trim();
+const descOf = m => noYtText(stripEmoji(m.desc?.[LANG] || m.desc?.uz || ''));
 const countryOf = m => (m.country && (m.country[LANG] || m.country.uz)) || '';   // davlati noma'lum (ruscha kanallar) — ko'rsatilmaydi
 
 function genreName(id) {
@@ -446,13 +448,45 @@ function movieHref(m) {
   return !ru && FILM_URLS ? `film/${filmSlug(m)}` : `${ru}movie.html?id=${m.id}`;
 }
 
+/* Posteri albom (gorizontal) bo'lgan kinolar: konsertlar, admin «keng» belgisi, video kadri (DezoCloud), YouTube/RuTube rasmi.
+   Bunday kartalar 16:9 — tik kartada albom rasm (va aksincha) turmasin (foydalanuvchi so'rovi, 2026-11-19) */
+function landPoster(m) {
+  if (m.wide || m.franchise === 'konsert') return true;
+  return /i\.ytimg\.com|img\.youtube\.com|dezocloud\.uz\/t\/|rtbcdn\.ru|rutube\.ru/.test(m.poster || '');
+}
+
+/* To'rda tik va albom kartalar alohida qatorlarda: tartib saqlanadi, lekin qator to'lguncha boshqa shakldagisi kutib turadi.
+   Qolganlari keyingi bo'lakka o'tadi (container._sb); oxirida chala qatorlar «qator uzilishi» bilan yopiladi */
+function gridCols(container) {
+  const n = getComputedStyle(container).gridTemplateColumns.split(' ').filter(x => x && x !== 'none').length;
+  return n > 0 ? n : 2;
+}
+function shapeRows(container, items, final) {
+  if (!container.classList.contains('grid')) return items.map(cardHTML).join('');
+  const cols = gridCols(container), span = cols >= 4 ? 2 : 1, per = Math.max(1, Math.floor(cols / span));
+  container.style.setProperty('--ws', span);
+  const b = container._sb || (container._sb = { t: [], w: [] });
+  const out = [];
+  for (const m of items) {
+    (landPoster(m) ? b.w : b.t).push(m);
+    if (b.t.length >= cols) out.push(...b.t.splice(0).map(cardHTML));
+    if (b.w.length >= per) out.push(...b.w.splice(0).map(cardHTML));
+  }
+  if (final) {
+    const br = '<i class="grid-br" aria-hidden="true"></i>';
+    if (b.t.length) out.push(...b.t.splice(0).map(cardHTML), br);
+    if (b.w.length) out.push(...b.w.splice(0).map(cardHTML), br);
+  }
+  return out.join('');
+}
+
 function cardHTML(m) {
   // yil yoki reyting noma'lum bo'lishi mumkin (masalan YouTube'dagi o'zbek filmlari)
   const meta = [m.year, m.type === 'serial' && m.seasons ? seasonsText(m.seasons) : genreName(m.genres[0])]
     .filter(Boolean).join('<i class="dot"></i>');
 
   return `
-  <a class="card reveal${m.franchise === 'konsert' || m.wide ? ' is-wide' : ''}" href="${movieHref(m)}">
+  <a class="card reveal${landPoster(m) ? ' is-wide' : ''}" href="${movieHref(m)}">
     <div class="card-poster">
       ${posterHTML(m)}
       <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
@@ -477,7 +511,8 @@ function renderCards(container, list, keep) {
   container._more?.remove();
   container._io?.disconnect();
   let shown = Math.min(Math.max(CARDS_PAGE, keep || 0), list.length);
-  container.innerHTML = list.slice(0, shown).map(cardHTML).join('');
+  container._sb = null;
+  container.innerHTML = shapeRows(container, list.slice(0, shown), shown >= list.length);
   observeReveals(container);
   if (shown >= list.length) return;
 
@@ -489,8 +524,8 @@ function renderCards(container, list, keep) {
   const left = more.querySelector('span');
   const step = () => {
     const next = list.slice(shown, shown + CARDS_PAGE);
-    container.insertAdjacentHTML('beforeend', next.map(cardHTML).join(''));
     shown += next.length;
+    container.insertAdjacentHTML('beforeend', shapeRows(container, next, shown >= list.length));
     observeReveals(container);
     if (shown >= list.length) { container._io?.disconnect(); more.remove(); container._more = null; }
     else left.textContent = `(${list.length - shown})`;
