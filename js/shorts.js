@@ -158,7 +158,6 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
         <div class="sh-user">
           <a class="sh-ch" href="${esc(s.u)}" target="_blank" rel="noopener" aria-label="${esc(chName(s))}">${avatarHTML(s)}</a>
           <a class="sh-name" href="${esc(s.u)}" target="_blank" rel="noopener">${esc(chName(s))}</a>
-          <a class="sh-follow" href="${esc(subUrl(s.u))}" target="_blank" rel="noopener">${ru ? 'Подписаться' : 'Obuna'}</a>
         </div>
         <p class="sh-title">${esc(s.t)}<span data-n="views"></span></p>
       </div>
