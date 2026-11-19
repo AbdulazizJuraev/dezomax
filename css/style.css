@@ -8675,3 +8675,5 @@ html body .sh-act.is-on .sh-btn { background: none !important; color: #fff !impo
 .sh-act:active .sh-btn svg { transform: scale(.88); }
 .sh-prog { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; height: 2px; background: rgba(255, 255, 255, .22); pointer-events: none; }
 .sh-prog i { display: block; height: 100%; background: #fff; transform: scaleX(0); transform-origin: 0 50%; transition: transform .3s linear; }
+/* Shorts: YouTube pleyeri teginishni qabul qilmaydi — uning ⏮ ⏸ ⏭ tugmalari chiqmaydi; pauza/davom — o'z qatlamimiz (.sh-tap) */
+.sh-frame, .sh-frame iframe { pointer-events: none !important; }

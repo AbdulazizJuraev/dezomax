@@ -297,7 +297,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   function mountFrame(k, play) {
     const sl = slides[k], id = sl.dataset.id;
     sl.querySelector('.sh-frame').innerHTML =
-      `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=${play ? 1 : 0}&mute=${play && !muted ? 0 : 1}&playsinline=1&loop=1&playlist=${id}` +
+      `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=${play ? 1 : 0}&mute=${play && !muted ? 0 : 1}&playsinline=1&disablekb=1&fs=0` +
       `&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"` +
       ` allow="autoplay; encrypted-media; picture-in-picture" title="${esc(list[k].t)}"></iframe>`;
     const fr = sl.querySelector('iframe');
@@ -364,6 +364,8 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     if (st === 1 && k !== active) { send(sl, 'pauseVideo'); return; }   // oldindan yuklangani o'zi o'ynamasin
     if (st === 1) { sl.classList.add('is-live'); sl.classList.remove('is-yt-stop'); prewarm(k); }     // 1 — o'ynayapti
     // YouTube o'zi to'xtatsa (pauza/tugadi/boshlanmadi) — uning tugmalari ko'rinmasin: muqova yopib turadi
+    // tugadi — boshidan qayta (pleylist parametri yo'q: u ⏮ ⏭ tugmalarini chiqarardi)
+    else if (st === 0 && k === active && !sl.classList.contains('is-paused')) { send(sl, 'seekTo', [0, true]); send(sl, 'playVideo'); }
     else if (st === 2 || st === 0 || st === -1 || st === 5) sl.classList.add('is-yt-stop');
   });
 
