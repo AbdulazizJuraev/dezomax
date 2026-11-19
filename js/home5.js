@@ -713,6 +713,7 @@
     const push = html => { if (!html) return; out.push(html); if (++shown % 3 === 0) out.push('<div class="ad-slot h5-wrap" data-ad-slot="home"></div>'); };
 
     out.push(continueHTML());
+    push(shortsHTML());   // foydalanuvchi so'rovi (2026-11-19): Shorts — slayderdan keyingi birinchi blok
     const trending = take('trending'), uzbek = take('uzbek'), popular = take('popular') || take('top'), fresh = take('new');
     const series = take('series'), cartoons = take('cartoons'), tahlil = take('tahlil'), studios = take('studios');
     take('top');
@@ -722,7 +723,6 @@
     push(bentoHTML());
     if (popular) push(top10HTML(L('Bugungi TOP 10', 'ТОП-10 сегодня')));
     push(hoverHTML());
-    push(shortsHTML());
     push(fanHTML());
     const marvelRow = take('marvel'), dcRow = take('dc');   // Marvel va DC qatorlari endi «Kino studiyalar» panelida
     if (marvelRow || dcRow || window.DZX_STUDIOS) push(kinoStudioHTML());
