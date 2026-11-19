@@ -672,10 +672,18 @@
 
   /* 7) Posterlar ustunlari yuqoriga-pastga aylanadi + yozuv (namuna 8) */
   function mosaicHTML() {
-    const list = tallFirst(ROW_SOURCES.popular.list()).filter(hasTall).slice(40, 80);
-    if (list.length < 16) return '';
+    // takrorsiz (2026-11-19): bir kino turli nom bilan bir necha marta qo'shilgan bo'lsa (Титаник / Titanik) — rasm fayli,
+    // TMDB raqami va nomi bo'yicha bittasi qoladi; ustunda 4 ta rasm (aylanish uchun ikki marta) — sekin internetda ham tez ochiladi
+    const seen = new Set();
+    const key = m => [String(tallOf(m, 'w185') || '').replace(/^.*\/(?:w\d+\/)?/, ''), m.tmdb && m.tmdb.id ? 't' + m.tmdb.id : '', baseTitle(m)];
+    const list = tallFirst(ROW_SOURCES.popular.list()).filter(hasTall).filter(m => {
+      const ks = key(m).filter(Boolean);
+      if (ks.some(k => seen.has(k))) return false;
+      ks.forEach(k => seen.add(k)); return true;
+    }).slice(20, 40);
+    if (list.length < 12) return '';
     const cols = [0, 1, 2, 3, 4].map(c => list.filter((_, i) => i % 5 === c));
-    const col = (c, k) => `<div class="h5-mos-c${k % 2 ? ' is-down' : ''}" style="--d:${48 + k * 7}s"><div>${[...c, ...c].map(m => `<img src="${esc(tallOf(m, 'w185'))}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`).join('')}</div></div>`;
+    const col = (c, k) => `<div class="h5-mos-c${k % 2 ? ' is-down' : ''}" style="--d:${40 + k * 6}s"><div>${[...c, ...c].map((m, i) => `<img src="${esc(tallOf(m, 'w154'))}" alt="" loading="lazy" decoding="async"${i >= c.length ? ' aria-hidden="true"' : ''} onerror="this.style.visibility='hidden'">`).join('')}</div></div>`;
     return `<section class="h5-sec h5-wrap"><div class="h5-mos" data-anim>
       <div class="h5-mos-in" aria-hidden="true">${cols.map(col).join('')}</div>
       <div class="h5-mos-cap"><b>${L(`${nOf('all', () => MOVIES.length)} ta kino — yoki faqat sevganlaringiz.`, `${nOf('all', () => MOVIES.length)} фильмов — или только любимые.`)}</b>
