@@ -4389,6 +4389,13 @@ let chBusy = null;            // { key, done, total, note }
 const chShortOf = (c, x) => x.ch === c.key || (!!c.franchise && x.ch === c.franchise && typeof STUDIOS !== 'undefined' && STUDIOS.some(s => s.key === c.franchise));
 let chFilter = 'all';         // «Kanallar reytingi» filtri: all | series | trailers | playlist
 let chAllRun = false;         // «Hammasini yangilash» ishlayapti
+/* Ruscha (kirill nomli) kino kanallari (masalan «Кинохиты»): server sinxroni o'zbek playlistlari uchun yozilgan (kirill playlistlarni
+   o'tkazib yuboradi — «video topilmadi»). Bunday kanal kanalning barcha yuklamalari (UU… playlist) orqali olinadi: har video — kino,
+   rus tilida, 30 daqiqadan qisqalari (klip, treyler, anons) olinmaydi. (2026-11-19) */
+function chForeignFix(ch) {
+  if (ch.kind !== 'series' || !/[А-Яа-яЁё]/.test(ch.name || '') || !/^UC[\w-]{22}$/.test(ch.id || '')) return ch;
+  return { ...ch, kind: 'playlist', playlist: 'UU' + ch.id.slice(2), type: 'film', audio: 'ru', minSec: 1800, franchise: ch.franchise === 'uzbek' ? '' : ch.franchise };
+}
 const CH_KINDS = { series: 'Seriallar va filmlar (playlistlar)', trailers: 'Rasmiy treylerlar (Marvel kabi)' };
 
 async function loadChannels() {
@@ -4570,7 +4577,7 @@ async function renderChannelsView() {
       // ✓ belgisi shart emas: kanal egasi bilan shartnoma bo'lsa ham qo'shiladi (yuqoridagi tasdiq — admin javobgarligi)
       if (chState.channels.some(c => c.url === info.url || c.id === info.id)) throw new Error('Bu kanal allaqachon ro‘yxatda — «Yangilash» ni bosing.');
       const key = (info.url.match(/@([\w.-]+)/)?.[1] || info.id).toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 20) || 'ch' + Date.now();
-      const ch = { key, id: info.id, name: info.name, url: info.url, kind: $('#chKind').value, franchise: $('#chFr').value, prefix: key.slice(0, 6), updatedAt: null, count: 0, ...(info.verified ? {} : { agreement: true }) };
+      const ch = chForeignFix({ key, id: info.id, name: info.name, url: info.url, kind: $('#chKind').value, franchise: $('#chFr').value, prefix: key.slice(0, 6), updatedAt: null, count: 0, ...(info.verified ? {} : { agreement: true }) });
       await saveChannels(st => ({ channels: [...st.channels, ch], items: st.items }), `Kanal qo‘shildi: ${ch.name}`);
       toast(`«${ch.name}» qo‘shildi (${info.subs || ''} obunachi) — videolari yuklanmoqda…`);
       syncChannel(ch);
@@ -4660,7 +4667,8 @@ async function enrichChannel(ch, limit = 30) {
 async function syncPlaylist(ch) {
   chBusy.note = 'Playlist o‘qilmoqda…';
   if (view === 'channels') renderChannelsView();
-  const pl = await ytApi('/api/yt/playlist?list=' + encodeURIComponent(ch.playlist));
+  // ruscha kanal — asl (ruscha) sarlavhalar; hl'siz YouTube kanal egasining inglizcha tarjimasini beradi
+  const pl = await ytApi('/api/yt/playlist?list=' + encodeURIComponent(ch.playlist) + (ch.audio === 'ru' ? '&hl=ru' : ''));
   // haqiqiy shortslar — kanalning «Shorts» bo'limidan; ular bo'limga emas, js/data-shorts.js ga (shorts.html lentasi)
   let shorts = null;
   if (ch.shorts && ch.id) { chBusy.note = 'Shorts o‘qilmoqda…'; shorts = (await ytApi('/api/yt/shorts?ch=' + encodeURIComponent(ch.id))).items; }
@@ -4668,8 +4676,9 @@ async function syncPlaylist(ch) {
   // playlist serialining qismlari (tools/yt-channel-playlists.js) ham «bor» hisoblanadi — alohida qayta qo'shilmaydi
   const have = new Set(chState.items.filter(m => m.ch === ch.key).flatMap(m => [m.id, ...(m.eps || []).map(e => ytStableId(`${ch.prefix}:${e[0]}`))]));
   const fresh = pl.items.map((v, k) => ({ v, k, id: ytStableId(`${ch.prefix}:${v.id}`) }))
-    .filter(x => !have.has(x.id) && x.v.len && !shortIds.has(x.v.id) && (ch.shorts || (ytSecs(x.v.len) > 60 && !/#shorts?\b/i.test(x.v.title)))).slice(0, 40);
+    .filter(x => !have.has(x.id) && x.v.len && !shortIds.has(x.v.id) && (ch.shorts || (ytSecs(x.v.len) > Math.max(60, ch.minSec || 0) && !/#shorts?\b/i.test(x.v.title))));
   const uz = (ch.audio || 'uz') === 'uz';
+  fresh.splice(uz ? 40 : 400);   // chet el kino kanali — meta so'ralmaydi (tez), bir martada ko'proq
   const add = [];
   for (const [n, { v, k, id }] of fresh.entries()) {
     Object.assign(chBusy, { done: n, total: fresh.length, note: v.title });
@@ -4744,6 +4753,11 @@ async function syncChannel(ch) {
   chBusy = { key: ch.key, done: 0, total: 0, note: '' };
   if (view === 'channels') renderChannelsView();
   try {
+    if (ch.kind === 'series' && chForeignFix({ ...ch }).kind === 'playlist') {
+      const fixed = chForeignFix({ ...ch });
+      await saveChannels(st => ({ channels: st.channels.map(c => c.key === ch.key ? fixed : c), items: st.items }), `Kanal sozlamasi: ${ch.name} — yuklamalar (kino)`);
+      ch = fixed;
+    }
     if (ch.kind === 'playlist') { await syncPlaylist(ch); return; }
     const { job } = await dc('/api/yt/sync', { method: 'POST', body: JSON.stringify({ url: ch.url, kind: ch.kind, franchise: ch.franchise, prefix: ch.prefix, agreement: true }) });   // agreement — admin kanal rasmiy yoki shartnoma borligini tasdiqlagan
     let j;

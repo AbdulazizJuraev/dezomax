@@ -108,9 +108,11 @@ function ytPageJson(html, name) {
   }
   return null;
 }
-async function ytPlaylist(listId) {
+// hl — sarlavhalar tili: ruscha kanallar (Кинохиты) inglizcha tarjima sarlavha ham beradi — admin «ru» so'raydi (2026-11-19)
+async function ytPlaylist(listId, hl = 'en') {
   if (!/^(PL|UU|OL)[\w-]{10,60}$/.test(String(listId || ''))) return { error: 'list noto‘g‘ri', status: 400 };
-  const html = await (await fetch(`https://www.youtube.com/playlist?list=${listId}&hl=en`, { headers: YT_HEAD, signal: AbortSignal.timeout(20000) })).text();
+  if (!['en', 'ru', 'uz'].includes(hl)) hl = 'en';
+  const html = await (await fetch(`https://www.youtube.com/playlist?list=${listId}&hl=${hl}`, { headers: YT_HEAD, signal: AbortSignal.timeout(20000) })).text();
   const cfg = { key: html.match(/"INNERTUBE_API_KEY":"([^"]+)"/)?.[1], ver: html.match(/"INNERTUBE_CLIENT_VERSION":"([^"]+)"/)?.[1] };
   const take = d => {
     const out = [];
@@ -137,7 +139,7 @@ async function ytPlaylist(listId) {
   while (tok && cfg.key && n++ < 10) {
     const r = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${cfg.key}`, {
       method: 'POST', headers: { ...YT_HEAD, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(20000),
-      body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: cfg.ver, hl: 'en' } }, continuation: tok }),
+      body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: cfg.ver, hl } }, continuation: tok }),
     });
     if (!r.ok) break;
     const j = await r.json(), add = take(j);
@@ -631,7 +633,7 @@ function createApp(cfg, deps = {}) {
       if ((path === '/api/yt/playlist' || path === '/api/yt/meta' || path === '/api/yt/shorts') && req.method === 'GET') {
         if (limited(req, 'ytmeta', 90)) return send(res, 429, { error: 'Ko‘p so‘rov' });
         const r = path.endsWith('playlist')
-          ? await ytCached('pl:' + url.searchParams.get('list'), () => ytPlaylist(url.searchParams.get('list')))
+          ? await ytCached('pl:' + url.searchParams.get('list') + ':' + (url.searchParams.get('hl') || 'en'), () => ytPlaylist(url.searchParams.get('list'), url.searchParams.get('hl') || 'en'))
           : path.endsWith('shorts')
           ? await ytCached('sh:' + url.searchParams.get('ch'), () => ytShorts(url.searchParams.get('ch')))
           : await ytCached('v:' + url.searchParams.get('v'), () => ytMeta(url.searchParams.get('v')));
