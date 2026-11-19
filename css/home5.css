@@ -695,3 +695,7 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
   .h5-logo { padding-left: 16px; } .h5-tools { padding-right: 10px; } .h5-links { padding-left: 12px; }
   .h5-hero-art { inset: calc(var(--h5nav, 112px) + 10px) 10px auto 10px; width: auto; border-radius: 28px 28px 0 0; overflow: hidden; }
 }
+/* Telefon: soat va zaryad (status bar) ostida qora fon — sahifa aylantirilganda rasm/kartalar u yerda ko'rinmasin (2026-11-19) */
+@media (max-width: 860px) {
+  .h5-nav::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: calc(var(--sat, 0px) + 8px); background: #000; pointer-events: none; }
+}
