@@ -343,11 +343,17 @@
     const q = Object.values(groups).map(g => g.sort(() => Math.random() - .5).sort((a, b) => !!b.p - !!a.p));
     const list = [];
     for (let i = 0; list.length < 20 && q.some(g => g[i]); i++) q.forEach(g => { if (g[i] && list.length < 20) list.push(g[i]); });
+    const usedP = new Set();
     return `<section class="h5-sec h5-wrap"><div class="h5-panel is-violet">
       ${headHTML('Shorts', 'shorts.html', `<span class="h5-tag" style="background:#7B5CFF">${L('YANGI', 'НОВОЕ')}</span>`).replace('class="h5-all"', 'class="h5-all" style="color:var(--violet)"')}
-      <div class="h5-row">${list.map(s => `<a class="h5-short" href="shorts.html#${s.id}" aria-label="${esc(s.t)}">
-        <img src="${esc(s.p || `https://i.ytimg.com/vi/${s.id}/oardefault.jpg`)}" alt="" loading="lazy" decoding="async" onerror="this.closest('a').remove()"><span class="h5-shade"></span>
-        <span class="h5-play"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z" fill="#fff"/></svg></span><span class="h5-sc">${esc(s.t)}</span></a>`).join('')}</div></div></section>`;
+      <div class="h5-row">${list.map(s => {
+        // bitta kino posteri bir necha shortsda (Qasoskorlar) — takrorlanmasin: ikkinchisidan boshlab videoning o'z kadri
+        const own = `https://i.ytimg.com/vi/${s.id}/oardefault.jpg`;
+        const img = s.p && !usedP.has(s.p) ? (usedP.add(s.p), s.p) : own;
+        return `<a class="h5-short" href="shorts.html#${s.id}" aria-label="${esc(s.t)}">
+        <span class="h5-short-v"><img src="${esc(img)}" alt="" loading="lazy" decoding="async" onerror="this.onerror=()=>this.closest('a').remove();this.src='https://i.ytimg.com/vi/${s.id}/hqdefault.jpg'">
+        <span class="h5-play"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z" fill="#fff"/></svg></span></span><span class="h5-short-t">${esc(s.t)}</span></a>`;
+      }).join('')}</div></div></section>`;
   }
 
   /* Kino studiyalari paneli (2026-11-19, foydalanuvchi so'rovi): Shorts paneli uslubida, tablar — Marvel, DC, Disney, Pixar…;
@@ -713,11 +719,11 @@
     const push = html => { if (!html) return; out.push(html); if (++shown % 3 === 0) out.push('<div class="ad-slot h5-wrap" data-ad-slot="home"></div>'); };
 
     out.push(continueHTML());
-    push(shortsHTML());   // foydalanuvchi so'rovi (2026-11-19): Shorts — slayderdan keyingi birinchi blok
     const trending = take('trending'), uzbek = take('uzbek'), popular = take('popular') || take('top'), fresh = take('new');
     const series = take('series'), cartoons = take('cartoons'), tahlil = take('tahlil'), studios = take('studios');
     take('top');
     if (trending) { const l = listOf(trending); if (l.length >= 4) push(rowSec(L('Hozir trendda', 'Сейчас в тренде'), ROW_SOURCES.trending.all, l)); }
+    push(shortsHTML());   // foydalanuvchi so'rovi (2026-11-19): Shorts — «Hozir trendda» dan keyin
     if (uzbek) { const l = listOf(uzbek); if (l.length >= 4) push(rowSec(titleOf(uzbek), ROW_SOURCES.uzbek.all, l)); }
     push(genresHTML());
     push(bentoHTML());
