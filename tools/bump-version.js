@@ -35,6 +35,31 @@ for (const f of files) {
   fs.writeFileSync(p, fs.readFileSync(p, 'utf8').replace(/(js\/admin\.js)\?v=[^"]*"/, `$1?v=${hash}"`));
 }
 
+// Katta ma'lumot fayllari (2026-11-19) — versiya fayl mazmunidan (hash): o'zgarmagan bo'lsa brauzer keshdan oladi.
+// Avval har deployda ~6 MB (gzip) qaytadan yuklanardi — admin sekin internetda 40+ soniya ochilardi.
+// Bu fayllar CI'da qayta yaratilmaydi (data-site/data-home yaratiladi — ular vaqt versiyasida qoladi).
+{
+  const sha = (...names) => {
+    const h = require('crypto').createHash('sha1');
+    for (const n of names) { const fp = path.join(root, 'js', n); if (fs.existsSync(fp)) h.update(fs.readFileSync(fp)); }
+    return h.digest('hex').slice(0, 10);
+  };
+  const HASHED = {
+    'data.js': ['data.js'], 'data-custom.js': ['data-custom.js'], 'data-channels.js': ['data-channels.js'],
+    'data-rutube.js': ['data-rutube.js'], 'marvel-films.js': ['marvel-films.js'], 'marvel-data.js': ['marvel-data.js'],
+    // gate o'z ?v= sini data-lib.js ga uzatadi (data-lib.js esa data-lib2.js ga) — uchalasi bitta hashda
+    'data-lib-gate.js': ['data-lib-gate.js', 'data-lib.js', 'data-lib2.js'],
+  };
+  const ver = Object.fromEntries(Object.entries(HASHED).map(([k, v]) => [k, sha(...v)]));
+  const re = /((?:src|href)="(?:\/dezomax\/)?js\/(data\.js|data-custom\.js|data-channels\.js|data-rutube\.js|marvel-films\.js|marvel-data\.js|data-lib-gate\.js))\?v=[^"]*"/g;
+  for (const f of files) {
+    const p = path.join(root, f);
+    const before = fs.readFileSync(p, 'utf8');
+    const after = before.replace(re, (_, a, n) => `${a}?v=${ver[n]}"`);
+    if (after !== before) fs.writeFileSync(p, after);
+  }
+}
+
 console.log(`versiya ${version} — ${changed} ta HTML fayl yangilandi`);
 
 // Qidiruv tizimlari uchun kinolar ro'yxati ham yangilansin
