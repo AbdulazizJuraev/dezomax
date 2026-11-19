@@ -689,7 +689,7 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 
 /* Telefon (2026-11-19): tepadagi menyu — yumaloq (oval) panel, katta rasmning tepa burchaklari ham yumaloq */
 @media (max-width: 860px) {
-  .h5-nav, .h5-nav.is-solid { padding: calc(8px + var(--sat, 0px)) 10px 0; background: none; box-shadow: none; }
+  .h5-nav, .h5-nav.is-solid { padding: calc(10px + var(--sat, 0px)) 10px 0; background: none; box-shadow: none; }   /* qora status bar bilan menyu orasida 10px bo'shliq */
   .h5-nav-in { padding: 10px 0; border-radius: 24px; background: #030604; box-shadow: 0 0 0 1px rgba(166, 226, 46, .16), 0 10px 26px rgba(0, 0, 0, .5); }
   .h5-nav.is-solid:not(.is-up) .h5-nav-in { padding: 8px 0; }
   .h5-logo { padding-left: 16px; } .h5-tools { padding-right: 10px; } .h5-links { padding-left: 12px; }
@@ -697,5 +697,5 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 }
 /* Telefon: soat va zaryad (status bar) ostida qora fon — sahifa aylantirilganda rasm/kartalar u yerda ko'rinmasin (2026-11-19) */
 @media (max-width: 860px) {
-  .h5-nav::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: calc(var(--sat, 0px) + 8px); background: #000; pointer-events: none; }
+  .h5-nav::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: var(--sat, 0px); background: #000; pointer-events: none; }
 }
