@@ -8706,3 +8706,12 @@ html body .h5-menu a.h5-mi:hover { background: rgba(255, 255, 255, .1); color: #
 .dzx-keys-r { display: flex; align-items: center; gap: 14px; padding: 7px 0; border-bottom: 1px solid rgba(255, 255, 255, .08); font-size: .9rem; }
 .dzx-keys-r kbd { flex: none; min-width: 92px; padding: .25em .6em; border-radius: 6px; background: rgba(255, 255, 255, .1); font: 600 .82rem/1.4 inherit; text-align: center; }
 .dzx-keys-x { margin-top: 14px; width: 100%; padding: .7em; border-radius: 10px; background: #8BE04E; color: #0B1A06; font-weight: 700; }
+/* Shorts (telefon): video navbar orqasigacha — pastda bo'sh qora joy qolmaydi; matn/tugmalar navbar ustida (2026-11-19) */
+@media (max-width: 900px) {
+  html body.page-shorts { --sh-bot: 0px; --sh-nav: calc(84px + var(--sab, env(safe-area-inset-bottom))); }
+  html body.page-shorts .sh-info { bottom: calc(var(--sh-nav) + 4px); }
+  html body.page-shorts .sh-actions { bottom: calc(var(--sh-nav) + 8px); }
+  html body.page-shorts .sh-prog { bottom: var(--sh-nav); }
+  .page-shorts .sh-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--sh-nav) + 130px); z-index: 2; pointer-events: none; background: linear-gradient(0deg, rgba(0, 0, 0, .6), transparent); }
+  html body.page-shorts nav.tabbar.tabbar { background: rgba(18, 20, 19, .72) !important; border-color: rgba(255, 255, 255, .08) !important; }
+}
