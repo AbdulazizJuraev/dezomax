@@ -395,29 +395,21 @@
   }
 
   /* Ilova banneri: poster devori + telefon va planshet */
+  /* «Har qanday ekranda» bloki — foydalanuvchi namunasi (2026-11-19): yashil ramka, qurilmalar — tayyor rasmlar (images/devices/) */
   function appHTML() {
-    const pool = tallFirst(ROW_SOURCES.popular.list()).filter(hasTall).slice(0, 40);
-    if (pool.length < 8) return '';
-    const p = i => pool[i % pool.length];
-    const img = (m, s = 'w185') => `<img src="${esc(tallOf(m, s))}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`;
-    const native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
-    const shot = (m, mini) => `<div class="h5-shot">${img(m, 'w342')}<span class="h5-cap">${esc(title(m).split(':')[0])}<br><i>${L('Ko‘rish', 'Смотреть')}</i></span></div><div class="h5-mini">${mini.map(x => img(x)).join('')}</div>`;
-    return `<section class="h5-sec h5-wrap"><div class="h5-app">
-      <div class="h5-wall" aria-hidden="true">${Array.from({ length: 30 }, (_, k) => img(p(k * 2 + Math.floor(k / 6)))).join('')}</div>
-      <div class="h5-app-copy">
-        <div class="h5-eyebrow">${L('Har qanday ekranda', 'На любом экране')}</div>
-        <h2>${L('Bitta sayt — <em>barcha ekranlarda</em>', 'Один сайт — <em>на всех экранах</em>')}</h2>
-        <p>${L('Telefon, planshet, kompyuter yoki televizor: DezoMax har bir ekranga o‘zi moslashadi. Android uchun ilovasi ham bor.', 'Телефон, планшет, компьютер или телевизор: DezoMax сам подстраивается под любой экран. Есть и приложение для Android.')}</p>
-        <div class="h5-stores">
-          <a class="h5-btn is-green" href="catalog.html">${PLAY_SVG}${L('Hoziroq ko‘rish', 'Смотреть сейчас')}</a>
-          ${native ? '' : `<a class="h5-store" href="https://play.google.com/store/apps/details?id=uz.dezomax.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M3.6 2.2 13.4 12l-9.8 9.8c-.4-.2-.6-.6-.6-1.1V3.3c0-.5.2-.9.6-1.1zm11 11 2.4 2.4-11 6.3 8.6-8.7zm3.6-3.7 2.6 1.5c.7.4.7 1.6 0 2l-2.6 1.5-2.7-2.5 2.7-2.5zM6 1.9l11 6.3-2.4 2.4L6 1.9z"/></svg><span><small>ANDROID</small>Google Play</span></a>`}
-          <a class="h5-store" href="https://t.me/dezomaxuz" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21.5 3.3 2.6 10.6c-.9.4-.9 1.2 0 1.5l4.8 1.5 1.8 5.6c.2.6.9.8 1.4.4l2.7-2.2 4.7 3.5c.6.4 1.3.1 1.5-.6l3.2-15.2c.2-.9-.5-1.6-1.2-1.3zM9.2 13.3l8.6-5.4c.2-.1.4.1.2.3l-7 6.5-.3 3.1z"/></svg><span><small>${L('YANGILIKLAR', 'НОВОСТИ')}</small>Telegram</span></a>
-        </div>
+    const dev = (k, w, h) => `<img class="h5-ae-${k}" src="images/devices/${k}.webp" width="${w}" height="${h}" alt="" loading="lazy" decoding="async">`;
+    return `<section class="h5-sec h5-wrap"><div class="h5-ae">
+      <div class="h5-ae-copy">
+        <div class="h5-ae-eye">${L('Har qanday ekranda', 'На любом экране')}</div>
+        <h2>${L('Bitta sayt - <em>barcha ekranlarda</em>', 'Один сайт - <em>на всех экранах</em>')}</h2>
+        <p>${L('Telefon, planshet, kompyuter yoki televizor: DezoMax har bir ekranga o‘zi moslashadi. Android uchun ilovasi ham mavjud', 'Телефон, планшет, компьютер или телевизор: DezoMax сам подстраивается под любой экран. Есть и приложение для Android')}</p>
       </div>
-      <div class="h5-devices" aria-hidden="true">
-        <div class="h5-dev is-tablet"><div class="h5-scr">${shot(p(2), [p(3), p(4), p(5), p(6)])}</div></div>
-        <div class="h5-dev is-phone"><div class="h5-scr">${shot(p(0), [p(1), p(2), p(3)])}</div></div>
-      </div></div></section>`;
+      <div class="h5-ae-btns">
+        <a class="h5-ae-go" href="catalog.html"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>${L('Hozir ko‘rish', 'Смотреть')}</a>
+        <a class="h5-ae-tg" href="https://t.me/dezomaxuz" target="_blank" rel="noopener">${L('Yangiliklar', 'Новости')}<b>${L('Telegramda', 'в Telegram')}</b></a>
+      </div>
+      <div class="h5-ae-devs" aria-hidden="true">${dev('laptop', 960, 571)}${dev('tv', 1000, 930)}${dev('tablet', 820, 593)}${dev('phone', 520, 618)}</div>
+    </div></section>`;
   }
 
   /* Kinostudiyalar (js/common.js → STUDIOS) */

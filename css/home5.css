@@ -603,3 +603,44 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 .h5-ks-c .h5-shade { inset: 45% 0 0 0; }
 .h5-ks-c .h5-sc { position: absolute; inset: auto 0 0 0; padding: 0 11px 11px; font-weight: 700; font-size: .84rem; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .h5-ks-y { position: absolute; top: 9px; left: 9px; padding: .2em .6em; border-radius: 8px; background: rgba(0, 0, 0, .62); color: #fff; font-size: .74rem; font-weight: 800; }
+
+/* «Har qanday ekranda» — namuna bo'yicha (2026-11-19): qalin yashil ramka, qora karta, o'ngda qurilmalar */
+.h5-ae { position: relative; overflow: hidden; isolation: isolate; display: grid; grid-template-columns: minmax(190px, 24%) 1fr; grid-template-areas: "copy copy" "btns devs";
+  border: clamp(7px, 1.3vw, 18px) solid #86C80F; border-radius: clamp(22px, 2.6vw, 38px); background: radial-gradient(45% 55% at 100% 100%, rgba(134, 200, 15, .55), transparent 70%), #000;
+  padding: clamp(20px, 3.4vw, 54px) 0 0 clamp(20px, 3.4vw, 54px); }
+.h5-ae-copy { grid-area: copy; position: relative; z-index: 2; padding-right: clamp(20px, 3.4vw, 54px); }
+.h5-ae-eye { font: 700 clamp(1.7rem, 3.4vw, 3.3rem)/1 'Saira Condensed', 'Arial Narrow', sans-serif; letter-spacing: .01em; text-transform: uppercase; color: #8BD11A; margin-bottom: .35em; }
+.h5-ae h2 { margin: 0 0 .45em; font: 500 clamp(2.1rem, 5vw, 4.6rem)/1 'Saira Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0; color: #fff; }
+.h5-ae h2 em { font-style: normal; background: linear-gradient(90deg, #A6DA2A, #CFEF7A); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.h5-ae p { margin: 0; max-width: 1100px; font-size: clamp(.95rem, 1.5vw, 1.35rem); line-height: 1.4; color: rgba(255, 255, 255, .92); }
+.h5-ae-btns { grid-area: btns; position: relative; z-index: 3; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: clamp(18px, 2.4vw, 34px) 0 clamp(20px, 3vw, 40px); }
+.h5-ae-go { display: inline-flex; align-items: center; gap: .45em; padding: .7em 1.25em; border-radius: 999px; background: linear-gradient(90deg, #6FB00A, #A6E22E); color: #07160A; font-weight: 800; font-size: clamp(1rem, 1.5vw, 1.35rem); box-shadow: 0 0 24px rgba(134, 200, 15, .35); }
+.h5-ae-go svg { width: .8em; height: .8em; fill: currentColor; }
+.h5-ae-tg { display: inline-flex; flex-direction: column; align-items: center; padding: .55em 1.6em; border-radius: 18px; background: #000; border: 1px solid rgba(255, 255, 255, .22); color: #fff; font-size: clamp(.95rem, 1.4vw, 1.25rem); line-height: 1.1; letter-spacing: .04em; }
+.h5-ae-tg b { font-weight: 800; letter-spacing: 0; }
+.h5-ae-devs { grid-area: devs; position: relative; z-index: 1; aspect-ratio: 16 / 7; margin-top: clamp(-40px, -2vw, -10px); }
+.h5-ae-devs img { position: absolute; height: auto; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .6)); }
+.h5-ae-laptop { right: -3%; top: 2%; width: 38%; z-index: 1; }
+.h5-ae-tv { left: 0; bottom: -12%; width: 50%; z-index: 2; }
+.h5-ae-tablet { left: 44%; bottom: -2%; width: 36%; z-index: 3; }
+.h5-ae-phone { right: 2%; bottom: -16%; width: 20%; z-index: 4; }
+@media (max-width: 760px) {
+  .h5-ae { grid-template-columns: 1fr; grid-template-areas: "copy" "btns" "devs"; padding: 20px 0 0 18px; }
+  .h5-ae-copy { padding-right: 18px; }
+  .h5-ae-btns { flex-direction: row; flex-wrap: wrap; align-items: center; padding: 16px 18px 6px 0; }
+  .h5-ae-tg { padding: .45em 1.1em; border-radius: 14px; }
+  .h5-ae-devs { aspect-ratio: 16 / 10; margin: 0 0 0 -18px; }
+  .h5-ae-laptop { top: 4%; width: 44%; }
+  .h5-ae-tv { bottom: -6%; width: 56%; }
+  .h5-ae-tablet { left: 40%; width: 40%; bottom: 0; }
+  .h5-ae-phone { width: 24%; bottom: -10%; }
+}
+@media (max-width: 760px) {
+  .h5-ae-eye { font-size: 1.35rem; margin-bottom: .2em; }
+  .h5-ae h2 { font-size: 1.85rem; margin-bottom: .35em; }
+  .h5-ae p { font-size: .84rem; }
+  .h5-ae-btns { flex-wrap: nowrap; gap: 8px; padding-top: 12px; }
+  .h5-ae-go { font-size: .88rem; padding: .65em 1em; }
+  .h5-ae-tg { font-size: .78rem; padding: .4em .9em; }
+  .h5-ae-devs { aspect-ratio: 16 / 9; }
+}
