@@ -44,7 +44,7 @@
   const maxres = x => x.own ? x.thumb : `https://i.ytimg.com/vi/${x.id}/maxresdefault_live.jpg`;
   const avatar = x => x.avatar ? `<img src="${esc(x.avatar)}" alt="" loading="lazy">` : `<span class="lv-av">${esc((x.channel || '?')[0])}</span>`;
   const hrefOf = x => x.own ? 'efir-test.html?watch' : '#v=' + x.id;
-  let own = null, feat = 0, more = false;
+  let own = null, feat = 0;
   const hubItems = () => (own ? [own] : []).concat(items);
   function hero() {
     const all = hubItems(), x = all[feat] || all[0];
@@ -58,6 +58,7 @@
         <a class="lvh-go" href="${hrefOf(x)}">${L('Efirni ko‘rish', 'Смотреть трансляцию')}</a>
       </div>
       <div class="lvh-strip">${all.slice(0, 8).map((y, k) => `<button type="button" class="${k === feat ? 'is-on' : ''}" data-feat="${k}" aria-label="${esc(y.title)}"><img src="${esc(thumb(y))}" alt="" loading="lazy" decoding="async"></button>`).join('')}</div>
+      <div class="lvh-dots">${all.slice(0, 12).map((y, k) => `<button type="button" class="${k === feat ? 'is-on' : ''}" data-feat="${k}" aria-label="${k + 1}"></button>`).join('')}</div>
     </div>`;
   }
   function card(x) {
@@ -66,22 +67,46 @@
       <span class="lvh-cb">${avatar(x)}<span><b>${esc(x.title)}</b><small>${esc(x.channel)}</small>${x.viewers ? `<small>${L('Tomoshabinlar', 'Зрителей')}: ${fmtN(x.viewers)}</small>` : ''}</span></span>
     </a>`;
   }
+  // mavzu bo'yicha bo'limlar (YouTube'dagi «Сейчас в эфире: новости / игры» kabi) — kamida 2 ta efir bo'lsa chiqadi
+  const CATS = [
+    ['news', L('yangiliklar', 'новости'), /yangilik|xabar|news|telekanal|\btv\b|24\/7|uzreport|kun\.uz|daryo|o['ʻ‘’]zbekiston 24|mening yurtim|sevimli|zo['ʻ‘’]r tv|novosti|новост/i],
+    ['games', L('o‘yinlar', 'игры'), /pubg|gta|minecraft|counter|\bcs ?2\b|dota|fortnite|valorant|free ?fire|mobile legends|mlbb|roblox|o['ʻ‘’]yin|gaming|\bgame|strim|stream/i],
+    ['music', L('musiqa', 'музыка'), /musiq|music|qo['ʻ‘’]shiq|\bsongs?\b|\bxit|\bpop\b|konsert|концерт|музык/i]
+  ];
+  const open = new Set();
+  const N = () => (matchMedia('(max-width: 640px)').matches ? 4 : 6);
+  function block(key, title, list) {
+    const n = N(), on = open.has(key), shown = on ? list : list.slice(0, n);
+    return `<div class="lvh-sh"><h2>${title}</h2><span>${L(`${list.length} ta efir`, `${list.length} эфиров`)}</span></div>
+      <div class="lvh-grid">${shown.map(card).join('')}</div>
+      ${list.length > n ? `<div class="lvh-mw"><button type="button" class="lvh-more" data-more="${key}">${on ? L('Kamroq', 'Свернуть') + ' ⌃' : L('Ko‘proq', 'Ещё') + ' ⌄'}</button></div>` : ''}`;
+  }
   function renderHub() {
     const all = hubItems();
     if (!all.length) { hub.innerHTML = ''; return; }
-    const N = 6, list = more ? all : all.slice(0, N);
+    const cats = CATS.map(([k, t, re]) => [k, t, all.filter(x => !x.own && re.test(x.title + ' ' + x.channel))]).filter(c => c[2].length >= 2 && c[2].length < all.length);
     hub.innerHTML = `
       <div class="lvh-head"><span class="lvh-ic">((•))</span><h1>${L('Jonli efirlar', 'Трансляции')}</h1></div>
       ${hero()}
-      <div class="lvh-sh"><h2>${L('Hozir efirda', 'Сейчас в эфире')}</h2><span>${L(`${all.length} ta efir`, `${all.length} эфиров`)}</span></div>
-      <div class="lvh-grid">${list.map(card).join('')}</div>
-      ${all.length > N ? `<button type="button" class="lvh-more" data-more>${more ? L('Kamroq', 'Свернуть') + ' ⌃' : L('Ko‘proq', 'Ещё') + ' ⌄'}</button>` : ''}`;
+      ${block('all', L('Hozir efirda', 'Сейчас в эфире'), all)}
+      ${cats.map(([k, t, list]) => block(k, L('Hozir efirda: ', 'Сейчас в эфире: ') + t, list)).join('')}`;
   }
   hub.addEventListener('click', e => {
     const f = e.target.closest('[data-feat]');
     if (f) { feat = +f.dataset.feat; const h = hub.querySelector('.lvh-hero'); if (h) h.outerHTML = hero(); return; }
-    if (e.target.closest('[data-more]')) { more = !more; renderHub(); }
+    const m = e.target.closest('[data-more]');
+    if (m) { const k = m.dataset.more; open.has(k) ? open.delete(k) : open.add(k); renderHub(); }
   });
+  let tx = 0, ty = 0;
+  hub.addEventListener('touchstart', e => { if (!e.target.closest('.lvh-hero')) return; tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  hub.addEventListener('touchend', e => {
+    if (!tx || !e.target.closest('.lvh-hero')) return;
+    const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = 0;
+    const n = Math.min(12, hubItems().length);
+    if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx) || n < 2) return;
+    feat = (feat + (dx < 0 ? 1 : n - 1)) % n;
+    const h = hub.querySelector('.lvh-hero'); if (h) h.outerHTML = hero();
+  }, { passive: true });
   // hub yoki efir: #v=ID bo'lsa — pleyer, aks holda — asosiy ko'rinish (pleyer o'chiriladi)
   function route() {
     const want = (location.hash.match(/v=([\w-]{11})/) || [])[1];

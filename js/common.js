@@ -598,6 +598,33 @@ const NAV5_IC = {
   live: '<circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
   sport: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'
 };
+/* Telefon: logo chapida ☰ — ichida Seriallar, Multfilmlar, Sport (yuqoridagi bo'limlar qatori telefonda yashirin;
+   asosiy bo'limlar pastki panelda). Bosh sahifadagi tayyor menyuga ham qo'shiladi. 2026-11-19 */
+function mountBurger() {
+  const nav = document.querySelector('.h5-nav .h5-nav-in');
+  if (!nav || nav.querySelector('.h5-burger')) return;
+  const ru = typeof LANG !== 'undefined' && LANG === 'ru';
+  const L = (uz, r) => (ru ? r : uz);
+  const type = new URLSearchParams(location.search).get('type');
+  const file = location.pathname.split('/').pop() || 'index.html';
+  const items = [
+    ['catalog.html?type=serial', 'serial', L('Seriallar', 'Сериалы'), file === 'catalog.html' && type === 'serial'],
+    ['catalog.html?type=multfilm', 'multfilm', L('Multfilmlar', 'Мультфильмы'), file === 'catalog.html' && type === 'multfilm'],
+    ['sport.html', 'sport', L('Sport', 'Спорт'), file === 'sport.html']
+  ];
+  const wrap = document.createElement('div');
+  wrap.className = 'h5-bw';
+  wrap.innerHTML = `<button type="button" class="h5-burger" aria-label="${L('Menyu', 'Меню')}" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3.5 6.5h17M3.5 12h17M3.5 17.5h17"/></svg></button>
+    <div class="h5-bmenu" hidden>${items.map(([h, k, t, on]) => `<a href="${h}"${on ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${(typeof NAV5_IC !== 'undefined' && NAV5_IC[k]) || ''}</svg>${t}</a>`).join('')}</div>`;
+  nav.insertBefore(wrap, nav.firstChild);
+  const btn = wrap.querySelector('.h5-burger'), menu = wrap.querySelector('.h5-bmenu');
+  const set = open => { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); };
+  btn.addEventListener('click', e => { e.stopPropagation(); set(menu.hidden); });
+  document.addEventListener('click', e => { if (!menu.hidden && !wrap.contains(e.target)) set(false); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') set(false); });
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mountBurger); else setTimeout(mountBurger, 0);
+
 function mountNav5() {
   const old = document.querySelector('header.header');
   const file = /\/kino\//.test(location.pathname) ? 'kino' : location.pathname.split('/').pop() || 'index.html';
@@ -637,6 +664,7 @@ function mountNav5() {
   </div>`;
   old.replaceWith(hd);
   document.documentElement.classList.add('has-nav5');
+  mountBurger();
 
   // aylantirganda (telefonda) — to'q fon, pastga — bo'limlar qatori yashirinadi, tepaga — qaytadi
   let lastY = scrollY;

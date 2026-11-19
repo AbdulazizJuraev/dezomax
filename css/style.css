@@ -8559,3 +8559,51 @@ html.has-nav5 .mini-nav { display: none; }
   .lvh-grid { grid-template-columns: 1fr; gap: 22px; }
 }
 .dzx-lite .lvh-card:hover .lvh-th img { transform: none; }
+
+/* ---------------- Telefon navbari (2026-11-19): ☰ (Seriallar, Multfilmlar, Sport) · kichik logo · qidiruv · bildirishnoma · akkaunt ---------------- */
+.h5-bw { display: none; }
+@media (max-width: 860px) {
+  .h5-bw { display: block; position: relative; padding-left: calc(var(--gutter) - 6px); }
+  .h5-burger { width: 38px; height: 38px; display: grid; place-items: center; border: 0; background: none; color: #fff; cursor: pointer; border-radius: 10px; }
+  .h5-burger svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+  .h5-burger[aria-expanded="true"] { background: rgba(255, 255, 255, .1); }
+  .h5-nav-in .h5-logo { padding-left: 4px; }
+  .h5-nav-in .h5-logo img { height: 19px; }
+  .h5-nav .h5-links { display: none !important; }
+  .h5-nav .h5-nav-in { flex-wrap: nowrap; align-items: center; row-gap: 0; }
+  .h5-bmenu { position: absolute; left: calc(var(--gutter) - 6px); top: calc(100% + 10px); z-index: 60; min-width: 210px; padding: 6px; border-radius: 16px; background: #0d120e; border: 1px solid rgba(166, 226, 46, .18); box-shadow: 0 18px 40px rgba(0, 0, 0, .6); }
+  .h5-bmenu[hidden] { display: none; }
+  .h5-bmenu a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 11px; color: #fff; font-weight: 600; font-size: 15px; }
+  .h5-bmenu a:hover, .h5-bmenu a[aria-current] { background: rgba(166, 226, 46, .12); color: #B8EC4A; }
+  .h5-bmenu svg { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+}
+
+/* Jonli efirlar — telefon (YouTube ilovasidagidek, 2026-11-19): rasm tepada, ostida markazda nom/kanal/tugma, nuqtalar; 2 ustun; «Ko'proq» chiziq ustida */
+.lvh-dots { display: none; }
+.lvh-mw { position: relative; margin: 22px 0 0; text-align: center; }
+.lvh-mw::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(255, 255, 255, .14); }
+.lvh-mw .lvh-more { position: relative; margin: 0 auto; background: #050806; }
+@media (max-width: 640px) {
+  .lvh-hero { height: auto; aspect-ratio: auto; display: flex; flex-direction: column; background: #000; }
+  .lvh-hero::after { display: none; }
+  .lvh-bg { position: relative; inset: auto; height: auto; aspect-ratio: 16 / 9; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent); mask-image: linear-gradient(180deg, #000 70%, transparent); }
+  .lvh-hc { position: relative; left: auto; right: auto; top: auto; bottom: auto; transform: none; width: auto; margin-top: -34px; padding: 0 18px; text-align: center; }
+  .lvh-hc h2 { font-size: 21px; text-transform: none; -webkit-line-clamp: 2; }
+  .lvh-dot { display: none; }
+  .lvh-ch { justify-content: center; margin-top: 12px; font-size: 14px; }
+  .lvh-v { font-size: 13.5px; }
+  .lvh-go { height: 40px; margin-top: 14px; font-size: 13.5px; }
+  .lvh-strip { display: none; }
+  .lvh-dots { position: relative; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; padding: 16px 12px 18px; }
+  .lvh-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .35); cursor: pointer; }
+  .lvh-dots button.is-on { width: 11px; height: 11px; background: #fff; }
+  .lvh-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 10px; }
+  .lvh-th { border-radius: 10px; }
+  .lvh-th i { font-size: 10px; right: 6px; bottom: 6px; }
+  .lvh-cb { gap: 8px; margin-top: 9px; }
+  .lvh-cb img, .lvh-cb .lv-av { width: 26px; height: 26px; }
+  .lvh-cb b { font-size: 13.5px; }
+  .lvh-cb small { font-size: 12px; }
+  .lvh-sh { margin: 28px 0 12px; } .lvh-sh h2 { font-size: 18px; }
+  .lvh-mw .lvh-more { width: min(300px, 80%); }
+}
