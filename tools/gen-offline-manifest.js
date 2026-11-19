@@ -36,6 +36,8 @@ for (const dir of ['images/sport', 'images/tv', 'images/marvel', 'images/logo'])
   }
 }
 
-const out = { v, pages, shell: [...shell], data: ['js/data-site.js', 'js/site-config.js'], images };
+// kinolar ro'yxati: js/data-site.js + bo'laklari (js/data-site-<k>.json, tools/gen-site-data.js)
+const shards = fs.readdirSync(path.join(root, 'js')).filter(f => /^data-site-\w+\.json$/.test(f)).map(f => 'js/' + f);
+const out = { v, pages, shell: [...shell], data: ['js/data-site.js', ...shards, 'js/site-config.js'], images };
 fs.writeFileSync(path.join(root, 'data', 'offline-manifest.json'), JSON.stringify(out));
 console.log(`offline-manifest: ${pages.length} sahifa, ${shell.size} kod fayli, ${images.length} rasm`);

@@ -14,6 +14,8 @@ vm.createContext(ctx);
 for (const f of ['data.js', 'data-channels.js', 'data-rutube.js', 'data-site.js', 'site-config.js']) {
   const p = path.join(root, 'js', f);
   if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, 'utf8').replace(/^(const|let) /gm, 'var '), ctx, { filename: f });
+  // data-site.js — kichik qism; qolgan kinolar bo'laklardan (js/data-site-<k>.json)
+  if (f === 'data-site.js') require('../js/site-data-build.js').loadSiteShards(ctx, root);
 }
 const ALL = ctx.MOVIES;
 if (!Array.isArray(ALL) || ALL.length < 100) throw new Error('kinolar ro‘yxati o‘qilmadi');

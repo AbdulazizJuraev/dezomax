@@ -209,7 +209,10 @@ function showOffError(box, reason, detail) {
 
 initLayout();
 renderOffline();
-renderDownloads();
+// yuklab olinganlar kinolarning keyingi bo'laklarida bo'lishi mumkin (js/data-site.js) — avval o'shalar yuklanadi
+if (window.dzxData && getDownloads().some(id => !MOVIES.some(m => m.id === id))) dzxData.need(getDownloads(), { desc: false }).then(renderDownloads, renderDownloads);
+else renderDownloads();
+document.addEventListener('dzx:full', renderDownloads);
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.addEventListener('langchange', () => {

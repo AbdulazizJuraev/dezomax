@@ -30,7 +30,7 @@ if (window.top === window && window.Capacitor && window.Capacitor.isNativePlatfo
 
 /* Kartalardagi rasmiy posterlar — admin → Sayt → «Kartalarga rasmiy posterlar (TMDB)» (js/site-config.js → SITE_CONFIG.posters).
    Avvalgi YouTube kadri gorizontal kartalar va fon uchun «cover» bo'lib qoladi. */
-(function () {
+function dzxPosters() {
   const P = typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG && SITE_CONFIG.posters;
   if (!P || typeof MOVIES === 'undefined') return;
   // qisqa shakl: "/abc.jpg" — TMDB w342 manzili (fayl kichik bo'lsin); to'liq manzil ham qabul qilinadi
@@ -42,7 +42,8 @@ if (window.top === window && window.Capacitor && window.Capacitor.isNativePlatfo
     m.poster = p;
     m.wide = false;          // endi haqiqiy tik poster bor — karta tik (keng kartada tik rasm qirqilib qolardi)
   }
-})();
+}
+dzxPosters();
 
 /* Ba'zi qurilmalarda (Fold) suzuvchi elementlar (fixed) ko'rinadigan ekrandan kengroq chiqib ketadi:
    ko'rinadigan kenglikni o'lchab, pastki panel va sarlavhani unga moslaymiz (css: html[data-fitw]) */
@@ -79,9 +80,13 @@ function buildParts() {
     }
     const page = location.pathname.split('/').pop() || 'index.html';
     if (page === 'admin.html' || (document.body && document.body.classList.contains('page-admin'))) return;
-    for (let i = MOVIES.length - 1; i >= 0; i--) {
-      if (PART_OF.has(MOVIES[i].id)) { PART_MOVIES.set(MOVIES[i].id, MOVIES[i]); MOVIES.splice(i, 1); }
+    // bir o'tishda (splice sikli 50 000+ kinoda telefonni soniyalab band qilardi)
+    let w = 0;
+    for (let i = 0; i < MOVIES.length; i++) {
+      const m = MOVIES[i];
+      if (PART_OF.has(m.id)) PART_MOVIES.set(m.id, m); else MOVIES[w++] = m;
     }
+    MOVIES.length = w;
   } catch (e) {}
 }
 buildParts();
@@ -141,7 +146,9 @@ function heroCompose(picked) {
 }
 
 function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
-(function () {
+// ro'yxatdan keraksizlarini bir o'tishda olib tashlash (splice siklisiz)
+const dzxKeep = ok => { let w = 0; for (let i = 0; i < MOVIES.length; i++) if (ok(MOVIES[i])) MOVIES[w++] = MOVIES[i]; MOVIES.length = w; };
+function dzxVisible() {
   try {
     if (typeof MOVIES === 'undefined') return;
     const page = location.pathname.split('/').pop() || 'index.html';
@@ -149,18 +156,23 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
     // Marvel sahifasi — treyleri bor filmlar ham kerak (ma'lumot sahifasi, film ko'rsatilmaydi)
     if (admin || page === 'movie.html' || page === 'marvel.html' || window.DZX_ID) return;
     // guruh kartasining o'zida video bo'lmasa ham, qismlaridan birida bo'lsa — ko'rinadi
-    for (let i = MOVIES.length - 1; i >= 0; i--) {
-      const m = MOVIES[i];
-      // bosh sahifada treylerlar umuman chiqmaydi (foydalanuvchi so'rovi, 2026-10-13) — faqat to'liq kinolar
-      if (!hasFilm(m) && (page === 'index.html' || page === '' || !String(m.trailer || '').trim()) && !partsOf(m).some(hasFilm)) MOVIES.splice(i, 1);
-    }
+    // bosh sahifada treylerlar umuman chiqmaydi (foydalanuvchi so'rovi, 2026-10-13) — faqat to'liq kinolar
+    // partsOf(m).some(hasFilm) bilan bir xil, lekin id bo'yicha Map (MOVIES.find har kinoda — telefonda 1,4 s edi)
+    let byId = null;
+    const partFilm = m => {
+      if (Array.isArray(m.eps) && m.eps.length) return true;
+      if (!Array.isArray(m.parts) || m.parts.length < 2) return false;
+      byId = byId || new Map(MOVIES.map(x => [x.id, x]));
+      return m.parts.some(id => id !== m.id && hasFilm(PART_MOVIES.get(id) || byId.get(id)));
+    };
+    dzxKeep(m => hasFilm(m) || !(page === 'index.html' || page === '' || !String(m.trailer || '').trim()) || partFilm(m));
 
     // "Bola" rolidagi foydalanuvchilar: katalog/qidiruv/bosh sahifada faqat multfilmlar ko'rinadi
     if (page === 'index.html' || page === 'catalog.html' || page === 'search.html') {
       const u = JSON.parse(localStorage.getItem('dezomax_user') || 'null');
       const p = null && u;   // rol tanlovi («Kim tomosha qiladi?») o'chirildi (2026-11-18) — hamma uchun to'liq katalog
       if (p && p.role === 'child') {
-        for (let i = MOVIES.length - 1; i >= 0; i--) if (MOVIES[i].type !== 'multfilm') MOVIES.splice(i, 1);
+        dzxKeep(m => m.type === 'multfilm');
       }
       // "Mehmon" — tanlagan yosh toifasi bo'yicha (js/role.js): kinolarda yosh chegarasi yo'q — janr bo'yicha,
       // kinoga yosh (m.age) kiritilgan bo'lsa — u ham hisobga olinadi
@@ -175,11 +187,14 @@ function hasFilm(m) { return !!(m && m.video && String(m.video).trim()); }
           if (age < 7) return m.type === 'multfilm' || g.includes('animation') || g.includes('family');
           return true;
         };
-        for (let i = MOVIES.length - 1; i >= 0; i--) if (!ok(MOVIES[i])) MOVIES.splice(i, 1);
+        dzxKeep(ok);
       }
     }
   } catch (e) {}
-})();
+}
+dzxVisible();
+/* Kinolar bo'laklari (js/data-site.js → dzxData) keyin yuklanib MOVIES qayta yig'ilganda — shu tozalashlar yana */
+(window.dzxDataHooks = window.dzxDataHooks || []).push(() => { dzxPosters(); buildParts(); dzxVisible(); });
 
 /* ---------- Ikonkalar ---------- */
 const ICONS = {
@@ -456,11 +471,12 @@ function cardHTML(m) {
 /* Kartochkalar to'plami. Kinolar ko'p (1000+) — birdaniga 48 tasi chiziladi,
    qolgani pastga surilganda (yoki «Yana ko'rsatish» bosilganda) qo'shiladi */
 const CARDS_PAGE = 48;
-function renderCards(container, list) {
+// keep — qayta chizishda (to'liq ro'yxat kelganda) avval ko'rsatilgan kartalar soni saqlanadi
+function renderCards(container, list, keep) {
   if (!container) return;
   container._more?.remove();
   container._io?.disconnect();
-  let shown = Math.min(CARDS_PAGE, list.length);
+  let shown = Math.min(Math.max(CARDS_PAGE, keep || 0), list.length);
   container.innerHTML = list.slice(0, shown).map(cardHTML).join('');
   observeReveals(container);
   if (shown >= list.length) return;
@@ -1233,7 +1249,7 @@ if (IS_TV) {
 
   // butun katalogning kichik posterlari — kuniga bir marta fonda (internetsiz ham hamma kinoning rasmi ko'rinsin).
   // Trafik tejash rejimida yoki mobil internet sekin bo'lsa — yo'q. DezoCloud (Telegram) rasmlari bu ro'yxatga kirmaydi.
-  addEventListener('load', () => setTimeout(() => {
+  addEventListener('load', () => setTimeout(() => (window.dzxData?.ready || Promise.resolve()).then(() => {
     const sw = navigator.serviceWorker?.controller, c = navigator.connection;
     if (IS_APP || !navigator.onLine || !sw || typeof MOVIES === 'undefined' || (c && (c.saveData || /2g/.test(c.effectiveType || '')))) return;
     let last = 0; try { last = +localStorage.getItem('dzx_posters_at') || 0; } catch {}
@@ -1247,7 +1263,7 @@ if (IS_TV) {
       urls.add(u.href);
     }
     sw.postMessage({ type: 'images', bulk: true, images: [...urls].slice(0, 600) });
-  }, 9000));
+  }), 9000));
 
   /* Internet yo'q paytda kinoga kirmoqchi bo'lsa — «Internetni yoqing» oynasi.
      Telefonga yuklab olingan kino bo'lsa — «Yuklab olinganlar»ga (u yerda internetsiz o'ynaydi). */

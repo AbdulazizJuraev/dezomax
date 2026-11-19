@@ -102,7 +102,8 @@ const FRANCHISE = [
 ];
 
 function matcher() {
-  const c = load(['js/data.js', 'js/data-site.js', 'js/data-channels.js', 'js/seo-pages.js']);
+  const c = load(['js/data.js', 'js/data-channels.js', 'js/data-site.js', 'js/seo-pages.js']);
+  require('../js/site-data-build.js').loadSiteShards(c, root);   // qolgan kinolar bo'laklardan (js/data-site-<k>.json)
   const ok = c.SEO_PAGES || {};
   const seen = new Set(), films = [];
   for (const m of [...(c.CHANNEL_MOVIES || []), ...(c.CUSTOM_MOVIES || []), ...(c.MOVIES || [])]) {

@@ -35,7 +35,10 @@ function renderFavorites() {
 }
 
 initLayout();
-renderFavorites();
+// sevimlilar kinolarning keyingi bo'laklarida bo'lishi mumkin (js/data-site.js) — avval o'shalar yuklanadi
+if (window.dzxData && getFavs().some(id => !MOVIES.some(m => m.id === id))) dzxData.need(getFavs(), { desc: false }).then(renderFavorites, renderFavorites);
+else renderFavorites();
+document.addEventListener('dzx:full', renderFavorites);
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.addEventListener('langchange', () => {

@@ -134,7 +134,7 @@ function renderIdle() {
   });
 }
 
-function run(remember = false) {
+function run(remember = false, keep = 0) {
   const q = input.value.trim();
   clearBtn.hidden = !q;
   document.getElementById('searchIdle').hidden = !!q;
@@ -149,10 +149,11 @@ function run(remember = false) {
   const grid = document.getElementById('grid');
   if (list.length) {
     grid.className = 'grid';
-    renderCards(grid, list);
+    renderCards(grid, list, keep);
   } else {
     grid.className = '';
-    grid.innerHTML = emptyHTML('search.empty', 'search.emptyHint');
+    // ro'yxat hali to'liq emas (bo'laklar yuklanmoqda) — «topilmadi» demaymiz, to'liq kelgach qayta chiziladi
+    grid.innerHTML = window.dzxData && !dzxData.done ? '' : emptyHTML('search.empty', 'search.emptyHint');
   }
 }
 
@@ -172,3 +173,15 @@ run();
 // klaviatura o'zi ochilmaydi — foydalanuvchi qidiruv maydoniga bosgandagina chiqadi
 
 document.addEventListener('langchange', () => { applyI18n(); renderIdle(); run(); });
+// kinolarning qolgan bo'laklari yuklandi (js/data-site.js) — natijalar va janr sonlari to'liq
+// qidiruv matni 4000 tadan bo'lib tayyorlanadi (birdaniga 50 000+ kino — telefonda yarim soniya qotish)
+document.addEventListener('dzx:full', () => {
+  let i = 0;
+  const step = () => {
+    const end = Math.min(i + 4000, MOVIES.length);
+    for (; i < end; i++) searchTextOf(MOVIES[i]);
+    if (i < MOVIES.length) return setTimeout(step, 0);
+    if (input.value.trim()) run(false, document.getElementById('grid').children.length); else renderIdle();
+  };
+  step();
+});

@@ -58,10 +58,11 @@ jobs:
           node tools/clean-names.js
           node tools/gen-site-data.js
           node tools/gen-home-data.js
-          git diff --quiet -- js/data-custom.js js/data-site.js js/data-desc.js js/data-home.js && exit 0
+          # + kinolar bo'laklari (js/data-site-<k>.json, js/data-desc-<k>.json) — yangi/o'chgan bo'laklar ham
+          [ -z "$(git status --porcelain -- js/data-custom.js js/data-site.js js/data-desc.js js/data-home.js 'js/data-site-*.json' 'js/data-desc-*.json')" ] && exit 0
           git config user.name "dezomax-guard"
           git config user.email "dezomax-guard@users.noreply.github.com"
-          git add js/data-custom.js js/data-site.js js/data-desc.js js/data-home.js
+          git add -A -- js/data-custom.js js/data-site.js js/data-desc.js js/data-home.js 'js/data-site-*.json' 'js/data-desc-*.json'
           git commit -q -m "Sayt fayllari yangilandi (data-site, data-home; nomlar tozalandi)"
           for i in 1 2 3 4 5; do
             git pull --rebase -q origin main && git push -q origin HEAD:main && break

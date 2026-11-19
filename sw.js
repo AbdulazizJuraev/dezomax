@@ -28,7 +28,8 @@ const IMG = 'dzx-img-v1';
 const PACK = 'dzx-pack-v1';
 const DATA = 'dzx-data-v1';
 const KEEP = [SHELL, PAGES, IMG, PACK, DATA];
-const BIG_DATA = /data-(site|desc|home|channels|rutube|rutube-desc|shorts)\.js$|seo-pages\.js$/i;
+// + kinolar bo'laklari js/data-site-<k>.json, js/data-desc-<k>.json (js/site-data-build.js, 2026-11-19)
+const BIG_DATA = /data-(site|desc|home|channels|rutube|rutube-desc|shorts)\.js$|data-(site|desc)-\w+\.json$|seo-pages\.js$/i;
 const DATA_MAX = 200;
 const IMG_MAX = 900;
 const PAGES_MAX = 250;
@@ -133,6 +134,8 @@ self.addEventListener('fetch', e => {
 
   if (same) {
     const p = url.pathname;
+    // kinolar bo'laklari (.json) — katta baza kabi: telefondagi nusxadan darhol, yangisi fonda
+    if (/\.json$/i.test(p) && BIG_DATA.test(p)) { e.respondWith(staleWhileRevalidate(e, req, SHELL, url.origin + p)); return; }
     if (/\.(js|css)$/i.test(p)) {
       // admin va tez o'zgaradigan ma'lumot — avval internet
       // katta kino bazasi (18 MB va h.k.) — telefondagi nusxadan DARHOL, yangisi orqa fonda yuklanadi (keyingi ochilishda ko'rinadi).

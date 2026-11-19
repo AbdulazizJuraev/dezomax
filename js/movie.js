@@ -6,6 +6,11 @@
 const qp = new URLSearchParams(location.search);
 const movieId = Number(window.DZX_ID || qp.get('id'));   // kino/<slug>.html — tools/gen-pages.js
 
+/* Kinolar bo'laklarda (js/data-site.js → dzxData): shu kino bo'lagi (qismlari, tavsifi bilan) yuklangach sahifa chiziladi.
+   Bosh menyu darhol; «Keyingi filmlar» ro'yxat to'liq kelgach yangilanadi */
+initLayout();
+function dzxMovieMain() {
+
 /* Guruh (qismlar, js/common.js): qismning o'zi ochilsa — guruh sahifasiga, shu qism tanlangan holda */
 const partRedirect = typeof PART_OF !== 'undefined' && PART_OF.get(movieId);
 if (partRedirect) {
@@ -619,6 +624,7 @@ function renderMovie() {
     return `<a class="m5-item" href="${movieHref(x)}"><span class="m5-thumb${tall ? ' is-tall' : ''}" style="background:linear-gradient(160deg,${esc(a1)},${esc(a2)})">${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}${x.rating ? `<span class="m5-badge">★ ${x.rating.toFixed(1)}</span>` : ''}</span>
       <span class="m5-it"><b>${esc(title(x))}</b><small>${[x.year, typeName(x.type), x.genres[0] ? genreName(x.genres[0]) : ''].filter(Boolean).map(esc).join(' · ')}</small></span></a>`;
   };
+  const sideBox = list => `<h3>${ru ? 'Смотрите также' : 'Keyingi filmlar'}</h3>${list.map(sideHTML).join('')}`;
   const desc = descOf(movie);
   const altTitle = [LANG === 'uz' ? movie.title.ru : movie.title.uz].filter(x => x && x !== title(movie))[0] || '';   // yil tabletkada   // ruscha Wikipedia matni keyin wikiDesc() orqali .mv-desc ga yoziladi
 
@@ -654,7 +660,7 @@ function renderMovie() {
           ${desc || (ru && movie.wiki) ? `<p class="mv-desc">${esc(desc)}</p>` : ''}
         </div>
       </div>
-      ${side.length ? `<aside class="m5-side"><h3>${ru ? 'Смотрите также' : 'Keyingi filmlar'}</h3>${side.map(sideHTML).join('')}</aside>` : ''}
+      <aside class="m5-side"${side.length ? '' : ' style="display:none"'}>${side.length ? sideBox(side) : ''}</aside>
     </div>
 
     <div class="ad-slot" data-ad-slot="movie"></div>
@@ -678,6 +684,8 @@ function renderMovie() {
     </section>
   </div>`;
 
+  const sideEl = page.querySelector('.m5-side');
+  if (sideEl) sideEl._html = sideBox;
   bindStills(page);
   mountShorts(movie);
   if (typeof Ads !== 'undefined') Ads.fill(page);
@@ -913,7 +921,6 @@ function trackWatch() {
 
 /* ---------- Ishga tushirish ---------- */
 
-initLayout();
 renderMovie();
 wikiDesc();
 mountBgTrailer();
@@ -926,3 +933,19 @@ document.addEventListener('langchange', () => {
   mountBgTrailer();
   applyI18n();
 });
+
+// ro'yxat to'liq bo'ldi — «Keyingi filmlar» (o'xshashlar) butun katalogdan
+document.addEventListener('dzx:full', () => {
+  const box = document.querySelector('#page .m5-side');
+  if (!movie || !box || typeof box._html !== 'function') return;
+  const side = similarOf(movie);
+  if (side.length) { box.innerHTML = box._html(side); box.style.display = ''; }
+});
+}
+
+if (window.dzxData && !dzxData.has(movieId)) {
+  // bo'lak kelguncha joy band (sahifa sakramasin)
+  document.getElementById('page').innerHTML = '<div style="min-height:100vh"></div>';
+  const go = () => dzxMovieMain();
+  dzxData.need([movieId]).then(go, go);
+} else dzxMovieMain();

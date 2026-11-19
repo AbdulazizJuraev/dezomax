@@ -105,6 +105,11 @@
       try {
         for (const code of codes) { const s = document.createElement('script'); s.text = code; document.head.appendChild(s); }
       } catch { MOVIES.splice(0, MOVIES.length, ...keep); fullP = null; return false; }
+      // data-site.js endi kichik: qolgan kinolar bo'laklarda (js/data-site-<k>.json) — hammasi kelguncha kutamiz
+      if (window.dzxData) {
+        await window.dzxData.load();
+        if (!window.dzxData.full) { MOVIES.splice(0, MOVIES.length, ...keep); fullP = null; return false; }
+      }
       if (typeof buildParts === 'function') buildParts();
       window.DZX_HOME_PART = false;
       return true;

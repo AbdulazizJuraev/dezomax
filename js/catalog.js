@@ -84,16 +84,17 @@ function filtered() {
 
 /* ---------- Chizish ---------- */
 
-function update(pushUrl = true) {
+function update(pushUrl = true, keep = 0) {
   const list = filtered();
   const grid = document.getElementById('grid');
 
   if (list.length) {
     grid.className = 'grid';
-    renderCards(grid, list);
+    renderCards(grid, list, keep);
   } else {
     grid.className = '';
-    grid.innerHTML = emptyHTML('search.empty', 'search.emptyHint');
+    // ro'yxat hali to'liq emas (bo'laklar yuklanmoqda) — «topilmadi» demaymiz, to'liq kelgach qayta chiziladi
+    grid.innerHTML = window.dzxData && !dzxData.done ? '' : emptyHTML('search.empty', 'search.emptyHint');
   }
 
   document.getElementById('count').textContent = resultsText(list.length);
@@ -142,6 +143,9 @@ input.addEventListener('input', () => {
 
 update(false);
 document.getElementById('year').textContent = new Date().getFullYear();
+
+// kinolarning qolgan bo'laklari yuklandi (js/data-site.js) — ro'yxat to'liq, ko'rilgan joy saqlanadi
+document.addEventListener('dzx:full', () => update(false, document.querySelectorAll('#grid > .card, #grid > *').length));
 
 document.addEventListener('langchange', () => {
   renderFilters();
