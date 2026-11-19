@@ -8507,3 +8507,55 @@ html.has-nav5 .mini-nav { display: none; }
 .ef-eye { flex: none; width: 36px; height: 36px; border: 0; border-radius: 10px; background: rgba(255, 255, 255, .08); cursor: pointer; }
 .ef-newkey { margin-top: 10px; }
 .ef-tips { margin: 12px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--text-dim); line-height: 1.7; }
+
+/* ---------------- Jonli efirlar — asosiy ko'rinish (YouTube «Трансляции» kabi, js/live.js, 2026-11-19) ---------------- */
+.lvh-head { display: flex; align-items: center; gap: 16px; margin: 4px 0 22px; }
+.lvh-ic { width: 64px; height: 64px; flex: none; display: grid; place-items: center; border-radius: 50%; background: #ff1f3d; color: #fff; font: 800 18px/1 'Manrope', sans-serif; letter-spacing: -.04em; }
+.lvh-head h1 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 800; }
+.lvh-hero { position: relative; aspect-ratio: 16 / 7; min-height: 300px; border-radius: 20px; overflow: hidden; background: #0b0e0c; }
+.lvh-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.lvh-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, .88) 0%, rgba(0, 0, 0, .55) 38%, transparent 70%), linear-gradient(0deg, rgba(0, 0, 0, .55), transparent 40%); }
+.lvh-hc { position: absolute; z-index: 1; left: clamp(20px, 5.5%, 64px); top: 50%; transform: translateY(-58%); width: min(520px, 62%); }
+.lvh-hc h2 { font-size: clamp(22px, 3vw, 38px); line-height: 1.12; font-weight: 800; text-transform: uppercase; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.lvh-dot { display: inline-block; width: .8em; height: .8em; margin-right: .3em; vertical-align: -.06em; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff8a8a, #e5262f 60%); }
+.lvh-ch { display: flex; align-items: center; gap: 9px; margin-top: 16px; font-size: 15px; }
+.lvh-ch img, .lvh-ch .lv-av, .lvh-cb img, .lvh-cb .lv-av { width: 30px; height: 30px; flex: none; border-radius: 50%; object-fit: cover; }
+.lvh-badge { padding: 2px 6px; border-radius: 4px; background: #e5262f; color: #fff; font: 800 11.5px 'Manrope', sans-serif; white-space: nowrap; }
+.lvh-v { margin-top: 8px; font-size: 15px; color: rgba(255, 255, 255, .8); }
+.lvh-go { display: inline-flex; align-items: center; height: 44px; margin-top: 18px; padding: 0 20px; border-radius: 999px; background: #fff; color: #0a0a0a; font: 700 14px 'Manrope', sans-serif; }
+.lvh-go:hover { background: #B8EC4A; }
+.lvh-strip { position: absolute; z-index: 1; left: clamp(20px, 5.5%, 64px); bottom: 18px; display: flex; gap: 8px; max-width: calc(100% - 40px); overflow-x: auto; scrollbar-width: none; }
+.lvh-strip::-webkit-scrollbar { display: none; }
+.lvh-strip button { flex: none; width: 96px; aspect-ratio: 16 / 9; padding: 0 0 6px; border: 0; background: none; cursor: pointer; position: relative; opacity: .75; }
+.lvh-strip button.is-on, .lvh-strip button:hover { opacity: 1; }
+.lvh-strip button.is-on::after { content: ''; position: absolute; left: 50%; bottom: 0; width: 18px; height: 3px; margin-left: -9px; border-radius: 2px; background: #fff; }
+.lvh-strip img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
+.lvh-sh { display: flex; align-items: baseline; justify-content: space-between; margin: 34px 0 14px; }
+.lvh-sh h2 { font-size: 21px; font-weight: 800; }
+.lvh-sh span { color: var(--text-dim); font-size: 14px; }
+.lvh-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px 16px; }
+.lvh-card { display: block; color: inherit; }
+.lvh-th { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #111; }
+.lvh-th img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+.lvh-card:hover .lvh-th img { transform: scale(1.03); }
+.lvh-th i { position: absolute; right: 8px; bottom: 8px; padding: 2px 6px; border-radius: 4px; background: #e5262f; color: #fff; font: 800 11.5px 'Manrope', sans-serif; font-style: normal; }
+.lvh-cb { display: flex; gap: 12px; margin-top: 12px; }
+.lvh-cb img, .lvh-cb .lv-av { width: 36px; height: 36px; }
+.lvh-cb > span { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.lvh-cb b { font-size: 15.5px; line-height: 1.3; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.lvh-cb small { font-size: 13.5px; color: var(--text-dim); }
+.lvh-more { display: block; width: min(360px, 100%); height: 40px; margin: 26px auto 0; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .2); background: none; color: #fff; font: 700 14px 'Manrope', sans-serif; cursor: pointer; }
+.lvh-more:hover { background: rgba(255, 255, 255, .08); }
+.lv-back { display: inline-block; margin-bottom: 14px; color: var(--text-dim); font-weight: 700; font-size: 14px; }
+.lv-back:hover { color: #B8EC4A; }
+@media (max-width: 1000px) { .lvh-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .lvh-head { gap: 12px; margin-bottom: 16px; } .lvh-ic { width: 46px; height: 46px; font-size: 13px; }
+  .lvh-hero { aspect-ratio: auto; min-height: 0; height: 420px; border-radius: 16px; }
+  .lvh-hero::after { background: linear-gradient(0deg, rgba(0, 0, 0, .92) 0%, rgba(0, 0, 0, .6) 50%, rgba(0, 0, 0, .1) 100%); }
+  .lvh-hc { top: auto; bottom: 86px; transform: none; width: auto; right: 20px; }
+  .lvh-hc h2 { font-size: 22px; }
+  .lvh-strip button { width: 72px; }
+  .lvh-grid { grid-template-columns: 1fr; gap: 22px; }
+}
+.dzx-lite .lvh-card:hover .lvh-th img { transform: none; }

@@ -30,6 +30,76 @@
     </div>`;
   main.insertBefore(sec, main.firstElementChild);
 
+  /* ---------- Asosiy ko'rinish (YouTube «Трансляции» kabi, 2026-11-19): katta banner + «Hozir efirda» kartalari.
+     Karta bosilsa — #v=ID: pleyer, ma'lumot va o'ngdagi ro'yxat (yuqoridagi .lv). Yengil: banner almashishi animatsiyasiz. */
+  const hub = document.createElement('section');
+  hub.className = 'lvh';
+  hub.hidden = true;
+  main.insertBefore(hub, sec);
+  const back = document.createElement('a');
+  back.className = 'lv-back'; back.href = '#'; back.textContent = '← ' + L('Barcha efirlar', 'Все эфиры');
+  sec.insertBefore(back, sec.firstChild);
+  back.addEventListener('click', e => { e.preventDefault(); history.pushState(null, '', location.pathname + location.search); route(); });
+  const fmtN = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + L(' mln', ' млн') : n >= 1e3 ? Math.round(n / 1e3) + L(' ming', ' тыс.') : String(n || 0);
+  const maxres = x => x.own ? x.thumb : `https://i.ytimg.com/vi/${x.id}/maxresdefault_live.jpg`;
+  const avatar = x => x.avatar ? `<img src="${esc(x.avatar)}" alt="" loading="lazy">` : `<span class="lv-av">${esc((x.channel || '?')[0])}</span>`;
+  const hrefOf = x => x.own ? 'efir-test.html?watch' : '#v=' + x.id;
+  let own = null, feat = 0, more = false;
+  const hubItems = () => (own ? [own] : []).concat(items);
+  function hero() {
+    const all = hubItems(), x = all[feat] || all[0];
+    if (!x) return '';
+    return `<div class="lvh-hero">
+      <img class="lvh-bg" src="${esc(maxres(x))}" alt="" decoding="async" onerror="this.onerror=null;this.src='${esc(thumb(x))}'">
+      <div class="lvh-hc">
+        <h2><i class="lvh-dot"></i>${esc(x.title)}</h2>
+        <div class="lvh-ch">${avatar(x)}<b>${esc(x.channel)}</b><span class="lvh-badge">((•)) ${L('EFIRDA', 'В ЭФИРЕ')}</span></div>
+        ${x.viewers ? `<div class="lvh-v">${L('Tomoshabinlar', 'Зрителей')}: ${fmtN(x.viewers)}</div>` : ''}
+        <a class="lvh-go" href="${hrefOf(x)}">${L('Efirni ko‘rish', 'Смотреть трансляцию')}</a>
+      </div>
+      <div class="lvh-strip">${all.slice(0, 8).map((y, k) => `<button type="button" class="${k === feat ? 'is-on' : ''}" data-feat="${k}" aria-label="${esc(y.title)}"><img src="${esc(thumb(y))}" alt="" loading="lazy" decoding="async"></button>`).join('')}</div>
+    </div>`;
+  }
+  function card(x) {
+    return `<a class="lvh-card" href="${hrefOf(x)}">
+      <span class="lvh-th"><img src="${esc(thumb(x))}" alt="" loading="lazy" decoding="async"${x.own ? '' : ` onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${x.id}/hqdefault.jpg'"`}><i>((•)) ${L('EFIRDA', 'В ЭФИРЕ')}</i></span>
+      <span class="lvh-cb">${avatar(x)}<span><b>${esc(x.title)}</b><small>${esc(x.channel)}</small>${x.viewers ? `<small>${L('Tomoshabinlar', 'Зрителей')}: ${fmtN(x.viewers)}</small>` : ''}</span></span>
+    </a>`;
+  }
+  function renderHub() {
+    const all = hubItems();
+    if (!all.length) { hub.innerHTML = ''; return; }
+    const N = 6, list = more ? all : all.slice(0, N);
+    hub.innerHTML = `
+      <div class="lvh-head"><span class="lvh-ic">((•))</span><h1>${L('Jonli efirlar', 'Трансляции')}</h1></div>
+      ${hero()}
+      <div class="lvh-sh"><h2>${L('Hozir efirda', 'Сейчас в эфире')}</h2><span>${L(`${all.length} ta efir`, `${all.length} эфиров`)}</span></div>
+      <div class="lvh-grid">${list.map(card).join('')}</div>
+      ${all.length > N ? `<button type="button" class="lvh-more" data-more>${more ? L('Kamroq', 'Свернуть') + ' ⌃' : L('Ko‘proq', 'Ещё') + ' ⌄'}</button>` : ''}`;
+  }
+  hub.addEventListener('click', e => {
+    const f = e.target.closest('[data-feat]');
+    if (f) { feat = +f.dataset.feat; const h = hub.querySelector('.lvh-hero'); if (h) h.outerHTML = hero(); return; }
+    if (e.target.closest('[data-more]')) { more = !more; renderHub(); }
+  });
+  // hub yoki efir: #v=ID bo'lsa — pleyer, aks holda — asosiy ko'rinish (pleyer o'chiriladi)
+  function route() {
+    const want = (location.hash.match(/v=([\w-]{11})/) || [])[1];
+    const k = want ? items.findIndex(x => x.id === want) : -1;
+    const watch = k >= 0;
+    hub.hidden = watch || !hubItems().length;
+    sec.hidden = !watch;
+    if (watch) { if (k !== cur || !document.getElementById('lvBox')) show(k, true); scrollTo(0, 0); }
+    else { const pl = document.getElementById('lvPlayer'); if (pl) pl.innerHTML = ''; cur = -1; renderHub(); }
+  }
+  addEventListener('hashchange', route);
+  // DezoMax'ning o'z efiri (efir-test.html / OBS) — bo'lsa bannerda birinchi
+  fetch(String(PAY_API).replace(/\/+$/, '') + '/efir/status', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(st => {
+    if (!st || !st.live) return;
+    own = { own: true, id: 'dezomax', title: st.title || 'DezoMax efiri', channel: 'DezoMax', viewers: st.viewers || 0, thumb: 'images/logo/icon-512.png', avatar: 'images/logo/dezo-mark.webp' };
+    if (!location.hash) route();
+  }).catch(() => {});
+
   let items = [], cur = -1;
   const thumb = x => x.thumb || `https://i.ytimg.com/vi/${x.id}/hqdefault_live.jpg`;
   function frame(x, auto) {
@@ -217,21 +287,20 @@
     if (a === 'like') react(1); else if (a === 'dislike') react(-1); else if (a === 'share') share(); else if (a === 'report') report();
   });
   function render() {
-    sec.hidden = !items.length;
     const empty = document.getElementById('lvEmpty');   // live.html: hozir efir yo'q
     if (empty) { empty.hidden = !!items.length; empty.textContent = L('Hozir o‘zbekcha jonli efir topilmadi — birozdan keyin qayta kiring.', 'Сейчас прямых эфиров нет — загляните чуть позже.'); }
-    if (!items.length) return;
+    if (!items.length) { route(); return; }
     document.getElementById('lvCount').textContent = L(`${items.length} ta efirda`, `${items.length} в эфире`);
     document.getElementById('lvRow').innerHTML = items.map((x, i) => `
       <button class="lv-card" type="button" data-i="${i}">
         <span class="lv-th"><img src="${esc(thumb(x))}" alt="" loading="lazy" decoding="async" onerror="this.src='https://i.ytimg.com/vi/${x.id}/hqdefault.jpg'"><i>LIVE</i>${x.viewers ? `<em>${fmt(x.viewers)}</em>` : ''}</span>
         <span class="lv-ct"><b>${esc(x.title)}</b><small>${esc(x.channel)}</small>${x.viewers ? `<small>${fmt(x.viewers)} ${L('kishi ko‘rmoqda', 'смотрят')}</small>` : ''}</span>
       </button>`).join('');
-    show(0, false);
+    route();
   }
   document.addEventListener('click', e => {
     const c = e.target.closest('.lv-card');
-    if (c) { show(+c.dataset.i, true); return; }
+    if (c) { const x = items[+c.dataset.i]; if (x) location.hash = 'v=' + x.id; return; }
   });
 
   const KEY = 'dzxLive';
