@@ -8644,3 +8644,34 @@ html body :is(.footer-legal, .v4-foot-bot nav) a + a::before { content: '·'; di
   html body :is(.footer-legal, .v4-foot-bot nav) { display: grid !important; grid-template-columns: repeat(2, auto); justify-content: start; gap: 10px 28px !important; }
   html body :is(.footer-legal, .v4-foot-bot nav) a + a::before { display: none; }
 }
+
+/* ================= Shorts — Reels uslubi (2026-11-19) =================
+   Video butun ekranda, tepada shaffof sarlavha; o'ngda doirasiz oq belgilar va sonlar; pastda kanal + «Obuna», bir qatorli tavsif;
+   eng pastda ko'rilgan qism chizig'i. */
+html body.page-shorts { --sh-top: 0px; }
+html body .sh-bar { height: calc(58px + var(--app-sat, env(safe-area-inset-top))); background: linear-gradient(180deg, rgba(0, 0, 0, .5), transparent) !important; pointer-events: none; }
+html body .sh-bar > * { pointer-events: auto; }
+html body .sh-bar .sh-back, html body .sh-bar .sh-sound { background: none !important; color: #fff !important; filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .6)); }
+html body .sh-bar .sh-back svg { width: 26px; height: 26px; }
+html body .sh-bar .sh-brand { justify-self: start; padding-left: 4px; }
+html body.page-shorts .sh-bar .sh-brand b { font: 800 23px/1 'Manrope', sans-serif !important; letter-spacing: -.01em; text-shadow: 0 1px 6px rgba(0, 0, 0, .5); }
+.sh-slide::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 18%; z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(0, 0, 0, .35), transparent); }
+html body .sh-info { left: 0; right: 70px; bottom: 20px; padding: 0 14px; }
+.sh-user { display: flex; align-items: center; gap: 10px; pointer-events: auto; min-width: 0; }
+html body .sh-user .sh-ch { width: 36px; height: 36px; flex: none; border: 1px solid rgba(255, 255, 255, .35); font-size: 15px; }
+.sh-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #fff; font: 700 15px 'Manrope', sans-serif; text-decoration: none; }
+.sh-follow { flex: none; display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border: 1.5px solid rgba(255, 255, 255, .85); border-radius: 9px; color: #fff; font: 700 13.5px 'Manrope', sans-serif; text-decoration: none; text-shadow: none; }
+.sh-follow:active { background: rgba(255, 255, 255, .15); }
+html body.page-shorts .sh-title { margin: 10px 0 0; font: 500 14px/1.35 'Manrope', sans-serif !important; letter-spacing: 0; -webkit-line-clamp: 1; color: rgba(255, 255, 255, .95); }
+html body.page-shorts .sh-title [data-n="views"] { color: rgba(255, 255, 255, .7); }
+html body .sh-actions { right: 6px; bottom: 26px; gap: 14px; }
+html body .sh-act { gap: 2px; text-decoration: none; }
+html body .sh-act .sh-btn { width: 46px; height: 42px; border-radius: 0; background: none !important; color: #fff !important; }
+html body .sh-act .sh-btn svg { width: 31px; height: 31px; filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .55)); }
+html body .sh-act b { min-height: 15px; font: 700 13px 'Manrope', sans-serif; text-shadow: 0 1px 4px rgba(0, 0, 0, .7); }
+html body .sh-act.is-on .sh-btn { background: none !important; color: #fff !important; }
+.sh-like.is-on svg { fill: #ff3040; stroke: #ff3040; }
+.sh-save.is-on svg { fill: #fff; }
+.sh-act:active .sh-btn svg { transform: scale(.88); }
+.sh-prog { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; height: 2px; background: rgba(255, 255, 255, .22); pointer-events: none; }
+.sh-prog i { display: block; height: 100%; background: #fff; transform: scaleX(0); transform-origin: 0 50%; transition: transform .3s linear; }

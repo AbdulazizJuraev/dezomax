@@ -140,21 +140,36 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
 
   /* Tezlik (2026-11-19): 690 ta slaydning hammasi to'liq chizilsa (~27 000 element) telefonda sahifa 20 s qotardi.
      Endi har bir slayd — yengil qobiq (muqova + pleyer joyi); matn va tugmalar faqat joriy va yonidagi slaydlarda (fill). */
+  /* Reels uslubi (2026-11-19): o'ngda doirasiz oq belgilar (yoqdi, izoh, ulashish, saqlash, yana), pastda kanal + «Obuna», bir qatorli tavsif,
+     eng pastda — ko'rilgan qism chizig'i */
+  const IG = {
+    heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 20.3s-7.4-4.5-9.2-9.1C1.5 7.8 3.7 4.5 7.1 4.5c2 0 3.6 1.1 4.9 2.9 1.3-1.8 2.9-2.9 4.9-2.9 3.4 0 5.6 3.3 4.3 6.7-1.8 4.6-9.2 9.1-9.2 9.1z"/></svg>',
+    comment: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M20.6 12a8.6 8.6 0 0 1-12.8 7.5l-4.3 1.1 1.2-4.1A8.6 8.6 0 1 1 20.6 12z"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M21.6 3.3 10.4 13.6M21.6 3.3 15.2 20.6l-4.8-7-7.6-4.3z"/></svg>',
+    save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M5.8 3.5h12.4v17l-6.2-4.6-6.2 4.6z"/></svg>',
+    more: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 9.5h14M9.5 15h9.5"/></svg>'
+  };
+  const SAVE_KEY = 'dzxShortsSaved';
+  const saved = new Set((() => { try { return JSON.parse(localStorage.getItem(SAVE_KEY) || '[]'); } catch (e) { return []; } })());
+  const subUrl = u => /youtube\.com\//.test(u) ? u + (u.includes('?') ? '&' : '?') + 'sub_confirmation=1' : u;
   const fullHTML = (s, i) => `
       <button class="sh-tap" type="button" aria-label="${ru ? 'Пауза / воспроизвести' : 'Pauza / davom ettirish'}"><span class="sh-paused">${ICON.play}</span></button>
       <div class="sh-info">
-        <div class="sh-trow">
-          <p class="sh-title">${esc(s.t)}</p>
-          <a class="sh-ch" href="${esc(s.u)}" target="_blank" rel="noopener" aria-label="${esc(chName(s))}" title="${esc(chName(s))}">${avatarHTML(s)}</a>
+        <div class="sh-user">
+          <a class="sh-ch" href="${esc(s.u)}" target="_blank" rel="noopener" aria-label="${esc(chName(s))}">${avatarHTML(s)}</a>
+          <a class="sh-name" href="${esc(s.u)}" target="_blank" rel="noopener">${esc(chName(s))}</a>
+          <a class="sh-follow" href="${esc(subUrl(s.u))}" target="_blank" rel="noopener">${ru ? 'Подписаться' : 'Obuna'}</a>
         </div>
-        <p class="sh-desc"><a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(handle(s.u))}</a><span data-n="views"></span></p>
+        <p class="sh-title">${esc(s.t)}<span data-n="views"></span></p>
       </div>
       <div class="sh-actions">
-        <button class="sh-act sh-like" type="button" aria-label="${T.like}"><span class="sh-btn">${ICON.like}</span><b data-n="like">${T.like}</b></button>
-        <button class="sh-act sh-dislike" type="button" aria-label="${T.dislike}"><span class="sh-btn">${ICON.dislike}</span><b data-n="dislike">${T.dislike}</b></button>
-        <button class="sh-act sh-comments" type="button" aria-label="${T.comments}"><span class="sh-btn">${ICON.comment}</span><b data-n="comments">0</b></button>
-        <button class="sh-act sh-share" type="button" aria-label="${T.share}"><span class="sh-btn">${ICON.share}</span><b>${T.share}</b></button>
-      </div>`;
+        <button class="sh-act sh-like" type="button" aria-label="${T.like}"><span class="sh-btn">${IG.heart}</span><b data-n="like"></b></button>
+        <button class="sh-act sh-comments" type="button" aria-label="${T.comments}"><span class="sh-btn">${IG.comment}</span><b data-n="comments"></b></button>
+        <button class="sh-act sh-share" type="button" aria-label="${T.share}"><span class="sh-btn">${IG.send}</span></button>
+        <button class="sh-act sh-save${saved.has(s.id) ? ' is-on' : ''}" type="button" aria-label="${ru ? 'Сохранить' : 'Saqlash'}"><span class="sh-btn">${IG.save}</span></button>
+        <a class="sh-act sh-more" href="https://www.youtube.com/shorts/${s.id}" target="_blank" rel="noopener" aria-label="${ru ? 'Открыть в YouTube' : 'YouTube’da ochish'}"><span class="sh-btn">${IG.more}</span></a>
+      </div>
+      <div class="sh-prog"><i></i></div>`;
   feed.innerHTML = list.map((s, i) => `<section class="sh-slide" data-i="${i}" data-id="${s.id}"><img class="sh-thumb" data-src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" decoding="async"><div class="sh-frame"></div></section>`).join('');
 
   const slides = [...feed.querySelectorAll('.sh-slide')];
@@ -190,12 +205,12 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     const sl = slides[i], s = social[list[i].id];
     if (!sl || !s || !sl._f) return;
     const yt = s.yt || {};
-    sl.querySelector('[data-n="like"]').textContent = (s.likes || 0) + (yt.likes || 0) ? fmtN((s.likes || 0) + (yt.likes || 0)) : T.like;
-    sl.querySelector('[data-n="dislike"]').textContent = s.dislikes ? fmtN(s.dislikes) : T.dislike;
-    sl.querySelector('[data-n="comments"]').textContent = fmtN((s.total || 0) + (yt.commentCount || 0));
-    if (yt.views) sl.querySelector('[data-n="views"]').textContent = ` · ${fmtN(yt.views)} ${ru ? 'просмотров' : 'marta ko‘rildi'}`;
-    sl.querySelector('.sh-like').classList.toggle('is-on', s.mine === 1);
-    sl.querySelector('.sh-dislike').classList.toggle('is-on', s.mine === -1);
+    const set = (q, v) => { const el = sl.querySelector(q); if (el) el.textContent = v; };
+    const likes = (s.likes || 0) + (yt.likes || 0), com = (s.total || 0) + (yt.commentCount || 0);
+    set('[data-n="like"]', likes ? fmtN(likes) : '');
+    set('[data-n="comments"]', com ? fmtN(com) : '');
+    if (yt.views) set('[data-n="views"]', ` · ${fmtN(yt.views)} ${ru ? 'просмотров' : 'marta ko‘rildi'}`);
+    sl.querySelector('.sh-like')?.classList.toggle('is-on', s.mine === 1);
   }
   function loadSocial(i) {
     const yid = list[i].id;
@@ -278,6 +293,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     f.src = 'about:blank';                                    // pleyer darhol to'xtaydi
     f.remove();
     slides[k].classList.remove('is-playing', 'is-paused', 'is-live', 'is-yt-stop');
+    const pb = slides[k].querySelector('.sh-prog i'); if (pb) pb.style.transform = '';
   }
   function mountFrame(k, play) {
     const sl = slides[k], id = sl.dataset.id;
@@ -322,7 +338,17 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     prewarmT = setTimeout(() => { if (active === k && !frames.has(k + 1)) mountFrame(k + 1, false); }, 600);
   }
 
+  const durs = {};
   addEventListener('message', e => {
+    // ko'rilgan qism chizig'i: faqat joriy pleyerning vaqti (sekundiga bir necha marta keladi — yengil)
+    if (typeof e.data === 'string' && e.data.indexOf('"currentTime"') > 0) {
+      const f = frames.get(active);
+      if (f && f.contentWindow === e.source) try {
+        const inf = JSON.parse(e.data).info || {};
+        if (inf.duration) durs[active] = inf.duration;
+        if (durs[active] && inf.currentTime != null) { const b = slides[active].querySelector('.sh-prog i'); if (b) b.style.transform = `scaleX(${Math.min(1, inf.currentTime / durs[active])})`; }
+      } catch (er) {}
+    }
     // YouTube sekundiga bir necha marta vaqt yuboradi — holatsiz xabarlar tahlil qilinmay o'tkaziladi
     if (typeof e.data === 'string' && !/playerState|onStateChange|onReady/.test(e.data)) return;
     if (!/youtube(-nocookie)?\.com$/.test(String(e.origin).replace(/^https?:\/\/(www\.)?/, ''))) return;
@@ -382,6 +408,13 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
       send(sl, paused ? 'pauseVideo' : 'playVideo');
       if (!paused && muted) { muted = false; send(sl, 'unMute'); paintSound(); }   // birinchi bosish — ovoz ham yoqiladi
       return;
+    }
+    if (e.target.closest('.sh-save')) {
+      const id = sl.dataset.id, on = !saved.has(id);
+      on ? saved.add(id) : saved.delete(id);
+      try { localStorage.setItem(SAVE_KEY, JSON.stringify([...saved].slice(-500))); } catch (er) {}
+      sl.querySelector('.sh-save').classList.toggle('is-on', on);
+      return toastMsg(on ? (ru ? 'Сохранено' : 'Saqlandi') : (ru ? 'Удалено из сохранённых' : 'Saqlanganlardan olindi'));
     }
     if (e.target.closest('.sh-like')) return react(+sl.dataset.i, 1);
     if (e.target.closest('.sh-dislike')) return react(+sl.dataset.i, -1);
