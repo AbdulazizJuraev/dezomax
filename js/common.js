@@ -111,6 +111,11 @@ function partsOf(m) {
 /* Kanal videolari (kino tahlillari — FarZidGuy va h.k.) kino emas: faqat o'z bo'limida («Kino tahlillari»),
    bosh sahifa pastida va qidiruvda kinolardan keyin; katalog, «O'xshash kinolar», TOP-10 — faqat kinolar */
 const isExtraVideo = m => !!m && m.franchise === 'tahlil';
+/* Kinoning tili (ovozi): audio (YouTube kanallar, Telegram), lang (RuTube), o'zbek kinolari — 'uz' */
+const audioLang = m => (m && (m.audio || m.lang || (m.franchise === 'uzbek' ? 'uz' : ''))) || '';
+/* «Rus tilidagi kinolar», «Ingliz tilidagi kinolar» (bosh sahifa qatori, catalog.html?lang=ru|en): to'liq kino, tahlil emas */
+const LANG_ROWS = { ru: ['Rus tilidagi kinolar', 'Фильмы на русском'], en: ['Ingliz tilidagi kinolar', 'Фильмы на английском'] };
+const langFilms = (list, l) => list.filter(m => audioLang(m) === l && m.video && !isExtraVideo(m) && m.type !== 'serial');
 
 /* Bosh sahifa slayderi: faqat admin tanlagan kinolar (25 tagacha), faqat to'liq filmlar — treylerlar chiqmaydi.
    Sayt o'zidan hech narsa qo'shmaydi (foydalanuvchi so'rovi, 2026-10-06). Admin hech narsa tanlamagan bo'lsa —

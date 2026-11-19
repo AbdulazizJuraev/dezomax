@@ -256,6 +256,8 @@
     popular:   { all: null,                                list: () => MOVIES.filter(m => rt(m) && !isExtraVideo(m)).sort((a, b) => rt(b) - rt(a)) },
     series:    { all: 'catalog.html?type=serial',          list: () => MOVIES.filter(m => m.type === 'serial' && watchStatus(m) !== 'none') },
     cartoons:  { all: 'catalog.html?type=multfilm',        list: () => MOVIES.filter(m => m.type === 'multfilm' && hasFilm(m)) },
+    russian:   { all: 'catalog.html?lang=ru',               list: () => langFilms(MOVIES, 'ru').sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0) || yr(b) - yr(a)) },
+    english:   { all: 'catalog.html?lang=en',               list: () => langFilms(MOVIES, 'en').sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0) || yr(b) - yr(a)) },
     custom:    { all: null,                                list: row => (row.ids || []).map(id => MOVIES.find(m => m.id === id)).filter(Boolean) }
   };
   const DEFAULT_ROWS = ['popular', 'uzbek', 'klassika', 'konsert', 'trending', 'new', 'dorama', 'anime', 'hind', 'marvel', 'dc', 'top', 'series', 'cartoons'].map(source => ({ source, visible: true }));
@@ -725,6 +727,11 @@
     const marvelRow = take('marvel'), dcRow = take('dc');   // Marvel va DC qatorlari endi «Kino studiyalar» panelida
     if (marvelRow || dcRow || window.DZX_STUDIOS) push(kinoStudioHTML());
     if (fresh) { const l = uniq(tallFirst(ROW_SOURCES.new.list().filter(cardImg)).slice(0, 40)).slice(0, 14); if (l.length >= 4) push(gridSec(L('Yangi kinolar', 'Новые фильмы'), ROW_SOURCES.new.all, l)); }
+    // Rus / ingliz tilidagi kinolar (2026-11-19) — kamida 4 ta bo'lsa chiqadi
+    for (const [src, l] of [['russian', 'ru'], ['english', 'en']]) {
+      const list = uniq(ROW_SOURCES[src].list().filter(cardImg)).slice(0, 18);
+      if (list.length >= 4) push(rowSec(L(...LANG_ROWS[l]), ROW_SOURCES[src].all, list));
+    }
     push(marqueeHTML());
     push(liveHTML());
     push(tourHTML());

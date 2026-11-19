@@ -46,6 +46,9 @@ const SOURCES = [
   M.filter(m => rt(m) && !extra(m)).sort((a, b) => rt(b) - rt(a)),
   M.filter(m => m.type === 'serial'),
   M.filter(m => m.type === 'multfilm' && hasFilm(m)),
+  // «Rus tilidagi kinolar» / «Ingliz tilidagi kinolar» (js/common.js langFilms)
+  ...['ru', 'en'].map(l => M.filter(m => (m.audio || m.lang || (m.franchise === 'uzbek' ? 'uz' : '')) === l && hasFilm(m) && !extra(m) && m.type !== 'serial')
+    .sort((a, b) => at(b) - at(a) || yr(b) - yr(a))),
   // bolalar slayderi (common.js kidsHero), Telegram filmlari (heroCompose), salomlashuv posterlari (welcome.js)
   M.filter(m => m.type === 'multfilm' && /youtube\.com|youtu\.be/.test(m.video || '')),
   M.filter(m => (m.ch === 'rizanova' || m.ch === 'uzbekkinoofficial') && m.type === 'film' && m.meta).sort((a, b) => yr(b) - yr(a) || at(b) - at(a)),
