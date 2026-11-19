@@ -686,3 +686,12 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
   .h5-fan-cards { height: 340px; }
   .h5-fan-c { width: 158px; }
 }
+
+/* Telefon (2026-11-19): tepadagi menyu — yumaloq (oval) panel, katta rasmning tepa burchaklari ham yumaloq */
+@media (max-width: 860px) {
+  .h5-nav, .h5-nav.is-solid { padding: calc(8px + var(--sat, 0px)) 10px 0; background: none; box-shadow: none; }
+  .h5-nav-in { padding: 10px 0; border-radius: 24px; background: #030604; box-shadow: 0 0 0 1px rgba(166, 226, 46, .16), 0 10px 26px rgba(0, 0, 0, .5); }
+  .h5-nav.is-solid:not(.is-up) .h5-nav-in { padding: 8px 0; }
+  .h5-logo { padding-left: 16px; } .h5-tools { padding-right: 10px; } .h5-links { padding-left: 12px; }
+  .h5-hero-art { inset: calc(var(--h5nav, 112px) + 10px) 10px auto 10px; width: auto; border-radius: 28px 28px 0 0; overflow: hidden; }
+}
