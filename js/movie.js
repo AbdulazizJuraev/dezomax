@@ -980,3 +980,78 @@ if (window.dzxData && !dzxData.has(movieId)) {
   new MutationObserver(() => { if (!q) q = requestAnimationFrame(() => { q = 0; fill(); }); }).observe(document.documentElement, { childList: true, subtree: true });
   fill();
 })();
+
+/* ============================================================
+   Mini-pleyer (2026-11-19): kino ko'rilayotganda boshqa sahifaga o'tilsa video to'xtamaydi.
+   Sahifa almashmaydi — yangi sahifa ustiga to'liq ekranli <iframe> da ochiladi, pleyer esa o'sha joyida
+   qoladi, faqat burchakdagi kichik oynaga aylanadi (pleyer DOM'da ko'chirilmaydi — YouTube/video qayta yuklanmaydi).
+   ⤢ — kinoga qaytish, × — yopish (video to'xtaydi, ochiq sahifa odatdagidek davom etadi).
+   Boshqa kino sahifasi ochilsa — odatdagi o'tish (eski video to'xtaydi).
+   ============================================================ */
+(function () {
+  if (window.top !== window) return;
+  const isFilmPage = u => /\/movie\.html$/i.test(u.pathname) || (/\/kino\/[^/]+\.html$/i.test(u.pathname) && !/\/index\.html$/i.test(u.pathname));
+  let frameStarted = false, shell = null, bar = null, movieUrl = '', movieTitle = '';
+  // YouTube/RuTube pleyeri (iframe) bosilgan bo'lsa — o'ynayapti deb hisoblanadi
+  window.addEventListener('blur', () => {
+    const a = document.activeElement, box = document.getElementById('playerBox');
+    if (a && a.tagName === 'IFRAME' && box && box.contains(a)) frameStarted = true;
+  });
+  const playing = () => {
+    const box = document.getElementById('playerBox');
+    if (!box) return false;
+    const v = box.querySelector('video');
+    if (v) return !v.paused && !v.ended;
+    return !!box.querySelector('iframe') && frameStarted;
+  };
+  function syncTop() {
+    try {
+      const w = shell.contentWindow, u = new URL(w.location.href);
+      if (isFilmPage(u)) { location.href = u.href; return; }      // boshqa kino — odatdagi o'tish
+      history.replaceState({ dzxShell: 1 }, '', u.href);
+      document.title = shell.contentDocument.title || document.title;
+    } catch { /* boshqa domen */ }
+  }
+  function enter(url) {
+    movieUrl = location.href; movieTitle = document.title;
+    shell = document.createElement('iframe');
+    shell.id = 'dzxShell'; shell.title = 'DezoMax';
+    shell.src = url;
+    shell.addEventListener('load', syncTop);
+    document.body.appendChild(shell);
+    document.body.classList.add('dzx-mini');
+    bar = document.createElement('div');
+    bar.className = 'dzx-mini-bar';
+    bar.innerHTML = `<button type="button" data-mini="open" aria-label="${LANG === 'ru' ? 'Вернуться к фильму' : 'Kinoga qaytish'}"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></button>`
+      + `<button type="button" data-mini="close" aria-label="${LANG === 'ru' ? 'Закрыть' : 'Yopish'}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
+    document.getElementById('playerBox').appendChild(bar);
+    history.pushState({ dzxShell: 1 }, '', url);
+  }
+  function leave(go) {
+    if (!shell) return;
+    if (go === 'close') {
+      let u = location.href;
+      try { u = shell.contentWindow.location.href; } catch {}
+      location.href = u;                        // video to'xtaydi, ochiq sahifa to'liq yuklanadi
+      return;
+    }
+    shell.remove(); bar && bar.remove(); shell = bar = null;
+    document.body.classList.remove('dzx-mini');
+    history.replaceState(null, '', movieUrl);
+    document.title = movieTitle;
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-mini]');
+    if (b) { e.preventDefault(); e.stopPropagation(); leave(b.dataset.mini); return; }
+    if (shell || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href]');
+    if (!a || (a.target && a.target !== '_self') || a.hasAttribute('download') || a.closest('#playerBox')) return;
+    let u; try { u = new URL(a.href, location.href); } catch { return; }
+    if (u.origin !== location.origin || (u.pathname === location.pathname && u.search === location.search) || isFilmPage(u)) return;
+    if (!playing()) return;
+    e.preventDefault();
+    enter(u.href);
+  }, true);
+  // «Orqaga»: iframe tarixi tugagach — kinoga qaytadi
+  window.addEventListener('popstate', () => { if (shell) leave('open'); });
+})();
