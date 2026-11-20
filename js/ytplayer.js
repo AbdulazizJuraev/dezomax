@@ -129,10 +129,11 @@ function vpBindUi(box, clickEl, p) {
     el.className = 'vp-flash ' + (right ? 'is-right' : 'is-left');
     void el.offsetWidth;   // animatsiya har bosishda boshidan
     el.classList.add('is-on');
+    box.classList.add('vp-flashing');   // yon animatsiya paytida o'rtadagi «10» tugmalari ko'rinmaydi (ikkita bo'lib chiqmasin)
     const tri = '<svg viewBox="0 0 12 14"><path d="M1 1l10 6-10 6z" fill="currentColor"/></svg>';
     el.innerHTML = `<span class="vp-flash-in"><span class="vp-flash-tri">${tri}${tri}${tri}</span><b>${skipSum} ${LANG === 'ru' ? 'секунд' : 'soniya'}</b></span>`;
     clearTimeout(flashT);
-    flashT = setTimeout(() => el.classList.remove('is-on'), 700);
+    flashT = setTimeout(() => { el.classList.remove('is-on'); box.classList.remove('vp-flashing'); }, 700);
   };
   box._vpFlash = flash;
   clickEl.addEventListener('click', e => {

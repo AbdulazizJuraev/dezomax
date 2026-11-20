@@ -8805,3 +8805,6 @@ body.dzx-mini #playerBox > :not(.dzx-mini-bar) { width: 100% !important; height:
 @media (prefers-reduced-motion: reduce) { .vp-flash .vp-flash-tri svg, #vpMute svg { animation: none; opacity: 1; } .vp-ui button:active { transform: none; } }
 /* Pauzada o'rtadagi «10» tugmalari ko'rinmaydi — faqat play belgisi (2026-11-20) */
 .player-wrap.ytp.vp-paused .vp-skip { visibility: hidden; pointer-events: none; animation: none !important; }
+/* Oldinga/orqaga o'tkazilganda yon animatsiya chiqadi — o'rtadagi «10» tugmalari bu paytda ko'rinmaydi,
+   lekin bosiladi (ketma-ket bosib 20/30 s o'tkazish ishlaydi) (2026-11-20) */
+.player-wrap.ytp.vp-flashing .vp-skip { opacity: 0; animation: none !important; }
