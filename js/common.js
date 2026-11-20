@@ -210,7 +210,7 @@ const ICONS = {
   tbFilm:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3.5" width="18" height="17"/><path d="M3 7.2h18M3 16.8h18" /><path d="M5.6 5.35h1.6M9.2 5.35h1.6M12.8 5.35h1.6M16.4 5.35h1.6M5.6 18.65h1.6M9.2 18.65h1.6M12.8 18.65h1.6M16.4 18.65h1.6" stroke-width="1.6"/><path d="M10.3 9.6v4.8l4.1-2.4z" fill="currentColor" stroke="none"/></svg>',
   tbShorts:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"><path d="M14.6 3.4 7.9 7.2a3.6 3.6 0 0 0 0 6.3l.8.4-.8.5a3.6 3.6 0 1 0 3.6 6.2l6.7-3.8a3.6 3.6 0 0 0 0-6.3l-.8-.4.8-.5a3.6 3.6 0 1 0-3.6-6.2z"/><path d="M10.5 9.8v4.4l3.8-2.2z" fill="currentColor" stroke="none"/></svg>',
   tbTv:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.8 12 6.6l4-3.8"/><rect x="2.5" y="6.6" width="19" height="14.4" rx="3"/><path d="M16.5 6.6V21"/><circle cx="19" cy="11" r=".9" fill="currentColor" stroke="none"/><circle cx="19" cy="13.8" r=".9" fill="currentColor" stroke="none"/><circle cx="19" cy="16.6" r=".9" fill="currentColor" stroke="none"/></svg>',
-  tbLive:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="2.8" fill="currentColor" stroke="none"/><path d="M7.6 7.6a6.2 6.2 0 0 0 0 8.8M16.4 7.6a6.2 6.2 0 0 1 0 8.8M4.6 4.6a10.4 10.4 0 0 0 0 14.8M19.4 4.6a10.4 10.4 0 0 1 0 14.8"/></svg>',
+  tbLive:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle class="lv-c" cx="12" cy="12" r="2.8" fill="currentColor" stroke="none"/><path class="lv-w1" d="M7.6 7.6a6.2 6.2 0 0 0 0 8.8M16.4 7.6a6.2 6.2 0 0 1 0 8.8"/><path class="lv-w2" d="M4.6 4.6a10.4 10.4 0 0 0 0 14.8M19.4 4.6a10.4 10.4 0 0 1 0 14.8"/></svg>',
   play:   '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
   star:   '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 5.9 6.6.95-4.8 4.65 1.14 6.5L12 17.4l-5.84 3.1L7.3 14 2.5 9.35l6.6-.95L12 2.5z"/></svg>',
   heart:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21.2l7.7-7.7 1.1-1a5.5 5.5 0 0 0 0-7.9z"/></svg>',
@@ -653,7 +653,7 @@ const NAV5_IC = {
   serial: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
   multfilm: '<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/>',
   tvset: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
-  live: '<circle cx="12" cy="12" r="2"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
+  live: '<circle class="lv-c" cx="12" cy="12" r="2"/><path class="lv-w1" d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4"/><path class="lv-w2" d="M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
   sport: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
   trailer: '<path d="M4 6h16v12H4zM4 9h16M4 15h16M8 6v3M12 6v3M16 6v3M8 15v3M12 15v3M16 15v3"/>'
 };

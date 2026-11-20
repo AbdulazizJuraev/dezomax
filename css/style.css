@@ -8808,3 +8808,10 @@ body.dzx-mini #playerBox > :not(.dzx-mini-bar) { width: 100% !important; height:
 /* Oldinga/orqaga o'tkazilganda yon animatsiya chiqadi — o'rtadagi «10» tugmalari bu paytda ko'rinmaydi,
    lekin bosiladi (ketma-ket bosib 20/30 s o'tkazish ishlaydi) (2026-11-20) */
 .player-wrap.ytp.vp-flashing .vp-skip { opacity: 0; animation: none !important; }
+/* «Jonli efir» belgisi jonli (2026-11-20): markazdagi nuqta urib turadi, to'lqinlar navbat bilan tarqaladi — faqat opacity/transform, yengil; telefon/ilova yengil rejimida ham ishlaydi — bitta kichik belgi */
+svg .lv-c { transform-box: fill-box; transform-origin: center; animation: lvDot 1.6s ease-in-out infinite; }
+svg .lv-w1 { animation: lvWave 1.6s ease-in-out infinite; }
+svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
+@keyframes lvDot { 0%, 100% { transform: scale(1); } 40% { transform: scale(.7); } }
+@keyframes lvWave { 0%, 100% { opacity: .25; } 40% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { svg .lv-c, svg .lv-w1, svg .lv-w2 { animation: none; } }
