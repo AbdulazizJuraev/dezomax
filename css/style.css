@@ -8803,3 +8803,5 @@ body.dzx-mini #playerBox > :not(.dzx-mini-bar) { width: 100% !important; height:
 @keyframes vpTri { 0% { opacity: .3; } 25% { opacity: 1; } 60% { opacity: 1; } 100% { opacity: .3; } }
 @media (max-width: 520px) { .vp-flash-in { font-size: 12px; gap: 5px; } .vp-flash .vp-flash-tri svg { width: 11px; height: 13px; } }
 @media (prefers-reduced-motion: reduce) { .vp-flash .vp-flash-tri svg, #vpMute svg { animation: none; opacity: 1; } .vp-ui button:active { transform: none; } }
+/* Pauzada o'rtadagi «10» tugmalari ko'rinmaydi — faqat play belgisi (2026-11-20) */
+.player-wrap.ytp.vp-paused .vp-skip { visibility: hidden; pointer-events: none; animation: none !important; }
