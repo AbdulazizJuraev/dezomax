@@ -138,7 +138,8 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   async function req(method, path, body) {
     const headers = { 'Content-Type': 'application/json' };
     if (token()) headers.Authorization = 'Bearer ' + token();
-    const r = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+    // kirgan foydalanuvchi so'rovi alohida manzilda (&u=1) — Cloudflare keshidagi umumiy javob bilan aralashmaydi (2026-11-20)
+    const r = await fetch(API + path + (method === 'GET' && token() ? (path.includes('?') ? '&' : '?') + 'u=1' : ''), { method, headers, body: body ? JSON.stringify(body) : undefined });
     const j = await r.json().catch(() => ({}));
     if (!r.ok) throw Object.assign(new Error(j.error || 'xato'), { status: r.status });
     return j;
@@ -228,7 +229,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     if (social[yid]) { paintSocial(i); return; }
     social[yid] = { likes: 0, dislikes: 0, mine: 0, total: 0, comments: [], yt: null };
     if (API) req('GET', `/social?movie=${sid(yid)}`).then(j => { Object.assign(social[yid], j); paintSocial(i); if (sheetFor === i) drawSheet(); }).catch(() => { social[yid].down = true; });
-    fetch('https://dezocloud.uz/api/yt/info?v=' + yid).then(r => r.ok ? r.json() : null)
+    fetch((API ? API + '/api/yt/info?v=' : 'https://dezocloud.uz/api/yt/info?v=') + yid).then(r => r.ok ? r.json() : null)
       .then(j => { if (j && typeof j.views === 'number') { social[yid].yt = j; paintSocial(i); if (sheetFor === i) drawSheet(); } }).catch(() => {});
   }
   async function react(i, value) {

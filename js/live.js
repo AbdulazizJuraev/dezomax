@@ -208,7 +208,8 @@
   async function req(method, path, body) {
     const headers = { 'Content-Type': 'application/json' };
     if (token()) headers.Authorization = 'Bearer ' + token();
-    const r = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+    // kirgan foydalanuvchi so'rovi alohida manzilda (&u=1) — Cloudflare keshidagi umumiy javob bilan aralashmaydi (2026-11-20)
+    const r = await fetch(API + path + (method === 'GET' && token() ? (path.includes('?') ? '&' : '?') + 'u=1' : ''), { method, headers, body: body ? JSON.stringify(body) : undefined });
     const j = await r.json().catch(() => ({}));
     if (!r.ok) throw Object.assign(new Error(j.error || 'xato'), { status: r.status });
     return j;

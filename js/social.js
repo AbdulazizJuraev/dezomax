@@ -93,7 +93,8 @@ const socLoggedIn = () => !!socToken();
 async function socReq(method, path, body) {
   const headers = { 'Content-Type': 'application/json' };
   if (socToken()) headers.Authorization = 'Bearer ' + socToken();
-  const r = await fetch(socApi() + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  // kirgan foydalanuvchi so'rovi alohida manzilda (&u=1) — Cloudflare keshidagi umumiy javob bilan aralashmaydi (2026-11-20)
+  const r = await fetch(socApi() + path + (method === 'GET' && socToken() ? (path.includes('?') ? '&' : '?') + 'u=1' : ''), { method, headers, body: body ? JSON.stringify(body) : undefined });
   const j = await r.json().catch(() => ({}));
   if (r.status === 401 && typeof Pay !== 'undefined') Pay.clear();
   if (!r.ok) throw Object.assign(new Error(j.error || 'xato'), { status: r.status });
@@ -398,7 +399,7 @@ function initSocial(m, part, opts = {}) {
   drawBar();
   drawComments();
   if (ytId) {
-    fetch('https://dezocloud.uz/api/yt/info?v=' + ytId).then(r => r.ok ? r.json() : null).then(j => {
+    fetch((socApi() ? socApi() + '/api/yt/info?v=' : 'https://dezocloud.uz/api/yt/info?v=') + ytId).then(r => r.ok ? r.json() : null).then(j => {
       if (!j || typeof j.views !== 'number') return;
       yt = j; drawStats(); drawBar(); drawComments();
     }).catch(() => {});

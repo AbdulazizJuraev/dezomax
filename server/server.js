@@ -607,6 +607,15 @@ function createApp(cfg, deps = {}) {
       res.setHeader('Access-Control-Max-Age', '86400');
     }
   };
+  // Ommaviy javob (2026-11-20, 50 ming kishiga tayyorgarlik): pay.dezomax.uz Cloudflare orqali — bunday javoblar
+  // Cloudflare keshida turadi va serverga kelmaydi. Kesh Origin bo'yicha ajratilmaydi, shuning uchun hamma manzilga ruxsat (*):
+  // ma'lumot baribir ochiq (ko'rishlar, layklar, izohlar). Shaxsiy javoblar (kirgan foydalanuvchi) — private, no-store.
+  const pub = (res, sec) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.removeHeader('Vary');
+    res.setHeader('Cache-Control', `public, max-age=${sec}, s-maxage=${sec}`);
+  };
+  const ytInfoCache = new Map();
   const send = (res, code, obj) => { res.statusCode = code; res.setHeader('Content-Type', 'application/json; charset=utf-8'); res.end(JSON.stringify(obj)); };
 
   const readBody = req => new Promise((resolve, reject) => {
@@ -639,7 +648,24 @@ function createApp(cfg, deps = {}) {
           : path.endsWith('shorts')
           ? await ytCached('sh:' + url.searchParams.get('ch'), () => ytShorts(url.searchParams.get('ch')))
           : await ytCached('v:' + url.searchParams.get('v'), () => ytMeta(url.searchParams.get('v')));
+        if (!r.error) pub(res, 600);
         return send(res, r.error ? r.status || 502 : 200, r.error ? { error: r.error } : r);
+      }
+      // Shorts va kino sahifasidagi YouTube raqamlari (ko'rishlar, layklar, izohlar) — DezoCloud'dan (shu serverning o'zida),
+      // 30 daqiqa kesh. Avval brauzer to'g'ridan-to'g'ri dezocloud.uz ga so'rardi — u Cloudflare'siz.
+      if (path === '/api/yt/info' && req.method === 'GET') {
+        if (limited(req, 'ytinfo', 120)) return send(res, 429, { error: 'Ko‘p so‘rov' });
+        const v = url.searchParams.get('v') || '';
+        if (!/^[\w-]{11}$/.test(v)) return send(res, 400, { error: 'v kerak' });
+        const hit = ytInfoCache.get(v);
+        let r = hit && Date.now() - hit.at < 1800e3 ? hit.data : null;
+        if (!r) {
+          try { const x = await fetch('http://127.0.0.1:3000/api/yt/info?v=' + v, { signal: AbortSignal.timeout(15000) }); r = x.ok ? await x.json() : null; } catch { r = null; }
+          if (r) { ytInfoCache.set(v, { at: Date.now(), data: r }); if (ytInfoCache.size > 3000) ytInfoCache.delete(ytInfoCache.keys().next().value); }
+        }
+        if (!r) return send(res, 502, { error: 'YouTube javob bermadi' });
+        pub(res, 1800);
+        return send(res, 200, r);
       }
       if (path === '/api/yt/live' && req.method === 'GET') {
         if (limited(req, 'ytlive', 60)) return send(res, 429, { error: 'Ko‘p so‘rov' });
@@ -647,7 +673,7 @@ function createApp(cfg, deps = {}) {
         try { r = await ytLive(); } catch { r = { at: Date.now(), items: [] }; }
         // shikoyat qilinganlar chiqmaydi
         try { const bad = new Set(q.blockedLive.all().map(x => x.video)); if (bad.size) r = { ...r, items: r.items.filter(x => !bad.has(x.id)) }; } catch { /* jadval hali yo'q */ }
-        res.setHeader('Cache-Control', 'public, max-age=120');
+        pub(res, 120);
         return send(res, 200, r);
       }
       if (path === '/api/candles' && req.method === 'GET') {
@@ -709,6 +735,7 @@ function createApp(cfg, deps = {}) {
         if (limited(req, 'social', 120)) return send(res, 429, { error: 'Ko‘p so‘rov' });
         const movie = movieIdOf(url.searchParams.get('movie'));
         if (!movie) return send(res, 400, { error: 'movie kerak' });
+        if (user || url.searchParams.has('u')) res.setHeader('Cache-Control', 'private, no-store'); else pub(res, 30);
         return send(res, 200, socialOf(movie, user));
       }
       if (path === '/top' && req.method === 'GET') {
@@ -716,6 +743,7 @@ function createApp(cfg, deps = {}) {
         const d = url.searchParams.get('days');
         const days = d === 'all' ? 0 : [1, 7, 30].includes(Number(d)) ? Number(d) : 1;
         const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit')) || 30));
+        pub(res, 120);
         return send(res, 200, { days: days || 'all', items: topOf(days, limit) });
       }
       if (path === '/view' && req.method === 'POST') {
