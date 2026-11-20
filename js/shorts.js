@@ -169,7 +169,12 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
         <a class="sh-act sh-more" href="https://www.youtube.com/shorts/${s.id}" target="_blank" rel="noopener" aria-label="${ru ? 'Открыть в YouTube' : 'YouTube’da ochish'}"><span class="sh-btn">${IG.more}</span></a>
       </div>
       <div class="sh-prog"><i></i></div>`;
-  feed.innerHTML = list.map((s, i) => `<section class="sh-slide" data-i="${i}" data-id="${s.id}"><img class="sh-thumb" data-src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" decoding="async"><div class="sh-frame"></div></section>`).join('');
+  const slideHTML = (s, i) => `<section class="sh-slide" data-i="${i}" data-id="${s.id}"><img class="sh-thumb" data-src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" decoding="async"><div class="sh-frame"></div></section>`;
+  // shorts.html dagi tezkor boshlangan birinchi slayd (sh-early) — o'chirilmaydi (pleyeri allaqachon yuklanmoqda), qolganlari undan keyin
+  const early = feed.querySelector('.sh-early');
+  const keepEarly = !!(early && early.dataset.id === list[0].id && early.querySelector('iframe'));
+  if (keepEarly) early.insertAdjacentHTML('afterend', list.slice(1).map((s, i) => slideHTML(s, i + 1)).join(''));
+  else feed.innerHTML = list.map(slideHTML).join('');
 
   const slides = [...feed.querySelectorAll('.sh-slide')];
   const fill = k => { const sl = slides[k]; if (sl && !sl._f) { sl._f = 1; sl.insertAdjacentHTML('beforeend', fullHTML(list[k], k)); } };
@@ -364,7 +369,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     const st = d.event === 'onStateChange' ? d.info : d.info && d.info.playerState;
     if (st === undefined || st === null) return;
     if (st === 1 && k !== active) { send(sl, 'pauseVideo'); sl._warm = 1; return; }   // oldindan yuklangani o'zi o'ynamasin
-    if (st === 1) { sl.classList.add('is-live'); sl.classList.remove('is-yt-stop'); prewarm(k); }     // 1 — o'ynayapti
+    if (st === 1) { if (!window.__shLive) { window.__shLive = 1; dispatchEvent(new Event('dzx-short-live')); } sl.classList.add('is-live'); sl.classList.remove('is-yt-stop'); prewarm(k); }     // 1 — o'ynayapti
     // YouTube o'zi to'xtatsa (pauza/tugadi/boshlanmadi) — uning tugmalari ko'rinmasin: muqova yopib turadi
     // tugadi — boshidan qayta (pleylist parametri yo'q: u ⏮ ⏭ tugmalarini chiqarardi)
     else if (st === 0 && k === active && !sl.classList.contains('is-paused')) { send(sl, 'seekTo', [0, true]); send(sl, 'playVideo'); }
@@ -457,5 +462,13 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
       setTimeout(() => end(true), 400);                       // javob kelmasa — zaxira (2,5 s) ishlaydi
     } catch (e) { done(true); }
   });
+  // tezkor boshlangan pleyer — ro'yxatga olinadi, YouTube holatini eshitish yoqiladi (yuklangan bo'lsa ham, keyin ham)
+  if (keepEarly) {
+    const fr = slides[0].querySelector('iframe');
+    fr.title = list[0].t;
+    frames.set(0, fr);
+    const hello = () => { try { fr.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: 0, channel: 'widget' }), '*'); } catch (e) {} };
+    hello(); fr.addEventListener('load', hello);
+  }
   soundProbe.then(ok => { if (!ok && !muted) { muted = true; autoMuted = true; paintSound(); } activate(start); });
 })();
