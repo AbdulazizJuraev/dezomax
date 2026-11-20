@@ -8751,8 +8751,8 @@ body.dzx-mini #playerBox > :not(.dzx-mini-bar) { width: 100% !important; height:
 .vp-morph path { fill: currentColor; transition: d .28s cubic-bezier(.4, 0, .2, 1); }
 .vp-morph .vp-m1 { d: path("M7 5L10.6 5L10.6 19L7 19Z"); }
 .vp-morph .vp-m2 { d: path("M13.4 5L17 5L17 19L13.4 19Z"); }
-.vp-paused .vp-morph .vp-m1 { d: path("M8 4.6L13.6 8.2L13.6 15.8L8 19.4Z"); }
-.vp-paused .vp-morph .vp-m2 { d: path("M13.6 8.2L19.4 12L19.4 12L13.6 15.8Z"); }
+.vp-paused .vp-morph .vp-m1 { d: path("M8 4.6L19.4 12L19.4 12L8 19.4Z"); }
+.vp-paused .vp-morph .vp-m2 { d: path("M19.4 12L19.4 12L19.4 12L19.4 12Z"); }
 .player-wrap.ytp.vp-paused .vp-center svg.vp-morph { transform: none; }
 .player-wrap.ytp.vp-mid-flash .vp-center { animation: vpPop .38s cubic-bezier(.3, 1.5, .5, 1) both; }
 .player-wrap.ytp.vp-mid-flash .vp-skip:first-child { animation: vpSkipL .35s ease both; }
@@ -8761,3 +8761,45 @@ body.dzx-mini #playerBox > :not(.dzx-mini-bar) { width: 100% !important; height:
 @keyframes vpSkipL { from { transform: translateX(18px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes vpSkipR { from { transform: translateX(-18px); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .player-wrap.ytp .vp-center, .player-wrap.ytp .vp-skip { animation: none !important; } }
+
+/* ================= Pleyer (2026-11-20, foydalanuvchi so'rovi) =================
+   1) pauzadagi «Tavsiyalar» pastdagi tugmalarni yopmaydi — tugmalar ustida
+   2) tugmalar orqasidagi qora dumaloq/tabletka fonlar yo'q (YouTube kabi — faqat belgilar)
+   3) bosilganda/ustiga kelganda belgilar jonli: kichrayib-qaytadi, kattalashadi, ovoz belgisi almashganda «sakraydi»
+   4) ±10 soniya — chetda yarim doira, uchta uchburchak ketma-ket yonadi, «10 soniya»
+   5) play/pauza — bitta yaxlit belgi (o'rtada ham, pastda ham silliq aylanadi) */
+.player-wrap.ytp .vp-ui { z-index: 8; }
+.vp-recs::before { bottom: 0; }
+.vp-circ, .vp-pill { background: transparent; border-color: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.vp-circ:hover { background: rgba(255, 255, 255, .12); }
+.player-wrap.ytp.vp .vp-center { background: transparent; box-shadow: none; }
+.player-wrap.ytp.vp .vp-center svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .55)); }
+.vp-ui svg { filter: drop-shadow(0 1px 4px rgba(0, 0, 0, .6)); }
+.vp-ui button { transition: transform .14s cubic-bezier(.3, 1.4, .5, 1), background .15s, color .15s; }
+.vp-ui button:active { transform: scale(.84); }
+.vp-ico svg, .vp-circ svg { transition: transform .2s ease; }
+.vp-ico:hover svg, .vp-circ:hover svg { transform: scale(1.14); }
+#vpGear[aria-expanded="true"] svg { transform: rotate(60deg); }
+#vpMute svg { animation: vpIcoIn .26s cubic-bezier(.3, 1.5, .5, 1) both; }
+@keyframes vpIcoIn { from { transform: scale(.6); opacity: .3; } to { transform: none; opacity: 1; } }
+.vp-circ .vp-morph { width: 22px; height: 22px; }
+@media (max-width: 640px) { .vp-circ .vp-morph { width: 19px; height: 19px; } }
+@media (max-width: 420px) { .vp-circ .vp-morph { width: 16px; height: 16px; } }
+
+.vp-flash { top: 0; bottom: 0; z-index: 9; width: 34%; display: grid; place-items: center; padding: 0; border-radius: 0; background: none;
+  backdrop-filter: none; -webkit-backdrop-filter: none; transform: none; opacity: 0; transition: opacity .3s; overflow: hidden; }
+.vp-flash::before { content: ''; position: absolute; top: -12%; bottom: -12%; width: 100%; background: rgba(255, 255, 255, .14); }
+.vp-flash.is-left { left: 0; }
+.vp-flash.is-left::before { left: 0; border-radius: 0 50% 50% 0 / 0 50% 50% 0; }
+.vp-flash.is-right { right: 0; }
+.vp-flash.is-right::before { right: 0; border-radius: 50% 0 0 50% / 50% 0 0 50%; }
+.vp-flash.is-on { opacity: 1; transform: none; transition: opacity .08s; }
+.vp-flash-in { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0, 0, 0, .5); }
+.vp-flash-tri { display: flex; gap: 1px; }
+.vp-flash.is-left .vp-flash-tri { transform: scaleX(-1); }
+.vp-flash .vp-flash-tri svg { width: 15px; height: 18px; opacity: .3; animation: vpTri .7s linear both; }
+.vp-flash .vp-flash-tri svg:nth-child(2) { animation-delay: .12s; }
+.vp-flash .vp-flash-tri svg:nth-child(3) { animation-delay: .24s; }
+@keyframes vpTri { 0% { opacity: .3; } 25% { opacity: 1; } 60% { opacity: 1; } 100% { opacity: .3; } }
+@media (max-width: 520px) { .vp-flash-in { font-size: 12px; gap: 5px; } .vp-flash .vp-flash-tri svg { width: 11px; height: 13px; } }
+@media (prefers-reduced-motion: reduce) { .vp-flash .vp-flash-tri svg, #vpMute svg { animation: none; opacity: 1; } .vp-ui button:active { transform: none; } }

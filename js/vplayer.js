@@ -216,7 +216,7 @@ function mountVideo(box, url, opts = {}) {
     brand.addEventListener(ev, e => { e.stopPropagation(); if (ev !== 'touchstart' && ev !== 'pointerdown') e.preventDefault(); }, { passive: false }));
 
   /* ---- holatlar ---- */
-  const setPlayIcon = () => { $('#vpPlay2').innerHTML = video.paused ? YT_ICONS.play : YT_ICONS.pause; if (!$('#vpPlay .vp-morph')) $('#vpPlay').innerHTML = VP_MORPH; vpMorphSet($('#vpPlay'), video.paused); box.classList.toggle('vp-paused', video.paused); if (typeof vpMidFlash === 'function') vpMidFlash(box); if (typeof vpRecsState === 'function') vpRecsState(box, !video.paused); };
+  const setPlayIcon = () => { for (const b of ['#vpPlay', '#vpPlay2']) { if (!$(b + ' .vp-morph')) $(b).innerHTML = VP_MORPH; vpMorphSet($(b), video.paused); } box.classList.toggle('vp-paused', video.paused); if (typeof vpMidFlash === 'function') vpMidFlash(box); if (typeof vpRecsState === 'function') vpRecsState(box, !video.paused); };
   onV('playing', () => {
     $('#vpCover').hidden = true;
     $('#vpBar').hidden = false;
@@ -298,8 +298,8 @@ function mountVideo(box, url, opts = {}) {
     if (!live()) return;
     if (e.target.tagName === 'INPUT') return;
     if (e.code === 'Space' || e.code === 'KeyK') { e.preventDefault(); toggle(); }
-    if (e.code === 'ArrowLeft') { e.preventDefault(); jump(-10); }
-    if (e.code === 'ArrowRight') { e.preventDefault(); jump(10); }
+    if (e.code === 'ArrowLeft') { e.preventDefault(); jump(-10); box._vpFlash?.(false); }
+    if (e.code === 'ArrowRight') { e.preventDefault(); jump(10); box._vpFlash?.(true); }
     if (e.code === 'KeyF') ytToggleFullscreen(box);
     if (e.code === 'KeyM') video.muted = !video.muted;
     if (e.code === 'Escape' && box.classList.contains('ytp-pseudo-fs')) ytToggleFullscreen(box);

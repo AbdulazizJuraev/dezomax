@@ -17,8 +17,8 @@ const VP_MORPH = '<svg class="vp-morph" viewBox="0 0 24 24"><path class="vp-m1" 
 function vpMorphSet(btn, paused) {
   const p = btn && btn.querySelectorAll('.vp-morph path');
   if (!p || p.length < 2) return;
-  p[0].setAttribute('d', paused ? 'M8 4.6L13.6 8.2L13.6 15.8L8 19.4Z' : 'M7 5L10.6 5L10.6 19L7 19Z');
-  p[1].setAttribute('d', paused ? 'M13.6 8.2L19.4 12L19.4 12L13.6 15.8Z' : 'M13.4 5L17 5L17 19L13.4 19Z');
+  p[0].setAttribute('d', paused ? 'M8 4.6L19.4 12L19.4 12L8 19.4Z' : 'M7 5L10.6 5L10.6 19L7 19Z');
+  p[1].setAttribute('d', paused ? 'M19.4 12L19.4 12L19.4 12L19.4 12Z' : 'M13.4 5L17 5L17 19L13.4 19Z');
 }
 const YT_ICONS = {
   play:  '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z" fill="currentColor"/></svg>',
@@ -72,7 +72,7 @@ function vpUiHTML(o = {}) {
           <span class="vp-left" id="vpLeft"></span>
           <input class="vp-seek" id="vpSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="seek">
           <div class="vp-row">
-            <button class="vp-circ" id="vpPlay2" type="button" aria-label="${esc(t('player.play'))}">${YT_ICONS.pause}</button>
+            <button class="vp-circ" id="vpPlay2" type="button" aria-label="${esc(t('player.play'))}">${VP_MORPH}</button>
             <span class="vp-volwrap">
               <button class="vp-circ" id="vpMute" type="button" aria-label="${esc(t('player.mute'))}">${YT_ICONS.vol}</button>
               <input class="vp-vol" id="vpVol" type="range" min="0" max="100" value="100" aria-label="volume">
@@ -94,8 +94,8 @@ function vpBindUi(box, clickEl, p) {
   const $ = s => box.querySelector(s);
   $('#vpPlay').addEventListener('click', () => { p.toggle(); p.wake(); });
   $('#vpPlay2').addEventListener('click', () => { p.toggle(); p.wake(); });
-  $('#vpBack').addEventListener('click', () => { p.jump(-10); p.wake(); });
-  $('#vpFwd').addEventListener('click', () => { p.jump(10); p.wake(); });
+  $('#vpBack').addEventListener('click', () => { p.jump(-10); box._vpFlash?.(false); p.wake(); });
+  $('#vpFwd').addEventListener('click', () => { p.jump(10); box._vpFlash?.(true); p.wake(); });
   $('#vpFs').addEventListener('click', () => ytToggleFullscreen(box));
   $('#vpFit').addEventListener('click', () => {
     const fill = box.classList.toggle('ytp-fill');
@@ -126,11 +126,15 @@ function vpBindUi(box, clickEl, p) {
   const flash = right => {
     const el = $('#vpFlash');
     skipSum = el.classList.contains(right ? 'is-right' : 'is-left') && el.classList.contains('is-on') ? skipSum + 10 : 10;
-    el.className = 'vp-flash is-on ' + (right ? 'is-right' : 'is-left');
-    el.innerHTML = right ? `<b>${skipSum}</b>${VP_ICONS.ffw}` : `${VP_ICONS.rew}<b>${skipSum}</b>`;
+    el.className = 'vp-flash ' + (right ? 'is-right' : 'is-left');
+    void el.offsetWidth;   // animatsiya har bosishda boshidan
+    el.classList.add('is-on');
+    const tri = '<svg viewBox="0 0 12 14"><path d="M1 1l10 6-10 6z" fill="currentColor"/></svg>';
+    el.innerHTML = `<span class="vp-flash-in"><span class="vp-flash-tri">${tri}${tri}${tri}</span><b>${skipSum} ${LANG === 'ru' ? 'секунд' : 'soniya'}</b></span>`;
     clearTimeout(flashT);
-    flashT = setTimeout(() => el.classList.remove('is-on'), 650);
+    flashT = setTimeout(() => el.classList.remove('is-on'), 700);
   };
+  box._vpFlash = flash;
   clickEl.addEventListener('click', e => {
     const now = Date.now();
     const r = box.getBoundingClientRect(), right = e.clientX > r.left + r.width / 2;
@@ -363,7 +367,7 @@ function ytOnState(box, id, st) {
   }
   shade.hidden = st !== S.PAUSED;
   const running = st === S.PLAYING || st === S.BUFFERING;
-  $('#vpPlay2').innerHTML = running ? YT_ICONS.pause : YT_ICONS.play; vpMorphSet($('#vpPlay'), !running);
+  vpMorphSet($('#vpPlay'), !running); vpMorphSet($('#vpPlay2'), !running);
   box.classList.toggle('is-paused', st === S.PAUSED);
   const wasRun = !box.classList.contains('vp-paused');
   box.classList.toggle('vp-paused', !running);
@@ -465,8 +469,8 @@ function ytBindBar(box, player) {
     if (ytActive?.player !== player) return;
     if (e.target.tagName === 'INPUT') return;
     if (e.code === 'Space' || e.code === 'KeyK') { e.preventDefault(); toggle(); }
-    if (e.code === 'ArrowLeft') { e.preventDefault(); jump(-10); }
-    if (e.code === 'ArrowRight') { e.preventDefault(); jump(10); }
+    if (e.code === 'ArrowLeft') { e.preventDefault(); jump(-10); box._vpFlash?.(false); }
+    if (e.code === 'ArrowRight') { e.preventDefault(); jump(10); box._vpFlash?.(true); }
     if (e.code === 'Escape' && box.classList.contains('ytp-pseudo-fs')) ytToggleFullscreen(box);
     if (e.code === 'KeyF') ytToggleFullscreen(box);
     if (e.code === 'KeyM') $('#vpMute').click();
