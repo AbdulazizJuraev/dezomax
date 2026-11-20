@@ -86,7 +86,7 @@
     if (!all.length) { hub.innerHTML = ''; return; }
     const cats = CATS.map(([k, t, re]) => [k, t, all.filter(x => !x.own && re.test(x.title + ' ' + x.channel))]).filter(c => c[2].length >= 2 && c[2].length < all.length);
     hub.innerHTML = `
-      <div class="lvh-head"><span class="lvh-ic">((•))</span><h1>${L('Jonli efirlar', 'Трансляции')}</h1></div>
+      <div class="lvh-head"><span class="lvh-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle class="lv-c" cx="12" cy="12" r="2.8" fill="currentColor" stroke="none"/><path class="lv-w1" d="M7.6 7.6a6.2 6.2 0 0 0 0 8.8M16.4 7.6a6.2 6.2 0 0 1 0 8.8"/><path class="lv-w2" d="M4.6 4.6a10.4 10.4 0 0 0 0 14.8M19.4 4.6a10.4 10.4 0 0 1 0 14.8"/></svg></span><h1>${L('Jonli efirlar', 'Трансляции')}</h1></div>
       ${hero()}
       ${block('all', L('Hozir efirda', 'Сейчас в эфире'), all)}
       ${cats.map(([k, t, list]) => block(k, L('Hozir efirda: ', 'Сейчас в эфире: ') + t, list)).join('')}`;

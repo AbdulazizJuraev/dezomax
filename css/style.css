@@ -8815,3 +8815,41 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 @keyframes lvDot { 0%, 100% { transform: scale(1); } 40% { transform: scale(.7); } }
 @keyframes lvWave { 0%, 100% { opacity: .25; } 40% { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { svg .lv-c, svg .lv-w1, svg .lv-w2 { animation: none; } }
+/* Pastki panel belgilari jonli (2026-11-20, «Jonli efir» kabi): har biri ~5 s da bir marta qisqa harakat qiladi,
+   navbat bilan (bir vaqtda hammasi emas). Faqat transform/opacity — yengil, telefon/ilovada ham. */
+.tabbar-item:nth-child(1) { --tbd: 0s; } .tabbar-item:nth-child(2) { --tbd: 1s; } .tabbar-item:nth-child(3) { --tbd: 2s; } .tabbar-item:nth-child(4) { --tbd: 3s; }
+.tabbar-icon .tb-home, .tabbar-icon .tb-play, .tabbar-icon .tb-sh, .tabbar-icon .tb-ant { transform-box: fill-box; animation-duration: 5s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; animation-delay: var(--tbd, 0s); }
+.tabbar-icon .tb-home { transform-origin: 50% 100%; animation-name: tbHop; }
+.tabbar-icon .tb-play { transform-origin: center; animation-name: tbPlay; }
+.tabbar-icon .tb-sh { transform-origin: center; animation-name: tbTilt; }
+.tabbar-icon .tb-ant { transform-origin: 50% 100%; animation-name: tbAnt; }
+.tabbar-icon .tb-dot { animation: tbDot 5s linear infinite; animation-delay: var(--tbd, 0s); }
+.tabbar-icon .tb-dot:nth-of-type(2) { animation-delay: calc(var(--tbd, 0s) + .12s); }
+.tabbar-icon .tb-dot:nth-of-type(3) { animation-delay: calc(var(--tbd, 0s) + .24s); }
+@keyframes tbHop { 0%, 14%, 100% { transform: none; } 5% { transform: translateY(-2.5px) scaleY(1.04); } 10% { transform: scaleY(.93); } }
+@keyframes tbPlay { 0%, 16%, 100% { transform: none; } 6% { transform: scale(1.4); } 11% { transform: scale(.9); } }
+@keyframes tbTilt { 0%, 16%, 100% { transform: none; } 5% { transform: rotate(-10deg); } 10% { transform: rotate(8deg); } }
+@keyframes tbAnt { 0%, 18%, 100% { transform: none; } 5% { transform: rotate(-16deg); } 10% { transform: rotate(13deg); } 14% { transform: rotate(-5deg); } }
+@keyframes tbDot { 0%, 20%, 100% { opacity: 1; } 6% { opacity: .15; } }
+/* «Jonli efirlar» sarlavhasidagi qizil belgi — to'lqinlar tarqaladi, doira yengil urib turadi */
+.lvh-ic { position: relative; animation: lvhBeat 1.6s ease-in-out infinite; }
+.lvh-ic::before, .lvh-ic::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #ff1f3d; opacity: 0; animation: lvhRing 1.6s ease-out infinite; pointer-events: none; }
+.lvh-ic::after { animation-delay: .8s; }
+.lvh-ic svg { width: 58%; height: 58%; }
+@keyframes lvhBeat { 0%, 100% { transform: scale(1); } 40% { transform: scale(.94); } }
+@keyframes lvhRing { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .tabbar-icon .tb-home, .tabbar-icon .tb-play, .tabbar-icon .tb-sh, .tabbar-icon .tb-ant, .tabbar-icon .tb-dot, .lvh-ic, .lvh-ic::before, .lvh-ic::after { animation: none; }
+}
+/* Kinostudiyalarning haqiqiy logolari (images/studios/*.png, 2026-11-20) */
+.st-logo { display: block; width: auto; height: auto; max-width: 100%; object-fit: contain; }
+.st-logo.is-mono { filter: brightness(0) invert(1); }
+.h5-sc-in .st-logo { max-width: 68%; max-height: 50%; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35)); }
+.h5-sc-in .st-logo.is-mono { filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0, 0, 0, .35)); }
+.h5-sc-in .st-logo.is-dc, .h5-sc-in .st-logo.is-sony, .h5-sc-in .st-logo.is-warner { max-height: 58%; }
+.studio-logo .st-logo { max-height: 74px; filter: drop-shadow(0 6px 14px rgba(0, 0, 0, .4)); }
+.studio-logo .st-logo.is-mono { filter: brightness(0) invert(1) drop-shadow(0 6px 14px rgba(0, 0, 0, .4)); }
+.v4-st .st-logo { max-height: 48px; }
+.adm-studio-logo .st-logo { height: 44px; max-width: 120px; }
+.adm-studio-logo .st-logo.is-mono { filter: none; }
+.h5-sc-in .st-logo.is-pixar, .h5-sc-in .st-logo.is-dreamworks { max-width: 86%; }   /* ingichka logolar */

@@ -206,10 +206,10 @@ dzxVisible();
 /* ---------- Ikonkalar ---------- */
 const ICONS = {
   // pastki panel (telefon, 2026-11-18 maketi): to'ldirilgan oq belgilar
-  tbHome:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6 1.6 11.9c-.4.4-.1 1 .4 1h2.3V21c0 .6.4 1 1 1h4.2v-6.3h5V22h4.2c.6 0 1-.4 1-1v-8.1h2.3c.5 0 .8-.6.4-1L19.4 9.2V3.6c0-.3-.3-.6-.6-.6h-2c-.3 0-.6.3-.6.6v2.7z"/></svg>',
-  tbFilm:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3.5" width="18" height="17"/><path d="M3 7.2h18M3 16.8h18" /><path d="M5.6 5.35h1.6M9.2 5.35h1.6M12.8 5.35h1.6M16.4 5.35h1.6M5.6 18.65h1.6M9.2 18.65h1.6M12.8 18.65h1.6M16.4 18.65h1.6" stroke-width="1.6"/><path d="M10.3 9.6v4.8l4.1-2.4z" fill="currentColor" stroke="none"/></svg>',
-  tbShorts:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"><path d="M14.6 3.4 7.9 7.2a3.6 3.6 0 0 0 0 6.3l.8.4-.8.5a3.6 3.6 0 1 0 3.6 6.2l6.7-3.8a3.6 3.6 0 0 0 0-6.3l-.8-.4.8-.5a3.6 3.6 0 1 0-3.6-6.2z"/><path d="M10.5 9.8v4.4l3.8-2.2z" fill="currentColor" stroke="none"/></svg>',
-  tbTv:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.8 12 6.6l4-3.8"/><rect x="2.5" y="6.6" width="19" height="14.4" rx="3"/><path d="M16.5 6.6V21"/><circle cx="19" cy="11" r=".9" fill="currentColor" stroke="none"/><circle cx="19" cy="13.8" r=".9" fill="currentColor" stroke="none"/><circle cx="19" cy="16.6" r=".9" fill="currentColor" stroke="none"/></svg>',
+  tbHome:  '<svg viewBox="0 0 24 24" fill="currentColor"><path class="tb-home" d="M12 2.6 1.6 11.9c-.4.4-.1 1 .4 1h2.3V21c0 .6.4 1 1 1h4.2v-6.3h5V22h4.2c.6 0 1-.4 1-1v-8.1h2.3c.5 0 .8-.6.4-1L19.4 9.2V3.6c0-.3-.3-.6-.6-.6h-2c-.3 0-.6.3-.6.6v2.7z"/></svg>',
+  tbFilm:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3.5" width="18" height="17"/><path d="M3 7.2h18M3 16.8h18" /><path d="M5.6 5.35h1.6M9.2 5.35h1.6M12.8 5.35h1.6M16.4 5.35h1.6M5.6 18.65h1.6M9.2 18.65h1.6M12.8 18.65h1.6M16.4 18.65h1.6" stroke-width="1.6"/><path class="tb-play" d="M10.3 9.6v4.8l4.1-2.4z" fill="currentColor" stroke="none"/></svg>',
+  tbShorts:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"><path class="tb-sh" d="M14.6 3.4 7.9 7.2a3.6 3.6 0 0 0 0 6.3l.8.4-.8.5a3.6 3.6 0 1 0 3.6 6.2l6.7-3.8a3.6 3.6 0 0 0 0-6.3l-.8-.4.8-.5a3.6 3.6 0 1 0-3.6-6.2z"/><path class="tb-play" d="M10.5 9.8v4.4l3.8-2.2z" fill="currentColor" stroke="none"/></svg>',
+  tbTv:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="tb-ant" d="M8 2.8 12 6.6l4-3.8"/><rect x="2.5" y="6.6" width="19" height="14.4" rx="3"/><path d="M16.5 6.6V21"/><circle class="tb-dot" cx="19" cy="11" r=".9" fill="currentColor" stroke="none"/><circle class="tb-dot" cx="19" cy="13.8" r=".9" fill="currentColor" stroke="none"/><circle class="tb-dot" cx="19" cy="16.6" r=".9" fill="currentColor" stroke="none"/></svg>',
   tbLive:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle class="lv-c" cx="12" cy="12" r="2.8" fill="currentColor" stroke="none"/><path class="lv-w1" d="M7.6 7.6a6.2 6.2 0 0 0 0 8.8M16.4 7.6a6.2 6.2 0 0 1 0 8.8"/><path class="lv-w2" d="M4.6 4.6a10.4 10.4 0 0 0 0 14.8M19.4 4.6a10.4 10.4 0 0 1 0 14.8"/></svg>',
   play:   '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg>',
   star:   '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 5.9 6.6.95-4.8 4.65 1.14 6.5L12 17.4l-5.84 3.1L7.3 14 2.5 9.35l6.6-.95L12 2.5z"/></svg>',
@@ -1060,6 +1060,13 @@ const STUDIOS = [
   { key: 'paramount', name: 'Paramount Pictures', channel: 'https://www.youtube.com/@ParamountPictures', bg: '#0a2a6b',
     logo: '<svg viewBox="0 0 160 60"><path d="M30 46 L62 12 L80 30 L98 12 L130 46 Z" fill="#2a6fdb"/><text x="80" y="57" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="17" fill="#fff">Paramount</text></svg>' }
 ];
+// Haqiqiy logolar (2026-11-20, foydalanuvchi so'rovi): Wikimedia Commons'dagi rasmiy logolar (Public domain — oddiy matnli belgilar),
+// images/studios/<key>.png (500 px). Qora logolar qoramtir fonda CSS bilan oq qilinadi (.st-logo.is-mono). Yuqoridagi SVG — zaxira (admin).
+const STUDIO_MONO = ['disney', 'dreamworks', 'lucasfilm', 'pixar', 'sony', 'universal'];
+STUDIOS.forEach(s => {
+  s.logoSvg = s.logo;
+  s.logo = `<img class="st-logo is-${s.key}${STUDIO_MONO.includes(s.key) ? ' is-mono' : ''}" src="images/studios/${s.key}.png" alt="${s.name}" loading="lazy" decoding="async">`;
+});
 const studioOf = key => STUDIOS.find(s => s.key === key) || null;
 const studioHref = s => s.href || 'catalog.html?studio=' + s.key;
 
