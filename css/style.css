@@ -8460,7 +8460,7 @@ html.has-nav5 .mini-nav { display: none; }
 @media (max-width: 900px) {
   html body nav.tabbar.tabbar { left: max(14px, var(--sal)) !important; right: max(14px, var(--sar)) !important; bottom: calc(12px + var(--sab)) !important; width: auto !important;
     margin: 0 !important; padding: 6px 10px !important; gap: 0 !important; border-radius: 999px !important; border: 1px solid rgba(255, 255, 255, .07) !important;
-    background: #161817 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; box-shadow: 0 14px 34px rgba(0, 0, 0, .6) !important; }
+    background: rgba(22, 24, 23, .9) !important;   /* 10% shaffof (2026-11-20) */ -webkit-backdrop-filter: none !important; backdrop-filter: none !important; box-shadow: 0 14px 34px rgba(0, 0, 0, .6) !important; }
   html body nav.tabbar.tabbar .tabbar-item { flex: 1; height: 54px !important; padding: 0 !important; gap: 0 !important; border-radius: 999px; color: #fff !important; background: none !important; }
   html body nav.tabbar.tabbar .tabbar-item.is-active { color: #B8EC4A !important; }
   html body nav.tabbar.tabbar .tabbar-label { display: none !important; }
