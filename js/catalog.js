@@ -4,6 +4,8 @@
    ============================================================ */
 
 const params = new URLSearchParams(location.search);
+window.CARD_TAGS_BELOW = true;                       // kartochka yozuvlari poster ostida (js/common.js cardHTML)
+document.body.classList.add('page-catalog');        // telefonda qatorda 2 ta (css)
 
 const state = {
   q:         params.get('q') || '',
@@ -82,7 +84,44 @@ function filtered() {
   // kanal videolari (kino tahlillari) — kanaldagi tartibda, yangisi birinchi
   const by = state.franchise === 'tahlil' && state.sort === 'new' ? (a, b) => (b.addedAt || 0) - (a.addedAt || 0)
     : sorters[state.sort] || sorters.new;
-  return list.sort((a, b) => (!!b.poster - !!a.poster) || by(a, b));
+  // sifatli posterlilar oldinda (2026-11-20): TMDB/Wikimedia/saytdagi rasm → YouTube → Telegram kichik rasmi → postersiz;
+  // serialning alohida qo'yilgan qismlari («9-qism», «7 серия») — bir pog'ona pastroqda
+  return list.sort((a, b) => (posterQ(b) - posterQ(a)) || by(a, b));
+}
+
+const PQ = new WeakMap();
+const EP_RX = /(^|[\s«"(])\d+\s*[-–]?\s*(qism|qisim|seriya|серия|серии)|(^|\s)(qism|серия|seriya)\s*\d+/i;
+function posterQ(m) {
+  let q = PQ.get(m);
+  if (q !== undefined) return q;
+  const p = String(m.hposter || m.poster || '');
+  q = !p ? 0 : /dezocloud\.uz\/t\//.test(p) ? 2 : /i\.ytimg\.com|img\.youtube\.com/.test(p) ? 4 : 6;
+  if (EP_RX.test(title(m))) q -= 1;
+  PQ.set(m, q);
+  return q;
+}
+
+/* Film | Serial tugmalari — tepada (2026-11-20) */
+function renderTabs() {
+  let el = document.getElementById('catTabs');
+  const show = (state.type === 'film' || state.type === 'serial') && !state.q && state.franchise === 'all' && !state.studio && !state.lang && state.watch === 'all';
+  if (!show) { el?.remove(); return; }
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'catTabs';
+    el.className = 'cat-tabs';
+    el.setAttribute('role', 'tablist');
+    document.querySelector('.cat-search').before(el);
+    el.addEventListener('click', e => {
+      const b = e.target.closest('[data-type]');
+      if (!b || b.dataset.type === state.type) return;
+      state.type = b.dataset.type;
+      renderTabs();
+      update();
+      window.scrollTo({ top: 0 });
+    });
+  }
+  el.innerHTML = ['film', 'serial'].map(k => `<button type="button" role="tab" data-type="${k}" aria-selected="${state.type === k}" class="${state.type === k ? 'is-on' : ''}">${k === 'film' ? (LANG === 'ru' ? 'Фильмы' : 'Filmlar') : (LANG === 'ru' ? 'Сериалы' : 'Seriallar')}</button>`).join('');
 }
 
 /* ---------- Chizish ---------- */
@@ -135,6 +174,7 @@ function update(pushUrl = true, keep = 0) {
 
 initLayout();
 renderFilters();
+renderTabs();
 
 const input = document.getElementById('q');
 input.value = state.q;
@@ -154,6 +194,7 @@ document.addEventListener('dzx:full', () => update(false, document.querySelector
 
 document.addEventListener('langchange', () => {
   renderFilters();
+  renderTabs();
   update(false);
   applyI18n();
 });

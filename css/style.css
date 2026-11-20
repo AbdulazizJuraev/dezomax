@@ -8854,3 +8854,18 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 .adm-studio-logo .st-logo.is-mono { filter: none; }
 .h5-sc-in .st-logo.is-pixar, .h5-sc-in .st-logo.is-dreamworks { max-width: 86%; }   /* ingichka logolar */
 .h5-sc-in .st-logo.is-marvel { filter: none; }   /* Marvel: doira logoning o'z qizilida (#D40317) — bir xil rang, chegara ko'rinmaydi */
+/* Katalog (2026-11-20): Film | Serial tugmalari, telefonda qatorda 2 ta, yozuvlar poster ostida */
+.cat-tabs { display: flex; gap: 8px; margin: -6px 0 16px; }
+.cat-tabs button { flex: 0 0 auto; height: 40px; padding: 0 20px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .04); color: #fff; font: 700 14px/1 'Manrope', sans-serif; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.cat-tabs button:hover { border-color: rgba(198, 255, 61, .5); }
+.cat-tabs button.is-on { background: #C6FF3D; border-color: #C6FF3D; color: #050706; }
+@media (max-width: 600px) {
+  .cat-tabs button { flex: 1; }
+  body.page-catalog #grid.grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 14px 12px !important; }
+}
+.card.is-tags-below .card-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 7px; }
+.card.is-tags-below .card-tags > * { position: static !important; inset: auto !important; transform: none !important; margin: 0 !important; box-shadow: none !important;
+  display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 6px; font-size: 11px; font-weight: 700; line-height: 1; white-space: nowrap; }
+.card.is-tags-below .card-tags .badge-type { background: rgba(255, 255, 255, .08); color: #cfd5df; border: 0; letter-spacing: .03em; text-transform: uppercase; font-size: 10px; }
+.card.is-tags-below .card-tags .card-dur { background: rgba(255, 255, 255, .08); color: #cfd5df; }
+.card.is-tags-below .card-tags .badge-watch svg { width: 9px; height: 9px; }

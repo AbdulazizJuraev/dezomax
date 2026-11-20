@@ -491,6 +491,20 @@ function cardHTML(m) {
   // yil yoki reyting noma'lum bo'lishi mumkin (masalan YouTube'dagi o'zbek filmlari)
   const meta = [m.year, m.type === 'serial' && m.seasons ? seasonsText(m.seasons) : genreName(m.genres[0])]
     .filter(Boolean).join('<i class="dot"></i>');
+  // Katalogda (window.CARD_TAGS_BELOW, js/catalog.js) «Film/Serial», «O'zbekcha» va vaqt — poster ostida, poster toza (2026-11-20)
+  if (window.CARD_TAGS_BELOW) return `
+  <a class="card reveal is-tags-below${landPoster(m) ? ' is-wide' : ''}" href="${movieHref(m)}">
+    <div class="card-poster">
+      ${posterHTML(m)}
+      <div class="card-overlay"><div class="card-play">${ICONS.play}</div></div>
+      ${m.rating ? `<div class="badge-rating${m.rating >= 7 ? ' is-hi' : m.rating < 5 ? ' is-lo' : ''}">${ICONS.star}${m.rating.toFixed(1)}</div>` : ''}
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">${esc(title(m))}</h3>
+      <div class="card-meta">${meta}</div>
+      <div class="card-tags"><span class="badge-type">${typeName(m.type)}</span>${watchBadgeHTML(m)}${durPillHTML(m)}</div>
+    </div>
+  </a>`;
 
   return `
   <a class="card reveal${landPoster(m) ? ' is-wide' : ''}" href="${movieHref(m)}">
