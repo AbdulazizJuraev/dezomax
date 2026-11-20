@@ -320,12 +320,12 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     else mountFrame(i, true);
     sl.classList.add('is-playing');
     clearTimeout(sl._soundT);
-    // Brauzer ovozli avtoijroni taqiqlagan bo'lsagina ovozsizga o'tamiz. Avval 1,5 s kutilardi — internet sekin bo'lsa
+    // Brauzer ovozli avtoijroni taqiqlagan bo'lsagina ovozsizga o'tamiz (odatda buni oldindan soundProbe aniqlaydi; bu — zaxira). Avval 1,5 s kutilardi — internet sekin bo'lsa
     // video kech boshlanib, ovoz bekorga o'chib qolardi. Ilovada (WebView) ovozli avtoijro doim ruxsat — o'chirilmaydi.
     if (!muted && !isApp) sl._soundT = setTimeout(() => {
       if (active !== i || sl.classList.contains('is-live')) return;
       muted = true; autoMuted = true; send(sl, 'mute'); send(sl, 'playVideo'); paintSound();
-    }, 4500);
+    }, 2500);
     thumbs(i);
     loadSocial(i);
     try { history.replaceState(null, '', '#' + id); } catch {}
@@ -438,5 +438,22 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   // shorts.html#ID — shu shortdan boshlash
   const start = Math.max(0, list.findIndex(x => x.id === location.hash.slice(1)));
   if (start) slides[start].scrollIntoView();
-  activate(start);
+  // Ovozli avtoijroga ruxsat bormi — oldindan, bir zumda tekshiriladi (2026-11-20). Avval brauzer ruxsat bermasa
+  // 4,5 s kutilib, keyin ovozsiz qo'yilardi — shorts ochilgach video 4–5 s turib qolardi. Endi ruxsat yo'q bo'lsa darrov
+  // ovozsiz boshlanadi, birinchi teginishda ovoz yoqiladi (pastdagi pointerup).
+  const soundProbe = isApp ? Promise.resolve(true) : new Promise(done => {
+    try {
+      if (navigator.getAutoplayPolicy) return done(navigator.getAutoplayPolicy('mediaelement') === 'allowed');
+      const n = 400, b = new Uint8Array(44 + n), v = new DataView(b.buffer), w = (o, t) => [...t].forEach((c, i) => { b[o + i] = c.charCodeAt(0); });
+      w(0, 'RIFF'); v.setUint32(4, 36 + n, true); w(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+      v.setUint32(24, 8000, true); v.setUint32(28, 8000, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true); w(36, 'data'); v.setUint32(40, n, true); b.fill(128, 44);
+      const url = URL.createObjectURL(new Blob([b], { type: 'audio/wav' })), a = new Audio(url);
+      const end = ok => { try { a.pause(); URL.revokeObjectURL(url); } catch (e) {} done(ok); };
+      const pr = a.play();
+      if (!pr) return end(true);
+      pr.then(() => end(true), e => end(!(e && e.name === 'NotAllowedError')));
+      setTimeout(() => end(true), 400);                       // javob kelmasa — zaxira (2,5 s) ishlaydi
+    } catch (e) { done(true); }
+  });
+  soundProbe.then(ok => { if (!ok && !muted) { muted = true; autoMuted = true; paintSound(); } activate(start); });
 })();
