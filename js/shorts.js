@@ -17,6 +17,8 @@ const LIVE_SHORT_CHANNELS = [
   // 2026-10-07: egasi ruxsat berdi (foydalanuvchi aytdi). Ruscha, kino (Marvel/DC) haqida
   { ch: 'mrmomentinc', id: 'UCWIoDsZugYNNXqdxqrmbUog', n: 'Mr. Moment Inc', u: 'https://www.youtube.com/@mrmomentinc' }
 ];
+// o'zbek tilidagi kanallar — lentada ko'proq ko'rsatiladi (pastda, list)
+const UZ_SHORT_CHANNELS = ['farzidguy'];
 // ruscha kino so'zlari (Mr. Moment Inc kabi ruscha kanallar uchun)
 const SHORT_MOVIE_RX_RU = /марвел|marvel|мстител|железн\S* челове|капитан\S* америк|локи|дэдпул|росомах|\bтор\b|мьёльнир|халк|супермен|бэтмен|человек.паук|паук|танос|гамор|квм|киновселенн|злоде|супергеро|фильм|кино|сцен\S* котор|трейлер|актер|актёр|\bdc\b|джокер|веном|флэш|аквамен|чудо.женщин|стражи галакт|звёздн\S* войн|гарри поттер/i;
 const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|deseptikon|decepticon|optimus|praym|prime|megatron|bumblebee|bambilbi|drift|lockdown|shockwave|starscream|wheeljack|devastator|crosshairs|kogman|cogman|sentinal|sentinel|iron ?hide|wrekker|\bdc\b|#dc|supermen|superman|betmen|batman|flash|wonder ?woman|temir odam|iron ?man|#thor|\btor\b|torga|loki|wanda|vijin|vision|altron|ultron|kang\b|odin|tanos|thanos|selestial|celestial|ikaris|cheksizlik tosh|kuch tosh|yulduzlar lordi|spider|o.rgimchak|wednesday|uenzdey|deyneris|daenerys|taxtlar|\bfilm|kino|premyera|oskar|oscar|aktyor|multfilm|makvin|mcqueen|jekson bo.ron|mortal kombat|call of duty|dedpul|deadpool|momaqaldiroq|thunderbolt|tay ?lung|kung ?fu|afsonaviy uchlik|adolat liga|justice league|qizil.?jodugar|venom|joker|star ?wars|yulduzlar jang|harry ?pot|garri ?pot|bolg.a|mjolnir/i;
@@ -89,6 +91,11 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
       const c = best || prev;
       a.push(c.g[c.k++]); prev = c;
     }
+    // O'zbekcha ko'proq (2026-11-20, foydalanuvchi so'rovi — lenta asosan inglizcha bo'lib qolgandi): o'zbek kanallari tugaguncha
+    // har 3 ta shortdan 2 tasi o'zbekcha, keyin qolganlari. O'zbek kanali — UZ_SHORT_CHANNELS (shorts.html dagi tezkor boshlanishda ham)
+    const uz = a.filter(x => UZ_SHORT_CHANNELS.includes(x.ch)), other = a.filter(x => !UZ_SHORT_CHANNELS.includes(x.ch));
+    a.length = 0;
+    while (uz.length || other.length) { for (let n = 0; n < 2 && uz.length; n++) a.push(uz.shift()); if (other.length) a.push(other.shift()); }
     const k = a.findIndex(x => x.id === location.hash.slice(1));
     if (k > 0) a.unshift(a.splice(k, 1)[0]);
     return a;
