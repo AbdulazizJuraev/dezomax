@@ -8653,7 +8653,7 @@ html body .sh-bar { height: calc(58px + var(--app-sat, env(safe-area-inset-top))
 html body .sh-bar > * { pointer-events: auto; }
 html body .sh-bar .sh-back, html body .sh-bar .sh-sound { background: none !important; color: #fff !important; filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .6)); }
 html body .sh-bar .sh-back svg { width: 26px; height: 26px; }
-html body .sh-bar .sh-brand { justify-self: start; padding-left: 4px; }
+html body .sh-bar .sh-brand { justify-self: center; padding-left: 0; }   /* «Shorts» yozuvi o'rtada (2026-11-20) */
 html body.page-shorts .sh-bar .sh-brand b { font: 800 23px/1 'Manrope', sans-serif !important; letter-spacing: -.01em; text-shadow: 0 1px 6px rgba(0, 0, 0, .5); }
 .sh-slide::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 18%; z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(0, 0, 0, .35), transparent); }
 html body .sh-info { left: 0; right: 70px; bottom: 20px; padding: 0 14px; }
