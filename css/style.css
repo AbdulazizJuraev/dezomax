@@ -8853,3 +8853,4 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 .adm-studio-logo .st-logo { height: 44px; max-width: 120px; }
 .adm-studio-logo .st-logo.is-mono { filter: none; }
 .h5-sc-in .st-logo.is-pixar, .h5-sc-in .st-logo.is-dreamworks { max-width: 86%; }   /* ingichka logolar */
+.h5-sc-in .st-logo.is-marvel { filter: none; }   /* Marvel: doira logoning o'z qizilida (#D40317) — bir xil rang, chegara ko'rinmaydi */

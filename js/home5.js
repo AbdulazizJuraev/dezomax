@@ -428,7 +428,7 @@
   // Kinostudiyalar qatori (2026-11-19 yangi dizayn): faqat ishlaydigan kartalar — rasmiy sahifasi bor (Marvel) yoki
   // «Kino studiyalar» panelida ro'yxati bor studiyalar (bosilganda panelning o'sha tabi ochiladi); «Tez orada» kartalari ko'rsatilmaydi
   // doira fonlari — studiyaning o'z rangida gradient (foydalanuvchi tanlovi: Figma «C Doiralar», 2026-11-19)
-  const ST_GRAD = { marvel: ['#F2333B', '#7E0A10'], dc: ['#1E3A66', '#05080F'], pixar: ['#5E7189', '#141B24'], disney: ['#3F63E8', '#1A1257'],
+  const ST_GRAD = { marvel: ['#D40317', '#D40317'], dc: ['#1E3A66', '#05080F'], pixar: ['#5E7189', '#141B24'], disney: ['#3F63E8', '#1A1257'],
     dreamworks: ['#F5B942', '#7A3F0A'], warner: ['#2F6FD0', '#0C2550'], universal: ['#2E7BD6', '#071A36'], sony: ['#5A5A5A', '#121212'], lucasfilm: ['#444', '#000'], paramount: ['#2A6FDB', '#0A1F55'] };
   function studiosHTML(t) {
     const inPanel = k => KS.some(([x]) => x === k) && ksList(k).length >= 3;
