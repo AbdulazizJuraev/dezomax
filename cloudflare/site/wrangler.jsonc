@@ -14,6 +14,8 @@
     "binding": "ASSETS",
     "html_handling": "none",
     "not_found_handling": "404-page",
-    "run_worker_first": true
+    // 2026-11-20: Worker faqat sahifalar va maxsus manzillar uchun. Oddiy fayllar (js/css/rasm/data/media/promo) Worker'siz
+    // to'g'ridan-to'g'ri beriladi — bepul tarifda ular cheklovsiz, kunlik 100 ming so'rov chegarasiga kirmaydi.
+    "run_worker_first": ["/*", "!/js/*", "!/css/*", "!/images/*", "!/data/*", "!/media/*", "!/promo/*"]
   }
 }
