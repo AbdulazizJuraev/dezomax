@@ -288,7 +288,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   function dropFrame(k) {
     const f = frames.get(k);
     if (!f) return;
-    frames.delete(k);
+    frames.delete(k); slides[k]._warm = 0;
     f.src = 'about:blank';                                    // pleyer darhol to'xtaydi
     f.remove();
     slides[k].classList.remove('is-playing', 'is-paused', 'is-live', 'is-yt-stop');
@@ -297,7 +297,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   function mountFrame(k, play) {
     const sl = slides[k], id = sl.dataset.id;
     sl.querySelector('.sh-frame').innerHTML =
-      `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=${play ? 1 : 0}&mute=${play && !muted ? 0 : 1}&playsinline=1&disablekb=1&fs=0` +
+      `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=${play ? 1 : 0}&mute=${play === true && !muted ? 0 : 1}&playsinline=1&disablekb=1&fs=0` +
       `&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"` +
       ` allow="autoplay; encrypted-media; picture-in-picture" title="${esc(list[k].t)}"></iframe>`;
     const fr = sl.querySelector('iframe');
@@ -307,7 +307,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
       try { fr.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: k, channel: 'widget' }), '*'); } catch {}
     });
   }
-  const startFrame = k => { const sl = slides[k]; send(sl, muted ? 'mute' : 'unMute'); send(sl, 'playVideo'); };
+  const startFrame = k => { const sl = slides[k]; if (sl._warm) { sl._warm = 0; send(sl, 'seekTo', [0, true]); } send(sl, muted ? 'mute' : 'unMute'); send(sl, 'playVideo'); };
 
   function activate(i) {
     if (i === active || !slides[i]) return;
@@ -334,7 +334,9 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   function prewarm(k) {
     clearTimeout(prewarmT);
     if (saveData || !slides[k + 1] || frames.has(k + 1)) return;
-    prewarmT = setTimeout(() => { if (active === k && !frames.has(k + 1)) mountFrame(k + 1, false); }, 600);
+    // 2026-11-20: oldindan yuklangan pleyer endi videoning boshini ham yuklab qo'yadi — ovozsiz o'ynay boshlaydi va birinchi
+    // kadrdayoq pauza qilinadi (pastda, st === 1). Avval faqat pleyer yuklanardi, video surilgandan keyin 1–3 s yuklanardi.
+    prewarmT = setTimeout(() => { if (active === k && !frames.has(k + 1)) { slides[k + 1]._warm = 1; mountFrame(k + 1, 'warm'); } }, 400);
   }
 
   const durs = {};
@@ -361,7 +363,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     if (d.event === 'onReady') { if (k === active && !sl.classList.contains('is-paused')) startFrame(k); return; }
     const st = d.event === 'onStateChange' ? d.info : d.info && d.info.playerState;
     if (st === undefined || st === null) return;
-    if (st === 1 && k !== active) { send(sl, 'pauseVideo'); return; }   // oldindan yuklangani o'zi o'ynamasin
+    if (st === 1 && k !== active) { send(sl, 'pauseVideo'); sl._warm = 1; return; }   // oldindan yuklangani o'zi o'ynamasin
     if (st === 1) { sl.classList.add('is-live'); sl.classList.remove('is-yt-stop'); prewarm(k); }     // 1 — o'ynayapti
     // YouTube o'zi to'xtatsa (pauza/tugadi/boshlanmadi) — uning tugmalari ko'rinmasin: muqova yopib turadi
     // tugadi — boshidan qayta (pleylist parametri yo'q: u ⏮ ⏭ tugmalarini chiqarardi)
