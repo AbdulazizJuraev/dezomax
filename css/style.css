@@ -8939,3 +8939,13 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
   .fun-tabs small { display: none; }
   .fun-ti { width: 26px; height: 26px; margin-bottom: 4px; }
 }
+
+/* qiziqarli.html tablari: orqa fon aylanib turadi (bosh sahifadagi kartalar bilan bir xil, css/home5.css → fnSpin) */
+.fun-tabs a { isolation: isolate; background: var(--c2); }
+.fun-tabs a::before { content: ''; position: absolute; z-index: -1; left: 50%; top: 50%; width: 220%; aspect-ratio: 1; background: linear-gradient(var(--c1) 30%, var(--c2) 70%); transform: translate(-50%, -50%); animation: funSpin 9s linear infinite; will-change: transform; pointer-events: none; }
+.fun-tabs a:nth-child(2)::before { animation-delay: -1.8s; }
+.fun-tabs a:nth-child(3)::before { animation-delay: -3.6s; }
+.fun-tabs a:nth-child(4)::before { animation-delay: -5.4s; }
+.fun-tabs a:nth-child(5)::before { animation-delay: -7.2s; }
+@keyframes funSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .fun-tabs a::before { animation: none; } }
