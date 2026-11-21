@@ -8,7 +8,7 @@
    ============================================================ */
 const FUN_SECTIONS = [
   {
-    key: 'gameplay', uz: 'Gameplaylar', ru: 'Геймплеи', c1: '#5B2BD6', c2: '#120634',
+    key: 'gameplay', uz: 'Gameplaylar', ru: 'Геймплеи', c1: '#A78BFA', c2: '#DDD6FE',
     sub: ['O‘zbekcha va dunyo o‘yinlari', 'Прохождения игр'],
     icon: '<rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9"/><circle cx="17.8" cy="13.8" r=".9"/>',
     ch: [
@@ -20,7 +20,7 @@ const FUN_SECTIONS = [
     ]
   },
   {
-    key: 'animals', uz: 'National Animals', ru: 'Мир животных', c1: '#E0A100', c2: '#2B1A00',
+    key: 'animals', uz: 'National Animals', ru: 'Мир животных', c1: '#FBBF24', c2: '#FDE68A',
     sub: ['Hayvonot olami haqida', 'Дикая природа'],
     icon: '<circle cx="6" cy="9.5" r="1.8"/><circle cx="10" cy="5.8" r="1.8"/><circle cx="14" cy="5.8" r="1.8"/><circle cx="18" cy="9.5" r="1.8"/><path d="M12 11c-3 0-5.5 3.6-5.5 6.2 0 1.6 1.3 2.3 2.8 2.3 1.2 0 1.8-.6 2.7-.6s1.5.6 2.7.6c1.5 0 2.8-.7 2.8-2.3C17.5 14.6 15 11 12 11z"/>',
     ch: [
@@ -31,7 +31,7 @@ const FUN_SECTIONS = [
     ]
   },
   {
-    key: 'podcast', uz: 'Podcast', ru: 'Подкасты', c1: '#E8483B', c2: '#2E0806',
+    key: 'podcast', uz: 'Podcast', ru: 'Подкасты', c1: '#FB7185', c2: '#FECDD3',
     sub: ['O‘zbekcha suhbatlar', 'Узбекские подкасты'],
     icon: '<rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5v4M8.5 21.5h7"/>',
     ch: [
@@ -44,7 +44,7 @@ const FUN_SECTIONS = [
     ]
   },
   {
-    key: 'audio', uz: 'Audio Kitoblar', ru: 'Аудиокниги', c1: '#1E9E6A', c2: '#03251A',
+    key: 'audio', uz: 'Audio Kitoblar', ru: 'Аудиокниги', c1: '#34D399', c2: '#A7F3D0',
     sub: ['Tinglab o‘qing', 'Слушайте книги'],
     icon: '<path d="M3.5 14.5v-2a8.5 8.5 0 0 1 17 0v2"/><rect x="2.5" y="14" width="4.5" height="6.5" rx="1.8"/><rect x="17" y="14" width="4.5" height="6.5" rx="1.8"/>',
     ch: [
@@ -55,7 +55,7 @@ const FUN_SECTIONS = [
     ]
   },
   {
-    key: 'music', uz: 'Music', ru: 'Музыка', c1: '#2F7BEA', c2: '#06173A',
+    key: 'music', uz: 'Music', ru: 'Музыка', c1: '#60A5FA', c2: '#BFDBFE',
     sub: ['Yangi o‘zbek qo‘shiqlari', 'Новые узбекские песни'],
     icon: '<path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
     ch: [

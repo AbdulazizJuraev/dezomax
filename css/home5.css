@@ -727,3 +727,6 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 .h5-fun .h5-fn:nth-child(5)::before { animation-delay: -7.2s; }
 @keyframes fnSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .h5-fun .h5-fn::before { animation: none; } }
+/* 2026-11-21: to'g'ri to'rtburchak, och ranglar, to'q yozuv (foydalanuvchi so'rovi) */
+.h5-fun .h5-fn { border-radius: 0; color: #0B0D0C; }
+.h5-fun .h5-fn small { color: rgba(11, 13, 12, .7); }
