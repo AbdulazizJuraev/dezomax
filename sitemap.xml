@@ -43,6 +43,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dezomax.uz/qiziqarli.html</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://dezomax.uz/plans.html</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
@@ -113080,6 +113086,12 @@
     <loc>https://dezomax.uz/ru/live.html</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dezomax.uz/ru/qiziqarli.html</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>

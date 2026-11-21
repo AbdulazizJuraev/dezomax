@@ -116,6 +116,33 @@ async function serveMoviePage(request, env, url, id, metadata) {
   return new Response(request.method === 'HEAD' ? null : html, { status: shell.status, headers });
 }
 
+const xmlText = s => String(s || '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+async function ytFeed(url) {
+  const head = { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' };
+  const ids = [...new Set((url.searchParams.get('ch') || '').split(','))].filter(c => /^UC[\w-]{22}$/.test(c)).slice(0, 8);
+  if (!ids.length) return new Response('{"error":"ch kerak"}', { status: 400, headers: head });
+  const lists = await Promise.all(ids.map(async ch => {
+    try {
+      const r = await fetch(`https://www.youtube.com/feeds/videos.xml?playlist_id=UULF${ch.slice(2)}`, { cf: { cacheEverything: true, cacheTtl: 1800 } });
+      if (!r.ok) return [];
+      const xml = await r.text();
+      return xml.split('<entry>').slice(1).map(e => ({
+        id: (e.match(/<yt:videoId>([\w-]{11})</) || [])[1],
+        t: xmlText((e.match(/<title>([^<]*)</) || [])[1]),
+        ch,
+        cn: xmlText((e.match(/<name>([^<]*)</) || [])[1]),
+        d: (e.match(/<published>([^<]+)</) || [])[1] || '',
+        v: +((e.match(/<media:statistics views="(\d+)"/) || [])[1] || 0)
+      })).filter(x => x.id);
+    } catch (e) { return []; }
+  }));
+  const items = lists.flat().sort((a, b) => (a.d < b.d ? 1 : -1));
+  return new Response(JSON.stringify({ at: Date.now(), items }), {
+    status: items.length ? 200 : 502,
+    headers: { ...head, 'cache-control': items.length ? 'public, max-age=900' : 'no-store' }
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -151,6 +178,10 @@ export default {
       }
     }
     if (isMovieGet && isMoviePath) return movieNotFound(request, env, url);
+
+    // /_yt/feed?ch=UC…,UC… → «Siz uchun Qiziqarli» (js/fun-data.js): kanallarning oxirgi uzun videolari (YouTube RSS,
+    // UULF… pleylisti — shortslarsiz). Faqat kanal id'lari qabul qilinadi; har kanal 30 daqiqa Cloudflare keshida. 2026-11-21
+    if (url.pathname === '/_yt/feed') return ytFeed(url);
 
     const data = DATA_FILES[url.pathname];
     if (data) {

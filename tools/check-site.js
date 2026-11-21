@@ -123,6 +123,7 @@ async function smoke() {
     ['Sport', 'sport.html?nointro', () => true],
     ['TV', 'tv.html?nointro', () => true],
     ['Jonli efir', 'live.html?nointro', () => !!document.querySelector('.h5-nav')],
+    ['Siz uchun Qiziqarli', 'qiziqarli.html?nointro', () => document.querySelectorAll('.fun-tabs [data-fun]').length === 5],
     ['Akkaunt', 'account.html?nointro', () => !!document.querySelector('#account')?.children.length],
     // ruscha nusxa: LANG='ru' (js/i18n.js — /ru/ manzil), fayllar <base href> orqali ildizdan
     ['Bosh sahifa (RU)', 'ru/index.html?nowelcome&nointro', () => LANG === 'ru' && document.querySelectorAll('#h5Rows .h5-poster').length >= 5],

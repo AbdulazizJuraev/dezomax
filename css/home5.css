@@ -707,3 +707,12 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 .h5-live .h5-lg.is-tile img { padding: 0; border-radius: 0; background: none; }
 .h5-live .h5-shade { inset: 52% 0 0 0; }
 .h5-live .h5-lg svg { display: block; height: 100%; width: auto; margin: 0 auto; }
+
+/* «Siz uchun Qiziqarli» qatori (js/home5.js → funHTML; 2026-11-21) — rasmsiz, rang + belgi */
+.h5-fun .h5-fn { flex: none; position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; width: clamp(180px, 19vw, 260px); aspect-ratio: 16/10; padding: 16px; border-radius: 18px; overflow: hidden; scroll-snap-align: start; color: #fff; background: linear-gradient(150deg, var(--c1), var(--c2)); }
+.h5-fun .h5-fn-i { position: absolute; top: 12px; right: 12px; width: 46%; aspect-ratio: 1; opacity: .9; }
+.h5-fun .h5-fn-i svg { width: 100%; height: 100%; fill: none; stroke: rgba(255, 255, 255, .85); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.h5-fun .h5-fn b { font-size: 1.08rem; font-weight: 800; line-height: 1.15; }
+.h5-fun .h5-fn small { color: rgba(255, 255, 255, .72); font-size: .8rem; }
+.h5-fun .h5-fn:hover .h5-fn-i { transform: scale(1.06); transition: transform .25s; }
+@media (max-width: 600px) { .h5-fun .h5-fn { width: 46vw; padding: 12px; } .h5-fun .h5-fn b { font-size: .95rem; } }

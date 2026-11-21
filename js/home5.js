@@ -405,6 +405,13 @@
         <span class="h5-tx"><small>${L('Telekanal', 'Телеканал')}</small><b>${esc(c.name)}</b></span></a>`).join('')}${sport}</div></div></section>`;
   }
 
+  /* «Siz uchun Qiziqarli» (js/fun-data.js → FUN_SECTIONS; sahifa — qiziqarli.html). Yengil: rasm yo'q, faqat rang va belgi. 2026-11-21 */
+  function funHTML() {
+    if (typeof FUN_SECTIONS === 'undefined') return '';
+    return `<section class="h5-sec h5-wrap">${headHTML(L('Siz uchun Qiziqarli', 'Интересное для вас'), 'qiziqarli.html')}<div class="h5-row h5-fun">${FUN_SECTIONS.map(s => `<a class="h5-fn" href="qiziqarli.html#${s.key}" style="--c1:${s.c1};--c2:${s.c2}">
+      <span class="h5-fn-i"><svg viewBox="0 0 24 24" aria-hidden="true">${s.icon}</svg></span><b>${esc(ru ? s.ru : s.uz)}</b><small>${esc(s.sub[ru ? 1 : 0])}</small></a>`).join('')}</div></section>`;
+  }
+
   /* Ilova banneri: poster devori + telefon va planshet */
   /* «Har qanday ekranda» bloki — foydalanuvchi namunasi (2026-11-19): yashil ramka, qurilmalar — tayyor rasmlar (images/devices/) */
   function appHTML() {
@@ -765,6 +772,7 @@
     }
     push(marqueeHTML());
     push(liveHTML());
+    push(funHTML());
     push(tourHTML());
     // qolgan admin qatorlari (o'zbek klassikasi, konsertlar, dorama, anime, hind, Marvel, DC, tanlanganlar…) — admin tartibida
     let extra = 0, appDone = false;

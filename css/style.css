@@ -8889,3 +8889,53 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 .wc-hl-3.has-tv .wc-tv { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .wc-tv-t { min-width: 0; min-height: 0; overflow: hidden; }
 .wc-hl .wc-tv-t img { min-width: 0; max-width: 100%; max-height: 100%; }
+
+/* ===== «Siz uchun Qiziqarli» (qiziqarli.html, js/fun.js; 2026-11-21) — yengil: animatsiyasiz, bitta pleyer ===== */
+.fun-page { padding-bottom: 48px; }
+.fun-hero h1 { margin: 0 0 6px; font-size: clamp(1.6rem, 3.4vw, 2.6rem); font-weight: 800; }
+.fun-hero h1 em { font-style: normal; color: #C6FF3D; }
+.fun-hero p { margin: 0 0 18px; color: var(--muted, #9aa3a0); max-width: 62ch; }
+.fun-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+.fun-tabs a { position: relative; display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 14px; border-radius: 16px; overflow: hidden; color: #fff; background: linear-gradient(150deg, var(--c1), var(--c2)); opacity: .62; border: 2px solid transparent; }
+.fun-tabs a:hover { opacity: .85; }
+.fun-tabs a.is-on { opacity: 1; border-color: #C6FF3D; }
+.fun-ti { width: 34px; height: 34px; margin-bottom: 6px; }
+.fun-ti svg { width: 100%; height: 100%; fill: none; stroke: #fff; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.fun-tabs b { font-size: 1rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fun-tabs small { font-size: .78rem; color: rgba(255, 255, 255, .75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fun-stage { margin-bottom: 18px; scroll-margin-top: calc(var(--header-h, 64px) + 12px); }
+.fun-player { position: relative; aspect-ratio: 16/9; max-height: 72vh; border-radius: 16px; overflow: hidden; background: #000; }
+.fun-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.fun-info { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; padding: 12px 2px 0; }
+.fun-info h2 { margin: 0 0 4px; font-size: 1.1rem; line-height: 1.3; }
+.fun-info small { color: var(--muted, #9aa3a0); }
+.fun-acts { display: flex; gap: 8px; flex: none; }
+.fun-acts a, .fun-acts button { padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .06); color: #fff; font: inherit; font-size: .85rem; cursor: pointer; }
+.fun-chs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-bottom: 16px; }
+.fun-chs:empty { display: none; }
+.fun-ch { flex: none; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .05); color: #fff; font: inherit; font-size: .85rem; cursor: pointer; }
+.fun-ch.is-on { background: #C6FF3D; color: #06140A; border-color: transparent; font-weight: 700; }
+.fun-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px 14px; }
+.fun-card { display: flex; flex-direction: column; gap: 6px; min-width: 0; color: #fff; }
+.fun-th { position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; background: #151816; }
+.fun-th img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fun-play { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: rgba(0, 0, 0, .55); opacity: 0; transition: opacity .2s; }
+.fun-play::after { content: ''; position: absolute; left: 17px; top: 13px; border-style: solid; border-width: 9px 0 9px 14px; border-color: transparent transparent transparent #C6FF3D; }
+.fun-card:hover .fun-play { opacity: 1; }
+.fun-card b { font-size: .92rem; font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.fun-card small { color: var(--muted, #9aa3a0); font-size: .78rem; }
+.fun-sk { aspect-ratio: 16/9; border-radius: 12px; background: #151816; }
+.fun-empty { color: var(--muted, #9aa3a0); text-align: center; padding: 32px 0; }
+@media (max-width: 900px) {
+  .fun-tabs { display: flex; overflow-x: auto; scrollbar-width: none; gap: 10px; }
+  .fun-tabs a { flex: none; width: 150px; padding: 12px; }
+}
+@media (max-width: 600px) {
+  .fun-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 10px; }
+  .fun-card b { font-size: .84rem; }
+  .fun-info { flex-direction: column; }
+  .fun-tabs a { width: auto; min-width: 116px; padding: 10px 14px; }
+  .fun-tabs b { overflow: visible; font-size: .92rem; }
+  .fun-tabs small { display: none; }
+  .fun-ti { width: 26px; height: 26px; margin-bottom: 4px; }
+}

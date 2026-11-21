@@ -669,6 +669,7 @@ const NAV5_IC = {
   tvset: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
   live: '<circle class="lv-c" cx="12" cy="12" r="2"/><path class="lv-w1" d="M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4"/><path class="lv-w2" d="M19 5a10 10 0 0 1 0 14M5 19A10 10 0 0 1 5 5"/>',
   sport: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+  fun: '<path d="M12 3l2.2 5.6L20 9.3l-4.4 3.9 1.3 5.8L12 16l-4.9 3 1.3-5.8L4 9.3l5.8-.7z"/>',
   trailer: '<path d="M4 6h16v12H4zM4 9h16M4 15h16M8 6v3M12 6v3M16 6v3M8 15v3M12 15v3M16 15v3"/>'
 };
 /* Telefon: logo chapida ☰ — ichida Seriallar, Multfilmlar, Sport (yuqoridagi bo'limlar qatori telefonda yashirin;
@@ -683,7 +684,8 @@ function mountBurger() {
   const items = [
     ['catalog.html?type=serial', 'serial', L('Seriallar', 'Сериалы'), file === 'catalog.html' && type === 'serial'],
     ['catalog.html?type=multfilm', 'multfilm', L('Multfilmlar', 'Мультфильмы'), file === 'catalog.html' && type === 'multfilm'],
-    ['sport.html', 'sport', L('Sport', 'Спорт'), file === 'sport.html']
+    ['sport.html', 'sport', L('Sport', 'Спорт'), file === 'sport.html'],
+    ['qiziqarli.html', 'fun', L('Siz uchun Qiziqarli', 'Интересное'), file === 'qiziqarli.html']
   ];
   const wrap = document.createElement('div');
   wrap.className = 'h5-bw';
@@ -770,7 +772,7 @@ function mountNav5() {
   const type = new URLSearchParams(location.search).get('type');
   let mv = null;   // kino sahifasida — kinoning turi bo'yicha bo'lim belgilanadi
   try { mv = (file === 'kino' || file === 'movie.html') && typeof movie !== 'undefined' ? movie : null; } catch (e) {}
-  const cur = file === 'catalog.html' ? (new URLSearchParams(location.search).get('watch') === 'trailer' ? 'trailer' : type) : file === 'tv.html' ? 'tvset' : file === 'live.html' ? 'live' : file === 'sport.html' ? 'sport' : mv && mv.type ? mv.type : '';
+  const cur = file === 'catalog.html' ? (new URLSearchParams(location.search).get('watch') === 'trailer' ? 'trailer' : type) : file === 'tv.html' ? 'tvset' : file === 'live.html' ? 'live' : file === 'sport.html' ? 'sport' : file === 'qiziqarli.html' ? 'fun' : mv && mv.type ? mv.type : '';
   const links = [
     ['index.html', 'home', L('Bosh sahifa', 'Главная')],
     ['catalog.html?type=film', 'film', L('Filmlar', 'Фильмы')],
@@ -779,7 +781,8 @@ function mountNav5() {
     ['catalog.html?watch=trailer', 'trailer', L('Treylerlar', 'Трейлеры')],
     ['live.html', 'live', L('Jonli efir', 'Прямой эфир')],
     ['tv.html', 'tvset', L('Telekanallar', 'Телеканалы')],
-    ['sport.html', 'sport', L('Sport', 'Спорт')]
+    ['sport.html', 'sport', L('Sport', 'Спорт')],
+    ['qiziqarli.html', 'fun', L('Qiziqarli', 'Интересное')]
   ];
   const hd = document.createElement('header');
   hd.className = 'h5 h5-nav';
@@ -986,7 +989,7 @@ function enhanceHeader(header, page) {
   const L = [
     ['index.html', 'nav.home'], ['catalog.html', ru ? 'Каталог' : 'Katalog'], ['catalog.html?type=film', ru ? 'Фильмы' : 'Filmlar'],
     ['catalog.html?type=serial', 'nav.series'], ['catalog.html?type=multfilm', ru ? 'Мультфильмы' : 'Multfilmlar'], ['marvel.html', 'nav.marvel'],
-    ['shorts.html', 'Shorts'], ['sport.html', 'nav.sport'], ['live.html', ru ? 'Прямой эфир' : 'Jonli efir'], ['tv.html', 'nav.tv'], ['favorites.html', 'nav.favorites'],
+    ['shorts.html', 'Shorts'], ['sport.html', 'nav.sport'], ['live.html', ru ? 'Прямой эфир' : 'Jonli efir'], ['qiziqarli.html', ru ? 'Интересное' : 'Siz uchun Qiziqarli'], ['tv.html', 'nav.tv'], ['favorites.html', 'nav.favorites'],
     ['downloads.html', 'nav.downloads'], ['plans.html', ru ? 'Тарифы' : 'Tariflar'], ['account.html', 'nav.account']
   ];
   const lbl = k => (k.startsWith('nav.') && typeof t === 'function' ? t(k) : k);
@@ -1248,7 +1251,7 @@ if (IS_TV) {
             .map(el => el.src || el.href).filter(u => u && u.startsWith(location.origin));
           reg.active?.postMessage({
             type: 'precache',
-            pages: ['index.html', 'catalog.html', 'movie.html', 'search.html', 'downloads.html', 'favorites.html', 'tv.html', 'live.html', 'sport.html', 'account.html', 'marvel.html', 'plans.html'],
+            pages: ['index.html', 'catalog.html', 'movie.html', 'search.html', 'downloads.html', 'favorites.html', 'tv.html', 'live.html', 'qiziqarli.html', 'sport.html', 'account.html', 'marvel.html', 'plans.html'],
             assets
           });
         }).catch(() => {});
