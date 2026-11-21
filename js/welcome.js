@@ -90,12 +90,26 @@
   const byRating = (a, b) => (b.rating || 0) - (a.rating || 0);
   const isFantastic = m => m.genres.some(g => g === 'scifi' || g === 'fantasy');
   const fantastic = localPosters.filter(isFantastic).sort(byRating);
-  const posters = [...fantastic, ...localPosters.filter(m => !isFantastic(m)).sort(byRating)].map(m => typeof imgSmall === "function" ? imgSmall(m.poster) : m.poster);   // yengil WebP nusxa (js/thumbs.js)
+  /* Takrorsiz (2026-11-20): saytdagi rasmlar atigi ~12 ta (bir poster o'nlab yozuvda) — kolleajda bir kino qayta-qayta chiqardi.
+     Endi har kino bir marta (rasm fayli, TMDB raqami va nomi bo'yicha), yetmaganini TMDB posterli yuqori reytingli kinolar to'ldiradi. */
+  const EP = /\d+\s*[-–]?\s*(qism|qisim|seriya|серия|серии)|\((\d+)-qism\)/i;
+  const nameKey = m => String(title(m)).toLowerCase().replace(/\(.*?\)|[«»"“”'‘’ʻ]/g, '').replace(/\d+\s*[-–]?\s*(qism|qisim|seriya|серия)\b/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const seenP = new Set();
+  const uniq = m => {
+    const ks = [String(m.poster).replace(/^.*\//, '').replace(/\?.*$/, ''), m.tmdb && m.tmdb.id ? 't' + m.tmdb.id : '', nameKey(m)].filter(Boolean);
+    if (ks.some(k => seenP.has(k))) return false;
+    ks.forEach(k => seenP.add(k));
+    return true;
+  };
+  const tmdbPosters = MOVIES.filter(m => /image\.tmdb\.org\/t\/p\//.test(m.poster || '') && m.type !== 'tahlil' && !EP.test(title(m)))
+    .sort((a, b) => byRating(a, b) || (b.year || 0) - (a.year || 0));
+  const posters = [...fantastic, ...localPosters.filter(m => !isFantastic(m)).sort(byRating), ...tmdbPosters].filter(uniq).slice(0, 48)
+    .map(m => /image\.tmdb\.org/.test(m.poster) ? m.poster.replace(/\/t\/p\/w\d+\//, '/t/p/w342/') : (typeof imgSmall === "function" ? imgSmall(m.poster) : m.poster));   // yengil nusxa
   /* 2-slayddagi katta kartochka — fantastik kino (reyting bo'yicha eng yuqorisi) */
   const heroPoster = (fantastic[0] || localPosters[0] || {}).poster;
   const colOf = (k) => {                       // 3 ustun: har birida 8 ta poster
     const out = [];
-    for (let i = 0; i < 8; i++) out.push(posters[(i * 6 + k) % Math.max(1, posters.length)]);
+    for (let i = 0; i < 8; i++) out.push(posters[(k * 8 + i) % Math.max(1, posters.length)]);   // har ustun o'z 8 tasi — takrorlanmaydi
     return out;
   };
 
@@ -135,7 +149,7 @@
   function build() {
     root.innerHTML = `
       <div class="wc-collage" aria-hidden="true">
-        ${Array.from({ length: matchMedia("(min-width: 720px)").matches ? 6 : 3 }, (_, k) => k).map(k => `<div class="wc-col wc-col-${k}">${colOf(k).map(p => `<div class="wc-p"><img src="${p}" alt="" decoding="async"></div>`).join('')}</div>`).join('')}
+        ${Array.from({ length: matchMedia("(min-width: 720px)").matches ? 6 : 3 }, (_, k) => k).map(k => `<div class="wc-col wc-col-${k}">${colOf(k).map(p => `<div class="wc-p"><img src="${p}" alt="" decoding="async" onerror="this.parentNode.style.display='none'"></div>`).join('')}</div>`).join('')}
       </div>
       <div class="wc-hl wc-hl-2" aria-hidden="true">
         ${heroPoster ? `<img src="${heroPoster}" alt="">` : ''}
