@@ -107,6 +107,14 @@
     .map(m => /image\.tmdb\.org/.test(m.poster) ? m.poster.replace(/\/t\/p\/w\d+\//, '/t/p/w342/') : (typeof imgSmall === "function" ? imgSmall(m.poster) : m.poster));   // yengil nusxa
   /* 2-slayddagi katta kartochka — fantastik kino (reyting bo'yicha eng yuqorisi) */
   const heroPoster = (fantastic[0] || localPosters[0] || {}).poster;
+  /* 2-slayd (2026-11-21): eng yangi kinolardan 3 tasi yelpig'ich bo'lib — TMDB posterli, reytingli, serial qismlarisiz */
+  const seenN = new Set();
+  const newest = tmdbPosters.filter(m => (m.rating || 0) >= 6 && m.year).sort((a, b) => (b.year - a.year) || byRating(a, b))
+    .filter(m => { const k = nameKey(m); if (seenN.has(k)) return false; seenN.add(k); return true; }).slice(0, 3)
+    .map(m => m.poster.replace(/\/t\/p\/w\d+\//, '/t/p/w342/'));
+  /* 3-slayd: o'zbek telekanallari logolari (js/channels.js — welcome.js dan keyin yuklanadi, shuning uchun slayd ochilganda to'ldiriladi) */
+  const tvTiles = () => (typeof TV_CHANNELS !== 'undefined' ? TV_CHANNELS : []).filter(c => c.country === 'uz' && c.logo).slice(0, 6)
+    .map(c => '<span class="wc-tv-t' + (c.tile === 'dark' ? ' is-dark' : '') + '"><img src="' + c.logo + '" alt="" decoding="async" onerror="this.parentNode.remove()"></span>').join('');
   const colOf = (k) => {                       // 3 ustun: har birida 8 ta poster
     const out = [];
     for (let i = 0; i < 8; i++) out.push(posters[(k * 8 + i) % Math.max(1, posters.length)]);   // har ustun o'z 8 tasi — takrorlanmaydi
@@ -151,13 +159,16 @@
       <div class="wc-collage" aria-hidden="true">
         ${Array.from({ length: matchMedia("(min-width: 720px)").matches ? 6 : 3 }, (_, k) => k).map(k => `<div class="wc-col wc-col-${k}">${colOf(k).map(p => `<div class="wc-p"><img src="${p}" alt="" decoding="async" onerror="this.parentNode.style.display='none'"></div>`).join('')}</div>`).join('')}
       </div>
-      <div class="wc-hl wc-hl-2" aria-hidden="true">
-        ${heroPoster ? `<img src="${heroPoster}" alt="">` : ''}
+      <div class="wc-hl wc-hl-2${newest.length === 3 ? ' is-fan' : ''}" aria-hidden="true">
+        ${newest.length === 3
+          ? newest.map((p, i) => `<img class="wc-fan wc-fan-${i}" src="${p}" alt="" decoding="async">`).join('')
+          : (heroPoster ? `<img src="${heroPoster}" alt="">` : '')}
         <span class="wc-badge">${ICON.play}</span>
       </div>
       <div class="wc-hl wc-hl-3" aria-hidden="true">
-        <img src="images/welcome/football-4.jpg" alt="" decoding="async">
+        <img class="wc-tv-bg" src="images/welcome/football-4.jpg" alt="" decoding="async">
         <span class="wc-live"><i></i><em data-live></em></span>
+        <div class="wc-tv" data-tv></div>
         <span class="wc-ball">${ICON.ball}</span>
       </div>
       <div class="wc-shade"></div>
@@ -181,6 +192,8 @@
     root.dataset.step = String(step);
     root.querySelectorAll('.wc-lang [data-lang]').forEach(b => b.classList.toggle('is-active', b.dataset.lang === LANG));
     root.querySelector('[data-live]').textContent = t('wc.live');
+    const tv = root.querySelector('[data-tv]');
+    if (tv && !tv.childElementCount && step >= 1) { tv.innerHTML = tvTiles(); root.querySelector('.wc-hl-3').classList.toggle('has-tv', tv.childElementCount >= 4); }
 
     root.querySelector('#wcDyn').innerHTML = auth ? `
         <section class="wc-auth">
