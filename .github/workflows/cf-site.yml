@@ -39,8 +39,10 @@ jobs:
           node tools/gen-home-data.js   # bosh sahifa ro'yxati admin o'zgarishlari bilan yangi bo'lsin
           node tools/gen-sitemap.js     # admin kino qo'shsa/guruhlasa ham sitemap ma'lumotlarga mos bo'lsin (test-movie-seo tekshiradi, 2026-11-21)
           mkdir -p _site
+          # faqat mavjud fayllar: gen-sitemap o'chirgan eski kino sahifalari git ro'yxatida qolgan bo'lishi mumkin (2026-11-21)
           git ls-files -z \
             | grep -zvE '^(mobile|desktop|tools|server|cloudflare|tv|\.github)/|(^|/)README|\.md$|^guard-result|^\.|^admin\.html$|^admin\.webmanifest$|^js/admin\.js$|^js/data-lib2?\.js$|^js/data-custom\.js$' \
+            | while IFS= read -r -d '' f; do [ -e "$f" ] && printf '%s\0' "$f"; done \
             | xargs -0 cp --parents -t _site
           cp cloudflare/site/_headers _site/_headers
           # kinolar bo'laklari — shu yerda yangi yasalgani (hali commit qilinmagan bo'lak) ham
