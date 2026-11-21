@@ -755,6 +755,7 @@
     take('top');
     if (trending) { const l = listOf(trending); if (l.length >= 4) push(rowSec(L('Hozir trendda', 'Сейчас в тренде'), ROW_SOURCES.trending.all, l)); }
     push(shortsHTML());   // foydalanuvchi so'rovi (2026-11-19): Shorts — «Hozir trendda» dan keyin
+    push(funHTML());      // «Siz uchun Qiziqarli» — Shorts tagida (foydalanuvchi so'rovi, 2026-11-21)
     if (uzbek) { const l = listOf(uzbek); if (l.length >= 4) push(rowSec(titleOf(uzbek), ROW_SOURCES.uzbek.all, l)); }
     push(genresHTML());
     push(bentoHTML());
@@ -771,7 +772,6 @@
     }
     push(marqueeHTML());
     push(liveHTML());
-    push(funHTML());
     push(tourHTML());
     // qolgan admin qatorlari (o'zbek klassikasi, konsertlar, dorama, anime, hind, Marvel, DC, tanlanganlar…) — admin tartibida
     let extra = 0, appDone = false;
