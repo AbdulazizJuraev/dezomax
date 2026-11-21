@@ -8949,6 +8949,6 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 .fun-tabs a:nth-child(5)::before { animation-delay: -7.2s; }
 @keyframes funSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .fun-tabs a::before { animation: none; } }
-/* 2026-11-21: to'g'ri to'rtburchak, och ranglar, to'q yozuv (foydalanuvchi so'rovi) */
-.fun-tabs a { border-radius: 0; color: #0B0D0C; }
+/* 2026-11-21: och ranglar, to'q yozuv, izoh yozuvisiz (foydalanuvchi so'rovi) */
+.fun-tabs a { color: #0B0D0C; }
 .fun-tabs small { color: rgba(11, 13, 12, .7); }

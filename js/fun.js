@@ -26,7 +26,7 @@
   main.innerHTML = `
     <header class="fun-hero"><h1>${L('Siz uchun <em>Qiziqarli</em>', 'Интересное <em>для вас</em>')}</h1>
       <p>${L('O‘yinlar, hayvonot olami, podkastlar, audio kitoblar va musiqa — eng yangi videolar bir joyda', 'Игры, мир животных, подкасты, аудиокниги и музыка — свежие видео в одном месте')}</p></header>
-    <nav class="fun-tabs" role="tablist">${FUN_SECTIONS.map(s => `<a href="#${s.key}" role="tab" data-fun="${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><b>${esc(nameOf(s))}</b><small>${esc(s.sub[ru ? 1 : 0])}</small></a>`).join('')}</nav>
+    <nav class="fun-tabs" role="tablist">${FUN_SECTIONS.map(s => `<a href="#${s.key}" role="tab" data-fun="${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><b>${esc(nameOf(s))}</b></a>`).join('')}</nav>
     <section class="fun-stage" id="funStage" hidden></section>
     <div class="fun-chs" id="funChs"></div>
     <div class="fun-grid" id="funGrid"></div>
