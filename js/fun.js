@@ -1,5 +1,5 @@
 /* ============================================================
-   DezoMax — «Siz uchun Qiziqarli» (qiziqarli.html): Gameplaylar, National Animals, Podcast, Audio Kitoblar, Music.
+   DezoMax — «Siz uchun Qiziqarli» (qiziqarli.html): Gameplaylar, Podcast, National Animals, Music, Oshxona, Ilm-fan, Sayohat, Avto.
    Bo'limlar va kanallar — js/fun-data.js (FUN_SECTIONS). Videolar — dezomax.uz/_yt/feed (Worker, YouTube RSS).
    Ko'rsatish — YouTube'ning o'z pleyeri (bitta iframe, faqat bosilganda yuklanadi — sahifa yengil).
    Manzil: qiziqarli.html#music — bo'lim; #music&v=ID — video. 2026-11-21
@@ -25,7 +25,7 @@
 
   main.innerHTML = `
     <header class="fun-hero"><h1>${L('Siz uchun <em>Qiziqarli</em>', 'Интересное <em>для вас</em>')}</h1>
-      <p>${L('O‘yinlar, hayvonot olami, podkastlar, audio kitoblar va musiqa — eng yangi videolar bir joyda', 'Игры, мир животных, подкасты, аудиокниги и музыка — свежие видео в одном месте')}</p></header>
+      <p>${L('O‘yinlar, podkastlar, hayvonot olami, musiqa, taomlar, ilm-fan, sayohat va avto — eng yangi videolar bir joyda', 'Игры, подкасты, мир животных, музыка, кухня, наука, путешествия и авто — свежие видео в одном месте')}</p></header>
     <nav class="fun-tabs" role="tablist">${FUN_SECTIONS.map(s => `<a href="#${s.key}" role="tab" data-fun="${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><b>${esc(nameOf(s))}</b></a>`).join('')}</nav>
     <section class="fun-stage" id="funStage" hidden></section>
     <div class="fun-chs" id="funChs"></div>
