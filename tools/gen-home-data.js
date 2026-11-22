@@ -123,7 +123,7 @@ for (const m of ALL) if (pick.has(m.id) && Array.isArray(m.parts)) m.parts.forEa
 // janr plitkalari (js/home5.js genresHTML): to'liq ro'yxatdagi soni — yengil ro'yxatda kam chiqmasin
 const watchable = M.filter(m => !extra(m) && (hasFilm(m) || m.trailer || (Array.isArray(m.eps) && m.eps.length)));
 const GENRE_N = {};
-for (const g of ['comedy', 'action', 'drama', 'scifi', 'history', 'thriller', 'animation'])
+for (const g of ['comedy', 'action', 'drama', 'scifi', 'history', 'thriller', 'animation', 'crime', 'fantasy', 'adventure', 'romance', 'family'])
   GENRE_N[g] = watchable.filter(m => g === 'animation' ? (m.type === 'multfilm' || (m.genres || []).includes('animation')) : (m.genres || []).includes(g)).length;
 
 // bosh sahifa bloklari (js/home5.js): kino / serial / multfilm / o'zbek kinolari soni

@@ -323,12 +323,15 @@
   }
 
   /* Janr plitkalari — har janrda nechta kino bor, yonida ikkita poster */
-  const GENRE_TILES = [['comedy', 38], ['action', 2], ['drama', 265], ['scifi', 190], ['animation', 320], ['history', 95]];
+  // 12 ta janr (foydalanuvchi so'rovi, 2026-11-22); har plitkada boshqa kinolarning posterlari (takrorlanmaydi)
+  const GENRE_TILES = [['comedy', 38], ['action', 2], ['drama', 265], ['scifi', 190], ['animation', 320], ['history', 95], ['thriller', 225], ['crime', 18], ['fantasy', 290], ['adventure', 140], ['romance', 340], ['family', 165]];
   function genresHTML() {
     const watchable = MOVIES.filter(m => watchStatus(m) !== 'none' && !isExtraVideo(m));
+    const usedPic = new Set();
     const tiles = GENRE_TILES.map(([g, h]) => {
       const list = g === 'animation' ? watchable.filter(m => m.type === 'multfilm' || (m.genres || []).includes('animation')) : watchable.filter(m => (m.genres || []).includes(g));
-      const pics = list.filter(m => hasTall(m) && rt(m)).sort((a, b) => rt(b) - rt(a)).slice(0, 2);
+      const pics = list.filter(m => hasTall(m) && rt(m) && !usedPic.has(m.id)).sort((a, b) => rt(b) - rt(a)).slice(0, 2);
+      pics.forEach(m => usedPic.add(m.id));
       const href = g === 'animation' ? 'catalog.html?type=multfilm' : `catalog.html?genre=${g}`;
       return list.length < 3 ? '' : `<a class="h5-genre" href="${href}" style="--h:${h}"><b>${esc(g === 'animation' ? L('Multfilm', 'Мультфильмы') : genreName(g))}</b>
         <small>${fmtN(Math.max(list.length, (window.DZX_GENRE_N || {})[g] || 0))} ${L('ta kino', 'фильмов')}</small>
