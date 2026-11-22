@@ -366,6 +366,8 @@ async function ytStart(box, id) {
         // 101 / 150 — egasi saytlarda ko'rsatishni taqiqlagan
         const blocked = e.data === 101 || e.data === 150;
         ytShowMsg(box, id, blocked ? t('player.ytBlocked') : t('player.ytError'));
+        // sahifa o'zi hal qilsin (masalan, Qiziqarli — keyingi videoga o'tadi)
+        box.dispatchEvent(new CustomEvent('yterror', { detail: { id, code: e.data, blocked } }));
       }
     }
   });

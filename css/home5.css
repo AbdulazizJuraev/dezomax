@@ -741,3 +741,43 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 .h5-fun .h5-fn img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .25s; }
 .h5-fun .h5-fn:hover img { transform: scale(1.04); }
 @media (max-width: 600px) { .h5-fun .h5-fn { width: auto; height: 42vw; border-radius: 18px; } }
+
+/* ===== 2026-11-22: foydalanuvchi so'rovlari ===== */
+/* «Siz uchun Qiziqarli»: rasm, tagida yo'nalish nomi */
+.h5-fun .h5-fn { height: auto; aspect-ratio: auto; display: flex; flex-direction: column; justify-content: flex-start; gap: 10px; padding: 0; border-radius: 0; overflow: visible; background: none; color: #fff; }
+.h5-fun .h5-fn-im { display: block; height: clamp(150px, 18vw, 300px); aspect-ratio: 1; border-radius: 22px; overflow: hidden; background: var(--c2); }
+.h5-fun .h5-fn-gameplay .h5-fn-im { aspect-ratio: .7; }
+.h5-fun .h5-fn b { font-size: clamp(.95rem, 1.1vw, 1.1rem); font-weight: 700; line-height: 1.2; color: #fff; }
+@media (max-width: 600px) { .h5-fun .h5-fn { height: auto; } .h5-fun .h5-fn-im { height: 42vw; border-radius: 18px; } }
+
+/* Barcha poster kartalar: nomi va ma'lumoti rasm TAGIDA (rasm ustida emas). Rasm kartaning nisbatini oladi (aspect-ratio: inherit) */
+.h5-poster:not(.h5-cw *) { overflow: visible; outline: 0; box-shadow: none; border-radius: 0; background: none; }
+.h5-poster:not(.h5-cw *) img { position: relative; inset: auto; display: block; height: auto; aspect-ratio: inherit; border-radius: 12px; outline: 1px solid rgba(166, 226, 46, .14);
+  background: linear-gradient(160deg, var(--c1, #27B368), var(--c2, #06140C)); box-shadow: 0 10px 24px rgba(0, 0, 0, .4); transition: transform .25s; }
+.h5-poster:not(.h5-cw *):hover img { transform: translateY(-4px); }
+.h5-poster:not(.h5-cw *) .h5-shade { display: none; }
+.h5-poster:not(.h5-cw *) .h5-info { position: static; padding: .55rem .15rem 0; }
+.h5-poster:not(.h5-cw *):not(:has(img)) { aspect-ratio: auto; }
+.h5-poster:not(.h5-cw *):not(:has(img))::before { content: ""; display: block; aspect-ratio: 2/3; border-radius: 12px; background: linear-gradient(160deg, var(--c1, #27B368), var(--c2, #06140C)); }
+.h5-poster.is-land:not(.h5-cw *):not(:has(img))::before { aspect-ratio: 16/9; }
+.h5-row .h5-poster.is-land.is-fit .h5-m { display: block; }
+.h5-row .h5-poster.is-land.is-fit .h5-t { font-size: .9rem; }
+
+/* «Janr bo'yicha» — yorqinroq fon */
+.h5-genre { background: radial-gradient(120% 150% at 100% 0%, hsl(var(--h) 95% 55% / .95), transparent 72%), linear-gradient(140deg, hsl(var(--h) 70% 32%), hsl(var(--h) 55% 12%) 85%); border-color: hsl(var(--h) 85% 62% / .45); }
+.h5-genre::before { background: linear-gradient(90deg, rgba(3, 6, 4, .45) 0%, transparent 55%); }
+.h5-genre small { color: hsl(var(--h) 70% 88%); }
+
+/* «Cheksiz tomosha» — posterlar kattaroq (aylanishi tezroq: js 1.5 s) */
+.h5-fan { min-height: clamp(340px, 30vw, 450px); }
+.h5-fan-c { width: clamp(150px, 14vw, 225px); }
+@media (max-width: 760px) { .h5-fan-cards { height: 270px; } .h5-fan-c { width: 120px; } }
+
+/* Navbar ikonlari — sekin qimirlab turadi (faqat transform, yengil) */
+@keyframes navBob { 0%, 100% { transform: translateY(0) rotate(0); } 20% { transform: translateY(-2px) rotate(-8deg); } 40% { transform: translateY(0) rotate(0); } 60% { transform: translateY(-1px) rotate(6deg); } 80% { transform: translateY(0) rotate(0); } }
+.h5-links a svg { transform-origin: 50% 70%; animation: navBob 3.6s ease-in-out infinite; }
+.h5-links a:nth-child(2) svg { animation-delay: -.45s; } .h5-links a:nth-child(3) svg { animation-delay: -.9s; } .h5-links a:nth-child(4) svg { animation-delay: -1.35s; }
+.h5-links a:nth-child(5) svg { animation-delay: -1.8s; } .h5-links a:nth-child(6) svg { animation-delay: -2.25s; } .h5-links a:nth-child(7) svg { animation-delay: -2.7s; }
+.h5-links a:nth-child(8) svg { animation-delay: -3.15s; } .h5-links a:nth-child(9) svg { animation-delay: -1.1s; }
+.h5-links a:hover svg { animation-duration: 1.1s; }
+@media (prefers-reduced-motion: reduce) { .h5-links a svg { animation: none; } }

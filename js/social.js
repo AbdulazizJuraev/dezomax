@@ -266,6 +266,14 @@ function initSocial(m, part, opts = {}) {
     });
     menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menu.hidden = true; }));
     drawPlayerRate();
+    likePop();
+  };
+  // «Yoqdi» bosilganda YouTube'dagidek animatsiya (qayta chizilsa ham davom etadi)
+  let popAt = 0;
+  const likePop = () => {
+    const dt = Date.now() - popAt;
+    if (dt > 700) return;
+    document.querySelectorAll('[data-rate="1"], [data-prate="1"]').forEach(b => { b.classList.add('soc-pop'); b.style.setProperty('--pd', -dt + 'ms'); });
   };
   document.addEventListener('click', e => {
     const menu = document.getElementById('socMenu');
@@ -309,7 +317,7 @@ function initSocial(m, part, opts = {}) {
     const prev = { ...state };
     if (state.mine === 1) state.likes--; if (state.mine === -1) state.dislikes--;
     if (next === 1) state.likes++; if (next === -1) state.dislikes++;
-    state.mine = next; drawBar();
+    state.mine = next; if (next === 1) popAt = Date.now(); drawBar();
     busy = true;
     try { Object.assign(state, await socReq('POST', '/api/react', { movie: m.id, value: next })); }
     catch (er) { state = prev; if (er.status === 401) needLogin(); else if (er.status === 404) { down = true; socToast(t('soc.rateOff')); } else socToast(er.message); }

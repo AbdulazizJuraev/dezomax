@@ -36,11 +36,14 @@
   const cache = {};
   let cur = null, items = [], chSel = '';
 
+  // ro'yxat brauzerda saqlanadi: keyingi kirishda darhol chiqadi, 10 daqiqadan eski bo'lsa yangisi olinadi (sahifa tez ochiladi)
+  const LS = k => 'dzxFun_' + k;
+  const saved = k => { try { const j = JSON.parse(localStorage.getItem(LS(k)) || 'null'); return j && Array.isArray(j.items) && j.items.length ? j : null; } catch (e) { return null; } };
   function load(s) {
     if (cache[s.key]) return cache[s.key];
     cache[s.key] = fetch(FEED + s.ch.map(c => c.id).join(','))
       .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then(j => j.items || [])
+      .then(j => { const it = j.items || []; try { localStorage.setItem(LS(s.key), JSON.stringify({ at: Date.now(), items: it })); } catch (e) {} return it; })
       .catch(() => { delete cache[s.key]; return null; });
     return cache[s.key];
   }
@@ -49,8 +52,12 @@
     <span class="fun-th"><img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" loading="lazy" decoding="async"><i class="fun-play"></i></span>
     <b>${esc(x.t)}</b><small>${esc(x.cn)}${x.v ? ` · ${fmtN(x.v)} ${L('ko‘rish', 'просм.')}` : ''}${x.d ? ` · ${ago(x.d)}` : ''}</small></a>`;
 
+  // egasi saytlarda ko'rsatishni taqiqlagan videolar — eslab qolinadi, ro'yxatda chiqmaydi
+  const BL = 'dzxFunBlocked';
+  const blocked = new Set((() => { try { return JSON.parse(localStorage.getItem(BL) || '[]'); } catch (e) { return []; } })());
+  const okList = () => items.filter(x => !blocked.has(x.id));
   function renderGrid() {
-    const list = chSel ? items.filter(x => x.ch === chSel) : items;
+    const list = chSel ? okList().filter(x => x.ch === chSel) : okList();
     $('funGrid').innerHTML = list.map(card).join('');
     $('funEmpty').hidden = !!list.length;
     if (!list.length) $('funEmpty').textContent = L('Hozircha video yo‘q', 'Пока нет видео');
@@ -70,9 +77,12 @@
     document.title = `${nameOf(s)} — ${L('Siz uchun Qiziqarli', 'Интересное')} | DezoMax`;
     $('funChs').innerHTML = '';
     $('funEmpty').hidden = true;
-    $('funGrid').innerHTML = '<span class="fun-sk"></span>'.repeat(8);
-    const got = await load(s);
+    const old = saved(s.key);
+    if (old) { items = old.items; renderChips(); renderGrid(); }
+    else $('funGrid').innerHTML = '<span class="fun-sk"></span>'.repeat(8);
+    const got = !old || Date.now() - old.at > 10 * 60000 ? await load(s) : old.items;
     if (cur !== s) return;
+    if (!got && old) return;
     if (!got) { $('funGrid').innerHTML = ''; $('funEmpty').hidden = false; $('funEmpty').textContent = L('Videolar yuklanmadi. Birozdan keyin qayta urinib ko‘ring.', 'Не удалось загрузить видео. Попробуйте позже.'); return; }
     items = got;
     renderChips();
@@ -81,13 +91,29 @@
 
   function play(id) {
     const st = $('funStage');
-    if (!id) { st.hidden = true; st.innerHTML = ''; return; }
+    if (!id) { if (typeof destroyYouTube === 'function') destroyYouTube(); st.hidden = true; st.innerHTML = ''; return; }
     const x = items.find(y => y.id === id) || { id, t: '', cn: '' };
     st.hidden = false;
-    st.innerHTML = `<div class="fun-player"><iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="${esc(x.t)}"
-        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    // DezoMax o'z pleyeri (js/ytplayer.js): bizning panel, sifat, katta ekran; u bo'lmasa — oddiy YouTube oynasi
+    const own = typeof mountYouTube === 'function';
+    st.innerHTML = `<div class="fun-player">${own ? '<div class="player-wrap" id="funBox"></div>' : `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="${esc(x.t)}"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`}</div>
       <div class="fun-info"><div><h2>${esc(x.t)}</h2><small>${esc(x.cn)}${x.v ? ` · ${fmtN(x.v)} ${L('ko‘rish', 'просм.')}` : ''}${x.d ? ` · ${ago(x.d)}` : ''}</small></div>
         <div class="fun-acts"><a href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">YouTube ↗</a><button type="button" id="funClose" aria-label="${L('Yopish', 'Закрыть')}">✕</button></div></div>`;
+    if (own) {
+      const box = $('funBox');
+      mountYouTube(box, 'https://www.youtube.com/watch?v=' + id, { title: x.t, poster: `https://i.ytimg.com/vi/${id}/hqdefault.jpg` });
+      box.querySelector('#ytpCover')?.click();
+      box.addEventListener('yterror', e => {
+        if (!e.detail.blocked) return;
+        blocked.add(id); try { localStorage.setItem(BL, JSON.stringify([...blocked].slice(-500))); } catch (er) {}
+        const list = okList(), i = items.findIndex(y => y.id === id);
+        const next = items.slice(i + 1).find(y => !blocked.has(y.id)) || list[0];
+        renderGrid();
+        box.querySelector('#ytpMsg .ytp-msg-inner')?.insertAdjacentHTML('beforeend', `<p>${L('Keyingi video ochilmoqda…', 'Открываем следующее видео…')}</p>`);
+        if (next) setTimeout(() => { if ($('funBox') === box) location.replace('#' + cur.key + '&v=' + next.id); }, 1500);
+      });
+    }
     st.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 

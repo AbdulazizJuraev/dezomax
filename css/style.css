@@ -8987,3 +8987,16 @@ html body, html body *:not(svg):not(svg *):not(code):not(kbd):not(pre) { font-fa
 .is-serials .grid .card-poster .poster-blur,
 .grid .card.is-wide .card-poster .poster-blur,
 .row-wide .card:not(.is-wide) .poster-blur { display: none !important; }
+
+/* «Yoqdi» — YouTube'dagidek animatsiya (js/social.js likePop): barmoq sakraydi + atrofga uchqunlar */
+@keyframes socPop { 0% { transform: scale(1) rotate(0); } 25% { transform: scale(1.35) rotate(-20deg) translateY(-3px); } 55% { transform: scale(.9) rotate(8deg); } 80% { transform: scale(1.08) rotate(-3deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes socBurst { 0% { transform: translate(-50%, -50%) scale(.3); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; } }
+.soc-pop { position: relative; }
+.soc-pop svg { animation: socPop .65s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: var(--pd, 0ms); transform-origin: 40% 70%; }
+.soc-pop::after { content: ""; position: absolute; left: 22px; top: 50%; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; opacity: 0;
+  box-shadow: 0 -16px 0 #A6E22E, 11px -11px 0 #3EA6FF, 16px 0 0 #FF4E45, 11px 11px 0 #FFD400, 0 16px 0 #A6E22E, -11px 11px 0 #3EA6FF, -16px 0 0 #FF4E45, -11px -11px 0 #FFD400;
+  animation: socBurst .6s ease-out both; animation-delay: var(--pd, 0ms); }
+.soc-pbtn.soc-pop::after { left: 50%; }
+@media (prefers-reduced-motion: reduce) { .soc-pop svg, .soc-pop::after { animation: none; } }
+/* Qiziqarli: DezoMax o'z pleyeri (js/fun.js → mountYouTube) */
+.fun-player .player-wrap { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; box-shadow: none; }

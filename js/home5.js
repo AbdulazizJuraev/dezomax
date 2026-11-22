@@ -411,7 +411,7 @@
   /* «Siz uchun Qiziqarli» (js/fun-data.js → FUN_SECTIONS; sahifa — qiziqarli.html). Yengil: rasm yo'q, faqat rang va belgi. 2026-11-21 */
   function funHTML() {
     if (typeof FUN_SECTIONS === 'undefined') return '';
-    return `<section class="h5-sec h5-wrap">${headHTML(L('Siz uchun Qiziqarli', 'Интересное для вас'), 'qiziqarli.html')}<div class="h5-row h5-fun">${FUN_SECTIONS.map(s => `<a class="h5-fn h5-fn-${s.key}" href="qiziqarli.html#${s.key}" style="--c1:${s.c1};--c2:${s.c2}" aria-label="${esc(ru ? s.ru : s.uz)}"><img src="images/fun/${s.key}.webp" alt="${esc(ru ? s.ru : s.uz)}" loading="lazy" decoding="async"></a>`).join('')}</div></section>`;
+    return `<section class="h5-sec h5-wrap">${headHTML(L('Siz uchun Qiziqarli', 'Интересное для вас'), 'qiziqarli.html')}<div class="h5-row h5-fun">${FUN_SECTIONS.map(s => `<a class="h5-fn h5-fn-${s.key}" href="qiziqarli.html#${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><i class="h5-fn-im"><img src="images/fun/${s.key}.webp" alt="" loading="lazy" decoding="async"></i><b>${esc(ru ? s.ru : s.uz)}</b></a>`).join('')}</div></section>`;
   }
 
   /* Ilova banneri: poster devori + telefon va planshet */
@@ -462,8 +462,8 @@
     document.getElementById('h5Ks')?.scrollIntoView({ block: 'center' });
   });
 
-  const ctaHTML = () => `<section class="h5-sec h5-wrap"><div class="h5-cta"><div><h2>${L('Reklama?', 'Реклама?')}</h2>
-    <p>${L('Saytda va DezoMax ilovasida reklama joylashtirish uchun bog‘laning.', 'Свяжитесь с нами, чтобы разместить рекламу на сайте и в приложении DezoMax.')}</p></div>
+  const ctaHTML = () => `<section class="h5-sec h5-wrap"><div class="h5-cta"><div><h2>${L('Tijorat takliflari', 'Коммерческие предложения')}</h2>
+    <p>${L('Reklama, hamkorlik va boshqa tijorat takliflari bo‘yicha biz bilan bog‘laning — sayt va DezoMax ilovasi.', 'Реклама, сотрудничество и другие коммерческие предложения — свяжитесь с нами: сайт и приложение DezoMax.')}</p></div>
     <a class="h5-btn" href="https://t.me/dezomaxuz" target="_blank" rel="noopener">${L('Bog‘lanish', 'Связаться')} ↗</a></div></section>`;
 
   /* ================= Reklama-uslubidagi bloklar (foydalanuvchi namunalari, 2026-11-18) =================
@@ -509,7 +509,7 @@
         if (k === 0) { c.style.transition = 'none'; c.style.setProperty('--k', k); place(c); void c.offsetWidth; c.style.transition = ''; }
         else { c.style.setProperty('--k', k); place(c); }
       });
-    }, 2600);
+    }, 1500);
   }
   function fanHTML() {
     const used = new Set();
@@ -761,12 +761,13 @@
     push(funHTML());      // «Siz uchun Qiziqarli» — Shorts tagida (foydalanuvchi so'rovi, 2026-11-21)
     if (uzbek) { const l = listOf(uzbek); if (l.length >= 4) push(rowSec(titleOf(uzbek), ROW_SOURCES.uzbek.all, l)); }
     push(genresHTML());
+    // Kino studiyalar — teparoqda, janrlardan keyin (foydalanuvchi so'rovi, 2026-11-22)
+    const marvelRow = take('marvel'), dcRow = take('dc');   // Marvel va DC qatorlari endi «Kino studiyalar» panelida
+    if (marvelRow || dcRow || window.DZX_STUDIOS) push(kinoStudioHTML());
     push(bentoHTML());
     if (popular) push(top10HTML(L('Bugungi TOP 10', 'ТОП-10 сегодня')));
     push(hoverHTML());
     push(fanHTML());
-    const marvelRow = take('marvel'), dcRow = take('dc');   // Marvel va DC qatorlari endi «Kino studiyalar» panelida
-    if (marvelRow || dcRow || window.DZX_STUDIOS) push(kinoStudioHTML());
     if (fresh) { const l = uniq(tallFirst(ROW_SOURCES.new.list().filter(cardImg)).slice(0, 40)).slice(0, 14); if (l.length >= 4) push(gridSec(L('Yangi kinolar', 'Новые фильмы'), ROW_SOURCES.new.all, l)); }
     // Rus / ingliz tilidagi kinolar (2026-11-19) — kamida 4 ta bo'lsa chiqadi
     for (const [src, l] of [['russian', 'ru'], ['english', 'en']]) {
