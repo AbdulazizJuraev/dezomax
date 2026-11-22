@@ -1,6 +1,7 @@
 ﻿/* ============================================================
    DezoMax — asosiy uslublar / основные стили
    ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap');
 
 :root {
   --bg: #0a0a0b;
@@ -8971,3 +8972,18 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
   html.vp-theater .m5 #playerBox.player-wrap { width: 100vw; margin-left: calc(50% - 50vw); aspect-ratio: auto; height: min(56.25vw, calc(100vh - 150px)); min-height: 360px; border-radius: 0; border: 0; box-shadow: none; }
   html.vp-theater .m5 #playerBox video { object-fit: contain; }
 }
+
+/* Butun sayt shrifti — Tilt Warp (foydalanuvchi so'rovi, 2026-11-22). Bitta qalinlikda: soxta qalinlashtirish o'chiq.
+   Kirill harflari Tilt Warp'da yo'q — ruscha matn Manrope bilan chiqadi */
+html:root { --display: 'Tilt Warp', 'Manrope', system-ui, sans-serif; --body: 'Tilt Warp', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif; --v4-head: var(--display); }
+html body, html body *:not(svg):not(svg *):not(code):not(kbd):not(pre) { font-family: var(--body) !important; font-synthesis-weight: none; }
+
+/* Keng kartadagi tik poster — kartani to'liq to'ldiradi (yonlarida bo'sh joy qolmaydi), yuqori qismi ko'rinadi */
+.v4-card-im.is-tall img, .m5-thumb.is-tall img { object-fit: cover; object-position: 50% 20%; }
+/* «Seriallar» va keng qatorlar: tik poster 16:9 kartada endi o'rtada kichik + xira chetlar emas — butun kartani to'ldiradi (2026-11-22) */
+.is-serials .grid .card:not(.is-wide) .card-poster .poster-img,
+.grid .card.is-wide .card-poster .poster-img,
+.row-wide .card:not(.is-wide) .card-poster .poster-img { object-fit: cover; object-position: 50% 20%; }
+.is-serials .grid .card-poster .poster-blur,
+.grid .card.is-wide .card-poster .poster-blur,
+.row-wide .card:not(.is-wide) .poster-blur { display: none !important; }
