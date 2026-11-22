@@ -21,6 +21,9 @@ function vpMorphSet(btn, paused) {
   p[1].setAttribute('d', paused ? 'M19.4 12L19.4 12L19.4 12L19.4 12Z' : 'M13.4 5L17 5L17 19L13.4 19Z');
 }
 const YT_ICONS = {
+  // «Kinoteatr rejimi» (YouTube'dagidek, 2026-11-22): keng to'rtburchak
+  theater: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/></svg>',
+  theaterOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><rect x="5" y="7.5" width="14" height="9" rx="1.8"/></svg>',
   play:  '<svg viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z" fill="currentColor"/></svg>',
   pause: '<svg viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1.2" fill="currentColor"/><rect x="14" y="4.5" width="4" height="15" rx="1.2" fill="currentColor"/></svg>',
   vol:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
@@ -82,11 +85,32 @@ function vpUiHTML(o = {}) {
             <span class="vp-pill vp-right">
               <span class="vp-rate" id="vpRate"></span>
               ${o.cast ? `<button class="vp-ico" id="vpCast" type="button" hidden aria-label="${esc(t('player.cast'))}">${YT_ICONS.cast}</button>` : ''}
+              <button class="vp-ico" id="vpTheater" type="button" aria-pressed="false" aria-label="${LANG === 'ru' ? 'Режим кинотеатра' : 'Kinoteatr rejimi'}" title="${LANG === 'ru' ? 'Режим кинотеатра' : 'Kinoteatr rejimi'}">${YT_ICONS.theater}</button>
               <button class="vp-ico" id="vpFs" type="button" aria-label="${esc(t('tv.fullscreen'))}">${YT_ICONS.fs}</button>
             </span>
           </div>
         </div>
       </div>`;
+}
+
+/* «Kinoteatr rejimi» (YouTube'dagidek, foydalanuvchi so'rovi 2026-11-22): faqat kino sahifasida (.m5-main) va kompyuterda.
+   Bosilsa o'ngdagi «Keyingi filmlar» pastga tushadi, pleyer ekran eniga yoyiladi (css: html.vp-theater). Tanlov eslab qolinadi. */
+function vpBindTheater(box, btn) {
+  if (!btn) return;
+  if (!box.closest('.m5-main')) { btn.remove(); return; }
+  const html = document.documentElement;
+  const set = on => {
+    html.classList.toggle('vp-theater', on);
+    btn.setAttribute('aria-pressed', String(on));
+    btn.classList.toggle('is-active', on);
+    btn.innerHTML = on ? YT_ICONS.theaterOff : YT_ICONS.theater;
+    try { localStorage.setItem('dzx_theater', on ? '1' : '0'); } catch (e) {}
+    dispatchEvent(new Event('resize'));
+  };
+  let saved = false;
+  try { saved = localStorage.getItem('dzx_theater') === '1'; } catch (e) {}
+  if (saved && matchMedia('(min-width: 1001px)').matches) set(true);
+  btn.addEventListener('click', e => { e.stopPropagation(); set(!html.classList.contains('vp-theater')); });
 }
 
 /* Panel tugmalarini ulash. p: { toggle, jump(d), speed(r), wake, hide, paused() } → { menuOpen() } */
@@ -97,6 +121,7 @@ function vpBindUi(box, clickEl, p) {
   $('#vpBack').addEventListener('click', () => { p.jump(-10); box._vpFlash?.(false); p.wake(); });
   $('#vpFwd').addEventListener('click', () => { p.jump(10); box._vpFlash?.(true); p.wake(); });
   $('#vpFs').addEventListener('click', () => ytToggleFullscreen(box));
+  vpBindTheater(box, $('#vpTheater'));
   $('#vpFit').addEventListener('click', () => {
     const fill = box.classList.toggle('ytp-fill');
     $('#vpFit').classList.toggle('is-active', fill);
