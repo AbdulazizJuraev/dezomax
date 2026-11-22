@@ -8963,6 +8963,11 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
   html.vp-theater .m5-side { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; margin-top: 8px; }
   html.vp-theater .m5-poster { width: clamp(200px, 17vw, 280px); border-radius: 14px; }
   html.vp-theater .m5-side h3 { grid-column: 1 / -1; }
+  html.vp-theater .m5-item { gap: 18px; padding: 8px; }
+  html.vp-theater .m5-thumb { width: min(55%, 440px); border-radius: 14px; }
+  html.vp-theater .m5-badge { top: 10px; left: 10px; font-size: 13px; padding: 3px 9px; }
+  html.vp-theater .m5-it b { font-size: 18px; margin: 4px 0 6px; }
+  html.vp-theater .m5-it small { font-size: 14px; }
   html.vp-theater .m5 #playerBox.player-wrap { width: 100vw; margin-left: calc(50% - 50vw); aspect-ratio: auto; height: min(56.25vw, calc(100vh - 150px)); min-height: 360px; border-radius: 0; border: 0; box-shadow: none; }
   html.vp-theater .m5 #playerBox video { object-fit: contain; }
 }
