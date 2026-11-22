@@ -9000,3 +9000,12 @@ html body, html body *:not(svg):not(svg *):not(code):not(kbd):not(pre) { font-fa
 @media (prefers-reduced-motion: reduce) { .soc-pop svg, .soc-pop::after { animation: none; } }
 /* Qiziqarli: DezoMax o'z pleyeri (js/fun.js → mountYouTube) */
 .fun-player .player-wrap { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; box-shadow: none; }
+
+/* Navbar ikonlari — yangi animatsiya (2026-11-22): qimirlash o'rniga to'lqin — ikonlar navbat bilan sakrab, yashil bo'lib o'tadi (har 6 s) */
+@keyframes navWave { 0%, 14%, 100% { transform: none; color: inherit; } 4% { transform: translateY(-5px) scale(1.18); color: #B6F23A; } 8% { transform: translateY(1px) scale(.96); } 11% { transform: translateY(-1px); } }
+.h5-links a svg { transform-origin: 50% 100%; animation: navWave 6s cubic-bezier(.3, 1.5, .5, 1) infinite; animation-delay: 0s; }
+.h5-links a:nth-child(2) svg { animation-delay: .18s; } .h5-links a:nth-child(3) svg { animation-delay: .36s; } .h5-links a:nth-child(4) svg { animation-delay: .54s; }
+.h5-links a:nth-child(5) svg { animation-delay: .72s; } .h5-links a:nth-child(6) svg { animation-delay: .9s; } .h5-links a:nth-child(7) svg { animation-delay: 1.08s; }
+.h5-links a:nth-child(8) svg { animation-delay: 1.26s; } .h5-links a:nth-child(9) svg { animation-delay: 1.44s; }
+.h5-links a:hover svg { animation: navWave 1.2s cubic-bezier(.3, 1.5, .5, 1) infinite; }
+@media (prefers-reduced-motion: reduce) { .h5-links a svg { animation: none; } }

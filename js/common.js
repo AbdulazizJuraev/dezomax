@@ -772,17 +772,15 @@ function mountNav5() {
   const type = new URLSearchParams(location.search).get('type');
   let mv = null;   // kino sahifasida — kinoning turi bo'yicha bo'lim belgilanadi
   try { mv = (file === 'kino' || file === 'movie.html') && typeof movie !== 'undefined' ? movie : null; } catch (e) {}
-  const cur = file === 'catalog.html' ? (new URLSearchParams(location.search).get('watch') === 'trailer' ? 'trailer' : type) : file === 'tv.html' ? 'tvset' : file === 'live.html' ? 'live' : file === 'sport.html' ? 'sport' : file === 'qiziqarli.html' ? 'fun' : mv && mv.type ? mv.type : '';
+  const cur = file === 'catalog.html' ? (new URLSearchParams(location.search).get('watch') === 'trailer' ? 'trailer' : type === 'serial' ? 'film' : type) : file === 'tv.html' ? 'tvset' : file === 'live.html' ? 'live' : file === 'sport.html' ? 'sport' : file === 'qiziqarli.html' ? 'fun' : mv && mv.type ? mv.type : '';
   const links = [
     ['index.html', 'home', L('Bosh sahifa', 'Главная')],
     ['catalog.html?type=film', 'film', L('Filmlar', 'Фильмы')],
-    ['catalog.html?type=serial', 'serial', L('Seriallar', 'Сериалы')],
     ['catalog.html?type=multfilm', 'multfilm', L('Multfilmlar', 'Мультфильмы')],
     ['catalog.html?watch=trailer', 'trailer', L('Treylerlar', 'Трейлеры')],
     ['live.html', 'live', L('Jonli efir', 'Прямой эфир')],
     ['tv.html', 'tvset', L('Telekanallar', 'Телеканалы')],
     ['sport.html', 'sport', L('Sport', 'Спорт')],
-    ['qiziqarli.html', 'fun', L('Qiziqarli', 'Интересное')]
   ];
   const hd = document.createElement('header');
   hd.className = 'h5 h5-nav';
