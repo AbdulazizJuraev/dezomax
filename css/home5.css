@@ -733,3 +733,11 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 /* 2026-11-21: kartalar 1×1 (kvadrat), burchaklar yumaloq */
 .h5-fun .h5-fn { aspect-ratio: 1; width: clamp(140px, 14vw, 200px); }
 @media (max-width: 600px) { .h5-fun .h5-fn { width: 38vw; } }
+
+/* «Siz uchun Qiziqarli» — rasmli kartalar (foydalanuvchi dizayni, 2026-11-22): images/fun/<key>.webp, Gameplay tik (0.7), qolganlari 1x1 */
+.h5-fun .h5-fn { width: auto; height: clamp(150px, 18vw, 300px); aspect-ratio: 1; padding: 0; border-radius: 22px; background: var(--c2); }
+.h5-fun .h5-fn-gameplay { aspect-ratio: .7; }
+.h5-fun .h5-fn::before { content: none; animation: none; }
+.h5-fun .h5-fn img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .25s; }
+.h5-fun .h5-fn:hover img { transform: scale(1.04); }
+@media (max-width: 600px) { .h5-fun .h5-fn { width: auto; height: 42vw; border-radius: 18px; } }

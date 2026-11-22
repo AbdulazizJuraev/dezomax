@@ -3,6 +3,7 @@
    Har bo'lim — YouTube kanallari. Videolar kanalning o'zidan, YouTube pleyerida ko'rsatiladi
    (ko'rishlar, layklar va reklama daromadi kanal egasida). Shortslar chiqmaydi: kanalning faqat uzun videolari
    (UULF… pleylisti) olinadi.
+   Karta rasmi: images/fun/<key>.webp (gameplay 420x600, qolganlari 600x600).
    Ro'yxat: dezomax.uz/_yt/feed?ch=UC…,UC… (cloudflare/site/worker.js — YouTube RSS, 30 daqiqa kesh).
    Kanal qo'shish: { id: 'UC…', name: '…' } — id YouTube kanal sahifasidagi «channel_id».
    ============================================================ */
@@ -20,17 +21,6 @@ const FUN_SECTIONS = [
     ]
   },
   {
-    key: 'animals', uz: 'National Animals', ru: 'Мир животных', c1: '#FBBF24', c2: '#FDE68A',
-    sub: ['Hayvonot olami haqida', 'Дикая природа'],
-    icon: '<circle cx="6" cy="9.5" r="1.8"/><circle cx="10" cy="5.8" r="1.8"/><circle cx="14" cy="5.8" r="1.8"/><circle cx="18" cy="9.5" r="1.8"/><path d="M12 11c-3 0-5.5 3.6-5.5 6.2 0 1.6 1.3 2.3 2.8 2.3 1.2 0 1.8-.6 2.7-.6s1.5.6 2.7.6c1.5 0 2.8-.7 2.8-2.3C17.5 14.6 15 11 12 11z"/>',
-    ch: [
-      { id: 'UCDPk9MG2RexnOMGTD-YnSnA', name: 'Nat Geo Animals' },
-      { id: 'UCwmZiChSryoWQCZMIQezgTg', name: 'BBC Earth' },
-      { id: 'UCXVCgDuD_QCkI7gTKU7-tpg', name: 'Nat Geo Kids' },
-      { id: 'UCO_DaPp4ifhMAmiyybSLx9w', name: 'BBC Earth Kids' }
-    ]
-  },
-  {
     key: 'podcast', uz: 'Podcast', ru: 'Подкасты', c1: '#FB7185', c2: '#FECDD3',
     sub: ['O‘zbekcha suhbatlar', 'Узбекские подкасты'],
     icon: '<rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5v4M8.5 21.5h7"/>',
@@ -41,6 +31,17 @@ const FUN_SECTIONS = [
       { id: 'UCAbBjvOlxbpx8RC9OrHednw', name: 'ZBS Podcast' },
       { id: 'UC6ori1JrTlZsFtrMqa9DFMg', name: 'Sigma Podcast' },
       { id: 'UCQnciwtALk_Z_WMLhu4YMoA', name: 'qiyofa.podcast' }
+    ]
+  },
+  {
+    key: 'animals', uz: 'National Animals', ru: 'Мир животных', c1: '#FBBF24', c2: '#FDE68A',
+    sub: ['Hayvonot olami haqida', 'Дикая природа'],
+    icon: '<circle cx="6" cy="9.5" r="1.8"/><circle cx="10" cy="5.8" r="1.8"/><circle cx="14" cy="5.8" r="1.8"/><circle cx="18" cy="9.5" r="1.8"/><path d="M12 11c-3 0-5.5 3.6-5.5 6.2 0 1.6 1.3 2.3 2.8 2.3 1.2 0 1.8-.6 2.7-.6s1.5.6 2.7.6c1.5 0 2.8-.7 2.8-2.3C17.5 14.6 15 11 12 11z"/>',
+    ch: [
+      { id: 'UCDPk9MG2RexnOMGTD-YnSnA', name: 'Nat Geo Animals' },
+      { id: 'UCwmZiChSryoWQCZMIQezgTg', name: 'BBC Earth' },
+      { id: 'UCXVCgDuD_QCkI7gTKU7-tpg', name: 'Nat Geo Kids' },
+      { id: 'UCO_DaPp4ifhMAmiyybSLx9w', name: 'BBC Earth Kids' }
     ]
   },
   {

@@ -408,7 +408,7 @@
   /* «Siz uchun Qiziqarli» (js/fun-data.js → FUN_SECTIONS; sahifa — qiziqarli.html). Yengil: rasm yo'q, faqat rang va belgi. 2026-11-21 */
   function funHTML() {
     if (typeof FUN_SECTIONS === 'undefined') return '';
-    return `<section class="h5-sec h5-wrap">${headHTML(L('Siz uchun Qiziqarli', 'Интересное для вас'), 'qiziqarli.html')}<div class="h5-row h5-fun">${FUN_SECTIONS.map(s => `<a class="h5-fn" href="qiziqarli.html#${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><b>${esc(ru ? s.ru : s.uz)}</b></a>`).join('')}</div></section>`;
+    return `<section class="h5-sec h5-wrap">${headHTML(L('Siz uchun Qiziqarli', 'Интересное для вас'), 'qiziqarli.html')}<div class="h5-row h5-fun">${FUN_SECTIONS.map(s => `<a class="h5-fn h5-fn-${s.key}" href="qiziqarli.html#${s.key}" style="--c1:${s.c1};--c2:${s.c2}" aria-label="${esc(ru ? s.ru : s.uz)}"><img src="images/fun/${s.key}.webp" alt="${esc(ru ? s.ru : s.uz)}" loading="lazy" decoding="async"></a>`).join('')}</div></section>`;
   }
 
   /* Ilova banneri: poster devori + telefon va planshet */
