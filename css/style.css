@@ -8960,7 +8960,7 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
   .m5-main #vpTheater { display: grid; }
   html.vp-theater body { overflow-x: clip; }
   html.vp-theater .m5-yt { grid-template-columns: minmax(0, 1fr); }
-  html.vp-theater .m5-side { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 16px; margin-top: 8px; }
+  html.vp-theater .m5-side { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; margin-top: 8px; }
   html.vp-theater .m5-side h3 { grid-column: 1 / -1; }
   html.vp-theater .m5 #playerBox.player-wrap { width: 100vw; margin-left: calc(50% - 50vw); aspect-ratio: auto; height: min(56.25vw, calc(100vh - 150px)); min-height: 360px; border-radius: 0; border: 0; box-shadow: none; }
   html.vp-theater .m5 #playerBox video { object-fit: contain; }
