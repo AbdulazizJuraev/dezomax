@@ -111,14 +111,14 @@
     $('funGrid').innerHTML = cur.ch.filter(c => c.av).map(c => `<a class="fun-cc" href="#${cur.key}&c=${c.id}">
       <span class="fun-cc-ban">${c.ban ? `<img src="${c.ban}" alt="" loading="lazy" decoding="async">` : ''}</span>
       <span class="fun-cc-body"><img class="fun-cc-av" src="${c.av}" alt="" width="76" height="76">
-        <span class="fun-cc-txt"><b>${esc(c.name)}${VF}</b><small>${subsOf(c)}</small></span></span></a>`).join('');
+        <span class="fun-cc-txt"><b>${esc(c.name)}${c.vf ? VF : ''}</b><small>${subsOf(c)}</small></span></span></a>`).join('');
     $('funEmpty').hidden = true;
   }
   // kanal sahifasi (YouTube'dagidek): banner, dumaloq rasm, nom ✓, obunachilar, bo'limlar + qidiruv
   function renderChan(c) {
     $('funChan').innerHTML = `${c.ban ? `<div class="fun-chan-ban"><img src="${c.ban}" alt="" decoding="async"></div>` : ''}
       <div class="fun-chan-row"><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="96" height="96">
-        <div class="fun-chan-info"><h2>${esc(c.name)}${VF}</h2><p>${subsOf(c)}</p></div></div>
+        <div class="fun-chan-info"><h2>${esc(c.name)}${c.vf ? VF : ''}</h2><p>${subsOf(c)}</p></div></div>
       <nav class="fun-ytabs" role="tablist">${TABS.map(([k, uz, r]) => `<button type="button" role="tab" data-tab="${k}" class="${k === tab ? 'is-on' : ''}" aria-selected="${k === tab}">${L(uz, r)}</button>`).join('')}
         <span class="fun-ysearch${q ? ' is-open' : ''}"><button type="button" id="funSearchBtn" aria-label="${L('Kanaldan qidirish', 'Поиск по каналу')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
           <input type="search" id="funQ" placeholder="${L('Kanaldan qidirish', 'Поиск по каналу')}" value="${esc(q)}"></span></nav>`;

@@ -16,7 +16,11 @@ const FUN_SECTIONS = [
       // 2026-11-23: faqat FEZOT (egasidan ruxsat olingan); rasm — kanalning YouTube'dagi avatari (images/fun/fezot.webp)
       { id: 'UCxIDGzyWz-leezRPIIQnAkQ', name: 'FEZOT', av: 'images/fun/fezot.webp', ban: 'images/fun/fezot-banner.webp',
         all: 'data/fun-fezot.json',   // barcha videolar/shorts/jonli — tools/fetch-fun-all.js
-        title: 'Fezot', color: '#E040FB', handle: '@FEZOT', subs: ['722 ming obunachi', '722 тыс. подписчиков'], url: 'https://www.youtube.com/@FEZOT' }
+        title: 'Fezot', color: '#E040FB', handle: '@FEZOT', subs: ['722 ming obunachi', '722 тыс. подписчиков'], url: 'https://www.youtube.com/@FEZOT', vf: true },
+      // FEZOT'ning ikkinchi kanali (jonli efirlar) — 2026-11-23 qo'shildi; YouTube'da tasdiqlanmagan (vf yo'q)
+      { id: 'UCHHXVY9x-9oq5l5TyQFaKqg', name: 'FEZOT LIVE', av: 'images/fun/fezotlive.webp', ban: 'images/fun/fezotlive-banner.webp',
+        all: 'data/fun-fezotlive.json',
+        title: 'Fezot Live', handle: '@FEZOTLIVE', subs: ['178 ming obunachi', '178 тыс. подписчиков'], url: 'https://www.youtube.com/@FEZOTLIVE' }
     ]
   },
   {

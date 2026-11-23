@@ -5,7 +5,7 @@
    Har ro'yxat ikki marta o'qiladi: inglizcha (ko'rishlar soni va sana shu tilda ajratiladi) va o'zbekcha —
    YouTube sarlavhalarni so'ralgan tilga avtomatik tarjima qiladi, asl (o'zbekcha) sarlavha o'zbekcha sahifadan olinadi.
    Saytda js/fun.js shu faylni RSS'dagi eng yangi 15 ta bilan qo'shib ko'rsatadi (yangi videolar o'zi qo'shilib boradi).
-   Ishga tushirish: node tools/fetch-fun-all.js   (js/fun-data.js'dagi `all` maydoni bor kanallar)
+   Ishga tushirish: node tools/fetch-fun-all.js [fezotlive]   (`all` maydoni bor kanallar; argument — faqat shu kanal)
    Faqat egasi ruxsat bergan kanallar uchun (FEZOT — 2026-11-23). YouTube ko'p so'rovda «bot emasman» so'raydi — sekin ishlaydi.
    ============================================================ */
 const fs = require('fs');
@@ -97,7 +97,10 @@ async function both(url, label) {
 (async () => {
   const ctx = {};
   vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'js/fun-data.js'), 'utf8') + ';this.FUN_SECTIONS = FUN_SECTIONS;', ctx);
-  for (const s of ctx.FUN_SECTIONS) for (const c of s.ch.filter(c => c.all)) {
+  // node tools/fetch-fun-all.js fezotlive — faqat shu kanal (fayl nomi yoki kanal nomi bo'yicha); argumentsiz — hammasi
+  const only = (process.argv[2] || '').toLowerCase();
+  const want = c => !only || c.all.toLowerCase().includes(only) || c.name.toLowerCase().replace(/\s+/g, '') === only;
+  for (const s of ctx.FUN_SECTIONS) for (const c of s.ch.filter(c => c.all && want(c))) {
     console.log(`${c.name} (${c.id}) → ${c.all}`);
     const tail = c.id.slice(2), res = { at: Date.now() };
     res.lf = await both(`https://www.youtube.com/playlist?list=UULF${tail}`, 'videolar');
