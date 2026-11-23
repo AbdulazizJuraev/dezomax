@@ -56,7 +56,8 @@
   // egasi saytlarda ko'rsatishni taqiqlagan videolar — eslab qolinadi, ro'yxatda chiqmaydi
   const BL = 'dzxFunBlocked';
   const blocked = new Set((() => { try { return JSON.parse(localStorage.getItem(BL) || '[]'); } catch (e) { return []; } })());
-  const okList = () => items.filter(x => !blocked.has(x.id));
+  // faqat joriy bo'limning kanallari (eski keshdagi olib tashlangan kanal videolari chiqmasin) va taqiqlanmagan videolar
+  const okList = () => items.filter(x => !blocked.has(x.id) && cur.ch.some(c => c.id === x.ch));
   function renderGrid() {
     const list = chSel ? okList().filter(x => x.ch === chSel) : okList();
     $('funGrid').innerHTML = list.map(card).join('');
@@ -64,6 +65,12 @@
     if (!list.length) $('funEmpty').textContent = L('Hozircha video yo‘q', 'Пока нет видео');
   }
   function renderChips() {
+    // bitta kanal bo'lsa — chiplar o'rniga kanalning dumaloq rasmi va nomi
+    if (cur.ch.length === 1 && cur.ch[0].av) {
+      const c = cur.ch[0];
+      $('funChs').innerHTML = `<div class="fun-chhead"><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="56" height="56"><b>${esc(c.name)}</b></div>`;
+      return;
+    }
     const has = new Set(items.map(x => x.ch));
     const chs = cur.ch.filter(c => has.has(c.id));
     $('funChs').innerHTML = chs.length > 1 ? [['', L('Hammasi', 'Все')], ...chs.map(c => [c.id, c.name])]
@@ -76,7 +83,7 @@
     cur = s; chSel = ''; items = [];
     document.querySelectorAll('[data-fun]').forEach(a => { const on = a.dataset.fun === s.key; a.classList.toggle('is-on', on); a.setAttribute('aria-selected', String(on)); if (on && a.parentNode.scrollWidth > a.parentNode.clientWidth) a.parentNode.scrollLeft = a.offsetLeft - a.parentNode.offsetLeft - 16; });
     document.title = `${nameOf(s)} — ${L('Siz uchun Qiziqarli', 'Интересное')} | DezoMax`;
-    $('funChs').innerHTML = '';
+    renderChips();
     $('funEmpty').hidden = true;
     const old = saved(s.key);
     if (old) { items = old.items; renderChips(); renderGrid(); }

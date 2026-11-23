@@ -8980,6 +8980,12 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 }
 @media (prefers-reduced-motion: reduce) { .fun-tabs a { transition: none; } }
 
+/* 2026-11-23: bitta kanal bo'limi — kanalning dumaloq rasmi + nomi */
+.fun-chhead { display: flex; align-items: center; gap: 12px; }
+.fun-av { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; display: block; flex: none; box-shadow: 0 0 0 2px #C6FF3D, 0 6px 18px rgba(0, 0, 0, .4); }
+.fun-chhead b { font-size: 1.15rem; font-weight: 800; letter-spacing: -.01em; }
+@media (max-width: 600px) { .fun-av { width: 48px; height: 48px; } .fun-chhead b { font-size: 1.05rem; } }
+
 /* 2026-11-23: sarlavha yonida «Orqaga» tugmasi */
 .fun-hero { display: flex; align-items: center; gap: 12px; }
 .fun-hero h1 { margin: 0; line-height: 1.1; }
