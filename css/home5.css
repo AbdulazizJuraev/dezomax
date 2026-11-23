@@ -775,3 +775,21 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 
 /* qiziqarli.html «Orqaga» → index.html#qiziqarli: sarlavha header ostida qolmasin (2026-11-23) */
 #qiziqarli { scroll-margin-top: calc(var(--header-h, 64px) + 20px); }
+
+/* «Siz uchun Qiziqarli» qatori — orqasida rangli panel, kartalar qora fonda yo'qolmasin (2026-11-23; blur'siz, yengil)
+   Panel bo'lim ichida chiziladi (.h5-rows > .h5-sec'da content-visibility — tashqariga chiqqan qism kesiladi) */
+#qiziqarli { position: relative; isolation: isolate; padding-bottom: 22px; }
+#qiziqarli::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  top: calc(clamp(28px, 3.4vw, 48px) - 16px); bottom: 0;
+  left: max(6px, calc(var(--gutter) - 16px)); right: max(6px, calc(var(--gutter) - 16px));
+  border-radius: 28px; border: 1px solid rgba(255, 255, 255, .08);
+  background:
+    radial-gradient(55% 90% at 0% 0%, rgba(167, 139, 250, .30), transparent 62%),
+    radial-gradient(45% 80% at 100% 100%, rgba(96, 165, 250, .24), transparent 62%),
+    radial-gradient(40% 70% at 55% 45%, rgba(236, 72, 153, .14), transparent 70%),
+    linear-gradient(180deg, #15131d, #0b0e13);
+}
+#qiziqarli .h5-fun { padding-bottom: 14px; }
+#qiziqarli .h5-fn-im { box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--c1) 75%, transparent), 0 0 0 1px rgba(255, 255, 255, .1); }
+@media (max-width: 600px) { #qiziqarli::before { border-radius: 22px; } }
