@@ -1127,6 +1127,25 @@ function renderTabbar() {
   }).join('');
 
   updateFavCount();
+  speculateNav();
+}
+
+/* Pastki panel va yuqori menyu sahifalari oldindan tayyorlanadi (Speculation Rules, 2026-11-23):
+   HTML'i darhol olib qo'yiladi, bosila boshlaganda (barmoq tekkanda) sahifa orqada to'liq ochiladi — bosilganda bir zumda chiqadi.
+   Qo'llamaydigan brauzer/WebView e'tiborsiz qoldiradi. Trafik tejash rejimida yoki sekin internetda o'chiq.
+   Reklama yuklovchilari (HTML'dagi dzAds / shorts go) oldindan ochilgan sahifada foydalanuvchi ko'rmaguncha ishga tushmaydi. */
+function speculateNav() {
+  if (document.getElementById('dzSpec')) return;
+  if (!(HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules'))) return;
+  const c = navigator.connection;
+  if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;
+  const s = document.createElement('script');
+  s.type = 'speculationrules'; s.id = 'dzSpec';
+  s.textContent = JSON.stringify({
+    prefetch: [{ where: { selector_matches: 'nav.tabbar a' }, eagerness: 'eager' }],
+    prerender: [{ where: { selector_matches: 'nav.tabbar a, .h5-links a' }, eagerness: 'moderate' }]
+  });
+  document.head.appendChild(s);
 }
 
 /* ---------- "Yana" pastki menyusi ---------- */
