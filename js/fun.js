@@ -123,16 +123,16 @@
   function renderChan(c) {
     $('funChan').innerHTML = `${c.ban ? `<div class="fun-chan-ban"><img src="${c.ban}" alt="" decoding="async"></div>` : ''}
       <div class="fun-chan-row"><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="96" height="96">
-        <div class="fun-chan-info"><h2>${esc(c.name)}${c.vf ? VF : ''}</h2><p>${subsOf(c)}</p></div></div>
-      <nav class="fun-ytabs" role="tablist">${TABS.map(([k, uz, r]) => `<button type="button" role="tab" data-tab="${k}" class="${k === tab ? 'is-on' : ''}" aria-selected="${k === tab}">${L(uz, r)}<span class="fun-yc" data-cnt="${k}"></span></button>`).join('')}
+        <div class="fun-chan-info"><h2>${esc(c.name)}${c.vf ? VF : ''}</h2><p>${subsOf(c)}<span id="funStats"></span></p></div></div>
+      <nav class="fun-ytabs" role="tablist">${TABS.map(([k, uz, r]) => `<button type="button" role="tab" data-tab="${k}" class="${k === tab ? 'is-on' : ''}" aria-selected="${k === tab}">${L(uz, r)}</button>`).join('')}
         <span class="fun-ysearch${q ? ' is-open' : ''}"><button type="button" id="funSearchBtn" aria-label="${L('Kanaldan qidirish', 'Поиск по каналу')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
           <input type="search" id="funQ" placeholder="${L('Kanaldan qidirish', 'Поиск по каналу')}" value="${esc(q)}"></span></nav>`;
-    // har bo'lim yonida videolar soni (arxiv faylidan) — «Videolar 196 · Shorts 2 376» (kanalning «2,5K video»si qayerdaligi ko'rinsin)
+    // obunachilar yonida bitta qatorda: «· 196 video · 2 376 shorts · 10 jonli efir» (arxiv faylidan)
     if (c.all) loadAll(c).then(all => {
       if (!all || curChan() !== c) return;
       const n = { lf: (all.lf || []).length, sh: (all.sh || []).length, lv: (all.lv || []).length };
-      n.home = n.lf + n.lv;
-      document.querySelectorAll('.fun-yc[data-cnt]').forEach(s => { const v = n[s.dataset.cnt]; s.textContent = v ? v.toLocaleString('ru-RU') : ''; });
+      const f = v => v.toLocaleString('ru-RU');
+      $('funStats').textContent = [[n.lf, 'video', 'видео'], [n.sh, 'shorts', 'shorts'], [n.lv, 'jonli efir', 'трансляций']].filter(x => x[0]).map(x => ' · ' + f(x[0]) + ' ' + L(x[1], x[2])).join('');
     });
   }
   function renderChips() {
