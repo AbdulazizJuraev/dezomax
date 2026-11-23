@@ -8954,6 +8954,39 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 .fun-tabs a { color: #0B0D0C; }
 .fun-tabs small { color: rgba(11, 13, 12, .7); }
 
+/* 2026-11-23: tablarni chiroyliroq — ikonka, shisha yorug'lik, hover'da ko'tarilish, faol laym halqa */
+.fun-tabs { gap: 14px; }
+.fun-tabs a {
+  padding: 15px 16px 14px; border-radius: 20px; min-height: 96px;
+  justify-content: flex-end; gap: 0; opacity: .72;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .26);
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.fun-tabs a::after {
+  content: ''; position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .34), rgba(255, 255, 255, 0) 46%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22);
+}
+.fun-tabs a > * { position: relative; z-index: 1; }
+.fun-tabs a:hover { opacity: 1; transform: translateY(-3px); box-shadow: 0 13px 28px rgba(0, 0, 0, .32); }
+.fun-tabs a.is-on {
+  opacity: 1; transform: translateY(-2px);
+  box-shadow: 0 0 0 2px #C6FF3D, 0 10px 26px rgba(123, 198, 0, .42);
+}
+.fun-tabs .fun-ti {
+  width: 40px; height: 40px; margin: 0 0 auto; display: grid; place-items: center;
+  border-radius: 13px; background: rgba(255, 255, 255, .34); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
+}
+.fun-tabs .fun-ti svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.fun-tabs b { font-size: 1.04rem; letter-spacing: -.01em; }
+@media (max-width: 600px) {
+  .fun-tabs a { min-height: 84px; padding: 12px 13px; }
+  .fun-tabs .fun-ti { width: 32px; height: 32px; border-radius: 10px; }
+  .fun-tabs .fun-ti svg { width: 19px; height: 19px; }
+  .fun-tabs b { font-size: .94rem; }
+}
+@media (prefers-reduced-motion: reduce) { .fun-tabs a { transition: none; } }
+
 /* ===== «Kinoteatr rejimi» (js/ytplayer.js → vpBindTheater; YouTube'dagidek, 2026-11-22) =====
    Faqat kompyuterda: pleyer ekran eniga yoyiladi (bo'yi ekrandan oshmaydi, video o'rtada), «Keyingi filmlar» pastga tushadi */
 #vpTheater { display: none; }
