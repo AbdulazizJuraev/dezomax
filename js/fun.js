@@ -26,7 +26,7 @@
   main.innerHTML = `
     <header class="fun-hero">
       <button type="button" class="fun-back" id="funBack" aria-label="${L('Orqaga', 'Назад')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <h1 id="funTitle"><em>${L('Qiziqarli', 'Интересное')}</em></h1></header>
+      <h1 id="funTitle"></h1></header>
     <section class="fun-chan" id="funChan" hidden></section>
     <section class="fun-stage" id="funStage" hidden></section>
     <div class="fun-chs" id="funChs"></div>
@@ -36,19 +36,27 @@
 
   const $ = id => document.getElementById(id);
   const cache = {};
-  let cur = null, items = [], chSel = '';
-  // bitta kanalli bo'lim (YouTube kanal sahifasidagidek): tab — lf (videolar), home (videolar + jonli), sh (Shorts), lv (jonli efirlar); q — qidiruv
-  let tab = 'lf', q = '';
+  /* Uch qatlam (2026-11-23, foydalanuvchi so'rovi):
+     #gameplay            — bo'lim: kanallar ro'yxati (kanal kartalari; keyin yangi kanallar qo'shilib boradi)
+     #gameplay&c=UC…      — kanal sahifasi (YouTube'dagidek: banner, rasm, bo'limlar, videolar)
+     #gameplay&c=UC…&v=ID — video
+     Kanal kartasi bo'lmagan bo'limlar (av'siz kanallar) — avvalgidek: hamma kanal videolari + kanal chiplari. */
+  let cur = null, cs = '', items = [], chSel = '';
+  let tab = 'lf', q = '';   // kanal sahifasi: lf — videolar, home — videolar + jonli, sh — Shorts, lv — jonli efirlar; q — qidiruv
   const TABS = [['home', 'Bosh sahifa', 'Главная'], ['lf', 'Videolar', 'Видео'], ['sh', 'Shorts', 'Shorts'], ['lv', 'Jonli efirlar', 'Трансляции']];
-  const one = () => (cur && cur.ch.length === 1 && cur.ch[0].av ? cur.ch[0] : null);
-  const ckey = () => cur.key + (tab === 'lf' ? '' : ':' + tab);
+  const chanSec = s => s.ch.some(c => c.av);
+  const curChan = () => (cs ? cur.ch.find(c => c.id === cs) : null);
+  const hp = () => '#' + cur.key + (cs ? '&c=' + cs : '');
+  const ckey = () => cur.key + (cs ? '@' + cs : '') + (tab === 'lf' ? '' : ':' + tab);
+  const VF = `<svg class="fun-vf" viewBox="0 0 24 24" aria-label="${L('Tasdiqlangan kanal', 'Подтверждённый канал')}"><circle cx="12" cy="12" r="10"/><path d="M7.6 12.4l3 3 5.8-6.4"/></svg>`;
+  const subsOf = c => `${esc(c.handle || '')}${c.subs ? ` · ${esc(ru ? c.subs[1] : c.subs[0])}` : ''}`;
 
   // ro'yxat brauzerda saqlanadi: keyingi kirishda darhol chiqadi, 10 daqiqadan eski bo'lsa yangisi olinadi (sahifa tez ochiladi)
   const LS = k => 'dzxFun_' + k;
   const saved = k => { try { const j = JSON.parse(localStorage.getItem(LS(k)) || 'null'); return j && Array.isArray(j.items) && j.items.length ? j : null; } catch (e) { return null; } };
-  function load(s, t, k) {
+  function load(ids, t, k) {
     if (cache[k]) return cache[k];
-    cache[k] = fetch(FEED + s.ch.map(c => c.id).join(',') + (t === 'lf' ? '' : '&t=' + t))
+    cache[k] = fetch(FEED + ids.join(',') + (t === 'lf' ? '' : '&t=' + t))
       .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
       .then(j => { const it = j.items || []; try { localStorage.setItem(LS(k), JSON.stringify({ at: Date.now(), items: it })); } catch (e) {} return it; })
       .catch(() => { delete cache[k]; return null; });
@@ -67,15 +75,15 @@
   }
 
   // Shorts — tik karta (hqdefault'ning o'rtasi = vertikal kadr)
-  const card = x => `<a class="fun-card" href="#${cur.key}&v=${x.id}" data-v="${x.id}">
+  const card = x => `<a class="fun-card" href="${hp()}&v=${x.id}" data-v="${x.id}">
     <span class="fun-th"><img src="https://i.ytimg.com/vi/${x.id}/${tab === 'sh' ? 'hqdefault' : 'mqdefault'}.jpg" alt="" loading="lazy" decoding="async"><i class="fun-play"></i></span>
     <b>${esc(x.t)}</b><small>${tab === 'sh' ? '' : esc(x.cn)}${x.v ? `${tab === 'sh' ? '' : ' · '}${fmtN(x.v)} ${L('ko‘rish', 'просм.')}` : ''}${x.d && tab !== 'sh' ? ` · ${ago(x.d)}` : ''}</small></a>`;
 
   // egasi saytlarda ko'rsatishni taqiqlagan videolar — eslab qolinadi, ro'yxatda chiqmaydi
   const BL = 'dzxFunBlocked';
   const blocked = new Set((() => { try { return JSON.parse(localStorage.getItem(BL) || '[]'); } catch (e) { return []; } })());
-  // faqat joriy bo'limning kanallari (eski keshdagi olib tashlangan kanal videolari chiqmasin) va taqiqlanmagan videolar
-  const okList = () => items.filter(x => !blocked.has(x.id) && cur.ch.some(c => c.id === x.ch));
+  // faqat joriy kanal / bo'lim kanallari (eski keshdagi olib tashlangan kanal videolari chiqmasin) va taqiqlanmagan videolar
+  const okList = () => items.filter(x => !blocked.has(x.id) && (cs ? x.ch === cs : cur.ch.some(c => c.id === x.ch)));
   // ko'p video (kanalning hammasi — 2000+) bir yo'la chizilmaydi: 36 tadan, pastga surilganda qo'shiladi (sahifa yengil)
   const STEP = 36;
   let shown = STEP, lastList = [];
@@ -88,59 +96,69 @@
     let list = chSel ? okList().filter(x => x.ch === chSel) : okList();
     if (q) { const n = q.toLowerCase(); list = list.filter(x => String(x.t).toLowerCase().includes(n)); }
     lastList = list; shown = STEP;
+    $('funGrid').classList.remove('is-chans');
     $('funGrid').classList.toggle('is-shorts', tab === 'sh');
     $('funGrid').innerHTML = list.slice(0, STEP).map(card).join('');
     $('funEmpty').hidden = !!list.length;
     if (!list.length) $('funEmpty').textContent = q ? L('Hech narsa topilmadi', 'Ничего не найдено') : L('Hozircha video yo‘q', 'Пока нет видео');
   }
-  // bitta kanal bo'lsa — YouTube'dagidek kanal «oynasi»: sarlavha = kanal nomi (o'z rangida), banner, dumaloq rasm, nom ✓, obunachilar, bo'limlar + qidiruv
-  function renderChan() {
-    const c = one();
-    $('funChan').hidden = !c;
-    // kanal sahifasida sarlavha yo'q — faqat «Orqaga» tugmasi (foydalanuvchi maketi, 2026-11-23)
-    $('funTitle').hidden = !!c;
-    $('funTitle').innerHTML = c ? '' : `<em>${L('Qiziqarli', 'Интересное')}</em>`;
-    main.classList.toggle('is-chan', !!c);
-    if (!c) return;
+  // bo'lim sahifasi: kanallar kartalari (banner, dumaloq rasm, nom ✓, obunachilar) — bosilsa kanal sahifasi
+  function renderChanList() {
+    lastList = []; shown = 0;
+    $('funGrid').classList.remove('is-shorts');
+    $('funGrid').classList.add('is-chans');
+    $('funGrid').innerHTML = cur.ch.filter(c => c.av).map(c => `<a class="fun-cc" href="#${cur.key}&c=${c.id}">
+      <span class="fun-cc-ban">${c.ban ? `<img src="${c.ban}" alt="" loading="lazy" decoding="async">` : ''}</span>
+      <span class="fun-cc-body"><img class="fun-cc-av" src="${c.av}" alt="" width="76" height="76">
+        <span class="fun-cc-txt"><b>${esc(c.name)}${VF}</b><small>${subsOf(c)}</small></span></span></a>`).join('');
+    $('funEmpty').hidden = true;
+  }
+  // kanal sahifasi (YouTube'dagidek): banner, dumaloq rasm, nom ✓, obunachilar, bo'limlar + qidiruv
+  function renderChan(c) {
     $('funChan').innerHTML = `${c.ban ? `<div class="fun-chan-ban"><img src="${c.ban}" alt="" decoding="async"></div>` : ''}
       <div class="fun-chan-row"><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="96" height="96">
-        <div class="fun-chan-info"><h2>${esc(c.name)}<svg class="fun-vf" viewBox="0 0 24 24" aria-label="${L('Tasdiqlangan kanal', 'Подтверждённый канал')}"><circle cx="12" cy="12" r="10"/><path d="M7.6 12.4l3 3 5.8-6.4"/></svg></h2>
-          <p>${esc(c.handle || '')}${c.subs ? ` · ${esc(ru ? c.subs[1] : c.subs[0])}` : ''}</p></div></div>
+        <div class="fun-chan-info"><h2>${esc(c.name)}${VF}</h2><p>${subsOf(c)}</p></div></div>
       <nav class="fun-ytabs" role="tablist">${TABS.map(([k, uz, r]) => `<button type="button" role="tab" data-tab="${k}" class="${k === tab ? 'is-on' : ''}" aria-selected="${k === tab}">${L(uz, r)}</button>`).join('')}
         <span class="fun-ysearch${q ? ' is-open' : ''}"><button type="button" id="funSearchBtn" aria-label="${L('Kanaldan qidirish', 'Поиск по каналу')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
           <input type="search" id="funQ" placeholder="${L('Kanaldan qidirish', 'Поиск по каналу')}" value="${esc(q)}"></span></nav>`;
-    $('funChs').innerHTML = '';
   }
   function renderChips() {
-    if (one()) return;
+    if (chanSec(cur)) return;
     const has = new Set(items.map(x => x.ch));
     const chs = cur.ch.filter(c => has.has(c.id));
     $('funChs').innerHTML = chs.length > 1 ? [['', L('Hammasi', 'Все')], ...chs.map(c => [c.id, c.name])]
       .map(([id, n]) => `<button type="button" class="fun-ch${id === chSel ? ' is-on' : ''}" data-ch="${id}">${esc(n)}</button>`).join('') : '';
   }
 
-  async function pick(key) {
-    const s = FUN_SECTIONS.find(x => x.key === key) || FUN_SECTIONS[0];
-    if (cur === s) return;
-    cur = s; chSel = ''; items = []; q = '';
-    tab = one() ? 'home' : 'lf';
-    document.title = `${one() ? one().title || one().name : nameOf(s)} — ${L('Qiziqarli', 'Интересное')} | DezoMax`;
-    renderChan();
+  // bo'lim yoki kanal almashganda sahifani qayta quradi
+  async function show() {
+    chSel = ''; items = []; q = '';
+    const c = curChan();
+    tab = c ? 'home' : 'lf';
+    main.classList.toggle('is-chan', !!c);
+    $('funTitle').hidden = !!c;   // kanal sahifasida sarlavha yo'q — faqat «Orqaga» (foydalanuvchi maketi)
+    $('funTitle').innerHTML = c ? '' : `<em>${esc(nameOf(cur))}</em>`;
+    document.title = `${c ? c.title || c.name : nameOf(cur)} — ${L('Qiziqarli', 'Интересное')} | DezoMax`;
+    $('funChan').hidden = !c;
+    $('funChs').innerHTML = '';
+    if (chanSec(cur) && !c) { renderChanList(); return; }
+    if (c) renderChan(c);
     renderChips();
     await fill();
   }
 
-  // joriy bo'lim + tab videolari: keshdagisi darhol, eskirgan bo'lsa yangisi
+  // joriy kanal / bo'lim + tab videolari: keshdagisi darhol, eskirgan bo'lsa yangisi
   async function fill() {
-    const s = cur, t = tab, k = ckey();
+    const s = cur, cc = cs, t = tab, k = ckey(), c = curChan();
+    const same = () => cur === s && cs === cc && tab === t;
     items = [];
     $('funEmpty').hidden = true;
     const old = saved(k);
     if (old) { items = old.items; renderChips(); renderGrid(); }
-    else { $('funGrid').classList.toggle('is-shorts', t === 'sh'); $('funGrid').innerHTML = '<span class="fun-sk"></span>'.repeat(8); }
-    const got = !old || Date.now() - old.at > 10 * 60000 ? await load(s, t, k) : old.items;
-    const c = one(), all = c && c.all ? await loadAll(c) : null;
-    if (cur !== s || tab !== t) return;
+    else { $('funGrid').classList.remove('is-chans'); $('funGrid').classList.toggle('is-shorts', t === 'sh'); $('funGrid').innerHTML = '<span class="fun-sk"></span>'.repeat(8); }
+    const got = !old || Date.now() - old.at > 10 * 60000 ? await load(c ? [c.id] : s.ch.map(x => x.id), t, k) : old.items;
+    const all = c && c.all ? await loadAll(c) : null;
+    if (!same()) return;
     const base = got || (old && old.items) || null;
     if (!base && !all) { $('funGrid').innerHTML = ''; $('funEmpty').hidden = false; $('funEmpty').textContent = L('Videolar yuklanmadi. Birozdan keyin qayta urinib ko‘ring.', 'Не удалось загрузить видео. Попробуйте позже.'); return; }
     if (!got && old && !all) return;
@@ -171,7 +189,7 @@
         const next = items.slice(i + 1).find(y => !blocked.has(y.id)) || list[0];
         renderGrid();
         box.querySelector('#ytpMsg .ytp-msg-inner')?.insertAdjacentHTML('beforeend', `<p>${L('Keyingi video ochilmoqda…', 'Открываем следующее видео…')}</p>`);
-        if (next) setTimeout(() => { if ($('funBox') === box) location.replace('#' + cur.key + '&v=' + next.id); }, 1500);
+        if (next) setTimeout(() => { if ($('funBox') === box) location.replace(hp() + '&v=' + next.id); }, 1500);
       });
     }
     st.scrollIntoView({ block: 'start', behavior: 'smooth' });
@@ -179,8 +197,18 @@
 
   async function route() {
     const h = location.hash.slice(1).split('&');
-    const v = (h.find(p => p.startsWith('v=')) || '').slice(2);
-    await pick(h[0]);
+    const get = p => (h.find(x => x.startsWith(p + '=')) || '').slice(p.length + 1);
+    const s = FUN_SECTIONS.find(x => x.key === h[0]) || FUN_SECTIONS[0];
+    let c = get('c');
+    if (!chanSec(s) || !s.ch.some(x => x.id === c)) c = '';
+    const v = get('v');
+    if (s !== cur || c !== cs) {
+      const into = !!c && c !== cs;
+      cur = s; cs = c;
+      play('');
+      if (into) scrollTo(0, 0);
+      await show();
+    }
     play(/^[\w-]{11}$/.test(v) ? v : '');
   }
 
@@ -201,9 +229,12 @@
       if (box.classList.contains('is-open')) inp.focus(); else if (q) { q = ''; inp.value = ''; renderGrid(); }
       return;
     }
-    if (e.target.closest('#funClose')) { e.preventDefault(); history.replaceState(null, '', '#' + cur.key); play(''); return; }
-    // «Orqaga» — bosh sahifadagi «Siz uchun Qiziqarli» qatoriga (Gameplay kartasi turgan joy)
-    if (e.target.closest('#funBack')) { e.preventDefault(); location.href = 'index.html#qiziqarli'; }
+    if (e.target.closest('#funClose')) { e.preventDefault(); history.replaceState(null, '', hp()); play(''); return; }
+    // «Orqaga»: kanal sahifasidan — bo'limning kanallar ro'yxatiga (masalan Gameplay); bo'limdan — bosh sahifadagi «Siz uchun Qiziqarli» qatoriga
+    if (e.target.closest('#funBack')) {
+      e.preventDefault();
+      if (cs) location.hash = '#' + cur.key; else location.href = 'index.html#qiziqarli';
+    }
   });
   main.addEventListener('input', e => { if (e.target.id === 'funQ') { q = e.target.value.trim(); renderGrid(); } });
   more.observe($('funMore'));

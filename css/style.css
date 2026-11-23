@@ -9024,6 +9024,19 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 }
 
 .fun-more { height: 1px; }
+.fun-page:not(.is-chan) .fun-hero { margin-bottom: 20px; }
+/* bo'lim sahifasi: kanallar kartalari (bosilsa kanal sahifasi; keyin yangi kanallar qo'shiladi) */
+.fun-grid.is-chans { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+.fun-cc { display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; color: #fff; background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .09); transition: transform .18s ease, border-color .18s ease; }
+.fun-cc:hover { transform: translateY(-3px); border-color: rgba(198, 255, 61, .55); }
+.fun-cc-ban { display: block; aspect-ratio: 16 / 5; background: #151816; }
+.fun-cc-ban img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fun-cc-body { display: flex; align-items: flex-start; gap: 14px; padding: 0 16px 16px; }
+.fun-cc-av { width: 76px; height: 76px; flex: none; margin-top: -30px; border-radius: 50%; object-fit: cover; background: #151816; border: 3px solid #0b0d0c; }
+.fun-cc-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding-top: 10px; }
+.fun-cc-txt b { display: flex; align-items: center; gap: 6px; font-size: 1.12rem; font-weight: 800; }
+.fun-cc-txt small { color: var(--muted, #9aa3a0); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (prefers-reduced-motion: reduce) { .fun-cc { transition: none; } }
 /* kanal sahifasi: sarlavhasiz — «Orqaga» tugmasi header bilan banner o'rtasida (foydalanuvchi maketi, 2026-11-23) */
 /* sahifa yuqorisida header ostidan 14px bor — shuning uchun tepada 7, pastda 21: tugmaning ikki tomoni teng (21/21) */
 .fun-page.is-chan .fun-hero { margin: 0; padding: 7px 0 21px; }
