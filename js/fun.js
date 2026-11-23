@@ -71,7 +71,8 @@
     const rows = t === 'home' ? [...(all.lf || []), ...(all.lv || [])] : all[t] || [];
     const seen = new Set(fresh.map(x => x.id)), out = fresh.slice();
     for (const [id, tt, v, d] of rows) if (!seen.has(id)) { seen.add(id); out.push({ id, t: tt, v, d, ch: c.id, cn: c.name }); }
-    return out.sort((a, b) => (String(a.d || '') < String(b.d || '') ? 1 : -1));
+    // yangisi birinchi; sanasi yo'qlar (Shorts) oxirida, kanaldagi tartibida (sort barqaror)
+    return out.sort((a, b) => String(b.d || '').localeCompare(String(a.d || '')));
   }
 
   // Shorts — tik karta (hqdefault'ning o'rtasi = vertikal kadr)

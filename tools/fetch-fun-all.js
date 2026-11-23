@@ -1,16 +1,19 @@
 /* ============================================================
-   DezoMax — «Qiziqarli»dagi bitta kanalli bo'lim (FEZOT) uchun kanalning BARCHA videolari:
-   uzun videolar (UULF…), Shorts (UUSH…), jonli efirlar (UULV…) — YouTube pleylist sahifasidan, sahifama-sahifa.
+   DezoMax — «Qiziqarli»dagi kanal sahifasi (FEZOT va keyingilar) uchun kanalning BARCHA videolari:
+   uzun videolar (UULF… pleylisti), jonli efirlar (UULV…), Shorts (kanalning /shorts bo'limi).
    Natija: data/fun-<key>.json  { at, lf: [[id, nom, ko'rishlar, sana]], sh: [...], lv: [...] }
+   Har ro'yxat ikki marta o'qiladi: inglizcha (ko'rishlar soni va sana shu tilda ajratiladi) va o'zbekcha —
+   YouTube sarlavhalarni so'ralgan tilga avtomatik tarjima qiladi, asl (o'zbekcha) sarlavha o'zbekcha sahifadan olinadi.
    Saytda js/fun.js shu faylni RSS'dagi eng yangi 15 ta bilan qo'shib ko'rsatadi (yangi videolar o'zi qo'shilib boradi).
-   Ishga tushirish: node tools/fetch-fun-all.js            (js/fun-data.js'dagi `all` maydoni bor kanallar)
+   Ishga tushirish: node tools/fetch-fun-all.js   (js/fun-data.js'dagi `all` maydoni bor kanallar)
    Faqat egasi ruxsat bergan kanallar uchun (FEZOT — 2026-11-23). YouTube ko'p so'rovda «bot emasman» so'raydi — sekin ishlaydi.
    ============================================================ */
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const ROOT = path.join(__dirname, '..');
-const HEAD = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131 Safari/537.36', 'Accept-Language': 'en-US,en;q=0.9' };
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131 Safari/537.36';
+const HEAD = { en: { 'User-Agent': UA, 'Accept-Language': 'en-US,en;q=0.9' }, uz: { 'User-Agent': UA, 'Accept-Language': 'uz-UZ,uz;q=0.9' } };
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function pageJson(html, name) {
@@ -27,12 +30,11 @@ function pageJson(html, name) {
 }
 const UNIT = { second: 1e3, minute: 6e4, hour: 36e5, day: 864e5, week: 6048e5, month: 2592e6, year: 31536e6 };
 function meta(o) {
-  const s = JSON.stringify(o);
-  const vm_ = s.match(/"([\d.,]+)\s*([KMB]?)\s*views?"/i) || s.match(/([\d.,]+)\s*([KMB]?) views?/i);
-  let v = 0;
-  if (vm_) v = Math.round(parseFloat(vm_[1].replace(/,/g, '')) * ({ K: 1e3, M: 1e6, B: 1e9 }[vm_[2].toUpperCase()] || 1));
-  const am = s.match(/(\d+)\s*(second|minute|hour|day|week|month|year)s?\s+ago/i);
-  const d = am ? new Date(Date.now() - +am[1] * UNIT[am[2].toLowerCase()]).toISOString().slice(0, 10) : '';
+  const s = JSON.stringify(o).replace(/\\u00a0| | /g, ' ');
+  const m = s.match(/([\d.,]+)\s*([KMB]?)\s*views?/i);
+  const v = m ? Math.round(parseFloat(m[1].replace(/,/g, '')) * ({ K: 1e3, M: 1e6, B: 1e9 }[m[2].toUpperCase()] || 1)) : 0;
+  const a = s.match(/(\d+)\s*(second|minute|hour|day|week|month|year)s?\s+ago/i);
+  const d = a ? new Date(Date.now() - +a[1] * UNIT[a[2].toLowerCase()]).toISOString().slice(0, 10) : '';
   return { v, d };
 }
 function take(d) {
@@ -40,7 +42,7 @@ function take(d) {
   (function walk(o) {
     if (!o || typeof o !== 'object') return;
     if (o.playlistVideoRenderer) {
-      const r = o.playlistVideoRenderer, m = meta(r.videoInfo || {});
+      const r = o.playlistVideoRenderer, m = meta(r.videoInfo || r);
       out.push([r.videoId, r.title?.runs?.[0]?.text || r.title?.simpleText || '', m.v, m.d]);
       return;
     }
@@ -49,33 +51,47 @@ function take(d) {
       out.push([l.contentId, l.metadata?.lockupMetadataViewModel?.title?.content || '', m.v, m.d]);
       return;
     }
+    if (o.shortsLockupViewModel) {
+      const s = o.shortsLockupViewModel, id = JSON.stringify(s).match(/"videoId":"([\w-]{11})"/)?.[1], m = meta(s.overlayMetadata || {});
+      if (id) out.push([id, s.overlayMetadata?.primaryText?.content || '', m.v, '']);
+      return;
+    }
+    if (o.reelItemRenderer) { out.push([o.reelItemRenderer.videoId, o.reelItemRenderer.headline?.simpleText || '', meta(o.reelItemRenderer).v, '']); return; }
     for (const k in o) walk(o[k]);
   })(d);
   return out;
 }
-async function playlist(list) {
-  const html = await (await fetch(`https://www.youtube.com/playlist?list=${list}&hl=en`, { headers: HEAD })).text();
+// url — pleylist yoki kanalning /shorts sahifasi; lang — en | uz
+async function collect(url, lang, label) {
+  const head = HEAD[lang];
+  const html = await (await fetch(url + (url.includes('?') ? '&' : '?') + 'hl=' + lang, { headers: head })).text();
   const key = html.match(/"INNERTUBE_API_KEY":"([^"]+)"/)?.[1], ver = html.match(/"INNERTUBE_CLIENT_VERSION":"([^"]+)"/)?.[1];
   const data = pageJson(html, 'ytInitialData');
-  if (!data) { console.log('  ', list, '— sahifa topilmadi'); return []; }
+  if (!data) { console.log('  ', label, lang, '— sahifa topilmadi'); return []; }
   const items = take(data);
   let tok = JSON.stringify(data).match(/"continuationCommand":\{"token":"([^"]+)"/)?.[1], n = 0;
   while (tok && key && n++ < 200) {
     await sleep(500);
     const r = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${key}&prettyPrint=false`, {
-      method: 'POST', headers: { ...HEAD, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: ver, hl: 'en' } }, continuation: tok })
+      method: 'POST', headers: { ...head, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: ver, hl: lang } }, continuation: tok })
     });
     if (!r.ok) { console.log('   to\'xtadi:', r.status); break; }
     const j = await r.json(), add = take(j);
     if (!add.length) break;
     items.push(...add);
     tok = JSON.stringify(j).match(/"continuationCommand":\{"token":"([^"]+)"/)?.[1];
-    process.stdout.write(`\r   ${list}: ${items.length}`);
+    process.stdout.write(`\r   ${label} (${lang}): ${items.length}   `);
   }
-  process.stdout.write('\n');
+  process.stdout.write(`\r   ${label} (${lang}): ${items.length}   \n`);
   const seen = new Set();
   return items.filter(x => x[0] && !/^\[(private|deleted)/i.test(x[1]) && !seen.has(x[0]) && seen.add(x[0]));
+}
+// inglizchadan — ko'rishlar va sana, o'zbekchadan — asl sarlavha
+async function both(url, label) {
+  const en = await collect(url, 'en', label);
+  const uz = new Map((await collect(url, 'uz', label)).map(x => [x[0], x[1]]));
+  return en.map(([id, t, v, d]) => [id, uz.get(id) || t, v, d]);
 }
 
 (async () => {
@@ -84,7 +100,9 @@ async function playlist(list) {
   for (const s of ctx.FUN_SECTIONS) for (const c of s.ch.filter(c => c.all)) {
     console.log(`${c.name} (${c.id}) → ${c.all}`);
     const tail = c.id.slice(2), res = { at: Date.now() };
-    for (const [k, pre] of [['lf', 'UULF'], ['sh', 'UUSH'], ['lv', 'UULV']]) res[k] = await playlist(pre + tail);
+    res.lf = await both(`https://www.youtube.com/playlist?list=UULF${tail}`, 'videolar');
+    res.lv = await both(`https://www.youtube.com/playlist?list=UULV${tail}`, 'jonli');
+    res.sh = await both(`https://www.youtube.com/channel/${c.id}/shorts`, 'shorts');
     if (!res.lf.length && !res.sh.length) { console.log('   bo\'sh — fayl yozilmadi'); continue; }
     fs.writeFileSync(path.join(ROOT, c.all), JSON.stringify(res));
     console.log(`   videolar ${res.lf.length}, shorts ${res.sh.length}, jonli ${res.lv.length} — ${(fs.statSync(path.join(ROOT, c.all)).size / 1024).toFixed(0)} KB`);
