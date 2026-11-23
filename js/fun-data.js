@@ -15,6 +15,7 @@ const FUN_SECTIONS = [
     ch: [
       // 2026-11-23: faqat FEZOT (egasidan ruxsat olingan); rasm — kanalning YouTube'dagi avatari (images/fun/fezot.webp)
       { id: 'UCxIDGzyWz-leezRPIIQnAkQ', name: 'FEZOT', av: 'images/fun/fezot.webp', ban: 'images/fun/fezot-banner.webp',
+        all: 'data/fun-fezot.json',   // barcha videolar/shorts/jonli — tools/fetch-fun-all.js
         title: 'Fezot', color: '#E040FB', handle: '@FEZOT', subs: ['722 ming obunachi', '722 тыс. подписчиков'], url: 'https://www.youtube.com/@FEZOT' }
     ]
   },

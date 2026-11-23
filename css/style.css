@@ -9023,6 +9023,12 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
   .fun-sub { width: 100%; text-align: center; }
 }
 
+.fun-more { height: 1px; }
+/* kanal sahifasi: sarlavhasiz — «Orqaga» tugmasi header bilan banner o'rtasida (foydalanuvchi maketi, 2026-11-23) */
+/* sahifa yuqorisida header ostidan 14px bor — shuning uchun tepada 7, pastda 21: tugmaning ikki tomoni teng (21/21) */
+.fun-page.is-chan .fun-hero { margin: 0; padding: 7px 0 21px; }
+@media (max-width: 900px) { .fun-page.is-chan .fun-hero { padding: 15px 0 21px; } }   /* telefon header'i yopishgan — ostida 6px bor */
+
 /* 2026-11-23: sarlavha yonida «Orqaga» tugmasi */
 .fun-hero { display: flex; align-items: center; gap: 12px; }
 .fun-hero h1 { margin: 0; line-height: 1.1; }

@@ -31,6 +31,7 @@
     <section class="fun-stage" id="funStage" hidden></section>
     <div class="fun-chs" id="funChs"></div>
     <div class="fun-grid" id="funGrid"></div>
+    <div class="fun-more" id="funMore" aria-hidden="true"></div>
     <p class="fun-empty" id="funEmpty" hidden></p>`;
 
   const $ = id => document.getElementById(id);
@@ -54,6 +55,17 @@
     return cache[k];
   }
 
+  // kanalning BARCHA videolari (data/fun-<key>.json, tools/fetch-fun-all.js) — bo'lmasa faqat RSS'dagi oxirgi 15 tasi
+  const allCache = {};
+  const loadAll = c => allCache[c.all] || (allCache[c.all] = fetch(c.all).then(r => (r.ok ? r.json() : null)).catch(() => null));
+  function withAll(c, t, fresh, all) {
+    if (!all) return fresh;
+    const rows = t === 'home' ? [...(all.lf || []), ...(all.lv || [])] : all[t] || [];
+    const seen = new Set(fresh.map(x => x.id)), out = fresh.slice();
+    for (const [id, tt, v, d] of rows) if (!seen.has(id)) { seen.add(id); out.push({ id, t: tt, v, d, ch: c.id, cn: c.name }); }
+    return out.sort((a, b) => (String(a.d || '') < String(b.d || '') ? 1 : -1));
+  }
+
   // Shorts — tik karta (hqdefault'ning o'rtasi = vertikal kadr)
   const card = x => `<a class="fun-card" href="#${cur.key}&v=${x.id}" data-v="${x.id}">
     <span class="fun-th"><img src="https://i.ytimg.com/vi/${x.id}/${tab === 'sh' ? 'hqdefault' : 'mqdefault'}.jpg" alt="" loading="lazy" decoding="async"><i class="fun-play"></i></span>
@@ -64,11 +76,20 @@
   const blocked = new Set((() => { try { return JSON.parse(localStorage.getItem(BL) || '[]'); } catch (e) { return []; } })());
   // faqat joriy bo'limning kanallari (eski keshdagi olib tashlangan kanal videolari chiqmasin) va taqiqlanmagan videolar
   const okList = () => items.filter(x => !blocked.has(x.id) && cur.ch.some(c => c.id === x.ch));
+  // ko'p video (kanalning hammasi — 2000+) bir yo'la chizilmaydi: 36 tadan, pastga surilganda qo'shiladi (sahifa yengil)
+  const STEP = 36;
+  let shown = STEP, lastList = [];
+  const more = new IntersectionObserver(es => {
+    if (!es.some(e => e.isIntersecting) || shown >= lastList.length) return;
+    $('funGrid').insertAdjacentHTML('beforeend', lastList.slice(shown, shown + STEP).map(card).join(''));
+    shown += STEP;
+  }, { rootMargin: '800px 0px' });
   function renderGrid() {
     let list = chSel ? okList().filter(x => x.ch === chSel) : okList();
     if (q) { const n = q.toLowerCase(); list = list.filter(x => String(x.t).toLowerCase().includes(n)); }
+    lastList = list; shown = STEP;
     $('funGrid').classList.toggle('is-shorts', tab === 'sh');
-    $('funGrid').innerHTML = list.map(card).join('');
+    $('funGrid').innerHTML = list.slice(0, STEP).map(card).join('');
     $('funEmpty').hidden = !!list.length;
     if (!list.length) $('funEmpty').textContent = q ? L('Hech narsa topilmadi', 'Ничего не найдено') : L('Hozircha video yo‘q', 'Пока нет видео');
   }
@@ -76,7 +97,10 @@
   function renderChan() {
     const c = one();
     $('funChan').hidden = !c;
-    $('funTitle').innerHTML = c ? `<em style="color:${c.color || '#C6FF3D'}">${esc(c.title || c.name)}</em>` : `<em>${L('Qiziqarli', 'Интересное')}</em>`;
+    // kanal sahifasida sarlavha yo'q — faqat «Orqaga» tugmasi (foydalanuvchi maketi, 2026-11-23)
+    $('funTitle').hidden = !!c;
+    $('funTitle').innerHTML = c ? '' : `<em>${L('Qiziqarli', 'Интересное')}</em>`;
+    main.classList.toggle('is-chan', !!c);
     if (!c) return;
     $('funChan').innerHTML = `${c.ban ? `<div class="fun-chan-ban"><img src="${c.ban}" alt="" decoding="async"></div>` : ''}
       <div class="fun-chan-row"><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="96" height="96">
@@ -115,10 +139,12 @@
     if (old) { items = old.items; renderChips(); renderGrid(); }
     else { $('funGrid').classList.toggle('is-shorts', t === 'sh'); $('funGrid').innerHTML = '<span class="fun-sk"></span>'.repeat(8); }
     const got = !old || Date.now() - old.at > 10 * 60000 ? await load(s, t, k) : old.items;
+    const c = one(), all = c && c.all ? await loadAll(c) : null;
     if (cur !== s || tab !== t) return;
-    if (!got && old) return;
-    if (!got) { $('funGrid').innerHTML = ''; $('funEmpty').hidden = false; $('funEmpty').textContent = L('Videolar yuklanmadi. Birozdan keyin qayta urinib ko‘ring.', 'Не удалось загрузить видео. Попробуйте позже.'); return; }
-    items = got;
+    const base = got || (old && old.items) || null;
+    if (!base && !all) { $('funGrid').innerHTML = ''; $('funEmpty').hidden = false; $('funEmpty').textContent = L('Videolar yuklanmadi. Birozdan keyin qayta urinib ko‘ring.', 'Не удалось загрузить видео. Попробуйте позже.'); return; }
+    if (!got && old && !all) return;
+    items = c ? withAll(c, t, base || [], all) : base;
     renderChips();
     renderGrid();
   }
@@ -180,6 +206,7 @@
     if (e.target.closest('#funBack')) { e.preventDefault(); location.href = 'index.html#qiziqarli'; }
   });
   main.addEventListener('input', e => { if (e.target.id === 'funQ') { q = e.target.value.trim(); renderGrid(); } });
+  more.observe($('funMore'));
   addEventListener('hashchange', route);
   route();
 })();
