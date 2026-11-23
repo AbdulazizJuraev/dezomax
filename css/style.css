@@ -8954,11 +8954,11 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 .fun-tabs a { color: #0B0D0C; }
 .fun-tabs small { color: rgba(11, 13, 12, .7); }
 
-/* 2026-11-23: tablarni chiroyliroq — ikonka, shisha yorug'lik, hover'da ko'tarilish, faol laym halqa */
+/* 2026-11-23: tablar — ikonkasiz, shisha yorug'lik, hover'da ko'tarilish, faol laym halqa */
 .fun-tabs { gap: 14px; }
 .fun-tabs a {
-  padding: 15px 16px 14px; border-radius: 20px; min-height: 96px;
-  justify-content: flex-end; gap: 0; opacity: .72;
+  padding: 16px; border-radius: 20px; min-height: 84px;
+  justify-content: center; gap: 0; opacity: .72;
   box-shadow: 0 6px 18px rgba(0, 0, 0, .26);
   transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
 }
@@ -8973,19 +8973,42 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
   opacity: 1; transform: translateY(-2px);
   box-shadow: 0 0 0 2px #C6FF3D, 0 10px 26px rgba(123, 198, 0, .42);
 }
-.fun-tabs .fun-ti {
-  width: 40px; height: 40px; margin: 0 0 auto; display: grid; place-items: center;
-  border-radius: 13px; background: rgba(255, 255, 255, .34); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
-}
-.fun-tabs .fun-ti svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.fun-tabs b { font-size: 1.04rem; letter-spacing: -.01em; }
+.fun-tabs b { font-size: 1.08rem; letter-spacing: -.01em; }
 @media (max-width: 600px) {
-  .fun-tabs a { min-height: 84px; padding: 12px 13px; }
-  .fun-tabs .fun-ti { width: 32px; height: 32px; border-radius: 10px; }
-  .fun-tabs .fun-ti svg { width: 19px; height: 19px; }
-  .fun-tabs b { font-size: .94rem; }
+  .fun-tabs a { min-height: 72px; padding: 13px; }
+  .fun-tabs b { font-size: .96rem; }
 }
 @media (prefers-reduced-motion: reduce) { .fun-tabs a { transition: none; } }
+
+/* 2026-11-23: sarlavha yonida «Orqaga» tugmasi */
+.fun-hero { display: flex; align-items: center; gap: 12px; }
+.fun-hero h1 { margin: 0; line-height: 1.1; }
+.fun-back {
+  flex: 0 0 auto; display: inline-grid; place-items: center; width: 42px; height: 42px;
+  border-radius: 50%; border: 1px solid rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .07);
+  color: #fff; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background .18s, transform .15s;
+}
+.fun-back svg { width: 22px; height: 22px; }
+.fun-back:hover { background: rgba(255, 255, 255, .14); }
+.fun-back:active { transform: scale(.92); }
+@media (max-width: 600px) { .fun-back { width: 38px; height: 38px; } .fun-back svg { width: 20px; height: 20px; } }
+
+/* 2026-11-23: qora fon zerikarli — yengil dekorativ nur dog'lari (blur'siz, telefonga yengil) */
+.fun-page::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(58vw 46vh at 12% -4%, rgba(167, 139, 250, .16), transparent 62%),
+    radial-gradient(52vw 42vh at 92% 6%, rgba(96, 165, 250, .14), transparent 62%),
+    radial-gradient(64vw 48vh at 50% 108%, rgba(198, 255, 61, .12), transparent 60%);
+}
+.fun-page::after {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+  background-image: radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(80% 70% at 50% 30%, #000, transparent 85%);
+  -webkit-mask-image: radial-gradient(80% 70% at 50% 30%, #000, transparent 85%);
+}
 
 /* ===== «Kinoteatr rejimi» (js/ytplayer.js → vpBindTheater; YouTube'dagidek, 2026-11-22) =====
    Faqat kompyuterda: pleyer ekran eniga yoyiladi (bo'yi ekrandan oshmaydi, video o'rtada), «Keyingi filmlar» pastga tushadi */

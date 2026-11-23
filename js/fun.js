@@ -23,22 +23,11 @@
   };
   const nameOf = s => (ru ? s.ru : s.uz);
 
-  // har bir bo'lim uchun ikonka (chiziqli, currentColor bilan bo'yaladi)
-  const ICON = {
-    gameplay: '<svg viewBox="0 0 24 24"><rect x="2.5" y="6.5" width="19" height="11" rx="5.5"/><path d="M6.5 11h3.4M8.2 9.3v3.4"/><circle cx="15.2" cy="10.3" r=".9"/><circle cx="17.6" cy="12.7" r=".9"/></svg>',
-    podcast: '<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="10.5" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9.5 21h5"/></svg>',
-    animals: '<svg viewBox="0 0 24 24"><circle cx="6.6" cy="10.4" r="1.5"/><circle cx="10" cy="7" r="1.5"/><circle cx="14" cy="7" r="1.5"/><circle cx="17.4" cy="10.4" r="1.5"/><path d="M12 12c-2.4 0-4.4 1.9-4.4 3.9 0 1.6 1.3 2.5 2.8 2 1-.3 2.2-.3 3.2 0 1.5.5 2.8-.4 2.8-2 0-2-2-3.9-4.4-3.9Z"/></svg>',
-    music: '<svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.3" cy="18" r="2.4"/><circle cx="16.3" cy="16" r="2.4"/></svg>',
-    oshxona: '<svg viewBox="0 0 24 24"><path d="M3 9.5h18M5.2 9.5l.8 8.3a2 2 0 0 0 2 1.7h8a2 2 0 0 0 2-1.7l.8-8.3M9 5.5c0-1 .6-2 1.5-2M14.2 5.5c0-1-.6-2-1.5-2"/></svg>',
-    ilm: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="9" ry="3.8"/><ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(120 12 12)"/></svg>',
-    sayohat: '<svg viewBox="0 0 24 24"><path d="M21 3 3 10.6l6.1 2.3L11.4 19 21 3Z"/><path d="M9.1 12.9 14 8"/></svg>',
-    avto: '<svg viewBox="0 0 24 24"><path d="M4 13.2 5.6 8.7A2 2 0 0 1 7.5 7.3h9a2 2 0 0 1 1.9 1.4L20 13.2M4 13.2h16v3.5a1 1 0 0 1-1 1h-1.3a1 1 0 0 1-1-1v-.4M6.3 16.3v.4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3.5M7 15.5h.01M17 15.5h.01"/></svg>',
-    _: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>'
-  };
-
   main.innerHTML = `
-    <header class="fun-hero"><h1><em>${L('Qiziqarli', 'Интересное')}</em></h1></header>
-    <nav class="fun-tabs" role="tablist">${FUN_SECTIONS.map(s => `<a href="#${s.key}" role="tab" data-fun="${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><i class="fun-ti">${ICON[s.key] || ICON._}</i><b>${esc(nameOf(s))}</b></a>`).join('')}</nav>
+    <header class="fun-hero">
+      <button type="button" class="fun-back" id="funBack" aria-label="${L('Orqaga', 'Назад')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h1><em>${L('Qiziqarli', 'Интересное')}</em></h1></header>
+    <nav class="fun-tabs" role="tablist">${FUN_SECTIONS.map(s => `<a href="#${s.key}" role="tab" data-fun="${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><b>${esc(nameOf(s))}</b></a>`).join('')}</nav>
     <section class="fun-stage" id="funStage" hidden></section>
     <div class="fun-chs" id="funChs"></div>
     <div class="fun-grid" id="funGrid"></div>
@@ -139,7 +128,12 @@
   main.addEventListener('click', e => {
     const ch = e.target.closest('[data-ch]');
     if (ch) { chSel = ch.dataset.ch; renderChips(); renderGrid(); return; }
-    if (e.target.closest('#funClose')) { e.preventDefault(); history.replaceState(null, '', '#' + cur.key); play(''); }
+    if (e.target.closest('#funClose')) { e.preventDefault(); history.replaceState(null, '', '#' + cur.key); play(''); return; }
+    if (e.target.closest('#funBack')) {
+      e.preventDefault();
+      let same = false; try { same = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (er) {}
+      if (same && history.length > 1) history.back(); else location.href = 'index.html';
+    }
   });
   addEventListener('hashchange', route);
   route();
