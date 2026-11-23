@@ -72,8 +72,7 @@
       $('funChan').innerHTML = `${one.ban ? `<div class="fun-chan-ban"><img src="${one.ban}" alt="" decoding="async"></div>` : ''}
         <div class="fun-chan-row"><img class="fun-av" src="${one.av}" alt="${esc(one.name)}" width="96" height="96">
           <div class="fun-chan-info"><h2>${esc(one.name)}<svg class="fun-vf" viewBox="0 0 24 24" aria-label="${L('Tasdiqlangan kanal', 'Подтверждённый канал')}"><circle cx="12" cy="12" r="10"/><path d="M7.6 12.4l3 3 5.8-6.4"/></svg></h2>
-            <p>${esc(one.handle || '')}${one.subs ? ` · ${esc(ru ? one.subs[1] : one.subs[0])}` : ''}</p></div>
-          ${one.url ? `<a class="fun-sub" href="${one.url}" target="_blank" rel="noopener">${L('YouTube’da ko‘rish', 'Открыть на YouTube')}</a>` : ''}</div>`;
+            <p>${esc(one.handle || '')}${one.subs ? ` · ${esc(ru ? one.subs[1] : one.subs[0])}` : ''}</p></div></div>`;
       $('funChs').innerHTML = '';
       return;
     }
