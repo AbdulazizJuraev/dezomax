@@ -8994,20 +8994,12 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 .fun-back:active { transform: scale(.92); }
 @media (max-width: 600px) { .fun-back { width: 38px; height: 38px; } .fun-back svg { width: 20px; height: 20px; } }
 
-/* 2026-11-23: qora fon zerikarli — yengil dekorativ nur dog'lari (blur'siz, telefonga yengil) */
+/* 2026-11-23: qora fon zerikarli — markazda yumshoq nur washi (blur'siz, telefonga yengil) */
 .fun-page::before {
   content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(58vw 46vh at 12% -4%, rgba(167, 139, 250, .16), transparent 62%),
-    radial-gradient(52vw 42vh at 92% 6%, rgba(96, 165, 250, .14), transparent 62%),
-    radial-gradient(64vw 48vh at 50% 108%, rgba(198, 255, 61, .12), transparent 60%);
-}
-.fun-page::after {
-  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
-  background-image: radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1.4px);
-  background-size: 26px 26px;
-  mask-image: radial-gradient(80% 70% at 50% 30%, #000, transparent 85%);
-  -webkit-mask-image: radial-gradient(80% 70% at 50% 30%, #000, transparent 85%);
+    radial-gradient(75vw 65vh at 50% 40%, rgba(167, 139, 250, .16), transparent 64%),
+    radial-gradient(60vw 48vh at 50% 42%, rgba(96, 165, 250, .11), transparent 62%);
 }
 
 /* ===== «Kinoteatr rejimi» (js/ytplayer.js → vpBindTheater; YouTube'dagidek, 2026-11-22) =====
