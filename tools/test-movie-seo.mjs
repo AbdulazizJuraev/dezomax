@@ -47,7 +47,7 @@ assert.ok(sitemapUrls.every(value => value.startsWith('https://dezomax.uz/')), '
 const robots = fs.readFileSync(path.join(root, 'robots.txt'), 'utf8');
 assert.ok(!/^Disallow:\s*\/(?:film|kino|movie|catalog)(?:\/|\?|$)/im.test(robots), 'robot.txt kino/katalog yo‘llarini bloklagan');
 assert.match(robots, /^Allow:\s*\/\s*$/im, 'robots.txt saytni umumiy ruxsat qilmaydi');
-assert.deepEqual([...robots.matchAll(/^Sitemap:\s*(\S+)\s*$/gim)].map(match => match[1]), ['https://dezomax.uz/sitemap.xml'], 'robots.txt sitemap manzili noto‘g‘ri yoki takror');
+assert.deepEqual([...robots.matchAll(/^Sitemap:\s*(\S+)\s*$/gim)].map(match => match[1]).filter(u => u !== 'https://dezomax.uz/sitemap-videos.xml'), ['https://dezomax.uz/sitemap.xml'], 'robots.txt sitemap manzili noto‘g‘ri yoki takror');   // sitemap-videos.xml — YouTube videolari (tools/gen-video-seo.js, 2026-11-23)
 for (const route of ['catalog.html', 'kino/index.html', 'toplam/ozbek-filmlari.html', 'teg/index.html']) {
   assert.ok(sitemapUrls.includes(`https://dezomax.uz/${route}`), `kategoriya sitemapda yo‘q: ${route}`);
 }
