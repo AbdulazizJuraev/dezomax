@@ -734,16 +734,17 @@ function dzxAcctMenu(menu) {
     ${u ? `<div class="h5-mg">${u.method === 'google' ? it('g', L('Google akkaunt', 'Аккаунт Google'), 'https://myaccount.google.com/', ' target="_blank" rel="noopener"') : ''}${it('sw', L('Akkauntni almashtirish', 'Сменить аккаунт'), pg('account.html'), ' data-acc-switch', true)}${it('out', L('Chiqish', 'Выйти'), '#', ' data-acc-out')}</div>`
     : `<div class="h5-mg">${it('in', L('Kirish', 'Войти'), pg('account.html'))}</div>`}
     <div class="h5-mg">${it('lib', L('Kutubxona', 'Библиотека'), pg('favorites.html'))}${it('dl', L('Yuklab olinganlar', 'Загрузки'), pg('downloads.html'))}${it('pay', L('Obuna va to‘lovlar', 'Подписка и платежи'), pg('plans.html'))}</div>
-    <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), pg('account.html#history'))}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${ru ? 'Русский' : 'O‘zbekcha'}`, '#', ` data-setlang="${ru ? 'uz' : 'ru'}"`, true)}${it('look', L('Ko‘rinish va shrift', 'Тема и размер шрифта'), '#', ' data-acc-look', true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
+    <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), pg('account.html#history'))}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${typeof DZX_LANGS !== 'undefined' && dzxGtGet() ? (DZX_LANGS.find(x => x[0] === dzxGtGet()) || [, ''])[1] : ru ? 'Русский' : 'O‘zbekcha'}`, '#', ' data-acc-langs', true)}${it('look', L('Ko‘rinish va shrift', 'Тема и размер шрифта'), '#', ' data-acc-look', true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
     <div class="h5-mg">${it('set', L('Sozlamalar', 'Настройки'), pg('account.html#settings'))}</div>
     <div class="h5-mg">${it('help', L('Yordam', 'Справка'), pg(u ? 'account.html#support' : 'about.html'))}${it('fb', L('Fikr yuborish', 'Отправить отзыв'), pg('contacts.html'))}</div>`;
 }
 // menyu tugmalari: chiqish / almashtirish / tezkor tugmalar
 document.addEventListener('click', async e => {
-  const a = e.target.closest('[data-acc-out], [data-acc-switch], [data-acc-keys], [data-acc-look]');
+  const a = e.target.closest('[data-acc-out], [data-acc-switch], [data-acc-keys], [data-acc-look], [data-acc-langs]');
   if (!a) return;
   e.preventDefault();
   const ru = typeof LANG !== 'undefined' && LANG === 'ru';
+  if (a.hasAttribute('data-acc-langs')) { a.closest('.h5-menu')?.classList.remove('is-open'); dzxLangDialog(); return; }
   if (a.hasAttribute('data-acc-look')) { a.closest('.h5-menu')?.classList.remove('is-open'); dzxLookDialog(); return; }
   if (a.hasAttribute('data-acc-keys')) {
     a.closest('.h5-menu')?.classList.remove('is-open');
@@ -1422,6 +1423,33 @@ function dzxLookDialog() {
       else v === 'm' ? D.removeAttribute('data-fs') : D.setAttribute('data-fs', v);
       return;
     }
+    if (ev.target === d || ev.target.closest('.dzx-keys-x')) d.remove();
+  });
+  addEventListener('keydown', function esc(ev) { if (ev.key === 'Escape') { d.remove(); removeEventListener('keydown', esc); } });
+  document.body.appendChild(d);
+}
+
+/* Interfeys tili (2026-11-23): 34 til, qidiruv bilan. O'zbekcha/Русский — saytning o'zi, qolganlari — Google tarjimasi (js/i18n.js DZX_LANGS) */
+function dzxLangDialog() {
+  if (typeof DZX_LANGS === 'undefined') return;
+  const ru = typeof LANG !== 'undefined' && LANG === 'ru', L = (u, r) => ru ? r : u;
+  const cur = dzxGtGet() || LANG;
+  document.querySelector('.dzx-keys')?.remove();
+  const d = document.createElement('div');
+  d.className = 'dzx-keys dzx-langs';
+  d.innerHTML = `<div class="dzx-keys-box" role="dialog" aria-modal="true"><b>${L('Interfeys tili', 'Язык интерфейса')}</b>
+    <input type="search" class="dzx-lang-q" placeholder="${L('Tilni qidirish', 'Поиск языка')}" aria-label="${L('Tilni qidirish', 'Поиск языка')}">
+    <div class="dzx-lang-list">${DZX_LANGS.map(([k, n]) => `<button type="button" data-l="${k}" class="${k === cur ? 'is-on' : ''}" lang="${k}"><span>${n}</span>${k === cur ? '<i aria-hidden="true">✓</i>' : ''}</button>`).join('')}</div>
+    <p class="dzx-lang-note">${L('O‘zbek va rus tillaridan boshqa tillarga Google avtomatik tarjima qiladi.', 'Остальные языки переводит Google (автоматически).')}</p>
+    <button type="button" class="dzx-keys-x">${L('Yopish', 'Закрыть')}</button></div>`;
+  const q = d.querySelector('.dzx-lang-q');
+  q.addEventListener('input', () => {
+    const s = q.value.trim().toLowerCase();
+    d.querySelectorAll('.dzx-lang-list button').forEach(b => { b.hidden = !!s && !(b.textContent.toLowerCase().includes(s) || b.dataset.l.toLowerCase().startsWith(s)); });
+  });
+  d.addEventListener('click', ev => {
+    const b = ev.target.closest('[data-l]');
+    if (b) { d.remove(); if (b.dataset.l !== cur) dzxPickLang(b.dataset.l); return; }
     if (ev.target === d || ev.target.closest('.dzx-keys-x')) d.remove();
   });
   addEventListener('keydown', function esc(ev) { if (ev.key === 'Escape') { d.remove(); removeEventListener('keydown', esc); } });

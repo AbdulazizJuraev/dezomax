@@ -9211,3 +9211,16 @@ html[data-theme="light"] :is(.logo-svg img, img[src*="images/logo/"]) { filter: 
 .tvx-track .tv-thumb::after { z-index: 3; }
 .tvx-row-h h2 { white-space: nowrap; }
 .tvx-track .tv-card-name { font-size: .9rem; font-weight: 700; }
+
+/* ===== Interfeys tili oynasi + Google tarjima paneli yashiriladi (2026-11-23) ===== */
+.dzx-lang-q { width: 100%; margin: 4px 0 10px; padding: .7em .9em; border-radius: 10px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .06); color: #fff; font: inherit; }
+.dzx-lang-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; max-height: min(52vh, 420px); overflow-y: auto; }
+.dzx-lang-list button { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-height: 42px; padding: 0 12px; border: 0; border-radius: 9px; background: rgba(255, 255, 255, .06); color: #f1f1f1; font: 600 .9rem/1.2 inherit; text-align: start; cursor: pointer; }
+.dzx-lang-list button[hidden] { display: none; }
+.dzx-lang-list button.is-on { background: #C6FF3D; color: #0B0D0C; }
+.dzx-lang-note { margin: 10px 0 0; font-size: .75rem; color: rgba(255, 255, 255, .55); }
+.dzx-langs .dzx-keys-box { width: min(460px, 100%); }
+html.dzx-gt body { top: 0 !important; position: static !important; }
+html.dzx-gt :is(.goog-te-banner-frame, .skiptranslate > iframe, #goog-gt-tt, .goog-te-balloon-frame, .VIpgJd-ZVi9od-ORHb-OEVmcd, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf, .VIpgJd-yAWNEb-L7lbkb) { display: none !important; }
+html.dzx-gt .goog-text-highlight { background: none !important; box-shadow: none !important; }
+html.dzx-gt font { all: unset; }

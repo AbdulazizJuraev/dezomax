@@ -480,3 +480,54 @@ function applyI18n() {
     btn.classList.toggle('is-active', btn.dataset.lang === LANG);
   });
 }
+
+/* ===== Ko'p tilli interfeys (2026-11-23) =====
+   O'zbekcha va Русский — saytning o'z tarjimasi (yuqorida). Qolgan tillar — Google Translate (sahifadagi barcha matn, mashina tarjimasi).
+   Tanlov: localStorage dzx_gt = 'en' | 'tr' | … ; Google skripti faqat shu holda yuklanadi. Oyna: dzxLangDialog (common.js). */
+const DZX_LANGS = [
+  ['uz', 'O‘zbekcha'], ['ru', 'Русский'], ['en', 'English'], ['tr', 'Türkçe'], ['kk', 'Қазақша'], ['ky', 'Кыргызча'], ['tg', 'Тоҷикӣ'],
+  ['tk', 'Türkmençe'], ['az', 'Azərbaycanca'], ['ar', 'العربية'], ['fa', 'فارسی'], ['ur', 'اردو'], ['hi', 'हिन्दी'], ['bn', 'বাংলা'],
+  ['zh-CN', '中文'], ['ja', '日本語'], ['ko', '한국어'], ['id', 'Bahasa Indonesia'], ['ms', 'Bahasa Melayu'], ['vi', 'Tiếng Việt'],
+  ['th', 'ไทย'], ['de', 'Deutsch'], ['fr', 'Français'], ['es', 'Español'], ['pt', 'Português'], ['it', 'Italiano'], ['pl', 'Polski'],
+  ['uk', 'Українська'], ['nl', 'Nederlands'], ['ro', 'Română'], ['he', 'עברית'], ['ka', 'ქართული'], ['hy', 'Հայերեն'], ['sw', 'Kiswahili']
+];
+function dzxGtGet() { try { return localStorage.getItem('dzx_gt') || ''; } catch (e) { return ''; } }
+function dzxGtCookie(code) {
+  const v = code ? 'googtrans=/uz/' + code : 'googtrans=';
+  const exp = code ? '' : '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  document.cookie = v + '; path=/' + exp;
+  const h = location.hostname.split('.').slice(-2).join('.');
+  if (h.includes('.')) document.cookie = v + '; path=/; domain=.' + h + exp;
+}
+/* Tilni tanlash: uz/ru — o'zimizniki (Google o'chiriladi), boshqasi — Google (asos — o'zbekcha sahifa) */
+function dzxPickLang(code) {
+  const gt = dzxGtGet();
+  if (code === 'uz' || code === 'ru') {
+    try { localStorage.removeItem('dzx_gt'); } catch (e) {}
+    dzxGtCookie('');
+    if (gt) { try { localStorage.setItem('dezomax_lang', code); } catch (e) {} if ((code === 'ru') === RU_PATH) return location.reload(); }
+    return setLang(code);
+  }
+  try { localStorage.setItem('dzx_gt', code); localStorage.setItem('dezomax_lang', 'uz'); } catch (e) {}
+  dzxGtCookie(code);
+  if (RU_PATH) {
+    const alt = document.querySelector('link[rel="alternate"][hreflang="uz"]');
+    if (alt) { location.href = new URL(alt.href).pathname + location.search + location.hash; return; }
+  }
+  location.reload();
+}
+(function dzxGtBoot() {
+  const code = dzxGtGet();
+  if (!code || RU_PATH) return;
+  dzxGtCookie(code);
+  document.documentElement.classList.add('dzx-gt');
+  window.dzxGtInit = function () { try { new google.translate.TranslateElement({ pageLanguage: 'uz', autoDisplay: false }, 'dzxGtEl'); } catch (e) {} };
+  const go = () => {
+    if (!document.getElementById('dzxGtEl')) { const d = document.createElement('div'); d.id = 'dzxGtEl'; d.hidden = true; document.body.appendChild(d); }
+    const s = document.createElement('script');
+    s.src = 'https://translate.google.com/translate_a/element.js?cb=dzxGtInit';
+    s.async = true;
+    document.head.appendChild(s);
+  };
+  document.body ? go() : document.addEventListener('DOMContentLoaded', go);
+})();
