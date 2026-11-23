@@ -717,6 +717,7 @@ function dzxAcctMenu(menu) {
     data: '<path d="M12 3 5 6v5c0 4.5 3 8.4 7 10 4-1.6 7-5.5 7-10V6Z"/><circle cx="12" cy="10.5" r="2.2"/><path d="M8.6 16a3.8 3.8 0 0 1 6.8 0"/>',
     lang: '<path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.6 5 7M11 5c-.8 4-3.4 7-7 8.5M13 20l4-9 4 9M14.4 17h5.2"/>',
     key: '<rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h1M10 10h1M14 10h1M18 10h0M7 14h10"/>',
+    look: '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor"/>',
     set: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
     help: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17h0"/>',
     fb: '<path d="M4 4h16v12H8l-4 4Z"/><path d="M12 7.5v4M12 13.8h0"/>'
@@ -733,16 +734,17 @@ function dzxAcctMenu(menu) {
     ${u ? `<div class="h5-mg">${u.method === 'google' ? it('g', L('Google akkaunt', 'Аккаунт Google'), 'https://myaccount.google.com/', ' target="_blank" rel="noopener"') : ''}${it('sw', L('Akkauntni almashtirish', 'Сменить аккаунт'), pg('account.html'), ' data-acc-switch', true)}${it('out', L('Chiqish', 'Выйти'), '#', ' data-acc-out')}</div>`
     : `<div class="h5-mg">${it('in', L('Kirish', 'Войти'), pg('account.html'))}</div>`}
     <div class="h5-mg">${it('lib', L('Kutubxona', 'Библиотека'), pg('favorites.html'))}${it('dl', L('Yuklab olinganlar', 'Загрузки'), pg('downloads.html'))}${it('pay', L('Obuna va to‘lovlar', 'Подписка и платежи'), pg('plans.html'))}</div>
-    <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), pg('account.html#history'))}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${ru ? 'Русский' : 'O‘zbekcha'}`, '#', ` data-setlang="${ru ? 'uz' : 'ru'}"`, true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
+    <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), pg('account.html#history'))}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${ru ? 'Русский' : 'O‘zbekcha'}`, '#', ` data-setlang="${ru ? 'uz' : 'ru'}"`, true)}${it('look', L('Ko‘rinish va shrift', 'Тема и размер шрифта'), '#', ' data-acc-look', true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
     <div class="h5-mg">${it('set', L('Sozlamalar', 'Настройки'), pg('account.html#settings'))}</div>
     <div class="h5-mg">${it('help', L('Yordam', 'Справка'), pg(u ? 'account.html#support' : 'about.html'))}${it('fb', L('Fikr yuborish', 'Отправить отзыв'), pg('contacts.html'))}</div>`;
 }
 // menyu tugmalari: chiqish / almashtirish / tezkor tugmalar
 document.addEventListener('click', async e => {
-  const a = e.target.closest('[data-acc-out], [data-acc-switch], [data-acc-keys]');
+  const a = e.target.closest('[data-acc-out], [data-acc-switch], [data-acc-keys], [data-acc-look]');
   if (!a) return;
   e.preventDefault();
   const ru = typeof LANG !== 'undefined' && LANG === 'ru';
+  if (a.hasAttribute('data-acc-look')) { a.closest('.h5-menu')?.classList.remove('is-open'); dzxLookDialog(); return; }
   if (a.hasAttribute('data-acc-keys')) {
     a.closest('.h5-menu')?.classList.remove('is-open');
     document.querySelector('.dzx-keys')?.remove();
@@ -1393,4 +1395,35 @@ function showOfflineNotice() {
   document.body.appendChild(el);
   el.querySelectorAll('[data-offline-close]').forEach(b => b.addEventListener('click', () => el.remove()));
   addEventListener('online', () => el.remove(), { once: true });
+}
+
+/* Ko'rinish va shrift (2026-11-23): Tungi / Yorug' mavzu, shrift S/M/L/XL — qurilmada saqlanadi (localStorage), hamma sahifada js/logo.js qo'llaydi.
+   Menyu «Ko'rinish va shrift» va Sozlamalar (account.js) shu oynani ochadi. */
+function dzxLookDialog() {
+  const ru = typeof LANG !== 'undefined' && LANG === 'ru', L = (u, r) => ru ? r : u;
+  const D = document.documentElement;
+  const get = (k, d) => { try { return localStorage.getItem(k) || d; } catch (e) { return d; } };
+  const set = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+  document.querySelector('.dzx-keys')?.remove();
+  const d = document.createElement('div');
+  d.className = 'dzx-keys dzx-look';
+  const seg = (name, opts, cur) => `<div class="dzx-seg" data-k="${name}">${opts.map(([v, l, st]) => `<button type="button" data-v="${v}" class="${v === cur ? 'is-on' : ''}"${st ? ` style="${st}"` : ''}>${l}</button>`).join('')}</div>`;
+  d.innerHTML = `<div class="dzx-keys-box" role="dialog" aria-modal="true"><b>${L('Ko‘rinish va shrift', 'Тема и размер шрифта')}</b>
+    <p class="dzx-look-l">${L('Mavzu', 'Тема')}</p>${seg('dzx_theme', [['dark', L('Tungi', 'Тёмная')], ['light', L('Yorug‘', 'Светлая')]], get('dzx_theme', 'dark'))}
+    <p class="dzx-look-l">${L('Shrift o‘lchami', 'Размер шрифта')}</p>${seg('dzx_font', [['s', 'A', 'font-size:.8rem'], ['m', 'A', 'font-size:1rem'], ['l', 'A', 'font-size:1.2rem'], ['xl', 'A', 'font-size:1.4rem']], get('dzx_font', 'm'))}
+    <button type="button" class="dzx-keys-x">${L('Tayyor', 'Готово')}</button></div>`;
+  d.addEventListener('click', ev => {
+    const b = ev.target.closest('.dzx-seg button');
+    if (b) {
+      const k = b.parentNode.dataset.k, v = b.dataset.v;
+      set(k, v);
+      b.parentNode.querySelectorAll('button').forEach(x => x.classList.toggle('is-on', x === b));
+      if (k === 'dzx_theme') v === 'light' ? D.setAttribute('data-theme', 'light') : D.removeAttribute('data-theme');
+      else v === 'm' ? D.removeAttribute('data-fs') : D.setAttribute('data-fs', v);
+      return;
+    }
+    if (ev.target === d || ev.target.closest('.dzx-keys-x')) d.remove();
+  });
+  addEventListener('keydown', function esc(ev) { if (ev.key === 'Escape') { d.remove(); removeEventListener('keydown', esc); } });
+  document.body.appendChild(d);
 }

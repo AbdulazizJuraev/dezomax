@@ -9151,3 +9151,19 @@ nav.tabbar { view-transition-name: dz-tabbar; }
 .fun-yc { margin-left: 6px; font-size: .8em; color: var(--muted, #9aa3a0); font-variant-numeric: tabular-nums; }
 .fun-yc:empty { display: none; }
 .fun-ytabs [data-tab].is-on .fun-yc { color: #C6FF3D; }
+
+/* ===== Ko'rinish va shrift (2026-11-23) — js/logo.js <html data-theme data-fs> qo'yadi, oyna: dzxLookDialog (common.js) ===== */
+html[data-fs="s"] { font-size: 87.5%; }
+html[data-fs="l"] { font-size: 112.5%; }
+html[data-fs="xl"] { font-size: 125%; }
+/* Yorug' mavzu: sahifa ranglari bitta GPU filtri bilan teskari (qora → oq), rasm/video/pleyerlar qayta teskari — asl ranglarida qoladi.
+   Sayt ~800 joyda qattiq yozilgan qora/oq ranglarga ega — har birini qayta yozish o'rniga shu usul (blur emas, telefonni og'irlashtirmaydi). */
+html[data-theme="light"] { filter: invert(1) hue-rotate(180deg); background: #000; }
+html[data-theme="light"] :is(img, video, iframe, canvas, picture, [style*="background-image"], .h5-fan-c, .yt-thumb):not(picture *, .h5-fan-c *) { filter: invert(1) hue-rotate(180deg); }
+/* oq logotip rasmlari (DezoMax nomi) — teskari qoladi, oq fonda qora bo'lib ko'rinadi */
+html[data-theme="light"] :is(.logo-svg img, img[src*="images/logo/"]) { filter: none !important; }
+.dzx-look-l { margin: 14px 0 8px; font-size: .82rem; color: rgba(255, 255, 255, .6); }
+.dzx-seg { display: flex; gap: 6px; padding: 4px; border-radius: 12px; background: rgba(255, 255, 255, .07); }
+.dzx-seg button { flex: 1; min-height: 42px; border: 0; border-radius: 9px; background: none; color: #f1f1f1; font: 600 .95rem/1 inherit; cursor: pointer; }
+.dzx-seg button.is-on { background: #C6FF3D; color: #0B0D0C; }
+.dzx-look .dzx-keys-x { margin-top: 18px; }

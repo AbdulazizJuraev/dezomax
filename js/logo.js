@@ -5,6 +5,10 @@
    Qayta yig'ish: scratchpad/build-logo.js (SVG o'zgarsa shu skript qayta ishga tushiriladi).
    ============================================================ */
 
+/* Ko'rinish sozlamalari (2026-11-23): yorug' mavzu va shrift o'lchami — localStorage, sahifa chizilishidan oldin (logo.js <body> boshida) */
+try { var dzxD = document.documentElement, dzxT = localStorage.getItem('dzx_theme'), dzxF = localStorage.getItem('dzx_font');
+  if (dzxT === 'light') dzxD.setAttribute('data-theme', 'light'); if (dzxF && dzxF !== 'm') dzxD.setAttribute('data-fs', dzxF); } catch (e) {}
+
 /* Tekshiruv rejimi (?debug=1): JavaScript xatosi bo'lsa — ekranning pastida qizil yozuv: xato matni va fayl:qator.
    Oddiy foydalanuvchiga ko'rinmaydi. Yuklanmagan rasm (poster) — xato emas, ko'rsatilmaydi. */
 (function () {

@@ -937,6 +937,7 @@ const SECTIONS = {
               .map(([v, l]) => `<option value="${v}"${(localStorage.getItem('dezomax_quality') || s.quality || 'auto') === v ? ' selected' : ''}>${l}</option>`).join('')}
           </select>
         </div>
+        <a class="acc-setting" href="#" data-acc-look><b>${LANG === 'ru' ? 'Тема и размер шрифта' : 'Ko‘rinish va shrift'}</b><span class="acc-muted">${(localStorage.getItem('dzx_theme') === 'light' ? (LANG === 'ru' ? 'Светлая' : 'Yorug‘') : (LANG === 'ru' ? 'Тёмная' : 'Tungi'))} ›</span></a>
       </div>
       <div class="acc-card is-compact">
         <div class="acc-setting">
