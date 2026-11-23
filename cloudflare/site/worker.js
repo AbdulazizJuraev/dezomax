@@ -127,9 +127,44 @@ function videoRoute(url) {
   if (!/^[\w-]{11}$/.test(id) || (seg.length > 11 && seg[seg.length - 12] !== '-')) return null;
   return { kind: m[1], id, slug: seg.length > 11 ? seg.slice(0, -12) : '' };
 }
+/* Arxivda hali yo'q (YouTube'ga endigina yuklangan) video — YouTube oEmbed'dan nomi va kanali olinadi; kanal ruxsat
+   berilganlar ro'yxatida bo'lsagina sahifa ochiladi (Qiziqarli: js/fun-data.js, Shorts: js/data-shorts.js + js/shorts.js).
+   Shu bilan saytga qo'shiladigan har yangi video avtomatik o'z manziliga ega bo'ladi (2026-11-23). */
+const CYR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'yo', ж: 'j', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'x', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '', ы: 'i', ь: '', э: 'e', ю: 'yu', я: 'ya', ў: 'o', қ: 'q', ғ: 'g', ҳ: 'h' };
+const videoSlug = t => String(t || '').toLowerCase().replace(/[а-яёўқғҳ]/g, c => CYR[c] ?? '')
+  .replace(/[‘’'`ʻʼ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70).replace(/-+$/, '');
+let allowCache = null, allowAt = 0;
+async function allowedChannels(env, url) {
+  if (allowCache && Date.now() - allowAt < 600000) return allowCache;
+  const text = async p => { try { const r = await env.ASSETS.fetch(new Request(new URL(p, url))); return r.ok ? await r.text() : ''; } catch (e) { return ''; } };
+  const [fun, sh1, sh2] = await Promise.all([text('/js/fun-data.js'), text('/js/data-shorts.js'), text('/js/shorts.js')]);
+  const video = {}, shorts = new Set();
+  // fun-data.js: bo'lim kaliti, so'ng uning kanallari (id … url: '…/@handle')
+  let key = '';
+  for (const m of fun.matchAll(/key: '(\w+)'|id: '(UC[\w-]{22})'[^}]*?url: 'https:\/\/www\.youtube\.com\/@([\w.-]+)'/g)) {
+    if (m[1]) key = m[1]; else video[m[3].toLowerCase()] = { k: key, c: m[2] };
+  }
+  for (const m of (sh1 + sh2).matchAll(/youtube\.com\/@([\w.-]+)/g)) shorts.add(m[1].toLowerCase());
+  allowAt = Date.now();
+  return (allowCache = { video, shorts });
+}
+async function liveVideoEntry(env, url, r) {
+  try {
+    const o = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent('https://www.youtube.com/watch?v=' + r.id)}&format=json`, { cf: { cacheEverything: true, cacheTtl: 86400 } });
+    if (!o.ok) return null;
+    const j = await o.json();
+    const handle = (String(j.author_url || '').match(/youtube\.com\/@([\w.-]+)/) || [])[1];
+    if (!handle || !j.title) return null;
+    const allow = await allowedChannels(env, url), h = handle.toLowerCase();
+    if (r.kind === 'video' && allow.video[h]) return { t: j.title, n: j.author_name || '', k: allow.video[h].k, c: allow.video[h].c, d: '', v: 0, y: 'lf', s: videoSlug(j.title) };
+    if (r.kind === 'shorts' && allow.shorts.has(h)) return { t: j.title, n: j.author_name || '', k: '', c: '', d: '', v: 0, y: 'S', s: videoSlug(j.title) };
+  } catch (e) {}
+  return null;
+}
+
 async function serveVideoPage(request, env, url, r) {
   const res = await env.ASSETS.fetch(new Request(new URL(`/_vid/${vidShard(r.id)}.json`, url)));
-  const e = res.ok ? (await res.json())[r.id] : null;
+  const e = (res.ok ? (await res.json())[r.id] : null) || await liveVideoEntry(env, url, r);
   if (!e) return movieNotFound(request, env, url);
   const isShort = e.y === 'S';
   const canonical = isShort ? `https://dezomax.uz/shorts/${r.id}` : `https://dezomax.uz/video/${e.s ? e.s + '-' : ''}${r.id}`;
