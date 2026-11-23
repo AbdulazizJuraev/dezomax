@@ -85,14 +85,18 @@
   const blocked = new Set((() => { try { return JSON.parse(localStorage.getItem(BL) || '[]'); } catch (e) { return []; } })());
   // faqat joriy kanal / bo'lim kanallari (eski keshdagi olib tashlangan kanal videolari chiqmasin) va taqiqlanmagan videolar
   const okList = () => items.filter(x => !blocked.has(x.id) && (cs ? x.ch === cs : cur.ch.some(c => c.id === x.ch)));
-  // ko'p video (kanalning hammasi — 2000+) bir yo'la chizilmaydi: 36 tadan, pastga surilganda qo'shiladi (sahifa yengil)
-  const STEP = 48;
+  // ko'p video (kanalning hammasi — 2000+) bir yo'la chizilmaydi: 48 tadan, pastga surilganda qo'shiladi (sahifa yengil).
+  // pump — «oxiri» belgisi ekranga yaqin bo'lsa, ekran to'lguncha qo'shadi: keng ekranda 48 ta karta sahifani to'ldirmasa,
+  // IntersectionObserver holati o'zgarmaydi va qayta chaqirilmaydi — avval shu sabab kompyuterda 48 tada to'xtab qolardi
+  const STEP = 48, NEAR = 1600;
   let shown = STEP, lastList = [];
-  const more = new IntersectionObserver(es => {
-    if (!es.some(e => e.isIntersecting) || shown >= lastList.length) return;
+  function pump() {
+    if (shown >= lastList.length || $('funMore').getBoundingClientRect().top > innerHeight + NEAR) return;
     $('funGrid').insertAdjacentHTML('beforeend', lastList.slice(shown, shown + STEP).map(card).join(''));
     shown += STEP;
-  }, { rootMargin: '1600px 0px' });
+    requestAnimationFrame(pump);
+  }
+  const more = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) pump(); }, { rootMargin: NEAR + 'px 0px' });
   function renderGrid() {
     let list = chSel ? okList().filter(x => x.ch === chSel) : okList();
     if (q) { const n = q.toLowerCase(); list = list.filter(x => String(x.t).toLowerCase().includes(n)); }
@@ -100,6 +104,7 @@
     $('funGrid').classList.remove('is-chans');
     $('funGrid').classList.toggle('is-shorts', tab === 'sh');
     $('funGrid').innerHTML = list.slice(0, STEP).map(card).join('');
+    requestAnimationFrame(pump);
     $('funEmpty').hidden = !!list.length;
     if (!list.length) $('funEmpty').textContent = q ? L('Hech narsa topilmadi', 'Ничего не найдено') : L('Hozircha video yo‘q', 'Пока нет видео');
   }
