@@ -772,3 +772,6 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 .h5-fan { min-height: clamp(340px, 30vw, 450px); }
 .h5-fan-c { width: clamp(150px, 14vw, 225px); }
 @media (max-width: 760px) { .h5-fan-cards { height: 270px; } .h5-fan-c { width: 120px; } }
+
+/* qiziqarli.html «Orqaga» → index.html#qiziqarli: sarlavha header ostida qolmasin (2026-11-23) */
+#qiziqarli { scroll-margin-top: calc(var(--header-h, 64px) + 20px); }

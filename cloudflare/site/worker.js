@@ -121,9 +121,13 @@ async function ytFeed(url) {
   const head = { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' };
   const ids = [...new Set((url.searchParams.get('ch') || '').split(','))].filter(c => /^UC[\w-]{22}$/.test(c)).slice(0, 8);
   if (!ids.length) return new Response('{"error":"ch kerak"}', { status: 400, headers: head });
-  const lists = await Promise.all(ids.map(async ch => {
+  // t: lf — uzun videolar (standart), sh — Shorts, lv — jonli efirlar, home — uzun + jonli (kanal «Bosh sahifa»si). 2026-11-23
+  const t = url.searchParams.get('t') || 'lf';
+  const PRE = { lf: ['UULF'], sh: ['UUSH'], lv: ['UULV'], home: ['UULF', 'UULV'] }[t];
+  if (!PRE) return new Response('{"error":"t noto\'g\'ri"}', { status: 400, headers: head });
+  const lists = await Promise.all(ids.flatMap(ch => PRE.map(pre => [ch, pre])).map(async ([ch, pre]) => {
     try {
-      const r = await fetch(`https://www.youtube.com/feeds/videos.xml?playlist_id=UULF${ch.slice(2)}`, { cf: { cacheEverything: true, cacheTtl: 1800 } });
+      const r = await fetch(`https://www.youtube.com/feeds/videos.xml?playlist_id=${pre}${ch.slice(2)}`, { cf: { cacheEverything: true, cacheTtl: 1800 } });
       if (!r.ok) return [];
       const xml = await r.text();
       return xml.split('<entry>').slice(1).map(e => ({
@@ -136,7 +140,8 @@ async function ytFeed(url) {
       })).filter(x => x.id);
     } catch (e) { return []; }
   }));
-  const items = lists.flat().sort((a, b) => (a.d < b.d ? 1 : -1));
+  const seen = new Set();
+  const items = lists.flat().filter(x => !seen.has(x.id) && seen.add(x.id)).sort((a, b) => (a.d < b.d ? 1 : -1));
   return new Response(JSON.stringify({ at: Date.now(), items }), {
     status: items.length ? 200 : 502,
     headers: { ...head, 'cache-control': items.length ? 'public, max-age=900' : 'no-store' }

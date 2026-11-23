@@ -411,7 +411,7 @@
   /* «Siz uchun Qiziqarli» (js/fun-data.js → FUN_SECTIONS; sahifa — qiziqarli.html). Yengil: rasm yo'q, faqat rang va belgi. 2026-11-21 */
   function funHTML() {
     if (typeof FUN_SECTIONS === 'undefined') return '';
-    return `<section class="h5-sec h5-wrap">${headHTML(L('Siz uchun Qiziqarli', 'Интересное для вас'), 'qiziqarli.html')}<div class="h5-row h5-fun">${FUN_SECTIONS.map(s => `<a class="h5-fn h5-fn-${s.key}" href="qiziqarli.html#${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><i class="h5-fn-im"><img src="images/fun/${s.key}.webp" alt="" loading="lazy" decoding="async"></i><b>${esc(ru ? s.ru : s.uz)}</b></a>`).join('')}</div></section>`;
+    return `<section class="h5-sec h5-wrap" id="qiziqarli">${headHTML(L('Siz uchun Qiziqarli', 'Интересное для вас'), 'qiziqarli.html')}<div class="h5-row h5-fun">${FUN_SECTIONS.map(s => `<a class="h5-fn h5-fn-${s.key}" href="qiziqarli.html#${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><i class="h5-fn-im"><img src="images/fun/${s.key}.webp" alt="" loading="lazy" decoding="async"></i><b>${esc(ru ? s.ru : s.uz)}</b></a>`).join('')}</div></section>`;
   }
 
   /* Ilova banneri: poster devori + telefon va planshet */
@@ -800,6 +800,12 @@
 
     const box = $('h5Rows');
     box.innerHTML = out.join('');
+    // qiziqarli.html «Orqaga» → index.html#qiziqarli: qatorlar JS bilan chizilgani uchun brauzer o'zi aylantirmaydi
+    if (location.hash === '#qiziqarli') {
+      const go = () => $('qiziqarli')?.scrollIntoView({ block: 'start' });
+      requestAnimationFrame(go);
+      if (document.readyState !== 'complete') addEventListener('load', go, { once: true });   // yuqoridagi rasmlar yuklanib joy siljisa ham
+    }
     if (typeof Ads !== 'undefined') Ads.fill(box);
     fanSpin(box);
     box.querySelectorAll('[data-days]').forEach(b => b.addEventListener('click', () => {
