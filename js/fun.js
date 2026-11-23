@@ -63,6 +63,27 @@
     return cache[k];
   }
 
+  // Hozir jonli efirda bo'lgan kanallar (Worker /_yt/live, 2 daqiqa kesh) — kartada «JONLI», efir videosi ro'yxat boshida. 2026-11-23
+  const LIVE_API = FEED.replace('/_yt/feed?ch=', '/_yt/live?ch=');
+  let liveMap = {}, liveAt = 0, liveP = null;
+  const liveOf = id => liveMap[id] || null;
+  const liveItem = vid => { for (const [ch, x] of Object.entries(liveMap)) if (x.id === vid) return { id: x.id, t: x.t, ch, cn: (FUN_SECTIONS.flatMap(s => s.ch).find(c => c.id === ch) || {}).name || '', live: true }; return null; };
+  function loadLive() {
+    if (liveP && Date.now() - liveAt < 120000) return liveP;
+    const ids = [...new Set(FUN_SECTIONS.flatMap(s => s.ch).filter(c => c.av).map(c => c.id))];
+    if (!ids.length) return Promise.resolve(liveMap);
+    liveAt = Date.now();
+    return (liveP = fetch(LIVE_API + ids.join(',')).then(r => (r.ok ? r.json() : null)).then(j => { liveMap = (j && j.live) || {}; return liveMap; }).catch(() => liveMap));
+  }
+  // jonli holat kelgach — joriy sahifadagi belgilar va ro'yxat yangilanadi
+  function applyLive() {
+    const c = curChan();
+    document.querySelectorAll('.fun-cc[data-ch]').forEach(a => a.classList.toggle('is-live', !!liveOf(a.dataset.ch)));
+    const av = document.querySelector('.fun-chan-row');
+    if (av && c) av.classList.toggle('is-live', !!liveOf(c.id));
+    if (c && liveOf(c.id) && (tab === 'home' || tab === 'lv') && !q) renderGrid();
+  }
+
   // kanalning BARCHA videolari (data/fun-<key>.json, tools/fetch-fun-all.js) — bo'lmasa faqat RSS'dagi oxirgi 15 tasi
   const allCache = {};
   const loadAll = c => allCache[c.all] || (allCache[c.all] = fetch(c.all).then(r => (r.ok ? r.json() : null)).catch(() => null));
@@ -77,8 +98,8 @@
 
   // Shorts — tik karta (hqdefault'ning o'rtasi = vertikal kadr)
   const card = x => `<a class="fun-card" href="${hp()}&v=${x.id}" data-v="${x.id}">
-    <span class="fun-th"><img src="https://i.ytimg.com/vi/${x.id}/${tab === 'sh' ? 'hqdefault' : 'mqdefault'}.jpg" alt="" loading="lazy" decoding="async"><i class="fun-play"></i></span>
-    <b>${esc(x.t)}</b><small>${tab === 'sh' ? '' : esc(x.cn)}${x.v ? `${tab === 'sh' ? '' : ' · '}${fmtN(x.v)} ${L('ko‘rish', 'просм.')}` : ''}${x.d && tab !== 'sh' ? ` · ${ago(x.d)}` : ''}</small></a>`;
+    <span class="fun-th"><img src="https://i.ytimg.com/vi/${x.id}/${x.live ? 'mqdefault_live' : tab === 'sh' ? 'hqdefault' : 'mqdefault'}.jpg" alt="" loading="lazy" decoding="async"><i class="fun-play"></i>${x.live ? `<span class="fun-live-b">${L('JONLI', 'В ЭФИРЕ')}</span>` : ''}</span>
+    <b>${esc(x.t)}</b>${x.live ? `<small class="fun-live-s">${L('Hozir jonli efirda', 'Сейчас в эфире')}</small>` : ''}<small>${tab === 'sh' ? '' : esc(x.cn)}${x.v ? `${tab === 'sh' ? '' : ' · '}${fmtN(x.v)} ${L('ko‘rish', 'просм.')}` : ''}${x.d && tab !== 'sh' ? ` · ${ago(x.d)}` : ''}</small></a>`;
 
   // egasi saytlarda ko'rsatishni taqiqlagan videolar — eslab qolinadi, ro'yxatda chiqmaydi
   const BL = 'dzxFunBlocked';
@@ -100,6 +121,8 @@
   function renderGrid() {
     let list = chSel ? okList().filter(x => x.ch === chSel) : okList();
     if (q) { const n = q.toLowerCase(); list = list.filter(x => String(x.t).toLowerCase().includes(n)); }
+    const lv = cs && !q && (tab === 'home' || tab === 'lv') && liveOf(cs);
+    if (lv) list = [liveItem(lv.id), ...list.filter(x => x.id !== lv.id)];
     lastList = list; shown = STEP;
     $('funGrid').classList.remove('is-chans');
     $('funGrid').classList.toggle('is-shorts', tab === 'sh');
@@ -113,16 +136,16 @@
     lastList = []; shown = 0;
     $('funGrid').classList.remove('is-shorts');
     $('funGrid').classList.add('is-chans');
-    $('funGrid').innerHTML = cur.ch.filter(c => c.av).map(c => `<a class="fun-cc" href="#${cur.key}&c=${c.id}">
+    $('funGrid').innerHTML = cur.ch.filter(c => c.av).map(c => `<a class="fun-cc${liveOf(c.id) ? ' is-live' : ''}" href="#${cur.key}&c=${c.id}" data-ch="${c.id}">
       <span class="fun-cc-ban">${c.ban ? `<img src="${c.ban}" alt="" loading="lazy" decoding="async">` : ''}</span>
-      <span class="fun-cc-body"><img class="fun-cc-av" src="${c.av}" alt="" width="76" height="76">
+      <span class="fun-cc-body"><span class="fun-avw"><img class="fun-cc-av" src="${c.av}" alt="" width="76" height="76"><i class="fun-live-tag">${L('JONLI', 'В ЭФИРЕ')}</i></span>
         <span class="fun-cc-txt"><b>${esc(c.name)}${c.vf ? VF : ''}</b><small>${subsOf(c)}</small></span></span></a>`).join('');
     $('funEmpty').hidden = true;
   }
   // kanal sahifasi (YouTube'dagidek): banner, dumaloq rasm, nom ✓, obunachilar, bo'limlar + qidiruv
   function renderChan(c) {
     $('funChan').innerHTML = `${c.ban ? `<div class="fun-chan-ban"><img src="${c.ban}" alt="" decoding="async"></div>` : ''}
-      <div class="fun-chan-row"><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="96" height="96">
+      <div class="fun-chan-row${liveOf(c.id) ? ' is-live' : ''}"><a class="fun-avw" href="#${cur.key}&c=${c.id}" data-live-go><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="96" height="96"><i class="fun-live-tag">${L('JONLI', 'В ЭФИРЕ')}</i></a>
         <div class="fun-chan-info"><h2>${esc(c.name)}${c.vf ? VF : ''}</h2><p>${subsOf(c)}<span id="funStats"></span></p></div></div>
       <nav class="fun-ytabs" role="tablist">${TABS.map(([k, uz, r]) => `<button type="button" role="tab" data-tab="${k}" class="${k === tab ? 'is-on' : ''}" aria-selected="${k === tab}">${L(uz, r)}</button>`).join('')}
         <span class="fun-ysearch${q ? ' is-open' : ''}"><button type="button" id="funSearchBtn" aria-label="${L('Kanaldan qidirish', 'Поиск по каналу')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
@@ -154,6 +177,7 @@
     document.title = `${c ? c.title || c.name : nameOf(cur)} — ${L('Qiziqarli', 'Интересное')} | DezoMax`;
     $('funChan').hidden = !c;
     $('funChs').innerHTML = '';
+    loadLive().then(() => { if (cur && curChan() === c) applyLive(); });
     if (chanSec(cur) && !c) { renderChanList(); return; }
     if (c) renderChan(c);
     renderChips();
@@ -236,7 +260,7 @@
   function play(id) {
     const st = $('funStage');
     if (!id) { if (typeof destroyYouTube === 'function') destroyYouTube(); st.hidden = true; st.innerHTML = ''; return; }
-    const x = items.find(y => y.id === id) || { id, t: '', cn: '' };
+    const x = items.find(y => y.id === id) || liveItem(id) || { id, t: '', cn: '' };
     st.hidden = false;
     // DezoMax o'z pleyeri (js/ytplayer.js): bizning panel, sifat, katta ekran; u bo'lmasa — oddiy YouTube oynasi
     const own = typeof mountYouTube === 'function';
@@ -321,6 +345,8 @@
       if (box.classList.contains('is-open')) inp.focus(); else if (q) { q = ''; inp.value = ''; renderGrid(); }
       return;
     }
+    const lg = e.target.closest('[data-live-go]');
+    if (lg) { e.preventDefault(); const lv = cs && liveOf(cs); if (lv) location.hash = hp().slice(1) + '&v=' + lv.id; return; }
     if (e.target.closest('#funClose')) { e.preventDefault(); history.replaceState(null, '', hp()); play(''); return; }
     // «Orqaga»: kanal sahifasidan — bo'limning kanallar ro'yxatiga (masalan Gameplay); bo'limdan — bosh sahifadagi «Siz uchun Qiziqarli» qatoriga
     if (e.target.closest('#funBack')) {

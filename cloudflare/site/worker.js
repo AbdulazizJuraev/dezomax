@@ -148,6 +148,30 @@ async function ytFeed(url) {
   });
 }
 
+/* /_yt/live?ch=UC…,UC… → hozir jonli efirda bo'lgan kanallar (2026-11-23, Qiziqarli: «JONLI» belgisi va efir videosi).
+   Kanalning youtube.com/channel/<id>/live sahifasi: jonli bo'lsa canonical — watch?v=<efir id> va "isLive":true.
+   Har kanal 2 daqiqa Cloudflare keshida. Javob: { at, live: { UC…: { id, t } } } */
+async function ytLive(url) {
+  const head = { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' };
+  const ids = [...new Set((url.searchParams.get('ch') || '').split(','))].filter(c => /^UC[\w-]{22}$/.test(c)).slice(0, 8);
+  if (!ids.length) return new Response('{"error":"ch kerak"}', { status: 400, headers: head });
+  const live = {};
+  await Promise.all(ids.map(async ch => {
+    try {
+      const r = await fetch(`https://www.youtube.com/channel/${ch}/live`, {
+        headers: { 'accept-language': 'en-US,en;q=0.8', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36' },
+        cf: { cacheEverything: true, cacheTtl: 120 }
+      });
+      if (!r.ok) return;
+      const html = await r.text();
+      const id = (html.match(/<link rel="canonical" href="https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})"/) || [])[1];
+      if (!id || !/"isLive":true/.test(html) || /"isUpcoming":true/.test(html)) return;
+      live[ch] = { id, t: xmlText((html.match(/<meta name="title" content="([^"]*)"/) || [])[1] || '') };
+    } catch (e) {}
+  }));
+  return new Response(JSON.stringify({ at: Date.now(), live }), { headers: { ...head, 'cache-control': 'public, max-age=120' } });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -187,6 +211,7 @@ export default {
     // /_yt/feed?ch=UC…,UC… → «Siz uchun Qiziqarli» (js/fun-data.js): kanallarning oxirgi uzun videolari (YouTube RSS,
     // UULF… pleylisti — shortslarsiz). Faqat kanal id'lari qabul qilinadi; har kanal 30 daqiqa Cloudflare keshida. 2026-11-21
     if (url.pathname === '/_yt/feed') return ytFeed(url);
+    if (url.pathname === '/_yt/live') return ytLive(url);
 
     const data = DATA_FILES[url.pathname];
     if (data) {

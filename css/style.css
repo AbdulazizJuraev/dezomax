@@ -9259,3 +9259,13 @@ html.dzx-gt font { all: unset; }
 .fun-menu[hidden] { display: none; }
 .fun-acts .fun-menu button { padding: 11px 14px; border: 0; border-radius: 8px; background: none; color: #fff; font: 500 .92rem/1.2 inherit; text-align: left; cursor: pointer; }
 .fun-acts .fun-menu button:hover { background: rgba(255, 255, 255, .1); }
+
+/* Qiziqarli: jonli efir (2026-11-23) — kanal rasmi atrofida qizil halqa + «JONLI», efir videosi kartasida belgi */
+.fun-avw { position: relative; display: inline-flex; flex: none; border-radius: 50%; }
+.fun-live-tag { display: none; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); padding: 2px 7px; border-radius: 5px; background: #E5484D; color: #fff; font: 800 .62rem/1.3 var(--body, inherit); font-style: normal; letter-spacing: .05em; white-space: nowrap; border: 2px solid #0B0D0C; }
+.is-live > .fun-avw .fun-live-tag, .fun-cc.is-live .fun-live-tag { display: block; }
+.is-live > .fun-avw img, .fun-cc.is-live .fun-avw img { box-shadow: 0 0 0 3px #0B0D0C, 0 0 0 6px #E5484D; }
+.fun-chan-row.is-live .fun-avw { cursor: pointer; }
+.fun-live-b { position: absolute; left: 8px; bottom: 8px; display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 5px; background: #E5484D; color: #fff; font-size: .7rem; font-weight: 800; letter-spacing: .05em; }
+.fun-live-b::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: tvxBlink 1.4s ease-in-out infinite; }
+.fun-live-s { color: #FF6B6F !important; font-weight: 700; }
