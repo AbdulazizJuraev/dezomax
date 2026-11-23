@@ -38,6 +38,7 @@ jobs:
           node tools/gen-site-data.js   # Telegram avto-yuklash faqat data-custom.js yozadi — sayt ro'yxati shu yerda yangilanadi
           node tools/gen-home-data.js   # bosh sahifa ro'yxati admin o'zgarishlari bilan yangi bo'lsin
           node tools/gen-sitemap.js     # admin kino qo'shsa/guruhlasa ham sitemap ma'lumotlarga mos bo'lsin (test-movie-seo tekshiradi, 2026-11-21)
+          node tools/gen-video-seo.js   # YouTube videolari: /video/…, /shorts/… manzillari (_vid/) va sitemap-videos.xml (2026-11-23)
           mkdir -p _site
           # faqat mavjud fayllar: gen-sitemap o'chirgan eski kino sahifalari git ro'yxatida qolgan bo'lishi mumkin (2026-11-21)
           git ls-files -z \

@@ -96,8 +96,15 @@
     return out.sort((a, b) => String(b.d || '').localeCompare(String(a.d || '')));
   }
 
+  // Har videoning Google uchun o'z manzili: dezomax.uz/video/<nom>-<ID> (tools/gen-video-seo.js — slug bir xil bo'lishi kerak).
+  // Kartadagi havola shu manzil (Google kuzatadi), bosilganda esa sahifa ichida darhol ochiladi (pastda, click).
+  const CYR = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'yo', ж: 'j', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'x', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '', ы: 'i', ь: '', э: 'e', ю: 'yu', я: 'ya', ў: 'o', қ: 'q', ғ: 'g', ҳ: 'h' };
+  const videoSlug = t => String(t || '').toLowerCase().replace(/[а-яёўқғҳ]/g, c => CYR[c] ?? '')
+    .replace(/[‘’'`ʻʼ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70).replace(/-+$/, '');
+  const videoUrl = x => `https://dezomax.uz/video/${videoSlug(x.t) ? videoSlug(x.t) + '-' : ''}${x.id}`;
+
   // Shorts — tik karta (hqdefault'ning o'rtasi = vertikal kadr)
-  const card = x => `<a class="fun-card" href="${hp()}&v=${x.id}" data-v="${x.id}">
+  const card = x => `<a class="fun-card" href="${videoUrl(x)}" data-v="${x.id}">
     <span class="fun-th"><img src="https://i.ytimg.com/vi/${x.id}/${x.live ? 'mqdefault_live' : tab === 'sh' ? 'hqdefault' : 'mqdefault'}.jpg" alt="" loading="lazy" decoding="async"><i class="fun-play"></i>${x.live ? `<span class="fun-live-b">${L('JONLI', 'В ЭФИРЕ')}</span>` : ''}</span>
     <b>${esc(x.t)}</b>${x.live ? `<small class="fun-live-s">${L('Hozir jonli efirda', 'Сейчас в эфире')}</small>` : ''}<small>${tab === 'sh' ? '' : esc(x.cn)}${x.v ? `${tab === 'sh' ? '' : ' · '}${fmtN(x.v)} ${L('ko‘rish', 'просм.')}` : ''}${x.d && tab !== 'sh' ? ` · ${ago(x.d)}` : ''}</small></a>`;
 
@@ -304,7 +311,7 @@
         const next = items.slice(i + 1).find(y => !blocked.has(y.id)) || list[0];
         renderGrid();
         box.querySelector('#ytpMsg .ytp-msg-inner')?.insertAdjacentHTML('beforeend', `<p>${L('Keyingi video ochilmoqda…', 'Открываем следующее видео…')}</p>`);
-        if (next) setTimeout(() => { if ($('funBox') === box) location.replace(hp() + '&v=' + next.id); }, 1500);
+        if (next) setTimeout(() => { if ($('funBox') === box) location.replace(location.pathname + location.search + hp() + '&v=' + next.id); }, 1500);
       });
     }
     likeLoad(id);
@@ -345,9 +352,15 @@
       if (box.classList.contains('is-open')) inp.focus(); else if (q) { q = ''; inp.value = ''; renderGrid(); }
       return;
     }
+    // video kartasi: sahifa ichida ochiladi (havolasi — Google uchun /video/… manzil); yangi oynada ochish (Ctrl/o'rta tugma) — o'sha manzil
+    const vc = e.target.closest('a.fun-card[data-v]');
+    if (vc && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && e.button === 0) { e.preventDefault(); location.hash = hp().slice(1) + '&v=' + vc.dataset.v; return; }
+    // «#…» havolalar (kanal kartalari va h.k.) — /video/… sahifasida <base href="/"> bo'lgani uchun qo'lda
+    const ha = e.target.closest('a[href^="#"]');
+    if (ha && !e.ctrlKey && !e.metaKey && e.button === 0 && !ha.hasAttribute('data-live-go')) { e.preventDefault(); location.hash = ha.getAttribute('href'); return; }
     const lg = e.target.closest('[data-live-go]');
     if (lg) { e.preventDefault(); const lv = cs && liveOf(cs); if (lv) location.hash = hp().slice(1) + '&v=' + lv.id; return; }
-    if (e.target.closest('#funClose')) { e.preventDefault(); history.replaceState(null, '', hp()); play(''); return; }
+    if (e.target.closest('#funClose')) { e.preventDefault(); history.replaceState(null, '', location.pathname + location.search + hp()); play(''); return; }
     // «Orqaga»: kanal sahifasidan — bo'limning kanallar ro'yxatiga (masalan Gameplay); bo'limdan — bosh sahifadagi «Siz uchun Qiziqarli» qatoriga
     if (e.target.closest('#funBack')) {
       e.preventDefault();

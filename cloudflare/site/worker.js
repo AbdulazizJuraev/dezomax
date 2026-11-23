@@ -116,6 +116,79 @@ async function serveMoviePage(request, env, url, id, metadata) {
   return new Response(request.method === 'HEAD' ? null : html, { status: shell.status, headers });
 }
 
+/* ===== YouTube videolari sahifalari (2026-11-23, tools/gen-video-seo.js) =====
+   /video/<nom>-<ID> → qiziqarli.html, /shorts/<ID> → shorts.html — sarlavha, tavsif, rasm, VideoObject; sahifa JS'i shu videoni ochadi */
+const VID_SHARDS = 64;
+const vidShard = id => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0; return String(h % VID_SHARDS).padStart(2, '0'); };
+function videoRoute(url) {
+  const m = url.pathname.match(/^\/(video|shorts)\/([^/]+?)\/?$/);
+  if (!m) return null;
+  const seg = decodeURIComponent(m[2]), id = seg.slice(-11);
+  if (!/^[\w-]{11}$/.test(id) || (seg.length > 11 && seg[seg.length - 12] !== '-')) return null;
+  return { kind: m[1], id, slug: seg.length > 11 ? seg.slice(0, -12) : '' };
+}
+async function serveVideoPage(request, env, url, r) {
+  const res = await env.ASSETS.fetch(new Request(new URL(`/_vid/${vidShard(r.id)}.json`, url)));
+  const e = res.ok ? (await res.json())[r.id] : null;
+  if (!e) return movieNotFound(request, env, url);
+  const isShort = e.y === 'S';
+  const canonical = isShort ? `https://dezomax.uz/shorts/${r.id}` : `https://dezomax.uz/video/${e.s ? e.s + '-' : ''}${r.id}`;
+  if (new URL(canonical).pathname !== url.pathname) return Response.redirect(canonical + url.search, 301);
+  const shell = await env.ASSETS.fetch(new Request(new URL(isShort ? '/shorts.html' : '/qiziqarli.html', url), { headers: request.headers }));
+  if (!shell.ok) return shell;
+  let html = await shell.text();
+  const kindUz = isShort || e.y === 'sh' ? 'shortsi' : e.y === 'lv' ? 'jonli efiri' : 'videosi';
+  const desc = `${e.t} — ${e.n ? e.n + ' kanali' : 'YouTube'} ${kindUz}. DezoMax'da bepul tomosha qiling.`;
+  const title = `${e.t} — ${e.n || 'Shorts'} | DezoMax`;
+  const thumb = `https://i.ytimg.com/vi/${r.id}/hqdefault.jpg`;
+  const video = { '@type': 'VideoObject', '@id': canonical + '#video', name: e.t, description: desc, url: canonical,
+    thumbnailUrl: [thumb, `https://i.ytimg.com/vi/${r.id}/mqdefault.jpg`], embedUrl: `https://www.youtube.com/embed/${r.id}`,
+    publisher: { '@id': 'https://dezomax.uz/#organization' }, inLanguage: 'uz', isFamilyFriendly: true };
+  if (/^\d{4}-\d\d-\d\d$/.test(e.d)) video.uploadDate = e.d + 'T12:00:00+05:00';
+  if (e.v) video.interactionStatistic = { '@type': 'InteractionCounter', interactionType: { '@type': 'WatchAction' }, userInteractionCount: e.v };
+  if (e.n) video.author = { '@type': 'Person', name: e.n };
+  const crumbs = [{ name: 'Bosh sahifa', item: 'https://dezomax.uz/' },
+    isShort ? { name: 'Shorts', item: 'https://dezomax.uz/shorts.html' } : { name: 'Qiziqarli', item: 'https://dezomax.uz/qiziqarli.html' },
+    { name: e.t, item: canonical }];
+  const schema = { '@context': 'https://schema.org', '@graph': [
+    { '@type': 'Organization', '@id': 'https://dezomax.uz/#organization', name: 'DezoMax', url: 'https://dezomax.uz/', logo: 'https://dezomax.uz/images/logo/dezomax-name.webp' },
+    video,
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.item })) }
+  ] };
+  // sahifa JS'i «#» li manzil bilan ishlaydi — shu videoga mos «#» qo'yiladi (manzil yo'li o'zgarmaydi)
+  const hash = isShort ? r.id : `${e.k}&c=${e.c}&v=${r.id}`;
+  html = html
+    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeAttr(title)}</title>`)
+    .replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i, '')
+    .replace(/<meta\s+property="og:(?:title|description|url|image|type)"[^>]*>\s*/gi, '')
+    .replace(/<meta\s+name="twitter:(?:card|title|description|image)"[^>]*>\s*/gi, '')
+    .replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '')
+    .replace(/<link\s+rel="alternate"\s+hreflang[^>]*>\s*/gi, '')
+    .replace(/<script\s+type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>\s*/gi, '')
+    .replace(/<meta charset="UTF-8">/i, `<meta charset="UTF-8">\n<base href="/">\n<script>if(!location.hash)history.replaceState(null,'',location.pathname+location.search+'#'+${JSON.stringify(hash)});window.DZX_VIDEO=${JSON.stringify({ id: r.id, k: e.k, c: e.c })}</script>`);
+  const tags = `
+<meta name="description" content="${escapeAttr(desc)}">
+<link rel="canonical" href="${escapeAttr(canonical)}">
+<meta property="og:type" content="video.other">
+<meta property="og:site_name" content="DezoMax">
+<meta property="og:title" content="${escapeAttr(e.t)}">
+<meta property="og:description" content="${escapeAttr(desc)}">
+<meta property="og:url" content="${escapeAttr(canonical)}">
+<meta property="og:image" content="${thumb}">
+<meta property="og:video" content="https://www.youtube.com/embed/${r.id}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${escapeAttr(e.t)}">
+<meta name="twitter:description" content="${escapeAttr(desc)}">
+<meta name="twitter:image" content="${thumb}">
+<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>`;
+  html = html.replace('</head>', `${tags}\n</head>`);
+  const headers = new Headers(shell.headers);
+  for (const key of ['content-length', 'content-encoding', 'etag', 'last-modified', 'content-md5']) headers.delete(key);
+  headers.set('content-type', 'text/html; charset=utf-8');
+  headers.set('cache-control', 'public, max-age=300');
+  return new Response(request.method === 'HEAD' ? null : html, { status: 200, headers });
+}
+
 const xmlText = s => String(s || '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 async function ytFeed(url) {
   const head = { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' };
@@ -212,6 +285,9 @@ export default {
     // UULF… pleylisti — shortslarsiz). Faqat kanal id'lari qabul qilinadi; har kanal 30 daqiqa Cloudflare keshida. 2026-11-21
     if (url.pathname === '/_yt/feed') return ytFeed(url);
     if (url.pathname === '/_yt/live') return ytLive(url);
+    // /video/<nom>-<ID>, /shorts/<ID> — YouTube videolarining Google uchun sahifalari (tools/gen-video-seo.js)
+    const vr = (request.method === 'GET' || request.method === 'HEAD') && videoRoute(url);
+    if (vr) return serveVideoPage(request, env, url, vr);
 
     const data = DATA_FILES[url.pathname];
     if (data) {

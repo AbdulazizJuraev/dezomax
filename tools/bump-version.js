@@ -69,6 +69,8 @@ require('./gen-site-data.js');
 require('./gen-home-data.js');
 
 require('./gen-sitemap.js');
+// YouTube videolari (Qiziqarli, Shorts) — /video/…, /shorts/… manzillari va sitemap-videos.xml
+require('./gen-video-seo.js');
 
 // Ilova vidjeti uchun yangi kinolar (data/widget.json)
 require('./gen-widget.js');

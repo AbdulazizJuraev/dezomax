@@ -340,7 +340,8 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
     }, 2500);
     thumbs(i);
     loadSocial(i);
-    try { history.replaceState(null, '', '#' + id); } catch {}
+    // /shorts/<ID> manzilida (Google uchun sahifa, <base href="/">) — yo'l ham joriy shortga; shorts.html da — «#ID»
+    try { history.replaceState(null, '', location.pathname.startsWith('/shorts/') ? '/shorts/' + id : location.pathname + location.search + '#' + id); } catch {}
   }
   // joriy video o'ynay boshlagach — keyingisining pleyeri oldindan (pauzada, ovozsiz); trafik tejash rejimida — yo'q
   function prewarm(k) {

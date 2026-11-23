@@ -3,3 +3,4 @@ Allow: /
 Disallow: /admin.html
 
 Sitemap: https://dezomax.uz/sitemap.xml
+Sitemap: https://dezomax.uz/sitemap-videos.xml
