@@ -9232,3 +9232,30 @@ html.dzx-gt font { all: unset; }
 .fun-like svg { width: 18px; height: 18px; }
 .fun-like button.is-on { color: #C6FF3D; }
 .fun-like button.is-on svg { fill: currentColor; fill-opacity: .25; }
+
+/* Qiziqarli: harakat paneli (2026-11-23, foydalanuvchi namunasi): [👍 22 | 👎] [ulashish] [saqlash] […] — layk bosilganda sakraydi */
+.fun-acts { align-items: center; gap: 10px; flex-wrap: wrap; }
+.fun-acts .fun-like { display: inline-flex; align-items: center; height: 44px; padding: 0 4px; border: 0; border-radius: 999px; background: #272727; overflow: visible; }
+.fun-acts .fun-like button { display: inline-flex; align-items: center; gap: 8px; height: 100%; padding: 0 14px; border: 0; border-radius: 999px; background: none; color: #fff; font: 600 .95rem/1 inherit; cursor: pointer; position: relative; }
+.fun-acts .fun-like button + button, .fun-acts .fun-like .fl-sep + button { border-left: 0; }
+.fun-like .fl-sep { width: 1px; height: 24px; background: rgba(255, 255, 255, .22); }
+.fun-like .fl-down svg { transform: rotate(180deg); }
+.fun-like svg, .fun-rb svg { width: 22px; height: 22px; }
+.fun-like button:hover, .fun-rb:hover { background: rgba(255, 255, 255, .08); }
+.fun-like button.is-on, .fun-rb.is-on { color: #fff; }
+.fun-like button.is-on .fl-fill, .fun-rb.is-on .fl-fill { fill: currentColor; }
+.fun-acts .fun-rb { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: #272727; color: #fff; cursor: pointer; position: relative; }
+/* animatsiya: bosh barmoq sakrab, qiyshayib qaytadi + atrofida lime halqa tarqaladi (faqat transform/opacity — yengil) */
+.fun-like button.is-pop svg, .fun-rb.is-pop svg { animation: flPop .55s cubic-bezier(.3, 1.6, .5, 1); }
+.fun-like .fl-down.is-pop svg { animation-name: flPopDown; }
+.fun-like button.is-pop::after, .fun-rb.is-pop::after { content: ''; position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 2px solid #C6FF3D; pointer-events: none; animation: flRing .55s ease-out forwards; }
+.fun-like .fl-up.is-pop::after { left: 25px; }
+@keyframes flPop { 0% { transform: scale(1); } 35% { transform: scale(1.35) rotate(-14deg); } 65% { transform: scale(.9) rotate(4deg); } 100% { transform: scale(1); } }
+@keyframes flPopDown { 0% { transform: rotate(180deg) scale(1); } 35% { transform: rotate(194deg) scale(1.35); } 65% { transform: rotate(176deg) scale(.9); } 100% { transform: rotate(180deg) scale(1); } }
+@keyframes flRing { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .fun-like button.is-pop svg, .fun-rb.is-pop svg, .fun-like button.is-pop::after, .fun-rb.is-pop::after { animation: none; } }
+.fun-mm { position: relative; display: inline-flex; }
+.fun-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 20; display: flex; flex-direction: column; min-width: 210px; padding: 6px; border-radius: 12px; background: #282828; box-shadow: 0 12px 34px rgba(0, 0, 0, .5); }
+.fun-menu[hidden] { display: none; }
+.fun-acts .fun-menu button { padding: 11px 14px; border: 0; border-radius: 8px; background: none; color: #fff; font: 500 .92rem/1.2 inherit; text-align: left; cursor: pointer; }
+.fun-acts .fun-menu button:hover { background: rgba(255, 255, 255, .1); }

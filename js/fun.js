@@ -182,7 +182,13 @@
 
   /* O'z layk/dizlayk (2026-11-23, YouTube havolasi o'rniga): saytning baho tizimi — to'lov serveri /social, /api/react (Shorts bilan bir xil).
      Server raqamli ID taniydi — YouTube ID'dan barqaror raqam (9 000 000 000 + xesh, «yt:» oldi qo'shimchasi). Baho — faqat kirgan foydalanuvchi. */
-  const LIKE_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H4V10zM7 10l4-7c1.7 0 2.6 1 2.3 2.6L12.6 9H19a2 2 0 0 1 2 2.3l-1.2 7.4A2.6 2.6 0 0 1 17.2 21H7"/></svg>';
+  const SVG = p => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>';
+  const LIKE_IC = SVG('<path class="fl-fill" d="M7 11v9H4.6a1.1 1.1 0 0 1-1.1-1.1v-6.8A1.1 1.1 0 0 1 4.6 11zM7 11l3.6-7.2a1.9 1.9 0 0 1 3.5 1.2L13.4 9h5.4a2 2 0 0 1 2 2.4l-1.3 6.8a2.2 2.2 0 0 1-2.1 1.8H7"/>');
+  const SHARE_IC = SVG('<path d="M14 5l7 7-7 7v-4.2c-6 0-9 1.6-11 5.2.6-6.2 3.6-10.6 11-11.4z"/>');
+  const SAVE_IC = SVG('<path class="fl-fill" d="M6 3.5h12v17l-6-4.3-6 4.3z"/>');
+  const MORE_IC = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>';
+  const SAVED = 'dzx_fun_saved';
+  const savedSet = () => { try { return new Set(JSON.parse(localStorage.getItem(SAVED) || '[]')); } catch (e) { return new Set(); } };
   const API = typeof PAY_API !== 'undefined' && PAY_API ? String(PAY_API).replace(/\/+$/, '') : '';
   const tok = () => (typeof Pay !== 'undefined' && Pay.token ? Pay.token() : '');
   const sid = yid => { let h = 2166136261; for (const ch of 'yt:' + yid) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return 9e9 + h % 1e9; };
@@ -213,8 +219,14 @@
       if (!API || !s || s.down) return msg(L('Baholash hozircha ishlamayapti', 'Оценки временно недоступны'));
       if (!tok()) return msg(L('Baho berish uchun hisobingizga kiring', 'Войдите, чтобы оценить'));
       const v = s.mine === +b.dataset.r ? 0 : +b.dataset.r;
+      const prev = { likes: s.likes, dislikes: s.dislikes, mine: s.mine };
+      s.likes = (s.likes || 0) + (v === 1) - (prev.mine === 1);
+      s.mine = v;
+      likePaint(id);
+      if (v) { b.classList.remove('is-pop'); void b.offsetWidth; b.classList.add('is-pop'); }
       try { Object.assign(s, await likeReq('POST', '/api/react', { movie: sid(id), value: v })); likePaint(id); }
-      catch (er) { msg(er.status === 401 ? L('Baho berish uchun hisobingizga kiring', 'Войдите, чтобы оценить') : L('Xatolik, keyinroq urinib ko‘ring', 'Ошибка, попробуйте позже')); }
+      catch (er) {
+        Object.assign(s, prev); likePaint(id); msg(er.status === 401 ? L('Baho berish uchun hisobingizga kiring', 'Войдите, чтобы оценить') : L('Xatolik, keyinroq urinib ko‘ring', 'Ошибка, попробуйте позже')); }
     });
     if (likeSt[id]) return likePaint(id);
     likeSt[id] = { likes: 0, dislikes: 0, mine: 0 };
@@ -231,7 +243,32 @@
     st.innerHTML = `<div class="fun-player">${own ? '<div class="player-wrap" id="funBox"></div>' : `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="${esc(x.t)}"
         allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`}</div>
       <div class="fun-info"><div><h2>${esc(x.t)}</h2><small>${esc(x.cn)}${x.v ? ` · ${fmtN(x.v)} ${L('ko‘rish', 'просм.')}` : ''}${x.d ? ` · ${ago(x.d)}` : ''}</small></div>
-        <div class="fun-acts"><span class="fun-like" id="funLike" data-id="${id}"><button type="button" data-r="1" aria-label="${L('Yoqdi', 'Нравится')}">${LIKE_IC}<span data-n="likes"></span></button><button type="button" data-r="-1" aria-label="${L('Yoqmadi', 'Не нравится')}">${LIKE_IC.replace('<svg', '<svg style="transform:scaleY(-1)"')}</button></span><button type="button" id="funClose" aria-label="${L('Yopish', 'Закрыть')}">✕</button></div></div>`;
+        <div class="fun-acts"><span class="fun-like" id="funLike" data-id="${id}"><button type="button" class="fl-up" data-r="1" aria-label="${L('Yoqdi', 'Нравится')}">${LIKE_IC}<span data-n="likes"></span></button><i class="fl-sep" aria-hidden="true"></i><button type="button" class="fl-down" data-r="-1" aria-label="${L('Yoqmadi', 'Не нравится')}">${LIKE_IC}</button></span>
+          <button type="button" class="fun-rb" id="funShare" aria-label="${L('Ulashish', 'Поделиться')}">${SHARE_IC}</button>
+          <button type="button" class="fun-rb${savedSet().has(id) ? ' is-on' : ''}" id="funSave" aria-label="${L('Saqlash', 'Сохранить')}">${SAVE_IC}</button>
+          <span class="fun-mm"><button type="button" class="fun-rb" id="funMoreBtn" aria-label="${L('Yana', 'Ещё')}" aria-expanded="false">${MORE_IC}</button>
+            <span class="fun-menu" id="funMenu" hidden><button type="button" data-act="copy">${L('Havolani nusxalash', 'Копировать ссылку')}</button><button type="button" id="funClose">${L('Videoni yopish', 'Закрыть видео')}</button></span></span></div></div>`;
+    {
+      const msg = m => (typeof toast === 'function' ? toast(m) : alert(m));
+      const url = 'https://dezomax.uz/qiziqarli.html' + location.hash;
+      const pop = b => { b.classList.remove('is-pop'); void b.offsetWidth; b.classList.add('is-pop'); };
+      $('funShare').addEventListener('click', e => {
+        pop(e.currentTarget);
+        if (navigator.share) navigator.share({ title: x.t + ' — DezoMax', url }).catch(() => {});
+        else navigator.clipboard?.writeText(url).then(() => msg(L('Havola nusxalandi', 'Ссылка скопирована')));
+      });
+      $('funSave').addEventListener('click', e => {
+        const b = e.currentTarget, set = savedSet(), on = !set.has(id);
+        on ? set.add(id) : set.delete(id);
+        try { localStorage.setItem(SAVED, JSON.stringify([...set].slice(-500))); } catch (er) {}
+        b.classList.toggle('is-on', on); if (on) pop(b);
+        msg(on ? L('Saqlandi', 'Сохранено') : L('Saqlanganlardan olindi', 'Удалено из сохранённых'));
+      });
+      const menu = $('funMenu'), mb = $('funMoreBtn');
+      mb.addEventListener('click', e => { e.stopPropagation(); menu.hidden = !menu.hidden; mb.setAttribute('aria-expanded', String(!menu.hidden)); });
+      menu.querySelector('[data-act="copy"]').addEventListener('click', () => { menu.hidden = true; navigator.clipboard?.writeText(url).then(() => msg(L('Havola nusxalandi', 'Ссылка скопирована'))); });
+      document.addEventListener('click', () => { if (menu.isConnected) menu.hidden = true; });
+    }
     if (own) {
       const box = $('funBox');
       mountYouTube(box, 'https://www.youtube.com/watch?v=' + id, { title: x.t, poster: `https://i.ytimg.com/vi/${id}/hqdefault.jpg` });
