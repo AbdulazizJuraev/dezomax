@@ -28,12 +28,10 @@ const FUN_SECTIONS = [
     sub: ['O‘zbekcha suhbatlar', 'Узбекские подкасты'],
     icon: '<rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5v4M8.5 21.5h7"/>',
     ch: [
-      { id: 'UC0iyxdzqjDgajBX8KJBhd7Q', name: 'NmaGap' },
-      { id: 'UCpwLPh8qvA13tHStxV2-QEg', name: 'O‘zimiz' },
-      { id: 'UCky2T4K_s1_zF_OViHyH5eA', name: 'Bemalol' },
-      { id: 'UCAbBjvOlxbpx8RC9OrHednw', name: 'ZBS Podcast' },
-      { id: 'UC6ori1JrTlZsFtrMqa9DFMg', name: 'Sigma Podcast' },
-      { id: 'UCQnciwtALk_Z_WMLhu4YMoA', name: 'qiyofa.podcast' }
+      // 2026-11-23: faqat NmaGap (foydalanuvchi so'rovi — kanal adminlariga ko'rsatish uchun), FEZOT'dagidek kanal sahifasi; qolgan podkastlar olib tashlandi
+      { id: 'UC0iyxdzqjDgajBX8KJBhd7Q', name: 'NmaGap', av: 'images/fun/nmagap.webp', ban: 'images/fun/nmagap-banner.webp',
+        all: 'data/fun-nmagap.json',
+        title: 'NmaGap', handle: '@nmagap', subs: ['24,3 ming obunachi', '24,3 тыс. подписчиков'], url: 'https://www.youtube.com/@nmagap' }
     ]
   },
   {
