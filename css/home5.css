@@ -793,3 +793,14 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 #qiziqarli .h5-fun { padding-bottom: 14px; }
 #qiziqarli .h5-fn-im { box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--c1) 75%, transparent), 0 0 0 1px rgba(255, 255, 255, .1); }
 @media (max-width: 600px) { #qiziqarli::before { border-radius: 22px; } }
+
+/* TOP 10 (2026-11-23, foydalanuvchi so'rovi): katta raqam film nomini yopmasin — raqam poster yonida, ustiga chiqmaydi */
+.h5-top .h5-num { margin-right: .04em; }
+
+/* «Siz uchun Qiziqarli» (2026-11-23): kartalar eni Shorts kartasi enidek (clamp 120–160px), tik 9:16 */
+.h5-fun .h5-fn-im, .h5-fun .h5-fn-gameplay .h5-fn-im { width: clamp(120px, 11vw, 160px); height: auto; aspect-ratio: 9/16; }
+.h5-fun .h5-fn { width: clamp(120px, 11vw, 160px); }
+
+/* «Cheksiz tomosha» (2026-11-23): barcha matnlar chapda */
+.h5-fan h2, .h5-fan p, .h5-fan h2 em.h5-fan-more { text-align: left; }
+.h5-fan .h5-sq { align-self: flex-start; }

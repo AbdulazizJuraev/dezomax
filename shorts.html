@@ -39,7 +39,8 @@
 <link rel="preconnect" href="https://www.google.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&family=Orbitron:wght@600;700&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="css/style.css?v=202611231054">
+<style>/* 2026-11-23: style.css birinchi short pleyeridan KEYIN ulanadi (pleyer CSS yuklanishini kutmasin) — shu orada sahifa shu kichik CSS bilan */
+body.page-shorts{margin:0;background:#000;color:#fff}.sh-bar{position:fixed;z-index:5;top:0;left:0;right:0;display:flex;align-items:center;gap:10px;padding:12px}.sh-bar svg{width:24px;height:24px}.sh-bar a{color:#fff}.sh-feed{position:fixed;inset:0;overflow-y:auto;background:#000}.sh-slide{position:relative;height:100dvh}.sh-thumb,.sh-frame,.sh-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}.sh-thumb{z-index:1}</style>
 <!-- Google AdSense (reklama: js/ads.js) -->
 <meta name="google-adsense-account" content="ca-pub-3356248514435871">
 <!-- Shorts: reklama skriptlari birinchi video o'ynay boshlagach yuklanadi (2026-11-20) — video bilan internetni talashmasin -->
@@ -61,28 +62,30 @@
 </head>
 <body class="page-shorts">
 <noscript><div><img src="https://mc.yandex.ru/watch/113203097" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<script src="js/logo.js?v=202611231054"></script>
+<script src="js/logo.js?v=202611231106"></script>
 
 <div class="sh-bar" id="shBar">
   <a class="sh-back" href="index.html" aria-label="Orqaga"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
   <div class="sh-brand"><b>Shorts</b></div>
 </div>
 <main class="sh-feed" id="shortsFeed" aria-label="Shorts"></main>
-<script src="js/data-shorts.js?v=202611231054"></script>
+<script src="js/data-shorts.js?v=202611231106"></script>
 <script>/* Tezkor boshlanish (2026-11-20): birinchi short pleyeri shu yerda — qolgan skriptlar (~300 KB) yuklanishini kutmaydi.
-   js/shorts.js shu slaydni o'z ro'yxatiga qabul qiladi (sh-early). Havola bilan ochilgan short (#ID) — o'sha; aks holda tasodifiy o'zbekcha short (js/shorts.js UZ_SHORT_CHANNELS). */
+   js/shorts.js shu slaydni o'z ro'yxatiga qabul qiladi (sh-early). Havola bilan ochilgan short (#ID) — o'sha; aks holda tasodifiy o'zbekcha short (js/shorts.js UZ_SHORT_CHANNELS).
+   2026-11-23: saytda ovozsiz boshlanadi (telefon brauzeri ovozli avtoijroni taqiqlaydi — video skriptlarni ~2–4 s kutib turardi); ruxsat bo'lsa js/shorts.js ovozni darrov yoqadi. */
 (function(){try{var f=document.getElementById('shortsFeed');if(!f||typeof SHORTS==='undefined')return;
 var ok=SHORTS.filter(function(x){return x&&/^[\w-]{11}$/.test(x.id)}),h=location.hash.slice(1),s=null,i;if(!ok.length)return;
 if(h){for(i=0;i<ok.length;i++)if(ok[i].id===h){s=ok[i];break}if(!s)return}
 else{var uz=ok.filter(function(x){return x.ch==='farzidguy'}),a=uz.length?uz:ok;s=a[Math.floor(Math.random()*a.length)];history.replaceState(null,'','#'+s.id)}
 var th='https://i.ytimg.com/vi/'+s.id+'/oardefault.jpg';
-f.innerHTML='<section class="sh-slide sh-early" data-i="0" data-id="'+s.id+'"><img class="sh-thumb" src="'+th+'" data-src="'+th+'" alt="" decoding="async"><div class="sh-frame"><iframe src="https://www.youtube-nocookie.com/embed/'+s.id+'?autoplay=1&mute=0&playsinline=1&disablekb=1&fs=0&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" allow="autoplay; encrypted-media; picture-in-picture"></iframe></div></section>'}catch(e){}})()</script>
+f.innerHTML='<section class="sh-slide sh-early" data-i="0" data-id="'+s.id+'"><img class="sh-thumb" src="'+th+'" data-src="'+th+'" alt="" decoding="async"><div class="sh-frame"><iframe src="https://www.youtube-nocookie.com/embed/'+s.id+'?autoplay=1&mute='+(/DezoMaxApp|; wv\)/.test(navigator.userAgent)?0:1)+'&playsinline=1&disablekb=1&fs=0&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" allow="autoplay; encrypted-media; picture-in-picture"></iframe></div></section>'}catch(e){}})()</script>
+<link rel="stylesheet" href="css/style.css?v=202611231106">
 
 <script src="js/data.js?v=342bb2e8e4"></script>
-<script src="js/i18n.js?v=202611231054"></script>
-<script src="js/common.js?v=202611231054"></script>
-<script src="js/firebase-config.js?v=202611231054"></script>
-<script src="js/auth.js?v=202611231054"></script>
-<script src="js/shorts.js?v=202611231054"></script>
+<script src="js/i18n.js?v=202611231106"></script>
+<script src="js/common.js?v=202611231106"></script>
+<script src="js/firebase-config.js?v=202611231106"></script>
+<script src="js/auth.js?v=202611231106"></script>
+<script src="js/shorts.js?v=202611231106"></script>
 </body>
 </html>

@@ -1332,23 +1332,8 @@ if (IS_TV) {
     window.parent.postMessage({ type: 'dzxpack-images', urls: [...urls] }, location.origin);
   }, 12000));
 
-  // butun katalogning kichik posterlari — kuniga bir marta fonda (internetsiz ham hamma kinoning rasmi ko'rinsin).
-  // Trafik tejash rejimida yoki mobil internet sekin bo'lsa — yo'q. DezoCloud (Telegram) rasmlari bu ro'yxatga kirmaydi.
-  addEventListener('load', () => setTimeout(() => (window.dzxData?.ready || Promise.resolve()).then(() => {
-    const sw = navigator.serviceWorker?.controller, c = navigator.connection;
-    if (IS_APP || !navigator.onLine || !sw || typeof MOVIES === 'undefined' || (c && (c.saveData || /2g/.test(c.effectiveType || '')))) return;
-    let last = 0; try { last = +localStorage.getItem('dzx_posters_at') || 0; } catch {}
-    if (Date.now() - last < 24 * 3600e3) return;
-    try { localStorage.setItem('dzx_posters_at', String(Date.now())); } catch {}
-    const urls = new Set();
-    for (const m of MOVIES) {
-      if (!m || !m.poster) continue;
-      const u = new URL(imgSmall(m.poster), document.baseURI);
-      if (/(^|\.)dezocloud\.uz$/i.test(u.hostname)) continue;
-      urls.add(u.href);
-    }
-    sw.postMessage({ type: 'images', bulk: true, images: [...urls].slice(0, 600) });
-  }), 9000));
+  // 2026-11-23: butun katalog posterlarini (600 ta, 15–40 MB) kuniga bir marta fonda yuklash saytda O'CHIRILDI — sahifa hajmini
+  // kamaytirish (foydalanuvchi bilan kelishilgan). Ilovada «Internetsiz rejim» (js/offline-pack.js) o'zi yuklaydi.
 
   /* Internet yo'q paytda kinoga kirmoqchi bo'lsa — «Internetni yoqing» oynasi.
      Telefonga yuklab olingan kino bo'lsa — «Yuklab olinganlar»ga (u yerda internetsiz o'ynaydi). */
