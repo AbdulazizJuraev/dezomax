@@ -118,6 +118,7 @@ function toggleFullscreen() {
 function playChannel(ch) {
   if (!ch) return;
   tvCurrent = ch;
+  try { localStorage.setItem('dzx_tv_last', ch.id); } catch (e) {}
   stopStream();
   // pleyer faqat kanal tanlanganda ko'rinadi
   document.getElementById('tvStage').hidden = false;
@@ -174,45 +175,77 @@ function renderNow() {
     <span class="tv-live-label">${t('tv.live')}</span>`;
 }
 
-/* ---------- Ro'yxat: davlat bo'yicha guruhlar ---------- */
+/* ---------- Ro'yxat (2026-11-23, Netflix uslubi): davlat tugmalari + janr bo'yicha gorizontal qatorlar ---------- */
+
+const TVX_L = (uz, ru) => (LANG === 'ru' ? ru : uz);
+const TVX_CATS = [
+  ['general', 'Umumiy kanallar', 'Общие'], ['news', 'Yangiliklar', 'Новости'], ['sports', 'Sport', 'Спорт'],
+  ['movies', 'Kino va seriallar', 'Кино и сериалы'], ['entertainment', 'Ko‘ngilochar', 'Развлекательные'],
+  ['kids', 'Bolalar uchun', 'Детские'], ['family', 'Oilaviy', 'Семейные'], ['music', 'Musiqa', 'Музыка'],
+  ['documentary', 'Hujjatli va ilmiy', 'Познавательные']
+];
+let tvCountry = 'all';
+
+function renderChips() {
+  const box = document.getElementById('tvChips');
+  const name = id => id === 'uz' ? TVX_L('O‘zbekiston', 'Узбекистан') : id === 'ru' ? TVX_L('Rossiya', 'Россия') : countryName(id);
+  const opts = [['all', TVX_L('Hammasi', 'Все')], ...CHANNEL_COUNTRIES.map(c => [c.id, name(c.id)])];
+  box.innerHTML = opts.map(([id, l]) => {
+    const n = id === 'all' ? TV_CHANNELS.length : TV_CHANNELS.filter(c => c.country === id).length;
+    return `<button type="button" role="tab" data-country="${id}" class="${id === tvCountry ? 'is-on' : ''}" aria-selected="${id === tvCountry}">${esc(l)} <small>${n}</small></button>`;
+  }).join('');
+}
 
 function renderGroups() {
   const box = document.getElementById('tvGroups');
-  box.innerHTML = CHANNEL_COUNTRIES.map(ct => {
-    const list = TV_CHANNELS.filter(c => c.country === ct.id);
-    if (!list.length) return '';
-    return `
-      <section class="tv-group">
-        <div class="section-head">
-          <i class="bar"></i><h2>${esc(countryName(ct.id))}</h2>
-          <span class="result-count">${list.length} ${t('tv.channels')}</span>
-        </div>
-        <div class="tv-grid">${list.map(channelHTML).join('')}</div>
-      </section>`;
-  }).join('');
-
+  const pool = TV_CHANNELS.filter(c => tvCountry === 'all' || c.country === tvCountry);
+  const known = new Set(TVX_CATS.map(c => c[0]));
+  const rows = TVX_CATS.map(([k, uz, ru]) => [TVX_L(uz, ru), pool.filter(c => c.category === k)]);
+  const rest = pool.filter(c => !known.has(c.category));
+  if (rest.length) rows.push([TVX_L('Boshqa kanallar', 'Другие'), rest]);
+  box.innerHTML = rows.filter(r => r[1].length).map(([title, list]) => `
+      <section class="tv-group tvx-row">
+        <div class="tvx-row-h"><h2>${esc(title)}</h2><span class="result-count">${list.length} ${t('tv.channels')}</span></div>
+        <div class="tvx-track">${list.map(channelHTML).join('')}</div>
+      </section>`).join('');
   box.querySelectorAll('[data-ch]').forEach(btn =>
     btn.addEventListener('click', () => playChannel(TV_CHANNELS.find(c => c.id === btn.dataset.ch))));
-
+  renderChips();
   document.getElementById('tvCount').textContent = `${TV_CHANNELS.length} ${t('tv.channels')}`;
 }
 
-/* Kanal tanlanmaganda — markazdagi ijro tugmasi birinchi kanalni ochadi */
+document.getElementById('tvChips').addEventListener('click', e => {
+  const b = e.target.closest('[data-country]');
+  if (!b || b.dataset.country === tvCountry) return;
+  tvCountry = b.dataset.country;
+  renderGroups();
+});
+
+/* Kanal tanlanmaganda — sahnada oxirgi ko'rilgan kanal (yoki O'zbekiston): katta logotip, «Jonli ko'rish».
+   O'zi o'ynamaydi — trafik faqat bosilganda sarflanadi. */
 function renderPlaceholder() {
-  const first = TV_CHANNELS[0];
+  let last = null; try { last = localStorage.getItem('dzx_tv_last'); } catch (e) {}
+  const ch = TV_CHANNELS.find(c => c.id === last) || TV_CHANNELS[0];
+  if (!ch) return;
+  const cat = TVX_CATS.find(c => c[0] === ch.category);
   document.getElementById('tvPlayer').innerHTML = `
-    <button class="player-placeholder tv-start" id="tvStart" type="button">
-      <span class="pp-icon">${ICONS.play}</span>
-      <h3>${t('tv.select')}</h3>
-      <p>${t('tv.selectHint')}</p>
+    <button class="tvx-hero" id="tvStart" type="button" style="--c1:${ch.colors[0]};--c2:${ch.colors[1]}">
+      <span class="tvx-hero-tx">
+        <span class="tvx-live">${t('tv.live')}</span>
+        <b>${esc(ch.name)}</b>
+        <small>${esc(countryName(ch.country))}${cat ? ' · ' + esc(TVX_L(cat[1], cat[2])) : ''}</small>
+        <span class="tvx-go">${ICONS.play}${TVX_L('Jonli ko‘rish', 'Смотреть')}</span>
+      </span>
+      ${ch.logo ? `<span class="tvx-hero-logo${ch.tile === 'dark' ? ' is-dark' : ''}"><img src="${esc(ch.logo)}" alt=""></span>` : ''}
     </button>`;
-  document.getElementById('tvStart').addEventListener('click', () => playChannel(first));
+  document.getElementById('tvStart').addEventListener('click', () => playChannel(ch));
 }
 
 /* ---------- Ishga tushirish ---------- */
 
 initLayout();
 renderGroups();
+renderPlaceholder();
 
 // tv.html?ch=Sport — Sport bo'limidan "Jonli ko'rish" bosilganda kanal darhol ochiladi
 const chParam = new URLSearchParams(location.search).get('ch');

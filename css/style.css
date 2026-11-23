@@ -9167,3 +9167,47 @@ html[data-theme="light"] :is(.logo-svg img, img[src*="images/logo/"]) { filter: 
 .dzx-seg button { flex: 1; min-height: 42px; border: 0; border-radius: 9px; background: none; color: #f1f1f1; font: 600 .95rem/1 inherit; cursor: pointer; }
 .dzx-seg button.is-on { background: #C6FF3D; color: #0B0D0C; }
 .dzx-look .dzx-keys-x { margin-top: 18px; }
+
+/* ===== Telekanallar (2026-11-23): Netflix uslubi — sahna, davlat tugmalari, janr qatorlari (js/tv.js) ===== */
+.tvx-stage { margin: 0 0 22px; }
+.tvx-player { position: relative; aspect-ratio: 16/9; max-height: 72vh; width: 100%; border-radius: 18px; overflow: hidden; background: #0B0D0C; }
+.tvx-hero { position: absolute; inset: 0; width: 100%; display: flex; align-items: flex-end; padding: clamp(18px, 4vw, 52px); border: 0; text-align: left; color: #fff; cursor: pointer;
+  background: radial-gradient(90% 120% at 85% 30%, color-mix(in srgb, var(--c1) 80%, #fff 20%), transparent 62%), linear-gradient(150deg, var(--c1), var(--c2) 75%); }
+.tvx-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, .55), transparent 65%); }
+.tvx-hero-tx { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; max-width: 60%; }
+.tvx-hero-tx b { font-size: clamp(1.6rem, 4.2vw, 3.4rem); line-height: 1.02; letter-spacing: -.02em; }
+.tvx-hero-tx small { font-size: clamp(.85rem, 1.2vw, 1rem); color: rgba(255, 255, 255, .8); }
+.tvx-live { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #E5484D; font-size: .72rem; font-weight: 800; letter-spacing: .06em; }
+.tvx-live::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: tvxBlink 1.4s ease-in-out infinite; }
+@keyframes tvxBlink { 50% { opacity: .25; } }
+.tvx-go { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; padding: .8em 1.5em; border-radius: 999px; background: #C6FF3D; color: #0B0D0C; font-weight: 800; font-size: clamp(.9rem, 1.2vw, 1.05rem); }
+.tvx-go svg { width: 18px; height: 18px; fill: currentColor; }
+.tvx-hero:hover .tvx-go { background: #d9ff85; }
+.tvx-hero-logo { position: absolute; right: 6%; top: 50%; transform: translateY(-50%); width: min(30%, 280px); aspect-ratio: 1; display: grid; place-items: center; padding: 6%; border-radius: 28px; background: #fff; box-shadow: 0 18px 50px rgba(0, 0, 0, .45); }
+.tvx-hero-logo.is-dark { background: linear-gradient(160deg, #2a3040, #12151d); }
+.tvx-hero-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.tvx-bar { display: flex; align-items: baseline; gap: 12px; margin: 6px 0 12px; }
+.tvx-h { margin: 0; font-size: clamp(1.4rem, 2.4vw, 2rem); }
+.tvx-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-bottom: 18px; }
+.tvx-chips button { flex: none; padding: .6em 1.1em; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .06); color: #fff; font: 600 .92rem/1 inherit; cursor: pointer; }
+.tvx-chips button small { opacity: .6; margin-left: 4px; }
+.tvx-chips button.is-on { background: #C6FF3D; border-color: #C6FF3D; color: #0B0D0C; }
+.tvx-row { margin: 0 0 26px; }
+.tvx-row-h { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+.tvx-row-h h2 { margin: 0; font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
+.tvx-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; padding: 2px 2px 6px; }
+.tvx-track::-webkit-scrollbar { display: none; }
+.tvx-track .tv-card { flex: none; width: clamp(150px, 17vw, 230px); scroll-snap-align: start; }
+.tvx-track .tv-thumb { aspect-ratio: 16/9; border-radius: 14px; transition: transform .2s; }
+.tvx-track .tv-card:hover .tv-thumb { transform: translateY(-3px); }
+.tvx-track .tv-thumb::after { content: 'LIVE'; position: absolute; top: 8px; left: 8px; padding: 2px 7px; border-radius: 6px; background: #E5484D; color: #fff; font-size: .62rem; font-weight: 800; letter-spacing: .06em; }
+.tvx-track .tv-card.is-playing .tv-thumb { outline: 3px solid #C6FF3D; outline-offset: 2px; }
+@media (max-width: 700px) {
+  .tvx-player { border-radius: 14px; }
+  .tvx-hero-tx { max-width: 62%; gap: 6px; }
+  .tvx-hero-logo { width: 32%; border-radius: 18px; right: 5%; }
+  .tvx-track .tv-card { width: 42vw; }
+}
+.tvx-track .tv-thumb::after { z-index: 3; }
+.tvx-row-h h2 { white-space: nowrap; }
+.tvx-track .tv-card-name { font-size: .9rem; font-weight: 700; }
