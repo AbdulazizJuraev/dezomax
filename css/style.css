@@ -8980,11 +8980,27 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 }
 @media (prefers-reduced-motion: reduce) { .fun-tabs a { transition: none; } }
 
-/* 2026-11-23: bitta kanal bo'limi — kanalning dumaloq rasmi + nomi */
-.fun-chhead { display: flex; align-items: center; gap: 12px; }
-.fun-av { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; display: block; flex: none; box-shadow: 0 0 0 2px #C6FF3D, 0 6px 18px rgba(0, 0, 0, .4); }
-.fun-chhead b { font-size: 1.15rem; font-weight: 800; letter-spacing: -.01em; }
-@media (max-width: 600px) { .fun-av { width: 48px; height: 48px; } .fun-chhead b { font-size: 1.05rem; } }
+/* 2026-11-23: bitta kanal «oynasi» — YouTube kanal sahifasidagidek (banner, katta dumaloq rasm, nom ✓, obunachilar, tugma) */
+.fun-chan { margin-bottom: 20px; }
+.fun-chan[hidden] { display: none; }
+.fun-chan-ban { border-radius: 18px; overflow: hidden; background: #151816; aspect-ratio: 1400 / 231; }
+.fun-chan-ban img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fun-chan-row { display: flex; align-items: center; gap: 18px; padding: 16px 4px 0; }
+.fun-av { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; display: block; flex: none; background: #151816; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14); }
+.fun-chan-info { min-width: 0; flex: 1; }
+.fun-chan-info h2 { margin: 0 0 4px; display: flex; align-items: center; gap: 8px; font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 800; line-height: 1.15; }
+.fun-vf { width: .8em; height: .8em; flex: none; }
+.fun-vf circle { fill: #aaa; }
+.fun-vf path { fill: none; stroke: #0b0d0c; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.fun-chan-info p { margin: 0; color: var(--muted, #9aa3a0); font-size: .95rem; }
+.fun-sub { flex: none; padding: 10px 20px; border-radius: 999px; background: #fff; color: #0b0d0c; font-weight: 700; font-size: .9rem; white-space: nowrap; }
+.fun-sub:hover { background: #C6FF3D; }
+@media (max-width: 600px) {
+  .fun-chan-ban { border-radius: 14px; aspect-ratio: 16 / 5; }
+  .fun-chan-row { gap: 12px; flex-wrap: wrap; padding-top: 12px; }
+  .fun-av { width: 64px; height: 64px; }
+  .fun-sub { width: 100%; text-align: center; }
+}
 
 /* 2026-11-23: sarlavha yonida «Orqaga» tugmasi */
 .fun-hero { display: flex; align-items: center; gap: 12px; }

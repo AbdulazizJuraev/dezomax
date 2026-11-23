@@ -27,6 +27,7 @@
     <header class="fun-hero">
       <button type="button" class="fun-back" id="funBack" aria-label="${L('Orqaga', 'Назад')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
       <h1><em>${L('Qiziqarli', 'Интересное')}</em></h1></header>
+    <section class="fun-chan" id="funChan" hidden></section>
     <section class="fun-stage" id="funStage" hidden></section>
     <div class="fun-chs" id="funChs"></div>
     <div class="fun-grid" id="funGrid"></div>
@@ -64,10 +65,16 @@
     if (!list.length) $('funEmpty').textContent = L('Hozircha video yo‘q', 'Пока нет видео');
   }
   function renderChips() {
-    // bitta kanal bo'lsa — chiplar o'rniga kanalning dumaloq rasmi va nomi
-    if (cur.ch.length === 1 && cur.ch[0].av) {
-      const c = cur.ch[0];
-      $('funChs').innerHTML = `<div class="fun-chhead"><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="56" height="56"><b>${esc(c.name)}</b></div>`;
+    // bitta kanal bo'lsa — chiplar o'rniga YouTube'dagidek kanal «oynasi»: banner, dumaloq rasm, nom, obunachilar, tugma
+    const one = cur.ch.length === 1 && cur.ch[0].av ? cur.ch[0] : null;
+    $('funChan').hidden = !one;
+    if (one) {
+      $('funChan').innerHTML = `${one.ban ? `<div class="fun-chan-ban"><img src="${one.ban}" alt="" decoding="async"></div>` : ''}
+        <div class="fun-chan-row"><img class="fun-av" src="${one.av}" alt="${esc(one.name)}" width="96" height="96">
+          <div class="fun-chan-info"><h2>${esc(one.name)}<svg class="fun-vf" viewBox="0 0 24 24" aria-label="${L('Tasdiqlangan kanal', 'Подтверждённый канал')}"><circle cx="12" cy="12" r="10"/><path d="M7.6 12.4l3 3 5.8-6.4"/></svg></h2>
+            <p>${esc(one.handle || '')}${one.subs ? ` · ${esc(ru ? one.subs[1] : one.subs[0])}` : ''}</p></div>
+          ${one.url ? `<a class="fun-sub" href="${one.url}" target="_blank" rel="noopener">${L('YouTube’da ko‘rish', 'Открыть на YouTube')}</a>` : ''}</div>`;
+      $('funChs').innerHTML = '';
       return;
     }
     const has = new Set(items.map(x => x.ch));

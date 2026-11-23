@@ -14,7 +14,8 @@ const FUN_SECTIONS = [
     icon: '<rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9"/><circle cx="17.8" cy="13.8" r=".9"/>',
     ch: [
       // 2026-11-23: faqat FEZOT (egasidan ruxsat olingan); rasm — kanalning YouTube'dagi avatari (images/fun/fezot.webp)
-      { id: 'UCxIDGzyWz-leezRPIIQnAkQ', name: 'FEZOT', av: 'images/fun/fezot.webp' }
+      { id: 'UCxIDGzyWz-leezRPIIQnAkQ', name: 'FEZOT', av: 'images/fun/fezot.webp', ban: 'images/fun/fezot-banner.webp',
+        handle: '@FEZOT', subs: ['722 ming obunachi', '722 тыс. подписчиков'], url: 'https://www.youtube.com/@FEZOT' }
     ]
   },
   {
