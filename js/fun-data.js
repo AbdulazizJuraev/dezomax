@@ -13,6 +13,7 @@ const FUN_SECTIONS = [
     sub: ['O‘zbekcha va dunyo o‘yinlari', 'Прохождения игр'],
     icon: '<rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9"/><circle cx="17.8" cy="13.8" r=".9"/>',
     ch: [
+      { id: 'UCxIDGzyWz-leezRPIIQnAkQ', name: 'FEZOT' },
       { id: 'UCX9w2U1VGvyjgFdkJWRp5bQ', name: 'UZB GAMING' },
       { id: 'UClm66D_EeAaLXEQapOMt0sQ', name: 'UPG GAMING' },
       { id: 'UCTjLXqpWy0U6RbrSNWokyGw', name: 'Oripov Play' },

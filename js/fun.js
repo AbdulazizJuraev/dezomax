@@ -37,8 +37,7 @@
   };
 
   main.innerHTML = `
-    <header class="fun-hero"><h1><em>${L('Qiziqarli', 'Интересное')}</em></h1>
-      <p>${L('O‘yinlar, podkastlar, hayvonot olami, musiqa, taomlar, ilm-fan, sayohat va avto — eng yangi videolar bir joyda', 'Игры, подкасты, мир животных, музыка, кухня, наука, путешествия и авто — свежие видео в одном месте')}</p></header>
+    <header class="fun-hero"><h1><em>${L('Qiziqarli', 'Интересное')}</em></h1></header>
     <nav class="fun-tabs" role="tablist">${FUN_SECTIONS.map(s => `<a href="#${s.key}" role="tab" data-fun="${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><i class="fun-ti">${ICON[s.key] || ICON._}</i><b>${esc(nameOf(s))}</b></a>`).join('')}</nav>
     <section class="fun-stage" id="funStage" hidden></section>
     <div class="fun-chs" id="funChs"></div>
