@@ -180,6 +180,47 @@
     renderGrid();
   }
 
+  /* O'z layk/dizlayk (2026-11-23, YouTube havolasi o'rniga): saytning baho tizimi — to'lov serveri /social, /api/react (Shorts bilan bir xil).
+     Server raqamli ID taniydi — YouTube ID'dan barqaror raqam (9 000 000 000 + xesh, «yt:» oldi qo'shimchasi). Baho — faqat kirgan foydalanuvchi. */
+  const LIKE_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H4V10zM7 10l4-7c1.7 0 2.6 1 2.3 2.6L12.6 9H19a2 2 0 0 1 2 2.3l-1.2 7.4A2.6 2.6 0 0 1 17.2 21H7"/></svg>';
+  const API = typeof PAY_API !== 'undefined' && PAY_API ? String(PAY_API).replace(/\/+$/, '') : '';
+  const tok = () => (typeof Pay !== 'undefined' && Pay.token ? Pay.token() : '');
+  const sid = yid => { let h = 2166136261; for (const ch of 'yt:' + yid) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return 9e9 + h % 1e9; };
+  const likeSt = {};
+  async function likeReq(method, path, body) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (tok()) headers.Authorization = 'Bearer ' + tok();
+    const r = await fetch(API + path + (method === 'GET' && tok() ? (path.includes('?') ? '&' : '?') + 'u=1' : ''), { method, headers, body: body ? JSON.stringify(body) : undefined });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw Object.assign(new Error(j.error || 'xato'), { status: r.status });
+    return j;
+  }
+  function likePaint(id) {
+    const el = $('funLike'), s = likeSt[id];
+    if (!el || el.dataset.id !== id || !s) return;
+    el.querySelector('[data-n="likes"]').textContent = s.likes ? fmtN(s.likes) : '';
+    el.querySelector('[data-r="1"]').classList.toggle('is-on', s.mine === 1);
+    el.querySelector('[data-r="-1"]').classList.toggle('is-on', s.mine === -1);
+  }
+  function likeLoad(id) {
+    const el = $('funLike');
+    if (!el) return;
+    el.addEventListener('click', async e => {
+      const b = e.target.closest('[data-r]');
+      if (!b) return;
+      const s = likeSt[id];
+      const msg = m => (typeof toast === 'function' ? toast(m) : alert(m));
+      if (!API || !s || s.down) return msg(L('Baholash hozircha ishlamayapti', 'Оценки временно недоступны'));
+      if (!tok()) return msg(L('Baho berish uchun hisobingizga kiring', 'Войдите, чтобы оценить'));
+      const v = s.mine === +b.dataset.r ? 0 : +b.dataset.r;
+      try { Object.assign(s, await likeReq('POST', '/api/react', { movie: sid(id), value: v })); likePaint(id); }
+      catch (er) { msg(er.status === 401 ? L('Baho berish uchun hisobingizga kiring', 'Войдите, чтобы оценить') : L('Xatolik, keyinroq urinib ko‘ring', 'Ошибка, попробуйте позже')); }
+    });
+    if (likeSt[id]) return likePaint(id);
+    likeSt[id] = { likes: 0, dislikes: 0, mine: 0 };
+    if (API) likeReq('GET', '/social?movie=' + sid(id)).then(j => { Object.assign(likeSt[id], j); likePaint(id); }).catch(() => { likeSt[id].down = true; });
+  }
+
   function play(id) {
     const st = $('funStage');
     if (!id) { if (typeof destroyYouTube === 'function') destroyYouTube(); st.hidden = true; st.innerHTML = ''; return; }
@@ -190,7 +231,7 @@
     st.innerHTML = `<div class="fun-player">${own ? '<div class="player-wrap" id="funBox"></div>' : `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="${esc(x.t)}"
         allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`}</div>
       <div class="fun-info"><div><h2>${esc(x.t)}</h2><small>${esc(x.cn)}${x.v ? ` · ${fmtN(x.v)} ${L('ko‘rish', 'просм.')}` : ''}${x.d ? ` · ${ago(x.d)}` : ''}</small></div>
-        <div class="fun-acts"><a href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">YouTube ↗</a><button type="button" id="funClose" aria-label="${L('Yopish', 'Закрыть')}">✕</button></div></div>`;
+        <div class="fun-acts"><span class="fun-like" id="funLike" data-id="${id}"><button type="button" data-r="1" aria-label="${L('Yoqdi', 'Нравится')}">${LIKE_IC}<span data-n="likes"></span></button><button type="button" data-r="-1" aria-label="${L('Yoqmadi', 'Не нравится')}">${LIKE_IC.replace('<svg', '<svg style="transform:scaleY(-1)"')}</button></span><button type="button" id="funClose" aria-label="${L('Yopish', 'Закрыть')}">✕</button></div></div>`;
     if (own) {
       const box = $('funBox');
       mountYouTube(box, 'https://www.youtube.com/watch?v=' + id, { title: x.t, poster: `https://i.ytimg.com/vi/${id}/hqdefault.jpg` });
@@ -205,6 +246,7 @@
         if (next) setTimeout(() => { if ($('funBox') === box) location.replace(hp() + '&v=' + next.id); }, 1500);
       });
     }
+    likeLoad(id);
     st.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 

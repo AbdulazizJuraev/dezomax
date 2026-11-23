@@ -174,7 +174,6 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
         <button class="sh-act sh-comments" type="button" aria-label="${T.comments}"><span class="sh-btn">${IG.comment}</span><b data-n="comments"></b></button>
         <button class="sh-act sh-share" type="button" aria-label="${T.share}"><span class="sh-btn">${IG.send}</span></button>
         <button class="sh-act sh-save${saved.has(s.id) ? ' is-on' : ''}" type="button" aria-label="${ru ? 'Сохранить' : 'Saqlash'}"><span class="sh-btn">${IG.save}</span></button>
-        <a class="sh-act sh-more" href="https://www.youtube.com/shorts/${s.id}" target="_blank" rel="noopener" aria-label="${ru ? 'Открыть в YouTube' : 'YouTube’da ochish'}"><span class="sh-btn">${IG.more}</span></a>
       </div>
       <div class="sh-prog"><i></i></div>`;
   const slideHTML = (s, i) => `<section class="sh-slide" data-i="${i}" data-id="${s.id}"><img class="sh-thumb" data-src="https://i.ytimg.com/vi/${s.id}/oardefault.jpg" alt="" decoding="async"><div class="sh-frame"></div></section>`;

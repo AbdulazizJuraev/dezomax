@@ -9224,3 +9224,11 @@ html.dzx-gt body { top: 0 !important; position: static !important; }
 html.dzx-gt :is(.goog-te-banner-frame, .skiptranslate > iframe, #goog-gt-tt, .goog-te-balloon-frame, .VIpgJd-ZVi9od-ORHb-OEVmcd, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf, .VIpgJd-yAWNEb-L7lbkb) { display: none !important; }
 html.dzx-gt .goog-text-highlight { background: none !important; box-shadow: none !important; }
 html.dzx-gt font { all: unset; }
+
+/* Qiziqarli: o'z layk/dizlayk (2026-11-23) */
+.fun-like { display: inline-flex; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .06); overflow: hidden; }
+.fun-acts .fun-like button { display: inline-flex; align-items: center; gap: 6px; border: 0; border-radius: 0; background: none; padding: 8px 14px; }
+.fun-acts .fun-like button + button { border-left: 1px solid rgba(255, 255, 255, .16); }
+.fun-like svg { width: 18px; height: 18px; }
+.fun-like button.is-on { color: #C6FF3D; }
+.fun-like button.is-on svg { fill: currentColor; fill-opacity: .25; }

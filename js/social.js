@@ -366,7 +366,6 @@ function initSocial(m, part, opts = {}) {
             </div>
           </div>`).join('')}</div>
         ${!ytOpen && yt.comments.length > YT_SHOW ? `<button class="soc-yt-toggle" type="button" id="socYtMore">${esc(t('soc.ytMore').replace('{n}', yt.comments.length - YT_SHOW))}</button>` : ''}
-        <a class="btn btn-ghost soc-more" href="https://www.youtube.com/watch?v=${ytId}" target="_blank" rel="noopener">${SOC_ICONS.yt}<span>${esc(t('soc.ytAll'))}</span></a>
       </div>` : ''}`;
 
     const form = box.querySelector('#socForm');
