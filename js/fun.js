@@ -86,13 +86,13 @@
   // faqat joriy kanal / bo'lim kanallari (eski keshdagi olib tashlangan kanal videolari chiqmasin) va taqiqlanmagan videolar
   const okList = () => items.filter(x => !blocked.has(x.id) && (cs ? x.ch === cs : cur.ch.some(c => c.id === x.ch)));
   // ko'p video (kanalning hammasi — 2000+) bir yo'la chizilmaydi: 36 tadan, pastga surilganda qo'shiladi (sahifa yengil)
-  const STEP = 36;
+  const STEP = 48;
   let shown = STEP, lastList = [];
   const more = new IntersectionObserver(es => {
     if (!es.some(e => e.isIntersecting) || shown >= lastList.length) return;
     $('funGrid').insertAdjacentHTML('beforeend', lastList.slice(shown, shown + STEP).map(card).join(''));
     shown += STEP;
-  }, { rootMargin: '800px 0px' });
+  }, { rootMargin: '1600px 0px' });
   function renderGrid() {
     let list = chSel ? okList().filter(x => x.ch === chSel) : okList();
     if (q) { const n = q.toLowerCase(); list = list.filter(x => String(x.t).toLowerCase().includes(n)); }
@@ -119,9 +119,16 @@
     $('funChan').innerHTML = `${c.ban ? `<div class="fun-chan-ban"><img src="${c.ban}" alt="" decoding="async"></div>` : ''}
       <div class="fun-chan-row"><img class="fun-av" src="${c.av}" alt="${esc(c.name)}" width="96" height="96">
         <div class="fun-chan-info"><h2>${esc(c.name)}${c.vf ? VF : ''}</h2><p>${subsOf(c)}</p></div></div>
-      <nav class="fun-ytabs" role="tablist">${TABS.map(([k, uz, r]) => `<button type="button" role="tab" data-tab="${k}" class="${k === tab ? 'is-on' : ''}" aria-selected="${k === tab}">${L(uz, r)}</button>`).join('')}
+      <nav class="fun-ytabs" role="tablist">${TABS.map(([k, uz, r]) => `<button type="button" role="tab" data-tab="${k}" class="${k === tab ? 'is-on' : ''}" aria-selected="${k === tab}">${L(uz, r)}<span class="fun-yc" data-cnt="${k}"></span></button>`).join('')}
         <span class="fun-ysearch${q ? ' is-open' : ''}"><button type="button" id="funSearchBtn" aria-label="${L('Kanaldan qidirish', 'Поиск по каналу')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
           <input type="search" id="funQ" placeholder="${L('Kanaldan qidirish', 'Поиск по каналу')}" value="${esc(q)}"></span></nav>`;
+    // har bo'lim yonida videolar soni (arxiv faylidan) — «Videolar 196 · Shorts 2 376» (kanalning «2,5K video»si qayerdaligi ko'rinsin)
+    if (c.all) loadAll(c).then(all => {
+      if (!all || curChan() !== c) return;
+      const n = { lf: (all.lf || []).length, sh: (all.sh || []).length, lv: (all.lv || []).length };
+      n.home = n.lf + n.lv;
+      document.querySelectorAll('.fun-yc[data-cnt]').forEach(s => { const v = n[s.dataset.cnt]; s.textContent = v ? v.toLocaleString('ru-RU') : ''; });
+    });
   }
   function renderChips() {
     if (chanSec(cur)) return;

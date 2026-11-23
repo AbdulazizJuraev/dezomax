@@ -9147,3 +9147,7 @@ nav.tabbar { view-transition-name: dz-tabbar; }
 @keyframes dzPageOut { to { opacity: 0; transform: translateY(-8px); } }
 @keyframes dzPageIn { from { opacity: 0; transform: translateY(14px); } }
 @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+/* kanal bo'limlari yonida videolar soni (js/fun.js renderChan) */
+.fun-yc { margin-left: 6px; font-size: .8em; color: var(--muted, #9aa3a0); font-variant-numeric: tabular-nums; }
+.fun-yc:empty { display: none; }
+.fun-ytabs [data-tab].is-on .fun-yc { color: #C6FF3D; }
