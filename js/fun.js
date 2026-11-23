@@ -27,7 +27,6 @@
     <header class="fun-hero">
       <button type="button" class="fun-back" id="funBack" aria-label="${L('Orqaga', 'Назад')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
       <h1><em>${L('Qiziqarli', 'Интересное')}</em></h1></header>
-    <nav class="fun-tabs" role="tablist">${FUN_SECTIONS.map(s => `<a href="#${s.key}" role="tab" data-fun="${s.key}" style="--c1:${s.c1};--c2:${s.c2}"><b>${esc(nameOf(s))}</b></a>`).join('')}</nav>
     <section class="fun-stage" id="funStage" hidden></section>
     <div class="fun-chs" id="funChs"></div>
     <div class="fun-grid" id="funGrid"></div>
