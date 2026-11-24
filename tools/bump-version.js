@@ -68,6 +68,8 @@ require('./gen-site-data.js');
 // bosh sahifa uchun yengil ro'yxat (js/data-home.js — index.html)
 require('./gen-home-data.js');
 
+// ob-havo / valyuta sahifalari (qiziqarli.html shablonidan, yangi ?v= bilan)
+require('./gen-weather-pages.js');
 require('./gen-sitemap.js');
 // YouTube videolari (Qiziqarli, Shorts) — /video/…, /shorts/… manzillari va sitemap-videos.xml
 require('./gen-video-seo.js');

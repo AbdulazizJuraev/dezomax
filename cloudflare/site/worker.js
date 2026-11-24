@@ -116,6 +116,76 @@ async function serveMoviePage(request, env, url, id, metadata) {
   return new Response(request.method === 'HEAD' ? null : html, { status: shell.status, headers });
 }
 
+/* ===== Ob-havo va valyuta kursi (2026-11-24) — ob-havo.html, valyuta.html, bosh sahifadagi «Kunlik» blok =====
+   /_w/wx?lat=&lon=      — MET Norway (api.met.no, CC BY 4.0, tijoriy foydalanish mumkin) prognozi, ixcham: hozir, 24 soat, 10 kun (30 daq kesh)
+   /_w/wx-all?ll=lat,lon;lat,lon… — bir nechta shahar uchun hozirgi harorat va bugungi max (viloyatlar ro'yxati)
+   /_w/fx                — O'zbekiston Markaziy banki (cbu.uz) bugungi kurslari (1 soat kesh)
+   /_w/fx-hist?c=USD&r=7|30|365 — kurs tarixi (grafik), cbu.uz arxividan */
+const WX_UA = 'DezoMax/1.0 https://dezomax.uz';
+const jsonRes = (obj, maxAge, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*', 'cache-control': status === 200 ? `public, max-age=${maxAge}` : 'no-store' } });
+const uzDate = iso => new Date(Date.parse(iso) + 5 * 3600e3).toISOString();   // O'zbekiston — UTC+5
+async function wxRaw(lat, lon) {
+  const r = await fetch(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${lon}`, { headers: { 'user-agent': WX_UA }, cf: { cacheEverything: true, cacheTtl: 1800 } });
+  if (!r.ok) throw new Error('met ' + r.status);
+  return (await r.json()).properties.timeseries;
+}
+function wxCompact(ts) {
+  const sym = x => ((x.data.next_1_hours || x.data.next_6_hours || x.data.next_12_hours || {}).summary || {}).symbol_code || '';
+  const d0 = ts[0].data, det = d0.instant.details;
+  const now = { at: ts[0].time, t: det.air_temperature, h: det.relative_humidity, w: det.wind_speed, wd: det.wind_from_direction, p: det.air_pressure_at_sea_level, s: sym(ts[0]),
+    r6: (d0.next_6_hours && d0.next_6_hours.details && d0.next_6_hours.details.precipitation_amount) || 0 };
+  const hours = ts.slice(0, 25).map(x => [uzDate(x.time).slice(11, 16), Math.round(x.data.instant.details.air_temperature), sym(x)]);
+  const days = {};
+  for (const x of ts) {
+    const l = uzDate(x.time), d = l.slice(0, 10), h = +l.slice(11, 13), t = x.data.instant.details.air_temperature;
+    const o = days[d] || (days[d] = { mn: 99, mx: -99, s: '', sh: 99, r: 0 });
+    o.mn = Math.min(o.mn, t); o.mx = Math.max(o.mx, t);
+    const s6 = x.data.next_6_hours;
+    if (s6 && Math.abs(h - 12) < o.sh) { o.sh = Math.abs(h - 12); o.s = s6.summary.symbol_code; }
+    if (s6 && s6.details && h % 6 === 0) o.r += s6.details.precipitation_amount || 0;
+  }
+  const dl = Object.entries(days).slice(0, 10).map(([d, o]) => [d, Math.round(o.mn), Math.round(o.mx), o.s || now.s, Math.round(o.r * 10) / 10]);
+  return { now, hours, days: dl };
+}
+const llOk = (a, b) => { const lat = +a, lon = +b; return isFinite(lat) && isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180 ? [lat.toFixed(2), lon.toFixed(2)] : null; };
+async function wxApi(url) {
+  try {
+    if (url.pathname === '/_w/wx') {
+      const ll = llOk(url.searchParams.get('lat'), url.searchParams.get('lon'));
+      if (!ll) return jsonRes({ error: 'lat/lon' }, 0, 400);
+      return jsonRes({ at: Date.now(), ...wxCompact(await wxRaw(...ll)) }, 900);
+    }
+    if (url.pathname === '/_w/wx-all') {
+      const list = (url.searchParams.get('ll') || '').split(';').slice(0, 16).map(p => llOk(...p.split(','))).filter(Boolean);
+      const out = await Promise.all(list.map(async ll => {
+        try { const c = wxCompact(await wxRaw(...ll)); return { t: Math.round(c.now.t), s: c.now.s, mx: c.days[0] ? c.days[0][2] : null, mn: c.days[0] ? c.days[0][1] : null }; } catch (e) { return null; }
+      }));
+      return jsonRes({ at: Date.now(), list: out }, 900);
+    }
+    if (url.pathname === '/_w/fx') {
+      const r = await fetch('https://cbu.uz/uz/arkhiv-kursov-valyut/json/', { cf: { cacheEverything: true, cacheTtl: 3600 } });
+      if (!r.ok) return jsonRes({ error: 'cbu' }, 0, 502);
+      const j = await r.json();
+      return jsonRes({ at: Date.now(), date: j[0] && j[0].Date, list: j.map(x => ({ c: x.Ccy, n: x.CcyNm_UZ, nr: x.CcyNm_RU, nom: +x.Nominal, r: +x.Rate, d: +x.Diff })) }, 1800);
+    }
+    if (url.pathname === '/_w/fx-hist') {
+      const c = (url.searchParams.get('c') || 'USD').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3);
+      const range = { 7: [7, 1], 30: [15, 2], 365: [26, 14] }[url.searchParams.get('r') || '30'] || [15, 2];
+      const today = new Date(Date.now() + 5 * 3600e3);
+      const dates = Array.from({ length: range[0] }, (_, i) => new Date(today - (range[0] - 1 - i) * range[1] * 86400e3).toISOString().slice(0, 10));
+      const pts = await Promise.all(dates.map(async (d, i) => {
+        try {
+          const r = await fetch(`https://cbu.uz/uz/arkhiv-kursov-valyut/json/${c}/${d}/`, { cf: { cacheEverything: true, cacheTtl: i === dates.length - 1 ? 3600 : 86400 * 7 } });
+          const j = r.ok ? await r.json() : null;
+          return j && j[0] ? [d, +j[0].Rate / (+j[0].Nominal || 1)] : null;
+        } catch (e) { return null; }
+      }));
+      return jsonRes({ at: Date.now(), c, pts: pts.filter(Boolean) }, 3600);
+    }
+  } catch (e) { return jsonRes({ error: String(e.message || e) }, 0, 502); }
+  return null;
+}
+
 /* ===== YouTube videolari sahifalari (2026-11-23, tools/gen-video-seo.js) =====
    /video/<nom>-<ID> → qiziqarli.html, /shorts/<ID> → shorts.html — sarlavha, tavsif, rasm, VideoObject; sahifa JS'i shu videoni ochadi */
 const VID_SHARDS = 64;
@@ -320,6 +390,7 @@ export default {
     // UULF… pleylisti — shortslarsiz). Faqat kanal id'lari qabul qilinadi; har kanal 30 daqiqa Cloudflare keshida. 2026-11-21
     if (url.pathname === '/_yt/feed') return ytFeed(url);
     if (url.pathname === '/_yt/live') return ytLive(url);
+    if (url.pathname.startsWith('/_w/')) { const wr = await wxApi(url); if (wr) return wr; }
     // /video/<nom>-<ID>, /shorts/<ID> — YouTube videolarining Google uchun sahifalari (tools/gen-video-seo.js)
     const vr = (request.method === 'GET' || request.method === 'HEAD') && videoRoute(url);
     if (vr) return serveVideoPage(request, env, url, vr);

@@ -720,7 +720,9 @@ function dzxAcctMenu(menu) {
     look: '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor"/>',
     set: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
     help: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17h0"/>',
-    fb: '<path d="M4 4h16v12H8l-4 4Z"/><path d="M12 7.5v4M12 13.8h0"/>'
+    fb: '<path d="M4 4h16v12H8l-4 4Z"/><path d="M12 7.5v4M12 13.8h0"/>',
+    wx: '<circle cx="8" cy="8" r="3"/><path d="M8 2v1.5M2 8h1.5M3.8 3.8l1 1M12.2 3.8l-1 1"/><path d="M9 20h9a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9.6 1.4A2.8 2.8 0 0 0 9 20Z"/>',
+    fx: '<path d="M4 7h13l-3-3M20 17H7l3 3"/><path d="M8.5 7v0M15.5 17v0"/>'
   };
   const ic = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${P[k]}</svg>`;
   // ruscha nusxada (dezomax.uz/ru/, <base href="../">) — ruscha sahifasi bor bo'lsa o'shanga
@@ -734,6 +736,7 @@ function dzxAcctMenu(menu) {
     ${u ? `<div class="h5-mg">${u.method === 'google' ? it('g', L('Google akkaunt', 'Аккаунт Google'), 'https://myaccount.google.com/', ' target="_blank" rel="noopener"') : ''}${it('sw', L('Akkauntni almashtirish', 'Сменить аккаунт'), pg('account.html'), ' data-acc-switch', true)}${it('out', L('Chiqish', 'Выйти'), '#', ' data-acc-out')}</div>`
     : `<div class="h5-mg">${it('in', L('Kirish', 'Войти'), pg('account.html'))}</div>`}
     <div class="h5-mg">${it('lib', L('Kutubxona', 'Библиотека'), pg('favorites.html'))}${it('dl', L('Yuklab olinganlar', 'Загрузки'), pg('downloads.html'))}${it('pay', L('Obuna va to‘lovlar', 'Подписка и платежи'), pg('plans.html'))}</div>
+    <div class="h5-mg">${it('wx', L('Ob-havo', 'Погода'), 'ob-havo.html')}${it('fx', L('Valyuta kursi', 'Курсы валют'), 'valyuta.html')}</div>
     <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), pg('account.html#history'))}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${typeof DZX_LANGS !== 'undefined' && dzxGtGet() ? (DZX_LANGS.find(x => x[0] === dzxGtGet()) || [, ''])[1] : ru ? 'Русский' : 'O‘zbekcha'}`, '#', ' data-acc-langs', true)}${it('look', L('Ko‘rinish va shrift', 'Тема и размер шрифта'), '#', ' data-acc-look', true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
     <div class="h5-mg">${it('set', L('Sozlamalar', 'Настройки'), pg('account.html#settings'))}</div>
     <div class="h5-mg">${it('help', L('Yordam', 'Справка'), pg(u ? 'account.html#support' : 'about.html'))}${it('fb', L('Fikr yuborish', 'Отправить отзыв'), pg('contacts.html'))}</div>`;

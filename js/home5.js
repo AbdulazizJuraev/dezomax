@@ -753,6 +753,8 @@
     const push = html => { if (!html) return; out.push(html); if (++shown % 3 === 0) out.push('<div class="ad-slot h5-wrap" data-ad-slot="home"></div>'); };
 
     out.push(continueHTML());
+    // «Kunlik» — ob-havo va dollar kursi (2026-11-24; ma'lumot js/kunlik.js orqali, sahifa ochilgach yuklanadi)
+    out.push(`<section class="kunlik h5-wrap" id="dzxKunlik" aria-label="${L('Kunlik', 'На сегодня')}"></section>`);
     const trending = take('trending'), uzbek = take('uzbek'), popular = take('popular') || take('top'), fresh = take('new');
     const series = take('series'), cartoons = take('cartoons'), tahlil = take('tahlil'), studios = take('studios');
     take('top');
@@ -800,6 +802,9 @@
 
     const box = $('h5Rows');
     box.innerHTML = out.join('');
+    { const v = ((document.querySelector('script[src*="js/home5.js"]') || {}).src || '').split('?v=')[1] || '1';
+      const go = () => { const k = document.createElement('script'); k.src = 'js/kunlik.js?v=' + v; k.async = true; document.body.appendChild(k); };
+      'requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 1500 }) : setTimeout(go, 400); }
     // qiziqarli.html «Orqaga» → index.html#qiziqarli: qatorlar JS bilan chizilgani uchun brauzer o'zi aylantirmaydi
     if (location.hash === '#qiziqarli') {
       const go = () => $('qiziqarli')?.scrollIntoView({ block: 'start' });
