@@ -1357,7 +1357,7 @@ function renderHome() {
     <div class="a4-head"><div><h1>${hello}</h1><p class="a4-sub" id="a4Deploy">${uzDate(new Date())}</p></div></div>
     <div class="a4-stats">
       <button class="a4-card a4-st" type="button" data-stat="all"><span>${NAV_ICONS.film}Kinolar va videolar</span><b>${fmt(all.length + yt.total)}</b><small>${fmt(active.length)} kino faol · ${fmt(yt.total)} YouTube</small></button>
-      <button class="a4-card a4-st" type="button" data-stat="added"><span>${NAV_ICONS.plus}Qo‘shilgan</span><b>${fmt(addedList().length + yt.total)}</b><small class="is-up">+${weekAdded + ytWeek} shu hafta</small></button>
+      <button class="a4-card a4-st" type="button" data-stat="added"><span>${NAV_ICONS.plus}Qo‘shilgan</span><b>${fmt(addedList().length + yt.total)}</b><small class="is-up">+${fmt(weekAdded + ytWeek)} shu hafta</small></button>
       <button class="a4-card a4-st" type="button" data-stat="hidden"><span>${ITEM_ICONS.eyeOff}Yashirilgan</span><b>${fmt(hiddenList.length)}</b><small>saytda ko‘rinmaydi</small></button>
       <button class="a4-card a4-st" type="button" data-go="clean"><span>${A4_ICONS.broom}E’tibor talab</span><b>${fmt(raw + bad)}</b><small class="${raw + bad ? 'is-warn' : ''}">${raw} xom nom · ${bad} ishlamaydi</small></button>
     </div>
