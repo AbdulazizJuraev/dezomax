@@ -1316,11 +1316,27 @@ function a4LoadShorts(done) {
   document.head.appendChild(s);
 }
 
+// YouTube videolari statistikasi (_vid/stats.json — tools/gen-video-seo.js): Qiziqarli + Shorts + jonli efirlar. 2026-11-25
+let ytStats = null, ytStatsLoading = false;
+function loadYtStats() {
+  if (ytStats || ytStatsLoading) return;
+  ytStatsLoading = true;
+  fetch('_vid/stats.json?t=' + Math.floor(Date.now() / 600000)).then(r => (r.ok ? r.json() : null)).then(j => {
+    if (!j) return;
+    ytStats = j;
+    if (document.getElementById('a4Deploy')) renderHome();   // hali bosh panelda bo'lsa — yangilash
+  }).catch(() => {}).finally(() => { ytStatsLoading = false; });
+}
+
 function renderHome() {
+  loadYtStats();
+  const yt = ytStats || { total: 0, video: 0, live: 0, short: 0, days: {} };
+  const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   const all = allMovies();
   const active = activeList();
   const now = Date.now();
   const weekAdded = customList.filter(m => (m.addedAt || 0) > now - 7 * DAY_MS).length;
+  const ytWeek = Array.from({ length: 7 }, (_, i) => yt.days[ymd(new Date(now - i * DAY_MS))] || 0).reduce((a, b) => a + b, 0);
   const raw = rawTitleItems().length, bad = brokenBadCount();
   const splitGroups = splitEpisodeGroups();
   const fmt = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
@@ -1330,7 +1346,8 @@ function renderHome() {
   const days = Array.from({ length: 14 }, (_, i) => {
     const d = new Date(now - (13 - i) * DAY_MS); d.setHours(0, 0, 0, 0);
     const from = +d, to = from + DAY_MS;
-    return { d, n: customList.filter(m => m.addedAt >= from && m.addedAt < to).length };
+    const f = customList.filter(m => m.addedAt >= from && m.addedAt < to).length, v = yt.days[ymd(d)] || 0;
+    return { d, f, v, n: f + v };
   });
   const maxN = Math.max(1, ...days.map(x => x.n));
   const WD = ['Ya', 'Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh'];
@@ -1339,15 +1356,15 @@ function renderHome() {
   $('#admView').innerHTML = `
     <div class="a4-head"><div><h1>${hello}</h1><p class="a4-sub" id="a4Deploy">${uzDate(new Date())}</p></div></div>
     <div class="a4-stats">
-      <button class="a4-card a4-st" type="button" data-stat="all"><span>${NAV_ICONS.film}Kinolar</span><b>${fmt(all.length)}</b><small>${fmt(active.length)} tasi faol</small></button>
-      <button class="a4-card a4-st" type="button" data-stat="added"><span>${NAV_ICONS.plus}Qo‘shilgan</span><b>${fmt(addedList().length)}</b><small class="is-up">+${weekAdded} shu hafta</small></button>
+      <button class="a4-card a4-st" type="button" data-stat="all"><span>${NAV_ICONS.film}Kinolar va videolar</span><b>${fmt(all.length + yt.total)}</b><small>${fmt(active.length)} kino faol · ${fmt(yt.total)} YouTube</small></button>
+      <button class="a4-card a4-st" type="button" data-stat="added"><span>${NAV_ICONS.plus}Qo‘shilgan</span><b>${fmt(addedList().length + yt.total)}</b><small class="is-up">+${weekAdded + ytWeek} shu hafta</small></button>
       <button class="a4-card a4-st" type="button" data-stat="hidden"><span>${ITEM_ICONS.eyeOff}Yashirilgan</span><b>${fmt(hiddenList.length)}</b><small>saytda ko‘rinmaydi</small></button>
       <button class="a4-card a4-st" type="button" data-go="clean"><span>${A4_ICONS.broom}E’tibor talab</span><b>${fmt(raw + bad)}</b><small class="${raw + bad ? 'is-warn' : ''}">${raw} xom nom · ${bad} ishlamaydi</small></button>
     </div>
     <div class="a4-row">
       <div class="a4-col">
-        <section class="a4-card"><div class="a4-ch"><b>Qo‘shilgan kinolar · 14 kun</b><span>${days.reduce((s, x) => s + x.n, 0)} ta</span></div>
-          <div class="a4-chart">${days.map((x, i) => `<div class="${i === 13 ? 'is-on' : ''}" title="${x.n} ta"><i style="height:${Math.max(4, x.n / maxN * 100)}%"></i><small>${i % 2 ? WD[x.d.getDay()] : x.d.getDate()}</small></div>`).join('')}</div></section>
+        <section class="a4-card"><div class="a4-ch"><b>Qo‘shilgan kinolar va videolar · 14 kun</b><span><i class="a4-lg"></i>kino ${days.reduce((s, x) => s + x.f, 0)} · <i class="a4-lg is-yt"></i>YouTube ${days.reduce((s, x) => s + x.v, 0)}</span></div>
+          <div class="a4-chart">${days.map((x, i) => `<div class="${i === 13 ? 'is-on' : ''}" title="${x.f} kino · ${x.v} YouTube video"><i${x.v ? ' class="has-yt"' : ''} style="height:${Math.max(4, x.n / maxN * 100)}%${x.v ? `;--yt:${(x.v / x.n * 100).toFixed(1)}%` : ''}"></i><small>${i % 2 ? WD[x.d.getDay()] : x.d.getDate()}</small></div>`).join('')}</div></section>
         <section class="a4-card a4-grow"><div class="a4-ch"><b>Oxirgi qo‘shilganlar</b><button class="a4-link" type="button" data-go="list">Hammasi →</button></div>
           <div class="a4-table">${recent.map(m => { const [c, s] = a4Status(m); return `
             <div class="a4-tr"><span class="a4-pst">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>

@@ -368,3 +368,8 @@
 }
 .chx-act .adm-ibtn.is-danger { color: var(--a-orange); background: var(--a-oranges); border-color: transparent; }
 .chx-act .adm-ibtn.is-ok { background: var(--a-limes); border-color: transparent; }
+/* 14 kunlik grafik: YouTube videolari — qizil qism (2026-11-25) */
+.a4-chart i.has-yt { background: linear-gradient(to top, #FF4E45 var(--yt), var(--a-s3) var(--yt)); }
+.a4-chart > div.is-on i.has-yt { background: linear-gradient(to top, #FF4E45 var(--yt), var(--a-lime) var(--yt)); }
+.a4-lg { display: inline-block; width: 9px; height: 9px; border-radius: 3px; background: var(--a-lime); margin: 0 5px 0 8px; }
+.a4-lg.is-yt { background: #FF4E45; }
