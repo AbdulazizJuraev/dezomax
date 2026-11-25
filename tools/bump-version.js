@@ -72,6 +72,8 @@ require('./gen-home-data.js');
 require('./gen-weather-pages.js');
 require('./gen-sitemap.js');
 // YouTube videolari (Qiziqarli, Shorts) — /video/…, /shorts/… manzillari va sitemap-videos.xml
+// Qiziqarli: arxivi yo'q kanallarning RSS ro'yxati → data/fun-feed.json (tarmoq bo'lmasa — eski ro'yxat qoladi)
+try { require('child_process').execSync('node "' + path.join(__dirname, 'fetch-fun-feed.js') + '"', { stdio: 'inherit', timeout: 120000 }); } catch (e) { console.warn('fetch-fun-feed: o‘tkazib yuborildi —', e.message); }
 require('./gen-video-seo.js');
 
 // Ilova vidjeti uchun yangi kinolar (data/widget.json)

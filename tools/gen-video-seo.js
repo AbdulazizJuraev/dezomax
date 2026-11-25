@@ -42,6 +42,19 @@ for (const sec of ctx.FUN_SECTIONS || []) for (const c of sec.ch || []) {
     index[id] = { t, n: c.name, k: sec.key, c: c.id, d: d || '', v: v || 0, y, s: videoSlug(t) };
   }
 }
+// Arxivi yo'q kanallar — RSS ro'yxati (data/fun-feed.json — tools/fetch-fun-feed.js). 2026-11-25
+{
+  let feed = {};
+  try { feed = JSON.parse(fs.readFileSync(path.join(root, 'data/fun-feed.json'), 'utf8')); } catch (e) {}
+  for (const sec of ctx.FUN_SECTIONS || []) for (const c of sec.ch || []) {
+    const j = feed[c.id];
+    if (!j) continue;
+    for (const y of ['lf', 'lv', 'sh']) for (const [id, t, v, d] of j[y] || []) {
+      if (!/^[\w-]{11}$/.test(id) || index[id]) continue;
+      index[id] = { t, n: c.name, k: sec.key, c: c.id, d: d || '', v: v || 0, y, s: videoSlug(t) };
+    }
+  }
+}
 // Shorts sahifasi
 {
   const src = fs.readFileSync(path.join(root, 'js/data-shorts.js'), 'utf8');
@@ -74,7 +87,7 @@ function addedDates(ids) {
     const { execSync } = require('child_process');
     const env = { ...process.env, TZ: 'Asia/Tashkent' };
     const git = c => execSync('git ' + c, { cwd: root, env, maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'ignore'] }).toString();
-    const files = [...new Set([...(ctx.FUN_SECTIONS || []).flatMap(sec => (sec.ch || []).map(c => c.all).filter(Boolean)), 'js/data-shorts.js'])];
+    const files = [...new Set([...(ctx.FUN_SECTIONS || []).flatMap(sec => (sec.ch || []).map(c => c.all).filter(Boolean)), 'js/data-shorts.js', 'data/fun-feed.json'])];
     for (const f of files) {
       let log = [];
       try { log = git(`log --reverse --format=%H%x20%ad --date=format-local:%Y-%m-%d -- ${f}`).trim().split('\n').filter(Boolean); } catch (e) {}
@@ -83,7 +96,8 @@ function addedDates(ids) {
         let src; try { src = git(`show ${h}:${f}`); } catch (e) { continue; }
         const got = [];
         try {
-          if (f.endsWith('.json')) { const j = JSON.parse(src); for (const y of ['lf', 'lv', 'sh']) for (const r of j[y] || []) got.push(r[0]); }
+          if (f.endsWith('fun-feed.json')) { for (const j of Object.values(JSON.parse(src))) for (const y of ['lf', 'lv', 'sh']) for (const r of j[y] || []) got.push(r[0]); }
+          else if (f.endsWith('.json')) { const j = JSON.parse(src); for (const y of ['lf', 'lv', 'sh']) for (const r of j[y] || []) got.push(r[0]); }
           else { const c = {}; vm.createContext(c); vm.runInContext(src.replace(/^(const|let) /gm, 'var '), c); for (const x of c.SHORTS || []) if (x) got.push(x.id); }
         } catch (e) {}
         for (const id of got) if (need.has(id) && (!map[id] || d < map[id])) map[id] = d;
