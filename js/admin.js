@@ -1316,12 +1316,12 @@ function a4LoadShorts(done) {
   document.head.appendChild(s);
 }
 
-// YouTube videolari statistikasi (_vid/stats.json — tools/gen-video-seo.js): Qiziqarli + Shorts + jonli efirlar. 2026-11-25
+// YouTube videolari statistikasi (data/video-stats.json — tools/gen-video-seo.js): Qiziqarli + Shorts + jonli efirlar. 2026-11-25
 let ytStats = null, ytStatsLoading = false;
 function loadYtStats() {
   if (ytStats || ytStatsLoading) return;
   ytStatsLoading = true;
-  fetch('_vid/stats.json?t=' + Math.floor(Date.now() / 600000)).then(r => (r.ok ? r.json() : null)).then(j => {
+  fetch('data/video-stats.json?t=' + Math.floor(Date.now() / 600000)).then(r => (r.ok ? r.json() : null)).then(j => {
     if (!j) return;
     ytStats = j;
     if (document.getElementById('a4Deploy')) renderHome();   // hali bosh panelda bo'lsa — yangilash

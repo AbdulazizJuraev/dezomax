@@ -62,7 +62,7 @@ for (const [id, e] of Object.entries(index)) (shards[shardOf(id)] = shards[shard
 for (const f of fs.readdirSync(dir)) if (/^\d\d\.json$/.test(f)) fs.unlinkSync(path.join(dir, f));
 for (const [k, v] of Object.entries(shards)) fs.writeFileSync(path.join(dir, k + '.json'), JSON.stringify(v));
 
-// admin panel statistikasi (js/admin.js → «Kinolar va videolar», 14 kunlik grafik) — 2026-11-25
+// admin panel statistikasi → data/video-stats.json (js/admin.js → «Kinolar va videolar», 14 kunlik grafik) — 2026-11-25
 {
   const st = { at: new Date().toISOString().slice(0, 10), total: 0, video: 0, live: 0, short: 0, days: {} };
   const from = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10);
@@ -71,7 +71,7 @@ for (const [k, v] of Object.entries(shards)) fs.writeFileSync(path.join(dir, k +
     if (e.y === 'lv') st.live++; else if (e.y === 'sh' || e.y === 'S') st.short++; else st.video++;
     if (/^\d{4}-\d\d-\d\d$/.test(e.d) && e.d >= from) st.days[e.d] = (st.days[e.d] || 0) + 1;
   }
-  fs.writeFileSync(path.join(dir, 'stats.json'), JSON.stringify(st));
+  fs.writeFileSync(path.join(root, 'data', 'video-stats.json'), JSON.stringify(st));
 }
 
 // video sitemap
