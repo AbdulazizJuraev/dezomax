@@ -329,6 +329,28 @@ async function ytFeed(url) {
 /* /_yt/live?ch=UC…,UC… → hozir jonli efirda bo'lgan kanallar (2026-11-23, Qiziqarli: «JONLI» belgisi va efir videosi).
    Kanalning youtube.com/channel/<id>/live sahifasi: jonli bo'lsa canonical — watch?v=<efir id> va "isLive":true.
    Har kanal 2 daqiqa Cloudflare keshida. Javob: { at, live: { UC…: { id, t } } } */
+/* Kanal rasmi (avatar): /_yt/avatar?u=<kanal manzili yoki @handle> → YouTube'dagi og:image ga 302 (admin «Kanallar reytingi», 2026-11-25).
+   Rasm manzili 7 kun keshlanadi; topilmasa 404 (sahifa <img onerror> bilan belgini qoldiradi). */
+async function ytAvatar(url, ctx) {
+  let u = (url.searchParams.get('u') || '').trim();
+  if (/^@[\w.-]{2,60}$/.test(u)) u = 'https://www.youtube.com/' + u;
+  if (/^UC[\w-]{22}$/.test(u)) u = 'https://www.youtube.com/channel/' + u;
+  if (!/^https:\/\/(www\.|m\.)?youtube\.com\/(@[\w.%-]{2,80}|channel\/UC[\w-]{22}|c\/[\w.%-]{1,80}|user\/[\w.%-]{1,80})\/?$/.test(u)) return new Response('bad', { status: 400 });
+  const key = new Request('https://dezomax.uz/_yt/avatar?u=' + encodeURIComponent(u.toLowerCase()));
+  const cache = caches.default;
+  const hit = await cache.match(key);
+  if (hit) return hit;
+  let img = '';
+  try {
+    const r = await fetch(u, { headers: { 'accept-language': 'en-US,en;q=0.8', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36' } });
+    if (r.ok) img = ((await r.text()).match(/<meta property="og:image" content="(https:\/\/yt3\.(?:googleusercontent|ggpht)\.com\/[^"]+)"/) || [])[1] || '';
+  } catch (e) {}
+  if (!img) return new Response('not found', { status: 404, headers: { 'cache-control': 'public, max-age=3600' } });
+  const res = new Response(null, { status: 302, headers: { location: img.replace(/=s\d+-/, '=s88-'), 'cache-control': 'public, max-age=604800' } });
+  ctx && ctx.waitUntil(cache.put(key, res.clone()));
+  return res;
+}
+
 async function ytLive(url) {
   const head = { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' };
   const ids = [...new Set((url.searchParams.get('ch') || '').split(','))].filter(c => /^UC[\w-]{22}$/.test(c)).slice(0, 8);
@@ -351,7 +373,7 @@ async function ytLive(url) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (url.hostname === 'www.' + HOST || (url.hostname === HOST && url.protocol !== 'https:')) {
@@ -390,6 +412,7 @@ export default {
     // UULF… pleylisti — shortslarsiz). Faqat kanal id'lari qabul qilinadi; har kanal 30 daqiqa Cloudflare keshida. 2026-11-21
     if (url.pathname === '/_yt/feed') return ytFeed(url);
     if (url.pathname === '/_yt/live') return ytLive(url);
+    if (url.pathname === '/_yt/avatar') return ytAvatar(url, ctx);
     if (url.pathname.startsWith('/_w/')) { const wr = await wxApi(url); if (wr) return wr; }
     // /video/<nom>-<ID>, /shorts/<ID> — YouTube videolarining Google uchun sahifalari (tools/gen-video-seo.js)
     const vr = (request.method === 'GET' || request.method === 'HEAD') && videoRoute(url);

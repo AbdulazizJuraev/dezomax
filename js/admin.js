@@ -1283,6 +1283,8 @@ function a4Status(m) {
 /* Panel: har bir YouTube kanalidan saytga o'tgan videolar (yashirilganlar hisoblanmaydi).
    Serialda har bir qism alohida video (eps); Shorts — js/data-shorts.js (admin'da kerak bo'lganda yuklanadi) */
 let chFocusAdd = false;
+// Kanalning YouTube'dagi rasmi (Worker /_yt/avatar → og:image). Yuklanmasa — YouTube belgisi qoladi. 2026-11-25
+const chAvatar = c => (c && c.url ? `<img class="ch-avimg" src="https://dezomax.uz/_yt/avatar?u=${encodeURIComponent(String(c.url).replace(/\/(videos|shorts|streams|featured)\/?$/, ''))}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '');
 function a4ChannelRows() {
   const chans = typeof CHANNELS !== 'undefined' ? CHANNELS : [];
   if (!chans.length) return '<p class="a4-sub">Hali kanal qo‘shilmagan</p>';
@@ -1300,7 +1302,7 @@ function a4ChannelRows() {
   const sum = rows.reduce((s, r) => s + r.total, 0);
   return `<p class="a4-sub">${chans.length} ta kanal · saytda jami <b>${fmt(sum)}</b> ta video${shorts ? '' : ' (Shorts hisoblanmoqda…)'}</p>` +
     rows.map(({ c, titles, videos, sh, total }) => `
-    <a class="a4-chr" href="${esc(c.url)}" target="_blank" rel="noopener">${NAV_ICONS.yt}
+    <a class="a4-chr" href="${esc(c.url)}" target="_blank" rel="noopener"><span class="a4-chav">${NAV_ICONS.yt}${chAvatar(c)}</span>
       <div><b>${esc(c.name)}</b><small>${[videos ? `${fmt(videos)} video` : '', titles ? `${fmt(titles)} ta kino/serial` : '', sh ? `${fmt(sh)} ta shorts` : ''].filter(Boolean).join(' · ') || 'hali video o‘tmagan'}</small></div>
       <strong>${fmt(total)}</strong></a>`).join('');
 }
@@ -4515,7 +4517,7 @@ async function renderChannelsView() {
         ${rows.map(({ c, st, k, rank }) => { const z = !st.total, busy = chBusy && chBusy.key === c.key; return `
         <div class="chx-row${z ? ' is-zero' : ''}${busy ? ' is-busy' : ''}">
           <span class="chx-rk${rank <= 3 && !z ? ' is-top' : ''}">${String(rank).padStart(2, '0')}</span>
-          <div class="chx-nm"><span class="chx-av">${NAV_ICONS.yt}</span><div><b>${esc(c.name)}</b>
+          <div class="chx-nm"><span class="chx-av">${NAV_ICONS.yt}${chAvatar(c)}</span><div><b>${esc(c.name)}</b>
             <a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url.replace(/^https?:\/\/(www\.)?/, ''))}</a>
             ${busy ? `<div class="adm-ch-prog"><i style="width:${chBusy.total ? Math.round(chBusy.done / chBusy.total * 100) : 5}%"></i></div><small class="chx-note">${chBusy.total ? `${chBusy.done}/${chBusy.total} · ` : ''}${esc(chBusy.note || 'Kanal o‘qilmoqda…')}</small>` : ''}</div></div>
           <span class="chx-kind is-${k}">${KIND_L[k]}</span>

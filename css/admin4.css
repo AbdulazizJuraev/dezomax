@@ -377,3 +377,7 @@
 .a4-chart em span { display: block; font-size: 9px; font-weight: 700; color: var(--a-fa); }
 .a4-chart > div { gap: 5px; }
 .a4-ch > span { white-space: nowrap; }
+/* Kanal rasmi (YouTube avatar) — belgining ustida (2026-11-25) */
+.chx-av, .a4-chav { position: relative; overflow: hidden; }
+.a4-chav { display: grid; flex: none; border-radius: 50%; }
+.ch-avimg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; background: var(--a-s3); }
