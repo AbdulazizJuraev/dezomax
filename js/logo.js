@@ -82,3 +82,36 @@ try { var dzxD = document.documentElement, dzxT = localStorage.getItem('dzx_them
     if (weak) document.documentElement.classList.add('no-glass');
   } catch (e) {}
 })();
+
+// Pastki panel sahifa boshidanoq (2026-11-25): oldingi sahifada saqlangan nusxa (js/common.js renderTabbar → sessionStorage)
+// darhol chiziladi — sahifalar orasida panel yo'qolib-chiqmaydi, faol kapsula esa yangi bo'limga suriladi (View Transitions).
+// common.js keyinroq panelni o'sha joyda qayta chizadi (avatar, sanoqlar).
+(function () {
+  try {
+    if (document.querySelector('.tabbar') || innerWidth > 900) return;
+    const html = sessionStorage.getItem('dzx_tabbar');
+    if (!html || !document.body) return;
+    const bar = document.createElement('nav');
+    bar.className = 'tabbar has-pill';
+    bar.setAttribute('aria-label', 'Asosiy menyu');
+    bar.innerHTML = html;
+    document.body.appendChild(bar);
+    // faol bo'lim — joriy manzil bo'yicha
+    const here = location.pathname.replace(/\/index\.html$/, '/') + location.search;
+    let act = null;
+    bar.querySelectorAll('.tabbar-item').forEach(a => {
+      a.classList.remove('is-active');
+      const u = new URL(a.href, location.href), p = u.pathname.replace(/\/index\.html$/, '/');
+      if (p + u.search === here || (!act && p === location.pathname.replace(/\/index\.html$/, '/') && !u.search)) act = a;
+    });
+    const p = bar.querySelector('.tb-pill');
+    if (act && p) {
+      act.classList.add('is-active');
+      p.style.transition = 'none';
+      p.style.opacity = '';
+      p.style.width = act.offsetWidth + 'px'; p.style.height = act.offsetHeight + 'px';
+      p.style.transform = `translate(${act.offsetLeft}px, ${act.offsetTop}px)`;
+      requestAnimationFrame(() => { p.style.transition = ''; });
+    } else if (p) p.style.opacity = '0';
+  } catch (e) {}
+})();

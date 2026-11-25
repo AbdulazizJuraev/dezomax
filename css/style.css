@@ -3307,7 +3307,7 @@ img, video, iframe { max-width: 100%; }
 }
 
 @media (max-width: 150px) {
-  .acc-menu-icon, .acc-quick span, .tabbar-item:nth-child(4) { display: none; }
+  .acc-menu-icon, .acc-quick span, .tabbar-item:nth-of-type(4) { display: none; }
   .acc-profile .acc-lang { display: none; }
   .hero-meta, .hero-dots { display: none; }
   .hero .hero-h { font-size: 14px; }
@@ -8818,7 +8818,7 @@ svg .lv-w2 { animation: lvWave 1.6s ease-in-out .3s infinite; }
 @media (prefers-reduced-motion: reduce) { svg .lv-c, svg .lv-w1, svg .lv-w2 { animation: none; } }
 /* Pastki panel belgilari jonli (2026-11-20, «Jonli efir» kabi): har biri ~5 s da bir marta qisqa harakat qiladi,
    navbat bilan (bir vaqtda hammasi emas). Faqat transform/opacity — yengil, telefon/ilovada ham. */
-.tabbar-item:nth-child(1) { --tbd: 0s; } .tabbar-item:nth-child(2) { --tbd: 1s; } .tabbar-item:nth-child(3) { --tbd: 2s; } .tabbar-item:nth-child(4) { --tbd: 3s; }
+.tabbar-item:nth-of-type(1) { --tbd: 0s; } .tabbar-item:nth-of-type(2) { --tbd: 1s; } .tabbar-item:nth-of-type(3) { --tbd: 2s; } .tabbar-item:nth-of-type(4) { --tbd: 3s; }
 .tabbar-icon .tb-home, .tabbar-icon .tb-play, .tabbar-icon .tb-sh, .tabbar-icon .tb-ant { transform-box: fill-box; animation-duration: 5s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; animation-delay: var(--tbd, 0s); }
 .tabbar-icon .tb-home { transform-origin: 50% 100%; animation-name: tbHop; }
 .tabbar-icon .tb-play { transform-origin: center; animation-name: tbPlay; }
@@ -9440,3 +9440,21 @@ html.dzx-gt font { all: unset; }
     }
   }
 }
+
+/* Pastki panel: faol bo'lim kapsulasi bo'limdan bo'limga SURILADI (2026-11-25). Faqat transform/width — yengil.
+   Sahifa almashganda: panel foni (dz-tabbar) va tugmalar (dz-tb-*) joyida qotib turadi, kapsula (dz-tabpill) eski joyidan yangisiga o'tadi. */
+@media (max-width: 900px) {
+  html body nav.tabbar.tabbar { position: fixed; }
+  .tb-pill { position: absolute; left: 0; top: 0; z-index: 0; border-radius: 999px; pointer-events: none; opacity: 0;
+    background: rgba(255, 255, 255, .13); view-transition-name: dz-tabpill;
+    transition: transform .3s cubic-bezier(.3, 1.25, .5, 1), width .3s, opacity .2s; will-change: transform; }
+  .tabbar.has-pill .tb-pill { opacity: 1; }
+  html body nav.tabbar.tabbar.has-pill .tabbar-item, html body nav.tabbar.tabbar.has-pill .tabbar-item.is-active { position: relative; z-index: 1; background: transparent !important; box-shadow: none !important; }
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    html:not(.no-glass) .tb-pill { background: linear-gradient(180deg, rgba(198, 255, 61, .30), rgba(198, 255, 61, .12)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .32), inset 0 0 0 1px rgba(198, 255, 61, .30); }
+  }
+}
+::view-transition-group(dz-tabpill) { animation-duration: .3s; animation-timing-function: cubic-bezier(.3, 1.25, .5, 1); }
+::view-transition-old(dz-tabpill), ::view-transition-new(dz-tabpill) { animation-duration: .3s; }
+html::view-transition-group(dz-tb-home), html::view-transition-group(dz-tb-films), html::view-transition-group(dz-tb-shorts), html::view-transition-group(dz-tb-tvset), html::view-transition-group(dz-tb-live) { animation-duration: 0s; }
+@media (prefers-reduced-motion: reduce) { .tb-pill { transition: none; } }
