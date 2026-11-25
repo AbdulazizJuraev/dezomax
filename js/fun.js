@@ -171,9 +171,9 @@
     const chs = cur.ch.filter(c => has.has(c.id));
     // 2026-11-25: kanal tugmalari — 1x1 karta, kanalning YouTube'dagi rasmi bilan (Worker /_yt/avatar)
     const AV = FEED.replace('/_yt/feed?ch=', '/_yt/avatar?u=');
-    const ALL_IC = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>';
-    $('funChs').innerHTML = chs.length > 1 ? [['', L('Hammasi', 'Все'), ''], ...chs.map(c => [c.id, c.name, c.av || AV + c.id])]
-      .map(([id, n, img]) => `<button type="button" class="fun-ch is-sq${id === chSel ? ' is-on' : ''}" data-ch="${id}"><span class="fun-ch-im">${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : ALL_IC}</span><b>${esc(n)}</b></button>`).join('') : '';
+    // «Hammasi» kartasi yo'q (foydalanuvchi so'rovi) — tanlangan kanalni qayta bossa, hamma kanal videolari qaytadi
+    $('funChs').innerHTML = chs.length > 1 ? chs.map(c => [c.id, c.name, c.av || AV + c.id])
+      .map(([id, n, img]) => `<button type="button" class="fun-ch is-sq${id === chSel ? ' is-on' : ''}" data-ch="${id}" aria-pressed="${id === chSel}"><span class="fun-ch-im"><img src="${esc(img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()"></span><b>${esc(n)}</b></button>`).join('') : '';
   }
 
   // bo'lim yoki kanal almashganda sahifani qayta quradi
@@ -351,7 +351,7 @@
 
   main.addEventListener('click', e => {
     const ch = e.target.closest('[data-ch]');
-    if (ch) { chSel = ch.dataset.ch; renderChips(); renderGrid(); return; }
+    if (ch) { chSel = chSel === ch.dataset.ch ? '' : ch.dataset.ch; renderChips(); renderGrid(); return; }   // tanlangan kanal qayta bosilsa — hammasi
     const tb = e.target.closest('[data-tab]');
     if (tb) {
       if (tb.dataset.tab === tab) return;
