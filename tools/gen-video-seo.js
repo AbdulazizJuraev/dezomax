@@ -62,14 +62,52 @@ for (const [id, e] of Object.entries(index)) (shards[shardOf(id)] = shards[shard
 for (const f of fs.readdirSync(dir)) if (/^\d\d\.json$/.test(f)) fs.unlinkSync(path.join(dir, f));
 for (const [k, v] of Object.entries(shards)) fs.writeFileSync(path.join(dir, k + '.json'), JSON.stringify(v));
 
+// Har video saytga birinchi tushgan kun → data/video-added.json ({ id: 'YYYY-MM-DD' }, O'zbekiston vaqti).
+// Yangi ID'lar uchun — git tarixidan (shu fayllarga birinchi kirgan commit kuni), topilmasa (commit qilinmagan) — bugun.
+// Admin grafigi YouTube'ga yuklangan sanani emas, saytga qo'shilgan kunni ko'rsatadi (foydalanuvchi so'rovi, 2026-11-25).
+function addedDates(ids) {
+  const file = path.join(root, 'data', 'video-added.json');
+  let map = {};
+  try { map = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) {}
+  const need = new Set(ids.filter(id => !map[id]));
+  if (need.size) {
+    const { execSync } = require('child_process');
+    const env = { ...process.env, TZ: 'Asia/Tashkent' };
+    const git = c => execSync('git ' + c, { cwd: root, env, maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'ignore'] }).toString();
+    const files = [...new Set([...(ctx.FUN_SECTIONS || []).flatMap(sec => (sec.ch || []).map(c => c.all).filter(Boolean)), 'js/data-shorts.js'])];
+    for (const f of files) {
+      let log = [];
+      try { log = git(`log --reverse --format=%H%x20%ad --date=format-local:%Y-%m-%d -- ${f}`).trim().split('\n').filter(Boolean); } catch (e) {}
+      for (const line of log) {
+        const [h, d] = line.split(' ');
+        let src; try { src = git(`show ${h}:${f}`); } catch (e) { continue; }
+        const got = [];
+        try {
+          if (f.endsWith('.json')) { const j = JSON.parse(src); for (const y of ['lf', 'lv', 'sh']) for (const r of j[y] || []) got.push(r[0]); }
+          else { const c = {}; vm.createContext(c); vm.runInContext(src.replace(/^(const|let) /gm, 'var '), c); for (const x of c.SHORTS || []) if (x) got.push(x.id); }
+        } catch (e) {}
+        for (const id of got) if (need.has(id) && (!map[id] || d < map[id])) map[id] = d;
+      }
+    }
+    const today = new Date(Date.now() + 5 * 3600e3).toISOString().slice(0, 10);
+    for (const id of need) if (!map[id]) map[id] = today;
+  }
+  const out = {};
+  for (const id of ids) out[id] = map[id];
+  fs.writeFileSync(file, JSON.stringify(out));
+  return out;
+}
+const added = addedDates(Object.keys(index));
+
 // admin panel statistikasi → data/video-stats.json (js/admin.js → «Kinolar va videolar», 14 kunlik grafik) — 2026-11-25
 {
   const st = { at: new Date().toISOString().slice(0, 10), total: 0, video: 0, live: 0, short: 0, days: {} };
   const from = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10);
-  for (const e of Object.values(index)) {
+  for (const [id, e] of Object.entries(index)) {
     st.total++;
     if (e.y === 'lv') st.live++; else if (e.y === 'sh' || e.y === 'S') st.short++; else st.video++;
-    if (/^\d{4}-\d\d-\d\d$/.test(e.d) && e.d >= from) st.days[e.d] = (st.days[e.d] || 0) + 1;
+    const d = added[id];   // saytga qo'shilgan kun (YouTube'ga yuklangan kun emas)
+    if (d && d >= from) st.days[d] = (st.days[d] || 0) + 1;
   }
   fs.writeFileSync(path.join(root, 'data', 'video-stats.json'), JSON.stringify(st));
 }
