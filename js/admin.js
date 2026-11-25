@@ -1321,7 +1321,7 @@ let ytStats = null, ytStatsLoading = false;
 function loadYtStats() {
   if (ytStats || ytStatsLoading) return;
   ytStatsLoading = true;
-  fetch('data/video-stats.json?t=' + Math.floor(Date.now() / 600000)).then(r => (r.ok ? r.json() : null)).then(j => {
+  fetch('data/video-stats.json?t=' + Date.now(), { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).then(j => {
     if (!j) return;
     ytStats = j;
     if (document.getElementById('a4Deploy')) renderHome();   // hali bosh panelda bo'lsa — yangilash
@@ -1426,7 +1426,7 @@ async function loadHealth() {
     all.textContent = anyBad ? 'E’tibor bering' : 'Hammasi joyida';
     all.className = `a4-pill is-${anyBad ? 'o' : 'l'}`;
     const site = last('cf-site');
-    if (site && $('#a4Deploy')) $('#a4Deploy').textContent += ` · oxirgi chiqarish ${timeAgo(site.updated_at)}${site.conclusion === 'success' ? ' muvaffaqiyatli' : ''}`;
+    if (site && $('#a4Deploy')) $('#a4Deploy').textContent = `${uzDate(new Date())} · oxirgi chiqarish ${timeAgo(site.updated_at)}${site.conclusion === 'success' ? ' muvaffaqiyatli' : ''}`;
   } catch {
     box.innerHTML = '<div><i class="is-n">–</i>GitHub’dan holatni olib bo‘lmadi<small>keyinroq</small></div>';
     all.textContent = 'noma’lum'; all.className = 'a4-pill is-n';
