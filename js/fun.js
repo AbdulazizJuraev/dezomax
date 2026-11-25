@@ -279,6 +279,17 @@
           <button type="button" class="fun-rb${savedSet().has(id) ? ' is-on' : ''}" id="funSave" aria-label="${L('Saqlash', 'Сохранить')}">${SAVE_IC}</button>
           <span class="fun-mm"><button type="button" class="fun-rb" id="funMoreBtn" aria-label="${L('Yana', 'Ещё')}" aria-expanded="false">${MORE_IC}</button>
             <span class="fun-menu" id="funMenu" hidden><button type="button" data-act="copy">${L('Havolani nusxalash', 'Копировать ссылку')}</button><button type="button" id="funClose">${L('Videoni yopish', 'Закрыть видео')}</button></span></span></div></div>`;
+    // Reklama — pleyerning USTIDA yoki OLDIDA emas, faqat yonida (keng ekran) yoki tagida (telefon). 2026-11-25
+    // YouTube qoidasi (Developer Policies III.F.3.b, III.G.1.c): videoni reklama bilan to'sish / pleyer ichiga reklama — taqiqlangan.
+    // Reklama tarmog'i sozlanmagan yoki obuna bor bo'lsa — Ads.fill joyni o'zi olib tashlaydi.
+    if (typeof Ads !== 'undefined') {
+      const main = document.createElement('div');
+      main.className = 'fun-main';
+      while (st.firstChild) main.appendChild(st.firstChild);
+      st.appendChild(main);
+      st.insertAdjacentHTML('beforeend', '<aside class="ad-slot fun-ad" data-ad-slot="video"></aside>');
+      Ads.fill(st);
+    }
     {
       const msg = m => (typeof toast === 'function' ? toast(m) : alert(m));
       const url = 'https://dezomax.uz/qiziqarli.html' + location.hash;
