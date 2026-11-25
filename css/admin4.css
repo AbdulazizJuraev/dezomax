@@ -373,3 +373,7 @@
 .a4-chart > div.is-on i.has-yt { background: linear-gradient(to top, #FF4E45 var(--yt), var(--a-lime) var(--yt)); }
 .a4-lg { display: inline-block; width: 9px; height: 9px; border-radius: 3px; background: var(--a-lime); margin: 0 5px 0 8px; }
 .a4-lg.is-yt { background: #FF4E45; }
+.a4-chart em { font-style: normal; font-weight: 800; font-size: 12px; line-height: 1.1; color: var(--a-tx, #fff); text-align: center; min-height: 13px; }
+.a4-chart em span { display: block; font-size: 9px; font-weight: 700; color: var(--a-fa); }
+.a4-chart > div { gap: 5px; }
+.a4-ch > span { white-space: nowrap; }

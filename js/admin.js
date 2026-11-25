@@ -1363,8 +1363,8 @@ function renderHome() {
     </div>
     <div class="a4-row">
       <div class="a4-col">
-        <section class="a4-card"><div class="a4-ch"><b>Qo‘shilgan kinolar va videolar · 14 kun</b><span><i class="a4-lg"></i>kino ${days.reduce((s, x) => s + x.f, 0)} · <i class="a4-lg is-yt"></i>YouTube ${days.reduce((s, x) => s + x.v, 0)}</span></div>
-          <div class="a4-chart">${days.map((x, i) => `<div class="${i === 13 ? 'is-on' : ''}" title="${x.f} kino · ${x.v} YouTube video"><i${x.v ? ' class="has-yt"' : ''} style="height:${Math.max(4, x.n / maxN * 100)}%${x.v ? `;--yt:${(x.v / x.n * 100).toFixed(1)}%` : ''}"></i><small>${i % 2 ? WD[x.d.getDay()] : x.d.getDate()}</small></div>`).join('')}</div></section>
+        <section class="a4-card"><div class="a4-ch"><b>Qo‘shilganlar · 14 kun</b><span><i class="a4-lg"></i>kino ${days.reduce((s, x) => s + x.f, 0)} · <i class="a4-lg is-yt"></i>YouTube ${days.reduce((s, x) => s + x.v, 0)}</span></div>
+          <div class="a4-chart">${days.map((x, i) => `<div class="${i === 13 ? 'is-on' : ''}" title="${x.f} kino · ${x.v} YouTube video"><em>${x.n ? `${x.n}${x.f && x.v ? `<span>${x.f} + ${x.v}</span>` : ''}` : ''}</em><i${x.v ? ' class="has-yt"' : ''} style="height:${Math.max(4, x.n / maxN * 72)}%${x.v ? `;--yt:${(x.v / x.n * 100).toFixed(1)}%` : ''}"></i><small>${i % 2 ? WD[x.d.getDay()] : x.d.getDate()}</small></div>`).join('')}</div></section>
         <section class="a4-card a4-grow"><div class="a4-ch"><b>Oxirgi qo‘shilganlar</b><button class="a4-link" type="button" data-go="list">Hammasi →</button></div>
           <div class="a4-table">${recent.map(m => { const [c, s] = a4Status(m); return `
             <div class="a4-tr"><span class="a4-pst">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
