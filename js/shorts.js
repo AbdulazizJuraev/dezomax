@@ -180,12 +180,25 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   // shorts.html dagi tezkor boshlangan birinchi slayd (sh-early) — o'chirilmaydi (pleyeri allaqachon yuklanmoqda), qolganlari undan keyin
   const early = feed.querySelector('.sh-early');
   const keepEarly = !!(early && early.dataset.id === list[0].id && early.querySelector('iframe'));
-  if (keepEarly) early.insertAdjacentHTML('afterend', list.slice(1).map((s, i) => slideHTML(s, i + 1)).join(''));
-  else feed.innerHTML = list.map(slideHTML).join('');
+  // 2026-11-25: slaydlar BO'LAKLAB chiziladi — avval hammasi (700+ to'liq ekranli bo'lim) birdan yaratilardi, telefon Shorts'ga
+  // o'tishda qotardi. Boshida joriy shortgacha + 12 ta, surilgan sari yana 12 tadan qo'shiladi (grow).
+  const STEP = 12, start0 = Math.max(0, list.findIndex(x => x.id === location.hash.slice(1)));
+  let built = Math.min(list.length, start0 + STEP);
+  if (keepEarly) early.insertAdjacentHTML('afterend', list.slice(1, built).map((s, i) => slideHTML(s, i + 1)).join(''));
+  else feed.innerHTML = list.slice(0, built).map(slideHTML).join('');
 
   const slides = [...feed.querySelectorAll('.sh-slide')];
   const fill = k => { const sl = slides[k]; if (sl && !sl._f) { sl._f = 1; sl.insertAdjacentHTML('beforeend', fullHTML(list[k], k)); } };
   const thumbEls = slides.map(sl => sl.querySelector('.sh-thumb'));
+  let io = null;
+  function grow(upto) {
+    upto = Math.min(list.length, upto);
+    if (upto <= built) return;
+    feed.insertAdjacentHTML('beforeend', list.slice(built, upto).map((s, i) => slideHTML(s, built + i)).join(''));
+    const added = [...feed.querySelectorAll('.sh-slide')].slice(built);
+    added.forEach(sl => { slides.push(sl); thumbEls.push(sl.querySelector('.sh-thumb')); if (io) io.observe(sl); });
+    built = upto;
+  }
   const isApp = /DezoMaxApp|; wv\)/.test(navigator.userAgent) || !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
   // ovoz bilan boshlanadi (foydalanuvchi so'rovi); brauzer ovozli avtoijroga ruxsat bermasa — 1,5 s dan keyin ovozsiz
   // davom etadi va birinchi teginishda ovoz o'zi yoqiladi
@@ -323,6 +336,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
 
   function activate(i) {
     if (i === active || !slides[i]) return;
+    if (i > built - 6) grow(built + STEP);                     // oxiriga yaqinlashdi — yana 12 ta
     for (const k of [...frames.keys()]) if (k !== i) dropFrame(k);
     clearTimeout(prewarmT);
     active = i;
@@ -388,7 +402,7 @@ const SHORT_MOVIE_RX = /marvel|qasoskor|avenger|transformer|avtobot|autobot|dese
   let cand = -1, settleT;
   const settle = () => { clearTimeout(settleT); if (cand >= 0) activate(cand); };
   const settleSoon = () => { clearTimeout(settleT); settleT = setTimeout(settle, 180); };
-  const io = new IntersectionObserver(entries => {
+  io = new IntersectionObserver(entries => {
     for (const e of entries) if (e.isIntersecting && e.intersectionRatio >= 0.6) { cand = +e.target.dataset.i; settleSoon(); }
   }, { root: feed, threshold: [0.6] });
   slides.forEach(sl => io.observe(sl));
