@@ -9311,6 +9311,7 @@ html.dzx-gt font { all: unset; }
 .wx-h small { color: var(--km); font-weight: 700; font-size: .8rem; }
 .wx-h.is-now { background: var(--kl); color: #0A1405; }
 .wx-h.is-now small { color: #0A1405; }
+.wx-h.is-now .wx-ic { box-sizing: border-box; width: 38px; height: 38px; padding: 5px; border-radius: 50%; background: #0A1405; }
 .wx-day { display: grid; grid-template-columns: minmax(0, 1fr) 34px 44px minmax(60px, 120px) 44px; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid #18291F; }
 .wx-day:first-of-type { border-top: 0; }
 .wx-dn b { display: block; font-size: .95rem; }
