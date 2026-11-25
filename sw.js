@@ -209,7 +209,7 @@ function page(e, req, url) {
   }).catch(() => {}));
   return caches.open(PAGES).then(c => c.match(key, { ignoreSearch: true }))
     .then(hit => hit || kinoFallback(url))
-    .then(hit => raceCache(net, hit, 6000));
+    .then(hit => raceCache(net, hit, 2500));   // 2026-11-25: sekin internetda 6 s emas — 2,5 s dan keyin saqlangan nusxa (yangisi fonda keshga yoziladi)
 }
 
 /* kino/<sahifa>.html saqlanmagan — saqlangan js/seo-pages.js dan kino id topib, movie.html?id=… ga yo'naltiramiz */

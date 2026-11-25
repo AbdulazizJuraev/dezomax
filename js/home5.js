@@ -22,7 +22,7 @@
 
   /* ---------- rasmlar ---------- */
   const okBig = u => !!u && !/dezocloud\.uz|images\/custom\//.test(String(u));
-  const tmSize = (u, size) => String(u).replace(/(image\.tmdb\.org\/t\/p\/)(w\d+|original)\//, `$1${size}/`);
+  const tmSize = (u, size) => String(u).replace(/(image\.tmdb\.org\/t\/p\/)(w\d+|original)\//, `$1${window.DZX_SLOW ? ({ w1280: 'w780', original: 'w780', w780: 'w500', w500: 'w342', w342: 'w185' }[size] || size) : size}/`);   // sekin internet — bir pog'ona kichik
   const ytOf = m => (String(m.video || m.trailer || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
   function wideOf(m, size) {
     if (okBig(m.hposter)) return tmSize(m.hposter, size);
@@ -205,12 +205,12 @@
     pre.onload = () => { if (picks[cur] !== m) return; im.src = src; im.alt = title(m); requestAnimationFrame(() => im.classList.add('is-in')); };
     pre.src = src;
     const nx = picks[(cur + 1) % picks.length];
-    const nsrc = nx && heroArt(nx);
+    const nsrc = nx && !window.DZX_SLOW && heroArt(nx);       // sekin internetda keyingi rasm oldindan olinmaydi
     if (nsrc) new Image().src = nsrc;
   }
   function restart() {
     clearInterval(timer);
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || window.DZX_SLOW) return;   // sekin internet — o'zi aylanmaydi
     timer = setInterval(() => { if (!document.hidden && window.scrollY < 600) show(cur + 1); }, DELAY);
   }
   function sliderHTML() {

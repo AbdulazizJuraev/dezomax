@@ -115,3 +115,15 @@ try { var dzxD = document.documentElement, dzxT = localStorage.getItem('dzx_them
     } else if (p) p.style.opacity = '0';
   } catch (e) {}
 })();
+
+// Sekin internet rejimi (2026-11-25): 2G/3G, «trafik tejash» yoki tezlik < 1,5 Mbit/s bo'lsa — html.dzx-slow, window.DZX_SLOW.
+// Unda: rasmlar kichikroq (YouTube 320 px, TMDB bir pog'ona kichik), bosh sahifa slayderi o'zi aylanmaydi va keyingi rasmni oldindan olmaydi.
+(function () {
+  try {
+    const c = navigator.connection;
+    let slow = !!c && (c.saveData || /(^|-)(2g|3g)$/.test(c.effectiveType || '') || (c.downlink && c.downlink < 1.5));
+    try { const f = localStorage.getItem('dzx_slow'); if (f === '1') slow = true; else if (f === '0') slow = false; } catch (e) {}   // qo'lda yoqish/o'chirish
+    window.DZX_SLOW = slow;
+    if (slow) document.documentElement.classList.add('dzx-slow');
+  } catch (e) {}
+})();

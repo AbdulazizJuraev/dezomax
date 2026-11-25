@@ -23,7 +23,7 @@
   /* ---------- rasmlar ---------- */
   // Telegram/DezoCloud va images/custom rasmlari kichik — katta joyda cho'zilib xira bo'ladi
   const okBig = u => !!u && !/dezocloud\.uz|images\/custom\//.test(String(u));
-  const tmSize = (u, size) => String(u).replace(/(image\.tmdb\.org\/t\/p\/)(w\d+|original)\//, `$1${size}/`);
+  const tmSize = (u, size) => String(u).replace(/(image\.tmdb\.org\/t\/p\/)(w\d+|original)\//, `$1${window.DZX_SLOW ? ({ w1280: 'w780', original: 'w780', w780: 'w500', w500: 'w342', w342: 'w185' }[size] || size) : size}/`);   // sekin internet — bir pog'ona kichik
   const ytOf = m => (String(m.video || m.trailer || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
   function wideOf(m, size) {
     if (okBig(m.hposter)) return tmSize(m.hposter, size);
