@@ -60,42 +60,21 @@ const FUN_SECTIONS = [
   {
     key: 'oshxona', uz: 'Oshxona', ru: 'Кухня', c1: '#FB923C', c2: '#FED7AA',
     sub: ['Taomlar va retseptlar', 'Рецепты и блюда'],
-    ch: [
-      { id: 'UCYfeKTGkLSdeS24dFk-5fSw', name: 'Shef-povar Nishonov' },
-      { id: 'UCj4KP216972cPp2w_BAHy8g', name: 'Wilderness Cooking' },
-      { id: 'UCQexaAjPn3-1MCE4DmBK3Tg', name: 'Village Food Secrets' },
-      { id: 'UCJFp8uSYCjXOMnkUyb3CQ3Q', name: 'Tasty' }
-    ]
+    ch: []   // 2026-11-25: foydalanuvchi o'zi kanal beradi — hozircha bo'sh
   },
   {
     key: 'ilm', uz: 'Ilm-fan', ru: 'Наука', c1: '#22D3EE', c2: '#A5F3FC',
     sub: ['Kosmos, texnologiya, faktlar', 'Космос, технологии, факты'],
-    ch: [
-      { id: 'UCvFGofYpm12Jxydfev_ksog', name: 'FANTEX' },
-      { id: 'UCpFIJt8SBWaJFNQIB9tmFJw', name: 'bu QIZIQ' },
-      { id: 'UCsXVk37bltHxD1rDPwtNM8Q', name: 'Kurzgesagt' },
-      { id: 'UCHnyfMqiRRG1u-2MsSQLbXA', name: 'Veritasium' }
-    ]
+    ch: []   // 2026-11-25: foydalanuvchi o'zi kanal beradi — hozircha bo'sh
   },
   {
     key: 'sayohat', uz: 'Sayohat', ru: 'Путешествия', c1: '#A3E635', c2: '#D9F99D',
     sub: ['O‘zbekiston va dunyo', 'Узбекистан и мир'],
-    ch: [
-      { id: 'UCNhBg9DSwW2ftcFLbmZZ0FQ', name: 'O‘zbekiston ekspeditsiyasi' },
-      { id: 'UCqpH-sBCE4IQvycA-46g78A', name: 'Masik Travel' },
-      { id: 'UC0Ize0RLIbGdH5x4wI45G-A', name: 'Drew Binsky' }
-    ]
+    ch: []   // 2026-11-25: foydalanuvchi o'zi kanal beradi — hozircha bo'sh
   },
   {
     key: 'avto', uz: 'Avto', ru: 'Авто', c1: '#818CF8', c2: '#C7D2FE',
     sub: ['Mashina sharhlari', 'Обзоры авто'],
-    ch: [
-      { id: 'UCk6SevtvW1QCcN3iWJrWvEg', name: 'Xurshid Obzor' },
-      { id: 'UCeVs_9nUeDGSisPAfkF-ziQ', name: 'JAHONGIR UZ' },
-      { id: 'UCrszDJh4ETj8-R_kYOg_YIw', name: 'Sherzod Abzor' },
-      { id: 'UCaEg_BfZewkjNf2D15_H6UQ', name: 'Obzor Time' },
-      { id: 'UCUhFaUpnq31m6TNX2VKVSVA', name: 'carwow' },
-      { id: 'UCjOl2AUblVmg2rA_cRgZkFg', name: 'Top Gear' }
-    ]
+    ch: []   // 2026-11-25: foydalanuvchi o'zi kanal beradi — hozircha bo'sh
   }
 ];

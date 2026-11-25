@@ -200,6 +200,11 @@
     const same = () => cur === s && cs === cc && tab === t;
     items = [];
     $('funEmpty').hidden = true;
+    if (!c && !s.ch.length) {   // kanallari hali qo'shilmagan bo'lim (2026-11-25)
+      $('funChs').innerHTML = ''; $('funGrid').innerHTML = ''; $('funEmpty').hidden = false;
+      $('funEmpty').textContent = L('Bu bo‘limga kanallar tez orada qo‘shiladi.', 'Каналы в этот раздел скоро добавятся.');
+      return;
+    }
     const old = saved(k);
     if (old) { items = old.items; renderChips(); renderGrid(); }
     else { $('funGrid').classList.remove('is-chans'); $('funGrid').classList.toggle('is-shorts', t === 'sh'); $('funGrid').innerHTML = '<span class="fun-sk"></span>'.repeat(8); }
