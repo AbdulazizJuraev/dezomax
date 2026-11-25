@@ -109,6 +109,7 @@
   }, { passive: true });
   // hub yoki efir: #v=ID bo'lsa — pleyer, aks holda — asosiy ko'rinish (pleyer o'chiriladi)
   function route() {
+    document.getElementById('lvSkel')?.remove();   // live.html: ma'lumot kelguncha turgan skelet
     const want = (location.hash.match(/v=([\w-]{11})/) || [])[1];
     const k = want ? items.findIndex(x => x.id === want) : -1;
     const watch = k >= 0;
@@ -119,7 +120,8 @@
   }
   addEventListener('hashchange', route);
   // DezoMax'ning o'z efiri (efir-test.html / OBS) — bo'lsa bannerda birinchi
-  fetch(String(PAY_API).replace(/\/+$/, '') + '/efir/status', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(st => {
+  // so'rov live.html <head>'da boshlangan bo'lsa — o'sha (window.dzEfirP), aks holda shu yerda
+  (window.dzEfirP || fetch(String(PAY_API).replace(/\/+$/, '') + '/efir/status', { cache: 'no-store' }).then(r => r.ok ? r.json() : null)).then(st => {
     if (!st || !st.live) return;
     own = { own: true, id: 'dezomax', title: st.title || 'DezoMax efiri', channel: 'DezoMax', viewers: st.viewers || 0, thumb: 'images/logo/icon-512.png', avatar: 'images/logo/dezo-mark.webp' };
     if (!location.hash) route();
@@ -329,16 +331,18 @@
     if (c) { const x = items[+c.dataset.i]; if (x) location.hash = 'v=' + x.id; return; }
   });
 
+  // Oxirgi ro'yxat localStorage'da (30 daqiqagacha): sahifa darhol chiziladi, yangi ro'yxat kelgach almashadi.
+  // Avval sessionStorage'da 3 daqiqa edi — ilova har ochilganda bo'sh sahifa ~2 s turardi.
   const KEY = 'dzxLive';
-  try { const c = JSON.parse(sessionStorage.getItem(KEY) || 'null'); if (c && Date.now() - c.at < 3 * 60000) { const hid = new Set(hidden()); items = c.items.filter(x => !hid.has(x.id)); render(); } } catch (e) {}
-  fetch(String(PAY_API).replace(/\/+$/, '') + '/api/yt/live').then(r => r.ok ? r.json() : null).then(d => {
+  try { const c = JSON.parse(localStorage.getItem(KEY) || 'null'); if (c && Array.isArray(c.items) && Date.now() - c.at < 30 * 60000) { const hid = new Set(hidden()); items = c.items.filter(x => !hid.has(x.id)); if (items.length) render(); } } catch (e) {}
+  (window.dzLiveP || fetch(String(PAY_API).replace(/\/+$/, '') + '/api/yt/live').then(r => r.ok ? r.json() : null)).then(d => {
     if (!d || !Array.isArray(d.items)) { if (!items.length) render(); return; }
     const was = items.map(x => x.id).join();
     const hid = new Set(hidden());
     items = d.items.filter(x => x && /^[\w-]{11}$/.test(x.id) && !hid.has(x.id));
     const want = (location.hash.match(/v=([\w-]{11})/) || [])[1], k = want ? items.findIndex(x => x.id === want) : -1;
     if (k > 0) items.unshift(items.splice(k, 1)[0]);
-    try { sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), items })); } catch (e) {}
+    try { localStorage.setItem(KEY, JSON.stringify({ at: Date.now(), items })); } catch (e) {}
     if (items.map(x => x.id).join() !== was || !items.length) render();
-  }).catch(() => {});
+  }).catch(() => { if (!items.length) render(); });
 })();

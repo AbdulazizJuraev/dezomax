@@ -35,6 +35,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="css/style.css?v=202611251117">
+<!-- Jonli efirlar ro'yxati: so'rov skriptlar yuklanishini kutmay shu yerda boshlanadi (js/live.js window.dzLiveP'ni oladi) -->
+<link rel="preconnect" href="https://pay.dezomax.uz" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com">
+<script>(function(){var A='https://pay.dezomax.uz',j=function(r){return r.ok?r.json():null},n=function(){return null};try{window.dzLiveP=fetch(A+'/api/yt/live').then(j).catch(n);window.dzEfirP=fetch(A+'/efir/status',{cache:'no-store'}).then(j).catch(n)}catch(e){}})()</script>
+<style>/* ro'yxat kelguncha skelet (js/live.js route() olib tashlaydi): sahifa bo'sh turmaydi, footer sakramaydi */.lvh-skel{min-height:70vh}.lvh-skel i,.lvh-skel b,.lvh-skel-hero{display:block;border-radius:14px;background:linear-gradient(90deg,#15181c 0%,#1f2329 50%,#15181c 100%) 0 0/200% 100%;animation:lvhSk 1.2s linear infinite}.lvh-skel-h{display:flex;align-items:center;gap:16px;margin:4px 0 22px}.lvh-skel-h i{width:64px;height:64px;border-radius:50%;flex:none}.lvh-skel-h b{width:min(320px,55%);height:30px;border-radius:8px}.lvh-skel-hero{aspect-ratio:16/7;min-height:300px;border-radius:20px}.lvh-skel-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:30px}.lvh-skel-grid i{aspect-ratio:16/9}@keyframes lvhSk{to{background-position:-200% 0}}@media (max-width:640px){.lvh-skel-hero{min-height:0;height:420px;aspect-ratio:auto;border-radius:16px}.lvh-skel-grid{grid-template-columns:1fr}.lvh-skel-grid i:nth-child(n+2){display:none}}@media (prefers-reduced-motion:reduce){.lvh-skel i,.lvh-skel b,.lvh-skel-hero{animation:none}}</style>
 <!-- Google AdSense (reklama: js/ads.js) -->
 <meta name="google-adsense-account" content="ca-pub-3356248514435871">
 <script async fetchpriority="low" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3356248514435871" crossorigin="anonymous"></script>
@@ -82,6 +87,7 @@
 </header>
 
 <main class="wrap lv-page" style="padding-top:calc(var(--header-h) + 28px)">
+  <div class="lvh-skel" id="lvSkel" aria-hidden="true"><div class="lvh-skel-h"><i></i><b></b></div><div class="lvh-skel-hero"></div><div class="lvh-skel-grid"><i></i><i></i><i></i></div></div>
   <p class="lv-empty" id="lvEmpty" hidden></p>
 </main>
 
@@ -127,6 +133,6 @@
 <script src="js/auth.js?v=202611251117"></script>
 <script src="js/role.js?v=202611251117"></script>
 <script src="js/ytplayer.js?v=202611251117"></script>
-<script src="js/live.js?v=202611251117"></script>
+<script src="js/live.js?v=202611251900"></script>
 </body>
 </html>
