@@ -62,6 +62,34 @@ dzxPosters();
   addEventListener('load', fit);
 })();
 
+/* Telefon klaviaturasi ochiq bo'lsa — pastki panel va «yuqoriga» tugmasi yashiriladi (html.dzx-kb, 2026-11-25).
+   Ilovada (Capacitor) oyna klaviatura bilan qisqaradi va suzuvchi panel klaviatura ustiga chiqib,
+   qidiruv natijalarini yopib qo'yardi. Belgi: matn maydoni fokusda VA ekran balandligi sezilarli qisqargan
+   (klaviatura «orqaga» bilan yopilsa, maydon fokusda qolsa ham panel qaytadi). */
+(function () {
+  if (!matchMedia('(pointer: coarse)').matches) return;
+  const de = document.documentElement, vv = window.visualViewport;
+  const st = document.createElement('style');
+  st.textContent = 'html.dzx-kb .tabbar,html.dzx-kb .to-top{display:none!important}';
+  document.head.appendChild(st);
+  const NOTXT = /^(button|checkbox|radio|range|submit|reset|file|color|image|hidden)$/i;
+  const typing = () => {
+    const el = document.activeElement;
+    return !!el && (el.isContentEditable || el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && !NOTXT.test(el.type)));
+  };
+  const h = () => Math.min(innerHeight, vv ? vv.height : innerHeight);
+  let full = h();
+  const upd = () => {
+    const t = typing(), cur = h();
+    if (!t || cur > full) full = Math.max(cur, t ? full : 0);   // klaviatura yo'q paytdagi to'liq balandlik
+    de.classList.toggle('dzx-kb', t && cur < full * 0.8);
+  };
+  addEventListener('resize', upd);
+  if (vv) vv.addEventListener('resize', upd);
+  addEventListener('focusin', () => { upd(); setTimeout(upd, 350); });
+  addEventListener('focusout', () => setTimeout(upd, 60));
+})();
+
 /* ---------- Guruhlar (qismlar) ----------
    Admin → «Guruhlar»: bir nechta video bitta kartaga yig'iladi. Guruh kartasi — 1-qism kinosi,
    unda parts: [1-qism id, 2-qism id, ...]. Qolgan qismlar ro'yxatlardan chiqariladi (PART_MOVIES'da

@@ -111,6 +111,10 @@ try { var dzxD = document.documentElement, dzxT = localStorage.getItem('dzx_them
       p.style.opacity = '';
       p.style.width = act.offsetWidth + 'px'; p.style.height = act.offsetHeight + 'px';
       p.style.transform = `translate(${act.offsetLeft}px, ${act.offsetTop}px)`;
+      // Yangi joy animatsiyasiz qo'llansin (2026-11-25): saqlangan HTML'da kapsula oldingi bo'lim ostida turadi.
+      // Reflow'siz transition rAF'da qaytsa, brauzer kapsulani eski joydan surib kelardi — bosilganda bir marta,
+      // yangi sahifada yana bir marta yugurardi. Telefonda surilish bosilgan zahoti (common.js) bo'ladi.
+      void p.offsetWidth;
       requestAnimationFrame(() => { p.style.transition = ''; });
     } else if (p) p.style.opacity = '0';
   } catch (e) {}
