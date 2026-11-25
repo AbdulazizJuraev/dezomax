@@ -1142,6 +1142,8 @@ function renderTabbar() {
       bar.querySelectorAll('.tabbar-item.is-active').forEach(x => x.classList.remove('is-active'));
       a.classList.add('is-active');
       tabPill(bar, a, true);          // darhol suriladi — sahifa ochilguncha kutmaydi
+      // telefonda sahifa animatsiyasi yo'q — kapsula yetib borishi uchun 170 ms dan keyin o'tadi
+      if (document.documentElement.classList.contains('dzx-lite')) { e.preventDefault(); setTimeout(() => { location.href = a.href; }, 170); }
     });
   }
   // Keyingi sahifa panelni boshidanoq chizsin (js/logo.js) — ochilganda yo'qolib-chiqmasin
@@ -1175,9 +1177,12 @@ function speculateNav() {
   if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;
   const s = document.createElement('script');
   s.type = 'speculationrules'; s.id = 'dzSpec';
+  // 2026-11-25: telefon/ilovada (html.dzx-lite) sahifalar orqada OLDINDAN OCHILMAYDI («moderate» telefonda ekrandagi havolalarni
+  // o'zi ochib qo'yadi — panel doim ekranda, katalog 7 MB → telefon qotardi). Faqat HTML oldindan olinadi, to'liq ochish — barmoq tekkanda.
+  const lite = document.documentElement.classList.contains('dzx-lite');
   s.textContent = JSON.stringify({
     prefetch: [{ where: { selector_matches: 'nav.tabbar a' }, eagerness: 'eager' }],
-    prerender: [{ where: { selector_matches: 'nav.tabbar a, .h5-links a' }, eagerness: 'moderate' }]
+    prerender: [{ where: { selector_matches: lite ? 'nav.tabbar a' : 'nav.tabbar a, .h5-links a' }, eagerness: lite ? 'conservative' : 'moderate' }]
   });
   document.head.appendChild(s);
 }

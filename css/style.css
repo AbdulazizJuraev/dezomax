@@ -9138,7 +9138,8 @@ html body, html body *:not(svg):not(svg *):not(code):not(kbd):not(pre) { font-fa
 /* ===== Sahifalar orasida silliq o'tish (View Transitions, 2026-11-23) =====
    Navbar yoki pastki panel bosilganda sahifa oq/qora miltillamasdan almashadi: header va pastki panel joyida turadi,
    faqat o'rtadagi kontent yengil ko'tarilib almashadi. Faqat transform/opacity — telefonga yengil. Qo'llamaydigan brauzerda oddiy o'tish. */
-@view-transition { navigation: auto; }
+/* 2026-11-25: faqat kompyuterda — telefonda butun ekran rasmini olib animatsiya qilish qotirardi (kapsula baribir surilib o'tadi) */
+@media (hover: hover) and (pointer: fine) { @view-transition { navigation: auto; } }
 header.h5-nav { view-transition-name: dz-head; }
 nav.tabbar { view-transition-name: dz-tabbar; }
 ::view-transition-group(dz-head), ::view-transition-group(dz-tabbar) { animation-duration: 0s; }
