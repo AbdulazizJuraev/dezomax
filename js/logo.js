@@ -72,3 +72,13 @@ try { var dzxD = document.documentElement, dzxT = localStorage.getItem('dzx_them
     if (muts.some(m => [...m.addedNodes].some(nd => nd.nodeType === 1 && (nd.matches?.('img.logo-img, img.acc-about-logo') || nd.querySelector?.('img.logo-img, img.acc-about-logo'))))) upgradeLogos();
   }).observe(document.documentElement, { childList: true, subtree: true });
 })();
+
+// Pastki panel «shisha» effekti (css/style.css, 2026-11-25): kuchsiz telefonlarda (≤4 GB xotira yoki ≤4 yadro)
+// va «kamroq shaffoflik» sozlamasida o'chiriladi — oddiy to'q panel qoladi, qotmasin
+(function () {
+  try {
+    const n = navigator, weak = (n.deviceMemory && n.deviceMemory <= 4) || (n.hardwareConcurrency && n.hardwareConcurrency <= 4)
+      || (window.matchMedia && matchMedia('(prefers-reduced-transparency: reduce)').matches);
+    if (weak) document.documentElement.classList.add('no-glass');
+  } catch (e) {}
+})();
