@@ -1285,6 +1285,16 @@ function a4Status(m) {
 let chFocusAdd = false;
 // Kanalning YouTube'dagi rasmi (Worker /_yt/avatar → og:image). Yuklanmasa — YouTube belgisi qoladi. 2026-11-25
 const chAvatar = c => (c && c.url ? `<img class="ch-avimg" src="https://dezomax.uz/_yt/avatar?u=${encodeURIComponent(String(c.url).replace(/\/(videos|shorts|streams|featured)\/?$/, ''))}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '');
+// Kino kanallaridan saytga o'tgan YouTube videolari (qismlar + treylerlar; yashirilganlar sanalmaydi) — Shorts'siz
+function chEpisodeCount() {
+  if (typeof CHANNELS === 'undefined') return 0;
+  const byId = new Map((typeof CHANNEL_MOVIES !== 'undefined' ? CHANNEL_MOVIES : []).map(m => [m.id, m]));
+  for (const m of customList) if (m.ch) byId.set(m.id, m);
+  const keys = new Set(CHANNELS.map(c => c.key));
+  let n = 0;
+  for (const m of byId.values()) if (keys.has(m.ch) && !isHidden(m.id)) n += Array.isArray(m.eps) && m.eps.length ? m.eps.length : m.video || m.trailer ? 1 : 0;
+  return n;
+}
 function a4ChannelRows() {
   const chans = typeof CHANNELS !== 'undefined' ? CHANNELS : [];
   if (!chans.length) return '<p class="a4-sub">Hali kanal qo‘shilmagan</p>';
@@ -1358,7 +1368,7 @@ function renderHome() {
   $('#admView').innerHTML = `
     <div class="a4-head"><div><h1>${hello}</h1><p class="a4-sub" id="a4Deploy">${uzDate(new Date())}</p></div></div>
     <div class="a4-stats">
-      <button class="a4-card a4-st" type="button" data-stat="all"><span>${NAV_ICONS.film}Kinolar va videolar</span><b>${fmt(all.length + yt.total)}</b><small>${fmt(active.length)} kino faol · ${fmt(yt.total)} YouTube</small></button>
+      <button class="a4-card a4-st" type="button" data-stat="all"><span>${NAV_ICONS.film}Kinolar va videolar</span><b>${fmt(all.length + yt.total)}</b><small title="Kino kanallaridan ${fmt(chEpisodeCount())} ta qism + Qiziqarli va Shorts ${fmt(yt.total)} ta">${fmt(active.length)} faol · ${fmt(chEpisodeCount() + yt.total)} YouTube video</small></button>
       <button class="a4-card a4-st" type="button" data-stat="added"><span>${NAV_ICONS.plus}Qo‘shilgan</span><b>${fmt(addedList().length + yt.total)}</b><small class="is-up">+${fmt(weekAdded + ytWeek)} shu hafta</small></button>
       <button class="a4-card a4-st" type="button" data-stat="hidden"><span>${ITEM_ICONS.eyeOff}Yashirilgan</span><b>${fmt(hiddenList.length)}</b><small>saytda ko‘rinmaydi</small></button>
       <button class="a4-card a4-st" type="button" data-go="clean"><span>${A4_ICONS.broom}E’tibor talab</span><b>${fmt(raw + bad)}</b><small class="${raw + bad ? 'is-warn' : ''}">${raw} xom nom · ${bad} ishlamaydi</small></button>
