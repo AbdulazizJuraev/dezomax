@@ -85,7 +85,7 @@
     const byId = new Map(MOVIES.map(m => [m.id, m]));
     const pop = (popIds || []).map(id => byId.get(id)).filter(heroArtOk);
     const hid = new Set(heroHidden());
-    const list = [...new Set([...admin, ...pop])].filter(m => !hid.has(m.id)).slice(0, 12);
+    const list = heroDedupe([...admin, ...pop]).filter(m => !hid.has(m.id)).slice(0, 12);   // bitta film — bir marta (js/common.js)
     return list.length ? list : heroCompose([]).slice(0, 12);
   }
   /* Sekin internet: index.html faqat js/data-home.js ni (bosh sahifa kinolari) yuklaydi. Kerakli kino unda

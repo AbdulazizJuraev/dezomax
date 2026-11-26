@@ -4,6 +4,7 @@
    ============================================================ */
 
 let tvCurrent = null;
+let tvWatch = null;   // tv.html?ch=ID — kanal sahifasi (pastda init)
 let hls = null;
 
 const countryName = id => {
@@ -15,34 +16,20 @@ const FS_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 
 /* ---------- Kanal kartochkasi ---------- */
 
-/* Logotip bo'lsa — oq fonda logotip; yuklanmasa yoki yo'q bo'lsa — gradient ustida nomi */
-function thumbHTML(c) {
-  const onair = c.id === tvCurrent?.id ? '<span class="tv-onair"></span>' : '';
-  const grad = `background:linear-gradient(150deg, ${c.colors[0]} 0%, ${c.colors[1]} 100%)`;
-
-  if (c.logo) {
-    // tile: 'dark' — oq logotip shaffof fonda (och kartochkada ko'rinmasdi)
-    return `<span class="tv-thumb tv-thumb-logo${c.tile === 'dark' ? ' is-dark' : ''}" style="--fallback:${c.colors[0]}">
-              <img src="${esc(c.logo)}" alt="${esc(c.name)}" loading="lazy"
-                   onerror="this.parentNode.classList.add('is-broken')">
-              <span class="tv-thumb-name">${esc(c.name)}</span>
-              ${onair}
-            </span>`;
-  }
-  return `<span class="tv-thumb" style="${grad}">
-            <span class="tv-thumb-name">${esc(c.name)}</span>
-            ${onair}
-          </span>`;
-}
-
+/* Panjara kartasi (2026-11-26, foydalanuvchi maketi): to'q karta, chap tepada nomi, o'ng tepada dumaloq logotip.
+   tile: 'dark' — oq logotip, shuning uchun doira kanal rangida; boshqalari — oq doira. */
 function channelHTML(c) {
+  const on = c.id === tvCurrent?.id;
+  const logo = c.logo
+    ? `<span class="tvg-logo${c.tile === 'dark' ? ' is-dark' : ''}" style="--c1:${c.colors[0]};--c2:${c.colors[1]}"><img src="${esc(c.logo)}" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>`
+    : `<span class="tvg-logo is-dark" style="--c1:${c.colors[0]};--c2:${c.colors[1]}"><b>${esc(c.name.slice(0, 2))}</b></span>`;
+  // Kanal bosilsa — alohida sahifa (tv.html?ch=ID): ro'yxat ustida o'ynamaydi (2026-11-26)
   return `
-  <button class="tv-card${c.id === tvCurrent?.id ? ' is-playing' : ''}" data-ch="${c.id}" type="button">
-    ${thumbHTML(c)}
-    <span class="tv-card-body">
-      <span class="tv-card-name">${esc(c.name)}</span>
-    </span>
-  </button>`;
+  <a class="tvg-card${on ? ' is-playing' : ''}" href="tv.html?ch=${encodeURIComponent(c.id)}" aria-label="${esc(c.name)}">
+    <span class="tvg-name">${esc(c.name)}</span>
+    ${on ? `<span class="tvg-live">${t('tv.live')}</span>` : ''}
+    ${logo}
+  </a>`;
 }
 
 /* ---------- Pleyer ---------- */
@@ -161,18 +148,20 @@ function playChannel(ch) {
   }
 
   renderNow();
-  renderGroups();
-  document.querySelector('.tv-stage').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderNow() {
   const box = document.getElementById('tvNow');
   if (!tvCurrent) { box.innerHTML = ''; return; }
+  // kanal sahifasi (2026-11-26): pleyer ostida logotip, nomi, davlat · janr va «Jonli efir»
+  const c = tvCurrent, cat = TVX_CATS.find(x => x[0] === c.category);
   box.innerHTML = `
-    <span class="tv-live-dot"></span>
-    <strong>${esc(tvCurrent.name)}</strong>
-    <span class="tv-now-cat">${esc(countryName(tvCurrent.country))}</span>
-    <span class="tv-live-label">${t('tv.live')}</span>`;
+    ${c.logo ? `<span class="tvg-logo tvw-logo${c.tile === 'dark' ? ' is-dark' : ''}" style="--c1:${c.colors[0]};--c2:${c.colors[1]}"><img src="${esc(c.logo)}" alt=""></span>` : ''}
+    <span class="tvw-tx">
+      <strong>${esc(c.name)}</strong>
+      <span class="tv-now-cat">${esc(countryName(c.country))}${cat ? ' · ' + esc(TVX_L(cat[1], cat[2])) : ''}</span>
+    </span>
+    <span class="tv-live-label"><span class="tv-live-dot"></span>${t('tv.live')}</span>`;
 }
 
 /* ---------- Ro'yxat (2026-11-23, Netflix uslubi): davlat tugmalari + janr bo'yicha gorizontal qatorlar ---------- */
@@ -184,72 +173,63 @@ const TVX_CATS = [
   ['kids', 'Bolalar uchun', 'Детские'], ['family', 'Oilaviy', 'Семейные'], ['music', 'Musiqa', 'Музыка'],
   ['documentary', 'Hujjatli va ilmiy', 'Познавательные']
 ];
-let tvCountry = 'all';
+/* Tablar (2026-11-26, maket): «Barcha kanallar», «Milliy» (O'zbekiston), «Rossiya», so'ng janrlar — bitta qator, bittasi tanlanadi.
+   Pastda — bitta panjara (avvalgi janr bo'yicha gorizontal qatorlar o'rniga). Bo'sh tab ko'rsatilmaydi. */
+let tvTab = 'all';
+const TVX_TABS = () => [
+  ['all', TVX_L('Barcha kanallar', 'Все каналы'), () => true],
+  ['c:uz', TVX_L('Milliy', 'Национальные'), c => c.country === 'uz'],
+  ['c:ru', TVX_L('Rossiya', 'Российские'), c => c.country === 'ru'],
+  ...['sports', 'movies', 'documentary', 'kids', 'entertainment', 'music', 'news', 'family', 'general'].map(k => {
+    const cat = TVX_CATS.find(x => x[0] === k);
+    return ['k:' + k, TVX_L(cat[1], cat[2]), c => c.category === k];
+  })
+].filter(([, , f]) => TV_CHANNELS.some(f));
 
 function renderChips() {
   const box = document.getElementById('tvChips');
-  const name = id => id === 'uz' ? TVX_L('O‘zbekiston', 'Узбекистан') : id === 'ru' ? TVX_L('Rossiya', 'Россия') : countryName(id);
-  const opts = [['all', TVX_L('Hammasi', 'Все')], ...CHANNEL_COUNTRIES.map(c => [c.id, name(c.id)])];
-  box.innerHTML = opts.map(([id, l]) => {
-    const n = id === 'all' ? TV_CHANNELS.length : TV_CHANNELS.filter(c => c.country === id).length;
-    return `<button type="button" role="tab" data-country="${id}" class="${id === tvCountry ? 'is-on' : ''}" aria-selected="${id === tvCountry}">${esc(l)} <small>${n}</small></button>`;
-  }).join('');
+  box.innerHTML = TVX_TABS().map(([id, l]) =>
+    `<button type="button" role="tab" data-tab="${id}" class="${id === tvTab ? 'is-on' : ''}" aria-selected="${id === tvTab}">${esc(l)}</button>`).join('');
 }
 
 function renderGroups() {
   const box = document.getElementById('tvGroups');
-  const pool = TV_CHANNELS.filter(c => tvCountry === 'all' || c.country === tvCountry);
-  const known = new Set(TVX_CATS.map(c => c[0]));
-  const rows = TVX_CATS.map(([k, uz, ru]) => [TVX_L(uz, ru), pool.filter(c => c.category === k)]);
-  const rest = pool.filter(c => !known.has(c.category));
-  if (rest.length) rows.push([TVX_L('Boshqa kanallar', 'Другие'), rest]);
-  box.innerHTML = rows.filter(r => r[1].length).map(([title, list]) => `
-      <section class="tv-group tvx-row">
-        <div class="tvx-row-h"><h2>${esc(title)}</h2><span class="result-count">${list.length} ${t('tv.channels')}</span></div>
-        <div class="tvx-track">${list.map(channelHTML).join('')}</div>
-      </section>`).join('');
-  box.querySelectorAll('[data-ch]').forEach(btn =>
-    btn.addEventListener('click', () => playChannel(TV_CHANNELS.find(c => c.id === btn.dataset.ch))));
+  // kanal sahifasi — faqat shu kanal, katta pleyer; boshqa kanallar ko'rsatilmaydi (2026-11-26, foydalanuvchi so'rovi)
+  if (tvWatch) { box.innerHTML = ''; return; }
+  const tab = TVX_TABS().find(x => x[0] === tvTab) || TVX_TABS()[0];
+  const list = TV_CHANNELS.filter(tab[2]);
+  box.innerHTML = `<div class="tvg-grid">${list.map(channelHTML).join('')}</div>`;
   renderChips();
-  document.getElementById('tvCount').textContent = `${TV_CHANNELS.length} ${t('tv.channels')}`;
+  document.getElementById('tvCount').textContent = `${list.length} ${t('tv.channels')}`;
 }
 
 document.getElementById('tvChips').addEventListener('click', e => {
-  const b = e.target.closest('[data-country]');
-  if (!b || b.dataset.country === tvCountry) return;
-  tvCountry = b.dataset.country;
+  const b = e.target.closest('[data-tab]');
+  if (!b || b.dataset.tab === tvTab) return;
+  tvTab = b.dataset.tab;
   renderGroups();
 });
 
-/* Kanal tanlanmaganda — sahnada oxirgi ko'rilgan kanal (yoki O'zbekiston): katta logotip, «Jonli ko'rish».
-   O'zi o'ynamaydi — trafik faqat bosilganda sarflanadi. */
-function renderPlaceholder() {
-  let last = null; try { last = localStorage.getItem('dzx_tv_last'); } catch (e) {}
-  const ch = TV_CHANNELS.find(c => c.id === last) || TV_CHANNELS[0];
-  if (!ch) return;
-  const cat = TVX_CATS.find(c => c[0] === ch.category);
-  document.getElementById('tvPlayer').innerHTML = `
-    <button class="tvx-hero" id="tvStart" type="button" style="--c1:${ch.colors[0]};--c2:${ch.colors[1]}">
-      <span class="tvx-hero-tx">
-        <span class="tvx-live">${t('tv.live')}</span>
-        <b>${esc(ch.name)}</b>
-        <small>${esc(countryName(ch.country))}${cat ? ' · ' + esc(TVX_L(cat[1], cat[2])) : ''}</small>
-        <span class="tvx-go">${ICONS.play}${TVX_L('Jonli ko‘rish', 'Смотреть')}</span>
-      </span>
-      ${ch.logo ? `<span class="tvx-hero-logo${ch.tile === 'dark' ? ' is-dark' : ''}"><img src="${esc(ch.logo)}" alt=""></span>` : ''}
-    </button>`;
-  document.getElementById('tvStart').addEventListener('click', () => playChannel(ch));
-}
-
 /* ---------- Ishga tushirish ---------- */
 
+/* Ikki ko'rinish (2026-11-26):
+   - tv.html — faqat ro'yxat (sarlavha, tablar, panjara), pleyer yo'q;
+   - tv.html?ch=ID — kanal sahifasi: «← Barcha kanallar», pleyer, kanal ma'lumoti, pastda boshqa kanallar.
+   Kanal kartasi oddiy havola — har kanal o'z sahifasida ochiladi (orqaga tugmasi ro'yxatga qaytaradi). */
 initLayout();
-renderGroups();
-renderPlaceholder();
-
-// tv.html?ch=Sport — Sport bo'limidan "Jonli ko'rish" bosilganda kanal darhol ochiladi
 const chParam = new URLSearchParams(location.search).get('ch');
-if (chParam) playChannel(TV_CHANNELS.find(c => c.id === chParam));
+tvWatch = chParam ? TV_CHANNELS.find(c => c.id === chParam) || null : null;
+const tvStageEl = document.getElementById('tvStage');
+if (tvWatch) {
+  document.body.classList.add('tv-watch');
+  document.title = `${tvWatch.name} — ${TVX_L('jonli efir', 'прямой эфир')} | DezoMax`;
+  tvStageEl.insertAdjacentHTML('beforebegin', `<a class="tvw-back" href="tv.html">← ${TVX_L('Barcha kanallar', 'Все каналы')}</a>`);
+  renderGroups();
+  playChannel(tvWatch);
+} else {
+  tvStageEl.hidden = true;
+  renderGroups();
+}
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.addEventListener('langchange', () => {

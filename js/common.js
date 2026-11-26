@@ -172,6 +172,24 @@ function kidsHero(kidsIds) {
   if (picked.length) return picked.slice(0, HERO_MAX);
   return MOVIES.filter(m => m.type === 'multfilm' && /youtube\.com|youtu\.be/.test(m.video || '')).slice(0, HERO_MAX);
 }
+/* Slayder takrorlari (2026-11-26): bitta filmning bir necha yozuvi bo'ladi (masalan, haqiqiy film 9301 va FarZidGuy tahlil videosi
+   7222691 — ikkalasida ham TMDB 299536 va bir xil poster). Id har xil bo'lgani uchun Set ularni ajratolmasdi — karuselda yonma-yon chiqardi.
+   Kalit: TMDB id, bo'lmasa poster fayli (o'lchamsiz). Takror bo'lsa — YouTube kanal videosi emas, saytdagi haqiqiy film qoladi (o'z joyida). */
+function heroDedupe(list) {
+  const keyOf = m => (m.tmdb && m.tmdb.id) ? 'tmdb:' + (m.tmdb.type || 'movie') + ':' + m.tmdb.id
+    : (/image\.tmdb\.org/.test(m.poster || '') ? 'p:' + String(m.poster).split('/').pop() : 'id:' + m.id);
+  const isChannel = m => !!m.ch || /youtube\.com|youtu\.be/.test(m.video || '');
+  const out = [], at = new Map();
+  for (const m of list) {
+    if (!m) continue;
+    const k = keyOf(m);
+    if (!at.has(k)) { at.set(k, out.length); out.push(m); continue; }
+    const i = at.get(k);
+    if (isChannel(out[i]) && !isChannel(m)) out[i] = m;
+  }
+  return out;
+}
+
 function heroCompose(picked) {
   const films = picked.filter(m => m && watchStatus(m) !== 'trailer').slice(0, HERO_MAX);
   if (films.length) return films;

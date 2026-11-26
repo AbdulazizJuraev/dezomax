@@ -120,7 +120,7 @@
     const byId = new Map(MOVIES.map(m => [m.id, m]));
     const pop = (popIds || []).map(id => byId.get(id)).filter(heroArtOk);
     const hid = new Set(heroHidden());
-    let all = [...new Set([...admin, ...pop])].filter(m => !hid.has(m.id));
+    let all = heroDedupe([...admin, ...pop]).filter(m => !hid.has(m.id));   // bitta film — bir marta (js/common.js)
     // admin → «Katta slayder» → «Tasodifiy tartib»: har ochilishda boshqa tartib (va 8 tadan ko'p bo'lsa — boshqa kinolar)
     if (CFG.hero && CFG.hero.random) all = all.map(m => [Math.random(), m]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
     const list = all.slice(0, 8);
@@ -1001,4 +1001,66 @@
       }
     }
   })();
+})();
+
+
+/* «Janr bo'yicha» — telefonda kartalar dastasi (2026-11-26).
+   Oldinda bitta karta; orqasida keyingi 2 tasi o'ngga surilib, kichrayib chiqib turadi. Chapga surilsa (yoki har 3,2 s da o'zi)
+   oldingi karta chapga uchib ketadi va orqadagi oldinga chiqadi; o'ngga surilsa — oldingi karta qaytib keladi.
+   Barmoq tekkanda avto-aylanish 7 s to'xtaydi; «harakatni kamaytirish» yoqilgan bo'lsa — o'zi aylanmaydi.
+   Bo'lim qayta chizilsa ham ishlaydi (har 600 ms da tekshiriladi). Kompyuterda (>760px) — oddiy panjara, tegilmaydi. */
+(function () {
+  const mq = matchMedia('(max-width: 760px)');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const tf = (d, n, dx) => {
+    if (d === 0) return [`translateX(${dx}px) rotate(${dx / 40}deg)`, 1, 10];
+    if (d === n - 1) return ['translateX(-115%) rotate(-8deg) scale(.9)', 0, 11];          // ketgan karta — chapda, ko'rinmas
+    if (d <= 3) return [`translateX(${d * 15}px) scale(${1 - d * .08})`, d === 3 ? 0 : 1 - d * .28, 10 - d];
+    return ['translateX(42px) scale(.79)', 0, 1];
+  };
+  function lay(el) {
+    const cards = [...el.children], n = cards.length, a = +el.dataset.a || 0, dx = +el.dataset.dx || 0;
+    cards.forEach((c, i) => {
+      const d = (i - a + n) % n, [t, o, z] = tf(d, n, d === 0 ? dx : 0);
+      c.style.setProperty('--tf', t);
+      c.style.transform = t; c.style.opacity = o; c.style.zIndex = z;
+      c.style.filter = d === 0 ? '' : `brightness(${1 - d * .18})`;
+      c.style.pointerEvents = d === 0 ? '' : 'none';
+      c.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+      c.tabIndex = d === 0 ? 0 : -1;
+    });
+  }
+  const go = (el, step) => { const n = el.children.length; el.dataset.a = ((+el.dataset.a || 0) + step + n) % n; el.dataset.dx = 0; lay(el); };
+  let pauseUntil = 0;
+  function init(el) {
+    el.dataset.stack = '1'; el.dataset.a = 0; el.classList.add('is-stack'); lay(el);
+    let x0 = 0, y0 = 0, dragging = false, moved = false;
+    el.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dragging = true; moved = false; pauseUntil = Date.now() + 7000; }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
+      if (!moved && Math.abs(dy) > Math.abs(dx)) { dragging = false; return; }   // vertikal — sahifa aylanadi
+      moved = true; el.classList.add('is-drag'); el.dataset.dx = dx; lay(el);
+    }, { passive: true });
+    el.addEventListener('touchend', () => {
+      if (!dragging) return; dragging = false; el.classList.remove('is-drag');
+      const dx = +el.dataset.dx || 0;
+      if (dx < -45) go(el, 1); else if (dx > 45) go(el, -1); else { el.dataset.dx = 0; lay(el); }
+      pauseUntil = Date.now() + 7000;
+    });
+    el.addEventListener('click', e => { if (moved) { e.preventDefault(); moved = false; } }, true);   // surilgandan keyin karta ochilmasin
+  }
+  function off(el) { el.classList.remove('is-stack'); delete el.dataset.stack; [...el.children].forEach(c => { c.style.cssText = c.style.cssText.replace(/(transform|opacity|z-index|filter|pointer-events|--tf)[^;]*;?/g, ''); c.removeAttribute('aria-hidden'); c.removeAttribute('tabindex'); }); }
+  setInterval(() => {
+    const el = document.querySelector('.h5-genres');
+    if (!el || el.children.length < 3) return;
+    if (!mq.matches) { if (el.dataset.stack) off(el); return; }
+    if (!el.dataset.stack) init(el);
+    if (still || document.hidden || Date.now() < pauseUntil || el.classList.contains('is-drag')) return;
+    const r = el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const now = Date.now();
+    if (!el._t) el._t = now;
+    if (now - el._t >= 3200) { el._t = now; go(el, 1); }
+  }, 600);
 })();

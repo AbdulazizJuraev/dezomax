@@ -9452,3 +9452,138 @@ html.dzx-gt font { all: unset; }
   html body nav.tabbar.tabbar .tabbar-item.is-active .tabbar-icon svg { stroke: currentColor; }
   .tb-pill { display: none !important; }
 }
+
+/* Jonli efir banneri (live.html, js/live.js hero) — 2026-11-26, foydalanuvchi maketi bo'yicha.
+   Keng ekran: balandroq banner (3:2 / 2:1), sarlavha chapda yuqoriroqda, 2 qator, oddiy harflar; kichik rasmlar qatori pastda alohida.
+   Telefon: rasm tepada qora fonga singib ketadi, markazda katta BOSH HARFLI sarlavha, kanal + «EFIRDA», oq tugma, nuqtalar. */
+@media (min-width: 641px) {
+  .lvh-hero { aspect-ratio: 2 / 1; min-height: 420px; max-height: 600px; }
+  .lvh-hero::after { background: linear-gradient(90deg, rgba(0, 0, 0, .78) 0%, rgba(0, 0, 0, .42) 42%, transparent 72%), linear-gradient(0deg, rgba(0, 0, 0, .7) 0%, transparent 34%); }
+  .lvh-hc { top: 13%; transform: none; width: min(560px, 58%); }
+  .lvh-hc h2 { font-size: clamp(28px, 3.6vw, 42px); line-height: 1.18; text-transform: none; -webkit-line-clamp: 2; }
+  .lvh-hc .lvh-dot { display: none; }
+  .lvh-ch { margin-top: 14px; }
+  .lvh-v { margin-top: 10px; }
+  .lvh-go { margin-top: 18px; height: 46px; padding: 0 22px; font-size: 15px; }
+  .lvh-strip { bottom: 16px; }
+  .lvh-strip button { width: 104px; }
+}
+@media (min-width: 641px) and (max-width: 1100px) {
+  .lvh-hero { aspect-ratio: 3 / 2; }
+}
+@media (max-width: 640px) {
+  .lvh-hero { border-radius: 18px; padding-bottom: 2px; }
+  .lvh-bg { -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%); mask-image: linear-gradient(180deg, #000 55%, transparent 100%); }
+  .lvh-hc { margin-top: -54px; padding: 0 20px; }
+  .lvh-hc h2 { font-size: 27px; line-height: 1.22; text-transform: uppercase; -webkit-line-clamp: 2; }
+  .lvh-ch { margin-top: 16px; font-size: 15px; }
+  .lvh-ch img, .lvh-ch .lv-av { width: 26px; height: 26px; }
+  .lvh-go { height: 44px; margin-top: 18px; padding: 0 22px; font-size: 14.5px; }
+  .lvh-dots { padding: 20px 12px 20px; }
+}
+
+/* Sayt foni — bir tekis #0f0f0f (2026-11-26, foydalanuvchi namunasi). Avval: html/body #000, bosh sahifa #030604 + yashil nur,
+   footer — alohida gradient. Endi butun sahifa bir xil to'q kulrang; kontent bloklari (banner, panel, karta) o'z rangida qoladi.
+   Yorug' mavzu (data-theme="light") o'zgarmaydi. home5.css style.css'dan keyin yuklanadi — shu sabab !important. */
+html:not([data-theme="light"]) { --bg: #0f0f0f; }
+html:not([data-theme="light"]),
+html:not([data-theme="light"]) body,
+html:not([data-theme="light"]) body.d5 {
+  --bg: #0f0f0f !important;
+  background-color: #0f0f0f !important;
+  background-image: none !important;
+}
+html:not([data-theme="light"]) body :is(footer.footer, footer.v4-foot) { background: #0f0f0f !important; }
+
+/* Yuqori menyu (header .h5-nav-in) — chetidagi yashil ramka olib tashlandi (2026-11-26, foydalanuvchi so'rovi):
+   ::before yashil gradient chet va box-shadow'dagi 1px yashil halqa. Soya va ichki yorug' chiziq qoladi. */
+html body .h5-nav .h5-nav-in::before { display: none !important; }
+@media (min-width: 861px) {
+  html body .h5-nav .h5-nav-in { box-shadow: 0 14px 40px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .07) !important; }
+}
+@media (max-width: 860px) {
+  html body.d5 .h5-nav .h5-nav-in { box-shadow: 0 10px 26px rgba(0, 0, 0, .5) !important; }
+}
+
+/* Bosh sahifa banneri tavsifi (.h5-desc, home5.css: 1.05rem) — kichikroq (2026-11-26, foydalanuvchi so'rovi). Telefonda baribir yashirin. */
+html body .h5-hero .h5-desc { font-size: .9rem; line-height: 1.5; color: rgba(255, 255, 255, .78); max-width: 36em; }
+
+/* Telekanallar (tv.html, js/tv.js) — maket bo'yicha (2026-11-26): katta sarlavha, bitta qator tablar, 3 ustunli panjara.
+   Karta: to'q kulrang, chap tepada nomi, o'ng tepada dumaloq logotip; ko'rilayotgan kanal — yashil chet va «Jonli». */
+.tvx-bar { align-items: baseline; margin: 18px 0 22px; }
+.tvx-h { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 900; letter-spacing: -.02em; line-height: 1.05; }
+.tvx-chips { gap: 6px; margin-bottom: 34px; }
+.tvx-chips button { padding: .85em 1.25em; border: 0; border-radius: 10px; background: transparent; color: rgba(255, 255, 255, .62); font: 700 .95rem/1 inherit; }
+.tvx-chips button:hover { color: #fff; }
+.tvx-chips button.is-on { background: #262626; color: #fff; }
+.tvg-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.tvg-card { position: relative; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; min-height: 190px; padding: 26px 92px 20px 20px; border: 0; border-radius: 4px; background: #141414; color: #fff; text-align: left; cursor: pointer; font: inherit; }
+.tvg-card:hover { background: #1c1c1c; }
+.tvg-card.is-playing { box-shadow: inset 0 0 0 2px #C6FF3D; }
+.tvg-name { display: block; font-size: .95rem; font-weight: 600; line-height: 1.3; color: rgba(255, 255, 255, .9); }
+.tvg-live { display: inline-block; margin-top: 8px; padding: 2px 7px; border-radius: 4px; background: #e5262f; color: #fff; font-size: .72rem; font-weight: 800; text-transform: uppercase; }
+.tvg-logo { position: absolute; top: 20px; right: 20px; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: #fff; }
+.tvg-logo.is-dark { background: linear-gradient(150deg, var(--c1), var(--c2)); }
+.tvg-logo img { width: 78%; height: 78%; object-fit: contain; }
+.tvg-logo b { font-size: .9rem; font-weight: 800; color: #fff; }
+@media (max-width: 900px) { .tvg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tvg-card { min-height: 150px; } }
+@media (max-width: 560px) {
+  .tvx-chips { margin-bottom: 18px; }
+  .tvx-chips button { padding: .75em 1em; font-size: .88rem; }
+  .tvg-grid { gap: 6px; }
+  .tvg-card { min-height: 118px; padding: 14px 58px 14px 14px; }
+  .tvg-name { font-size: .85rem; }
+  .tvg-logo { top: 12px; right: 12px; width: 40px; height: 40px; }
+}
+
+/* Kanal sahifasi (tv.html?ch=ID, js/tv.js tvWatch) — 2026-11-26: ro'yxat (sarlavha, tablar) yashiriladi, tepada «← Barcha kanallar»,
+   pleyer, ostida kanal ma'lumoti (logotip, nomi, davlat · janr, «Jonli efir»), pastda boshqa kanallar. Kartalar — havola. */
+a.tvg-card { text-decoration: none; }
+body.tv-watch .tvx-bar, body.tv-watch #tvChips { display: none; }
+.tvw-back { display: inline-block; margin: 6px 0 14px; color: rgba(255, 255, 255, .7); font-weight: 700; font-size: .95rem; text-decoration: none; }
+.tvw-back:hover { color: #fff; }
+body.tv-watch .tvx-stage { margin-bottom: 30px; }
+body.tv-watch .tv-now { gap: 14px; margin-top: 16px; padding: 14px 16px; border-radius: 12px; background: #141414; flex-wrap: nowrap; }
+.tvw-logo { position: static; flex: none; width: 52px; height: 52px; }
+.tvw-tx { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.tvw-tx strong { font-size: 1.15rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.tv-watch .tv-live-label { display: inline-flex; align-items: center; gap: 7px; flex: none; background: #e5262f; border: 0; color: #fff; }
+body.tv-watch .tv-live-label .tv-live-dot { width: 7px; height: 7px; background: #fff; animation: none; box-shadow: none; }
+.tvw-more-h { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 14px; }
+.tvw-more-h h2 { margin: 0; font-size: 1.35rem; font-weight: 800; }
+.tvw-more-h a { color: #C6FF3D; font-weight: 700; text-decoration: none; }
+@media (max-width: 560px) {
+  body.tv-watch .tv-now { padding: 10px 12px; gap: 10px; }
+  .tvw-logo { width: 40px; height: 40px; }
+  .tvw-tx strong { font-size: 1rem; }
+}
+
+/* Kanal sahifasi — faqat telekanal, KATTA (2026-11-26): sahifa kengligi cheklovi olib tashlanadi, pleyer ekran balandligiga
+   sig'adigan eng katta 16:9; boshqa kanallar va izoh ko'rsatilmaydi. */
+body.tv-watch main.wrap { max-width: none; padding-left: clamp(12px, 2.5vw, 40px); padding-right: clamp(12px, 2.5vw, 40px); }
+body.tv-watch .tvx-stage { width: min(100%, calc((100vh - 230px) * 16 / 9)); margin: 0 auto 24px; }
+body.tv-watch .tvx-player { max-height: none; }
+body.tv-watch .tvw-back { display: block; width: min(100%, calc((100vh - 230px) * 16 / 9)); margin-left: auto; margin-right: auto; }
+body.tv-watch #tvGroups, body.tv-watch .player-note { display: none; }
+@media (max-width: 760px) {
+  body.tv-watch .tvx-stage, body.tv-watch .tvw-back { width: 100%; }
+}
+
+
+/* Bosh sahifa «Janr bo'yicha» — telefonda KARTALAR DASTASI (2026-11-26, foydalanuvchi so'rovi): oldinda bitta karta,
+   keyingilari orqasidan kichrayib chiqib turadi; surilganda oldingisi chetga uchadi, orqadagi oldinga chiqadi.
+   Joylashuv js/home5.js oxirida (.h5-genres.is-stack, har kartaga --d: oldingidan necha qadam orqada). Kompyuterda — panjara. */
+@media (max-width: 760px) {
+  html body.d5 .h5-genres.is-stack { display: block; position: relative; height: 172px; margin-right: 34px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  html body.d5 .h5-genres.is-stack .h5-genre {
+    position: absolute; left: 0; top: 6px; width: 100%; height: 150px; margin: 0;
+    transform-origin: 100% 50%; will-change: transform, opacity;
+    transition: transform .5s cubic-bezier(.22, .9, .3, 1), opacity .5s ease, filter .5s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html body.d5 .h5-genres.is-stack .h5-genre b { font-size: 1.6rem; }
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack { width: 112px; }
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack img { height: 128px; }
+  html body.d5 .h5-genres.is-stack .h5-genre:hover { transform: var(--tf); }
+  html body.d5 .h5-genres.is-stack.is-drag .h5-genre { transition: none; }
+}
