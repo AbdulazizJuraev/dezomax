@@ -288,6 +288,7 @@ function mountYouTube(box, url, opts = {}) {
 
   const $ = s => box.querySelector(s);
   box.classList.remove('vp-started', 'vp-recs-off');
+  vpEndClear(box); box._vpEnd = opts.end || null;   // tugaganda: keyingi qism / kino
   vpRecsMount(box, opts.recs);   // pauzada «Tavsiyalar»
   // opts.preroll — kino oldidan reklama (js/ads.js); tugagach film boshlanadi
   let starting = false;
@@ -403,9 +404,12 @@ function ytOnState(box, id, st) {
   if (st === S.PLAYING) vpRecsState(box, true);
   ytWake(box);
 
+  if (st === S.PLAYING) vpEndClear(box);
   if (st === S.ENDED) {
-    // YouTube tavsiyalari o'rniga o'z ekranimiz: pleyerni yashirib, qayta ko'rish tugmasi
+    // YouTube tavsiyalari o'rniga o'z ekranimiz: keyingi qism / keyingi kino (bo'lmasa — qayta ko'rish tugmasi)
     $('#ytpFrame').style.visibility = 'hidden';
+    const replay = () => { $('#ytpFrame').style.visibility = ''; ytActive?.player.seekTo(0, true); ytActive?.player.playVideo(); };
+    if (vpEndShow(box, replay)) return;
     const msg = $('#ytpMsg');
     msg.hidden = false;
     msg.innerHTML = `<button class="ytp-replay" type="button">${YT_ICONS.replay}<span>${esc(t('player.replay'))}</span></button>`;
@@ -641,4 +645,132 @@ function vpRecsMount(box, recs) {
 function vpRecsState(box, running) {
   if (!box) return;
   if (running) { box.classList.add('vp-started'); box.classList.remove('vp-recs-off'); }
+}
+
+/* ---------- Video tugaganda: keyingi qism yoki keyingi kino (2026-11-26) ----------
+   Avval faqat «Qayta ko'rish» chiqardi — odam shu yerda saytdan chiqib ketardi. Endi:
+   · serial — «Keyingi qism» kartasi, 10 soniya sanoqdan keyin o'zi ochiladi;
+   · kino — o'xshash kinolar, birinchisi 15 soniyadan keyin o'zi ochiladi.
+   «Bekor qilish» sanoqni to'xtatadi. Sanoq faqat sahifa ko'rinib turganda yuradi.
+   end (js/movie.js → opts.end): { next: { href, title, sub, img } | null, recs: [{ href, img, title, dur }] }
+   Uslublar shu yerda (bir marta <style>) — kesh tufayli eski style.css bilan ham to'g'ri ko'rinadi. */
+function vpEndCss() {
+  if (document.getElementById('vpEndCss')) return;
+  const s = document.createElement('style');
+  s.id = 'vpEndCss';
+  s.textContent = `
+.vp-end{position:absolute;inset:0;z-index:9;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:clamp(14px,3vw,36px);background:rgba(5,6,10,.94);color:#fff;overflow:auto}
+.player-wrap.vp-ended .vp-recs{display:none!important}
+.vp-end-h{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.vp-end-h b{font-size:clamp(15px,1.8vw,22px);font-weight:800}
+.vp-end-h b i{font-style:normal;color:#c6ff3d}
+.vp-end-tools{display:flex;gap:8px;flex:none}
+.vp-end-tools button{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;font:700 13px/1 inherit;cursor:pointer}
+.vp-end-tools button:hover{background:rgba(255,255,255,.14)}
+.vp-end-tools svg{width:16px;height:16px}
+.vp-end-next{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(14px,2.4vw,28px);align-items:center;max-width:880px;width:100%;margin:0 auto}
+.vp-end-img{position:relative;display:block;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#1a1a1c}
+.vp-end-img img{width:100%;height:100%;object-fit:cover;display:block}
+.vp-end-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55),transparent 55%)}
+.vp-end-tx small{display:block;color:rgba(255,255,255,.6);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.vp-end-tx b{display:block;margin:6px 0 2px;font-size:clamp(18px,2.4vw,28px);font-weight:800;line-height:1.2}
+.vp-end-tx span{display:block;color:rgba(255,255,255,.7);font-size:14px}
+.vp-end-go{display:inline-flex;align-items:center;gap:10px;margin-top:16px;height:48px;padding:0 22px 0 8px;border-radius:999px;background:#c6ff3d;color:#0f0f0f;font-weight:800;font-size:15px;text-decoration:none}
+.vp-end-ring{position:relative;width:34px;height:34px;flex:none}
+.vp-end-ring svg{width:34px;height:34px;transform:rotate(-90deg)}
+.vp-end-ring circle{fill:none;stroke-width:3}
+.vp-end-ring .bg{stroke:rgba(15,15,15,.2)}
+.vp-end-ring .fg{stroke:#0f0f0f;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.vp-end-ring em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:800}
+.vp-end-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.vp-end-row .vp-rec{flex:none;min-width:0}
+.vp-end-row .vp-rec:first-child .vp-rec-img{outline:2px solid #c6ff3d;outline-offset:2px}
+.vp-end-row .vp-rec:nth-child(n+4){display:none}
+.player-wrap:fullscreen .vp-end-row .vp-rec:nth-child(n+4){display:block}
+.vp-end.is-stopped .vp-end-ring,.vp-end.is-stopped .vp-end-cancel{display:none}
+.vp-end.is-stopped .vp-end-go{padding-left:22px}
+@media (max-width:700px){
+ .vp-end{gap:10px;justify-content:flex-start}
+ .vp-end-h b{font-size:14px}
+ .vp-end-tools button{height:30px;padding:0 10px;font-size:12px}
+ .vp-end-tools button span{display:none}
+ .vp-end-next{grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:12px}
+ .vp-end-tx small{font-size:11px}
+ .vp-end-tx b{font-size:16px}
+ .vp-end-tx span{font-size:12px}
+ .vp-end-go{height:40px;margin-top:10px;font-size:13px;padding-right:16px}
+ .vp-end-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .vp-end-row .vp-rec:nth-child(n+3){display:none}
+ .vp-end-row .vp-rec-t{font-size:12px}
+}`;
+  document.head.appendChild(s);
+}
+function vpEndShow(box, onReplay) {
+  const end = box && box._vpEnd;
+  const recs = end && Array.isArray(end.recs) ? end.recs.filter(r => r && r.href) : [];
+  if (!end || (!end.next && !recs.length)) return false;
+  vpEndCss();
+  const ru = typeof LANG !== 'undefined' && LANG === 'ru';
+  const L = (uz, r) => ru ? r : uz;
+  const stage = box.querySelector('.ytp-stage') || box;
+  stage.querySelector('.vp-end')?.remove();
+  const target = end.next || recs[0];
+  const secs = end.next ? 10 : 15;
+  const C = 2 * Math.PI * 15;
+  const ring = `<span class="vp-end-ring"><svg viewBox="0 0 34 34"><circle class="bg" cx="17" cy="17" r="15"/><circle class="fg" cx="17" cy="17" r="15" stroke-dasharray="${C}" stroke-dashoffset="0"/></svg><em>${secs}</em></span>`;
+  const cardImg = r => r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : '';
+  const el = document.createElement('div');
+  el.className = 'vp-end';
+  el.innerHTML = `
+    <div class="vp-end-h">
+      <b>${end.next ? L('Qism tugadi', 'Серия закончилась') : L('Keyingi kino', 'Следующий фильм') + ` · <i class="vp-end-sec">${secs}</i> ${L('soniyada', 'сек.')}`}</b>
+      <span class="vp-end-tools">
+        <button type="button" class="vp-end-cancel">${L('Bekor qilish', 'Отмена')}</button>
+        <button type="button" class="vp-end-replay">${YT_ICONS.replay}<span>${L('Qayta ko‘rish', 'Смотреть снова')}</span></button>
+      </span>
+    </div>
+    ${end.next ? `
+    <div class="vp-end-next">
+      <a class="vp-end-img" href="${esc(end.next.href)}">${cardImg(end.next)}</a>
+      <div class="vp-end-tx">
+        <small>${L('Keyingi qism', 'Следующая серия')}</small>
+        <b>${esc(end.next.title || '')}</b>${end.next.sub ? `<span>${esc(end.next.sub)}</span>` : ''}
+        <a class="vp-end-go" href="${esc(end.next.href)}">${ring}<span>${L('Hozir ko‘rish', 'Смотреть сейчас')}</span></a>
+      </div>
+    </div>` : `
+    <div class="vp-end-row">
+      ${recs.slice(0, 6).map(r => `<a class="vp-rec" href="${esc(r.href)}"><span class="vp-rec-img">${cardImg(r)}${r.dur ? `<em>${esc(r.dur)}</em>` : ''}</span><span class="vp-rec-t">${esc(r.title)}</span></a>`).join('')}
+    </div>
+    <div><a class="vp-end-go" href="${esc(target.href)}">${ring}<span>${L('Hozir ochish', 'Открыть сейчас')}: ${esc(String(target.title || '').slice(0, 40))}</span></a></div>`}`;
+  stage.appendChild(el);
+  box.classList.add('vp-ended');
+  ['click', 'pointerdown', 'mousedown', 'touchstart', 'dblclick'].forEach(ev => el.addEventListener(ev, e => e.stopPropagation(), { passive: true }));
+
+  const fg = el.querySelector('.vp-end-ring .fg'), num = el.querySelector('.vp-end-ring em'), hsec = el.querySelector('.vp-end-sec');
+  let left = secs;
+  const stop = () => { clearInterval(box._vpEndT); box._vpEndT = null; el.classList.add('is-stopped'); if (hsec) hsec.parentElement.textContent = L('Keyingi kino', 'Следующий фильм'); };
+  clearInterval(box._vpEndT);
+  box._vpEndT = setInterval(() => {
+    if (!el.isConnected) return clearInterval(box._vpEndT);
+    if (document.hidden) return;   // boshqa varaqda — kutamiz
+    left--;
+    if (num) num.textContent = Math.max(0, left);
+    if (hsec) hsec.textContent = Math.max(0, left);
+    if (fg) fg.style.strokeDashoffset = String(C * (1 - left / secs));
+    if (left <= 0) { clearInterval(box._vpEndT); location.href = target.href; }
+  }, 1000);
+  el.querySelector('.vp-end-cancel').addEventListener('click', stop);
+  el.querySelector('.vp-end-replay').addEventListener('click', () => {
+    clearInterval(box._vpEndT);
+    el.remove(); box.classList.remove('vp-ended');
+    onReplay && onReplay();
+  });
+  return true;
+}
+/* yangi video qo'yilganda yoki qayta boshlanganda — tugash ekrani yopiladi */
+function vpEndClear(box) {
+  if (!box) return;
+  clearInterval(box._vpEndT); box._vpEndT = null;
+  box.querySelector('.vp-end')?.remove();
+  box.classList.remove('vp-ended');
 }

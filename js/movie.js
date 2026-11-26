@@ -195,6 +195,7 @@ function mountPlayer(url) {
     const wide = wideCover(movie);
     mountVideo(box, local, {
       recs: playerRecs(movie),
+      end: playerEnd(movie),
       poster: wide || movie?.poster || null,
       wide: !!wide,
       title: movie ? title(movie) + (typeof partNo !== 'undefined' && partNo ? ` · ${partLabel(partNo)}` : '') : ''
@@ -221,6 +222,7 @@ function mountPlayer(url) {
     const wide = wideCover(movie);
     mountVideo(box, `https://dezocloud.uz/v/${dcTok}`, {
       recs: playerRecs(movie),
+      end: playerEnd(movie),
       poster: wide || movie?.poster || null,
       wide: !!wide,
       title: movie ? title(movie) + (typeof partNo !== 'undefined' && partNo ? ` · ${partLabel(partNo)}` : '') : '',
@@ -242,6 +244,7 @@ function mountPlayer(url) {
     const wide = wideCover(movie);
     mountVideo(box, url, {
       recs: playerRecs(movie),
+      end: playerEnd(movie),
       poster: wide || movie?.poster || null,
       wide: !!wide,
       title: movie ? title(movie) : '',
@@ -268,7 +271,7 @@ function mountPlayer(url) {
     // treylerdan oldin reklama yo'q — faqat to'liq film oldidan (js/ads.js)
     // qismli seriallarda (eps / parts) — har qismning o'z YouTube rasmi: qism almashganda rasm ham almashadi
     const epPoster = movie && ((movie.eps && movie.eps.length) || (Array.isArray(movie.parts) && movie.parts.length > 1));
-    mountYouTube(box, url, { recs: playerRecs(movie), poster: epPoster ? null : wide, title: movie ? title(movie) : '', preroll: !!movie && url === movie.video });
+    mountYouTube(box, url, { recs: playerRecs(movie), end: playerEnd(movie), poster: epPoster ? null : wide, title: movie ? title(movie) : '', preroll: !!movie && url === movie.video });
     if (link) { link.href = external; link.hidden = false; }
     return;
   }
@@ -450,6 +453,20 @@ function partsBarHTML() {
 }
 
 /* ---------- O'xshash kinolar ---------- */
+
+/* Video tugaganda (js/ytplayer.js vpEndShow): serialda — keyingi qism, kinoda — o'xshash kinolar (birinchisi o'zi ochiladi).
+   &auto=1 — keyingi sahifada pleyer o'zi boshlanadi (brauzer ruxsat bersa). 2026-11-26 */
+function playerEnd(m) {
+  if (!m) return null;
+  const auto = h => h + (h.includes('?') ? '&' : '?') + 'play=1&auto=1';
+  if (partNo && partNo < PARTS.length) {
+    const p = PARTS[partNo], c = p.cover || '';
+    const img = /ytimg\.com/.test(c) ? c.replace('maxresdefault', 'hqdefault') : c ? imgBig(c) : (wideCover(group) || imgSmall(group.poster) || '');
+    return { next: { href: partUrl(partNo + 1).replace('&play=1', '') + '&play=1&auto=1', title: partLabel(partNo + 1), sub: title(group), img } };
+  }
+  const recs = playerRecs(m).slice(0, 6).map(r => ({ ...r, href: auto(r.href) }));
+  return recs.length ? { recs } : null;
+}
 
 /* Pleyer pauzasidagi «Tavsiyalar» (js/ytplayer.js vpRecsMount): o'xshash kinolar, 16:9 rasm (gorizontal poster / muqova / o'z rasmi) */
 function playerRecs(m) {
@@ -747,6 +764,8 @@ function renderMovie() {
   // ?play=1 bo'lsa pleyerga o'tamiz
   if (qp.get('play')) {
     setTimeout(() => document.getElementById('player').scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+    // tugash ekranidan kelgan (&auto=1) — pleyerni o'zi boshlaymiz; brauzer ovozli avtoijroga ruxsat bermasa, muqova qoladi
+    if (qp.get('auto')) setTimeout(() => document.querySelector('#player #ytpCover:not([hidden]), #player #vpCover:not([hidden])')?.click(), 700);
   }
 }
 

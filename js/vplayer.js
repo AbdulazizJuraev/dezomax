@@ -114,6 +114,8 @@ function mountVideo(box, url, opts = {}) {
   const $ = s => box.querySelector(s);
   const video = $('.vp-video');
   if (typeof vpRecsMount === 'function') vpRecsMount(box, opts.recs);   // pauzada «Tavsiyalar»
+  if (typeof vpEndClear === 'function') vpEndClear(box);
+  box._vpEnd = opts.end || null;   // tugaganda: keyingi qism / kino (js/ytplayer.js vpEndShow)
   vpActive = { box, video, hls: null, timer: null, url };
   // video almashtirilgach (boshqa manba / tashqi pleyer) eski video hodisalari e'tiborsiz qoldiriladi
   const live = () => vpActive?.video === video;
@@ -227,7 +229,9 @@ function mountVideo(box, url, opts = {}) {
   onV('pause', () => { setPlayIcon(); wake(); });
   onV('waiting', () => { $('#vpSpin').hidden = false; });
   onV('canplay', () => { $('#vpSpin').hidden = true; });
+  onV('play', () => { if (typeof vpEndClear === 'function') vpEndClear(box); });
   onV('ended', () => {
+    if (typeof vpEndShow === 'function' && vpEndShow(box, () => { video.currentTime = 0; video.play(); })) return;
     const msg = $('#vpMsg');
     msg.hidden = false;
     msg.innerHTML = `<button class="ytp-replay" type="button">${YT_ICONS.replay}<span>${esc(t('player.replay'))}</span></button>`;
