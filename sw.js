@@ -268,22 +268,30 @@ async function pack(items, port) {
 
 // Katta bazani har kirishda qayta yuklamaymiz (18 MB — telefonda sahifa bilan internetni talashardi): ko'pi bilan 30 daqiqada bir marta.
 const SWR_FRESH = 30 * 60000;
+// Bo'laklar ro'yxati (ichida har bo'lakning ?h= xeshi bor, server: no-cache) — har ochilishda orqa fonda tekshiriladi.
+// Tekshiruv shartli so'rov (ETag → 304), o'zgarmagan bo'lsa qayta yuklanmaydi. Aks holda admin o'zgarishi 30+ daqiqa ko'rinmasdi (2026-11-26)
+const SWR_ALWAYS = /\/data-(site|desc|home)\.js$/i;
 const swrBusy = new Set();
 async function staleWhileRevalidate(e, req, name, key) {
   const cache = await caches.open(name);
   const hit = await cache.match(key, { ignoreSearch: true });
   const at = hit ? Number(hit.headers.get('x-dzx-at') || 0) : 0;
-  if (hit && (Date.now() - at < SWR_FRESH || swrBusy.has(key))) return hit;
+  // ?h= (bo'lak xeshi) boshqa bo'lsa — saqlangan nusxa eskirgan: yangisi darhol olinadi (internet bo'lmasa — eskisi)
+  const wantH = new URL(req.url).searchParams.get('h');
+  const stale = !!(hit && wantH && hit.headers.get('x-dzx-h') !== wantH);
+  if (hit && !stale && ((!SWR_ALWAYS.test(key) && Date.now() - at < SWR_FRESH) || swrBusy.has(key))) return hit;
   swrBusy.add(key);
   const net = fetch(req).then(async res => {
     if (!res || !res.ok) return res;
     const h = new Headers(res.headers); h.set('x-dzx-at', String(Date.now()));
+    if (wantH) h.set('x-dzx-h', wantH);
     const copy = new Response(await res.clone().blob(), { status: res.status, statusText: res.statusText, headers: h });
     // eski nusxalar (?v=eski) o'chiriladi — keyingi safar aynan shu yangi nusxa ochilsin
     return cache.keys(key, { ignoreSearch: true }).then(ks => Promise.all(ks.map(k => cache.delete(k))))
       .then(() => cache.put(key, copy)).then(() => res, () => res);
   }).finally(() => swrBusy.delete(key));
   if (!hit) return net;
+  if (stale) return net.then(res => (res && res.ok ? res : hit), () => hit);
   e.waitUntil(net.catch(() => {}));   // orqa fonda yangilanadi
   return hit;
 }
