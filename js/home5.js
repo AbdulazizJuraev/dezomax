@@ -198,9 +198,17 @@
       <button class="h5-btn is-soft is-ic${isFav(m.id) ? ' is-on' : ''}" type="button" data-fav="${m.id}" aria-label="${L('Ro‘yxatga', 'В список')}">${MARK_SVG}</button>`;
     $('h5Slider').querySelectorAll('button').forEach((b, j) => b.setAttribute('aria-current', j === cur));
     layDeck();
-    const [c1] = colorsOf(m);
+    const [c1, c2] = colorsOf(m);
+    const im = $('h5Art');
+    // Telefon (2026-11-26, qotish tuzatildi): orqa fon — kinoning rangidan oddiy gradient. Avval har almashishda 780px rasm yuklanib,
+    // ustiga blur(26px) qo'yilardi — telefonda eng og'ir amal, aynan posterlar surilayotgan paytda. Endi rasm umuman yuklanmaydi.
+    if (PHONE.matches) {
+      im.classList.remove('is-in');
+      $('h5Hero').style.background = `radial-gradient(130% 70% at 50% 18%, color-mix(in srgb, ${c1} 75%, transparent), color-mix(in srgb, ${c2 || c1} 35%, transparent) 55%, transparent 85%)`;
+      return;
+    }
     $('h5Hero').style.background = `radial-gradient(800px 500px at 10% 20%, ${c1}44, transparent 70%)`;
-    const src = heroArt(m), im = $('h5Art');
+    const src = heroArt(m);
     im.classList.remove('is-in');
     if (!src) return;
     const pre = new Image();
@@ -224,7 +232,7 @@
      O'rtadagisi bosilsa — film sahifasi, yondagisi — o'sha kino o'rtaga. Kompyuterda (.h5-deck) ko'rinmaydi (css/style.css). */
   function deckHTML() {
     return picks.map((m, i) => { const img = tallOf(m, 'w342') || cardImg(m); const [c1, c2] = colorsOf(m);
-      return `<button type="button" class="h5-dk" data-dk="${i}" aria-label="${esc(title(m))}" style="background:linear-gradient(160deg,${esc(c1)},${esc(c2)})">${img ? `<img src="${esc(img)}" alt="" ${i < 3 || i === picks.length - 1 ? '' : 'loading="lazy"'} decoding="async" onerror="this.remove()">` : ''}</button>`; }).join('');
+      return `<button type="button" class="h5-dk" data-dk="${i}" aria-label="${esc(title(m))}" style="background:linear-gradient(160deg,${esc(c1)},${esc(c2)})">${img ? `<img src="${esc(img)}" alt="" decoding="async" onerror="this.remove()">` : ''}</button>`; }).join('');
   }
   function layDeck() {
     const deck = $('h5Deck'), n = picks.length;
@@ -237,7 +245,7 @@
         : a === 2 ? `translateX(calc(-50% + ${s * 98}%)) scale(.64) rotate(${s * 9}deg)` : `translateX(calc(-50% + ${s * 120}%)) scale(.5)`;
       b.style.opacity = a === 0 ? 1 : a === 1 ? .85 : a === 2 ? .45 : 0;
       b.style.zIndex = 10 - a;
-      b.style.filter = a === 0 ? '' : `brightness(${a === 1 ? .55 : .4})`;
+      b.style.setProperty('--dim', a === 0 ? 0 : a === 1 ? .45 : .6);   // qorong'ilash — ::after qatlami (opacity), filter emas
       b.style.pointerEvents = a > 2 ? 'none' : '';
       b.tabIndex = a === 0 ? 0 : -1;
       b.classList.toggle('is-on', a === 0);
@@ -1065,7 +1073,7 @@
       const d = (i - a + n) % n, [t, o, z] = tf(d, n, d === 0 ? dx : 0);
       c.style.setProperty('--tf', t);
       c.style.transform = t; c.style.opacity = o; c.style.zIndex = z;
-      c.style.filter = d === 0 ? '' : `brightness(${1 - d * .18})`;
+      c.style.setProperty('--dim', d === 0 ? 0 : Math.min(.6, d * .18));   // qorong'ilash — qatlam opacity'si (filter animatsiyasi qotirardi)
       c.style.pointerEvents = d === 0 ? '' : 'none';
       c.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
       c.tabIndex = d === 0 ? 0 : -1;
@@ -1090,7 +1098,7 @@
     });
     el.addEventListener('click', e => { if (moved) { e.preventDefault(); moved = false; } }, true);   // surilgandan keyin karta ochilmasin
   }
-  function off(el) { el.classList.remove('is-stack'); delete el.dataset.stack; [...el.children].forEach(c => { c.style.cssText = c.style.cssText.replace(/(transform|opacity|z-index|filter|pointer-events|--tf)[^;]*;?/g, ''); c.removeAttribute('aria-hidden'); c.removeAttribute('tabindex'); }); }
+  function off(el) { el.classList.remove('is-stack'); delete el.dataset.stack; [...el.children].forEach(c => { c.style.cssText = c.style.cssText.replace(/(transform|opacity|z-index|filter|pointer-events|--tf|--dim)[^;]*;?/g, ''); c.removeAttribute('aria-hidden'); c.removeAttribute('tabindex'); }); }
   // Dasta bo'limlari: «Janr bo'yicha» va «Siz uchun Qiziqarli» (2026-11-26). Har birining o'z tanaffusi va vaqti bor.
   const STACKS = '.h5-genres, .h5-fun';
   setInterval(() => {
