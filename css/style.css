@@ -9587,3 +9587,126 @@ body.tv-watch #tvGroups, body.tv-watch .player-note { display: none; }
   html body.d5 .h5-genres.is-stack .h5-genre:hover { transform: var(--tf); }
   html body.d5 .h5-genres.is-stack.is-drag .h5-genre { transition: none; }
 }
+
+/* Telekanallar tablari ostida aylantirish chizig'i ko'rinmasin (2026-11-26): ilova (Android WebView) umumiy
+   ::-webkit-scrollbar (10px) uslubini chizardi, scrollbar-width: none ni bilmaydi. Tablar barmoq bilan surilaveradi. */
+.tvx-chips { scrollbar-width: none; -ms-overflow-style: none; }
+.tvx-chips::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+/* «Siz uchun Qiziqarli» — telefonda ham kartalar dastasi (2026-11-26; js/home5.js STACKS). Dastada karta yaxlit:
+   rasm butun kartani egallaydi, nomi pastda qorong'i fon ustida — orqadagi kartalar shaffof joydan ko'rinib qolmasin. */
+@media (max-width: 760px) {
+  html body.d5 .h5-fun.is-stack { display: block; position: relative; height: 236px; margin-right: 34px; padding-bottom: 0; overflow: visible; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  html body.d5 .h5-fun.is-stack .h5-fn {
+    position: absolute; left: 0; top: 6px; width: 100%; height: 216px; margin: 0; padding: 0;
+    display: block; border-radius: 20px; overflow: hidden; background: var(--c2);
+    box-shadow: 0 14px 30px -12px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, .08);
+    transform-origin: 100% 50%; will-change: transform, opacity;
+    transition: transform .5s cubic-bezier(.22, .9, .3, 1), opacity .5s ease, filter .5s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html body.d5 .h5-fun.is-stack .h5-fn-im { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
+  html body.d5 .h5-fun.is-stack .h5-fn-im img { width: 100%; height: 100%; object-fit: cover; }
+  html body.d5 .h5-fun.is-stack .h5-fn::after { content: ''; position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, rgba(0, 0, 0, .82)); pointer-events: none; }
+  html body.d5 .h5-fun.is-stack .h5-fn b { position: absolute; left: 18px; right: 18px; bottom: 14px; z-index: 1; font-size: 1.45rem; font-weight: 800; text-shadow: 0 2px 10px rgba(0, 0, 0, .6); }
+  html body.d5 .h5-fun.is-stack .h5-fn:hover img { transform: none; }
+  html body.d5 .h5-fun.is-stack.is-drag .h5-fn { transition: none; }
+}
+
+/* Janr plitkasi endi 5 tagacha poster oladi (js/home5.js genresHTML, 2026-11-26).
+   Kompyuterda (panjara) avvalgidek 2 tasi: 1-chi o'ngda, 2-chi uning orqasida — qolganlari yashirin. */
+.h5-genres:not(.is-stack) .h5-stack img:nth-child(n+3) { display: none; }
+.h5-genres:not(.is-stack) .h5-stack img:nth-child(2) { right: clamp(38px, 4.2vw, 64px); transform: translateY(-46%) rotate(-7deg) scale(.92); filter: brightness(.8); }
+@media (max-width: 760px) { .h5-genres:not(.is-stack) .h5-stack img:nth-child(2) { display: none; } }
+
+/* Telefondagi dastalar — KVADRAT (1:1) kartalar (2026-11-26, foydalanuvchi so'rovi): «Janr bo'yicha» va «Siz uchun Qiziqarli».
+   Karta kengligi = konteyner kengligi, balandligi shunga teng; konteyner esa karta + yuqoridagi 6px. */
+@media (max-width: 760px) {
+  html body.d5 .h5-genres.is-stack, html body.d5 .h5-fun.is-stack { height: auto; aspect-ratio: 1 / 1.04; }
+  html body.d5 .h5-genres.is-stack .h5-genre, html body.d5 .h5-fun.is-stack .h5-fn { height: auto; aspect-ratio: 1; }
+  html body.d5 .h5-genres.is-stack .h5-genre { justify-content: flex-end; padding: 22px; border-radius: 24px; overflow: hidden; }
+  html body.d5 .h5-genres.is-stack .h5-genre::before { background: linear-gradient(0deg, rgba(3, 6, 4, .85) 0%, rgba(3, 6, 4, .35) 38%, transparent 60%); }
+  html body.d5 .h5-genres.is-stack .h5-genre b { font-size: 2rem; }
+  html body.d5 .h5-genres.is-stack .h5-genre small { font-size: .9rem; }
+  html body.d5 .h5-fun.is-stack .h5-fn { border-radius: 24px; }
+  html body.d5 .h5-fun.is-stack .h5-fn b { font-size: 1.7rem; bottom: 18px; left: 22px; }
+
+  /* janrdagi 5 ta poster — kartaning yuqori qismida yelpig'ich: o'rtadagisi oldinda, chetdagilari burilib orqada */
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack { left: 0; right: 0; top: 9%; width: auto; height: 52%; z-index: -2; }
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack img {
+    display: block; position: absolute; top: 0; left: 50%; right: auto; height: 100%; width: auto; aspect-ratio: 2 / 3;
+    border-radius: 12px; filter: none; box-shadow: 0 12px 26px rgba(0, 0, 0, .55); transform-origin: 50% 100%;
+  }
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack img:nth-child(1) { z-index: 5; transform: translateX(-50%); }
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack img:nth-child(2) { z-index: 4; transform: translateX(-104%) rotate(-8deg) scale(.92); filter: brightness(.82); }
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack img:nth-child(3) { z-index: 4; transform: translateX(4%) rotate(8deg) scale(.92); filter: brightness(.82); }
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack img:nth-child(4) { z-index: 3; transform: translateX(-148%) rotate(-15deg) scale(.8); filter: brightness(.65); }
+  html body.d5 .h5-genres.is-stack .h5-genre .h5-stack img:nth-child(5) { z-index: 3; transform: translateX(48%) rotate(15deg) scale(.8); filter: brightness(.65); }
+  html body.d5 .h5-genres.is-stack .h5-genre:hover .h5-stack img:first-child { transform: translateX(-50%); }
+}
+
+/* Janr sahifasi (catalog.html?genre=…, js/catalog.js renderGenreHero) — 2026-11-26.
+   Banner janr rangida (--h — bosh sahifadagi plitka bilan bir xil), o'ngda eng yaxshi 5 ta poster yelpig'ich; ostida janrlar va saralash. */
+body.is-genre main > .section-head { display: none; }
+.gh { --h: 150; position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: 20px;
+  min-height: 340px; padding: clamp(24px, 4vw, 52px); border-radius: 28px; margin-bottom: 18px;
+  background: radial-gradient(120% 140% at 100% 0%, hsl(var(--h) 90% 52% / .9), transparent 62%), linear-gradient(140deg, hsl(var(--h) 65% 26%), hsl(var(--h) 55% 9%) 80%);
+  border: 1px solid hsl(var(--h) 80% 60% / .35); box-shadow: 0 24px 60px -24px hsl(var(--h) 80% 40% / .6); }
+.gh-tx { position: relative; z-index: 2; min-width: 0; }
+.gh-kick { display: inline-block; padding: 5px 12px; border-radius: 999px; background: rgba(0, 0, 0, .35); color: hsl(var(--h) 85% 82%); font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.gh h1 { margin: 14px 0 8px; font-size: clamp(2.6rem, 7vw, 5rem); font-weight: 900; letter-spacing: -.03em; line-height: .95; }
+.gh-meta { margin: 0; color: rgba(255, 255, 255, .85); font-size: 1rem; }
+.gh-meta b { color: #fff; font-size: 1.15em; }
+.gh-rt { color: #F5C518; font-weight: 800; }
+.gh-desc { max-width: 34em; margin: 12px 0 0; color: rgba(255, 255, 255, .78); font-size: .98rem; line-height: 1.5; }
+.gh-acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.gh-go, .gh-top { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 20px; border-radius: 999px; font: 800 .95rem/1 inherit; cursor: pointer; text-decoration: none; }
+.gh-go { background: #fff; color: #0b0b0b; border: 0; }
+.gh-go svg { width: 18px; height: 18px; }
+.gh-top { background: rgba(0, 0, 0, .3); color: #fff; border: 1px solid rgba(255, 255, 255, .25); }
+.gh-top.is-on { background: #F5C518; border-color: #F5C518; color: #111; }
+.gh-fan { position: relative; z-index: 1; height: clamp(170px, 21vw, 280px); }
+.gh-fan img { position: absolute; bottom: 0; left: 50%; height: 100%; width: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 14px; box-shadow: 0 18px 40px rgba(0, 0, 0, .6); transform-origin: 50% 100%; }
+.gh-fan img:nth-child(1) { z-index: 5; transform: translateX(-50%); }
+.gh-fan img:nth-child(2) { z-index: 4; transform: translateX(-100%) rotate(-8deg) scale(.9); filter: brightness(.8); }
+.gh-fan img:nth-child(3) { z-index: 4; transform: translateX(0%) rotate(8deg) scale(.9); filter: brightness(.8); }
+.gh-fan img:nth-child(4) { z-index: 3; transform: translateX(-146%) rotate(-15deg) scale(.76); filter: brightness(.6); }
+.gh-fan img:nth-child(5) { z-index: 3; transform: translateX(46%) rotate(15deg) scale(.76); filter: brightness(.6); }
+.gh-genres { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 4px; margin-bottom: 12px; }
+.gh-genres::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.gh-genres button { flex: none; padding: .65em 1.15em; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .12); background: #1a1a1a; color: rgba(255, 255, 255, .8); font: 700 .9rem/1 inherit; cursor: pointer; }
+.gh-genres button:hover { color: #fff; border-color: hsl(var(--h) 80% 60% / .6); }
+.gh-genres button.is-on { background: hsl(var(--h) 70% 45%); border-color: hsl(var(--h) 80% 60%); color: #fff; }
+.gh-sort { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; color: rgba(255, 255, 255, .55); font-size: .9rem; }
+.gh-sort span { margin-right: 4px; }
+.gh-sort button { padding: .5em .95em; border: 0; border-radius: 8px; background: transparent; color: rgba(255, 255, 255, .7); font: 700 .9rem/1 inherit; cursor: pointer; }
+.gh-sort button.is-on { background: #262626; color: #fff; }
+@media (max-width: 760px) {
+  .gh { grid-template-columns: 1fr; min-height: 0; padding: 22px 20px 24px; border-radius: 22px; gap: 6px; }
+  .gh-fan { order: -1; height: 190px; margin: 0 -6px 4px; }
+  .gh h1 { margin-top: 10px; }
+  .gh-desc { font-size: .9rem; }
+  .gh-go, .gh-top { height: 42px; padding: 0 16px; font-size: .88rem; }
+}
+
+/* Bosh sahifa slayderi — telefonda POSTER DASTASI (2026-11-26; js/home5.js deckHTML/layDeck).
+   O'rtada joriy kino posteri, ikki yonidan qo'shnilari kichrayib-burilib chiqib turadi; orqa fonda o'rtadagi rasm xiralashib turadi.
+   Ostida — sarlavha, ma'lumot va tugmalar. Kompyuterda dasta yo'q (avvalgi keng banner). */
+.h5-deck { display: none; }
+@media (max-width: 860px) {
+  html body.d5 .h5-hero { --pw: min(80vw, 380px); min-height: 0; padding-top: calc(var(--h5nav, 112px) + 16px); }
+  html body.d5 .h5-hero-art { inset: 0; width: auto; height: 100%; border-radius: 0; -webkit-mask-image: linear-gradient(#000 40%, transparent 92%); mask-image: linear-gradient(#000 40%, transparent 92%); }
+  html body.d5 .h5-hero-art img { filter: blur(26px) brightness(.5) saturate(1.3); transform: scale(1.25); }
+  html body.d5 .h5-deck { display: block; position: relative; z-index: 2; height: calc(var(--pw) * 1.5); margin: 0 auto; touch-action: pan-y; }
+  html body.d5 .h5-dk {
+    position: absolute; top: 0; left: 50%; width: var(--pw); aspect-ratio: 2 / 3; padding: 0; border: 0; border-radius: 18px; overflow: hidden; cursor: pointer;
+    box-shadow: 0 22px 50px -14px rgba(0, 0, 0, .85), 0 0 0 1px rgba(255, 255, 255, .08);
+    transform-origin: 50% 70%; will-change: transform, opacity;
+    transition: transform .55s cubic-bezier(.22, .9, .3, 1), opacity .55s ease, filter .55s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html body.d5 .h5-dk img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  html body.d5 .h5-dk.is-on { box-shadow: 0 26px 60px -14px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .14); }
+  html body.d5 .h5-hero-body { min-height: 0; justify-content: flex-start; padding-top: 20px; padding-bottom: 26px; gap: .7rem; }
+}
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) { html body.d5 .h5-dk { transition: none; } }

@@ -66,6 +66,7 @@ function filtered() {
     if (state.genre !== 'all' && !m.genres.includes(state.genre)) return false;
     if (state.franchise !== 'all' && m.franchise !== state.franchise) return false;
     if (state.franchise !== 'tahlil' && isExtraVideo(m)) return false;      // katalog — kinolar (tahlillar o'z bo'limida)
+    if (!q && isDupCopy(m)) return false;                                     // bitta filmning takror yozuvlari — faqat eng yaxshisi (js/common.js); qidiruvda hammasi topiladi
     if (state.studio && (m.franchise !== state.studio || !m.ch)) return false;
     if (state.watch !== 'trailer' && !state.studio && isTrailerOnly(m)) return false;
     if (state.lang && (audioLang(m) !== state.lang || !m.video || m.type === 'serial')) return false;
@@ -124,10 +125,81 @@ function renderTabs() {
   el.innerHTML = ['film', 'serial'].map(k => `<button type="button" role="tab" data-type="${k}" aria-selected="${state.type === k}" class="${state.type === k ? 'is-on' : ''}">${k === 'film' ? (LANG === 'ru' ? 'Фильмы' : 'Filmlar') : (LANG === 'ru' ? 'Сериалы' : 'Seriallar')}</button>`).join('');
 }
 
+/* ---------- Janr sahifasi (2026-11-26) ----------
+   catalog.html?genre=crime — faqat janr tanlangan bo'lsa (qidiruv/tur/olam yo'q): tepada janrning o'z banneri
+   (rangi bosh sahifadagi plitka bilan bir xil, kinolar soni, o'rtacha reyting, tavsif, eng yaxshi 5 ta poster,
+   «Tasodifiy kino»), ostida boshqa janrlar tugmalari va saralash; pastda — shu janrdagi barcha kinolar (odatdagi panjara). */
+const GENRE_HUE = { comedy: 38, action: 2, drama: 265, scifi: 190, animation: 320, history: 95, thriller: 225, crime: 18, fantasy: 290, adventure: 140, romance: 340, family: 165, horror: 0, war: 80, detective: 210, biography: 30 };
+const GENRE_DESC = {
+  crime: ['Jinoyat olami, tergov va qasos: o‘g‘rilar, mafiya va ularni ta’qib qilayotgan detektivlar haqidagi filmlar.', 'Мир преступности, расследования и мести: фильмы о грабителях, мафии и детективах.'],
+  action: ['Ta’qiblar, janglar va portlashlar — nafasni ichga yuttiradigan jangari filmlar.', 'Погони, драки и взрывы — фильмы, от которых захватывает дух.'],
+  comedy: ['Kayfiyatni ko‘taradigan, butun oila bilan kulib ko‘riladigan komediyalar.', 'Комедии, которые поднимают настроение — смотреть всей семьёй.'],
+  drama: ['Hayotiy voqealar, kuchli his-tuyg‘ular va esda qoladigan taqdirlar.', 'Жизненные истории, сильные эмоции и запоминающиеся судьбы.'],
+  scifi: ['Kelajak, koinot va texnologiyalar — fantastik olamlarga sayohat.', 'Будущее, космос и технологии — путешествие в фантастические миры.'],
+  thriller: ['Oxirigacha taranglik: sirlar, xavf va kutilmagan burilishlar.', 'Напряжение до последней минуты: тайны, опасность и неожиданные повороты.'],
+  fantasy: ['Sehr, afsonaviy mavjudotlar va qahramonlarning buyuk sarguzashtlari.', 'Магия, мифические существа и великие приключения героев.'],
+  adventure: ['Uzoq safarlar, xazinalar va xavfli sarguzashtlar.', 'Далёкие путешествия, сокровища и опасные приключения.'],
+  romance: ['Sevgi, ayriliq va uchrashuvlar haqidagi ta’sirli hikoyalar.', 'Трогательные истории о любви, разлуке и встречах.'],
+  family: ['Kattayu kichik birga ko‘radigan iliq va mehribon filmlar.', 'Тёплые и добрые фильмы для просмотра всей семьёй.'],
+  history: ['Tarixning muhim voqealari va buyuk shaxslar haqida filmlar.', 'Фильмы о важных событиях истории и великих личностях.'],
+  animation: ['Bolalar va kattalar uchun eng yaxshi multfilmlar.', 'Лучшие мультфильмы для детей и взрослых.']
+};
+const isGenrePage = () => state.genre !== 'all' && !state.q && state.type === 'all' && state.franchise === 'all' && !state.studio && !state.lang && state.watch === 'all';
+const ghPoster = m => { const p = String(m.vposter || m.poster || ''); return /image\.tmdb\.org/.test(p) ? p.replace(/\/w\d+\//, '/w342/') : /^images\//.test(p) ? p : ''; };
+
+function renderGenreHero(list) {
+  const on = isGenrePage();
+  document.body.classList.toggle('is-genre', on);
+  let box = document.getElementById('genreHero');
+  if (!on) { box?.remove(); return; }
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'genreHero';
+    document.querySelector('.cat-search').before(box);
+    box.addEventListener('click', e => {
+      const g = e.target.closest('[data-genre]');
+      if (g) { state.genre = g.dataset.genre; update(); window.scrollTo({ top: 0 }); return; }
+      const s = e.target.closest('[data-sort]');
+      if (s) { state.sort = s.dataset.sort; update(); return; }
+      const r = e.target.closest('[data-random]');
+      if (r) {
+        const pool = filtered().filter(m => m.video && watchStatus(m) !== 'trailer');
+        if (pool.length) { e.preventDefault(); location.href = movieHref(pool[Math.floor(Math.random() * pool.length)]); }
+      }
+    });
+  }
+  const ru = LANG === 'ru', g = state.genre, h = GENRE_HUE[g] ?? 150;
+  const rated = list.filter(m => m.rating);
+  const avg = rated.length ? (rated.reduce((s, m) => s + +m.rating, 0) / rated.length).toFixed(1) : '';
+  const top = list.filter(m => ghPoster(m) && m.rating).sort((a, b) => b.rating - a.rating).slice(0, 5);
+  const desc = (GENRE_DESC[g] || [])[ru ? 1 : 0] || (ru ? 'Все фильмы этого жанра на DezoMax.' : 'Shu janrdagi barcha kinolar — DezoMax’da.');
+  const sorts = [['new', ru ? 'Новые' : 'Yangilari'], ['rating', ru ? 'По рейтингу' : 'Reyting'], ['name', 'A–Z']];
+  box.innerHTML = `
+    <section class="gh" style="--h:${h}">
+      <div class="gh-tx">
+        <span class="gh-kick">${ru ? 'Жанр' : 'Janr'}</span>
+        <h1>${esc(genreName(g))}</h1>
+        <p class="gh-meta"><b>${list.length.toLocaleString(ru ? 'ru' : 'uz').replace(/,/g, ' ')}</b> ${ru ? 'фильмов' : 'ta kino'}${avg ? ` · <span class="gh-rt">★ ${avg}</span> ${ru ? 'средний рейтинг' : 'o‘rtacha reyting'}` : ''}</p>
+        <p class="gh-desc">${esc(desc)}</p>
+        <div class="gh-acts">
+          <a class="gh-go" href="#" data-random>${ICONS.play}${ru ? 'Случайный фильм' : 'Tasodifiy kino'}</a>
+          <button type="button" class="gh-top${state.sort === 'rating' ? ' is-on' : ''}" data-sort="rating">★ ${ru ? 'Лучшие' : 'Eng yaxshilari'}</button>
+        </div>
+      </div>
+      <div class="gh-fan" aria-hidden="true">${top.map(m => `<img src="${esc(ghPoster(m))}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`).join('')}</div>
+    </section>
+    <div class="gh-genres" role="tablist">${GENRES.map(x => `<button type="button" role="tab" data-genre="${x.id}" class="${x.id === g ? 'is-on' : ''}" aria-selected="${x.id === g}" style="--h:${GENRE_HUE[x.id] ?? 150}">${esc(ru ? x.ru : x.uz)}</button>`).join('')}</div>
+    <div class="gh-sort"><span>${ru ? 'Сортировка:' : 'Saralash:'}</span>${sorts.map(([k, l]) => `<button type="button" data-sort="${k}" class="${state.sort === k ? 'is-on' : ''}">${l}</button>`).join('')}</div>`;
+  // tanlangan janr tugmasi qatorning o'rtasida ko'rinsin (faqat qator suriladi, sahifa emas)
+  const row = box.querySelector('.gh-genres'), cur = row.querySelector('.is-on');
+  if (cur) row.scrollLeft = cur.offsetLeft - row.clientWidth / 2 + cur.offsetWidth / 2;
+}
+
 /* ---------- Chizish ---------- */
 
 function update(pushUrl = true, keep = 0) {
   const list = filtered();
+  renderGenreHero(list);
   const grid = document.getElementById('grid');
 
   if (list.length) {

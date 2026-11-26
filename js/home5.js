@@ -97,7 +97,8 @@
   const baseTitle = m => norm(title(m)).replace(/[\s.,:–—-]*\d+\s*-?\s*(qism|seriya|серия|bolim|bo‘lim)(\s.*)?$/i, '').trim();
   function uniq(list) {
     const seen = new Set();
-    return list.filter(m => { const k = baseTitle(m); if (seen.has(k)) return false; seen.add(k); return true; });
+    // bitta filmning boshqa nomdagi takror yozuvlari ham (Momaqaldiroqchilar* / Thunderbolts) — js/common.js isDupCopy
+    return list.filter(m => { if (isDupCopy(m)) return false; const k = baseTitle(m); if (seen.has(k)) return false; seen.add(k); return true; });
   }
   const seeAll = L('Barchasi', 'Все');
   const headHTML = (t, all, pre = '', post = '') => `<div class="h5-head">${pre}<h2>${esc(t)}</h2>${post}${all ? `<a class="h5-all" href="${all}">${seeAll} ›</a>` : ''}</div>`;
@@ -196,6 +197,7 @@
       <a class="h5-btn is-soft" href="${movieHref(m)}">${INFO_SVG}${L('Batafsil', 'Подробнее')}</a>
       <button class="h5-btn is-soft is-ic${isFav(m.id) ? ' is-on' : ''}" type="button" data-fav="${m.id}" aria-label="${L('Ro‘yxatga', 'В список')}">${MARK_SVG}</button>`;
     $('h5Slider').querySelectorAll('button').forEach((b, j) => b.setAttribute('aria-current', j === cur));
+    layDeck();
     const [c1] = colorsOf(m);
     $('h5Hero').style.background = `radial-gradient(800px 500px at 10% 20%, ${c1}44, transparent 70%)`;
     const src = heroArt(m), im = $('h5Art');
@@ -217,8 +219,42 @@
     return picks.map((m, i) => { const img = tallOf(m, 'w185') || cardImg(m); const [c1, c2] = colorsOf(m);
       return `<button type="button" role="tab" data-i="${i}" aria-label="${esc(title(m))}" style="background:linear-gradient(160deg,${esc(c1)},${esc(c2)})">${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</button>`; }).join('');
   }
+  /* Telefonda poster dastasi (2026-11-26, foydalanuvchi so'rovi): o'rtada joriy kino posteri, ikki yonidan oldingi/keyingilari
+     kichrayib chiqib turadi (yana chetrog'ida — ikkitasi xira). show() har safar joylashtiradi — surilganda orqadagisi o'rtaga chiqadi.
+     O'rtadagisi bosilsa — film sahifasi, yondagisi — o'sha kino o'rtaga. Kompyuterda (.h5-deck) ko'rinmaydi (css/style.css). */
+  function deckHTML() {
+    return picks.map((m, i) => { const img = tallOf(m, 'w342') || cardImg(m); const [c1, c2] = colorsOf(m);
+      return `<button type="button" class="h5-dk" data-dk="${i}" aria-label="${esc(title(m))}" style="background:linear-gradient(160deg,${esc(c1)},${esc(c2)})">${img ? `<img src="${esc(img)}" alt="" ${i < 3 || i === picks.length - 1 ? '' : 'loading="lazy"'} decoding="async" onerror="this.remove()">` : ''}</button>`; }).join('');
+  }
+  function layDeck() {
+    const deck = $('h5Deck'), n = picks.length;
+    if (!deck || !n) return;
+    deck.querySelectorAll('[data-dk]').forEach(b => {
+      let d = +b.dataset.dk - cur;
+      if (d > n / 2) d -= n; else if (d < -n / 2) d += n;        // eng qisqa yo'l: chap yoki o'ng
+      const a = Math.abs(d), s = Math.sign(d);
+      b.style.transform = a === 0 ? 'translateX(-50%)' : a === 1 ? `translateX(calc(-50% + ${s * 58}%)) scale(.8) rotate(${s * 5}deg)`
+        : a === 2 ? `translateX(calc(-50% + ${s * 98}%)) scale(.64) rotate(${s * 9}deg)` : `translateX(calc(-50% + ${s * 120}%)) scale(.5)`;
+      b.style.opacity = a === 0 ? 1 : a === 1 ? .85 : a === 2 ? .45 : 0;
+      b.style.zIndex = 10 - a;
+      b.style.filter = a === 0 ? '' : `brightness(${a === 1 ? .55 : .4})`;
+      b.style.pointerEvents = a > 2 ? 'none' : '';
+      b.tabIndex = a === 0 ? 0 : -1;
+      b.classList.toggle('is-on', a === 0);
+    });
+  }
   function initHero() {
     if (!picks.length) { $('h5Hero').hidden = true; return; }
+    const deck = document.createElement('div');
+    deck.className = 'h5-deck'; deck.id = 'h5Deck';
+    deck.innerHTML = deckHTML();
+    $('h5Hero').querySelector('.h5-hero-body').before(deck);
+    deck.addEventListener('click', e => {
+      const b = e.target.closest('[data-dk]');
+      if (!b) return;
+      if (+b.dataset.dk === cur) { location.href = movieHref(picks[cur]); return; }
+      show(+b.dataset.dk); restart();
+    });
     $('h5Slider').innerHTML = sliderHTML();
     $('h5Slider').addEventListener('click', e => {
       const b = e.target.closest('button[data-i]');
@@ -330,7 +366,10 @@
     const usedPic = new Set();
     const tiles = GENRE_TILES.map(([g, h]) => {
       const list = g === 'animation' ? watchable.filter(m => m.type === 'multfilm' || (m.genres || []).includes('animation')) : watchable.filter(m => (m.genres || []).includes(g));
-      const pics = list.filter(m => hasTall(m) && rt(m) && !usedPic.has(m.id)).sort((a, b) => rt(b) - rt(a)).slice(0, 2);
+      // 5 tagacha poster (2026-11-26): telefondagi kvadrat dastada yelpig'ich bo'lib chiqadi; kompyuterda 2 tasi ko'rinadi (style.css)
+      const pics = list.filter(m => hasTall(m) && rt(m) && !usedPic.has(m.id)).sort((a, b) => rt(b) - rt(a)).slice(0, 5);
+      // kam bo'lsa (Tarixiy, Jinoyat…) — reytingsiz yoki boshqa janrda chiqqan posterlar bilan to'ldiriladi: har janrda kamida 4–5 ta
+      if (pics.length < 5) for (const pass of [m => !usedPic.has(m.id), () => true]) for (const m of list) { if (pics.length >= 5) break; if (hasTall(m) && !pics.includes(m) && pass(m)) pics.push(m); }
       pics.forEach(m => usedPic.add(m.id));
       const href = g === 'animation' ? 'catalog.html?type=multfilm' : `catalog.html?genre=${g}`;
       return list.length < 3 ? '' : `<a class="h5-genre" href="${href}" style="--h:${h}"><b>${esc(g === 'animation' ? L('Multfilm', 'Мультфильмы') : genreName(g))}</b>
@@ -977,6 +1016,7 @@
       if (next.length && next.map(m => m.id).join() !== picks.map(m => m.id).join()) {
         picks.splice(0, picks.length, ...next);
         $('h5Slider').innerHTML = sliderHTML();
+        if ($('h5Deck')) $('h5Deck').innerHTML = deckHTML();   // telefondagi poster dastasi ham
         show(0); restart();
       }
       renderRows();
@@ -997,6 +1037,7 @@
       if (next.map(m => m.id).join() !== picks.map(m => m.id).join()) {
         picks.splice(0, picks.length, ...next);
         $('h5Slider').innerHTML = sliderHTML();
+        if ($('h5Deck')) $('h5Deck').innerHTML = deckHTML();   // telefondagi poster dastasi ham
         show(0); restart();
       }
     }
@@ -1031,11 +1072,10 @@
     });
   }
   const go = (el, step) => { const n = el.children.length; el.dataset.a = ((+el.dataset.a || 0) + step + n) % n; el.dataset.dx = 0; lay(el); };
-  let pauseUntil = 0;
   function init(el) {
-    el.dataset.stack = '1'; el.dataset.a = 0; el.classList.add('is-stack'); lay(el);
+    el.dataset.stack = '1'; el.dataset.a = 0; el._pause = 0; el.classList.add('is-stack'); lay(el);
     let x0 = 0, y0 = 0, dragging = false, moved = false;
-    el.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dragging = true; moved = false; pauseUntil = Date.now() + 7000; }, { passive: true });
+    el.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dragging = true; moved = false; el._pause = Date.now() + 7000; }, { passive: true });
     el.addEventListener('touchmove', e => {
       if (!dragging) return;
       const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
@@ -1046,21 +1086,24 @@
       if (!dragging) return; dragging = false; el.classList.remove('is-drag');
       const dx = +el.dataset.dx || 0;
       if (dx < -45) go(el, 1); else if (dx > 45) go(el, -1); else { el.dataset.dx = 0; lay(el); }
-      pauseUntil = Date.now() + 7000;
+      el._pause = Date.now() + 7000;
     });
     el.addEventListener('click', e => { if (moved) { e.preventDefault(); moved = false; } }, true);   // surilgandan keyin karta ochilmasin
   }
   function off(el) { el.classList.remove('is-stack'); delete el.dataset.stack; [...el.children].forEach(c => { c.style.cssText = c.style.cssText.replace(/(transform|opacity|z-index|filter|pointer-events|--tf)[^;]*;?/g, ''); c.removeAttribute('aria-hidden'); c.removeAttribute('tabindex'); }); }
+  // Dasta bo'limlari: «Janr bo'yicha» va «Siz uchun Qiziqarli» (2026-11-26). Har birining o'z tanaffusi va vaqti bor.
+  const STACKS = '.h5-genres, .h5-fun';
   setInterval(() => {
-    const el = document.querySelector('.h5-genres');
-    if (!el || el.children.length < 3) return;
-    if (!mq.matches) { if (el.dataset.stack) off(el); return; }
-    if (!el.dataset.stack) init(el);
-    if (still || document.hidden || Date.now() < pauseUntil || el.classList.contains('is-drag')) return;
-    const r = el.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > innerHeight) return;
-    const now = Date.now();
-    if (!el._t) el._t = now;
-    if (now - el._t >= 3200) { el._t = now; go(el, 1); }
+    document.querySelectorAll(STACKS).forEach(el => {
+      if (el.children.length < 3) return;
+      if (!mq.matches) { if (el.dataset.stack) off(el); return; }
+      if (!el.dataset.stack) init(el);
+      if (still || document.hidden || Date.now() < (el._pause || 0) || el.classList.contains('is-drag')) return;
+      const r = el.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const now = Date.now();
+      if (!el._t) el._t = now;
+      if (now - el._t >= 3200) { el._t = now; go(el, 1); }
+    });
   }, 600);
 })();

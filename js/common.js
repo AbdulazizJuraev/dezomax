@@ -190,6 +190,44 @@ function heroDedupe(list) {
   return out;
 }
 
+/* Bazadagi takror filmlar (2026-11-26): bitta film bir necha marta yuklangan (Momaqaldiroqchilar* / Thunderbolts (2025),
+   T-34 ×4, Kalashnikov ×3, «… (asilmedia net)», «Ты помнишь, реж.» …). Ro'yxatlarda (katalog, bosh sahifa qatorlari)
+   har filmdan bittasi — ENG YAXSHISI qoladi, qolganlari yashiriladi (o'z sahifasi ochilaveradi, admin'da hammasi ko'rinadi).
+   Takror deyiladi: bir xil TMDB filmi, ikkalasi ham «film», nomida qism/seriya/часть yo'q, yili bir xil (±1).
+   Guruh 6 tadan katta bo'lsa (masalan 145 ta «Drama Nomi» bitta TMDB'ga noto'g'ri bog'langan) — tegilmaydi.
+   Eng yaxshisi: o'zbekcha > to'liq film; reyting, tavsif, TMDB posteri; «asilmedia», «Kino nomi ➺», «реж.» kabi nomlar — pastroq. */
+const DUP_PART_RX = /\d+\s*[-–]?\s*(qism|qisim|seriya|серия|серии|часть|chast|bo['‘’ʻ]?lim)|(qism|seriya|серия|часть|part|chast)\s*\d+/i;
+const DUP_JUNK_RX = /asilmedia|uzmovi|kino nomi|yangi kino|tas-ix|\bmob\b|\bhd\b|реж\.|✓|➺/i;
+let DUP_HIDE = null, DUP_N = -1;
+function dupScore(m) {
+  const ws = watchStatus(m), t = title(m);
+  return (ws === 'uz' ? 30 : ws === 'full' ? 20 : 0) + (m.rating ? 5 : 0)
+    + (((m.desc && (m.desc.uz || m.desc.ru)) || '').length > 100 ? 3 : 0) + (/image\.tmdb\.org/.test(m.poster || '') ? 2 : 0)
+    - (DUP_JUNK_RX.test(t) ? 10 : 0) - (m.ch || /youtube\.com|youtu\.be/.test(m.video || '') ? 5 : 0) - Math.min(t.length, 60) / 60;
+}
+function isDupCopy(m) {
+  if (typeof MOVIES === 'undefined' || !m) return false;
+  if (DUP_N !== MOVIES.length) {             // ro'yxat to'ldi (data-site bo'laklari) — qayta hisoblanadi
+    DUP_N = MOVIES.length; DUP_HIDE = new Set();
+    const groups = new Map();
+    for (const x of MOVIES) {
+      if (x.type !== 'film' || isExtraVideo(x) || DUP_PART_RX.test(title(x))) continue;
+      // kalit: TMDB filmi; TMDB id yo'q bo'lsa — TMDB poster fayli (sovet filmlari: «Ты помнишь» / «Ты помнишь, реж.»)
+      const k = x.tmdb && x.tmdb.id ? (x.tmdb.type && x.tmdb.type !== 'movie' ? '' : 't' + x.tmdb.id)
+        : /image\.tmdb\.org/.test(x.poster || '') ? 'p' + String(x.poster).split('/').pop() : '';
+      if (k) (groups.get(k) || groups.set(k, []).get(k)).push(x);
+    }
+    for (const list of groups.values()) {
+      if (list.length < 2 || list.length > 6) continue;
+      const ys = list.map(x => +x.year || 0).filter(Boolean);
+      if (ys.length > 1 && Math.max(...ys) - Math.min(...ys) > 1) continue;
+      const best = list.reduce((a, b) => (dupScore(b) > dupScore(a) ? b : a));
+      for (const x of list) if (x !== best) DUP_HIDE.add(x.id);
+    }
+  }
+  return DUP_HIDE.has(m.id);
+}
+
 function heroCompose(picked) {
   const films = picked.filter(m => m && watchStatus(m) !== 'trailer').slice(0, HERO_MAX);
   if (films.length) return films;
@@ -288,7 +326,40 @@ const ICONS = {
 const esc = s => String(s).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-const title = m => m.title[LANG] || m.title.uz;
+/* Kino nomlari o'zbekcha ko'rinishda — LOTINCHA (2026-11-26, foydalanuvchi so'rovi). Bazada ~1400 ta nom kirillchada:
+   1) «Begona Бегона (узбекфильм)», «VIA Marokand - Sevib qoldim ВИА Мароканд …» — lotincha qismi bor: kirillcha qism kesiladi;
+   2) «Кўча Жанги …», «Снайпер. Белый ворон 2022», «Путевка в жизнь» — lotinga o'giriladi (o'zbek lotin alifbosi qoidalari).
+   Bazadagi ma'lumot o'zgarmaydi; ruscha ko'rinishda (LANG = 'ru') asl nom qoladi. Natija keshlanadi. */
+const CYR_RX = /[А-Яа-яЁёЎўҚқҒғҲҳ]/;
+const UZ_LAT_MAP = { а: 'a', б: 'b', в: 'v', г: 'g', ғ: 'g‘', д: 'd', е: 'e', ё: 'yo', ж: 'j', з: 'z', и: 'i', й: 'y', к: 'k', қ: 'q', л: 'l', м: 'm', н: 'n',
+  о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ў: 'o‘', ф: 'f', х: 'x', ҳ: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sh', ъ: '’', ы: 'i', ь: '', э: 'e', ю: 'yu', я: 'ya' };
+function cyrToLat(s) {
+  return String(s).replace(/[А-Яа-яЁёЎўҚқҒғҲҳ]+/g, word => {
+    let out = '';
+    for (let i = 0; i < word.length; i++) {
+      const ch = word[i], lo = ch.toLowerCase(), prev = (word[i - 1] || '').toLowerCase();
+      // «е» so'z boshida va unlidan keyin — «ye» (Ельцин → Yeltsin, Тошкент шаҳрида … )
+      let lat = lo === 'е' && (i === 0 || 'аеёиоуўэюяъь'.includes(prev)) ? 'ye' : (UZ_LAT_MAP[lo] ?? lo);
+      if (ch !== lo && lat) lat = lat[0].toUpperCase() + lat.slice(1);
+      out += lat;
+    }
+    return word.length > 1 && word === word.toUpperCase() ? out.toUpperCase() : out;   // «ГРЯЗНУЮ» → «GRYAZNUYU»
+  });
+}
+const LAT_CACHE = new Map();
+function uzLatin(s) {
+  s = String(s || '');
+  if (!CYR_RX.test(s)) return s;
+  let r = LAT_CACHE.get(s);
+  if (r !== undefined) return r;
+  // lotincha qismi oldinda bo'lsa (kamida 3 ta lotin harfi) — undan keyingi kirillcha takror kesiladi
+  const cut = s.search(/(^|\s)[^\sA-Za-z]*[А-Яа-яЁёЎўҚқҒғҲҳ]/);
+  const pre = cut > 0 ? s.slice(0, cut).replace(/(\s+(I|\||\/|-|–|—|\(|«|"|“))+\s*$/, '').trim() : '';
+  r = (pre.match(/[A-Za-z]/g) || []).length >= 3 ? pre : cyrToLat(s);
+  LAT_CACHE.set(s, r);
+  return r;
+}
+const title = m => { const t = m.title[LANG] || m.title.uz; return LANG === 'ru' ? t : uzLatin(t); };
 /* Tavsif: emoji/stikerlarsiz (Telegram'dan kelgan matnlarda ko'p bo'ladi), ortiqcha bo'sh joylarsiz */
 const stripEmoji = s => String(s || '')
   .replace(/[\p{Extended_Pictographic}\p{Regional_Indicator}\u{FE0F}\u{200D}\u{20E3}\u{1F3FB}-\u{1F3FF}]/gu, '')
