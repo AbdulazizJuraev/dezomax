@@ -314,3 +314,7 @@ ol.pz-list li[data-movie] .pz-pst { width: 30px; height: 44px; }
   .pz-c { padding: 14px; }
   .pz-act { padding: 0 8px; }
 }
+.pz-chip.is-fb { background: rgba(124, 196, 255, .12); color: #7cc4ff; }
+.pz-chip.is-star { color: var(--a-amber); letter-spacing: 1px; }
+.pz-time b { color: var(--a-dim); font-weight: 700; }
+.pz-note a { color: var(--a-lime); }

@@ -71,6 +71,12 @@ function openDb(file) {
   for (const col of ['device_id TEXT', 'device TEXT', 'created_at INTEGER', 'last_seen INTEGER', 'ip TEXT']) {
     try { db.exec(`ALTER TABLE sessions ADD COLUMN ${col}`); } catch { /* ustun allaqachon bor */ }
   }
+  // «DezoMax haqida fikr» (fikr.html): izohlar jadvalida movie_id = 0 bo'lib turadi, saytda hech qayerda ko'rinmaydi — faqat admin «Sharhlar»da.
+  // kind — taklif | xato | maqtov | boshqa, rating — 1..5, contact — javob uchun (ixtiyoriy), src — sayt | ilova
+  for (const col of ['kind TEXT', 'rating INTEGER', 'contact TEXT', 'src TEXT']) {
+    try { db.exec(`ALTER TABLE comments ADD COLUMN ${col}`); } catch { /* ustun allaqachon bor */ }
+  }
+  db.prepare("INSERT OR IGNORE INTO users (uid, name, created_at) VALUES ('guest', 'Mehmon', 0)").run();   // kirmagan foydalanuvchi fikri uchun
   return db;
 }
 
@@ -388,8 +394,9 @@ function createApp(cfg, deps = {}) {
     hideComment: db.prepare('UPDATE comments SET hidden = 1 WHERE id = ?'),
     showComment: db.prepare('UPDATE comments SET hidden = 0 WHERE id = ?'),
     delComment: db.prepare('DELETE FROM comments WHERE id = ?'),
-    adminCounts: db.prepare('SELECT SUM(hidden = 0) AS "all", SUM(hidden = 1) AS hidden, SUM(hidden = 0 AND at > ?) AS day, SUM(hidden = 0 AND at > ?) AS week FROM comments'),
-    adminTop: db.prepare('SELECT movie_id AS movie, COUNT(*) AS n FROM comments WHERE hidden = 0 AND at > ? GROUP BY movie_id ORDER BY n DESC LIMIT 8'),
+    addFeedback: db.prepare('INSERT INTO comments (movie_id, uid, name, text, at, kind, rating, contact, src) VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?)'),
+    adminCounts: db.prepare('SELECT SUM(hidden = 0) AS "all", SUM(hidden = 1) AS hidden, SUM(hidden = 0 AND at > ?) AS day, SUM(hidden = 0 AND at > ?) AS week, SUM(hidden = 0 AND movie_id = 0) AS fb, SUM(hidden = 0 AND movie_id = 0 AND at > ?) AS fbday FROM comments'),
+    adminTop: db.prepare('SELECT movie_id AS movie, COUNT(*) AS n FROM comments WHERE hidden = 0 AND movie_id > 0 AND at > ? GROUP BY movie_id ORDER BY n DESC LIMIT 8'),
     recentByUser: db.prepare('SELECT COUNT(*) AS n FROM comments WHERE uid = ? AND at > ?'),
     views: db.prepare('SELECT n FROM views WHERE movie_id = ?'),
     addView: db.prepare('INSERT INTO views (movie_id, n) VALUES (?, 1) ON CONFLICT(movie_id) DO UPDATE SET n = n + 1'),
@@ -405,6 +412,7 @@ function createApp(cfg, deps = {}) {
   const DAY = 86400000;
   const ghRepo = cfg.ghRepo || 'AbdulazizJuraev/dezomax';
   const ghOk = new Map();
+  const fbHits = new Map();   // fikr: IP → { soat, son }
   const checkGithub = deps.verifyGithub || (async tok => {
     const r = await fetch('https://api.github.com/repos/' + ghRepo, { headers: { authorization: 'Bearer ' + tok, accept: 'application/vnd.github+json', 'user-agent': 'dezomax-pay' }, signal: AbortSignal.timeout(10000) });
     if (!r.ok) return false;
@@ -663,7 +671,7 @@ function createApp(cfg, deps = {}) {
     const path = url.pathname;
     cors(req, res);
     // admin API (DezoMax admin — github.io va dezocloud.uz/dezomax-admin'dan): kirish faqat GitHub token bilan, cookie yo'q — har qanday manzilga ruxsat
-    if (path.startsWith('/admin/')) {
+    if (path.startsWith('/admin/') || path === '/feedback') {   // fikr — sayt, ilova (capacitor) va admin'dan
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -789,6 +797,24 @@ function createApp(cfg, deps = {}) {
         addView(req, movie);
         return send(res, 200, { views: q.views.get(movie)?.n || 0 });
       }
+      /* --- DezoMax haqida fikr (fikr.html): kirish shart emas, IP bo'yicha daqiqada 3 ta, soatda 10 ta --- */
+      if (path === '/feedback' && req.method === 'POST') {
+        if (limited(req, 'feedback', 3)) return send(res, 429, { error: 'Juda tez yuboryapsiz — biroz kuting' });
+        const ip = ipOf(req), hr = Math.floor(now() / 3600000), fh = fbHits.get(ip);
+        if (fh && fh.h === hr && fh.n >= 10) return send(res, 429, { error: 'Bir soatda 10 tadan ortiq fikr yuborib bo‘lmaydi' });
+        const b = await readBody(req).catch(() => ({}));
+        const text = cleanText(b.text);
+        if (text.length < 5) return send(res, 400, { error: 'Fikringizni biroz batafsilroq yozing' });
+        const kind = ['taklif', 'xato', 'maqtov', 'boshqa'].includes(b.kind) ? b.kind : 'boshqa';
+        const rating = [1, 2, 3, 4, 5].includes(Number(b.rating)) ? Number(b.rating) : null;
+        const contact = cleanText(b.contact).replace(/\n/g, ' ').slice(0, 80) || null;
+        const src = b.src === 'app' ? 'app' : 'web';
+        const name = (user ? String(user.name || '') : cleanText(b.name).replace(/\n/g, ' ')).trim().slice(0, 60) || 'Mehmon';
+        const id = Number(q.addFeedback.run(user ? user.uid : 'guest', name, text, now(), kind, rating, contact, src).lastInsertRowid);
+        fbHits.set(ip, { h: hr, n: fh && fh.h === hr ? fh.n + 1 : 1 }); if (fbHits.size > 5000) fbHits.clear();
+        return send(res, 200, { ok: true, id });
+      }
+
       /* --- Admin: izohlarni boshqarish (admin.html → «Sharhlar») --- */
       if (path.startsWith('/admin/')) {
         if (limited(req, 'admin', 120)) return send(res, 429, { error: 'Ko‘p so‘rov' });
@@ -802,15 +828,16 @@ function createApp(cfg, deps = {}) {
           const where = [], args = [];
           if (f === 'hidden') where.push('hidden = 1'); else where.push('hidden = 0');
           if (f === 'new') { where.push('at > ?'); args.push(now() - DAY); }
+          if (f === 'feedback') where.push('movie_id = 0');
           if (movie) { where.push('movie_id = ?'); args.push(movie); }
           if (qs) { where.push('(text LIKE ? OR name LIKE ?)'); args.push(`%${qs}%`, `%${qs}%`); }
           if (before) { where.push('id < ?'); args.push(before); }
-          const items = db.prepare(`SELECT id, movie_id AS movie, uid, name, text, at, hidden FROM comments WHERE ${where.join(' AND ')} ORDER BY id DESC LIMIT ?`).all(...args, limit)
+          const items = db.prepare(`SELECT id, movie_id AS movie, uid, name, text, at, hidden, kind, rating, contact, src FROM comments WHERE ${where.join(' AND ')} ORDER BY id DESC LIMIT ?`).all(...args, limit)
             .map(r => ({ ...r, name: r.name || 'Tomoshabin', hidden: !!r.hidden }));
-          const c = q.adminCounts.get(now() - DAY, now() - 7 * DAY);
+          const c = q.adminCounts.get(now() - DAY, now() - 7 * DAY, now() - DAY);
           return send(res, 200, {
             items, more: items.length === limit,
-            counts: { all: Number(c.all) || 0, hidden: Number(c.hidden) || 0, new: Number(c.day) || 0, week: Number(c.week) || 0 },
+            counts: { all: Number(c.all) || 0, hidden: Number(c.hidden) || 0, new: Number(c.day) || 0, week: Number(c.week) || 0, feedback: Number(c.fb) || 0, feedbackNew: Number(c.fbday) || 0 },
             top: q.adminTop.all(now() - 30 * DAY).map(r => ({ movie: r.movie, n: r.n }))
           });
         }

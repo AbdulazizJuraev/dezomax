@@ -45,6 +45,7 @@ function cmAgo(at) {
   if (s < 86400 * 30) return Math.floor(s / 86400) + ' kun oldin';
   const d = new Date(at); return `${d.getDate()}-${UZ_MON[d.getMonth()]} ${d.getFullYear()}`;
 }
+const CM_KIND = { taklif: '💡 Taklif', xato: '🐞 Xato', maqtov: '❤️ Maqtov', boshqa: '💬 Boshqa' };
 const CM_IC = {
   chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',
   film: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></svg>',
@@ -55,16 +56,20 @@ if (typeof A4_ICONS !== 'undefined') A4_ICONS.chat = CM_IC.chat;
 function cmHTML(c, compact) {
   const color = cmColor(c.uid || c.name);
   const isNew = !c.hidden && Date.now() - c.at < 86400000;
+  const fb = !c.movie;   // «DezoMax haqida fikr» (fikr.html) — saytda ko'rinmaydi, yashirish = arxivga olish
   const acts = compact ? '' : `
-    <a class="pz-act" href="https://dezomax.uz/movie.html?id=${c.movie}#comments" target="_blank" rel="noopener">${CM_IC.open}Kinoga</a>
-    ${c.hidden ? `<button class="pz-act" type="button" data-cm="show">${ITEM_ICONS.eye}Ko‘rsatish</button>` : `<button class="pz-act" type="button" data-cm="hide">${ITEM_ICONS.eyeOff}Yashirish</button>`}
+    ${fb ? '' : `<a class="pz-act" href="https://dezomax.uz/movie.html?id=${c.movie}#comments" target="_blank" rel="noopener">${CM_IC.open}Kinoga</a>`}
+    ${c.hidden ? `<button class="pz-act" type="button" data-cm="show">${ITEM_ICONS.eye}${fb ? 'Arxivdan qaytarish' : 'Ko‘rsatish'}</button>` : `<button class="pz-act" type="button" data-cm="hide">${ITEM_ICONS.eyeOff}${fb ? 'Ko‘rildi · arxiv' : 'Yashirish'}</button>`}
     <button class="pz-act is-danger" type="button" data-cm="delete">${ITEM_ICONS.trash}O‘chirish</button>`;
-  return `<article class="pz-c${c.hidden ? ' is-hidden' : ''}" data-id="${c.id}">
+  const where = fb ? `<span class="pz-chip is-fb">${CM_IC.chat}DezoMax haqida</span>${c.kind ? `<span class="pz-chip">${CM_KIND[c.kind] || esc(c.kind)}</span>` : ''}${c.rating ? `<span class="pz-chip is-star">${'★'.repeat(c.rating)}${'☆'.repeat(5 - c.rating)}</span>` : ''}`
+    : `<span class="pz-chip">${CM_IC.film}${esc(cmTitle(c.movie))}</span>`;
+  const extra = fb ? [c.contact ? `aloqa: <b>${esc(c.contact)}</b>` : '', c.src === 'app' ? 'ilovadan' : c.src === 'web' ? 'saytdan' : ''].filter(Boolean).join(' · ') : '';
+  return `<article class="pz-c${c.hidden ? ' is-hidden' : ''}${fb ? ' is-fb' : ''}" data-id="${c.id}">
     <span class="pz-c-ava" style="background:${color}">${esc((c.name || 'T').trim().charAt(0).toUpperCase())}</span>
     <div class="pz-c-b">
-      <div class="pz-c-h"><b>${esc(c.name)}</b><span class="pz-chip">${CM_IC.film}${esc(cmTitle(c.movie))}</span>${isNew ? '<span class="pz-chip is-new">Yangi</span>' : ''}${c.hidden ? '<span class="pz-chip">Yashirilgan</span>' : ''}</div>
+      <div class="pz-c-h"><b>${esc(c.name)}</b>${where}${isNew ? '<span class="pz-chip is-new">Yangi</span>' : ''}${c.hidden ? `<span class="pz-chip">${fb ? 'Arxivda' : 'Yashirilgan'}</span>` : ''}</div>
       <p class="pz-c-t">${esc(c.text)}</p>
-      <div class="pz-c-f"><span class="pz-time">${cmAgo(c.at)}</span>${acts}</div>
+      <div class="pz-c-f"><span class="pz-time">${cmAgo(c.at)}${extra ? ' · ' + extra : ''}</span>${acts}</div>
     </div></article>`;
 }
 
@@ -124,9 +129,10 @@ function cmPaintList() {
     tabs.querySelector('[data-f="all"] em').textContent = fmt(cm.counts.all);
     tabs.querySelector('[data-f="new"] em').textContent = fmt(cm.counts.new);
     tabs.querySelector('[data-f="hidden"] em').textContent = fmt(cm.counts.hidden);
+    tabs.querySelector('[data-f="feedback"] em').textContent = fmt(cm.counts.feedback);
   }
   if (cm.err) box.innerHTML = `<div class="pz-card"><p class="acc-error">${esc(cm.err)}</p></div>`;
-  else box.innerHTML = (cm.items.length ? cm.items.map(c => cmHTML(c)).join('') : `<p class="pz-card pz-empty">${cm.q ? 'Hech narsa topilmadi' : cm.f === 'hidden' ? 'Yashirilgan sharh yo‘q' : cm.f === 'new' ? 'Oxirgi 24 soatda sharh yo‘q' : 'Hali sharh yo‘q'}</p>`)
+  else box.innerHTML = (cm.items.length ? cm.items.map(c => cmHTML(c)).join('') : `<p class="pz-card pz-empty">${cm.q ? 'Hech narsa topilmadi' : cm.f === 'hidden' ? 'Yashirilgan sharh yo‘q' : cm.f === 'feedback' ? 'Hali fikr kelmagan — fikr.html sahifasidan yoziladi' : cm.f === 'new' ? 'Oxirgi 24 soatda sharh yo‘q' : 'Hali sharh yo‘q'}</p>`)
     + (cm.more ? '<button class="a4-btn pz-more" type="button" id="pzCmMore">Yana ko‘rsatish</button>' : '');
   document.getElementById('pzCmMore')?.addEventListener('click', () => cmLoad(false));
   const top = document.getElementById('pzCmTop');
@@ -146,7 +152,7 @@ function renderCommentsView() {
       </div>
     </header>
     <div class="pz-tabs" id="pzCmTabs">
-      ${[['all', 'Hammasi'], ['new', 'Yangi · 24 soat'], ['hidden', 'Yashirilgan']].map(([f, l]) => `<button type="button" data-f="${f}" class="${cm.f === f ? 'is-on' : ''}">${l} <em></em></button>`).join('')}
+      ${[['all', 'Hammasi'], ['new', 'Yangi · 24 soat'], ['feedback', 'DezoMax haqida fikrlar'], ['hidden', 'Yashirilgan / arxiv']].map(([f, l]) => `<button type="button" data-f="${f}" class="${cm.f === f ? 'is-on' : ''}">${l} <em></em></button>`).join('')}
     </div>
     <div class="pz-grid g21">
       <div class="pz-clist" id="pzCmList"><div class="mt-loading"><i></i><i></i><i></i></div></div>
@@ -155,7 +161,8 @@ function renderCommentsView() {
         <article class="pz-card"><header class="pz-ch"><h2>Qanday ishlaydi</h2></header>
           <p class="pz-note"><b>Yashirish</b> — sharh saytda ko‘rinmaydi, lekin «Yashirilgan»da qoladi va qaytarish mumkin.</p>
           <p class="pz-note"><b>O‘chirish</b> — butunlay o‘chadi, qaytarib bo‘lmaydi.</p>
-          <p class="pz-note">Sharhni faqat saytga kirgan (Google/Telegram) foydalanuvchi yozadi: bir soatda 30 tadan ko‘p emas.</p></article>
+          <p class="pz-note">Sharhni faqat saytga kirgan (Google/Telegram) foydalanuvchi yozadi: bir soatda 30 tadan ko‘p emas.</p>
+          <p class="pz-note"><b>DezoMax haqida fikrlar</b> — <a href="https://dezomax.uz/fikr.html" target="_blank" rel="noopener">fikr.html</a> sahifasidan keladi (kirish shart emas). Saytda hech kimga ko‘rinmaydi — faqat sizga.</p></article>
       </aside>
     </div>`;
   if (cm.items.length || cm.err) cmPaintList();

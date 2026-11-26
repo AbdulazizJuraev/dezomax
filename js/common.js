@@ -858,7 +858,7 @@ function dzxAcctMenu(menu) {
     <div class="h5-mg">${it('wx', L('Ob-havo', 'Погода'), 'ob-havo.html')}${it('fx', L('Valyuta kursi', 'Курсы валют'), 'valyuta.html')}</div>
     <div class="h5-mg">${it('data', L('DezoMax’dagi ma’lumotlaringiz', 'Ваши данные на DezoMax'), pg('account.html#history'))}${it('lang', `${L('Interfeys tili', 'Язык интерфейса')}: ${typeof DZX_LANGS !== 'undefined' && dzxGtGet() ? (DZX_LANGS.find(x => x[0] === dzxGtGet()) || [, ''])[1] : ru ? 'Русский' : 'O‘zbekcha'}`, '#', ' data-acc-langs', true)}${it('look', L('Ko‘rinish va shrift', 'Тема и размер шрифта'), '#', ' data-acc-look', true)}${it('key', L('Tezkor tugmalar', 'Быстрые клавиши'), '#', ' data-acc-keys')}</div>
     <div class="h5-mg">${it('set', L('Sozlamalar', 'Настройки'), pg('account.html#settings'))}</div>
-    <div class="h5-mg">${it('help', L('Yordam', 'Справка'), pg(u ? 'account.html#support' : 'about.html'))}${it('fb', L('Fikr yuborish', 'Отправить отзыв'), pg('contacts.html'))}</div>`;
+    <div class="h5-mg">${it('help', L('Yordam', 'Справка'), pg(u ? 'account.html#support' : 'about.html'))}${it('fb', L('Fikr bildirish', 'Отправить отзыв'), 'fikr.html')}</div>`;
 }
 // menyu tugmalari: chiqish / almashtirish / tezkor tugmalar
 document.addEventListener('click', async e => {

@@ -216,6 +216,22 @@ const comp = (o, prepId, amount, extra = {}) => {
   assert.equal((await gh('POST', '/admin/comment', { id: ac1.id, action: 'delete' })).status, 200);
   assert.equal((await gh('POST', '/admin/comment', { id: ac1.id, action: 'hide' })).status, 404); ok('admin izohni butunlay o‘chirdi');
   assert.equal((await gh('POST', '/admin/comment', { id: ac2.id, action: 'xyz' })).status, 400); ok('admin: noto‘g‘ri amal — 400');
+  // --- DezoMax haqida fikr (fikr.html) ---
+  const fb = (body, token) => fetch(base + '/feedback', { method: 'POST', headers: { 'content-type': 'application/json', ...(token ? { authorization: 'Bearer ' + token } : {}) }, body: JSON.stringify(body) }).then(async r => ({ status: r.status, json: await r.json(), cors: r.headers.get('access-control-allow-origin') }));
+  assert.equal((await fb({ text: 'ab' })).status, 400); ok('fikr: juda qisqa matn rad etildi');
+  const f1 = await fb({ text: 'Sayt juda zo‘r, lekin qidiruv sekin', kind: 'taklif', rating: 4, name: 'Ali', contact: '@ali', src: 'app' });
+  assert.equal(f1.status, 200); assert.equal(f1.cors, '*'); ok('fikr: kirmagan foydalanuvchi yubordi');
+  await new Promise(r => setTimeout(r, 5));
+  const f2 = await fb({ text: 'Pleyer ba’zan qotadi', kind: 'yomon', rating: 9, name: 'boshqa ism' }, tk);
+  assert.equal(f2.status, 200);
+  assert.equal((await fb({ text: 'uchinchi fikr shu daqiqada' })).status, 429); ok('fikr: daqiqada 3 tadan ko‘p — 429');
+  const fl = (await gh('GET', '/admin/comments?f=feedback')).json;
+  const g1 = fl.items.find(c => c.id === f1.json.id), g2 = fl.items.find(c => c.id === f2.json.id);
+  assert.ok(g1 && g1.movie === 0 && g1.kind === 'taklif' && g1.rating === 4 && g1.contact === '@ali' && g1.src === 'app' && g1.name === 'Ali' && g1.uid === 'guest');
+  assert.ok(g2 && g2.kind === 'boshqa' && g2.rating === null && g2.src === 'web' && g2.name !== 'boshqa ism');
+  assert.equal(fl.items.every(c => c.movie === 0), true); assert.ok(fl.counts.feedback >= 2 && fl.counts.feedbackNew >= 2); ok('fikr: admin «Fikrlar»da, noto‘g‘ri tur/baho tozalandi, kirgan foydalanuvchi ismi');
+  assert.ok(!(await gh('GET', '/admin/comments')).json.top.find(t => t.movie === 0)); ok('fikr «Ko‘p muhokama qilingan»ga kirmaydi');
+  assert.equal((await call('GET', '/social?movie=0')).status, 400); ok('fikrlar saytda ochiq ko‘rinmaydi');
   const pre = await fetch(base + '/admin/comments', { method: 'OPTIONS', headers: { origin: 'https://dezocloud.uz' } });
   assert.equal(pre.status, 204); assert.equal(pre.headers.get('access-control-allow-origin'), '*'); ok('admin API: CORS preflight');
   // --- DezoSignal narx proksisi (tarmoqqa chiqmasdan — faqat tekshiruv) ---
