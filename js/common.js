@@ -1159,43 +1159,15 @@ function renderTabbar() {
         ${tb.key === 'account' ? '<b class="tabbar-badge" data-more-badge hidden></b>' : ''}
       </span>
       <span class="tabbar-label">${t(tb.label)}</span>`;
-    return `<a class="${cls}" href="${tb.href}" aria-label="${esc(t(tb.label))}" style="view-transition-name:dz-tb-${tb.key}">${inner}</a>`;
+    return `<a class="${cls}" href="${tb.href}" aria-label="${esc(t(tb.label))}">${inner}</a>`;
   }).join('');
-  // Faol bo'lim foni — alohida «kapsula», bo'limdan bo'limga suriladi (2026-11-25)
-  bar.insertAdjacentHTML('afterbegin', '<i class="tb-pill" aria-hidden="true"></i>');
-  tabPill(bar, bar.querySelector('.tabbar-item.is-active'), false);
-  if (!bar.dataset.pillClick) {
-    bar.dataset.pillClick = '1';
-    bar.addEventListener('click', e => {
-      const a = e.target.closest('.tabbar-item');
-      if (!a || a.classList.contains('is-active') || e.ctrlKey || e.metaKey || e.shiftKey) return;
-      bar.querySelectorAll('.tabbar-item.is-active').forEach(x => x.classList.remove('is-active'));
-      a.classList.add('is-active');
-      tabPill(bar, a, true);          // darhol suriladi — sahifa ochilguncha kutmaydi
-      // telefonda sahifa animatsiyasi yo'q — kapsula yetib borishi uchun 170 ms dan keyin o'tadi
-      if (document.documentElement.classList.contains('dzx-lite')) { e.preventDefault(); setTimeout(() => { location.href = a.href; }, 170); }
-    });
-  }
+  // Oddiy panel (2026-11-26): shisha effekti, suriladigan kapsula va bosilganda 170 ms kutish olib tashlandi — havola darhol ochiladi
   // Keyingi sahifa panelni boshidanoq chizsin (js/logo.js) — ochilganda yo'qolib-chiqmasin
   try { sessionStorage.setItem('dzx_tabbar', bar.innerHTML); } catch (e) {}
 
   updateFavCount();
   speculateNav();
 }
-// Kapsulani faol tugma ostiga qo'yadi (anim — surilib boradi)
-function tabPill(bar, a, anim) {
-  const p = bar && bar.querySelector('.tb-pill');
-  if (!p) return;
-  if (!a) { p.style.opacity = '0'; return; }
-  if (!anim) p.style.transition = 'none';
-  p.style.opacity = '';
-  p.style.width = a.offsetWidth + 'px';
-  p.style.height = a.offsetHeight + 'px';
-  p.style.transform = `translate(${a.offsetLeft}px, ${a.offsetTop}px)`;
-  bar.classList.add('has-pill');
-  if (!anim) { void p.offsetWidth; p.style.transition = ''; }
-}
-
 /* Pastki panel va yuqori menyu sahifalari oldindan tayyorlanadi (Speculation Rules, 2026-11-23):
    HTML'i darhol olib qo'yiladi, bosila boshlaganda (barmoq tekkanda) sahifa orqada to'liq ochiladi — bosilganda bir zumda chiqadi.
    Qo'llamaydigan brauzer/WebView e'tiborsiz qoldiradi. Trafik tejash rejimida yoki sekin internetda o'chiq.

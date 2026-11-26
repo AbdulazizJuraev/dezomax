@@ -73,26 +73,16 @@ try { var dzxD = document.documentElement, dzxT = localStorage.getItem('dzx_them
   }).observe(document.documentElement, { childList: true, subtree: true });
 })();
 
-// Pastki panel «shisha» effekti (css/style.css, 2026-11-25): kuchsiz telefonlarda (≤4 GB xotira yoki ≤4 yadro)
-// va «kamroq shaffoflik» sozlamasida o'chiriladi — oddiy to'q panel qoladi, qotmasin
-(function () {
-  try {
-    const n = navigator, weak = (n.deviceMemory && n.deviceMemory <= 4) || (n.hardwareConcurrency && n.hardwareConcurrency <= 4)
-      || (window.matchMedia && matchMedia('(prefers-reduced-transparency: reduce)').matches);
-    if (weak) document.documentElement.classList.add('no-glass');
-  } catch (e) {}
-})();
-
 // Pastki panel sahifa boshidanoq (2026-11-25): oldingi sahifada saqlangan nusxa (js/common.js renderTabbar → sessionStorage)
-// darhol chiziladi — sahifalar orasida panel yo'qolib-chiqmaydi, faol kapsula esa yangi bo'limga suriladi (View Transitions).
-// common.js keyinroq panelni o'sha joyda qayta chizadi (avatar, sanoqlar).
+// darhol chiziladi — sahifalar orasida panel yo'qolib-chiqmaydi. common.js keyinroq panelni o'sha joyda qayta chizadi (avatar, sanoqlar).
+// 2026-11-26: oddiy panel — shisha effekti va suriladigan kapsula olib tashlandi.
 (function () {
   try {
     if (document.querySelector('.tabbar') || innerWidth > 900) return;
     const html = sessionStorage.getItem('dzx_tabbar');
     if (!html || !document.body) return;
     const bar = document.createElement('nav');
-    bar.className = 'tabbar has-pill';
+    bar.className = 'tabbar';
     bar.setAttribute('aria-label', 'Asosiy menyu');
     bar.innerHTML = html;
     document.body.appendChild(bar);
@@ -104,19 +94,8 @@ try { var dzxD = document.documentElement, dzxT = localStorage.getItem('dzx_them
       const u = new URL(a.href, location.href), p = u.pathname.replace(/\/index\.html$/, '/');
       if (p + u.search === here || (!act && p === location.pathname.replace(/\/index\.html$/, '/') && !u.search)) act = a;
     });
-    const p = bar.querySelector('.tb-pill');
-    if (act && p) {
-      act.classList.add('is-active');
-      p.style.transition = 'none';
-      p.style.opacity = '';
-      p.style.width = act.offsetWidth + 'px'; p.style.height = act.offsetHeight + 'px';
-      p.style.transform = `translate(${act.offsetLeft}px, ${act.offsetTop}px)`;
-      // Yangi joy animatsiyasiz qo'llansin (2026-11-25): saqlangan HTML'da kapsula oldingi bo'lim ostida turadi.
-      // Reflow'siz transition rAF'da qaytsa, brauzer kapsulani eski joydan surib kelardi — bosilganda bir marta,
-      // yangi sahifada yana bir marta yugurardi. Telefonda surilish bosilgan zahoti (common.js) bo'ladi.
-      void p.offsetWidth;
-      requestAnimationFrame(() => { p.style.transition = ''; });
-    } else if (p) p.style.opacity = '0';
+    bar.querySelectorAll('.tb-pill').forEach(p => p.remove());   // eski saqlangan nusxadagi kapsula
+    if (act) act.classList.add('is-active');
   } catch (e) {}
 })();
 
