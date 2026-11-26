@@ -1114,7 +1114,7 @@ const A4_ICONS = {
   gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>'
 };
 const A4_NAV = [
-  ['Asosiy', [['home', 'home', 'Panel'], ['list', 'list', 'Kinolar', () => allMovies().length], ['form', 'plus', 'Kino qo‘shish'], ['groups', 'group', 'Guruhlar']]],
+  ['Asosiy', [['home', 'home', 'Panel'], ['comments', 'chat', 'Sharhlar', () => (typeof cm !== 'undefined' && cm.counts ? cm.counts.new : 0), 'n'], ['list', 'list', 'Kinolar', () => allMovies().length], ['form', 'plus', 'Kino qo‘shish'], ['groups', 'group', 'Guruhlar']]],
   ['Kontent', [['channels', 'yt', 'Kanallar'], ['tg', 'tg', 'Telegram'], ['rutube', 'rutube', 'RuTube'], ['langvid', 'lang', 'Til videolari']]],
   ['Sayt', [['site', 'gear', 'Sozlamalar'], ['notify', 'bell', 'Bildirishnomalar'], ['logo', 'film', 'Video belgisi']]],
   ['Xizmat', [['dups', 'copy', 'Dublikatlar'], ['clean', 'broom', 'Tozalash', () => rawTitleItems().length, 'n'], ['broken', 'bolt', 'Ishlamaydiganlar', () => brokenBadCount(), 'w'], ['posters', 'film', 'Posterlar', () => posterBadCount(), 'w'], ['backup', 'shield', 'Zaxira']]]
@@ -1189,6 +1189,7 @@ function renderMain() {
   }
 
   if (view === 'home') renderHome();
+  else if (view === 'comments') renderCommentsView();
   else if (view === 'list') renderListView();
   else if (view === 'site') renderSiteView();
   else if (view === 'notify') renderNotifyView();
@@ -1412,9 +1413,9 @@ function renderHome() {
       </div>
     </header>
     <div class="pz-kpis">
-      <button class="pz-kpi" type="button" data-stat="all"><p class="pz-kl"><span class="pz-live"></span>Saytda</p><p class="pz-kv">${fmt(all.length + yt.total)}</p><p class="pz-kf">${fmt(active.length)} faol kino · ${fmt(chEpisodeCount() + yt.total)} YouTube video</p></button>
+      <button class="pz-kpi" type="button" data-stat="all"><p class="pz-kl"><span class="pz-live"></span>Saytda</p><p class="pz-kv">${fmt(all.length + yt.total)}</p><p class="pz-kf">${fmt(active.length)} faol · ${fmt(hiddenList.length)} yashirilgan · ${fmt(chEpisodeCount() + yt.total)} YouTube</p></button>
       <button class="pz-kpi" type="button" data-stat="added"><p class="pz-kl">Qo‘shilgan</p><p class="pz-kv"><span>${fmt(addedList().length + yt.total)}</span><b class="up">+${fmt(weekAdded + ytWeek)}</b></p><p class="pz-kf">shu hafta qo‘shilgani</p></button>
-      <button class="pz-kpi" type="button" data-stat="hidden"><p class="pz-kl">Yashirilgan</p><p class="pz-kv">${fmt(hiddenList.length)}</p><p class="pz-kf">saytda ko‘rinmaydi</p></button>
+      <button class="pz-kpi" type="button" data-go="comments" id="pzCmKpi"><p class="pz-kl">Yangi sharhlar</p><p class="pz-kv">…</p><p class="pz-kf">yuklanmoqda</p></button>
       <button class="pz-kpi" type="button" data-go="${raw ? 'clean' : 'broken'}"><p class="pz-kl">E’tibor talab</p><p class="pz-kv"><span>${fmt(raw + bad)}</span>${bad ? `<b class="warn">${bad} ishlamaydi</b>` : ''}</p><p class="pz-kf">${raw ? `${fmt(raw)} xom nom · ko‘rib chiqish →` : 'Ko‘rib chiqish →'}</p></button>
     </div>
     <div class="pz-grid g21">
@@ -1452,11 +1453,14 @@ function renderHome() {
         </div></article>
       </div>
     </div>
+    <article class="pz-card pz-mb"><header class="pz-ch"><h2>Oxirgi sharhlar</h2><button class="pz-link" type="button" data-go="comments">Barchasi</button></header>
+      <div class="pz-clist is-compact" id="pzCmLast"><div class="mt-loading"><i></i><i></i><i></i></div></div></article>
     <details class="adm-sec adm-fold a4-fold">
       <summary class="adm-sec-head"><h3>Oxirgi o‘zgarishlar</h3></summary>
       <div id="admCommits"><div class="mt-loading"><i></i><i></i><i></i></div></div>
     </details>`;
 
+  if (typeof cmLoadSummary === 'function') cmLoadSummary();
   $('#pzRange').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if (!b) return; a4Range = +b.dataset.r; renderHome(); });
   $('#pzSearch').addEventListener('click', () => { listQuery = ''; listFilter = 'all'; go('list'); setTimeout(() => $('#a4Search')?.focus(), 50); });
 

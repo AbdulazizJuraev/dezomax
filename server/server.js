@@ -386,6 +386,10 @@ function createApp(cfg, deps = {}) {
     addComment: db.prepare('INSERT INTO comments (movie_id, uid, name, text, at) VALUES (?, ?, ?, ?, ?)'),
     comment: db.prepare('SELECT * FROM comments WHERE id = ?'),
     hideComment: db.prepare('UPDATE comments SET hidden = 1 WHERE id = ?'),
+    showComment: db.prepare('UPDATE comments SET hidden = 0 WHERE id = ?'),
+    delComment: db.prepare('DELETE FROM comments WHERE id = ?'),
+    adminCounts: db.prepare('SELECT SUM(hidden = 0) AS "all", SUM(hidden = 1) AS hidden, SUM(hidden = 0 AND at > ?) AS day, SUM(hidden = 0 AND at > ?) AS week FROM comments'),
+    adminTop: db.prepare('SELECT movie_id AS movie, COUNT(*) AS n FROM comments WHERE hidden = 0 AND at > ? GROUP BY movie_id ORDER BY n DESC LIMIT 8'),
     recentByUser: db.prepare('SELECT COUNT(*) AS n FROM comments WHERE uid = ? AND at > ?'),
     views: db.prepare('SELECT n FROM views WHERE movie_id = ?'),
     addView: db.prepare('INSERT INTO views (movie_id, n) VALUES (?, 1) ON CONFLICT(movie_id) DO UPDATE SET n = n + 1'),
@@ -396,6 +400,29 @@ function createApp(cfg, deps = {}) {
 
   /* --- Like/dislike va izohlar --- */
   const admins = new Set(cfg.adminUids || []);
+  /* Admin panel uchun: so'rovdagi GitHub token sayt omboriga yozish huquqiga egami (api.github.com → permissions.push).
+     Javob 10 daqiqa xotirada turadi (token o'zi saqlanmaydi — faqat sha256 xeshi). */
+  const DAY = 86400000;
+  const ghRepo = cfg.ghRepo || 'AbdulazizJuraev/dezomax';
+  const ghOk = new Map();
+  const checkGithub = deps.verifyGithub || (async tok => {
+    const r = await fetch('https://api.github.com/repos/' + ghRepo, { headers: { authorization: 'Bearer ' + tok, accept: 'application/vnd.github+json', 'user-agent': 'dezomax-pay' }, signal: AbortSignal.timeout(10000) });
+    if (!r.ok) return false;
+    const j = await r.json();
+    return !!(j.permissions && (j.permissions.push || j.permissions.admin));
+  });
+  async function isRepoAdmin(req) {
+    const m = /^GitHub\s+(\S{20,200})$/i.exec(req.headers.authorization || '');
+    if (!m) return false;
+    const key = crypto.createHash('sha256').update(m[1]).digest('hex');
+    const hit = ghOk.get(key);
+    if (hit && hit.until > now()) return hit.ok;
+    let ok = false;
+    try { ok = await checkGithub(m[1]); } catch { ok = false; }
+    if (ghOk.size > 500) ghOk.clear();
+    ghOk.set(key, { ok, until: now() + (ok ? 600000 : 60000) });
+    return ok;
+  }
   const movieIdOf = v => { const n = Number(v); return Number.isInteger(n) && n > 0 && n < 1e12 ? n : 0; };
   function socialOf(movie, user) {
     const c = q.reactCounts.get(movie) || {};
@@ -635,6 +662,14 @@ function createApp(cfg, deps = {}) {
     const url = new URL(req.url, 'http://x');
     const path = url.pathname;
     cors(req, res);
+    // admin API (DezoMax admin — github.io va dezocloud.uz/dezomax-admin'dan): kirish faqat GitHub token bilan, cookie yo'q — har qanday manzilga ruxsat
+    if (path.startsWith('/admin/')) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.setHeader('Access-Control-Max-Age', '86400');
+      res.setHeader('Cache-Control', 'private, no-store');
+    }
     if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
     try {
       if (path === '/health') return send(res, 200, { ok: true });
@@ -754,6 +789,44 @@ function createApp(cfg, deps = {}) {
         addView(req, movie);
         return send(res, 200, { views: q.views.get(movie)?.n || 0 });
       }
+      /* --- Admin: izohlarni boshqarish (admin.html → «Sharhlar») --- */
+      if (path.startsWith('/admin/')) {
+        if (limited(req, 'admin', 120)) return send(res, 429, { error: 'Ko‘p so‘rov' });
+        if (!(await isRepoAdmin(req))) return send(res, 401, { error: 'GitHub token tasdiqlanmadi' });
+        if (path === '/admin/comments' && req.method === 'GET') {
+          const f = url.searchParams.get('f') || 'all';
+          const qs = String(url.searchParams.get('q') || '').trim().slice(0, 80);
+          const movie = movieIdOf(url.searchParams.get('movie'));
+          const before = Number(url.searchParams.get('before')) || 0;
+          const limit = Math.min(100, Math.max(1, Number(url.searchParams.get('limit')) || 50));
+          const where = [], args = [];
+          if (f === 'hidden') where.push('hidden = 1'); else where.push('hidden = 0');
+          if (f === 'new') { where.push('at > ?'); args.push(now() - DAY); }
+          if (movie) { where.push('movie_id = ?'); args.push(movie); }
+          if (qs) { where.push('(text LIKE ? OR name LIKE ?)'); args.push(`%${qs}%`, `%${qs}%`); }
+          if (before) { where.push('id < ?'); args.push(before); }
+          const items = db.prepare(`SELECT id, movie_id AS movie, uid, name, text, at, hidden FROM comments WHERE ${where.join(' AND ')} ORDER BY id DESC LIMIT ?`).all(...args, limit)
+            .map(r => ({ ...r, name: r.name || 'Tomoshabin', hidden: !!r.hidden }));
+          const c = q.adminCounts.get(now() - DAY, now() - 7 * DAY);
+          return send(res, 200, {
+            items, more: items.length === limit,
+            counts: { all: Number(c.all) || 0, hidden: Number(c.hidden) || 0, new: Number(c.day) || 0, week: Number(c.week) || 0 },
+            top: q.adminTop.all(now() - 30 * DAY).map(r => ({ movie: r.movie, n: r.n }))
+          });
+        }
+        if (path === '/admin/comment' && req.method === 'POST') {
+          const b = await readBody(req);
+          const c = q.comment.get(Number(b.id) || 0);
+          if (!c) return send(res, 404, { error: 'Izoh topilmadi' });
+          if (b.action === 'hide') q.hideComment.run(c.id);
+          else if (b.action === 'show') q.showComment.run(c.id);
+          else if (b.action === 'delete') q.delComment.run(c.id);
+          else return send(res, 400, { error: 'action: hide | show | delete' });
+          return send(res, 200, { ok: true });
+        }
+        return send(res, 404, { error: 'Topilmadi' });
+      }
+
       if (path.startsWith('/api/')) {
         if (!user) return send(res, 401, { error: 'Qayta kiring' });
 

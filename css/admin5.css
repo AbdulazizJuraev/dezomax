@@ -265,3 +265,52 @@ body.page-admin { --body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-
 .page-admin .pz-ch h2, .page-admin .pz-top h1 { font-family: 'Manrope', system-ui, sans-serif !important; font-weight: 800 !important; }
 .pz-bars b { display: block; text-align: right; }
 .pz-bars small { display: inline; }
+
+/* ---------- Sharhlar (admin-comments.js) ---------- */
+.pz-mb { margin-bottom: 14px; }
+.pz-search { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; min-width: 260px; border-radius: 10px; border: 1px solid var(--a-ln); background: var(--a-s1); color: var(--a-dim); }
+.pz-search svg { width: 16px; height: 16px; flex: none; }
+.pz-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--a-tx); font: 500 14px Manrope, sans-serif; }
+.pz-search:focus-within { border-color: #3a3a3a; }
+.pz-tabs { display: flex; gap: 4px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--a-ln); }
+.pz-tabs::-webkit-scrollbar { display: none; }
+.pz-tabs button { flex: none; display: flex; align-items: center; gap: 8px; padding: 10px 14px 12px; border: 0; background: none; color: var(--a-dim); font: 700 14px Manrope, sans-serif; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; }
+.pz-tabs button.is-on { color: var(--a-tx); border-bottom-color: var(--a-tx); }
+.pz-tabs em { font-style: normal; font-size: 12px; color: var(--a-fa); font-weight: 700; }
+.pz-clist { display: grid; gap: 10px; min-width: 0; }
+.pz-c { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; padding: 16px; border-radius: 16px; background: var(--a-s1); border: 1px solid var(--a-ln); }
+.pz-c.is-hidden { opacity: .6; }
+.pz-c-ava { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; font-weight: 800; color: #0f0f0f; }
+.pz-c-b { min-width: 0; }
+.pz-c-h { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
+.pz-c-h b { font-size: 14px; }
+.pz-chip { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 2px 9px; border-radius: 20px; background: var(--a-s2); color: var(--a-dim); font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pz-chip svg { width: 13px; height: 13px; flex: none; }
+.pz-chip.is-new { background: var(--a-limes); color: var(--a-lime); }
+.pz-c-t { margin: 8px 0 10px; line-height: 1.55; color: #dcdcdc; overflow-wrap: anywhere; white-space: pre-line; }
+.pz-c-f { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.pz-time { color: var(--a-fa); font-size: 12px; margin-right: auto; }
+.pz-act { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 8px; border: 0; background: none; color: var(--a-dim); font: 700 12.5px Manrope, sans-serif; text-decoration: none; cursor: pointer; }
+.pz-act svg { width: 15px; height: 15px; }
+.pz-act:hover { background: var(--a-s2); color: var(--a-tx); }
+.pz-act.is-danger:hover { color: var(--a-red); }
+.pz-act:disabled { opacity: .5; }
+.pz-clist.is-compact { gap: 0; }
+.pz-clist.is-compact .pz-c { padding: 12px 0; border: 0; border-radius: 0; background: none; border-bottom: 1px solid var(--a-ln); }
+.pz-clist.is-compact .pz-c:last-child { border-bottom: 0; padding-bottom: 0; }
+.pz-clist.is-compact .pz-c-t { margin: 4px 0 0; }
+.pz-clist.is-compact .pz-c-f { margin-top: 4px; }
+.pz-empty { padding: 40px; text-align: center; color: var(--a-dim); margin: 0; }
+.pz-more { justify-self: center; }
+.pz-filter { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 12px; background: var(--a-s2); font-weight: 700; font-size: 13px; }
+.pz-note { margin: 0 0 10px; color: var(--a-dim); font-size: 13px; line-height: 1.5; }
+.pz-note b { color: var(--a-tx); }
+ol.pz-list li[data-movie] { grid-template-columns: 18px 30px minmax(0, 1fr) auto; cursor: pointer; }
+ol.pz-list li[data-movie] .pz-pst { width: 30px; height: 44px; }
+.pz-num { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pz-num small { display: block; color: var(--a-dim); font-size: 11px; font-weight: 600; }
+@media (max-width: 900px) {
+  .pz-search { min-width: 0; flex: 1; }
+  .pz-c { padding: 14px; }
+  .pz-act { padding: 0 8px; }
+}

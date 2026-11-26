@@ -8,7 +8,7 @@ const { createApp, md5 } = require('./server.js');
 const sent = [];   // botdan yuborilgan xabarlar (sinovda haqiqiy Telegram chaqirilmaydi)
 const cfg = { serviceId: '1', merchantId: '2', secretKey: 'TEST_SECRET_NOT_REAL', googleClientId: 'x', origins: ['http://localhost:5577'],
   returnUrl: 'https://example.test/back', tgBotToken: 'TEST_BOT_TOKEN', tgBotName: 'DezoTestBot', tgWebhookSecret: 'shh', adminUids: ['google_adm'] };
-const app = createApp(cfg, { tgSend: async (chatId, text) => { sent.push({ chatId, text }); }, verifyGoogle: async t => { if (!t.startsWith('ok:')) throw new Error('bad'); return { sub: t.slice(3), email: t.slice(3) + '@x.test', name: 'T' }; } });
+const app = createApp(cfg, { tgSend: async (chatId, text) => { sent.push({ chatId, text }); }, verifyGithub: async t => t === 'ghp_TESTADMINTOKEN_0000000000', verifyGoogle: async t => { if (!t.startsWith('ok:')) throw new Error('bad'); return { sub: t.slice(3), email: t.slice(3) + '@x.test', name: 'T' }; } });
 const server = http.createServer(app.handler);
 
 let base;
@@ -194,6 +194,30 @@ const comp = (o, prepId, amount, extra = {}) => {
   dl = (await call('POST', '/api/device', { token: old, body: { device: { id: 'dtab001', os: 'Android', app: 'Chrome', model: 'SM-A515F', type: 'phone' } } })).json.devices;
   const me1 = dl.find(d => d.current);
   assert.equal(me1.model, 'SM-A515F'); assert.ok(me1.ip && me1.lastSeen); ok('qurilma modeli, IP va oxirgi faollik saqlanadi');
+  // --- Admin: izohlarni boshqarish (GitHub token bilan) ---
+  const gh = async (method, path, body, tok = 'ghp_TESTADMINTOKEN_0000000000') => {
+    const r = await fetch(base + path, { method, headers: { authorization: 'GitHub ' + tok, 'content-type': 'application/json', origin: 'https://dezocloud.uz' }, body: body ? JSON.stringify(body) : undefined });
+    return { status: r.status, json: await r.json().catch(() => null), headers: r.headers };
+  };
+  assert.equal((await call('GET', '/admin/comments')).status, 401); ok('admin izohlar: tokensiz rad etildi');
+  assert.equal((await gh('GET', '/admin/comments', null, 'ghp_BOSHQA_TOKEN_000000000000')).status, 401); ok('admin izohlar: yozish huquqisiz token rad etildi');
+  const ac1 = (await call('POST', '/api/comment', { token: tk, body: { movie: 77, text: 'Admin sinovi uchun izoh' } })).json;
+  const ac2 = (await call('POST', '/api/comment', { token: tk, body: { movie: 77, text: 'Reklama t.me/xxx' } })).json;
+  let al = await gh('GET', '/admin/comments');
+  assert.equal(al.status, 200); assert.equal(al.headers.get('access-control-allow-origin'), '*');
+  assert.ok(al.json.items.find(c => c.id === ac2.id && c.movie === 77 && !c.hidden)); assert.ok(al.json.counts.all >= 2 && al.json.counts.new >= 2);
+  assert.ok(al.json.top.find(t => t.movie === 77 && t.n === 2)); ok('admin izohlar: ro‘yxat, sonlar va top');
+  assert.equal((await gh('GET', '/admin/comments?q=' + encodeURIComponent('t.me'))).json.items.length, 1); ok('admin izohlar: qidiruv');
+  assert.equal((await gh('POST', '/admin/comment', { id: ac2.id, action: 'hide' })).status, 200);
+  assert.ok(!(await call('GET', '/social?movie=77')).json.comments.find(c => c.id === ac2.id));
+  assert.ok((await gh('GET', '/admin/comments?f=hidden')).json.items.find(c => c.id === ac2.id)); ok('admin izohni yashirdi — saytda ko‘rinmaydi');
+  await gh('POST', '/admin/comment', { id: ac2.id, action: 'show' });
+  assert.ok((await call('GET', '/social?movie=77&u=1')).json.comments.find(c => c.id === ac2.id)); ok('admin izohni qaytardi');
+  assert.equal((await gh('POST', '/admin/comment', { id: ac1.id, action: 'delete' })).status, 200);
+  assert.equal((await gh('POST', '/admin/comment', { id: ac1.id, action: 'hide' })).status, 404); ok('admin izohni butunlay o‘chirdi');
+  assert.equal((await gh('POST', '/admin/comment', { id: ac2.id, action: 'xyz' })).status, 400); ok('admin: noto‘g‘ri amal — 400');
+  const pre = await fetch(base + '/admin/comments', { method: 'OPTIONS', headers: { origin: 'https://dezocloud.uz' } });
+  assert.equal(pre.status, 204); assert.equal(pre.headers.get('access-control-allow-origin'), '*'); ok('admin API: CORS preflight');
   // --- DezoSignal narx proksisi (tarmoqqa chiqmasdan — faqat tekshiruv) ---
   assert.equal((await call('GET', '/api/candles?symbol=AAPL&tf=2h')).status, 400); ok('narx proksisi: noto‘g‘ri tf — 400');
   assert.equal((await call('GET', '/api/candles?symbol=%3Cx%3E&tf=1h')).status, 400); ok('narx proksisi: noto‘g‘ri symbol — 400');
