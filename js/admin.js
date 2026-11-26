@@ -1110,13 +1110,14 @@ const A4_ICONS = {
   menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
   out: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/></svg>',
   upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>',
-  layout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 10h18M9 10v10"/></svg>'
+  layout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 10h18M9 10v10"/></svg>',
+  gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>'
 };
 const A4_NAV = [
-  ['ASOSIY', [['home', 'home', 'Boshqaruv paneli'], ['list', 'list', 'Kinolar', () => allMovies().length], ['form', 'plus', 'Kino qo‘shish'], ['groups', 'group', 'Seriallar va qismlar']]],
-  ['SAYT', [['site', 'layout', 'Bosh sahifa va sayt'], ['notify', 'bell', 'Xabarnoma'], ['logo', 'film', 'Video belgisi']]],
-  ['MANBALAR', [['channels', 'yt', 'YouTube kanallar'], ['tg', 'tg', 'Telegram import'], ['rutube', 'rutube', 'RuTube'], ['langvid', 'lang', 'Til videolari']]],
-  ['NAZORAT', [['clean', 'broom', 'Nomlarni tozalash', () => rawTitleItems().length, 'n'], ['broken', 'bolt', 'Ishlamaydiganlar', () => brokenBadCount(), 'w'], ['posters', 'film', 'Muammoli posterlar', () => posterBadCount(), 'w'], ['dups', 'copy', 'Dublikatlar'], ['backup', 'shield', 'Zaxira']]]
+  ['Asosiy', [['home', 'home', 'Panel'], ['list', 'list', 'Kinolar', () => allMovies().length], ['form', 'plus', 'Kino qo‘shish'], ['groups', 'group', 'Guruhlar']]],
+  ['Kontent', [['channels', 'yt', 'Kanallar'], ['tg', 'tg', 'Telegram'], ['rutube', 'rutube', 'RuTube'], ['langvid', 'lang', 'Til videolari']]],
+  ['Sayt', [['site', 'gear', 'Sozlamalar'], ['notify', 'bell', 'Bildirishnomalar'], ['logo', 'film', 'Video belgisi']]],
+  ['Xizmat', [['dups', 'copy', 'Dublikatlar'], ['clean', 'broom', 'Tozalash', () => rawTitleItems().length, 'n'], ['broken', 'bolt', 'Ishlamaydiganlar', () => brokenBadCount(), 'w'], ['posters', 'film', 'Posterlar', () => posterBadCount(), 'w'], ['backup', 'shield', 'Zaxira']]]
 ];
 const a4Icon = k => A4_ICONS[k] || NAV_ICONS[k] || '';
 let a4Counts = null;   // badge sonlari — har renderMain'da qayta hisoblanmaydi (13 000+ kino), kino saqlanganda yangilanadi
@@ -1134,7 +1135,7 @@ function renderMain() {
   const isOn = v => view === v && (v !== 'form' || !editingId);
   const fmt = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
   $('#admin').innerHTML = `
-    <div class="a4">
+    <div class="a4${view === 'home' ? ' is-home' : ''}">
       <aside class="a4-side" id="a4Side">
         <a class="a4-logo" href="admin.html"><span class="a4-mark">D</span><span class="a4-brand">DezoMax<small>Admin</small></span></a>
         ${A4_NAV.map(([grp, items]) => `<div class="a4-grp">${grp}</div>` + items.map(([v, ic, label, , cls]) => {
@@ -1340,6 +1341,30 @@ function loadYtStats() {
   }).catch(() => {}).finally(() => { ytStatsLoading = false; });
 }
 
+/* Panel (maket 2026-11-26): chiziqli grafik va donut — SVG, kutubxonasiz */
+let a4Range = 14;
+function a4LineChart(series, label, tips) {
+  const W = 640, H = 200, pad = 26, n = series.length, top = Math.max(1, ...series), max = top * 1.12;
+  const x = i => pad + (i * (W - pad * 2)) / Math.max(1, n - 1), y = v => H - 22 - (v / max) * (H - 40);
+  const f = v => Number(v).toLocaleString('ru-RU').replace(/,/g, ' ');
+  const pts = series.map((v, i) => [x(i), y(v)]);
+  const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const area = line + ` L${x(n - 1)} ${H - 22} L${x(0)} ${H - 22} Z`;
+  const grid = [0.25, 0.5, 0.75, 1].map(k => { const gy = y(top * k); return `<line x1="${pad}" x2="${W - pad}" y1="${gy}" y2="${gy}" stroke="#222" stroke-dasharray="3 5"/><text class="ax" x="0" y="${gy + 4}">${f(Math.round(top * k))}</text>`; }).join('');
+  const labels = series.map((_, i) => label(i) ? `<text class="ax" x="${x(i)}" y="${H}" text-anchor="middle">${label(i)}</text>` : '').join('');
+  const dots = pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="10" fill="transparent"><title>${tips[i]}</title></circle>`).join('');
+  const last = pts[n - 1];
+  return `<svg viewBox="0 0 ${W} ${H + 6}" preserveAspectRatio="none">
+    <defs><linearGradient id="pzga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#c6ff3d" stop-opacity=".22"/><stop offset="1" stop-color="#c6ff3d" stop-opacity="0"/></linearGradient></defs>
+    ${grid}<path d="${area}" fill="url(#pzga)"/><path d="${line}" fill="none" stroke="#c6ff3d" stroke-width="2" vector-effect="non-scaling-stroke"/>
+    <circle cx="${last[0]}" cy="${last[1]}" r="4" fill="#0f0f0f" stroke="#c6ff3d" stroke-width="2"/>${labels}${dots}</svg>`;
+}
+function a4Donut(parts) {
+  const R = 46, C = 2 * Math.PI * R; let off = 0;
+  return `<svg viewBox="0 0 120 120" class="pz-donut"><circle cx="60" cy="60" r="${R}" fill="none" stroke="#1e1e1e" stroke-width="14"/>` + parts.filter(([p]) => p > 0).map(([p, c]) => {
+    const len = (p / 100) * C, s = `<circle cx="60" cy="60" r="${R}" fill="none" stroke="${c}" stroke-width="14" stroke-dasharray="${Math.max(0, len - 2)} ${C - len + 2}" stroke-dashoffset="${-off}"/>`; off += len; return s; }).join('') + '</svg>';
+}
+
 function renderHome() {
   loadYtStats();
   const yt = ytStats || { total: 0, video: 0, live: 0, short: 0, days: {} };
@@ -1354,57 +1379,86 @@ function renderHome() {
   const fmt = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
   const h = new Date().getHours();
   const hello = h < 5 ? 'Xayrli tun' : h < 12 ? 'Xayrli tong' : h < 18 ? 'Xayrli kun' : 'Xayrli kech';
-  // so'nggi 14 kunda qo'shilgan kinolar (kunma-kun)
-  const days = Array.from({ length: 14 }, (_, i) => {
-    const d = new Date(now - (13 - i) * DAY_MS); d.setHours(0, 0, 0, 0);
+  // grafik: tanlangan davr (7/14/30 kun) — kino + YouTube qo'shilganlar, kunma-kun
+  const R = a4Range;
+  const days = Array.from({ length: R }, (_, i) => {
+    const d = new Date(now - (R - 1 - i) * DAY_MS); d.setHours(0, 0, 0, 0);
     const from = +d, to = from + DAY_MS;
     const f = customList.filter(m => m.addedAt >= from && m.addedAt < to).length, v = yt.days[ymd(d)] || 0;
     return { d, f, v, n: f + v };
   });
-  const maxN = Math.max(1, ...days.map(x => x.n));
+  const sumF = days.reduce((s, x) => s + x.f, 0), sumV = days.reduce((s, x) => s + x.v, 0);
   const WD = ['Ya', 'Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh'];
-  const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 6);
+  const recent = [...customList].sort((a, b) => (b.updatedAt || b.addedAt || 0) - (a.updatedAt || a.addedAt || 0)).slice(0, 5);
+  // turlar (donut) va manbalar (chiziqlar) — saytdagi faol kinolar bo'yicha
+  const tc = { film: 0, serial: 0, multfilm: 0 };
+  const src = {};
+  for (const m of active) { tc[m.type in tc ? m.type : 'film']++; const k = a4Source(m); src[k] = (src[k] || 0) + 1; }
+  if (yt.total) src['YouTube'] = (src['YouTube'] || 0) + yt.total;
+  const tTotal = Math.max(1, tc.film + tc.serial + tc.multfilm);
+  const types = [['Film', tc.film, '#c6ff3d'], ['Serial', tc.serial, '#6b6b6b'], ['Multfilm', tc.multfilm, '#3a3a3a']];
+  const srcRows = Object.entries(src).filter(([k]) => k !== '—').sort((a, b) => b[1] - a[1]).slice(0, 7);
+  const srcTotal = Math.max(1, srcRows.reduce((s, [, n]) => s + n, 0));
+  const pct = (n, t) => Math.round(n / t * 100);
+  const dayLabel = i => R <= 7 ? (i === R - 1 ? 'Bugun' : WD[days[i].d.getDay()]) : (i % (R > 14 ? 5 : 2) ? '' : days[i].d.getDate() + '-' + UZ_MON[days[i].d.getMonth()].slice(0, 3));
 
   $('#admView').innerHTML = `
-    <div class="a4-head"><div><h1>${hello}</h1><p class="a4-sub" id="a4Deploy">${uzDate(new Date())}</p></div></div>
-    <div class="a4-stats">
-      <button class="a4-card a4-st" type="button" data-stat="all"><span>${NAV_ICONS.film}Kinolar va videolar</span><b>${fmt(all.length + yt.total)}</b><small title="Kino kanallaridan ${fmt(chEpisodeCount())} ta qism + Qiziqarli va Shorts ${fmt(yt.total)} ta">${fmt(active.length)} faol · ${fmt(chEpisodeCount() + yt.total)} YouTube video</small></button>
-      <button class="a4-card a4-st" type="button" data-stat="added"><span>${NAV_ICONS.plus}Qo‘shilgan</span><b>${fmt(addedList().length + yt.total)}</b><small class="is-up">+${fmt(weekAdded + ytWeek)} shu hafta</small></button>
-      <button class="a4-card a4-st" type="button" data-stat="hidden"><span>${ITEM_ICONS.eyeOff}Yashirilgan</span><b>${fmt(hiddenList.length)}</b><small>saytda ko‘rinmaydi</small></button>
-      <button class="a4-card a4-st" type="button" data-go="clean"><span>${A4_ICONS.broom}E’tibor talab</span><b>${fmt(raw + bad)}</b><small class="${raw + bad ? 'is-warn' : ''}">${raw} xom nom · ${bad} ishlamaydi</small></button>
-    </div>
-    <div class="a4-row">
-      <div class="a4-col">
-        <section class="a4-card"><div class="a4-ch"><b>Qo‘shilganlar · 14 kun</b><span><i class="a4-lg"></i>kino ${days.reduce((s, x) => s + x.f, 0)} · <i class="a4-lg is-yt"></i>YouTube ${days.reduce((s, x) => s + x.v, 0)}</span></div>
-          <div class="a4-chart">${days.map((x, i) => `<div class="${i === 13 ? 'is-on' : ''}" title="${x.f} kino · ${x.v} YouTube video"><em>${x.n ? `${x.n}${x.f && x.v ? `<span>${x.f} + ${x.v}</span>` : ''}` : ''}</em><i${x.v ? ' class="has-yt"' : ''} style="height:${Math.max(4, x.n / maxN * 72)}%${x.v ? `;--yt:${(x.v / x.n * 100).toFixed(1)}%` : ''}"></i><small>${i % 2 ? WD[x.d.getDay()] : x.d.getDate()}</small></div>`).join('')}</div></section>
-        <section class="a4-card a4-grow"><div class="a4-ch"><b>Oxirgi qo‘shilganlar</b><button class="a4-link" type="button" data-go="list">Hammasi →</button></div>
-          <div class="a4-table">${recent.map(m => { const [c, s] = a4Status(m); return `
-            <div class="a4-tr"><span class="a4-pst">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
-              <div class="a4-tt"><b>${esc(m.title?.uz || '')}</b><small>${[typeName(m.type), m.year].filter(Boolean).join(' · ')}</small></div>
-              <span class="a4-src">${a4Source(m)}</span><span class="a4-pill is-${c}">${s}</span>
-              <button class="a4-ib" type="button" data-edit="${m.id}" title="Tahrirlash" aria-label="Tahrirlash">${ITEM_ICONS.edit}</button></div>`; }).join('') || '<p class="a4-sub">Hali kino qo‘shilmagan</p>'}</div></section>
+    <header class="pz-top">
+      <div><h1>Panel</h1><p class="a4-sub" id="a4Deploy">${uzDate(new Date())}</p></div>
+      <div class="pz-top-r">
+        <div class="pz-seg" id="pzRange">${[7, 14, 30].map(r => `<button type="button" data-r="${r}" class="${r === R ? 'is-on' : ''}">${r} kun</button>`).join('')}</div>
+        <button type="button" class="pz-ib" id="pzSearch" title="Qidiruv" aria-label="Qidiruv">${A4_ICONS.search}</button>
+        <button type="button" class="a4-add" data-go="form">${NAV_ICONS.plus}<span>Kino qo‘shish</span></button>
       </div>
-      <div class="a4-side2">
-        <section class="a4-card"><div class="a4-ch"><b>Tezkor amallar</b></div><div class="a4-qa">
+    </header>
+    <div class="pz-kpis">
+      <button class="pz-kpi" type="button" data-stat="all"><p class="pz-kl"><span class="pz-live"></span>Saytda</p><p class="pz-kv">${fmt(all.length + yt.total)}</p><p class="pz-kf">${fmt(active.length)} faol kino · ${fmt(chEpisodeCount() + yt.total)} YouTube video</p></button>
+      <button class="pz-kpi" type="button" data-stat="added"><p class="pz-kl">Qo‘shilgan</p><p class="pz-kv"><span>${fmt(addedList().length + yt.total)}</span><b class="up">+${fmt(weekAdded + ytWeek)}</b></p><p class="pz-kf">shu hafta qo‘shilgani</p></button>
+      <button class="pz-kpi" type="button" data-stat="hidden"><p class="pz-kl">Yashirilgan</p><p class="pz-kv">${fmt(hiddenList.length)}</p><p class="pz-kf">saytda ko‘rinmaydi</p></button>
+      <button class="pz-kpi" type="button" data-go="${raw ? 'clean' : 'broken'}"><p class="pz-kl">E’tibor talab</p><p class="pz-kv"><span>${fmt(raw + bad)}</span>${bad ? `<b class="warn">${bad} ishlamaydi</b>` : ''}</p><p class="pz-kf">${raw ? `${fmt(raw)} xom nom · ko‘rib chiqish →` : 'Ko‘rib chiqish →'}</p></button>
+    </div>
+    <div class="pz-grid g21">
+      <article class="pz-card"><header class="pz-ch"><h2>Qo‘shilganlar</h2><span class="pz-mut">kino ${fmt(sumF)} · YouTube ${fmt(sumV)} · kunlar bo‘yicha</span></header>
+        <div class="pz-chart">${a4LineChart(days.map(x => x.n), dayLabel, days.map(x => `${x.d.getDate()}-${UZ_MON[x.d.getMonth()]}: ${x.f} kino · ${x.v} YouTube`))}</div></article>
+      <article class="pz-card"><header class="pz-ch"><h2>Turlari</h2><span class="pz-mut">${fmt(active.length)} ta</span></header>
+        <div class="pz-donut-wrap">${a4Donut(types.map(([, n, c]) => [n / tTotal * 100, c]))}
+          <ul class="pz-legend">${types.map(([n, v, c]) => `<li><i style="background:${c}"></i><span>${n}</span><b>${pct(v, tTotal)}%</b></li>`).join('')}</ul></div></article>
+    </div>
+    <div class="pz-grid g11">
+      <article class="pz-card"><header class="pz-ch"><h2>Manbalar</h2><span class="pz-mut">videolar qayerdan ochiladi</span></header>
+        <ul class="pz-bars">${srcRows.map(([k, n]) => `<li><span>${esc(k)}</span><b>${fmt(n)}<small>${pct(n, srcTotal)}%</small></b><span class="pz-bar"><span style="width:${(n / srcRows[0][1] * 100).toFixed(1)}%"></span></span></li>`).join('')}</ul></article>
+      <article class="pz-card"><header class="pz-ch"><h2>Oxirgi qo‘shilganlar</h2><button class="pz-link" type="button" data-go="list">Barchasi</button></header>
+        <ol class="pz-list">${recent.map(m => { const [c, s] = a4Status(m); return `
+          <li><span class="pz-pst">${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>
+            <span class="pz-tt"><b>${esc(m.title?.uz || '')}</b><small>${[m.year, typeName(m.type), a4Source(m)].filter(Boolean).join(' · ')}</small></span>
+            <span class="a4-pill is-${c}">${s}</span>
+            <button class="a4-ib" type="button" data-edit="${m.id}" title="Tahrirlash" aria-label="Tahrirlash">${ITEM_ICONS.edit}</button></li>`; }).join('') || '<p class="a4-sub">Hali kino qo‘shilmagan</p>'}</ol></article>
+    </div>
+    <div class="pz-grid g21">
+      <article class="pz-card"><header class="pz-ch"><h2>YouTube kanallar</h2><button class="pz-link" type="button" id="a4ChAdd">+ Kanal qo‘shish</button></header>
+        <div class="a4-chs" id="a4Chs">${a4ChannelRows()}</div></article>
+      <div class="pz-stack">
+        <article class="pz-card"><header class="pz-ch"><h2>Tezkor amallar</h2></header><div class="a4-qa">
           <button type="button" data-go="form">${A4_ICONS.upload}<b>Qurilmadan</b><small>video yuklash</small></button>
           <button type="button" data-go="tg">${NAV_ICONS.tg}<b>Telegramdan</b><small>post havolasi</small></button>
           <button type="button" data-go="channels">${NAV_ICONS.yt}<b>YouTube</b><small>kanallarni yangilash</small></button>
-          <button type="button" data-go="site">${A4_ICONS.layout}<b>Bosh sahifa</b><small>karusel va qatorlar</small></button></div></section>
-        <section class="a4-card"><div class="a4-ch"><b>YouTube kanallar</b><button class="a4-link" type="button" id="a4ChAdd">+ Kanal qo‘shish</button></div>
-          <div class="a4-chs" id="a4Chs">${a4ChannelRows()}</div></section>
-        <section class="a4-card"><div class="a4-ch"><b>Sayt sog‘lig‘i</b><span class="a4-pill is-n" id="a4HealthAll">tekshirilmoqda…</span></div><div class="a4-health" id="a4Health"><div class="mt-loading"><i></i><i></i><i></i></div></div></section>
-        <section class="a4-card"><div class="a4-ch"><b class="a4-ai"><i class="a4-orb"></i>Dezo tavsiya qiladi</b></div><div class="a4-tips">
+          <button type="button" data-go="site">${A4_ICONS.layout}<b>Bosh sahifa</b><small>karusel va qatorlar</small></button></div></article>
+        <article class="pz-card"><header class="pz-ch"><h2>Sayt sog‘lig‘i</h2><span class="a4-pill is-n" id="a4HealthAll">tekshirilmoqda…</span></header><div class="a4-health" id="a4Health"><div class="mt-loading"><i></i><i></i><i></i></div></div></article>
+        <article class="pz-card"><header class="pz-ch"><h2>Tavsiyalar</h2></header><div class="a4-tips">
           ${raw ? `<div class="a4-tip"><b>${fmt(raw)} ta kinoning nomi xom</b> (Telegram’dan): emoji, «720p», «PREMYERA»… Toza nomlarni tayyorlab qo‘ydim.<div><button class="a4-btn is-p" type="button" data-go="clean">Ko‘rib chiqish</button></div></div>` : ''}
           ${splitGroups.length ? `<div class="a4-tip"><b>«${esc(splitGroups[0].title)}»</b> — ${splitGroups[0].items.length} ta alohida kino bo‘lib turibdi${splitGroups.length > 1 ? ` (yana ${splitGroups.length - 1} ta serial shunday)` : ''}. Bitta serialga birlashtirish kerak.<div><button class="a4-btn is-p" type="button" data-go="groups">Guruhlarga o‘tish</button></div></div>` : ''}
           ${bad ? `<div class="a4-tip"><b>${bad} ta kino ochilmayapti</b> — havolasi eskirgan yoki o‘chirilgan.<div><button class="a4-btn" type="button" data-go="broken">Ko‘rish</button></div></div>` : ''}
           ${!raw && !splitGroups.length && !bad ? '<div class="a4-tip">Hammasi joyida — tuzatish kerak bo‘lgan narsa topilmadi.</div>' : ''}
-        </div></section>
+        </div></article>
       </div>
     </div>
     <details class="adm-sec adm-fold a4-fold">
       <summary class="adm-sec-head"><h3>Oxirgi o‘zgarishlar</h3></summary>
       <div id="admCommits"><div class="mt-loading"><i></i><i></i><i></i></div></div>
     </details>`;
+
+  $('#pzRange').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if (!b) return; a4Range = +b.dataset.r; renderHome(); });
+  $('#pzSearch').addEventListener('click', () => { listQuery = ''; listFilter = 'all'; go('list'); setTimeout(() => $('#a4Search')?.focus(), 50); });
 
   document.querySelectorAll('#admView [data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
   $('#a4ChAdd')?.addEventListener('click', () => { chFocusAdd = true; go('channels'); });
