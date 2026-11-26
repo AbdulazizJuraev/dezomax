@@ -237,6 +237,30 @@ const comp = (o, prepId, amount, extra = {}) => {
   // --- DezoSignal narx proksisi (tarmoqqa chiqmasdan — faqat tekshiruv) ---
   assert.equal((await call('GET', '/api/candles?symbol=AAPL&tf=2h')).status, 400); ok('narx proksisi: noto‘g‘ri tf — 400');
   assert.equal((await call('GET', '/api/candles?symbol=%3Cx%3E&tf=1h')).status, 400); ok('narx proksisi: noto‘g‘ri symbol — 400');
+  // --- Ilovaga push (FCM): data/notifications.json → «dezomax» mavzusi ---
+  {
+    const pushed = [];
+    const send = async d => { pushed.push(d); };
+    const iso = ms => new Date(ms).toISOString();
+    const T = Date.now();
+    const old = [{ id: 'old1', title: 'Eski', body: 'b', at: null, created: iso(T - 3 * 86400000) }, { id: 'now0', title: 'Yangi', body: 'b', at: null, created: iso(T - 60000) }];
+    assert.deepEqual(await app.pushTick(old, send), []); assert.equal(pushed.length, 0); ok('push: birinchi ishga tushishda eski xabarlar yuborilmaydi');
+    const list = [...old,
+      { id: 'n1', title: 'Yangi kino', body: '«Shrek 5» endi DezoMax’da', at: null, created: iso(T - 5000), url: 'movie.html?id=150', image: 'images/uz/shrek.webp' },
+      { id: 'n2', title: 'Kechagi', body: 'b', at: null, created: iso(T - 2 * 86400000) },
+      { id: 'n3', title: 'Futbol', body: 'b', at: iso(T + 3600000), created: iso(T) },
+      { id: 'n4', title: 'Vaqti keldi', body: 'b', at: iso(T - 60000), created: iso(T - 7200000) },
+      { id: 'n5', title: 'Kechikkan', body: 'b', at: iso(T - 3 * 3600000), created: iso(T - 5 * 3600000) }];
+    assert.deepEqual(await app.pushTick(list, send), ['n1', 'n4']);
+    assert.equal(pushed[0].url, 'movie.html?id=150'); assert.equal(pushed[0].image, 'https://dezomax.uz/images/uz/shrek.webp'); assert.equal(pushed[0].body, '«Shrek 5» endi DezoMax’da');
+    ok('push: yangi va vaqti kelgan yuborildi; eski, kechikkan va kelajakdagisi — yo‘q; rasm manzili to‘liq');
+    assert.deepEqual(await app.pushTick(list, send), []); ok('push: bir xabar ikki marta ketmaydi');
+    let fail = true;
+    const flaky = async d => { if (fail) throw new Error('tarmoq'); pushed.push(d); };
+    const more = [{ id: 'n6', title: 'Qayta', body: 'b', at: null, created: iso(T) }];
+    assert.deepEqual(await app.pushTick(more, flaky), []); fail = false;
+    assert.deepEqual(await app.pushTick(more, flaky), ['n6']); ok('push: xato bo‘lsa keyingi safar qayta yuboriladi');
+  }
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();
 })().catch(er => { console.error('\nSINOV YIQILDI:', er.message); console.error(er.stack.split('\n').slice(1, 4).join('\n')); server.close(); process.exit(1); });

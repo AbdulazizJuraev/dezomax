@@ -66,6 +66,8 @@ function openDb(file) {
     CREATE INDEX IF NOT EXISTS views_daily_day ON views_daily(day);
     -- jonli efirlarga shikoyatlar (live.html): 3 ta foydalanuvchi yoki 1 ta admin shikoyat qilsa — efir ro'yxatdan chiqadi
     CREATE TABLE IF NOT EXISTS live_reports (video TEXT NOT NULL, uid TEXT NOT NULL, reason TEXT, admin INTEGER NOT NULL DEFAULT 0, at INTEGER NOT NULL, PRIMARY KEY (video, uid));
+    -- ilovaga yuborilgan push bildirishnomalar (data/notifications.json id'lari) — bir xabar bir marta ketadi
+    CREATE TABLE IF NOT EXISTS push_sent (id TEXT PRIMARY KEY, at INTEGER NOT NULL, ok INTEGER NOT NULL DEFAULT 1);
   `);
   // qurilmalar: har bir sessiya — bitta qurilma (eski bazalarga ustunlar qo'shiladi)
   for (const col of ['device_id TEXT', 'device TEXT', 'created_at INTEGER', 'last_seen INTEGER', 'ip TEXT']) {
@@ -953,10 +955,67 @@ function createApp(cfg, deps = {}) {
       return send(res, 500, { error: 'Server xatosi' });
     }
   };
-  return { handler, db, clickPrepare, clickComplete };
+
+  /* --- Ilovaga push bildirishnoma (Firebase Cloud Messaging, 2026-11-26) ---
+     Admin «Bildirishnomalar» xabarni data/notifications.json ga yozadi. Server uni har 30 soniyada o'qiydi va
+     yangisini «dezomax» mavzusiga yuboradi — ilova yopiq bo'lsa ham soniyalar ichida keladi (mobile/.../DezoPushService.java).
+     Qoidalar ilovadagi zaxira tekshiruvchi bilan bir xil (mobile/native/notify-runner.js):
+       · «hozir» xabari — 1 kundan eski bo'lmasa; · vaqti belgilangan — vaqti kelganda (1 soatdan ko'p kechikkan bo'lsa — yuborilmaydi).
+     Birinchi ishga tushishda eski xabarlar yuborilmaydi — faqat «ko'rildi» deb belgilanadi. */
+  const pushQ = {
+    sent: db.prepare('SELECT 1 FROM push_sent WHERE id = ?'),
+    add: db.prepare('INSERT OR IGNORE INTO push_sent (id, at, ok) VALUES (?, ?, ?)'),
+    count: db.prepare('SELECT COUNT(*) AS n FROM push_sent')
+  };
+  const pushAbs = u => /^https:\/\//.test(u || '') ? u : u ? 'https://dezomax.uz/' + String(u).replace(/^\/+/, '') : '';
+  async function pushTick(items, send) {
+    const t = now(), first = pushQ.count.get().n === 0, out = [];
+    for (const n of Array.isArray(items) ? items : []) {
+      if (!n || !n.id || pushQ.sent.get(String(n.id))) continue;
+      const at = n.at ? Date.parse(n.at) : 0, created = Date.parse(n.created || '') || 0;
+      if (at && at > t) continue;                                  // vaqti hali kelmagan — keyingi safar
+      const stale = first || (at ? at < t - 3600000 : created && created < t - 86400000);
+      if (stale) { pushQ.add.run(String(n.id), t, 0); continue; }
+      const data = { id: String(n.id), title: String(n.title || 'DezoMax').slice(0, 120), body: String(n.body || '').slice(0, 400),
+        url: String(n.url || '').slice(0, 200), image: pushAbs(n.image).slice(0, 500), cover: pushAbs(n.cover).slice(0, 500) };
+      let ok = 0;
+      try { await send(data); ok = 1; } catch (e) { console.error('push:', e.message); continue; }   // xato — keyingi safar qayta urinadi
+      pushQ.add.run(data.id, t, ok);
+      out.push(data.id);
+    }
+    return out;
+  }
+  return { handler, db, clickPrepare, clickComplete, pushTick };
 }
 
-module.exports = { createApp, openDb, googleVerifier, md5, ytPlaylist, ytMeta, ytShorts, ytLive };
+/* Firebase Cloud Messaging (HTTP v1): xizmat hisobi kaliti (JSON) bilan Google'dan qisqa muddatli token olinadi,
+   xabar «dezomax» mavzusiga yuboriladi. Kalit fayli faqat serverda (FCM_KEY_FILE) — GitHub'ga, chatga yozilmaydi. */
+function fcmSender(keyFile) {
+  const key = JSON.parse(require('node:fs').readFileSync(keyFile, 'utf8'));
+  let tok = null, tokUntil = 0;
+  const b64u = x => Buffer.from(x).toString('base64url');
+  async function accessToken() {
+    if (tok && Date.now() < tokUntil - 60000) return tok;
+    const iat = Math.floor(Date.now() / 1000);
+    const head = b64u(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
+    const body = b64u(JSON.stringify({ iss: key.client_email, scope: 'https://www.googleapis.com/auth/firebase.messaging', aud: 'https://oauth2.googleapis.com/token', iat, exp: iat + 3600 }));
+    const sig = crypto.createSign('RSA-SHA256').update(head + '.' + body).sign(key.private_key).toString('base64url');
+    const r = await fetch('https://oauth2.googleapis.com/token', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: `${head}.${body}.${sig}` }), signal: AbortSignal.timeout(15000) });
+    const j = await r.json();
+    if (!r.ok || !j.access_token) throw new Error('FCM token: ' + (j.error_description || j.error || r.status));
+    tok = j.access_token; tokUntil = Date.now() + (j.expires_in || 3600) * 1000;
+    return tok;
+  }
+  return async data => {
+    const r = await fetch(`https://fcm.googleapis.com/v1/projects/${key.project_id}/messages:send`, {
+      method: 'POST', headers: { authorization: 'Bearer ' + (await accessToken()), 'content-type': 'application/json' },
+      body: JSON.stringify({ message: { topic: 'dezomax', data, android: { priority: 'HIGH', ttl: '86400s' } } }), signal: AbortSignal.timeout(15000) });
+    if (!r.ok) throw new Error('FCM ' + r.status + ': ' + (await r.text()).slice(0, 200));
+  };
+}
+
+module.exports = { createApp, openDb, googleVerifier, md5, ytPlaylist, ytMeta, ytShorts, ytLive, fcmSender };
 
 /* ---------- Ishga tushirish ---------- */
 if (require.main === module) {
@@ -977,4 +1036,19 @@ if (require.main === module) {
   const app = createApp(cfg);
   const port = Number(process.env.PORT) || 8787;
   http.createServer(app.handler).listen(port, process.env.HOST || '127.0.0.1', () => console.log('DezoMax to‘lov serveri: port ' + port));
+  // Ilovaga push: FCM_KEY_FILE (Firebase → Project settings → Service accounts → kalit JSON) bo'lsa yoqiladi
+  if (process.env.FCM_KEY_FILE) {
+    let send;
+    try { send = fcmSender(process.env.FCM_KEY_FILE); } catch (e) { console.error('push o‘chiq — kalit fayli o‘qilmadi:', e.message); }
+    const NOTIFY_URL = process.env.NOTIFY_URL || 'https://raw.githubusercontent.com/AbdulazizJuraev/dezomax/main/data/notifications.json';
+    const tick = async () => {
+      try {
+        const r = await fetch(NOTIFY_URL + '?t=' + Date.now(), { signal: AbortSignal.timeout(15000) });
+        if (!r.ok) return;
+        const sent = await app.pushTick((await r.json()).items, send);
+        if (sent.length) console.log('push yuborildi:', sent.join(', '));
+      } catch (e) { console.error('push tekshiruvi:', e.message); }
+    };
+    if (send) { tick(); setInterval(tick, 30000); console.log('Push bildirishnomalar yoqildi (har 30 soniyada)'); }
+  }
 }

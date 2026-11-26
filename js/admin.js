@@ -3638,6 +3638,16 @@ function fmtDateTime(iso) {
   return `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`;
 }
 
+/* Bildirishnoma rasmlari: kino tanlansa — image = POSTERI (yonida kichik va ochilganda to'liq ko'rinadi),
+   cover = keng muqova (ochilgandagi katta rasm foni, DezoPushService.posterBanner). Nisbiy manzil (images/…) serverda to'liq qilinadi */
+const notifyUrlOk = u => /^https:\/\//.test(u || '') || /^images\//.test(u || '') ? u : '';
+function notifyMovie(link) {
+  const mid = +(String(link || '').match(/movie\.html\?id=(\d+)/) || [])[1];
+  return mid ? allMovies().find(x => x.id === mid) || null : null;
+}
+function notifyImage(link) { const m = notifyMovie(link); return m ? notifyUrlOk(m.poster) || notifyUrlOk(m.cover || m.hposter) : ''; }
+function notifyCover(link) { const m = notifyMovie(link); return m ? notifyUrlOk(m.cover || m.hposter) : ''; }
+
 async function renderNotifyView() {
   const box = $('#admView');
   box.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
@@ -3689,12 +3699,19 @@ async function renderNotifyView() {
           </optgroup>
         </select>
       </div>
-      <div class="adm-notify-preview" aria-label="Telefonda ko‘rinishi">
-        <span class="adm-notify-app">DezoMax · hozir</span>
-        <b id="nPrevTitle">${esc(d.title || 'Sarlavha')}</b>
-        <span id="nPrevBody">${esc(d.body || 'Bildirishnoma matni shu yerda ko‘rinadi')}</span>
+      <div class="nz-prev" aria-label="Telefonda ko‘rinishi">
+        <div class="nz-card">
+          <div class="nz-app"><i>D</i><span>DezoMax</span><em>· hozir</em></div>
+          <div class="nz-row">
+            <div class="nz-tx"><b id="nPrevTitle">${esc(d.title || 'Sarlavha')}</b><span id="nPrevBody">${esc(d.body || 'Bildirishnoma matni shu yerda ko‘rinadi')}</span></div>
+            <span class="nz-thumb" id="nPrevThumb"></span>
+          </div>
+          <div class="nz-pic" id="nPrevPic" hidden><i id="nPrevPoster"></i></div>
+          <div class="nz-act">▶ Ko‘rish</div>
+        </div>
+        <small>Telefonda shunday ko‘rinadi. Kino tanlansa — uning rasmi ham chiqadi (ochilganda katta bo‘lib).</small>
       </div>
-      <p class="acc-muted adm-notify-note">Ilova ochiq bo‘lsa — darhol, yopiq bo‘lsa — odatda 15–30 daqiqa ichida keladi. Belgilangan vaqtli xabar o‘sha vaqtda chiqadi (ilova undan oldin kamida bir marta tekshirgan bo‘lishi kerak).</p>
+      <p class="acc-muted adm-notify-note">Yangi ilovada (1.9.0+) bildirishnoma ilova yopiq bo‘lsa ham bir necha soniyada keladi. Eski versiyalarda — ilova ochilganda yoki 15–30 daqiqa ichida. Belgilangan vaqtli xabar o‘sha vaqtda chiqadi.</p>
       <p class="acc-error" id="nErr" hidden></p>
       <button class="btn btn-primary" type="button" id="nSend">${NAV_ICONS.bell}<span>Yuborish</span></button>
     </section>
@@ -3721,12 +3738,25 @@ async function renderNotifyView() {
     d.title = title.value; d.body = body.value; d.at = at.value; d.link = link.value;
     $('#nPrevTitle').textContent = d.title || 'Sarlavha';
     $('#nPrevBody').textContent = d.body || 'Bildirishnoma matni shu yerda ko‘rinadi';
+    const img = notifyImage(d.link), cov = notifyCover(d.link);
+    const u = x => x ? `url("${x.replace(/"/g, '%22')}")` : '';
+    $('#nPrevThumb').style.backgroundImage = u(img); $('#nPrevThumb').hidden = !img;
+    // ochilganda: fonda keng muqova (xira), markazda poster to'liq — ilovadagidek (DezoPushService.posterBanner)
+    $('#nPrevPic').style.backgroundImage = u(cov || img); $('#nPrevPic').hidden = !img;
+    $('#nPrevPoster').style.backgroundImage = u(img);
   };
+  syncPreview();
   [title, body, at].forEach(el => el.addEventListener('input', syncPreview));
-  link.addEventListener('change', syncPreview);
+  // kino tanlansa — shablondagi «Kino nomi» o'rniga uning nomi qo'yiladi
+  const fillName = () => {
+    const mid = +(link.value.match(/movie\.html\?id=(\d+)/) || [])[1];
+    const m = mid ? allMovies().find(x => x.id === mid) : null;
+    if (m && m.title?.uz) for (const el of [title, body]) el.value = el.value.replace(/«Kino nomi»/g, `«${m.title.uz}»`);
+  };
+  link.addEventListener('change', () => { fillName(); syncPreview(); });
   box.querySelectorAll('[data-tpl]').forEach(b => b.addEventListener('click', () => {
     const tp = NOTIFY_TEMPLATES[+b.dataset.tpl];
-    title.value = tp.title; body.value = tp.body; syncPreview();
+    title.value = tp.title; body.value = tp.body; fillName(); syncPreview();
   }));
   $('#nAi').addEventListener('click', async e => {
     const b = e.currentTarget;
@@ -3760,6 +3790,8 @@ Faqat JSON: {"title": "...", "body": "..."}`);
     const btn = e.currentTarget;
     syncPreview();
     if (!d.title.trim() || !d.body.trim()) { err.textContent = 'Sarlavha va matnni yozing.'; err.hidden = false; return; }
+    // shablondagi «Kino nomi» o'rniga haqiqiy nom yozilmagan bo'lsa — hammaga shunday yetib borardi (2026-11-26)
+    if (/«Kino nomi»/.test(d.title + d.body)) { err.textContent = 'Matndagi «Kino nomi» o‘rniga kinoning haqiqiy nomini yozing (yoki pastda kinoni tanlang).'; err.hidden = false; return; }
     let atIso = null;
     if (d.when === 'at') {
       const t0 = new Date(d.at);
@@ -3777,6 +3809,8 @@ Faqat JSON: {"title": "...", "body": "..."}`);
         body: d.body.trim(),
         at: atIso,
         url: d.link || '',
+        image: notifyImage(d.link),   // kino posteri (DezoPushService.java); bo'sh — DezoMax belgisi
+        cover: notifyCover(d.link),   // ochilgandagi katta rasm foni
         created: new Date().toISOString()
       };
       await saveNotifications(items => [...items, item], `Bildirishnoma: ${item.title}`);

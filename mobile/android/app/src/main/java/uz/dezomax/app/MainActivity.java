@@ -85,7 +85,8 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(DownloadPlugin.class);
         registerPlugin(WidgetPlugin.class);
         super.onCreate(savedInstanceState);
-        openFromWidget(getIntent(), 400);
+        openFromWidget(getIntent(), 400);   // vidjet yoki bildirishnoma bosilgan bo'lsa — o'sha sahifa
+        DezoPushService.subscribe(this);    // Firebase push: «dezomax» mavzusi (ilova yopiq bo'lsa ham bildirishnoma)
 
         WebView webView = getBridge() != null ? getBridge().getWebView() : null;
 

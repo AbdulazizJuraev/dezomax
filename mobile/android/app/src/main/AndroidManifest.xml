@@ -32,6 +32,18 @@
             </intent-filter>
         </activity>
 
+        <!-- Firebase push (FCM): bildirishnomalar ilova yopiq bo'lsa ham darhol keladi — DezoPushService.java -->
+        <service
+            android:name=".DezoPushService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="dezomax_news" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_dezomax" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/dzx_lime" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

@@ -36,8 +36,12 @@ addEventListener('checkNotifications', async (resolve, reject) => {
     const list = [];
     for (const n of (data.items || [])) {
       if (!n || !n.id || seen.indexOf(n.id) > -1) continue;
-      seen.push(n.id);
       const at = n.at ? Date.parse(n.at) : 0;
+      // Vaqti kelmagan xabar hozir rejalashtirilmaydi — vaqti kelgach (keyingi tekshiruvda, ~15 daqiqa ichida) ko'rsatiladi.
+      // Sabab: plagin (background-runner 3.0) scheduleAt'dagi «Z» (UTC) ni mahalliy vaqt deb o'qiydi —
+      // Toshkentda rejalashtirilgan xabar 5 soat ERTA chiqardi. 2026-11-26
+      if (at && at > now) continue;
+      seen.push(n.id);
       const created = Date.parse(n.created || '') || 0;
       // eskirganlar ko'rsatilmaydi: vaqti 1 soatdan ko'p o'tgan yoki 1 kundan eski «hozir» xabarlari.
       // Ilova birinchi marta o'rnatilganda eski xabarlar to'planib kelmasin — faqat kelajakdagilar.
@@ -48,7 +52,7 @@ addEventListener('checkNotifications', async (resolve, reject) => {
         title: String(n.title || 'DezoMax'),
         body: String(n.body || ''),
         largeBody: String(n.body || ''),
-        scheduleAt: new Date(at && at > now ? at : now + 1000),
+        // scheduleAt berilmaydi — plagin darhol ko'rsatadi (vaqt mintaqasi xatosidan xoli)
         smallIcon: 'ic_stat_dezomax',
         largeIcon: 'ic_notify_large',   // chapdagi katta DezoMax belgisi
         autoCancel: true,

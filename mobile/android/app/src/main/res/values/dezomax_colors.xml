@@ -2,4 +2,6 @@
 <resources>
     <!-- Sayt foni (css/style.css, bg rangi) -->
     <color name="dezomaxBg">#07080C</color>
+    <!-- bildirishnoma belgisi va ilova nomi rangi (DezoPushService) -->
+    <color name="dzx_lime">#C6FF3D</color>
 </resources>

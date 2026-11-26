@@ -93,3 +93,20 @@ Server ishlagach, `js/firebase-config.js` dagi `PAY_API` ga domenni yozing (`htt
 2. "Click orqali to'lash" → server buyurtma yaratadi va Click to'lov havolasini qaytaradi.
 3. Click Prepare/Complete so'rovlarini yuboradi → server MD5 imzoni maxfiy kalit bilan tekshiradi → balansni oshiradi (bir buyurtma ikki marta to'lanmaydi).
 4. Tarif sotib olinganda pul serverdagi balansdan yechiladi.
+
+## Ilovaga push bildirishnomalar (Firebase, 2026-11-26)
+
+Admin «Bildirishnomalar»da yuborgan xabar ilova **yopiq bo'lsa ham** bir necha soniyada keladi. Server har 30 soniyada `data/notifications.json` ni o'qiydi va yangi xabarni Firebase orqali «dezomax» mavzusiga yuboradi.
+
+1. [console.firebase.google.com](https://console.firebase.google.com) → loyiha (mavjud Google Cloud loyihasini tanlash mumkin).
+2. **Project settings → Service accounts → Generate new private key** — JSON fayl yuklanadi.
+   Uni serverga qo'ying (GitHub'ga va chatga YUKLAMANG):
+   ```bash
+   sudo mv ~/firebase-key.json /etc/dezomax-fcm.json
+   sudo chown dezomax /etc/dezomax-fcm.json && sudo chmod 600 /etc/dezomax-fcm.json
+   echo 'FCM_KEY_FILE=/etc/dezomax-fcm.json' | sudo tee -a /etc/dezomax-pay.env
+   sudo systemctl restart dezomax-pay
+   journalctl -u dezomax-pay -n 20   # «Push bildirishnomalar yoqildi» chiqishi kerak
+   ```
+3. Ilova tomoni: Firebase'da Android ilovalar `uz.dezomax.app` va `uz.dezomax.app.admin` qo'shiladi,
+   `google-services.json` → `mobile/android/app/` ga qo'yiladi va APK qayta yig'iladi (1.9.0+).

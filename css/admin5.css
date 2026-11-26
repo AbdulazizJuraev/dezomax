@@ -318,3 +318,23 @@ ol.pz-list li[data-movie] .pz-pst { width: 30px; height: 44px; }
 .pz-chip.is-star { color: var(--a-amber); letter-spacing: 1px; }
 .pz-time b { color: var(--a-dim); font-weight: 700; }
 .pz-note a { color: var(--a-lime); }
+
+/* ---------- Bildirishnoma: telefondagi ko'rinish (DezoPushService.java bilan bir xil) ---------- */
+.nz-prev { display: grid; gap: 8px; margin: 6px 0 14px; max-width: 420px; }
+.nz-prev > small { color: var(--a-fa); font-size: 12px; }
+.nz-card { padding: 14px 16px 10px; border-radius: 22px; background: #1f1f1f; border: 1px solid #2a2a2a; color: #f2f2f2; }
+.nz-app { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--a-lime); font-weight: 600; }
+.nz-app i { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--a-lime); color: #0f0f0f; font: 800 10px/1 Manrope, sans-serif; }
+.nz-app em { font-style: normal; color: #a8a8a8; font-weight: 500; }
+.nz-row { display: flex; gap: 12px; align-items: flex-start; margin-top: 8px; }
+.nz-tx { flex: 1; min-width: 0; }
+.nz-tx b { display: block; font-size: 15px; font-weight: 700; }
+.nz-tx span { display: block; margin-top: 2px; font-size: 14px; line-height: 1.45; color: #c8c8c8; overflow-wrap: anywhere; }
+.nz-thumb { flex: none; width: 44px; height: 44px; border-radius: 10px; background: #0f0f0f center / cover no-repeat; }
+.nz-thumb[hidden] { display: grid !important; place-items: center; background-image: none; border: 1.5px solid var(--a-lime); border-radius: 50%; }
+.nz-thumb[hidden]::after { content: 'D'; color: var(--a-lime); font-weight: 800; }
+.nz-pic { margin-top: 10px; aspect-ratio: 2 / 1; border-radius: 14px; background: #0f0f0f center / cover no-repeat; }
+.nz-act { margin-top: 10px; padding-top: 8px; border-top: 1px solid #2c2c2c; color: var(--a-lime); font-size: 13px; font-weight: 700; }
+.nz-pic { position: relative; overflow: hidden; display: grid; place-items: center; }
+.nz-pic::before { content: ''; position: absolute; inset: 0; background: rgba(15, 15, 15, .7); }
+.nz-pic i { position: relative; height: calc(100% - 20px); aspect-ratio: 2 / 3; border-radius: 8px; background: #0f0f0f center / cover no-repeat; }
