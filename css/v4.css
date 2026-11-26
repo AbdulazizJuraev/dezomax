@@ -384,3 +384,29 @@ html body :is(.v4-title, .v4-row-h h2, .v4-dezo input, .v4-t10-n, .v4-clock, .v4
 
 /* keng kartada tik poster (js/v4.js tallAttr) — kesilmaydi */
 .v4-card-im.is-tall img { object-fit: contain; }
+
+/* Bosh sahifa: «Fikr bildirish» bloki (index.html #v4Fb, js/home-fikr.js) — .v4-about uslubida */
+.v4-fb { padding-top: 8px; padding-bottom: 16px; }
+.v4-fb-k { display: inline-flex; align-items: center; gap: 8px; font: 800 12px/1 'Manrope', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--v4-lime); }
+.v4-fb-k::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--v4-lime); }
+.v4-fb-in { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 22px 40px; align-items: center; padding: clamp(20px, 3vw, 36px); border-radius: 24px;
+  background: linear-gradient(135deg, rgba(124, 196, 255, .07), rgba(255, 255, 255, .02) 45%); border: 1px solid rgba(255, 255, 255, .07); }
+.v4-fb h2 { font: 700 clamp(18px, 1.9vw, 22px)/1.3 var(--v4-head); color: #fff; margin: 12px 0 10px; }
+.v4-fb-tx p { margin: 0 0 12px; font-size: 14px; line-height: 1.65; color: rgba(255, 255, 255, .62); }
+.v4-fb-more { font-weight: 700; font-size: 14px; color: var(--v4-lime); text-decoration: none; }
+.v4-fb-more:hover { text-decoration: underline; }
+.v4-fb-form { display: grid; gap: 10px; min-width: 0; }
+.v4-fb-kinds { display: flex; flex-wrap: wrap; gap: 8px; }
+.v4-fb-kinds button { padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .04); color: rgba(255, 255, 255, .75); font: 700 13px 'Manrope', sans-serif; cursor: pointer; }
+.v4-fb-kinds button.is-on { background: var(--v4-lime); border-color: var(--v4-lime); color: #0f0f0f; }
+.v4-fb-form textarea, .v4-fb-form input { width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .1); background: rgba(0, 0, 0, .35); color: #fff; font: 500 14px/1.5 'Manrope', sans-serif; outline: 0; }
+.v4-fb-form textarea { resize: vertical; min-height: 84px; }
+.v4-fb-form textarea:focus, .v4-fb-form input:focus { border-color: var(--v4-lime); }
+.v4-fb-row { display: flex; gap: 10px; }
+.v4-fb-row input { flex: 1; min-width: 0; }
+.v4-fb-row button { flex: none; padding: 0 22px; border: 0; border-radius: 14px; background: var(--v4-lime); color: #0f0f0f; font: 800 14px 'Manrope', sans-serif; cursor: pointer; }
+.v4-fb-row button:disabled { opacity: .6; cursor: default; }
+.v4-fb-msg { margin: 0; font-size: 14px; font-weight: 600; color: #ff7a7a; }
+.v4-fb-msg.is-ok { color: var(--v4-lime); }
+@media (max-width: 900px) { .v4-fb-in { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) { .v4-fb-in { border-radius: 20px; } .v4-fb-row { flex-direction: column; } .v4-fb-row button { height: 46px; } }

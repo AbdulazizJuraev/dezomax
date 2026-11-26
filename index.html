@@ -39,7 +39,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;700&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="css/style.css?v=202611261335">
-<link rel="stylesheet" href="css/v4.css?v=202611251117">
+<link rel="stylesheet" href="css/v4.css?v=202611262110">
 <link rel="stylesheet" href="css/home5.css?v=202611251117">
 <!-- Google AdSense (reklama: js/ads.js) -->
 <meta name="google-adsense-account" content="ca-pub-3356248514435871">
@@ -99,6 +99,28 @@
   <div class="h5-wrap" style="padding-top:8px"><nav class="h5-chips" id="h5Chips" aria-label="Janrlar"></nav></div>
   <div class="h5-rows" id="h5Rows"></div>
   <!-- Sayt haqida — HTML'ning o'zida (qidiruv tizimlari, AdSense). Ruscha blok — ru/index.html da (tools/gen-ru.js) -->
+  <section class="v4-fb h5-wrap" id="v4Fb" aria-label="Fikr bildirish">
+    <div class="v4-fb-in">
+      <div class="v4-fb-tx">
+        <span class="v4-fb-k">Fikringiz</span>
+        <h2>DezoMax sizga yoqyaptimi?</h2>
+        <p>Taklif, xato yoki maqtov — bir-ikki so‘z yozing. Har bir fikrni o‘qiymiz va saytni shunga qarab yaxshilaymiz.</p>
+        <a class="v4-fb-more" href="fikr.html">Baho va batafsil shakl →</a>
+      </div>
+      <form class="v4-fb-form" id="v4FbForm" novalidate>
+        <div class="v4-fb-kinds" role="group" aria-label="Fikr turi">
+          <button type="button" data-k="taklif" class="is-on">💡 Taklif</button><button type="button" data-k="xato">🐞 Xato</button><button type="button" data-k="maqtov">❤️ Maqtov</button><button type="button" data-k="boshqa">💬 Boshqa</button>
+        </div>
+        <textarea maxlength="1000" rows="3" placeholder="Masalan: qidiruvda janr bo‘yicha saralash bo‘lsa yaxshi bo‘lardi…" aria-label="Fikringiz"></textarea>
+        <div class="v4-fb-row">
+          <input maxlength="80" placeholder="Javob uchun Telegram yoki telefon (ixtiyoriy)" aria-label="Aloqa (ixtiyoriy)">
+          <button type="submit">Yuborish</button>
+        </div>
+        <p class="v4-fb-msg" id="v4FbMsg" hidden></p>
+      </form>
+    </div>
+  </section>
+
   <section class="v4-about" aria-label="DezoMax haqida">
     <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ab-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></symbol><symbol id="ab-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol><symbol id="ab-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol><symbol id="ab-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9.5h.01M15 9.5h.01"/></symbol><symbol id="ab-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol><symbol id="ab-tv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="m8 2 4 4 4-4"/></symbol><symbol id="ab-ball" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m12 7 4 3-1.5 4.5h-5L8 10z"/></symbol><symbol id="ab-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="m10.5 9 4 3-4 3z"/></symbol></svg>
     <div class="v4-about-in" data-lang-block="uz">
@@ -118,7 +140,7 @@
         <a class="v4-chip" href="sport.html"><svg aria-hidden="true"><use href="#ab-ball"/></svg><span><b>Sport</b><small>Natija va yangiliklar</small></span></a>
         <a class="v4-chip" href="shorts.html"><svg aria-hidden="true"><use href="#ab-play"/></svg><span><b>Shorts</b><small>Qisqa videolar</small></span></a>
       </nav>
-      <p class="v4-about-foot"><a href="about.html">Biz haqimizda</a><a href="contacts.html">Aloqa</a><a href="privacy.html">Maxfiylik siyosati</a></p>
+      <p class="v4-about-foot"><a href="about.html">Biz haqimizda</a><a href="contacts.html">Aloqa</a><a href="fikr.html">Fikr bildirish</a><a href="privacy.html">Maxfiylik siyosati</a></p>
     </div><!--/uz-->
     <div class="v4-about-in" data-lang-block="ru" hidden>
       <div class="v4-about-tx">
@@ -187,5 +209,6 @@
 <script src="js/channels.js?v=202611251117"></script>
 <script src="js/fun-data.js?v=202611251117"></script>
 <script src="js/home5.js?v=202611261335"></script>
+<script src="js/home-fikr.js?v=202611262100"></script>
 </body>
 </html>
