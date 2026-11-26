@@ -1136,12 +1136,12 @@ function renderMain() {
   $('#admin').innerHTML = `
     <div class="a4">
       <aside class="a4-side" id="a4Side">
-        <a class="a4-logo" href="admin.html"><img src="images/logo/dezomax-name.webp" alt="DezoMax" width="140" height="23"><span>STUDIO</span></a>
+        <a class="a4-logo" href="admin.html"><span class="a4-mark">D</span><span class="a4-brand">DezoMax<small>Admin</small></span></a>
         ${A4_NAV.map(([grp, items]) => `<div class="a4-grp">${grp}</div>` + items.map(([v, ic, label, , cls]) => {
           const n = a4Counts[v];
           return `<button type="button" class="a4-it${isOn(v) ? ' is-on' : ''}" data-view="${v}">${a4Icon(ic)}<span>${label}</span>${n ? `<em class="${cls || ''}">${fmt(n)}</em>` : ''}</button>`;
         }).join('')).join('')}
-        <div class="a4-me"><a class="a4-site" href="${SITE_URL}" target="_blank" rel="noopener">${NAV_ICONS.link}<span>Saytni ochish</span></a>
+        <div class="a4-me"><span class="a4-ava">A</span><span class="a4-who"><b>Administrator</b><a href="${SITE_URL}" target="_blank" rel="noopener">Saytni ochish ↗</a></span>
           <button type="button" class="a4-out" id="admLogout" title="Chiqish" aria-label="Chiqish">${A4_ICONS.out}</button></div>
       </aside>
       <div class="a4-scrim" id="a4Scrim" hidden></div>
