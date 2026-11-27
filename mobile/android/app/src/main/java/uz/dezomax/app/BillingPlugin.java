@@ -9,6 +9,8 @@ import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.android.billingclient.api.QueryPurchasesParams;
+import android.util.Log;
+
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -47,6 +49,7 @@ public class BillingPlugin extends Plugin {
         if (client.isReady()) { then.run(); return; }
         client.startConnection(new BillingClientStateListener() {
             @Override public void onBillingSetupFinished(BillingResult r) {
+                Log.i("DezoBilling", "setup: " + r.getResponseCode() + " " + r.getDebugMessage());
                 if (r.getResponseCode() == BillingClient.BillingResponseCode.OK) then.run();
                 else call.reject("unavailable", String.valueOf(r.getResponseCode()));
             }
@@ -66,6 +69,7 @@ public class BillingPlugin extends Plugin {
                     .setProductId(ids.getString(i)).setProductType(BillingClient.ProductType.SUBS).build());
             } catch (Exception e) { call.reject("bad_ids"); return; }
             client.queryProductDetailsAsync(QueryProductDetailsParams.newBuilder().setProductList(list).build(), (r, res) -> {
+                Log.i("DezoBilling", "products: " + r.getResponseCode() + " found=" + res.getProductDetailsList().size() + " missing=" + res.getUnfetchedProductList().size());
                 if (r.getResponseCode() != BillingClient.BillingResponseCode.OK) { call.reject("query_failed", String.valueOf(r.getResponseCode())); return; }
                 JSArray out = new JSArray();
                 for (ProductDetails pd : res.getProductDetailsList()) {
