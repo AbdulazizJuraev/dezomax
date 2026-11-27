@@ -73,7 +73,7 @@ self.addEventListener('message', e => {
         const url = new URL(u, self.registration.scope);
         if (url.origin !== self.location.origin) continue;
         const key = new Request(url.origin + url.pathname);
-        const res = await fetch(new Request(url.href, { headers: { Accept: 'text/html' }, credentials: 'same-origin' }));
+        const res = await fetch(new Request(url.href, { headers: { Accept: 'text/html' }, credentials: 'same-origin', cache: 'no-cache' }));
         if (!res.ok) continue;
         // sahifaning o'z js/css fayllari ham (masalan catalog.js) — aks holda internetsiz sahifa bo'sh ochiladi
         const html = await res.clone().text();
@@ -198,7 +198,8 @@ function raceCache(net, hit, wait) {
 
 function page(e, req, url) {
   const key = url.origin + url.pathname;
-  const net = fetch(req);
+  // 2026-11-27: cache: no-cache — HTTP keshdagi (GitHub Pages: 10 daqiqa) eski sahifa olinmasin; o'zgarmagan bo'lsa server 304 qaytaradi (tez)
+  const net = fetch(new Request(req, { cache: 'no-cache' }));
   // yangi javob saqlanadi (keyingi safar internetsiz ochilishi uchun)
   e.waitUntil(net.then(async res => {
     if (!res || !res.ok || res.type !== 'basic') return;
