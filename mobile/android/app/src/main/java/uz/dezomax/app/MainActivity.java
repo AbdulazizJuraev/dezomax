@@ -82,6 +82,7 @@ public class MainActivity extends BridgeActivity {
         });
         registerPlugin(CastPlugin.class);
         registerPlugin(AdsPlugin.class);
+        registerPlugin(BillingPlugin.class);
         registerPlugin(DownloadPlugin.class);
         registerPlugin(WidgetPlugin.class);
         super.onCreate(savedInstanceState);

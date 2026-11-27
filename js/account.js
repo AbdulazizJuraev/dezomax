@@ -387,7 +387,10 @@ async function checkPlanExpiry() {
   const plan = ACC_PLANS[profile.plan];
   // uzaytirish shartlari: sinovdan kelganlarda 7 kun / 5 000 so'm, qolganlarda tarif narxi / 30 kun
   const bill = profile.billing && profile.billing.price ? profile.billing : { days: 30, price: plan ? plan.price : 0 };
-  if (profile.autoRenew && plan && profile.balance >= bill.price && await charge(bill.price, profile.plan, bill.days)) {
+  if (profile.planSource === 'google_play') {          // Google Play obunasi: uzaytirishni Google qiladi, balansdan yechilmaydi
+    profile.plan = 'free';                              // PlayBilling.sync uzaytirilgan bo'lsa qaytarib qo'yadi
+    profile.planUntil = null;
+  } else if (profile.autoRenew && plan && profile.balance >= bill.price && await charge(bill.price, profile.plan, bill.days)) {
     buyPlan(profile.plan, bill.days, bill.price, true);
   } else {
     profile.plan = 'free';
@@ -803,10 +806,12 @@ const SECTIONS = {
         <p class="acc-muted">${paid ? `${t('acc.until')} <b>${fmtDate(profile.planUntil)}</b>` : t('acc.freeForever')}</p>
         <p class="acc-muted">${t('acc.devicesLimit')} <b>${plan.devices}</b></p>
       </div>
-      ${paid ? `<div class="acc-card">${toggleHTML('autoRenew', profile.autoRenew, t('acc.autoRenew'), t('acc.autoRenewHint'))}</div>` : ''}
+      ${paid && profile.planSource !== 'google_play' ? `<div class="acc-card">${toggleHTML('autoRenew', profile.autoRenew, t('acc.autoRenew'), t('acc.autoRenewHint'))}</div>` : ''}
       <div class="acc-actions">
-        <a class="btn btn-primary" href="plans.html">${t('acc.changePlan')}</a>
-        ${paid ? `<button class="btn btn-ghost" type="button" id="cancelPlan">${t('acc.cancelPlan')}</button>` : ''}
+        ${profile.planSource === 'google_play' && paid
+          ? `<a class="btn btn-primary" href="${PlayBilling.manageUrl(PlayBilling.PRODUCTS[profile.plan])}">${LANG === 'ru' ? 'Управлять в Google Play' : 'Google Play’da boshqarish'}</a>`
+          : `<a class="btn btn-primary" href="plans.html">${t('acc.changePlan')}</a>
+        ${paid ? `<button class="btn btn-ghost" type="button" id="cancelPlan">${t('acc.cancelPlan')}</button>` : ''}`}
       </div>
       ${(profile.subscriptions || []).length ? `<h3 class="acc-sub-h">${t('acc.subsHistory')}</h3>${SECTIONS.subs()}` : ''}`;
   },
@@ -1182,6 +1187,7 @@ async function boot() {
   if (expired) await save(); else Auth.saveProfile(profile);
   renderAccount();
   waitPayment();
+  if (PlayBilling.available() && await PlayBilling.sync(profile)) renderAccount();   // Google Play obunasi holati
 }
 
 initLayout();

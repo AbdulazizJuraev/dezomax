@@ -76,7 +76,12 @@ Object.assign(I18N.uz, {
   'plans.payOff': 'To‘lov tizimi ulanmoqda — tez orada ishga tushadi',
   'plans.error': 'Xatolik yuz berdi, qayta urinib ko‘ring',
   'plans.noMoney': 'Balansda mablag‘ yetarli emas — balansni to‘ldiring',
-  'plans.bought': 'Tarif faollashtirildi'
+  'plans.bought': 'Tarif faollashtirildi',
+  'plans.playOff': 'Google Play orqali obuna tez orada ishga tushadi',
+  'plans.pending': 'To‘lov tasdiqlanishini kutmoqda — tasdiqlangach tarif o‘zi yoqiladi',
+  'plans.verifyLater': 'To‘lov qabul qilindi. Tarif bir necha daqiqada yoqiladi — sahifani keyinroq yangilang',
+  'plans.owned': 'Bu obuna allaqachon bor',
+  'plans.manage': 'Obunani Google Play’da boshqarasiz'
 });
 Object.assign(I18N.ru, {
   'plans.needLogin': 'Войдите в аккаунт, чтобы выбрать тариф',
@@ -84,8 +89,43 @@ Object.assign(I18N.ru, {
   'plans.payOff': 'Платёжная система подключается — скоро заработает',
   'plans.error': 'Произошла ошибка, попробуйте ещё раз',
   'plans.noMoney': 'Недостаточно средств — пополните баланс',
-  'plans.bought': 'Тариф активирован'
+  'plans.bought': 'Тариф активирован',
+  'plans.playOff': 'Подписка через Google Play скоро заработает',
+  'plans.pending': 'Платёж ожидает подтверждения — тариф включится автоматически',
+  'plans.verifyLater': 'Платёж принят. Тариф включится через несколько минут — обновите страницу позже',
+  'plans.owned': 'Эта подписка уже оформлена',
+  'plans.manage': 'Подписка управляется в Google Play'
 });
+
+/* Ilovada (DezoBilling bor bo'lsa) pullik tarif Google Play orqali: narxlar Google'dan */
+let playPrices = null;
+
+async function buyWithPlay(p, id) {
+  const base = yearly ? 'yearly' : 'monthly';
+  if (!Pay.hasSession()) { toast(t('plans.needRelogin')); return; }
+  if (!playPrices || !playPrices[id] || !playPrices[id][base]) { toast(t('plans.playOff')); return; }
+  let me;
+  try { me = await Pay.me(); } catch (ex) { toast(ex.code === 'auth' ? t('plans.needRelogin') : t('plans.error')); return; }
+  let r;
+  try { r = await PlayBilling.plugin().buy({ product: PlayBilling.PRODUCTS[id], basePlan: base, account: me.playAcct }); }
+  catch (ex) {
+    const m = String(ex && ex.message || '');
+    if (m === 'canceled') return;
+    toast(m === 'owned' ? t('plans.owned') : t('plans.error'));
+    return;
+  }
+  if (r.pending) { toast(t('plans.pending')); return; }
+  let st;
+  try { st = await Pay.playVerify(r.productId, r.purchaseToken); } catch { toast(t('plans.verifyLater')); return; }   // keyingi ochilishda PlayBilling.sync qayta yuboradi
+  if (!st.plan) { toast(t('plans.pending')); return; }
+  PlayBilling.apply(p, st);
+  p.subscriptions.unshift({ id: 's' + Date.now(), plan: st.plan, from: Date.now(), until: st.until, price: 0, method: 'google_play' });
+  localStorage.setItem(PLAN_KEY, st.plan);
+  accProfile = p;
+  await Auth.saveProfile(p);
+  renderPlans();
+  toast(t('plans.bought'));
+}
 
 async function setPlan(id) {
   const user = Auth.user();
@@ -99,6 +139,14 @@ async function setPlan(id) {
   const days = yearly ? 365 : 30;
   const price = yearly ? plan.price * 10 : plan.price;
   const now = Date.now();
+
+  // Google Play obunasi: bekor qilish va almashtirish faqat Google Play'da (bu yerda o'chirib qo'yilsa, pul yechilaveradi)
+  if (p.planSource === 'google_play' && p.planUntil > now) {
+    toast(t('plans.manage'));
+    setTimeout(() => { location.href = PlayBilling.manageUrl(PlayBilling.PRODUCTS[p.plan]); }, 900);
+    return;
+  }
+  if (id !== 'free' && PlayBilling.available()) return buyWithPlay(p, id);
 
   if (id === 'free') {
     p.plan = 'free';
@@ -165,6 +213,7 @@ function planHTML(p) {
   const cur = getPlan() === p.id;
   const art = PLAN_ART[p.id] || PLAN_ART.free;
   const price = yearly ? Math.round(p.price * 10) : p.price;
+  const gp = p.price && playPrices && playPrices[p.id] && playPrices[p.id][yearly ? 'yearly' : 'monthly'];   // ilovada — Google narxi
   const per = yearly
     ? (LANG === 'ru' ? 'в год' : 'yiliga')
     : t('plans.month');
@@ -182,7 +231,7 @@ function planHTML(p) {
       <p class="sub-desc">${esc(art.desc[LANG] || art.desc.uz)}</p>
     </div>
     <div class="sub-foot">
-      <div class="sub-price">${price === 0 ? (LANG === 'ru' ? 'Бесплатно' : 'Bepul') : `${money(price)} ${sum()} ${per}`}</div>
+      <div class="sub-price">${price === 0 ? (LANG === 'ru' ? 'Бесплатно' : 'Bepul') : gp ? `${esc(gp)} ${per}` : `${money(price)} ${sum()} ${per}`}</div>
       <div class="sub-dev">${devices}</div>
       <button class="sub-btn" type="button" data-plan="${p.id}" ${cur ? 'disabled' : ''}>${label}</button>
     </div>
@@ -256,8 +305,12 @@ document.querySelector('.plans-notice-icon').innerHTML = ICONS.info;
 document.getElementById('year').textContent = new Date().getFullYear();
 
 if (Auth.user()) {
-  Auth.loadProfile().then(p => { accProfile = p; renderPlans(); });
+  Auth.loadProfile().then(async p => {
+    accProfile = p; renderPlans();
+    if (PlayBilling.available() && await PlayBilling.sync(p)) { localStorage.setItem(PLAN_KEY, p.plan); renderPlans(); }
+  });
 }
+if (PlayBilling.available()) PlayBilling.prices().then(x => { playPrices = x; if (x) renderPlans(); });
 
 document.addEventListener('langchange', () => {
   renderPlans();

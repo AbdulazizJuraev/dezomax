@@ -260,7 +260,67 @@ const Pay = {
   async devices() { await deviceModelReady; return this._req('POST', '/api/device', { device: deviceInfo() }).then(j => j.devices || []); },
   removeDevice(id) { return this._req('POST', '/api/devices/remove', { id }).then(j => j.devices || []); },
   order(amount) { return this._req('POST', '/api/order', { amount }); },
-  spend(amount, plan, days) { return this._req('POST', '/api/spend', { amount, kind: 'plan', plan, days }); }
+  spend(amount, plan, days) { return this._req('POST', '/api/spend', { amount, kind: 'plan', plan, days }); },
+  /* Google Play obunasi: xariddan keyin server Google'dan tekshiradi (server.js → /api/play/verify) */
+  playVerify(productId, purchaseToken) { return this._req('POST', '/api/play/verify', { productId, purchaseToken }); },
+  playSync() { return this._req('POST', '/api/play/sync'); }
+};
+
+/* ---------- Google Play Billing (ilovada tarif obunasi, 2026-11-27) ----------
+   Ilovada (1.10.0+, BillingPlugin.java) pullik tarif Google Play orqali sotiladi — Play qoidasi shuni talab qiladi.
+   Saytda va eski ilovalarda — avvalgidek (Click balansi). Tarifning haqiqiy holati serverda (Google'dan tekshirilgan). */
+const PlayBilling = {
+  PRODUCTS: { standard: 'dezomax_standard', premium: 'dezomax_premium' },
+  plugin: () => (IS_NATIVE && window.Capacitor?.Plugins?.DezoBilling) || null,
+  available() { return !!this.plugin() && Pay.enabled(); },
+  manageUrl: product => 'https://play.google.com/store/account/subscriptions?package=uz.dezomax.app' + (product ? '&sku=' + product : ''),
+
+  /* {standard: {monthly: '29 000 UZS', yearly: '…'}, …} — narx Google'dan (valyuta va soliq bilan) */
+  async prices() {
+    const pl = this.plugin();
+    if (!pl) return null;
+    try {
+      const { products } = await pl.products({ ids: Object.values(this.PRODUCTS) });
+      const out = {};
+      for (const pr of products || []) {
+        const plan = Object.keys(this.PRODUCTS).find(k => this.PRODUCTS[k] === pr.id);
+        if (plan) out[plan] = Object.fromEntries((pr.plans || []).map(x => [x.basePlan, x.price]));
+      }
+      return Object.keys(out).length ? out : null;
+    } catch { return null; }
+  },
+
+  /* Server javobini profilga yozish. O'zgargan bo'lsa — true */
+  apply(profile, st) {
+    if (!profile || !st) return false;
+    if (st.plan) {
+      const changed = profile.plan !== st.plan || profile.planUntil !== st.until || profile.planSource !== 'google_play';
+      Object.assign(profile, { plan: st.plan, planUntil: st.until, planSource: 'google_play', autoRenew: false });   // uzaytirishni Google o'zi qiladi
+      return changed;
+    }
+    if (profile.planSource === 'google_play') {               // Google'da bekor qilingan yoki muddati tugagan
+      Object.assign(profile, { plan: 'free', planUntil: null, planSource: null });
+      return true;
+    }
+    return false;
+  },
+
+  /* Sahifa ochilganda: Google'dagi holatni olish + to'lovdan keyin server tasdiqlay olmagan xaridlarni qayta yuborish */
+  async sync(profile) {
+    if (!profile || !Pay.hasSession()) return false;
+    let st = null;
+    try { st = await Pay.playSync(); } catch { return false; }
+    const pl = this.plugin();
+    if (pl) {
+      try {
+        const { purchases } = await pl.owned();
+        for (const p of purchases || []) if (!p.acknowledged) { try { st = await Pay.playVerify(p.productId, p.purchaseToken); } catch {} }
+      } catch {}
+    }
+    const changed = this.apply(profile, st);
+    if (changed) await Auth.saveProfile(profile);
+    return changed;
+  }
 };
 
 const Auth = {

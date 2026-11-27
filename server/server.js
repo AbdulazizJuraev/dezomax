@@ -21,6 +21,8 @@
      POST /api/device {device}              shu qurilmani akkauntga yozish + qurilmalar ro'yxati (Bearer token)
      GET  /api/devices                      akkauntga kirgan barcha qurilmalar                  (Bearer token)
      POST /api/devices/remove {id}          boshqa qurilmani akkauntdan chiqarish               (Bearer token)
+     POST /api/play/verify {productId, purchaseToken}  Google Play obunasini Google'dan tekshirish → tarif (Bearer token)
+     POST /api/play/sync                    foydalanuvchining Play obunalari holati (uzaytirildimi/bekor qilindimi) (Bearer token)
      GET  /health
    ============================================================ */
 
@@ -68,6 +70,10 @@ function openDb(file) {
     CREATE TABLE IF NOT EXISTS live_reports (video TEXT NOT NULL, uid TEXT NOT NULL, reason TEXT, admin INTEGER NOT NULL DEFAULT 0, at INTEGER NOT NULL, PRIMARY KEY (video, uid));
     -- ilovaga yuborilgan push bildirishnomalar (data/notifications.json id'lari) — bir xabar bir marta ketadi
     CREATE TABLE IF NOT EXISTS push_sent (id TEXT PRIMARY KEY, at INTEGER NOT NULL, ok INTEGER NOT NULL DEFAULT 1);
+    -- Google Play obunalari (ilovada sotib olingan tariflar): bitta xarid tokeni — bitta akkaunt
+    CREATE TABLE IF NOT EXISTS play_subs (token TEXT PRIMARY KEY, uid TEXT NOT NULL REFERENCES users(uid), product TEXT NOT NULL,
+      plan TEXT NOT NULL, base TEXT, state TEXT, expiry INTEGER NOT NULL, created_at INTEGER NOT NULL, checked_at INTEGER NOT NULL);
+    CREATE INDEX IF NOT EXISTS play_subs_uid ON play_subs(uid);
   `);
   // qurilmalar: har bir sessiya — bitta qurilma (eski bazalarga ustunlar qo'shiladi)
   for (const col of ['device_id TEXT', 'device TEXT', 'created_at INTEGER', 'last_seen INTEGER', 'ip TEXT']) {
@@ -376,6 +382,10 @@ function createApp(cfg, deps = {}) {
     setCancelled: db.prepare("UPDATE orders SET status = 'cancelled' WHERE id = ?"),
     credit: db.prepare('UPDATE users SET balance = balance + ? WHERE uid = ?'),
     debit: db.prepare('UPDATE users SET balance = balance - ? WHERE uid = ? AND balance >= ?'),
+    playSub: db.prepare('SELECT * FROM play_subs WHERE token = ?'),
+    playSubsOf: db.prepare('SELECT * FROM play_subs WHERE uid = ? ORDER BY expiry DESC'),
+    addPlaySub: db.prepare('INSERT INTO play_subs (token, uid, product, plan, base, state, expiry, created_at, checked_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'),
+    updPlaySub: db.prepare('UPDATE play_subs SET product = ?, plan = ?, base = ?, state = ?, expiry = ?, checked_at = ? WHERE token = ?'),
     addPayment: db.prepare('INSERT INTO payments (uid, at, amount, kind, method, ref, plan, days) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'),
     payments: db.prepare('SELECT id, at, amount, kind, method, plan, days FROM payments WHERE uid = ? ORDER BY at DESC, id DESC LIMIT 100'),
     addTicket: db.prepare('INSERT INTO tg_tickets (ticket, created_at, expires_at) VALUES (?, ?, ?)'),
@@ -603,6 +613,27 @@ function createApp(cfg, deps = {}) {
     if (!s.last_seen || now() - s.last_seen > 300000 || (ip && ip !== s.ip)) q.seen.run(now(), ip || s.ip || null, th);
     const u = q.user.get(s.uid);
     return u ? Object.assign(u, { th }) : null;
+  };
+
+  /* --- Google Play obunalari (2026-11-27) ---
+     Ilova (BillingPlugin.java) xariddan keyin purchaseToken yuboradi. Server uni Google Play Developer API orqali
+     tekshiradi (subscriptionsv2), akkauntga bog'laydi va tasdiqlaydi (acknowledge). Tasdiqlanmagan xaridni Google 3 kunda qaytaradi. */
+  const play = deps.play || null;
+  const PLAY_PRODUCTS = { dezomax_standard: 'standard', dezomax_premium: 'premium' };
+  const PLAY_OK = ['SUBSCRIPTION_STATE_ACTIVE', 'SUBSCRIPTION_STATE_IN_GRACE_PERIOD', 'SUBSCRIPTION_STATE_CANCELED'];
+  const playAcct = uid => sha256('dzx-play:' + uid).slice(0, 40);      // obfuscatedAccountId: Google'ga uid ochiq ketmaydi
+  const playParse = sub => {
+    const li = (sub.lineItems || []).find(l => PLAY_PRODUCTS[l.productId]);
+    if (!li) return null;
+    return { product: li.productId, plan: PLAY_PRODUCTS[li.productId], base: li.offerDetails?.basePlanId || '',
+      state: String(sub.subscriptionState || ''), expiry: Date.parse(li.expiryTime) || 0,
+      acct: sub.externalAccountIdentifiers?.obfuscatedExternalAccountId || '',
+      needAck: sub.acknowledgementState === 'ACKNOWLEDGEMENT_STATE_PENDING' };
+  };
+  const playActive = (p, t) => PLAY_OK.includes(p.state) && p.expiry > t;
+  const playStatus = uid => {
+    const best = q.playSubsOf.all(uid).find(r => PLAY_OK.includes(r.state) && r.expiry > now());
+    return best ? { plan: best.plan, until: best.expiry, base: best.base, state: best.state } : { plan: null };
   };
 
   /* --- Qurilmalar (akkauntga kirgan joylar) --- */
@@ -919,7 +950,7 @@ function createApp(cfg, deps = {}) {
         }
 
         if (path === '/api/me' && req.method === 'GET') {
-          return send(res, 200, { uid: user.uid, balance: user.balance, payments: q.payments.all(user.uid) });
+          return send(res, 200, { uid: user.uid, balance: user.balance, payments: q.payments.all(user.uid), playAcct: playAcct(user.uid), play: playStatus(user.uid) });
         }
         if (path === '/api/order' && req.method === 'POST') {
           if (limited(req, 'order', 30)) return send(res, 429, { error: 'Ko‘p urinish' });
@@ -947,6 +978,47 @@ function createApp(cfg, deps = {}) {
           });
           if (!ok) return send(res, 402, { error: 'Balansda mablag‘ yetarli emas', balance: q.user.get(user.uid).balance });
           return send(res, 200, { balance: q.user.get(user.uid).balance });
+        }
+        if (path === '/api/play/verify' && req.method === 'POST') {
+          if (!play) return send(res, 503, { error: 'Google Play to‘lovlari hali ulanmagan' });
+          if (limited(req, 'play', 30)) return send(res, 429, { error: 'Ko‘p urinish' });
+          const b = await readBody(req);
+          const token = String(b.purchaseToken || '');
+          if (!/^[\w.\-]{20,600}$/.test(token) || !PLAY_PRODUCTS[b.productId]) return send(res, 400, { error: 'Xarid ma’lumoti noto‘g‘ri' });
+          const old = q.playSub.get(token);
+          if (old && old.uid !== user.uid) return send(res, 409, { error: 'Bu obuna boshqa akkauntga bog‘langan' });
+          let sub;
+          try { sub = await play.get(token); } catch (e) { console.error('play verify:', e.message); return send(res, 502, { error: 'Google javob bermadi, birozdan keyin qayta urinib ko‘ring' }); }
+          const p = sub && playParse(sub);
+          if (!p) return send(res, 400, { error: 'Obuna topilmadi' });
+          if (p.acct && p.acct !== playAcct(user.uid)) return send(res, 409, { error: 'Bu obuna boshqa akkauntga bog‘langan' });
+          if (p.state === 'SUBSCRIPTION_STATE_PENDING') return send(res, 202, { pending: true });
+          if (!playActive(p, now())) return send(res, 402, { error: 'Obuna faol emas', state: p.state });
+          const t = now();
+          tx(() => {
+            if (old) q.updPlaySub.run(p.product, p.plan, p.base, p.state, p.expiry, t, token);
+            else {
+              q.addPlaySub.run(token, user.uid, p.product, p.plan, p.base, p.state, p.expiry, t, t);
+              q.addPayment.run(user.uid, t, 0, 'plan', 'google_play', sha256(token).slice(0, 16), p.plan, Math.max(1, Math.round((p.expiry - t) / 86400000)));
+            }
+          });
+          if (p.needAck) { try { await play.ack(p.product, token); } catch (e) { console.error('play ack:', e.message); } }   // keyingi sync'da yana urinadi
+          return send(res, 200, playStatus(user.uid));
+        }
+        if (path === '/api/play/sync' && req.method === 'POST') {
+          if (!play || limited(req, 'playsync', 60)) return send(res, 200, playStatus(user.uid));
+          const t = now();
+          for (const r of q.playSubsOf.all(user.uid)) {
+            if (r.expiry < t - 30 * 86400000) continue;                               // eskisi — tekshirilmaydi
+            if (t - r.checked_at < 3600000 && r.expiry > t + 3600000) continue;     // yaqinda tekshirilgan
+            try {
+              const p = playParse(await play.get(r.token));
+              if (!p) continue;
+              q.updPlaySub.run(p.product, p.plan, p.base, p.state, p.expiry, t, r.token);
+              if (p.needAck && playActive(p, t)) await play.ack(p.product, r.token).catch(e => console.error('play ack:', e.message));
+            } catch (e) { console.error('play sync:', e.message); }
+          }
+          return send(res, 200, playStatus(user.uid));
         }
       }
       return send(res, 404, { error: 'Topilmadi' });
@@ -990,7 +1062,7 @@ function createApp(cfg, deps = {}) {
 
 /* Firebase Cloud Messaging (HTTP v1): xizmat hisobi kaliti (JSON) bilan Google'dan qisqa muddatli token olinadi,
    xabar «dezomax» mavzusiga yuboriladi. Kalit fayli faqat serverda (FCM_KEY_FILE) — GitHub'ga, chatga yozilmaydi. */
-function fcmSender(keyFile) {
+function googleTokens(keyFile, scope) {
   const key = JSON.parse(require('node:fs').readFileSync(keyFile, 'utf8'));
   let tok = null, tokUntil = 0;
   const b64u = x => Buffer.from(x).toString('base64url');
@@ -998,7 +1070,7 @@ function fcmSender(keyFile) {
     if (tok && Date.now() < tokUntil - 60000) return tok;
     const iat = Math.floor(Date.now() / 1000);
     const head = b64u(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
-    const body = b64u(JSON.stringify({ iss: key.client_email, scope: 'https://www.googleapis.com/auth/firebase.messaging', aud: 'https://oauth2.googleapis.com/token', iat, exp: iat + 3600 }));
+    const body = b64u(JSON.stringify({ iss: key.client_email, scope, aud: 'https://oauth2.googleapis.com/token', iat, exp: iat + 3600 }));
     const sig = crypto.createSign('RSA-SHA256').update(head + '.' + body).sign(key.private_key).toString('base64url');
     const r = await fetch('https://oauth2.googleapis.com/token', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: `${head}.${body}.${sig}` }), signal: AbortSignal.timeout(15000) });
@@ -1007,6 +1079,11 @@ function fcmSender(keyFile) {
     tok = j.access_token; tokUntil = Date.now() + (j.expires_in || 3600) * 1000;
     return tok;
   }
+  return { key, accessToken };
+}
+
+function fcmSender(keyFile) {
+  const { key, accessToken } = googleTokens(keyFile, 'https://www.googleapis.com/auth/firebase.messaging');
   return async data => {
     const r = await fetch(`https://fcm.googleapis.com/v1/projects/${key.project_id}/messages:send`, {
       method: 'POST', headers: { authorization: 'Bearer ' + (await accessToken()), 'content-type': 'application/json' },
@@ -1015,7 +1092,25 @@ function fcmSender(keyFile) {
   };
 }
 
-module.exports = { createApp, openDb, googleVerifier, md5, ytPlaylist, ytMeta, ytShorts, ytLive, fcmSender };
+/* Google Play Developer API: obunani o'qish va tasdiqlash. Xizmat hisobi Play Console → «Пользователи и разрешения»da
+   «Просмотр финансовых данных» va «Управление заказами и подписками» huquqlari bilan qo'shilgan bo'lishi kerak. */
+function playApi(keyFile, pkg) {
+  const { accessToken } = googleTokens(keyFile, 'https://www.googleapis.com/auth/androidpublisher');
+  const base = 'https://androidpublisher.googleapis.com/androidpublisher/v3/applications/' + encodeURIComponent(pkg) + '/purchases';
+  const req = async (method, url) => {
+    const r = await fetch(url, { method, headers: { authorization: 'Bearer ' + (await accessToken()), 'content-type': 'application/json' },
+      body: method === 'POST' ? '{}' : undefined, signal: AbortSignal.timeout(15000) });
+    const text = await r.text();
+    if (!r.ok) throw new Error('Play ' + r.status + ': ' + text.slice(0, 200));
+    return text ? JSON.parse(text) : {};
+  };
+  return {
+    get: token => req('GET', base + '/subscriptionsv2/tokens/' + encodeURIComponent(token)),
+    ack: (product, token) => req('POST', base + '/subscriptions/' + encodeURIComponent(product) + '/tokens/' + encodeURIComponent(token) + ':acknowledge')
+  };
+}
+
+module.exports = { createApp, playApi, openDb, googleVerifier, md5, ytPlaylist, ytMeta, ytShorts, ytLive, fcmSender };
 
 /* ---------- Ishga tushirish ---------- */
 if (require.main === module) {
@@ -1033,7 +1128,11 @@ if (require.main === module) {
     tgWebhookSecret: process.env.TG_WEBHOOK_SECRET || '',
     adminUids: (process.env.ADMIN_UIDS || '').split(',').map(s => s.trim()).filter(Boolean)   // izohlarni o'chira oladiganlar
   };
-  const app = createApp(cfg);
+  // Google Play obunalari: PLAY_KEY_FILE (bo'lmasa FCM kaliti — o'sha xizmat hisobi Play Console'ga qo'shilgan bo'lsa)
+  const playKey = process.env.PLAY_KEY_FILE || process.env.FCM_KEY_FILE;
+  let play = null;
+  if (playKey) { try { play = playApi(playKey, process.env.PLAY_PACKAGE || 'uz.dezomax.app'); console.log('Google Play obunalari tekshiruvi yoqildi'); } catch (e) { console.error('Play kaliti o‘qilmadi:', e.message); } }
+  const app = createApp(cfg, { play });
   const port = Number(process.env.PORT) || 8787;
   http.createServer(app.handler).listen(port, process.env.HOST || '127.0.0.1', () => console.log('DezoMax to‘lov serveri: port ' + port));
   // Ilovaga push: FCM_KEY_FILE (Firebase → Project settings → Service accounts → kalit JSON) bo'lsa yoqiladi

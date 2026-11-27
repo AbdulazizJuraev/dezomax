@@ -14,8 +14,8 @@ android {
         applicationId "uz.dezomax.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 82
-        versionName "1.9.0"
+        versionCode 83
+        versionName "1.10.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // faqat telefon protsessorlari (x86 — kompyuter emulyatorlari uchun, APK hajmini oshiradi)
         ndk { abiFilters 'arm64-v8a', 'armeabi-v7a' }
@@ -90,6 +90,8 @@ dependencies {
     implementation "androidx.mediarouter:mediarouter:1.6.0"
     // Reklama (AdMob): kino oldidan interstitial + saytdagi AdSense uchun WebView ro'yxati
     implementation "com.google.android.gms:play-services-ads:24.6.0"
+    // Google Play Billing — ilovada tarif obunasi (BillingPlugin.java)
+    implementation "com.android.billingclient:billing:8.3.0"
     // Bildirishnomalar — Firebase push (DezoPushService.java). google-services.json bo'lmasa ham yig'iladi, faqat push ishlamaydi
     implementation "com.google.firebase:firebase-messaging:24.1.0"
     implementation project(':capacitor-android')

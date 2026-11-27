@@ -8,7 +8,10 @@ const { createApp, md5 } = require('./server.js');
 const sent = [];   // botdan yuborilgan xabarlar (sinovda haqiqiy Telegram chaqirilmaydi)
 const cfg = { serviceId: '1', merchantId: '2', secretKey: 'TEST_SECRET_NOT_REAL', googleClientId: 'x', origins: ['http://localhost:5577'],
   returnUrl: 'https://example.test/back', tgBotToken: 'TEST_BOT_TOKEN', tgBotName: 'DezoTestBot', tgWebhookSecret: 'shh', adminUids: ['google_adm'] };
-const app = createApp(cfg, { tgSend: async (chatId, text) => { sent.push({ chatId, text }); }, verifyGithub: async t => t === 'ghp_TESTADMINTOKEN_0000000000', verifyGoogle: async t => { if (!t.startsWith('ok:')) throw new Error('bad'); return { sub: t.slice(3), email: t.slice(3) + '@x.test', name: 'T' }; } });
+// Google Play API soxtasi: tokenlar shu jadvaldan o'qiladi, tasdiqlashlar yoziladi
+const playSubs = {}, playAcks = [];
+const fakePlay = { get: async t => { if (!playSubs[t]) throw new Error('Play 404'); return playSubs[t]; }, ack: async (p, t) => { playAcks.push(t); } };
+const app = createApp(cfg, { play: fakePlay, tgSend: async (chatId, text) => { sent.push({ chatId, text }); }, verifyGithub: async t => t === 'ghp_TESTADMINTOKEN_0000000000', verifyGoogle: async t => { if (!t.startsWith('ok:')) throw new Error('bad'); return { sub: t.slice(3), email: t.slice(3) + '@x.test', name: 'T' }; } });
 const server = http.createServer(app.handler);
 
 let base;
@@ -260,6 +263,44 @@ const comp = (o, prepId, amount, extra = {}) => {
     const more = [{ id: 'n6', title: 'Qayta', body: 'b', at: null, created: iso(T) }];
     assert.deepEqual(await app.pushTick(more, flaky), []); fail = false;
     assert.deepEqual(await app.pushTick(more, flaky), ['n6']); ok('push: xato bo‘lsa keyingi safar qayta yuboriladi');
+  }
+  // --- Google Play obunalari ---
+  {
+    const DAY = 86400000, T = Date.now();
+    const lg = async who => (await call('POST', '/api/login', { body: { idToken: 'ok:' + who } })).json.token;
+    const a = await lg('play1'), b = await lg('play2');
+    const me = (await call('GET', '/api/me', { token: a })).json;
+    assert.ok(/^[0-9a-f]{40}$/.test(me.playAcct) && me.play.plan === null); ok('play: /api/me — akkaunt kodi, obuna yo‘q');
+    const sub = (st, exp, acct, ack = 'ACKNOWLEDGEMENT_STATE_PENDING', prod = 'dezomax_standard') => ({ subscriptionState: st, acknowledgementState: ack,
+      lineItems: [{ productId: prod, expiryTime: new Date(exp).toISOString(), offerDetails: { basePlanId: 'monthly' } }],
+      externalAccountIdentifiers: acct ? { obfuscatedExternalAccountId: acct } : undefined });
+    const tok1 = 'tok_' + 'a'.repeat(40);
+    playSubs[tok1] = sub('SUBSCRIPTION_STATE_ACTIVE', T + 30 * DAY, me.playAcct);
+    assert.equal((await call('POST', '/api/play/verify', { body: { productId: 'dezomax_standard', purchaseToken: tok1 } })).status, 401); ok('play: tokensiz rad etildi');
+    assert.equal((await call('POST', '/api/play/verify', { token: a, body: { productId: 'boshqa', purchaseToken: tok1 } })).status, 400); ok('play: noma’lum mahsulot rad etildi');
+    const v = await call('POST', '/api/play/verify', { token: a, body: { productId: 'dezomax_standard', purchaseToken: tok1 } });
+    assert.equal(v.status, 200); assert.equal(v.json.plan, 'standard'); assert.ok(v.json.until > T + 29 * DAY);
+    assert.deepEqual(playAcks, [tok1]); ok('play: faol obuna → Standart tarif, xarid Google’da tasdiqlandi');
+    const pays = (await call('GET', '/api/me', { token: a })).json.payments.filter(p => p.method === 'google_play');
+    assert.equal(pays.length, 1); assert.equal(pays[0].plan, 'standard'); assert.equal(pays[0].days, 30); ok('play: to‘lovlar tarixida bitta yozuv');
+    await call('POST', '/api/play/verify', { token: a, body: { productId: 'dezomax_standard', purchaseToken: tok1 } });
+    assert.equal((await call('GET', '/api/me', { token: a })).json.payments.filter(p => p.method === 'google_play').length, 1); ok('play: qayta tekshirish yozuvni ko‘paytirmaydi');
+    assert.equal((await call('POST', '/api/play/verify', { token: b, body: { productId: 'dezomax_standard', purchaseToken: tok1 } })).status, 409); ok('play: bir obunani boshqa akkaunt ola olmaydi');
+    const tok2 = 'tok_' + 'b'.repeat(40);
+    playSubs[tok2] = sub('SUBSCRIPTION_STATE_ACTIVE', T + 30 * DAY, me.playAcct);   // a ning kodi bilan sotib olingan
+    assert.equal((await call('POST', '/api/play/verify', { token: b, body: { productId: 'dezomax_standard', purchaseToken: tok2 } })).status, 409); ok('play: boshqa akkaunt kodi bilan olingan obuna rad etildi');
+    const tok3 = 'tok_' + 'c'.repeat(40);
+    playSubs[tok3] = sub('SUBSCRIPTION_STATE_EXPIRED', T - DAY, null);
+    assert.equal((await call('POST', '/api/play/verify', { token: b, body: { productId: 'dezomax_standard', purchaseToken: tok3 } })).status, 402); ok('play: muddati o‘tgan obuna tarif bermaydi');
+    const tok4 = 'tok_' + 'd'.repeat(40);
+    playSubs[tok4] = sub('SUBSCRIPTION_STATE_PENDING', T + 30 * DAY, null);
+    assert.equal((await call('POST', '/api/play/verify', { token: b, body: { productId: 'dezomax_standard', purchaseToken: tok4 } })).status, 202); ok('play: kutilayotgan to‘lov — hali tarif yo‘q');
+    assert.equal((await call('POST', '/api/play/verify', { token: b, body: { productId: 'dezomax_standard', purchaseToken: 'tok_' + 'z'.repeat(40) } })).status, 502); ok('play: Google xatosi — 502');
+    playSubs[tok1] = sub('SUBSCRIPTION_STATE_EXPIRED', T - 1000, me.playAcct, 'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED');
+    const synced = await call('POST', '/api/play/sync', { token: a });
+    assert.equal(synced.json.plan, 'standard'); ok('play: yaqinda tekshirilgan obuna qayta so‘ralmaydi');
+    app.db.exec('UPDATE play_subs SET checked_at = 0');
+    assert.equal((await call('POST', '/api/play/sync', { token: a })).json.plan, null); ok('play: sync — bekor qilingan/muddati o‘tgan obuna tarifni o‘chiradi');
   }
   console.log('\nHAMMASI O‘TDI —', n, 'ta tekshiruv');
   server.close();
