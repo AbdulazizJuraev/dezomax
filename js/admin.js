@@ -2199,6 +2199,14 @@ if (GEMINI_OFF) { try { localStorage.removeItem(AI_KEY); localStorage.removeItem
 const aiKey = () => { if (GEMINI_OFF) return arsUse() ? 'arsenal' : ''; try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
 
 /* Gemini ko'rinishidagi so'rovni Arsenal (Ollama) ga o'tkazish: javob ham Gemini ko'rinishida qaytadi — qolgan kod o'zgarmaydi */
+/* Server modeli: 'auto:smart' (router eng yaxshisini tanlaydi) yoki ro'yxatdan aniq model (Arsenal → Model oynasi) */
+const arsCloudModel = () => { try { return localStorage.getItem('arsenal_cloud_model') || 'auto:smart'; } catch { return 'auto:smart'; } };
+let arsModels = null;   // [{ id, name, ctx }] — serverdan bir marta
+const ARS_FAMILIES = [['Claude', /claude/i], ['GPT', /gpt|o[134]-|openai/i], ['Gemini · Gemma', /gemini|gemma/i], ['Qwen', /qwen|qwq/i], ['DeepSeek', /deepseek/i], ['Llama', /llama/i],
+  ['Mistral', /mistral|mixtral|magistral|devstral|codestral|ministral/i], ['Nemotron', /nemotron/i], ['Kod uchun', /coder|code|devstral/i]];
+const arsFamily = m => (ARS_FAMILIES.find(([, re]) => re.test(m.id)) || ['Boshqalar'])[0];
+const arsModelName = id => id === 'auto:smart' ? 'Avtomatik' : id === 'auto:fast' ? 'Tez' : id === 'fusion' ? 'Fusion' : (arsModels || []).find(m => m.id === id)?.id || id;
+
 /* FreeLLMAPI (OpenAI chat/completions): asbob chaqiruvlariga id beriladi, javoblar tartib bo'yicha ulanadi */
 async function arsenalFree(messages, tools, opts) {
   const q = [], msgs = messages.map((m, i) => {
@@ -2209,10 +2217,11 @@ async function arsenalFree(messages, tools, opts) {
   let r;
   try {
     r = await fetch(DC_URL + '/api/tg/ars/chat', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + dcKey() },
-      body: JSON.stringify({ model: 'auto:smart', messages: msgs, ...(tools ? { tools } : {}), temperature: opts.text || opts.raw ? 0.5 : 0.4, ...(opts.text || opts.raw ? {} : { response_format: { type: 'json_object' } }) }) });
+      body: JSON.stringify({ model: arsCloudModel(), messages: msgs, ...(tools ? { tools } : {}), temperature: opts.text || opts.raw ? 0.5 : 0.4, ...(opts.text || opts.raw ? {} : { response_format: { type: 'json_object' } }) }) });
   } catch { window.ARS_FREE = false; throw new Error('Arsenal serveriga ulanib bo‘lmadi — internetni tekshiring'); }
   const j = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error('Arsenal: ' + (j.error?.message || j.error || r.status));
+  window.ARS_LAST_MODEL = j.model || '';
   const m = j.choices?.[0]?.message || {}, text = m.content || '';
   if (opts.raw) return { role: 'model', parts: [...(text ? [{ text }] : []), ...(m.tool_calls || []).map(tc => ({ functionCall: { name: tc.function.name, args: (() => { try { return JSON.parse(tc.function.arguments || '{}'); } catch { return {}; } })() } }))] };
   if (opts.text) return text.trim();
@@ -2603,6 +2612,51 @@ function renderArsenalView() {
   box.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', () => arsenalAsk(b.dataset.q)));
 }
 
+/* Model tanlash oynasi: qidiruv, tavsiya etilganlar, oilalar bo'yicha guruhlar */
+async function arsModelPicker(box, redraw) {
+  box.querySelector('.ars-mp')?.remove();
+  const mp = document.createElement('div');
+  mp.className = 'ars-mp';
+  mp.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  box.append(mp);
+  const close = () => { mp.remove(); document.removeEventListener('keydown', esc1); };
+  const esc1 = e => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', esc1);
+  if (!arsModels) {
+    try { await dcAuto(); arsModels = (await dc('/api/tg/ars/models')).models || []; }
+    catch (ex) { mp.innerHTML = `<p class="acc-error">${esc(ex.message)}</p>`; return; }
+  }
+  const cur = arsCloudModel();
+  const ctx = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace('.0', '') + 'M' : n >= 1000 ? Math.round(n / 1000) + 'K' : '';
+  const special = [['auto:smart', 'Avtomatik', 'Router eng kuchli bo‘sh modelni tanlaydi — tavsiya', '✦'], ['auto:fast', 'Tez', 'Eng tez javob beradigan model', '⚡'], ['fusion', 'Fusion', 'Bir nechta model javob beradi, hakam bittasini tuzadi', '◎']];
+  const list = arsModels.filter(m => !['auto', 'fusion'].includes(m.id));
+  const row = (id, title, sub, ic) => `<button type="button" class="ars-mrow${id === cur ? ' is-on' : ''}" data-id="${esc(id)}"><span class="ars-mic2">${ic}</span><span class="ars-mt"><b>${esc(title)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</span>${id === cur ? '<em>✓</em>' : ''}</button>`;
+  const paint = q => {
+    q = norm(q || '');
+    const hit = list.filter(m => !q || norm(m.id + ' ' + m.name).includes(q));
+    const groups = new Map();
+    for (const m of hit) { const f = arsFamily(m); if (!groups.has(f)) groups.set(f, []); groups.get(f).push(m); }
+    const order = [...ARS_FAMILIES.map(([f]) => f), 'Boshqalar'];
+    mp.querySelector('.ars-mlist').innerHTML =
+      (q ? '' : `<div class="ars-mg"><h4>Tavsiya etilgan</h4>${special.map(([id, t, sub, ic]) => row(id, t, sub, ic)).join('')}</div>`) +
+      order.filter(f => groups.has(f)).map(f => `<div class="ars-mg"><h4>${esc(f)} <span>${groups.get(f).length}</span></h4>${groups.get(f).map(m => row(m.id, m.id, [m.name !== m.id ? m.name : '', ctx(m.ctx) && `kontekst ${ctx(m.ctx)}`].filter(Boolean).join(' · '), f.slice(0, 1))).join('')}</div>`).join('') ||
+      '<p class="adm-hint">Topilmadi</p>';
+  };
+  mp.innerHTML = `<div class="ars-mhead"><b>Model tanlash</b><small>${list.length} ta model · bepul</small><button type="button" data-x2 aria-label="Yopish">✕</button></div>
+    <input class="acc-input ars-msearch" type="search" placeholder="Qidirish: qwen, llama, claude, coder…" autocomplete="off"><div class="ars-mlist"></div>`;
+  paint('');
+  const inp = mp.querySelector('.ars-msearch');
+  inp.focus();
+  inp.addEventListener('input', () => paint(inp.value));
+  mp.querySelector('[data-x2]').addEventListener('click', close);
+  mp.addEventListener('click', e => {
+    const b = e.target.closest('.ars-mrow');
+    if (!b) return;
+    localStorage.setItem('arsenal_cloud_model', b.dataset.id);
+    close(); redraw(); toast(`Model: ${arsModelName(b.dataset.id)}`);
+  });
+}
+
 function initAiChat() {
   if (document.getElementById('aiChatBtn')) return;
   const btn = document.createElement('button');
@@ -2618,11 +2672,11 @@ function initAiChat() {
     box.innerHTML = `
       <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${GEMINI_OFF ? (arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'Server · bepul modellar' : 'miya ulanmagan') : 'Gemini'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
       ${aiKey() ? `
-        <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}</div>`).join('')
+        <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}${m.by ? `<span class="ars-by">${esc(m.by)}</span>` : ''}</div>`).join('')
           : '<p class="adm-hint">Masalan: «Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y», «Tavsifi yo‘q rasmiy kinolarni top va tavsif yoz», «Instagram uchun reklama matni yoz»</p>'}</div>
         ${n ? `<button class="btn btn-primary btn-sm adm-aichat-review" type="button" data-review>${n} ta kinoda o‘zgarish — ko‘rib chiqish va saqlash</button>` : ''}
         <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savol yoki topshiriq yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
-        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button>${GEMINI_OFF ? `<span class="ars-brain">Miya: <select data-brain><option value="auto">avtomatik</option><option value="local">Gemma4 (kompyuter)</option><option value="free">Server (FreeLLMAPI)</option></select>${window.ARS_CLOUD_KEY ? '' : ' <button class="acc-link" type="button" data-flkey>Server kaliti</button>'}</span>` : '<button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button>'}</div>` : `
+        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button>${GEMINI_OFF ? `<span class="ars-brain">Miya: <select data-brain><option value="auto">avtomatik</option><option value="local">Gemma4 (kompyuter)</option><option value="free">Server (FreeLLMAPI)</option></select>${arsUse() === 'free' ? `<button type="button" class="ars-mbtn" data-models><i></i>${esc(arsModelName(arsCloudModel()))}<b>▾</b></button>` : ''}${window.ARS_CLOUD_KEY ? '' : ' <button class="acc-link" type="button" data-flkey>Server kaliti</button>'}</span>` : '<button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button>'}</div>` : `
         <div class="ars-off"><b>Arsenal miyasi topilmadi</b><p class="adm-hint">Arsenal DezoCloud serveridagi FreeLLMAPI yoki kompyuterdagi Ollama (${esc(arsModel())}) orqali ishlaydi. ${window.ARS_CLOUD_KEY === false ? 'Server kaliti hali kiritilmagan — «Server kaliti»ni bosing (bir marta).' : 'Internet yoki kompyuterdagi Ollama’ni tekshirib, «Qayta tekshirish»ni bosing.'}</p>
           <div><button type="button" class="a4-btn is-ars" data-recheck>Qayta tekshirish</button> <button type="button" class="a4-btn" data-flkey>Server kaliti</button></div><p class="adm-hint">Tezkor o‘tishlar:</p>
           <div class="ars-quick">${[['posters', 'Posterlar'], ['clean', 'Xom nomlar'], ['groups', 'Guruhlar'], ['broken', 'Ishlamaydiganlar'], ['comments', 'Sharhlar'], ['site', 'Sayt sozlamalari']].map(([v, l]) => `<button type="button" class="a4-btn" data-go="${v}">${l}</button>`).join('')}</div></div>`}
@@ -2634,6 +2688,7 @@ function initAiChat() {
     box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; aiConv = []; draw(); });
     box.querySelector('[data-reset]')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); draw(); });
     box.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => { if (!box.classList.contains('is-page')) box.hidden = true; go(b.dataset.go); }));
+    box.querySelector('[data-models]')?.addEventListener('click', () => arsModelPicker(box, draw));
     const sel = box.querySelector('[data-brain]');
     if (sel) { sel.value = arsBrain(); sel.addEventListener('change', () => { localStorage.setItem('arsenal_brain', sel.value); if (!arsUse()) toast('Tanlangan miya hozir ishlamayapti', true); draw(); }); }
     // kalit — oynaning o'zidagi maydonga (prompt() ba'zi oynalarda, masalan ilova ichida, ko'rinmaydi)
@@ -2700,7 +2755,7 @@ function initAiChat() {
           aiConv.push({ role: 'model', parts });
           const fcs = parts.filter(p => p.functionCall);
           if (!fcs.length) {
-            aiChat.push({ role: 'model', text: parts.map(p => p.text || '').join('').trim() || '(javob bo‘sh)' });
+            aiChat.push({ role: 'model', text: parts.map(p => p.text || '').join('').trim() || '(javob bo‘sh)', by: arsUse() === 'free' ? window.ARS_LAST_MODEL : arsUse() === 'local' ? arsModel() : '' });
             break;
           }
           const responses = await Promise.all(fcs.map(async p => ({ functionResponse: { name: p.functionCall.name, response: { result: await aiRunTool(p.functionCall.name, p.functionCall.args || {}) } } })));
