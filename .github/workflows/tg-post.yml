@@ -51,13 +51,10 @@ jobs:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
         run: node tools/tg-promo.js
 
-      # post rasmi (tools/tg-card.py): Pillow va Roboto Condensed shrifti
-      - name: Rasm uchun vositalar
+      # saytdagi WebP posterlar JPEG'ga o'giriladi (tg-post.js webpToJpeg) — Pillow
+      - name: Pillow
         if: ${{ !inputs.setup && !inputs.promo }}
-        run: |
-          sudo apt-get update -qq > /dev/null || true
-          sudo apt-get install -y -qq fonts-roboto python3-pil > /dev/null || true
-          python3 -c "import PIL; print('Pillow', PIL.__version__)" || true
+        run: python3 -c "import PIL" 2>/dev/null || (sudo apt-get update -qq > /dev/null; sudo apt-get install -y -qq python3-pil > /dev/null) || true
 
       - name: Kanalga post
         if: ${{ !inputs.setup && !inputs.promo }}

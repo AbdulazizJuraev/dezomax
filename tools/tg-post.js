@@ -48,7 +48,7 @@ const ONLY = (process.argv.find(a => a.startsWith('--only=')) || '').split('=')[
 const pick = ONLY ? (ctx.MOVIES || []).filter(m => String(m.id) === ONLY && PAGES[m.id])
   : [...uz.slice(0, nUz), ...other.slice(0, COUNT - Math.min(nUz, uz.length))].slice(0, COUNT);
 
-/* ---------- Post ko'rinishi (2026-11-28): bezakli matn + maxsus rasm (tools/tg-card.py) ----------
+/* ---------- Post ko'rinishi (2026-11-28): bezakli matn, rasm — kinoning o'z posteri ----------
    Premium (custom) emoji yo'q: bot uchun Fragment username kerak. Oddiy emoji va HTML (qalin, kursiv, iqtibos). */
 const FRESH = m => m.addedAt && Date.now() - m.addedAt < 7 * 86400000;
 const HOOKS = {
@@ -71,15 +71,6 @@ const partsOf = m => (Array.isArray(m.parts) && m.parts.length > 1 ? m.parts.len
 const genericDesc = d => /to.liq versiyasi|rasmiy .*kanal|kanalidagi o.zbek/i.test(d);
 const durText = min => !min ? '' : min >= 60 ? `${Math.floor(min / 60)} soat${min % 60 ? ` ${min % 60} daqiqa` : ''}` : `${min} daqiqa`;
 const genreList = m => (m.genres || []).slice(0, 2).map(g => GENRES[g] || g);
-
-function cardInfo(m) {
-  const k = kindOf(m), lang = langOf(m);
-  const badge = FRESH(m) ? `YANGI ${k.toUpperCase()}` : 'TAVSIYA';
-  const kindLabel = lang === 'uz' ? `O‘zbek ${k}i` : typeName[m.type] || 'Film';
-  const sub = [kindLabel, ...genreList(m), m.year, lang === 'uz' ? 'O‘zbek tilida' : lang === 'ru' ? 'Rus tilida' : '']
-    .filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).slice(0, 4).join('  ·  ');
-  return { badge, title: cleanTitle(m), sub };
-}
 
 // Android ilova — Google Play'dagi sahifasi (2026-11-28: «Ilovamiz» bosilganda Play Market ochilsin)
 const PLAY_URL = 'https://play.google.com/store/apps/details?id=uz.dezomax.app';
@@ -109,34 +100,36 @@ function caption(m) {
     `📲 Ilovamiz: <a href="${PLAY_URL}">Google Play</a> | 🌐 <a href="${SITE}">dezomax.uz</a>\n📣 Kanalimiz: ${esc(CHANNEL)}`;
 }
 
-/* Maxsus rasm: python tools/tg-card.py — bo'lmasa (xato, Python yo'q) oddiy poster havolasi */
-function makeCard(m) {
+/* Repodagi .webp poster → JPEG bufer (Python Pillow; tg-post.yml o'rnatadi). Boshqa holatda null — havola bilan yuboriladi */
+function webpToJpeg(src) {
+  if (!src || /^https?:/.test(src) || !/\.webp$/i.test(src)) return null;
+  const file = path.join(root, String(src).replace(/^\//, ''));
+  if (!fs.existsSync(file)) return null;
   const { execFileSync } = require('child_process');
-  const out = path.join(require('os').tmpdir(), `dzx-tg-${m.id}.jpg`);
-  const { badge, title, sub } = cardInfo(m);
-  const src = m.vposter || m.hposter || m.poster;
+  const code = 'import sys,io;from PIL import Image;b=io.BytesIO();Image.open(sys.argv[1]).convert("RGB").save(b,"JPEG",quality=92);sys.stdout.buffer.write(b.getvalue())';
   for (const py of process.platform === 'win32' ? ['python', 'py'] : ['python3', 'python']) {
-    try { execFileSync(py, [path.join(__dirname, 'tg-card.py'), src, out, badge, title, sub], { stdio: ['ignore', 'ignore', 'pipe'], timeout: 60000 }); return out; }
-    catch (e) { if (e.code !== 'ENOENT') { console.log(`  rasm yasalmadi: ${String(e.stderr || e.message).trim().slice(0, 200)}`); return null; } }
+    try { return execFileSync(py, ['-c', code, file], { maxBuffer: 1 << 26, timeout: 30000, stdio: ['ignore', 'pipe', 'ignore'] }); }
+    catch (e) { if (e.code !== 'ENOENT') return null; }
   }
   return null;
 }
 
 async function send(m) {
   const url = `${SITE}kino/${PAGES[m.id]}.html`;
+  // rasm — faqat kinoning o'z posteri, qo'shimcha bezaksiz (2026-11-28, foydalanuvchi so'rovi)
   const body = {
-    chat_id: CHANNEL, photo: abs(m.hposter || m.poster), caption: caption(m), parse_mode: 'HTML'
+    chat_id: CHANNEL, photo: abs(m.vposter || m.hposter || m.poster), caption: caption(m), parse_mode: 'HTML'
   };
-  const card = makeCard(m);
-  if (DRY) { console.log('— (sinov) —\n' + body.caption + '\n' + url + (card ? `\nrasm: ${card}` : '\nrasm: oddiy poster') + '\n'); return true; }
+  if (DRY) { console.log('— (sinov) —\n' + body.caption + '\n' + url + '\nrasm: ' + body.photo + '\n'); return true; }
   const call = (method, b) => fetch(`https://api.telegram.org/bot${TOKEN}/${method}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) });
+  const jpg = webpToJpeg(m.vposter || m.hposter || m.poster);
   let r;
-  if (card) {   // maxsus rasm fayl sifatida yuklanadi
+  if (jpg) {   // saytdagi WebP poster — o'sha rasmning o'zi, JPEG qilib yuklanadi (Telegram WebP havolani har doim ham olmaydi)
     const fd = new FormData();
     fd.append('chat_id', CHANNEL); fd.append('caption', body.caption); fd.append('parse_mode', 'HTML');
-    fd.append('photo', new Blob([fs.readFileSync(card)], { type: 'image/jpeg' }), 'dezomax.jpg');
+    fd.append('photo', new Blob([jpg], { type: 'image/jpeg' }), 'poster.jpg');
     r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-    if (!(await r.clone().json().catch(() => ({}))).ok) r = await call('sendPhoto', body);   // bo'lmasa — oddiy poster
+    if (!(await r.clone().json().catch(() => ({}))).ok) r = await call('sendPhoto', body);
   } else r = await call('sendPhoto', body);
   let j = await r.json().catch(() => ({}));
   // Telegram posterni yuklay olmasa (masalan RuTube rasm serveri) — rasmsiz: matn + sahifa havolasi (oldindan ko'rinishi bilan)
