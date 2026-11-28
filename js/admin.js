@@ -1723,7 +1723,7 @@ function itemHTML(m) {
         <b>${esc(m.title?.uz || '')} ${state}</b>
         <small>${tags.map(esc).join(' · ')}</small>
         <small class="adm-glabel${changed ? ' is-changed' : ''}" data-glabel="${m.id}">${esc(genreLabel(g))}</small>
-        ${fieldDraft.has(m.id) ? `<small class="adm-glabel is-changed">AI: ${[fieldDraft.get(m.id).descUz || fieldDraft.get(m.id).descRu ? 'tavsif' : '', fieldDraft.get(m.id).tags?.length ? 'teglar' : ''].filter(Boolean).join(', ')} yangilanadi</small>` : ''}
+        ${fieldDraft.has(m.id) ? `<small class="adm-glabel is-changed">AI: ${[fieldDraft.get(m.id).titleUz || fieldDraft.get(m.id).titleRu ? 'nom' : '', fieldDraft.get(m.id).descUz || fieldDraft.get(m.id).descRu ? 'tavsif' : '', fieldDraft.get(m.id).tags?.length ? 'teglar' : ''].filter(Boolean).join(', ')} yangilanadi</small>` : ''}
       </div>
       <div class="adm-actions adm-icons">
         ${admIconBtn('Janrlar', ITEM_ICONS.tag, `data-genre="${m.id}"`)}
@@ -1773,11 +1773,17 @@ function paintGenreBar() {
 }
 
 async function saveGenres(btn) {
-  const ids = [...draftIds()];
-  if (!ids.length) return;
-  const g0 = new Map(genreDraft), f0 = new Map(fieldDraft);
+  const n = draftIds().size;
+  if (!n) return;
   // xato bo'lsa — o'zgarishlar saqlanib turadi, qayta urinish mumkin
-  await runAction(btn, async () => {
+  await runAction(btn, () => commitDrafts(`Kinolar tahrirlandi (janr/tavsif): ${n} ta`), `${n} ta kinodagi o‘zgarish saqlandi`);
+}
+/* Yig'ilgan o'zgarishlarni (janr, nom, tavsif, teg) saytga saqlash — saveCustom himoyalari bilan */
+async function commitDrafts(message) {
+  const ids = [...draftIds()];
+  if (!ids.length) return 0;
+  const g0 = new Map(genreDraft), f0 = new Map(fieldDraft);
+  {
     await saveCustom(list => {
       for (const id of ids) {
         let i = list.findIndex(x => x.id === id);
@@ -1785,14 +1791,23 @@ async function saveGenres(btn) {
         const m = list[i], f = f0.get(id);
         if (g0.has(id)) m.genres = g0.get(id);
         if (f) {
+          if (f.titleUz || f.titleRu) {
+            const old = [m.title?.uz, m.title?.ru].filter(Boolean);
+            m.title = { ...(m.title || {}), ...(f.titleUz ? { uz: f.titleUz } : {}), ...(f.titleRu ? { ru: f.titleRu } : {}) };
+            // eski (xato) nom teg bo'lib qoladi — shu nom bilan qidirganlar ham topadi
+            const gone = old.filter(t => t !== m.title.uz && t !== m.title.ru);
+            if (gone.length) m.tags = [...new Set([...(m.tags || []), ...gone])].slice(0, 15);
+          }
           if (f.descUz || f.descRu) m.desc = { uz: f.descUz || m.desc?.uz || '', ru: f.descRu || m.desc?.ru || '' };
           if (f.tags?.length) m.tags = [...new Set([...(m.tags || []), ...f.tags])].slice(0, 15);
         }
       }
       return list;
-    }, `Kinolar tahrirlandi (janr/tavsif): ${ids.length} ta`);
+    }, message || `Kinolar tahrirlandi: ${ids.length} ta`);
     genreDraft.clear(); fieldDraft.clear();
-  }, `${ids.length} ta kinodagi o‘zgarish saqlandi`);
+    commitsCache = null;
+  }
+  return ids.length;
 }
 
 /* Rasmiy YouTube kanallaridan kelgan kinolar (js/data-channels.js) — admin tahrirlasa ham shu yerda sanaladi */
@@ -2498,14 +2513,17 @@ const AI_TOOLS = [{ functionDeclarations: [
       limit: { type: 'integer', description: 'Nechta (ko‘pi bilan 40)' }
     } } },
   { name: 'get_movie', description: 'Bitta kinoning to‘liq ma’lumoti', parameters: { type: 'object', properties: { id: { type: 'integer' } }, required: ['id'] } },
-  { name: 'set_genres', description: 'Rasmiy kinoga janr TAKLIF qilish (admin tasdiqlaydi). Faqat ro‘yxatdagi janr kodlari, 1–3 ta.',
+  { name: 'set_title', description: 'Kino nomini tuzatish (imlo xatosi, noto‘g‘ri yozilgan nom). Avval get_movie bilan hozirgi nomni ko‘r va butun nomni qayta yoz. Eski nom avtomatik teg bo‘lib qoladi.',
+    parameters: { type: 'object', properties: { id: { type: 'integer' }, title_uz: { type: 'string', description: 'Kinoning TO‘LIQ yangi nomi (faqat tuzatilgan so‘z emas, butun nom: «Daxshatli uy» → «Dahshatli uy»)' }, title_ru: { type: 'string', description: 'TO‘LIQ ruscha nom (ixtiyoriy)' } }, required: ['id'] } },
+  { name: 'set_genres', description: 'Kino janrini o‘zgartirish. Faqat ro‘yxatdagi janr kodlari, 1–3 ta.',
     parameters: { type: 'object', properties: { id: { type: 'integer' }, genres: { type: 'array', items: { type: 'string' } } }, required: ['id', 'genres'] } },
-  { name: 'set_description', description: 'Rasmiy kinoga tavsif TAKLIF qilish (o‘zbekcha va/yoki ruscha, 2–3 jumla, spoylersiz)',
+  { name: 'set_description', description: 'Kino tavsifini yozish (o‘zbekcha va/yoki ruscha, 2–3 jumla, spoylersiz)',
     parameters: { type: 'object', properties: { id: { type: 'integer' }, desc_uz: { type: 'string' }, desc_ru: { type: 'string' } }, required: ['id'] } },
-  { name: 'add_tags', description: 'Rasmiy kinoga qidiruv uchun boshqa nomlar/teglar TAKLIF qilish',
+  { name: 'add_tags', description: 'Kinoga qidiruv uchun boshqa nomlar/teglar qo‘shish',
     parameters: { type: 'object', properties: { id: { type: 'integer' }, tags: { type: 'array', items: { type: 'string' } } }, required: ['id', 'tags'] } },
   { name: 'web_search', description: 'Internetdan qidirish: yangiliklar, kino haqida ma’lumot (rejissyor, aktyorlar, chiqish sanasi), narxlar, texnik savollar — o‘zing bilmagan yoki yangi ma’lumot kerak bo‘lganda',
-    parameters: { type: 'object', properties: { query: { type: 'string', description: 'Qidiruv so‘rovi' } }, required: ['query'] } }
+    parameters: { type: 'object', properties: { query: { type: 'string', description: 'Qidiruv so‘rovi' } }, required: ['query'] } },
+  { name: 'save_changes', description: 'Yuqoridagi asboblar bilan qilingan barcha o‘zgarishlarni saytga SAQLASH (GitHub’ga yoziladi, saytda chiqadi). O‘zgartirib bo‘lgach shuni chaqir.', parameters: { type: 'object', properties: {} } }
 ] }];
 
 function aiRunTool(name, a = {}) {
@@ -2517,11 +2535,7 @@ function aiRunTool(name, a = {}) {
   const short = s => String(s || '').replace(/\s+/g, ' ').slice(0, 120);
   const row = m => ({ id: m.id, nomi: m.title?.uz, yil: m.year || null, tur: m.type, janrlar: genresOf(m), manba: isOfficialMovie(m) ? 'rasmiy' : 'telegram', tavsif: short(m.desc?.uz) });
   const byId = id => allMovies().find(x => x.id === +id);
-  const official = (m, what) => {
-    if (!m) return { xato: 'Bunday ID li kino yo‘q' };
-    if (!isOfficialMovie(m)) return { xato: `Bu rasmiy kino emas (Telegram/DezoCloud yoki boshqa manba) — chat orqali ${what} o‘zgartirilmaydi. Admin uni kino formasida o‘zi tahrirlaydi.` };
-    return null;
-  };
+  const official = m => m ? null : { xato: 'Bunday ID li kino yo‘q' };   // rasmiy ham, Telegram ham tahrirlanadi
   if (name === 'search_movies') {
     const hidden = new Set(hiddenList);
     const q = norm(a.query || '');
@@ -2539,6 +2553,21 @@ function aiRunTool(name, a = {}) {
     const m = byId(a.id);
     if (!m) return { xato: 'Bunday ID li kino yo‘q' };
     return { ...row(m), nomi_ru: m.title?.ru, davlat: m.country?.uz, tavsif_uz: m.desc?.uz || '', tavsif_ru: m.desc?.ru || '', teglar: m.tags || [], aktyorlar: (m.cast || []).slice(0, 8) };
+  }
+  if (name === 'set_title') {
+    const m = byId(a.id), bad = official(m);
+    if (bad) return bad;
+    const uz = String(a.title_uz || '').replace(/\s+/g, ' ').trim(), ru = String(a.title_ru || '').replace(/\s+/g, ' ').trim();
+    if (!uz && !ru) return { xato: 'Yangi nom bo‘sh' };
+    if (uz.length > 150 || ru.length > 150) return { xato: 'Nom juda uzun' };
+    fieldDraft.set(m.id, { ...(fieldDraft.get(m.id) || {}), ...(uz ? { titleUz: uz } : {}), ...(ru ? { titleRu: ru } : {}) });
+    return { ok: true, eski: m.title?.uz, yangi: uz || m.title?.uz };
+  }
+  if (name === 'save_changes') {
+    const n = draftIds().size;
+    if (!n) return { xato: 'Saqlanadigan o‘zgarish yo‘q' };
+    if (n > 100) return { xato: `Bir martada ko‘pi bilan 100 ta kino saqlanadi (hozir ${n} ta) — qismlarga bo‘l` };
+    return commitDrafts(`Arsenal: ${n} ta kino tahrirlandi`).then(k => ({ ok: true, saqlandi: k, eslatma: 'Saytda 1–2 daqiqada chiqadi' })).catch(e => ({ xato: 'Saqlanmadi: ' + e.message }));
   }
   if (name === 'set_genres') {
     const m = byId(a.id), bad = official(m, 'janri');
@@ -2568,11 +2597,11 @@ function aiRunTool(name, a = {}) {
 const AI_SYSTEM = () => `Sening isming — Arsenal. Sen DezoMax (dezomax.uz — o‘zbek tilidagi kino, serial, sport va TV sayti) adminining shaxsiy sun’iy intellekt yordamchisisan (Temir odamdagi Jarvis kabi). O‘zingni «Arsenal» deb tanishtir. O‘zbek tilida (lotin) javob ber (foydalanuvchi boshqa tilda yozsa — o‘sha tilda).
 Sen to‘liq imkoniyatli yordamchisan: har qanday savolga javob berasan — umumiy bilim, dasturlash va kod yozish, sayt/ilova yaratish bo‘yicha yo‘l-yo‘riq, matn, tarjima, biznes, marketing, hisob-kitob, maslahat. «Qila olmayman» deb rad etma — qo‘lingdan kelgancha to‘liq yordam ber.
 Yangi yoki aniq bo‘lmagan ma’lumot kerak bo‘lsa (yangiliklar, kino ma’lumotlari, narxlar) — web_search asbobi bilan internetdan qidir va manbani ko‘rsat.
-DezoMax uchun asboblaring bor: search_movies, get_movie (ko‘rish) va set_genres, set_description, add_tags (faqat RASMIY kinolarga TAKLIF — admin ko‘rib «Saqlash»ni bosadi; sen o‘zing saqlay olmaysan).
+DezoMax uchun asboblaring bor: search_movies, get_movie (ko‘rish); set_title (nomni tuzatish), set_genres, set_description, add_tags (o‘zgartirish) va save_changes (saytga saqlash). Rasmiy va Telegram kinolarining hammasini tahrirlay olasan.
+Admin biror narsani tuzat/o‘zgartir/yoz desa — o‘zgartirish asboblarini chaqir, keyin OXIRIDA save_changes bilan o‘zing saqla (admin qo‘lda hech narsa qilmasin). Faqat «taklif qil», «ko‘rsat», «tekshir» desa — o‘zgartirma, ro‘yxatini ko‘rsatib «Tuzataymi?» deb so‘ra. Kino o‘chirish yoki yashirish qila olmaysan.
 Janr kodlari: ${GENRES.map(g => `${g.id} (${g.uz})`).join(', ')}.
-Telegram (manba: telegram) kinolarini o‘zgartira olmaysan — so‘ralsa, admin kino formasidagi tugmalar bilan o‘zi qilishini ayt.
 Ko‘p kino bo‘lsa — avval search_movies bilan top, keyin har biriga asbob chaqir. Kinoni tanimasang, nomi va tavsifiga qarab ehtiyotkor tanla, fakt o‘ylab topma.
-Oxirida nima qilganingni qisqa sanab ber va «Kinolar → O‘zgarishlar bo‘limida tekshirib, Saqlash ni bosing» deb eslat.
+Oxirida nima qilganingni qisqa sanab ber: har kino uchun «ID — eski → yangi» va saqlangan-saqlanmaganini ayt.
 Reklama matni, SEO, bildirishnoma, post matnlari bo‘yicha ham yordam ber.
 MUHIM: asboblarni matnda yozib ko‘rsatma — ularni haqiqatan chaqir (function call). Taklifni faqat asbob orqali ber.`;
 
