@@ -2546,7 +2546,7 @@ function aiRunTool(name, a = {}) {
   return { xato: 'Noma’lum asbob' };
 }
 
-const AI_SYSTEM = () => `Sen DezoMax (dezomax.uz) — o‘zbek tilidagi kino, serial, sport va TV sayti adminining yordamchisisan. O‘zbek tilida (lotin), qisqa va aniq javob ber.
+const AI_SYSTEM = () => `Sening isming — Arsenal. Sen DezoMax (dezomax.uz — o‘zbek tilidagi kino, serial, sport va TV sayti) adminining shaxsiy sun’iy intellekt yordamchisisan (Temir odamdagi Jarvis kabi). O‘zingni «Arsenal» deb tanishtir. O‘zbek tilida (lotin), qisqa va aniq javob ber.
 Asboblaring bor: search_movies, get_movie (ko‘rish) va set_genres, set_description, add_tags (faqat RASMIY kinolarga TAKLIF — admin ko‘rib «Saqlash»ni bosadi; sen o‘zing saqlay olmaysan).
 Janr kodlari: ${GENRES.map(g => `${g.id} (${g.uz})`).join(', ')}.
 Telegram (manba: telegram) kinolarini o‘zgartira olmaysan — so‘ralsa, admin kino formasidagi tugmalar bilan o‘zi qilishini ayt.
@@ -2575,11 +2575,13 @@ function arsWatch() {
 
 function renderArsenalView() {
   const box = $('#admView');
+  const st = arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'FreeLLMAPI · bepul modellar' : 'miya ulanmagan';
   box.innerHTML = `
-    <div class="ars-page">
-      <div class="ars-hero">${arsSphere(190)}<h1 class="ars-title">Arsenal</h1>
-        <p class="a4-sub">Kinolarni qidiradi, janr, tavsif va teg taklif qiladi, post va reklama matnlarini yozadi. O‘zgarishlar faqat siz ko‘rib «Saqlash»ni bosganingizda saqlanadi.</p>
-        <div class="ars-chips">${(aiKey() ? ARS_CHIPS : []).map(c => `<button type="button" class="ars-chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>
+    <div class="ars-page ars-jarvis">
+      <div class="ars-core">${arsSphere(280)}</div>
+      <h1 class="ars-title">ARSENAL</h1>
+      <p class="ars-state"><i class="${arsUse() ? 'is-on' : ''}"></i>${esc(st)}</p>
+      <div class="ars-chips">${(aiKey() ? ARS_CHIPS : []).map(c => `<button type="button" class="ars-chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')}</div>
       <div class="ars-slot" id="arsSlot"></div>
     </div>`;
   const chat = arsenal.box;
@@ -2651,6 +2653,20 @@ function initAiChat() {
     const form = box.querySelector('#aiChatForm');
     if (!form) return;
     const ta = form.querySelector('textarea');
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR && !form.querySelector('.ars-mic')) {
+      const mic = document.createElement('button');
+      mic.type = 'button'; mic.className = 'ars-mic'; mic.title = 'Gapirib buyruq berish'; mic.setAttribute('aria-label', 'Mikrofon');
+      form.insertBefore(mic, form.querySelector('button[type=submit]'));
+      mic.addEventListener('click', () => {
+        const rec = new SR(); rec.lang = 'uz-UZ'; rec.interimResults = true;
+        mic.classList.add('is-on'); window.ArsenalAI?.listen(true);
+        rec.onresult = e => { ta.value = [...e.results].map(r => r[0].transcript).join(' '); window.ArsenalAI?.hear(.7); };
+        rec.onend = () => { mic.classList.remove('is-on'); window.ArsenalAI?.listen(false); if (ta.value.trim()) form.requestSubmit(); };
+        rec.onerror = () => { mic.classList.remove('is-on'); window.ArsenalAI?.listen(false); };
+        rec.start();
+      });
+    }
     ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } });
     form.addEventListener('submit', async e => {
       e.preventDefault();
@@ -2659,6 +2675,7 @@ function initAiChat() {
       aiChat.push({ role: 'user', text: q });
       const convBefore = aiConv.length;
       aiConv.push({ role: 'user', parts: [{ text: q }] });
+      window.ArsenalAI?.talk(.75);
       const wait = t => { draw(); const l = box.querySelector('#aiChatList'); l.insertAdjacentHTML('beforeend', `<div class="adm-aichat-msg is-model is-wait">${esc(t)}</div>`); l.scrollTop = l.scrollHeight; box.querySelector('#aiChatForm button').disabled = true; };
       wait('…');
       try {
@@ -2679,9 +2696,10 @@ function initAiChat() {
         }
         if (aiChat[aiChat.length - 1].role === 'user') aiChat.push({ role: 'model', text: 'Topshiriq juda katta — qismlarga bo‘lib yozing (masalan «avval 20 tasini»).' });
       } catch (ex) {
-        aiChat.pop(); aiConv.length = convBefore;
+        aiChat.pop(); aiConv.length = convBefore; window.ArsenalAI?.talk(0);
         draw(); const er = box.querySelector('#aiChatErr'); er.textContent = ex.message; er.hidden = false; box.querySelector('#aiChatForm textarea').value = q; return;
       }
+      window.ArsenalAI?.talk(0);
       draw();
       paintGenreBar();
       box.querySelector('#aiChatForm textarea')?.focus();

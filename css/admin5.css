@@ -345,3 +345,25 @@ ol.pz-list li[data-movie] .pz-pst { width: 30px; height: 44px; }
 .ars-off { display: flex; flex-direction: column; gap: 8px; padding: 6px 2px; }
 .ars-quick { display: flex; flex-wrap: wrap; gap: 8px; }
 .ars-brain { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--a-dim); } .ars-brain select { background: var(--a-s2, #202024); color: var(--a-tx, #fff); border: 1px solid var(--a-ln, #2a2a30); border-radius: 8px; padding: 2px 6px; font: inherit; }
+/* Arsenal — Jarvis uslubi (2026-11-28): shar markazda, ostida suhbat */
+.ars-page.ars-jarvis { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 900px; margin: 0 auto; min-height: calc(100dvh - 120px);
+  background: radial-gradient(60% 40% at 50% 12%, rgba(255, 138, 31, .14), transparent 70%); }
+.ars-jarvis .ars-core { margin-top: 6px; filter: drop-shadow(0 0 40px rgba(255, 138, 31, .25)); }
+.ars-jarvis .ars-title { font-size: 30px; letter-spacing: .32em; margin: -6px 0 0; color: #ffd7ae; text-shadow: 0 0 24px rgba(255, 138, 31, .45); }
+.ars-state { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--a-dim); }
+.ars-state i { width: 8px; height: 8px; border-radius: 50%; background: #ff5468; }
+.ars-state i.is-on { background: #3ddc84; box-shadow: 0 0 10px #3ddc84; }
+.ars-jarvis .ars-chips { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 6px 0 4px; }
+.ars-jarvis .ars-chip { width: auto; border-radius: 999px; padding: 8px 14px; background: rgba(255, 138, 31, .06); border-color: rgba(255, 138, 31, .3); color: #ffd7ae; }
+.ars-jarvis .ars-slot { width: 100%; flex: 1; display: flex; }
+.ars-jarvis .adm-aichat.is-page { flex: 1; height: auto; min-height: 380px; max-height: 62dvh; background: rgba(20, 13, 6, .55); border: 1px solid rgba(255, 138, 31, .25); border-radius: 20px; }
+.ars-jarvis .adm-aichat.is-page .adm-aichat-head { display: none; }
+.ars-jarvis .adm-aichat-msg.is-model { background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 138, 31, .18); border-left: 3px solid #ff8a1f; }
+.ars-jarvis .adm-aichat-msg.is-wait { color: #ffb066; border-left-color: #ffb066; animation: arsPulse 1.2s ease-in-out infinite; }
+@keyframes arsPulse { 50% { opacity: .45; } }
+.ars-jarvis .adm-aichat-form { background: rgba(0, 0, 0, .35); border: 1px solid rgba(255, 138, 31, .3); border-radius: 16px; padding: 6px; align-items: center; }
+.ars-jarvis .adm-aichat-form .acc-input { background: transparent; border: 0; min-height: 40px; }
+.ars-mic { width: 40px; height: 40px; flex: none; border-radius: 50%; border: 0; cursor: pointer; background: #ff8a1f; position: relative; }
+.ars-mic::before { content: ''; position: absolute; left: 50%; top: 50%; width: 10px; height: 16px; margin: -10px 0 0 -5px; border-radius: 6px; background: #0b0b0c; }
+.ars-mic::after { content: ''; position: absolute; left: 50%; top: 50%; width: 16px; height: 9px; margin: 0 0 0 -8px; border: 2px solid #0b0b0c; border-top: 0; border-radius: 0 0 10px 10px; box-sizing: border-box; }
+.ars-mic.is-on { animation: arsPulse .8s infinite; box-shadow: 0 0 0 6px rgba(255, 138, 31, .25); }
