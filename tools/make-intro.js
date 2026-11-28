@@ -1,5 +1,5 @@
 /* ============================================================
-   DezoMax — kirishdagi 3 soniyalik intro video: images/intro/intro.mp4 (+ intro-poster.jpg)
+   DezoMax — kirishdagi 3 soniyalik intro video: images/intro/intro.mp4 (+ intro-poster.webp)
    ------------------------------------------------------------
    Kadrlar js/logo.js dagi logotip SVG'sidan chiziladi (sharp), ovoz kod bilan sintez qilinadi,
    ffmpeg bilan H.264 + AAC MP4'ga yig'iladi. Ikki xil: intro.mp4 — yotiq 1920×1080 (kompyuter, televizor),
@@ -31,8 +31,8 @@ const OUT_DIR = path.join(ROOT, 'images', 'intro');
 const TMP = path.join(require('os').tmpdir(), 'dzx-intro');
 let W = 1920, H = 1080, CX = 960, CY = 540, LOGO_PX = 1000;
 const VARIANTS = [
-  { file: 'intro.mp4', W: 1920, H: 1080, logo: 1000, poster: 'intro-poster.jpg' },
-  { file: 'intro-portrait.mp4', W: 1080, H: 1920, logo: 900, poster: 'intro-portrait-poster.jpg' }
+  { file: 'intro.mp4', W: 1920, H: 1080, logo: 1000, poster: 'intro-poster.webp' },
+  { file: 'intro-portrait.mp4', W: 1080, H: 1920, logo: 900, poster: 'intro-portrait-poster.webp' }
 ];
 const FPS = 30, DUR = 3, N = FPS * DUR, SR = 44100;
 
@@ -179,7 +179,7 @@ function makeAudio() {
       '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-profile:v', 'main', '-crf', '24', '-preset', 'slow', '-movflags', '+faststart',
       '-c:a', 'aac', '-b:a', '96k', '-shortest', mp4]);
     // birinchi kadr — video yuklanguncha fon
-    await sharp(path.join(TMP, 'f000.png')).jpeg({ quality: 70 }).toFile(path.join(OUT_DIR, v.poster));
+    await sharp(path.join(TMP, 'f000.png')).webp({ quality: 75 }).toFile(path.join(OUT_DIR, v.poster));
     // ko'rib chiqish uchun kadr (vaqtinchalik papkada)
     fs.copyFileSync(path.join(TMP, 'f048.png'), path.join(require('os').tmpdir(), `dzx-intro-preview-${v.W}x${v.H}.png`));
     console.log(`images/intro/${v.file} — ${v.W}×${v.H}, ${(fs.statSync(mp4).size / 1024).toFixed(0)} KB`);

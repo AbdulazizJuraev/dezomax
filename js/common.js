@@ -717,8 +717,6 @@ function getDownloads() {
   catch { return []; }
 }
 
-const isDownloaded = id => getDownloads().includes(Number(id));
-
 function toggleDownload(id) {
   id = Number(id);
   const list = getDownloads();
@@ -1201,11 +1199,11 @@ const STUDIOS = [
     logo: '<svg viewBox="0 0 160 60"><path d="M30 46 L62 12 L80 30 L98 12 L130 46 Z" fill="#2a6fdb"/><text x="80" y="57" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="17" fill="#fff">Paramount</text></svg>' }
 ];
 // Haqiqiy logolar (2026-11-20, foydalanuvchi so'rovi): Wikimedia Commons'dagi rasmiy logolar (Public domain — oddiy matnli belgilar),
-// images/studios/<key>.png (500 px). Qora logolar qoramtir fonda CSS bilan oq qilinadi (.st-logo.is-mono). Yuqoridagi SVG — zaxira (admin).
+// images/studios/<key>.webp (500 px). Qora logolar qoramtir fonda CSS bilan oq qilinadi (.st-logo.is-mono). Yuqoridagi SVG — zaxira (admin).
 const STUDIO_MONO = ['disney', 'dreamworks', 'lucasfilm', 'pixar', 'sony', 'universal'];
 STUDIOS.forEach(s => {
   s.logoSvg = s.logo;
-  s.logo = `<img class="st-logo is-${s.key}${STUDIO_MONO.includes(s.key) ? ' is-mono' : ''}" src="images/studios/${s.key}.png" alt="${s.name}" loading="lazy" decoding="async">`;
+  s.logo = `<img class="st-logo is-${s.key}${STUDIO_MONO.includes(s.key) ? ' is-mono' : ''}" src="images/studios/${s.key}.webp" alt="${s.name}" loading="lazy" decoding="async">`;
 });
 const studioOf = key => STUDIOS.find(s => s.key === key) || null;
 const studioHref = s => s.href || 'catalog.html?studio=' + s.key;
@@ -1279,39 +1277,6 @@ function speculateNav() {
 }
 
 /* ---------- "Yana" pastki menyusi ---------- */
-
-function openMoreSheet() {
-  closeMoreSheet();
-
-  const wrap = document.createElement('div');
-  wrap.className = 'sheet-wrap';
-  wrap.innerHTML = `
-    <div class="sheet-backdrop" data-sheet-close></div>
-    <div class="sheet" role="dialog" aria-modal="true">
-      <div class="sheet-grip"></div>
-      <div class="sheet-list">
-        ${MORE_LINKS.map(l => l.sep
-          ? '<div class="sheet-sep"></div>'
-          : `<a class="sheet-item" href="${l.href}">
-               <span class="sheet-icon">${ICONS[l.icon]}</span>
-               <span>${t(l.label)}</span>
-               ${l.badge ? `<b class="sheet-count" data-${l.badge}-count-sheet></b>` : ''}
-             </a>`).join('')}
-      </div>
-      <button class="btn btn-ghost sheet-close" data-sheet-close>${t('nav.close')}</button>
-    </div>`;
-
-  document.body.appendChild(wrap);
-  document.body.classList.add('no-scroll');
-  requestAnimationFrame(() => wrap.classList.add('is-open'));
-
-  wrap.querySelectorAll('[data-sheet-close]').forEach(el =>
-    el.addEventListener('click', closeMoreSheet));
-  document.addEventListener('keydown', escCloseSheet);
-
-  applyI18n();
-  updateFavCount();
-}
 
 function escCloseSheet(e) { if (e.key === 'Escape') closeMoreSheet(); }
 

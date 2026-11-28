@@ -36,9 +36,7 @@
 .a4-it em.n { background: var(--a-lime); color: #000; }
 .a4-it em.w { background: var(--a-oranges); color: var(--a-orange); }
 .a4-me { margin-top: auto; padding-top: 14px; display: flex; gap: 8px; }
-.a4-site { flex: 1; display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 14px; background: var(--a-s2); border: 1px solid var(--a-ln);
-  color: var(--a-tx); text-decoration: none; font-weight: 700; font-size: 13px; }
-.a4-site svg, .a4-out svg { width: 17px; height: 17px; }
+.a4-out svg { width: 17px; height: 17px; }
 .a4-out { width: 44px; border-radius: 14px; background: var(--a-s2); border: 1px solid var(--a-ln); color: var(--a-dim); display: grid; place-items: center; }
 
 /* ---- asosiy qism ---- */
@@ -64,10 +62,6 @@
 .a4-head h1 { margin: 0; font-family: 'Unbounded', 'Manrope', sans-serif !important; font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -.01em; line-height: 1.15; }
 .a4-sub { margin: 6px 0 0; color: var(--a-fa); font-weight: 600; font-size: 14px; }
 .a4-card { background: var(--a-s1); border: 1px solid var(--a-ln); border-radius: 20px; padding: 20px; color: var(--a-tx); text-align: left; }
-.a4-ch { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
-.a4-ch b { font-weight: 800; font-size: 15.5px; }
-.a4-ch > span { font-weight: 600; font-size: 12.5px; color: var(--a-fa); }
-.a4-link { border: 0; background: none; color: var(--a-lime); font-weight: 700; font-size: 13px; }
 .a4-pill { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11.5px; white-space: nowrap; }
 .a4-pill.is-l { background: var(--a-limes); color: var(--a-lime); }
 .a4-pill.is-a { background: var(--a-ambers); color: var(--a-amber); }
@@ -83,32 +77,9 @@
 .a4-ib svg { width: 16px; height: 16px; }
 
 /* ---- boshqaruv paneli ---- */
-.a4-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
-.a4-st { display: flex; flex-direction: column; font-family: inherit; }
-.a4-st > span { display: flex; align-items: center; gap: 8px; color: var(--a-dim); font-weight: 700; font-size: 13px; }
-.a4-st > span svg { width: 16px; height: 16px; }
-.a4-st b { font-family: 'Unbounded', 'Manrope', sans-serif !important; font-weight: 700; font-size: clamp(24px, 2.4vw, 34px); line-height: 1; margin: 14px 0 8px; letter-spacing: -.02em; }
-.a4-st small { font-weight: 700; font-size: 12px; color: var(--a-fa); }
-.a4-st small.is-up { color: var(--a-lime); }
-.a4-st small.is-warn { color: var(--a-orange); }
-.a4-st:hover { border-color: var(--a-ln2); }
-.a4-row { display: flex; gap: 20px; align-items: flex-start; }
-.a4-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
-.a4-side2 { width: 380px; flex: none; display: flex; flex-direction: column; gap: 20px; }
-.a4-chart { display: flex; align-items: flex-end; gap: 8px; height: 150px; }
-.a4-chart > div { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 8px; }
-.a4-chart i { width: 100%; border-radius: 8px 8px 3px 3px; background: var(--a-s3); }
-.a4-chart > div.is-on i { background: var(--a-lime); }
-.a4-chart small { font-weight: 700; font-size: 11px; color: var(--a-fa); }
-.a4-table { display: flex; flex-direction: column; }
-.a4-tr { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--a-ln); }
-.a4-tr:last-child { border-bottom: 0; }
 .a4-pst { width: 38px; height: 56px; flex: none; background: var(--a-s3); overflow: hidden; display: block; }
 .a4-pst.is-w { width: 80px; height: 45px; }
 .a4-pst img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.a4-tt { flex: 1; min-width: 0; }
-.a4-tt b { display: block; font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.a4-tt small { color: var(--a-fa); font-weight: 600; font-size: 12px; }
 .a4-src { width: 92px; flex: none; color: var(--a-dim); font-weight: 600; font-size: 13px; }
 .a4-qa { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .a4-qa > button { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px; border-radius: 16px; background: var(--a-s2); border: 1px solid var(--a-ln);
@@ -117,12 +88,7 @@
 .a4-qa b { font-weight: 800; font-size: 13.5px; }
 .a4-qa small { font-weight: 600; font-size: 11.5px; color: var(--a-fa); }
 .a4-qa > button:hover { border-color: rgba(198, 255, 61, .4); }
-/* «Kanallar» ro'yxati: o'ngda saytga o'tgan videolar soni, tepada «+ Kanal qo'shish» */
-.adm-ch-addtop { flex: none; }
-.adm-ch-stat { color: var(--a-lime) !important; font-weight: 700; }
-.adm-ch-num { flex: none; min-width: 48px; text-align: right; font-size: 20px; font-weight: 800; color: var(--a-lime); margin-right: 4px; }
-.adm-ch-num.is-zero { color: var(--a-dim); }
-@media (max-width: 760px) { .adm-ch-num { display: none; } }   /* tor ekranda tugmalar joyida qolsin — sonlar yashil qatorda bor */
+/* «Kanallar» ro'yxati: o'ngda saytga o'tgan videolar soni, tepada «+ Kanal qo'shish» */   /* tor ekranda tugmalar joyida qolsin — sonlar yashil qatorda bor */
 /* Panel: YouTube kanallar — har biridan saytga o'tgan videolar */
 .a4-chs { display: flex; flex-direction: column; gap: 8px; }
 .a4-chs > .a4-sub { margin: 0 0 2px; }
@@ -140,8 +106,6 @@
 .a4-health i.is-wn { background: var(--a-oranges); color: var(--a-orange); }
 .a4-health i.is-n { background: var(--a-s3); color: var(--a-dim); }
 .a4-health small { margin-left: auto; color: var(--a-fa); font-weight: 600; font-size: 12px; white-space: nowrap; }
-.a4-ai { display: flex; align-items: center; gap: 10px; }
-.a4-orb { width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #f2ffc9, var(--a-lime) 45%, #7fb80f); box-shadow: 0 0 14px rgba(198, 255, 61, .35); display: block; flex: none; }
 .a4-tips { display: flex; flex-direction: column; gap: 10px; }
 .a4-tip { padding: 13px 14px; border-radius: 16px; background: var(--a-s2); border: 1px solid var(--a-ln); font-weight: 600; font-size: 13px; line-height: 1.5; color: var(--a-dim); }
 .a4-tip b { color: var(--a-tx); }
@@ -167,11 +131,6 @@
 /* ---- pastki menyu (telefon) ---- */
 .a4-tabs { display: none; }
 .a4-scrim { display: none; }
-
-@media (max-width: 1180px) {
-  .a4-row { flex-direction: column; align-items: stretch; }
-  .a4-side2 { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
-}
 @media (max-width: 900px) {
   .a4-side { position: fixed; left: 0; top: 0; bottom: 0; z-index: 60; transform: translateX(-102%); transition: transform .25s ease; box-shadow: 0 0 40px rgba(0, 0, 0, .6); }
   .a4-side.is-open { transform: none; }
@@ -181,7 +140,6 @@
   .a4-top { padding: calc(12px + var(--app-sat, 0px)) 14px 12px; gap: 10px; }
   .a4-srch kbd, .a4-add, .a4-gap { display: none; }
   .a4-ct { padding: 18px 14px calc(96px + var(--sab, 0px)); }
-  .a4-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
   .a4-card { padding: 16px; border-radius: 18px; }
   .a4-src { display: none; }
   .a4-tabs { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; align-items: center; justify-content: space-around;
@@ -369,14 +327,6 @@
 .chx-act .adm-ibtn.is-danger { color: var(--a-orange); background: var(--a-oranges); border-color: transparent; }
 .chx-act .adm-ibtn.is-ok { background: var(--a-limes); border-color: transparent; }
 /* 14 kunlik grafik: YouTube videolari — qizil qism (2026-11-25) */
-.a4-chart i.has-yt { background: linear-gradient(to top, #FF4E45 var(--yt), var(--a-s3) var(--yt)); }
-.a4-chart > div.is-on i.has-yt { background: linear-gradient(to top, #FF4E45 var(--yt), var(--a-lime) var(--yt)); }
-.a4-lg { display: inline-block; width: 9px; height: 9px; border-radius: 3px; background: var(--a-lime); margin: 0 5px 0 8px; }
-.a4-lg.is-yt { background: #FF4E45; }
-.a4-chart em { font-style: normal; font-weight: 800; font-size: 12px; line-height: 1.1; color: var(--a-tx, #fff); text-align: center; min-height: 13px; }
-.a4-chart em span { display: block; font-size: 9px; font-weight: 700; color: var(--a-fa); }
-.a4-chart > div { gap: 5px; }
-.a4-ch > span { white-space: nowrap; }
 /* Kanal rasmi (YouTube avatar) — belgining ustida (2026-11-25) */
 .chx-av, .a4-chav { position: relative; overflow: hidden; }
 .a4-chav { display: grid; flex: none; border-radius: 50%; }

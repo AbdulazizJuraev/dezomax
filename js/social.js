@@ -131,12 +131,6 @@ const SOC_MONTHS = {
   uz: ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr'],
   ru: ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
 };
-function socDate(ts) {
-  const d = new Date(ts);
-  if (isNaN(d)) return '';
-  const mo = (SOC_MONTHS[LANG] || SOC_MONTHS.uz)[d.getMonth()];
-  return LANG === 'ru' ? `${d.getDate()} ${mo} ${d.getFullYear()}` : `${d.getDate()}-${mo}, ${d.getFullYear()}`;
-}
 // 12 345 ko'rinishida (to'liq son, bo'sh joy bilan)
 const socNum = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 

@@ -99,13 +99,15 @@ async function smoke() {
   ].find(p => fs.existsSync(p));
   if (!chrome) { warn('Chrome topilmadi — brauzer tekshiruvi o\'tkazib yuborildi'); return; }
 
-  // oddiy statik server (sayt fayllari)
+  // oddiy statik server (sayt fayllari). --serve _site — yuklanadigan (siqilgan) nusxa sinovdan o'tadi (2026-11-28)
+  const si = process.argv.indexOf('--serve');
+  const serveRoot = si > -1 ? path.resolve(process.argv[si + 1]) : root;
   const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
   const server = http.createServer((req, res) => {
     let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     if (p.endsWith('/')) p += 'index.html';
-    const file = path.join(root, p);
-    if (!file.startsWith(root) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); return res.end(); }
+    const file = path.join(serveRoot, p);
+    if (!file.startsWith(serveRoot) ||!fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); return res.end(); }
     res.writeHead(200, { 'content-type': types[path.extname(file)] || 'application/octet-stream' });
     fs.createReadStream(file).pipe(res);
   });

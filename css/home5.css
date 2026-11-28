@@ -231,51 +231,8 @@ html body.d5 :is(h1, h2, .h5-title, .h5-num, .h5-genre b, .h5-cap, .h5-logo-t, .
 .h5-live .h5-tx b { font-size: .98rem; line-height: 1.25; }
 
 /* Studiyalar */
-.h5-st { position: relative; flex: none; display: flex; flex-direction: column; width: clamp(180px, 15vw, 230px); aspect-ratio: 16/10; padding: 14px 14px 12px; border-radius: 18px; overflow: hidden;
-  background: linear-gradient(150deg, color-mix(in srgb, var(--st) 92%, #fff 10%) 0%, var(--st) 45%, #050706 100%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); transition: transform .2s, box-shadow .2s; }
-.h5-st:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px rgba(166, 226, 46, .55), 0 12px 26px rgba(0, 0, 0, .45); }
-.h5-st-logo { flex: 1; display: grid; place-items: center; padding: 4px 10% 0; } .h5-st-logo svg { width: 100%; max-height: 64px; height: 100%; }
-.h5-st-foot { display: flex; flex-direction: column; gap: 1px; padding-right: 26px; }
-.h5-st-foot small { font-size: .78rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.h5-st-foot b { font-size: .7rem; font-weight: 600; color: #B8EC4A; }
-.h5-st-go { position: absolute; right: 10px; bottom: 12px; width: 22px; height: 22px; padding: 4px; border-radius: 50%; background: rgba(255, 255, 255, .12); fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-@media (max-width: 760px) { .h5-st { width: 160px; } }
 
 /* Ilova banneri */
-.h5-app { position: relative; isolation: isolate; overflow: hidden; border-radius: clamp(20px, 2.4vw, 32px); min-height: clamp(380px, 36vw, 560px); display: flex; align-items: center;
-  background: radial-gradient(70% 90% at 85% 10%, rgba(166, 226, 46, .30), transparent 62%), radial-gradient(60% 80% at 40% 110%, rgba(14, 122, 94, .45), transparent 65%), #020503; border: 1px solid rgba(166, 226, 46, .18); }
-.h5-wall { position: absolute; z-index: -2; left: -8%; top: -30%; width: 84%; height: 170%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; transform: perspective(1100px) rotateX(48deg) rotateZ(-24deg); transform-origin: 30% 50%; opacity: .55;
-  -webkit-mask-image: linear-gradient(100deg, transparent 12%, #000 50%, transparent 96%); mask-image: linear-gradient(100deg, transparent 12%, #000 50%, transparent 96%); }
-.h5-wall img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px; filter: brightness(.8); background: #0E1A13; }
-.h5-app::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, #020503 0%, rgba(2, 5, 3, .92) 30%, rgba(2, 5, 3, 0) 62%); }
-.h5-app-copy { max-width: min(560px, 54%); padding: clamp(22px, 3.4vw, 52px); }
-.h5-app-copy .h5-eyebrow { margin-bottom: .8rem; }
-.h5-app-copy h2 { font-weight: 700; font-size: clamp(1.7rem, 3.4vw, 3.2rem); line-height: 1; letter-spacing: -.045em; margin: 0 0 .9rem; text-wrap: balance; }
-.h5-app-copy h2 em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.h5-app-copy p { margin: 0 0 1.4rem; color: var(--muted); }
-.h5-stores { display: flex; flex-wrap: wrap; gap: .7rem; }
-.h5-store { display: inline-flex; align-items: center; gap: .6rem; padding: .6em 1.1em; border-radius: 14px; background: #000; border: 1px solid rgba(255, 255, 255, .28); font-weight: 700; line-height: 1.1; }
-.h5-store svg { width: 22px; height: 22px; fill: #fff; flex: none; }
-.h5-store small { display: block; font-weight: 500; font-size: .64rem; color: var(--muted); }
-.h5-devices { position: absolute; right: clamp(-30px, 1vw, 20px); top: 0; bottom: 0; width: min(58%, 820px); z-index: 0; }
-.h5-dev { position: absolute; background: #0a0f0b; border: clamp(4px, .5vw, 7px) solid #151b16; box-shadow: 0 0 0 1.5px #2b352d, 0 30px 70px rgba(0, 0, 0, .75), 0 0 60px rgba(166, 226, 46, .12); overflow: hidden; }
-.h5-scr { position: absolute; inset: 0; background: #050806; display: flex; flex-direction: column; }
-.h5-shot { flex: 1; position: relative; overflow: hidden; }
-.h5-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
-.h5-shot::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 45%, #050806); }
-.h5-cap { position: absolute; left: 10%; right: 10%; bottom: 8%; z-index: 2; font-weight: 700; font-size: clamp(.62rem, 1.2vw, 1rem); line-height: 1.05; text-transform: uppercase; }
-.h5-cap i { display: inline-block; margin-top: .5em; font-style: normal; font-size: .62em; font-weight: 800; padding: .4em 1em; border-radius: 99px; background: var(--grad); color: #07160A; }
-.h5-mini { display: flex; gap: 4%; padding: 4%; height: 26%; }
-.h5-mini img { flex: 1; min-width: 0; height: 100%; object-fit: cover; border-radius: 5px; }
-.h5-dev.is-phone { left: 20%; top: 12%; width: clamp(120px, 15vw, 210px); aspect-ratio: 9/19; border-radius: clamp(16px, 2.2vw, 30px); transform: rotate(14deg) skewY(-3deg); z-index: 2; }
-.h5-dev.is-tablet { right: 2%; top: 30%; width: clamp(210px, 31vw, 440px); aspect-ratio: 4/3; border-radius: clamp(12px, 1.6vw, 22px); transform: rotate(-6deg) skewY(2deg); z-index: 1; }
-@media (max-width: 760px) {
-  .h5-app { flex-direction: column; align-items: stretch; min-height: 0; }
-  .h5-app-copy { max-width: none; padding-bottom: 0; }
-  .h5-devices { position: relative; width: 100%; height: 280px; right: 0; }
-  .h5-app::after { background: linear-gradient(180deg, #020503 0%, rgba(2, 5, 3, .8) 40%, rgba(2, 5, 3, 0) 80%); }
-  .h5-dev.is-phone { left: 8%; top: 6%; width: 128px; } .h5-dev.is-tablet { right: 4%; top: 34%; width: 56%; }
-}
 
 /* CTA */
 .h5-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2rem; background: linear-gradient(120deg, #C6EE3A 0%, #5DBB3A 38%, #12805A 72%, #06362F 100%); color: #06140A; box-shadow: 0 20px 70px rgba(166, 226, 46, .22); border-radius: 28px; padding: clamp(24px, 3.2vw, 44px); }
@@ -326,8 +283,6 @@ body.d5 .v4-foot-btn { background: var(--grad); color: #07160A !important; }
 .h5-sq:hover { background: #A6E22E; }
 .h5-pill { display: inline-flex; align-items: center; padding: .5em 1em; border-radius: 999px; background: rgba(255, 255, 255, .16); font-size: .82rem; font-weight: 700; color: #fff; }
 .h5-pill.is-dark { background: #111; color: #fff; }
-.h5-hint { color: var(--muted); font-size: .8rem; font-weight: 500; }
-@media (hover: none) { .h5-hint { display: none; } }
 
 /* 1) to'q banner + yelpig'ich */
 .h5-fan { position: relative; overflow: hidden; display: flex; align-items: center; min-height: clamp(300px, 26vw, 380px); border-radius: 16px; background: #1B1B1B;
@@ -580,15 +535,6 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
   .h5-tc p { font-size: .84rem; }
 
   /* 7) Har qanday ekranda — ixchamroq */
-  .h5-app-copy { padding: 20px 18px 0; }
-  .h5-app-copy .h5-eyebrow { margin-bottom: .5rem; }
-  .h5-app-copy h2 { font-size: 1.5rem; margin-bottom: .6rem; }
-  .h5-app-copy p { font-size: .88rem; margin-bottom: 1rem; }
-  .h5-stores { gap: .5rem; }
-  .h5-stores > * { font-size: .78rem; padding: .55em .8em; }
-  .h5-store svg { width: 18px; height: 18px; }
-  .h5-devices { height: 190px; }
-  .h5-dev.is-phone { width: 92px; top: 8%; } .h5-dev.is-tablet { width: 52%; top: 26%; }
 }
 
 /* 1) Har kayfiyatga — telefonda karusel */

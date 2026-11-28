@@ -23,7 +23,7 @@
                  nomida "Betmen" so'zi yo'q, shuning uchun tags ga yoziladi
      desc      - {uz, ru} qisqacha tavsif
      colors    - poster rasmi bo'lmaganda ishlatiladigan gradient ranglari
-     poster    - poster rasmiga yo'l, masalan 'images/dune.jpg'
+     poster    - poster rasmiga yo'l, masalan 'images/dune.webp'
      trailer   - treyler havolasi (YouTube)
      video     - to'liq kino havolasi. Qo'llab-quvvatlanadi:
                    YouTube      https://www.youtube.com/watch?v=XXXXXXXXXXX
@@ -78,7 +78,7 @@ const MOVIES = [
       ru: 'Добродушный великан-кролик мстит трём хулиганам-грызунам. Свободный короткометражный фильм Blender Foundation под лицензией CC BY — доступен для полного просмотра на сайте.'
     },
     colors: ['#4a7a3a', '#0f1a0c'],
-    poster: 'images/big-buck-bunny.jpg',
+    poster: 'images/big-buck-bunny.webp',
     trailer: 'https://www.youtube.com/watch?v=5xAgp6i9lUQ',
     video: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c0/Big_Buck_Bunny_4K.webm/Big_Buck_Bunny_4K.webm.720p.vp9.webm',
     featured: false
@@ -99,7 +99,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Бир уйда севишганлар». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/bir-uyda-sevishganlar.jpg',
+    poster: 'images/uz/bir-uyda-sevishganlar.webp',
     video: 'https://www.youtube.com/watch?v=_fY8NJXI9VQ',
     source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
     featured: false
@@ -115,7 +115,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Дахшатли уй». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/daxshatli-uy.jpg',
+    poster: 'images/uz/daxshatli-uy.webp',
     video: 'https://www.youtube.com/watch?v=Xtn0twJzvD0',
     source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
     featured: false
@@ -131,7 +131,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Омадли ошиқлар». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/omadli-oshiqlar.jpg',
+    poster: 'images/uz/omadli-oshiqlar.webp',
     video: 'https://www.youtube.com/watch?v=3bcrOfMLHGU',
     source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
     featured: false
@@ -147,7 +147,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Қизил ойна». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/qizil-oyna.jpg',
+    poster: 'images/uz/qizil-oyna.webp',
     video: 'https://www.youtube.com/watch?v=YsrXyb6Y_NQ',
     source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
     featured: false
@@ -163,7 +163,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Номуссиз». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/nomussiz.jpg',
+    poster: 'images/uz/nomussiz.webp',
     video: 'https://www.youtube.com/watch?v=kWsioSdc-XU',
     source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
     featured: false
@@ -179,7 +179,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Кутилмаган келин». Полная версия размещена на официальном YouTube-канале «Kashtan films»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/kutilmagan-kelin.jpg',
+    poster: 'images/uz/kutilmagan-kelin.webp',
     video: 'https://www.youtube.com/watch?v=wotfYFZepZM',
     source: { name: "Kashtan films", url: 'https://www.youtube.com/@KashtanFilms' },
     featured: false
@@ -196,7 +196,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Super kelinchak». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/super-kelinchak.jpg',
+    poster: 'images/uz/super-kelinchak.webp',
     video: 'https://www.youtube.com/watch?v=Be-Ja91Z7Qk',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -212,7 +212,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Нотаниш котил». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/notanish-qotil.jpg',
+    poster: 'images/uz/notanish-qotil.webp',
     video: 'https://www.youtube.com/watch?v=HATGTIhNAuA',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -229,7 +229,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Bo'rilar 2 – quvg'in». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/borilar-2-quvgin.jpg',
+    poster: 'images/uz/borilar-2-quvgin.webp',
     video: 'https://www.youtube.com/watch?v=kzTOyuHWEUM',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -246,7 +246,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Bo'rilar». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/borilar.jpg',
+    poster: 'images/uz/borilar.webp',
     video: 'https://www.youtube.com/watch?v=VWNbZRyrqWg',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -262,7 +262,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Кайсаргинам». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/qaysarginam.jpg',
+    poster: 'images/uz/qaysarginam.webp',
     video: 'https://www.youtube.com/watch?v=fNxF0okFGNI',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -279,7 +279,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Тилим курсин 2». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/tilim-qursin-2.jpg',
+    poster: 'images/uz/tilim-qursin-2.webp',
     video: 'https://www.youtube.com/watch?v=t8Saf1DG3n8',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -295,7 +295,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Кайсаргинам 2». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/qaysarginam-2.jpg',
+    poster: 'images/uz/qaysarginam-2.webp',
     video: 'https://www.youtube.com/watch?v=8hrUzzOl2uU',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -312,7 +312,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Ichkuyov». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/ichkuyov.jpg',
+    poster: 'images/uz/ichkuyov.webp',
     video: 'https://www.youtube.com/watch?v=9F16cxwZSgQ',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -329,7 +329,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Xoreograf». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/xoreograf.jpg',
+    poster: 'images/uz/xoreograf.webp',
     video: 'https://www.youtube.com/watch?v=PUU02klggno',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: true
@@ -346,7 +346,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Zamonaviy sovchilar 4». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/zamonaviy-sovchilar-4.jpg',
+    poster: 'images/uz/zamonaviy-sovchilar-4.webp',
     video: 'https://www.youtube.com/watch?v=iGWKed8Qdwc',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: true
@@ -363,7 +363,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Олинг куда-беринг куда». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/oling-quda-bering-quda.jpg',
+    poster: 'images/uz/oling-quda-bering-quda.webp',
     video: 'https://www.youtube.com/watch?v=4s4AL0Aq-fQ',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: false
@@ -380,7 +380,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Snayper». Полная версия размещена на официальном YouTube-канале «UzbekFilmsHD (RizaNova)»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/snayper.jpg',
+    poster: 'images/uz/snayper.webp',
     video: 'https://www.youtube.com/watch?v=0ycW8BtCZdg',
     source: { name: "UzbekFilmsHD (RizaNova)", url: 'https://www.youtube.com/@UzbekFilmsHD' },
     featured: true
@@ -396,7 +396,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Соткин». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/sotqin.jpg',
+    poster: 'images/uz/sotqin.webp',
     video: 'https://www.youtube.com/watch?v=7XrD7KN1Zpk',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -412,7 +412,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Жасур». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/jasur.jpg',
+    poster: 'images/uz/jasur.webp',
     video: 'https://www.youtube.com/watch?v=8EdasvDM6g4',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -428,7 +428,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Новда». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/novda.jpg',
+    poster: 'images/uz/novda.webp',
     video: 'https://www.youtube.com/watch?v=FVSAtbNsJzI',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -444,7 +444,7 @@ const MOVIES = [
       ru: "Узбекский фильм «18 квадрат». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/18-kvadrat.jpg',
+    poster: 'images/uz/18-kvadrat.webp',
     video: 'https://www.youtube.com/watch?v=NwEUY4-XNy8',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -460,7 +460,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Уч кахрамон». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/uch-qahramon.jpg',
+    poster: 'images/uz/uch-qahramon.webp',
     video: 'https://www.youtube.com/watch?v=RrOKftK5bjM',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -476,7 +476,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Телба». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/telba.jpg',
+    poster: 'images/uz/telba.webp',
     video: 'https://www.youtube.com/watch?v=oDgbigMiKkU',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -492,7 +492,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Панох». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/panoh.jpg',
+    poster: 'images/uz/panoh.webp',
     video: 'https://www.youtube.com/watch?v=8dxJb9RVJas',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -508,7 +508,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Пулинг булса». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/puling-bolsa.jpg',
+    poster: 'images/uz/puling-bolsa.webp',
     video: 'https://www.youtube.com/watch?v=9gS6bunZW6I',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -524,7 +524,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Афв». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/afv.jpg',
+    poster: 'images/uz/afv.webp',
     video: 'https://www.youtube.com/watch?v=YPYq4sT7xVg',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: false
@@ -540,7 +540,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Туткинлик». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/tutqunlik.jpg',
+    poster: 'images/uz/tutqunlik.webp',
     video: 'https://www.youtube.com/watch?v=Y-mmYdJRvr0',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: true
@@ -556,7 +556,7 @@ const MOVIES = [
       ru: "Узбекский фильм «101 reys». Полная версия размещена на официальном YouTube-канале «Uzbekkino (RizaNova)»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/101-reys.jpg',
+    poster: 'images/uz/101-reys.webp',
     video: 'https://www.youtube.com/watch?v=uD2L0CmWwnM',
     source: { name: "Uzbekkino (RizaNova)", url: 'https://www.youtube.com/@UzbekkinoHD' },
     featured: true
@@ -572,7 +572,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Ошиқлар». Полная версия размещена на официальном YouTube-канале «O‘zbekkino»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/oshiqlar.jpg',
+    poster: 'images/uz/oshiqlar.webp',
     video: 'https://www.youtube.com/watch?v=oeKcX6Y2xCA',
     source: { name: "O‘zbekkino", url: 'https://www.youtube.com/@Uzbekkino_official' },
     featured: false
@@ -588,7 +588,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Пўшт Арава». Полная версия размещена на официальном YouTube-канале «O‘zbekkino»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/posht-arava.jpg',
+    poster: 'images/uz/posht-arava.webp',
     video: 'https://www.youtube.com/watch?v=ed9l5fwYu0U',
     source: { name: "O‘zbekkino", url: 'https://www.youtube.com/@Uzbekkino_official' },
     featured: false
@@ -604,7 +604,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Ўгай Она». Полная версия размещена на официальном YouTube-канале «O‘zbekkino»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/ogay-ona.jpg',
+    poster: 'images/uz/ogay-ona.webp',
     video: 'https://www.youtube.com/watch?v=vjf9h8zyEBk',
     source: { name: "O‘zbekkino", url: 'https://www.youtube.com/@Uzbekkino_official' },
     featured: false
@@ -621,7 +621,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Мен талабаман». Полная версия размещена на официальном YouTube-канале «NevoFilms»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/men-talabaman.jpg',
+    poster: 'images/uz/men-talabaman.webp',
     video: 'https://www.youtube.com/watch?v=hbpnuFXzOYY',
     source: { name: "NevoFilms", url: 'https://www.youtube.com/@nevofilms1' },
     featured: false
@@ -638,7 +638,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Жаноб хеч ким». Полная версия размещена на официальном YouTube-канале «NevoFilms»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/janob-hech-kim.jpg',
+    poster: 'images/uz/janob-hech-kim.webp',
     video: 'https://www.youtube.com/watch?v=ouCLHQHEXH0',
     source: { name: "NevoFilms", url: 'https://www.youtube.com/@nevofilms1' },
     featured: false
@@ -655,7 +655,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Шабнам». Полная версия размещена на официальном YouTube-канале «NevoFilms»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/shabnam.jpg',
+    poster: 'images/uz/shabnam.webp',
     video: 'https://www.youtube.com/watch?v=DD1ODs30ers',
     source: { name: "NevoFilms", url: 'https://www.youtube.com/@nevofilms1' },
     featured: false
@@ -672,7 +672,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Югурганники эмас буюрганники». Полная версия размещена на официальном YouTube-канале «NevoFilms»."
     },
     colors: ['#3a4a2a', '#0c1008'],
-    poster: 'images/uz/yugurganniki-emas-buyurganniki.jpg',
+    poster: 'images/uz/yugurganniki-emas-buyurganniki.webp',
     video: 'https://www.youtube.com/watch?v=EcFgjOgYHFc',
     source: { name: "NevoFilms", url: 'https://www.youtube.com/@nevofilms1' },
     featured: false
@@ -688,7 +688,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Қалб Кўзи». Полная версия размещена на официальном YouTube-канале «Fox Music Cinema»."
     },
     colors: ['#5a3a2a', '#140c08'],
-    poster: 'images/uz/qalb-kozi.jpg',
+    poster: 'images/uz/qalb-kozi.webp',
     video: 'https://www.youtube.com/watch?v=HYqWsnmQYQc',
     source: { name: "Fox Music Cinema", url: 'https://www.youtube.com/@FoxMusicCinema' },
     featured: false
@@ -704,7 +704,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Йукотилган жаннат». Полная версия размещена на официальном YouTube-канале «navo.tv»."
     },
     colors: ['#2a4a5a', '#081014'],
-    poster: 'images/uz/yoqotilgan-jannat.jpg',
+    poster: 'images/uz/yoqotilgan-jannat.webp',
     video: 'https://www.youtube.com/watch?v=aG5JclI9cx4',
     source: { name: "navo.tv", url: 'https://www.youtube.com/@navotv' },
     featured: false
@@ -720,7 +720,7 @@ const MOVIES = [
       ru: "Узбекский фильм «Дадам билмасин». Полная версия размещена на официальном YouTube-канале «navo.tv»."
     },
     colors: ['#4a2a4a', '#100810'],
-    poster: 'images/uz/dadam-bilmasin.jpg',
+    poster: 'images/uz/dadam-bilmasin.webp',
     video: 'https://www.youtube.com/watch?v=U_FTs4VHl9U',
     source: { name: "navo.tv", url: 'https://www.youtube.com/@navotv' },
     featured: false
@@ -737,7 +737,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2025 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2025-kulib-yashaylik.jpg",
+    poster: "images/uz/konsert-avaz-2025-kulib-yashaylik.webp",
     video: 'https://www.youtube.com/watch?v=mjLbvt7wIq8',
     source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
     featured: false
@@ -754,7 +754,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2024 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2024-toydagi-tomosha.jpg",
+    poster: "images/uz/konsert-avaz-2024-toydagi-tomosha.webp",
     video: 'https://www.youtube.com/watch?v=jY98EwB1IJQ',
     source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
     featured: false
@@ -771,7 +771,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2023 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2023-10-yillik-yubiley.jpg",
+    poster: "images/uz/konsert-avaz-2023-10-yillik-yubiley.webp",
     video: 'https://www.youtube.com/watch?v=UHT1ArsrJlc',
     source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
     featured: false
@@ -788,7 +788,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2022 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2022-kulgiterapiya.jpg",
+    poster: "images/uz/konsert-avaz-2022-kulgiterapiya.webp",
     video: 'https://www.youtube.com/watch?v=_nhXnUn7A-M',
     source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
     featured: false
@@ -805,7 +805,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2021 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2021-kulgularingizni-sogindim.jpg",
+    poster: "images/uz/konsert-avaz-2021-kulgularingizni-sogindim.webp",
     video: 'https://www.youtube.com/watch?v=pac0a59ZsHw',
     source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
     featured: false
@@ -822,7 +822,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2019 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2019.jpg",
+    poster: "images/uz/konsert-avaz-2019.webp",
     video: 'https://www.youtube.com/watch?v=HXoU8KqMd2o',
     source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
     featured: false
@@ -839,7 +839,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2018 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2018.jpg",
+    poster: "images/uz/konsert-avaz-2018.webp",
     video: 'https://www.youtube.com/watch?v=CWgoDzE3cZM',
     source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
     featured: false
@@ -856,7 +856,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2017 года. Размещена на официальном YouTube-канале «YangiKulgu Official»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2017.jpg",
+    poster: "images/uz/konsert-avaz-2017.webp",
     video: 'https://www.youtube.com/watch?v=Oy4PQvke7Rc',
     source: { name: "YangiKulgu Official", url: "https://www.youtube.com/@YangiKulgu" },
     featured: false
@@ -873,7 +873,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2016 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2016.jpg",
+    poster: "images/uz/konsert-avaz-2016.webp",
     video: 'https://www.youtube.com/watch?v=2NiTIEp5Ugk',
     source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
     featured: false
@@ -890,7 +890,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2015 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2015.jpg",
+    poster: "images/uz/konsert-avaz-2015.webp",
     video: 'https://www.youtube.com/watch?v=LuDFFGkpyE4',
     source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
     featured: false
@@ -907,7 +907,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Аваз Охун» 2014 года. Размещена на официальном YouTube-канале «Avaz Oxun»."
     },
     colors: ["#5a3a12","#140c04"],
-    poster: "images/uz/konsert-avaz-2014.jpg",
+    poster: "images/uz/konsert-avaz-2014.webp",
     video: 'https://www.youtube.com/watch?v=2aZ6pZ3qWt4',
     source: { name: "Avaz Oxun", url: "https://www.youtube.com/@AvazOxun" },
     featured: false
@@ -924,7 +924,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2025 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2025-kuz.jpg",
+    poster: "images/uz/konsert-million-2025-kuz.webp",
     video: 'https://www.youtube.com/watch?v=qZ9ZpSn3eOs',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -941,7 +941,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2025 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2025.jpg",
+    poster: "images/uz/konsert-million-2025.webp",
     video: 'https://www.youtube.com/watch?v=YZddDdYi7h4',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -958,7 +958,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2024 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2024-kuz.jpg",
+    poster: "images/uz/konsert-million-2024-kuz.webp",
     video: 'https://www.youtube.com/watch?v=q6u7FuT3vWo',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -975,7 +975,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2024 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2024.jpg",
+    poster: "images/uz/konsert-million-2024.webp",
     video: 'https://www.youtube.com/watch?v=FNjWoKRKe6s',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -992,7 +992,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2023 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2023-10-yillik-yubiley.jpg",
+    poster: "images/uz/konsert-million-2023-10-yillik-yubiley.webp",
     video: 'https://www.youtube.com/watch?v=D1LVulqHw4s',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -1009,7 +1009,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2022 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2022.jpg",
+    poster: "images/uz/konsert-million-2022.webp",
     video: 'https://www.youtube.com/watch?v=sxWszokjdzg',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -1026,7 +1026,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2021 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2021-kuz.jpg",
+    poster: "images/uz/konsert-million-2021-kuz.webp",
     video: 'https://www.youtube.com/watch?v=tPg6FNt-NYg',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -1043,7 +1043,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2019 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2019.jpg",
+    poster: "images/uz/konsert-million-2019.webp",
     video: 'https://www.youtube.com/watch?v=jo3aLcacRow',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -1060,7 +1060,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2018 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2018.jpg",
+    poster: "images/uz/konsert-million-2018.webp",
     video: 'https://www.youtube.com/watch?v=At8bxuzGm2Q',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -1077,7 +1077,7 @@ const MOVIES = [
       ru: "Полная концертная программа «Миллион жамоаси» 2017 года. Размещена на официальном YouTube-канале «Million Jamoasi ™»."
     },
     colors: ["#12325a","#040c14"],
-    poster: "images/uz/konsert-million-2017.jpg",
+    poster: "images/uz/konsert-million-2017.webp",
     video: 'https://www.youtube.com/watch?v=dY8LY6vGV1c',
     source: { name: "Million Jamoasi ™", url: "https://www.youtube.com/@millionjamoasi" },
     featured: false
@@ -1097,8 +1097,8 @@ const MOVIES = [
     },
     tags: ["Marvel","WandaVision","Wanda Vision","Vanda Vijn","Ванда Вижн","ВандаВижн","Ванда/Вижн","Ванда и Вижн","Vanda Vijin","Vanda va Vijn","WandaVision serial","Scarlet Witch","Алая ведьма","Marvel seriali"],
     colors: ["#8a1a2a","#10060a"],
-    poster: "images/marvel/wandavision.jpg",
-    cover: "images/marvel/wandavision-cover.jpg",
+    poster: "images/marvel/wandavision.webp",
+    cover: "images/marvel/wandavision-cover.webp",
     trailer: "https://www.youtube.com/watch?v=sj9J2ecsSpo",
     video: "https://www.youtube.com/watch?v=X5Am3fEqvQI",
     lang: 'en',
@@ -1112,14 +1112,14 @@ const MOVIES = [
     id: 152, slug: "wandavision-2-qism", year: 2021, type: 'serial', franchise: 'marvel',
     title: { uz: "WandaVision (2-qism)", ru: "ВандаВижн (2 серия)" },
     genres: ["scifi","comedy","drama"], country: { uz: 'AQSh', ru: 'США' }, cast: [],
-    desc: { uz: "", ru: "" }, colors: ["#8a1a2a","#10060a"], poster: "images/marvel/wandavision.jpg", trailer: "",
+    desc: { uz: "", ru: "" }, colors: ["#8a1a2a","#10060a"], poster: "images/marvel/wandavision.webp", trailer: "",
     video: "https://www.youtube.com/watch?v=MDu8SVwYaa0", lang: 'en', duration: 34, source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' }, featured: false
   },
   {
     id: 153, slug: "wandavision-3-qism", year: 2021, type: 'serial', franchise: 'marvel',
     title: { uz: "WandaVision (3-qism)", ru: "ВандаВижн (3 серия)" },
     genres: ["scifi","comedy","drama"], country: { uz: 'AQSh', ru: 'США' }, cast: [],
-    desc: { uz: "", ru: "" }, colors: ["#8a1a2a","#10060a"], poster: "images/marvel/wandavision.jpg", trailer: "",
+    desc: { uz: "", ru: "" }, colors: ["#8a1a2a","#10060a"], poster: "images/marvel/wandavision.webp", trailer: "",
     video: "https://www.youtube.com/watch?v=NUW7dpNXfyU", lang: 'en', duration: 30, source: { name: 'Marvel Entertainment', url: 'https://www.youtube.com/@marvel' }, featured: false
   }
 ];

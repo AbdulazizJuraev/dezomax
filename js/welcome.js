@@ -166,7 +166,7 @@
         <span class="wc-badge">${ICON.play}</span>
       </div>
       <div class="wc-hl wc-hl-3" aria-hidden="true">
-        <img class="wc-tv-bg" src="images/welcome/football-4.jpg" alt="" decoding="async">
+        <img class="wc-tv-bg" src="images/welcome/football-4.webp" alt="" decoding="async">
         <span class="wc-live"><i></i><em data-live></em></span>
         <div class="wc-tv" data-tv></div>
         <span class="wc-ball">${ICON.ball}</span>

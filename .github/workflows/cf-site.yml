@@ -62,9 +62,10 @@ jobs:
       - name: Saytni tekshirish
         if: steps.chk.outputs.ok == '1'
         run: |
-          npm i --no-save --no-audit --no-fund puppeteer-core@23 > /dev/null
+          npm i --no-save --no-audit --no-fund puppeteer-core@23 esbuild@0.24 > /dev/null
+          node tools/minify-site.js _site   # JS/CSS siqiladi (faqat yuklanadigan nusxa, manba o'qiladigan qoladi), 2026-11-28
           node tools/test-movie-seo.mjs   # har bir kino manzili: 200/301, canonical, title, sitemap
-          node tools/check-site.js --smoke
+          node tools/check-site.js --smoke --serve _site   # brauzer sinovi aynan siqilgan nusxada
 
       - name: Tekshiruvdan o'tmadi — xabar (GitHub Issues)
         if: failure() && steps.chk.outputs.ok == '1'

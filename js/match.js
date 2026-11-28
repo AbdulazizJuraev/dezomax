@@ -58,11 +58,11 @@ Object.assign(I18N.ru, {
 
 /* Sport telekanallari (sport.html channels.js ni yuklamaydi — id'lar channels.js bilan bir xil) */
 const CHANNELS_LITE = [
-  { id: 'Sport',          name: 'Sport',         logo: 'images/tv/Sport.jpg' },
-  { id: 'MatchPlanetaRU', name: 'Матч! Планета', logo: 'images/tv/MatchPlanetaRU.png' },
-  { id: 'MatchUltraRU',   name: 'Матч! Ультра',  logo: 'images/tv/MatchUltraRU.jpg' },
-  { id: 'KHLRU',          name: 'КХЛ',           logo: 'images/tv/KHLRU.png' },
-  { id: 'KHLPrimeRU',     name: 'КХЛ Prime',     logo: 'images/tv/KHLPrimeRU.png' }
+  { id: 'Sport',          name: 'Sport',         logo: 'images/tv/Sport.webp' },
+  { id: 'MatchPlanetaRU', name: 'Матч! Планета', logo: 'images/tv/MatchPlanetaRU.webp' },
+  { id: 'MatchUltraRU',   name: 'Матч! Ультра',  logo: 'images/tv/MatchUltraRU.webp' },
+  { id: 'KHLRU',          name: 'КХЛ',           logo: 'images/tv/KHLRU.webp' },
+  { id: 'KHLPrimeRU',     name: 'КХЛ Prime',     logo: 'images/tv/KHLPrimeRU.webp' }
 ];
 
 /* Sport turiga mos jonli kanallar */

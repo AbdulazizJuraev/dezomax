@@ -30,7 +30,7 @@
   <div class="shade"></div>
   <div class="glow"></div>
   <div class="content">
-    <img class="logo" src="../images/logo/logo.png" alt="DezoMax">
+    <img class="logo" src="../images/logo/logo.webp" alt="DezoMax">
     <h1>Kinolar endi <em>bepul</em><br>va o‘zbek tilida</h1>
     <p class="sub">Har kuni yangi kinolar, seriallar va multfilmlar — telefon, kompyuter va televizorda.</p>
     <div class="chips"><span class="chip">🎬 O‘zbek kinolari</span><span class="chip">📺 Seriallar</span><span class="chip">🧸 Multfilmlar</span><span class="chip">🎞 Kino klassikasi</span></div>
@@ -42,6 +42,6 @@
 <script>
   const posters = ['101-reys','18-kvadrat','afv','bir-uyda-sevishganlar','borilar-2-quvgin','borilar','dadam-bilmasin','daxshatli-uy','ichkuyov','janob-hech-kim','jasur','konsert-avaz-2014'];
   const all = [...posters, ...posters.slice().reverse(), ...posters.slice(3), ...posters.slice(0, 3)];
-  document.getElementById('wall').innerHTML = all.slice(0, 25).map(p => `<img src="../images/uz/${p}.jpg" alt="">`).join('');
+  document.getElementById('wall').innerHTML = all.slice(0, 25).map(p => `<img src="../images/uz/${p}.webp" alt="">`).join('');
 </script>
 </body></html>

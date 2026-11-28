@@ -2,7 +2,7 @@
    DezoMax — admin: kinolarni qo'lda qo'shish / tahrirlash / o'chirish
    ------------------------------------------------------------
    Server yo'q: o'zgarishlar GitHub API orqali to'g'ridan-to'g'ri repoga yoziladi
-   (js/data-custom.js va images/custom/*.jpg), GitHub Pages ~1 daqiqada saytni yangilaydi.
+   (js/data-custom.js va images/custom/*.webp), GitHub Pages ~1 daqiqada saytni yangilaydi.
 
    Token: GitHub fine-grained token (faqat shu repo, Contents: Read and write).
    Faqat shu brauzerning localStorage'ida saqlanadi — repoga HECH QACHON yozilmaydi.
@@ -263,22 +263,6 @@ async function saveCustom(mutate, message, opts = {}) {
   }
 }
 
-/* Sayt data-custom.js ni emas, yengil nusxani yuklaydi (js/site-data-build.js): js/data-site.js + js/data-desc.js.
-   To'liq fayl saqlangach — shu ikkisi ham yangilanadi (ketma-ket saqlashlarda oxirgisi yoziladi). */
-let siteSaveQueue = Promise.resolve();
-function saveSiteFiles(list, hidden) {
-  if (typeof buildSiteData !== 'function') return;
-  siteSaveQueue = siteSaveQueue.then(async () => {
-    const { site, desc } = buildSiteData(list, hidden);
-    for (const [path, text] of [['js/data-site.js', site], ['js/data-desc.js', desc]]) {
-      for (let attempt = 0; attempt < 2; attempt++) {
-        try { await putFile(path, b64encode(text), `Sayt fayli yangilandi: ${path.slice(3)}`, await remoteSha(path)); break; }
-        catch (e) { if (e.status !== 409 || attempt) throw e; }
-      }
-    }
-  }).catch(e => toast('Sayt fayli yangilanmadi: ' + friendlyError(e) + ' — keyingi saqlashda qayta yoziladi', true));
-}
-
 /* Saqlangandan keyin GitHub'dagi fayl hajmi biz yuborgan matnnikiga tengligini tekshiramiz (fonda, bir necha KB —
    oldin butun 1,8 MB qayta yuklanardi). Mos kelmasa — ekranda ogohlantirish (qo'riqchi baribir tiklaydi). */
 async function verifySaved(text) {
@@ -301,7 +285,11 @@ function compressImage(file, maxW = 600) {
       c.width = Math.round(img.naturalWidth * scale);
       c.height = Math.round(img.naturalHeight * scale);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-      resolve(c.toDataURL('image/jpeg', 0.86).split(',')[1]);
+      // WebP (2026-11-28): JPEG'dan ~30% yengil. WebP yozolmaydigan brauzer PNG qaytaradi — unda JPEG
+      const webp = c.toDataURL('image/webp', 0.82);
+      resolve(webp.startsWith('data:image/webp')
+        ? { b64: webp.split(',')[1], ext: 'webp' }
+        : { b64: c.toDataURL('image/jpeg', 0.86).split(',')[1], ext: 'jpg' });
       URL.revokeObjectURL(img.src);
     };
     img.onerror = () => reject(new Error('Rasmni o‘qib bo‘lmadi'));
@@ -310,8 +298,8 @@ function compressImage(file, maxW = 600) {
 }
 
 async function uploadPoster(file, slug, maxW = 600) {
-  const b64 = await compressImage(file, maxW);
-  const path = `images/custom/${slug}.jpg`;
+  const { b64, ext } = await compressImage(file, maxW);
+  const path = `images/custom/${slug}.${ext}`;
   const existing = await getFile(path);
   await putFile(path, b64, `Poster: ${slug}`, existing?.sha);
   // nisbiy manzil — sayt (dezomax.uz) ham, ilova ham o'z manzilidan oladi (kodda zaxira manzil ko'rinmaydi)
@@ -2957,15 +2945,6 @@ async function cardAutoPosters(btn, note, scope) {
   } finally { btn.disabled = false; }
 }
 
-/* Saqlashda TMDB rasmi saytning o'ziga yuklanadi (images/custom/) — tashqi xostga bog'liq bo'lmasin */
-async function tmdbImageFile(url) {
-  if (!url || !url.startsWith(TMDB_IMG)) return null;
-  const r = await fetch(url).catch(() => null);
-  if (!r || !r.ok) return null;
-  const blob = await r.blob();
-  return new File([blob], 'tmdb.jpg', { type: blob.type || 'image/jpeg' });
-}
-
 function renderFormView() {
   const editing = editingId !== null ? currentMovie(editingId) : null;
   // RuTube navbatidan «Tasdiqlash» — forma tayyor ma'lumot bilan ochiladi (bir marta; _rtq — navbatdagi video ID)
@@ -3535,7 +3514,7 @@ async function renderLogoView() {
   box.innerHTML = `
     <section class="adm-sec">
       <div class="adm-sec-head"><h3>LogoVidio</h3><small>sayt pleyeri</small></div>
-      <div class="adm-logo-prev" style="background-image:url('${esc(sample?.cover || sample?.poster || '')}')"><span class="adm-logo-img" aria-label="DezoMax">${window.dezoLogoSVG ? window.dezoLogoSVG() : '<img src="images/logo/logo.png" alt="">'}</span></div>
+      <div class="adm-logo-prev" style="background-image:url('${esc(sample?.cover || sample?.poster || '')}')"><span class="adm-logo-img" aria-label="DezoMax">${window.dezoLogoSVG ? window.dezoLogoSVG() : '<img src="images/logo/logo.webp" alt="">'}</span></div>
       <label class="adm-lg-on"><input type="checkbox" id="lgOn" ${L.enabled ? 'checked' : ''}> Belgi yoqilgan</label>
       <label class="adm-label">Joyi</label>
       ${seg('pos', [['tl', '↖ Chap tepa'], ['tr', '↗ O‘ng tepa'], ['bl', '↙ Chap past'], ['br', '↘ O‘ng past']])}
@@ -6542,33 +6521,4 @@ function rtqLoadPosters(queue) {
     if (pos[it.id]) { e.target.src = pos[it.id]; e.target.classList.remove('is-frame'); }
   }), { rootMargin: '300px 0px' });
   document.querySelectorAll('#rtqList img[data-rtq-pos]').forEach(i => rtqPosObs.observe(i));
-}
-
-function rtqListHTML(queue) {
-  const list = queue.filter(x => x.status === rtqTab);
-  if (!list.length) return `<p class="acc-muted">${rtqTab === 'pending' ? 'Tasdiq kutayotgan video yo‘q. Yuqorida qidirib qo‘shing.' : 'Bo‘sh.'}</p>`;
-  return list.map(it => {
-    const d = rtqTab === 'pending' ? rtDupes(it.id, it.title, it.year) : { same: [], similar: [] };
-    const c = it.check || null;
-    return `
-    <div class="rtq-item" data-id="${esc(it.id)}">
-      <a class="rtq-thumb" href="${esc(it.video)}" target="_blank" rel="noopener"><img src="${esc(it.poster || '')}" alt="" loading="lazy"><span>${rtDur(it.duration)}</span></a>
-      <div class="rtq-body">
-        <b>${esc(it.title)}${it.year ? ` (${it.year})` : ''}</b>
-        <small>${esc(it.author?.name || '')} · ${esc(it.category || '')} · til: ${esc((it.lang || 'ru').toUpperCase())}${it.genres?.length ? ` · ${esc(it.genres.join(', '))}` : ''}</small>
-        <div class="rtq-badges">${rtCheckBadges(c)}${c?.at ? `<small class="acc-muted"> · tekshirildi: ${esc(c.at)}</small>` : ''}</div>
-        ${d.same.length ? `<small class="rtq-dup">⛔ Bu video saytda bor: ${esc(d.same.join(', '))}</small>` : ''}
-        ${d.similar.length ? `<small class="rtq-dup">⚠ Saytda shu nomli film bor — yangisini qo‘shmasdan, unga ruscha video sifatida biriktirish mumkin:</small>
-          <div class="rtq-attach">${d.similar.map(m => `<button class="btn btn-ghost btn-sm" type="button" data-act="attach" data-movie="${m.id}"${c?.ok ? '' : ' disabled'}>«${esc(m.title?.uz || m.id)}»${m.year ? ` (${m.year})` : ''} ga biriktirish</button>`).join('')}</div>` : ''}
-        ${it.status === 'approved' && it.movieId ? `<small><a href="${SITE_URL}movie.html?id=${it.movieId}" target="_blank" rel="noopener">Saytda ochish ↗</a>${it.attached ? ' (til videosi)' : ''}</small>` : ''}
-      </div>
-      <div class="rtq-actions">
-        ${it.status === 'pending' ? `
-          <button class="btn btn-primary btn-sm" type="button" data-act="approve"${c?.ok && !d.same.length ? '' : ' disabled title="Tekshiruvdan o‘tmagan"'}>Tasdiqlash →</button>
-          <button class="btn btn-ghost btn-sm" type="button" data-act="recheck">Qayta tekshirish</button>
-          <button class="btn btn-ghost btn-sm" type="button" data-act="reject">Rad etish</button>`
-        : it.status === 'rejected' ? '<button class="btn btn-ghost btn-sm" type="button" data-act="restore">Navbatga qaytarish</button>' : ''}
-      </div>
-    </div>`;
-  }).join('');
 }

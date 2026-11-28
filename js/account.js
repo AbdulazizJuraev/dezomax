@@ -570,20 +570,6 @@ const section = () => {
   return ALL_SECTIONS.some(m => m.id === id) ? id : '';
 };
 
-/* Tarif muddati: qolgan kunlar va chiziq */
-function planProgressHTML() {
-  if (profile.plan === 'free' || !profile.planUntil) return `<span class="acc-stat-sub">${t('acc.freeForever')}</span>`;
-  const sub = (profile.subscriptions || []).find(s => s.plan === profile.plan && s.until === profile.planUntil);
-  const from = sub ? sub.from : profile.planUntil - 30 * DAY;
-  const total = Math.max(DAY, profile.planUntil - from);
-  const left = Math.max(0, profile.planUntil - Date.now());
-  const days = Math.ceil(left / DAY);
-  const pct = Math.round(left / total * 100);
-  return `
-    <span class="acc-stat-sub">${days} ${t('acc.daysLeft')}</span>
-    <span class="acc-bar"><i style="width:${pct}%"></i></span>`;
-}
-
 function unreadCount() { return (profile.notifications || []).filter(n => !n.read).length; }
 
 function renderAccount() {

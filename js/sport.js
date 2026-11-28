@@ -544,23 +544,6 @@ function tsdbNext() { while (tsdbBusy < 1 && tsdbQ.length) { tsdbBusy++; tsdbQ.s
 
 const bodyOf = p => p && (p.strRender || p.strCutout) ? { src: p.strRender || p.strCutout, body: !!p.strRender } : null;
 
-async function tsdbTeamBody(name, sportId) {
-  if (!name) return null;
-  const ck = 'tb2:' + sportId + ':' + name;
-  const c = photoCache(ck); if (c !== undefined) return c;
-  try {
-    const teams = (await tsdb('/searchteams.php?t=' + encodeURIComponent(name))).teams || [];
-    const team = teams.find(x => TSDB_SPORT[sportId]?.test(x.strSport || '')) || null;
-    if (!team) return photoCache(ck, null, 168);
-    const ps = (await tsdb('/lookup_all_players.php?id=' + team.idTeam)).player || [];
-    // eng yangi yuklangan butun gavdali surat — o'yinchi hozirgi jamoa formasida bo'lishi ehtimoli katta
-    // (eski suratlarda boshqa klub formasida chiqardi). Fayl nomi oxirida yuklangan vaqt (unix soniya).
-    const ts = u => +((u || '').match(/(\d{10})\.\w+$/) || [])[1] || 0;
-    const pick = ps.filter(p => p.strRender).sort((x, y) => ts(y.strRender) - ts(x.strRender))[0] || ps.find(p => p.strCutout);
-    return photoCache(ck, bodyOf(pick), 168);
-  } catch { return null; }
-}
-
 async function tsdbPersonBody(name, sportId) {
   if (!name) return null;
   const ck = 'pb:' + sportId + ':' + name;

@@ -123,7 +123,7 @@
   // so'rov live.html <head>'da boshlangan bo'lsa — o'sha (window.dzEfirP), aks holda shu yerda
   (window.dzEfirP || fetch(String(PAY_API).replace(/\/+$/, '') + '/efir/status', { cache: 'no-store' }).then(r => r.ok ? r.json() : null)).then(st => {
     if (!st || !st.live) return;
-    own = { own: true, id: 'dezomax', title: st.title || 'DezoMax efiri', channel: 'DezoMax', viewers: st.viewers || 0, thumb: 'images/logo/icon-512.png', avatar: 'images/logo/dezo-mark.webp' };
+    own = { own: true, id: 'dezomax', title: st.title || 'DezoMax efiri', channel: 'DezoMax', viewers: st.viewers || 0, thumb: 'images/logo/icon-512.webp', avatar: 'images/logo/dezo-mark.webp' };
     if (!location.hash) route();
   }).catch(() => {});
 

@@ -60,7 +60,6 @@ function rtVideos(key) {
   }
   return out;
 }
-const rtHas = key => Object.keys(rtVideos(key)).length > 0;
 
 /* Til tugmalari. always — video bo'lmasa ham ko'rsatiladi (Русский doim turadi, boshqalari — qo'shilgan bo'lsa) */
 function rtBarHTML(key, { always = false, backLabel = '' } = {}) {

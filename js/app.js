@@ -237,10 +237,6 @@ let clipTimer = null;
 
 const heroYtId = m => (String(m?.trailer || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
 
-function slideDuration(i) {
-  return heroClipsOn && heroYtId(featured[i]) ? (HERO_IMAGE_SEC + HERO_CLIP_SEC) * 1000 : HERO_DELAY;
-}
-
 /* ---------- Treyler ovozi ----------
    Ovozsiz holatda har bir slayd o'z pleyerida, keyingisi oldindan yuklanadi (silliq almashadi).
    Ovoz yoqilganda esa telefonda bir vaqtda ikkita pleyer ishlasa ovozli video to'xtab qoladi —
