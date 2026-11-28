@@ -2475,21 +2475,12 @@ function arsenalAsk(q) {
   const ta = arsenal.box?.querySelector('#aiChatForm textarea');
   if (ta) { ta.value = q; ta.focus(); }
 }
-function arsLoop(t) {
-  const R = [[.86, .3, .7], [.3, .86, .55], [.66, .5, .8], [.5, .66, .6], [.78, .78, .4]];
-  document.querySelectorAll('canvas.ars-sph').forEach(c => {
-    if (!c.offsetParent) return;
-    const x = c.getContext('2d'), s = c.width, m = s / 2;
-    x.clearRect(0, 0, s, s);
-    const g = x.createRadialGradient(m, m, 0, m, m, m);
-    g.addColorStop(0, 'rgba(255,190,120,.95)'); g.addColorStop(.18, 'rgba(255,138,31,.7)'); g.addColorStop(.5, 'rgba(255,110,0,.15)'); g.addColorStop(1, 'rgba(255,110,0,0)');
-    x.fillStyle = g; x.beginPath(); x.arc(m, m, m, 0, 7); x.fill();
-    x.lineWidth = Math.max(1, s / 120);
-    R.forEach(([a, b, o], i) => { x.save(); x.translate(m, m); x.rotate(t / (2400 + i * 700) * (i % 2 ? -1 : 1)); x.strokeStyle = `rgba(255,${150 + i * 12},60,${o})`; if (i === 4) x.setLineDash([s / 90, s / 30]); x.beginPath(); x.ellipse(0, 0, a * m * .95, b * m * .95, 0, 0, 7); x.stroke(); x.restore(); });
-    if (s > 80) for (let k = 0; k < 40; k++) { const an = k / 40 * 6.283 + t / 5000, r = m * (.88 + .04 * Math.sin(t / 400 + k)); x.fillStyle = 'rgba(255,170,90,.6)'; x.fillRect(m + Math.cos(an) * r, m + Math.sin(an) * r, s / 110 + .5, s / 110 + .5); }
-    x.fillStyle = '#fff6ea'; x.beginPath(); x.arc(m, m, s * (.05 + .01 * Math.sin(t / 300)), 0, 7); x.fill();
-  });
-  requestAnimationFrame(arsLoop);
+/* Shar — Arsenal ilovasining o'z animatsiyasi (js/arsenal-ai.js, Z:\MARK\Arsenal\www dan): yangi canvas.ars-sph paydo bo'lsa, o'zi ulanadi */
+function arsWatch() {
+  if (typeof ArsenalAI === 'undefined') return;
+  const mount = () => document.querySelectorAll('canvas.ars-sph:not([data-m])').forEach(c => { c.dataset.m = '1'; ArsenalAI.mount(c); });
+  new MutationObserver(mount).observe(document.body, { childList: true, subtree: true });
+  mount();
 }
 
 function renderArsenalView() {
@@ -2513,7 +2504,7 @@ function initAiChat() {
   const btn = document.createElement('button');
   btn.id = 'aiChatBtn'; btn.type = 'button'; btn.className = 'adm-aichat-btn'; btn.title = 'Arsenal';
   btn.innerHTML = `${arsSphere(30)}<span>Arsenal</span>`;
-  requestAnimationFrame(arsLoop);
+  arsWatch();
   const box = document.createElement('div');
   box.id = 'aiChat'; box.className = 'adm-aichat'; box.hidden = true;
   document.body.append(btn, box);
