@@ -2171,11 +2171,61 @@ function tmdbSectionHTML(m) {
    Kino formasida: tavsif yozish, ruschadan tarjima, janr va teglar, tavsifni tozalash. Natija formaga yoziladi —
    admin ko'rib chiqib o'zi saqlaydi. Kalit faqat shu brauzerda (localStorage), repoga yozilmaydi. */
 const AI_KEY = 'dezomax_gemini_key';
-/* 2026-11-28: Gemini o'chirildi — Arsenal'ning o'z miyasi (kompyuterdagi model, Ollama) tayyorlanmoqda.
-   Qayta yoqish: GEMINI_OFF = false. Oldin saqlangan kalit brauzerdan o'chiriladi. */
+/* 2026-11-28: Gemini o'chirildi — Arsenal'ning o'z miyasi: kompyuterdagi model (Ollama, gemma4:26b), kalitsiz va bepul.
+   Admin ochilganda http://127.0.0.1:11434 tekshiriladi; topilsa — barcha AI ishlari (Arsenal suhbati, kino formasidagi
+   tavsif/tarjima/janr) shu model orqali. Boshqa model: localStorage 'arsenal_model'. Gemini'ga qaytish: GEMINI_OFF = false. */
 const GEMINI_OFF = true;
-if (GEMINI_OFF) try { localStorage.removeItem(AI_KEY); } catch {}
-const aiKey = () => { if (GEMINI_OFF) return ''; try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
+const ARS_URL = 'http://127.0.0.1:11434';
+const arsModel = () => { try { return localStorage.getItem('arsenal_model') || 'gemma4:26b'; } catch { return 'gemma4:26b'; } };
+window.ARS_OK = false;
+async function arsCheck() {
+  try {
+    const j = await fetch(ARS_URL + '/api/tags', { signal: AbortSignal.timeout(2500) }).then(r => r.json());
+    window.ARS_OK = (j.models || []).some(m => m.name === arsModel() || m.model === arsModel());
+  } catch { window.ARS_OK = false; }
+  return window.ARS_OK;
+}
+if (GEMINI_OFF) { try { localStorage.removeItem(AI_KEY); } catch {} arsCheck().then(ok => { if (ok && arsenal.draw && ['ai', 'home'].includes(view)) renderMain(); }); }
+const aiKey = () => { if (GEMINI_OFF) return window.ARS_OK ? 'arsenal' : ''; try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
+
+/* Gemini ko'rinishidagi so'rovni Arsenal (Ollama) ga o'tkazish: javob ham Gemini ko'rinishida qaytadi — qolgan kod o'zgarmaydi */
+async function arsenalLLM(contents, opts) {
+  const messages = opts.system ? [{ role: 'system', content: opts.system }] : [];
+  for (const c of contents) {
+    const parts = c.parts || [];
+    const resp = parts.filter(p => p.functionResponse);
+    if (resp.length) { for (const p of resp) messages.push({ role: 'tool', tool_name: p.functionResponse.name, content: JSON.stringify(p.functionResponse.response?.result ?? p.functionResponse.response) }); continue; }
+    const calls = parts.filter(p => p.functionCall).map(p => ({ function: { name: p.functionCall.name, arguments: p.functionCall.args || {} } }));
+    messages.push({ role: c.role === 'model' ? 'assistant' : 'user', content: parts.map(p => p.text || '').join(''), ...(calls.length ? { tool_calls: calls } : {}) });
+  }
+  const tools = opts.tools ? opts.tools.flatMap(t => (t.functionDeclarations || []).map(f => ({ type: 'function', function: f }))) : undefined;
+  let r;
+  try {
+    r = await fetch(ARS_URL + '/api/chat', { method: 'POST', body: JSON.stringify({ model: arsModel(), messages, tools, stream: false, think: false, keep_alive: '30m',
+      ...(opts.text || opts.raw ? {} : { format: 'json' }), options: { temperature: opts.text || opts.raw ? 0.5 : 0.4 } }) });
+  } catch { window.ARS_OK = false; throw new Error('Arsenal miyasiga ulanib bo‘lmadi — kompyuterda Ollama ishlayaptimi?'); }
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || j.error) throw new Error('Arsenal: ' + (j.error || r.status));
+  const m = j.message || {};
+  let text = m.content || '';
+  // kichik model ba'zan asbobni chaqirish o'rniga matnda yozadi: set_description(id=152, desc_uz="…") — shuni asbob chaqiruviga aylantiramiz
+  if (opts.raw && tools && !(m.tool_calls || []).length) {
+    const names = tools.map(t => t.function.name).join('|'), calls = [];
+    text = text.replace(new RegExp('`*\\b(' + names + ')\\(([^)]*)\\)`*', 'g'), (all, name, args) => {
+      const a = {};
+      for (const [, k, v] of args.matchAll(/(\w+)\s*=\s*("(?:[^"\\]|\\.)*"|\[[^\]]*\]|[\w.-]+)/g)) {
+        try { a[k] = JSON.parse(v); } catch { a[k] = v.replace(/^"|"$/g, ''); }
+      }
+      calls.push({ function: { name, arguments: a } });
+      return '';
+    }).trim();
+    if (calls.length) m.tool_calls = calls;
+  }
+  if (opts.raw) return { role: 'model', parts: [...(text ? [{ text }] : []), ...(m.tool_calls || []).map(tc => ({ functionCall: { name: tc.function.name, args: typeof tc.function.arguments === 'string' ? JSON.parse(tc.function.arguments || '{}') : tc.function.arguments || {} } }))] };
+  if (opts.text) return text.trim();
+  try { return JSON.parse(text.replace(/^```(?:json)?\s*|\s*```$/g, '')); }
+  catch { throw new Error('Arsenal javobini o‘qib bo‘lmadi — qayta urinib ko‘ring'); }
+}
 const AI_MODELS = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];     // zaxira — ro'yxatni olib bo'lmasa
 const AI_ROUTE = 'dezomax_gemini_route';      // ishlagan manzil va model (keyingi safar darrov shu)
 /* Kalit turlari: AI Studio (AIza…) — generativelanguage.googleapis.com; yangi «AQ.…» kalitlar — Vertex AI express
@@ -2207,9 +2257,13 @@ async function aiListModels(key) {
 /* prompt — matn yoki suhbat ([{role:'user'|'model', text}]); opts.text — oddiy matn javob (JSON emas), opts.system — ko'rsatma */
 async function gemini(prompt, opts = {}) {
   const key = aiKey();
-  if (!key) throw new Error(GEMINI_OFF ? 'AI hozircha o‘chiq — Arsenal’ning o‘z miyasi tayyorlanmoqda' : 'AI kaliti kiritilmagan — admin burchagidagi «AI» oynasida yoki kino formasida kiriting');
   // opts.contents — tayyor suhbat (asboblar bilan); opts.tools — Gemini function calling; opts.raw — javob kontenti o'zi
   const contents = opts.contents || (Array.isArray(prompt) ? prompt.map(m => ({ role: m.role, parts: [{ text: m.text }] })) : [{ role: 'user', parts: [{ text: prompt }] }]);
+  if (GEMINI_OFF) {
+    if (!window.ARS_OK && !(await arsCheck())) throw new Error('Arsenal miyasi topilmadi — kompyuterda Ollama ishga tushirilganmi?');
+    return arsenalLLM(contents, opts);
+  }
+  if (!key) throw new Error('AI kaliti kiritilmagan — admin burchagidagi «AI» oynasida yoki kino formasida kiriting');
   const body = JSON.stringify({
     contents,
     ...(opts.system ? { systemInstruction: { parts: [{ text: opts.system }] } } : {}),
@@ -2262,7 +2316,7 @@ async function gemini(prompt, opts = {}) {
 }
 
 function aiSectionHTML() {
-  if (GEMINI_OFF) return '';
+  if (GEMINI_OFF && !aiKey()) return '';
   const key = aiKey();
   return `
     <section class="adm-sec adm-ai" id="aiBox">
@@ -2468,7 +2522,8 @@ Janr kodlari: ${GENRES.map(g => `${g.id} (${g.uz})`).join(', ')}.
 Telegram (manba: telegram) kinolarini o‘zgartira olmaysan — so‘ralsa, admin kino formasidagi tugmalar bilan o‘zi qilishini ayt.
 Ko‘p kino bo‘lsa — avval search_movies bilan top, keyin har biriga asbob chaqir. Kinoni tanimasang, nomi va tavsifiga qarab ehtiyotkor tanla, fakt o‘ylab topma.
 Oxirida nima qilganingni qisqa sanab ber va «Kinolar → O‘zgarishlar bo‘limida tekshirib, Saqlash ni bosing» deb eslat.
-Reklama matni, SEO, bildirishnoma, post matnlari bo‘yicha ham yordam ber.`;
+Reklama matni, SEO, bildirishnoma, post matnlari bo‘yicha ham yordam ber.
+MUHIM: asboblarni matnda yozib ko‘rsatma — ularni haqiqatan chaqir (function call). Taklifni faqat asbob orqali ber.`;
 
 /* ---------- Arsenal (2026-11-28) — AI yordamchining yangi ko'rinishi: to'q sariq gologramma shar ----------
    Suzuvchi tugma + oyna (har sahifada) va menyudagi «Arsenal AI» sahifasi — bitta suhbat, bitta oyna (sahifaga ko'chiriladi). */
@@ -2517,14 +2572,15 @@ function initAiChat() {
   const draw = () => {
     const n = draftIds().size;
     box.innerHTML = `
-      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${aiKey() ? 'Gemini' : 'tayyorlanmoqda'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
+      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${GEMINI_OFF ? (aiKey() ? 'kompyuterdagi miya · ' + esc(arsModel()) : 'miya ulanmagan') : 'Gemini'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
       ${aiKey() ? `
         <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}</div>`).join('')
           : '<p class="adm-hint">Masalan: «Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y», «Tavsifi yo‘q rasmiy kinolarni top va tavsif yoz», «Instagram uchun reklama matni yoz»</p>'}</div>
         ${n ? `<button class="btn btn-primary btn-sm adm-aichat-review" type="button" data-review>${n} ta kinoda o‘zgarish — ko‘rib chiqish va saqlash</button>` : ''}
         <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savol yoki topshiriq yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
         <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button><button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button></div>` : `
-        <div class="ars-off"><b>Arsenal’ning o‘z miyasi tayyorlanmoqda</b><p class="adm-hint">Suhbat kompyuterdagi Arsenal modeli ulanganda yoqiladi. Hozircha tezkor o‘tishlar:</p>
+        <div class="ars-off"><b>Arsenal miyasi topilmadi</b><p class="adm-hint">Arsenal kompyuteringizdagi modelda (Ollama, ${esc(arsModel())}) ishlaydi. Kompyuterda Ollama yoqilganini tekshirib, «Qayta tekshirish»ni bosing.</p>
+          <div><button type="button" class="a4-btn is-ars" data-recheck>Qayta tekshirish</button></div><p class="adm-hint">Tezkor o‘tishlar:</p>
           <div class="ars-quick">${[['posters', 'Posterlar'], ['clean', 'Xom nomlar'], ['groups', 'Guruhlar'], ['broken', 'Ishlamaydiganlar'], ['comments', 'Sharhlar'], ['site', 'Sayt sozlamalari']].map(([v, l]) => `<button type="button" class="a4-btn" data-go="${v}">${l}</button>`).join('')}</div></div>`}
       <p class="acc-error" id="aiChatErr" hidden></p>`;
     const err = box.querySelector('#aiChatErr');
@@ -2534,6 +2590,7 @@ function initAiChat() {
     box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; aiConv = []; draw(); });
     box.querySelector('[data-reset]')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); draw(); });
     box.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => { if (!box.classList.contains('is-page')) box.hidden = true; go(b.dataset.go); }));
+    box.querySelector('[data-recheck]')?.addEventListener('click', async e => { e.currentTarget.disabled = true; await arsCheck(); if (window.ARS_OK) toast('Arsenal miyasi ulandi'); else toast('Topilmadi — Ollama ishlayaptimi?', true); renderMain(); });
     box.querySelector('[data-review]')?.addEventListener('click', () => { listFilter = 'ai'; view = 'list'; renderMain(); box.hidden = true; window.scrollTo({ top: 0 }); });
     box.querySelector('#aiChatKey')?.addEventListener('submit', async e => {
       e.preventDefault();
