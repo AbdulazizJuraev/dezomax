@@ -1132,7 +1132,7 @@ function renderMain() {
   const isOn = v => view === v && (v !== 'form' || !editingId);
   const fmt = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
   $('#admin').innerHTML = `
-    <div class="a4${view === 'home' ? ' is-home' : ''}${localStorage.getItem('a4_mini') === '1' ? ' is-mini' : ''}">
+    <div class="a4${view === 'home' ? ' is-home' : ''}${view === 'ai' ? ' is-ai' : ''}${localStorage.getItem('a4_mini') === '1' ? ' is-mini' : ''}">
       <aside class="a4-side" id="a4Side">
         <div class="a4-lrow"><a class="a4-logo" href="admin.html"><span class="a4-mark">D</span><span class="a4-brand">DezoMax<small>Admin</small></span></a><button type="button" class="a4-fold" id="a4Fold" title="Menyuni yig‘ish / yoyish" aria-label="Menyuni yig‘ish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16M15 10l-2 2 2 2"/></svg></button></div>
         ${A4_NAV.map(([grp, items]) => `<div class="a4-grp">${grp}</div>` + items.map(([v, ic, label, , cls]) => {
@@ -1437,7 +1437,6 @@ function renderHome() {
       <article class="pz-card"><header class="pz-ch"><h2>Diqqat talab qiladi</h2><span class="pz-mut">${att.length ? 'bir bosishda tuzatsa bo‘ladi' : ''}</span></header>
         <div class="ars-att">${att.map(([c, t, sub, n, b]) => `<div class="ars-att-it"><i class="is-${c}"></i><span><b>${t}</b><small>${sub}</small></span><em class="is-${c}">${fmt(n)}</em>${b}</div>`).join('') || '<p class="a4-sub">Hammasi joyida — tuzatish kerak bo‘lgan narsa topilmadi.</p>'}</div></article>
       <article class="pz-card ars-card">${arsSphere(150)}<h2 class="ars-title">Arsenal</h2><p class="pz-mut">${aiKey() ? 'Salom! Nima qilamiz?' : 'O‘z miyasi tayyorlanmoqda — tez orada'}</p>
-        ${(aiKey() ? ARS_CHIPS.slice(0, 3) : []).map(c => `<button type="button" class="ars-chip" data-ask="${esc(c)}">${esc(c)}</button>`).join('')}
         <button type="button" class="a4-btn is-ars ars-open" data-go="ai">Arsenal’ni ochish</button></article>
     </div>
     <div class="pz-grid g21">
@@ -2580,7 +2579,6 @@ MUHIM: asboblarni matnda yozib ko‘rsatma — ularni haqiqatan chaqir (function
 /* ---------- Arsenal (2026-11-28) — AI yordamchining yangi ko'rinishi: to'q sariq gologramma shar ----------
    Suzuvchi tugma + oyna (har sahifada) va menyudagi «Arsenal AI» sahifasi — bitta suhbat, bitta oyna (sahifaga ko'chiriladi). */
 const arsenal = {};
-const ARS_CHIPS = ['Tavsifi yo‘q rasmiy kinolardan 20 tasini top va tavsif yoz', 'Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y', 'Yangi qo‘shilgan kinolar uchun Telegram post yoz', 'Instagram uchun DezoMax reklama matni yoz'];
 const arsSphere = s => `<canvas class="ars-sph" width="${s * 2}" height="${s * 2}" style="width:${s}px;height:${s}px"></canvas>`;
 function arsenalAsk(q) {
   if (view !== 'ai') go('ai');
@@ -2603,7 +2601,6 @@ function renderArsenalView() {
       <div class="ars-core">${arsSphere(560)}</div>
       <h1 class="ars-title">ARSENAL</h1>
       <p class="ars-state"><i class="${arsUse() ? 'is-on' : ''}"></i>${esc(st)}</p>
-      <div class="ars-chips">${(aiKey() ? ARS_CHIPS : []).map(c => `<button type="button" class="ars-chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')}</div>
       <div class="ars-slot" id="arsSlot"></div>
     </div>`;
   const chat = arsenal.box;
