@@ -344,3 +344,4 @@ ol.pz-list li[data-movie] .pz-pst { width: 30px; height: 44px; }
 @media (max-width: 900px) { .ars-page { grid-template-columns: 1fr; } .ars-hero { position: static; } .adm-aichat.is-page { height: 70dvh; } }
 .ars-off { display: flex; flex-direction: column; gap: 8px; padding: 6px 2px; }
 .ars-quick { display: flex; flex-wrap: wrap; gap: 8px; }
+.ars-brain { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--a-dim); } .ars-brain select { background: var(--a-s2, #202024); color: var(--a-tx, #fff); border: 1px solid var(--a-ln, #2a2a30); border-radius: 8px; padding: 2px 6px; font: inherit; }

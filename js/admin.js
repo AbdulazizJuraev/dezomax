@@ -2177,18 +2177,46 @@ const AI_KEY = 'dezomax_gemini_key';
 const GEMINI_OFF = true;
 const ARS_URL = 'http://127.0.0.1:11434';
 const arsModel = () => { try { return localStorage.getItem('arsenal_model') || 'gemma4:26b'; } catch { return 'gemma4:26b'; } };
-window.ARS_OK = false;
+/* Ikkinchi miya — FreeLLMAPI (kompyuterdagi dastur, bepul provayderlarni birlashtiradi, OpenAI uslubi).
+   Kalit (freellmapi-…) bir marta Arsenal oynasida kiritiladi. Miya tanlovi: 'auto' (Gemma4, bo'lmasa FreeLLMAPI) | 'local' | 'free' */
+const FL_URL = () => { try { return localStorage.getItem('arsenal_fl_url') || 'http://127.0.0.1:31415'; } catch { return 'http://127.0.0.1:31415'; } };
+const flKey = () => { try { return localStorage.getItem('arsenal_fl_key') || ''; } catch { return ''; } };
+const arsBrain = () => { try { return localStorage.getItem('arsenal_brain') || 'auto'; } catch { return 'auto'; } };
+window.ARS_OK = false; window.ARS_FREE = false;
 async function arsCheck() {
-  try {
-    const j = await fetch(ARS_URL + '/api/tags', { signal: AbortSignal.timeout(2500) }).then(r => r.json());
-    window.ARS_OK = (j.models || []).some(m => m.name === arsModel() || m.model === arsModel());
-  } catch { window.ARS_OK = false; }
-  return window.ARS_OK;
+  const [a, b] = await Promise.all([
+    fetch(ARS_URL + '/api/tags', { signal: AbortSignal.timeout(2500) }).then(r => r.json()).then(j => (j.models || []).some(m => m.name === arsModel() || m.model === arsModel())).catch(() => false),
+    flKey() ? fetch(FL_URL() + '/v1/models', { headers: { Authorization: 'Bearer ' + flKey() }, signal: AbortSignal.timeout(2500) }).then(r => r.ok).catch(() => false) : false
+  ]);
+  window.ARS_OK = a; window.ARS_FREE = b;
+  return a || b;
 }
+const arsUse = () => { const b = arsBrain(); return b === 'free' ? (window.ARS_FREE ? 'free' : '') : b === 'local' ? (window.ARS_OK ? 'local' : '') : window.ARS_OK ? 'local' : window.ARS_FREE ? 'free' : ''; };
 if (GEMINI_OFF) { try { localStorage.removeItem(AI_KEY); } catch {} arsCheck().then(ok => { if (ok && arsenal.draw && ['ai', 'home'].includes(view)) renderMain(); }); }
-const aiKey = () => { if (GEMINI_OFF) return window.ARS_OK ? 'arsenal' : ''; try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
+const aiKey = () => { if (GEMINI_OFF) return arsUse() ? 'arsenal' : ''; try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
 
 /* Gemini ko'rinishidagi so'rovni Arsenal (Ollama) ga o'tkazish: javob ham Gemini ko'rinishida qaytadi — qolgan kod o'zgarmaydi */
+/* FreeLLMAPI (OpenAI chat/completions): asbob chaqiruvlariga id beriladi, javoblar tartib bo'yicha ulanadi */
+async function arsenalFree(messages, tools, opts) {
+  const q = [], msgs = messages.map((m, i) => {
+    if (m.tool_calls) return { role: 'assistant', content: m.content || null, tool_calls: m.tool_calls.map((c, k) => { const id = `c${i}_${k}`; q.push(id); return { id, type: 'function', function: { name: c.function.name, arguments: JSON.stringify(c.function.arguments || {}) } }; }) };
+    if (m.role === 'tool') return { role: 'tool', tool_call_id: q.shift() || 'c', content: m.content };
+    return { role: m.role, content: m.content };
+  });
+  let r;
+  try {
+    r = await fetch(FL_URL() + '/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + flKey() },
+      body: JSON.stringify({ model: 'auto:smart', messages: msgs, ...(tools ? { tools } : {}), temperature: opts.text || opts.raw ? 0.5 : 0.4, ...(opts.text || opts.raw ? {} : { response_format: { type: 'json_object' } }) }) });
+  } catch { window.ARS_FREE = false; throw new Error('FreeLLMAPI’ga ulanib bo‘lmadi — dastur ochiqmi?'); }
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error('FreeLLMAPI: ' + (j.error?.message || r.status));
+  const m = j.choices?.[0]?.message || {}, text = m.content || '';
+  if (opts.raw) return { role: 'model', parts: [...(text ? [{ text }] : []), ...(m.tool_calls || []).map(tc => ({ functionCall: { name: tc.function.name, args: (() => { try { return JSON.parse(tc.function.arguments || '{}'); } catch { return {}; } })() } }))] };
+  if (opts.text) return text.trim();
+  try { return JSON.parse(text.replace(/^```(?:json)?\s*|\s*```$/g, '')); }
+  catch { throw new Error('Arsenal javobini o‘qib bo‘lmadi — qayta urinib ko‘ring'); }
+}
+
 async function arsenalLLM(contents, opts) {
   const messages = opts.system ? [{ role: 'system', content: opts.system }] : [];
   for (const c of contents) {
@@ -2199,6 +2227,7 @@ async function arsenalLLM(contents, opts) {
     messages.push({ role: c.role === 'model' ? 'assistant' : 'user', content: parts.map(p => p.text || '').join(''), ...(calls.length ? { tool_calls: calls } : {}) });
   }
   const tools = opts.tools ? opts.tools.flatMap(t => (t.functionDeclarations || []).map(f => ({ type: 'function', function: f }))) : undefined;
+  if (arsUse() === 'free') return arsenalFree(messages, tools, opts);
   let r;
   try {
     r = await fetch(ARS_URL + '/api/chat', { method: 'POST', body: JSON.stringify({ model: arsModel(), messages, tools, stream: false, think: false, keep_alive: '30m',
@@ -2260,7 +2289,8 @@ async function gemini(prompt, opts = {}) {
   // opts.contents — tayyor suhbat (asboblar bilan); opts.tools — Gemini function calling; opts.raw — javob kontenti o'zi
   const contents = opts.contents || (Array.isArray(prompt) ? prompt.map(m => ({ role: m.role, parts: [{ text: m.text }] })) : [{ role: 'user', parts: [{ text: prompt }] }]);
   if (GEMINI_OFF) {
-    if (!window.ARS_OK && !(await arsCheck())) throw new Error('Arsenal miyasi topilmadi — kompyuterda Ollama ishga tushirilganmi?');
+    if (!arsUse()) await arsCheck();
+    if (!arsUse()) throw new Error('Arsenal miyasi topilmadi — kompyuterda Ollama yoki FreeLLMAPI ishga tushirilganmi?');
     return arsenalLLM(contents, opts);
   }
   if (!key) throw new Error('AI kaliti kiritilmagan — admin burchagidagi «AI» oynasida yoki kino formasida kiriting');
@@ -2572,15 +2602,15 @@ function initAiChat() {
   const draw = () => {
     const n = draftIds().size;
     box.innerHTML = `
-      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${GEMINI_OFF ? (aiKey() ? 'kompyuterdagi miya · ' + esc(arsModel()) : 'miya ulanmagan') : 'Gemini'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
+      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${GEMINI_OFF ? (arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'FreeLLMAPI · bepul modellar' : 'miya ulanmagan') : 'Gemini'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
       ${aiKey() ? `
         <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}</div>`).join('')
           : '<p class="adm-hint">Masalan: «Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y», «Tavsifi yo‘q rasmiy kinolarni top va tavsif yoz», «Instagram uchun reklama matni yoz»</p>'}</div>
         ${n ? `<button class="btn btn-primary btn-sm adm-aichat-review" type="button" data-review>${n} ta kinoda o‘zgarish — ko‘rib chiqish va saqlash</button>` : ''}
         <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savol yoki topshiriq yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
-        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button><button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button></div>` : `
-        <div class="ars-off"><b>Arsenal miyasi topilmadi</b><p class="adm-hint">Arsenal kompyuteringizdagi modelda (Ollama, ${esc(arsModel())}) ishlaydi. Kompyuterda Ollama yoqilganini tekshirib, «Qayta tekshirish»ni bosing.</p>
-          <div><button type="button" class="a4-btn is-ars" data-recheck>Qayta tekshirish</button></div><p class="adm-hint">Tezkor o‘tishlar:</p>
+        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button>${GEMINI_OFF ? `<span class="ars-brain">Miya: <select data-brain><option value="auto">avtomatik</option><option value="local">Gemma4 (kompyuter)</option><option value="free">FreeLLMAPI</option></select> <button class="acc-link" type="button" data-flkey>FreeLLMAPI kaliti</button></span>` : '<button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button>'}</div>` : `
+        <div class="ars-off"><b>Arsenal miyasi topilmadi</b><p class="adm-hint">Arsenal kompyuteringizdagi Ollama (${esc(arsModel())}) yoki FreeLLMAPI dasturi orqali ishlaydi. Ulardan biri yoqilganini tekshirib, «Qayta tekshirish»ni bosing.</p>
+          <div><button type="button" class="a4-btn is-ars" data-recheck>Qayta tekshirish</button> <button type="button" class="a4-btn" data-flkey>FreeLLMAPI kaliti</button></div><p class="adm-hint">Tezkor o‘tishlar:</p>
           <div class="ars-quick">${[['posters', 'Posterlar'], ['clean', 'Xom nomlar'], ['groups', 'Guruhlar'], ['broken', 'Ishlamaydiganlar'], ['comments', 'Sharhlar'], ['site', 'Sayt sozlamalari']].map(([v, l]) => `<button type="button" class="a4-btn" data-go="${v}">${l}</button>`).join('')}</div></div>`}
       <p class="acc-error" id="aiChatErr" hidden></p>`;
     const err = box.querySelector('#aiChatErr');
@@ -2590,6 +2620,14 @@ function initAiChat() {
     box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; aiConv = []; draw(); });
     box.querySelector('[data-reset]')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); draw(); });
     box.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => { if (!box.classList.contains('is-page')) box.hidden = true; go(b.dataset.go); }));
+    const sel = box.querySelector('[data-brain]');
+    if (sel) { sel.value = arsBrain(); sel.addEventListener('change', () => { localStorage.setItem('arsenal_brain', sel.value); if (!arsUse()) toast('Tanlangan miya hozir ishlamayapti', true); draw(); }); }
+    box.querySelectorAll('[data-flkey]').forEach(b => b.addEventListener('click', async () => {
+      const v = prompt('FreeLLMAPI kaliti (dastur oynasining tepasida, «freellmapi-» bilan boshlanadi):', '');
+      if (v === null) return;
+      if (v.trim()) localStorage.setItem('arsenal_fl_key', v.trim()); else localStorage.removeItem('arsenal_fl_key');
+      await arsCheck(); toast(window.ARS_FREE ? 'FreeLLMAPI ulandi' : 'FreeLLMAPI topilmadi yoki kalit noto‘g‘ri', !window.ARS_FREE); renderMain();
+    }));
     box.querySelector('[data-recheck]')?.addEventListener('click', async e => { e.currentTarget.disabled = true; await arsCheck(); if (window.ARS_OK) toast('Arsenal miyasi ulandi'); else toast('Topilmadi — Ollama ishlayaptimi?', true); renderMain(); });
     box.querySelector('[data-review]')?.addEventListener('click', () => { listFilter = 'ai'; view = 'list'; renderMain(); box.hidden = true; window.scrollTo({ top: 0 }); });
     box.querySelector('#aiChatKey')?.addEventListener('submit', async e => {
