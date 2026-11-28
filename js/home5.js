@@ -264,10 +264,10 @@
   }
   function initHero() {
     if (!picks.length) { $('h5Hero').hidden = true; return; }
-    const deck = document.createElement('div');
-    deck.className = 'h5-deck'; deck.id = 'h5Deck';
+    // dasta joyi index.html'da oldindan bor (telefonda balandligi CSS'da) — keyin qo'shilib, matnni pastga sakratmasin (CLS), 2026-11-28
+    let deck = $('h5Deck');
+    if (!deck) { deck = document.createElement('div'); deck.className = 'h5-deck'; deck.id = 'h5Deck'; $('h5Hero').querySelector('.h5-hero-body').before(deck); }
     deck.innerHTML = deckHTML();
-    $('h5Hero').querySelector('.h5-hero-body').before(deck);
     deck.addEventListener('click', e => {
       const b = e.target.closest('[data-dk]');
       if (!b) return;

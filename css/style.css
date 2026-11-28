@@ -8531,7 +8531,7 @@ body.is-genre main > .section-head { display: none; }
   }
   html body.d5 .h5-dk img { display: block; width: 100%; height: 100%; object-fit: cover; }
   html body.d5 .h5-dk.is-on { box-shadow: 0 26px 60px -14px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .14); }
-  html body.d5 .h5-hero-body { min-height: 0; justify-content: flex-start; padding-top: 20px; padding-bottom: 26px; gap: .7rem; }
+  html body.d5 .h5-hero-body { min-height: 236px; /* matn JS bilan to'lguncha joy band (CLS), 2026-11-28 */ justify-content: flex-start; padding-top: 20px; padding-bottom: 26px; gap: .7rem; }
 }
 @media (max-width: 860px) and (prefers-reduced-motion: reduce) { html body.d5 .h5-dk { transition: none; } }
 
