@@ -2600,7 +2600,7 @@ function renderArsenalView() {
   const st = arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'Server · bepul modellar' : 'miya ulanmagan';
   box.innerHTML = `
     <div class="ars-page ars-jarvis">
-      <div class="ars-core">${arsSphere(280)}</div>
+      <div class="ars-core">${arsSphere(560)}</div>
       <h1 class="ars-title">ARSENAL</h1>
       <p class="ars-state"><i class="${arsUse() ? 'is-on' : ''}"></i>${esc(st)}</p>
       <div class="ars-chips">${(aiKey() ? ARS_CHIPS : []).map(c => `<button type="button" class="ars-chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')}</div>

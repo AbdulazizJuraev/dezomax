@@ -420,3 +420,18 @@ ol.pz-list li[data-movie] .pz-pst { width: 30px; height: 44px; }
   .a4.is-mini .a4-it em { position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; padding: 0; font-size: 0; background: var(--a-lime); }
   .a4.is-mini .a4-me { flex-direction: column; padding-left: 0; padding-right: 0; }
 }
+
+/* Arsenal sahifasi: shar o'ngda va katta, chat foni va izoh matni yo'q */
+@media (min-width: 1101px) {
+  .ars-page.ars-jarvis { display: grid; grid-template-columns: minmax(420px, 1fr) minmax(360px, 580px); grid-template-areas: "title core" "state core" "chips core" "slot core"; grid-template-rows: auto auto auto 1fr; align-items: start; justify-items: start; column-gap: 40px; row-gap: 10px; max-width: 1400px; }
+  .ars-jarvis .ars-core { grid-area: core; align-self: center; justify-self: center; position: sticky; top: 90px; margin: 0; }
+  .ars-jarvis .ars-title { grid-area: title; margin: 8px 0 0; }
+  .ars-jarvis .ars-state { grid-area: state; }
+  .ars-jarvis .ars-chips { grid-area: chips; justify-content: flex-start; }
+  .ars-jarvis .ars-slot { grid-area: slot; align-self: stretch; }
+  .ars-jarvis .adm-aichat.is-page { max-height: calc(100dvh - 260px); }
+}
+.ars-jarvis .ars-core .ars-sph { max-width: 100%; height: auto !important; aspect-ratio: 1; }
+@media (max-width: 1100px) { .ars-jarvis .ars-core .ars-sph { width: min(300px, 70vw) !important; } }
+.ars-jarvis .adm-aichat.is-page { background: transparent; border: 0; box-shadow: none; backdrop-filter: none; padding-left: 0; padding-right: 0; }
+.ars-jarvis .adm-aichat-list > .adm-hint { display: none; }
