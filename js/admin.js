@@ -2622,11 +2622,18 @@ function initAiChat() {
     box.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => { if (!box.classList.contains('is-page')) box.hidden = true; go(b.dataset.go); }));
     const sel = box.querySelector('[data-brain]');
     if (sel) { sel.value = arsBrain(); sel.addEventListener('change', () => { localStorage.setItem('arsenal_brain', sel.value); if (!arsUse()) toast('Tanlangan miya hozir ishlamayapti', true); draw(); }); }
-    box.querySelectorAll('[data-flkey]').forEach(b => b.addEventListener('click', async () => {
-      const v = prompt('FreeLLMAPI kaliti (dastur oynasining tepasida, «freellmapi-» bilan boshlanadi):', '');
-      if (v === null) return;
-      if (v.trim()) localStorage.setItem('arsenal_fl_key', v.trim()); else localStorage.removeItem('arsenal_fl_key');
-      await arsCheck(); toast(window.ARS_FREE ? 'FreeLLMAPI ulandi' : 'FreeLLMAPI topilmadi yoki kalit noto‘g‘ri', !window.ARS_FREE); renderMain();
+    // kalit — oynaning o'zidagi maydonga (prompt() ba'zi oynalarda, masalan ilova ichida, ko'rinmaydi)
+    box.querySelectorAll('[data-flkey]').forEach(b => b.addEventListener('click', () => {
+      if (box.querySelector('#arsFlForm')) return box.querySelector('#arsFlForm input').focus();
+      (b.closest('.adm-aichat-foot') || b.parentElement).insertAdjacentHTML('afterend', `<form id="arsFlForm" class="adm-aichat-form" style="margin-top:8px"><input class="acc-input" type="password" placeholder="freellmapi-… (FreeLLMAPI → Ключи → Единый ключ API)" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">Ulash</button></form>`);
+      const f = box.querySelector('#arsFlForm');
+      f.querySelector('input').focus();
+      f.addEventListener('submit', async e => {
+        e.preventDefault();
+        const v = f.querySelector('input').value.trim();
+        if (v) localStorage.setItem('arsenal_fl_key', v); else localStorage.removeItem('arsenal_fl_key');
+        await arsCheck(); toast(window.ARS_FREE ? 'FreeLLMAPI ulandi' : 'FreeLLMAPI topilmadi yoki kalit noto‘g‘ri', !window.ARS_FREE); renderMain();
+      });
     }));
     box.querySelector('[data-recheck]')?.addEventListener('click', async e => { e.currentTarget.disabled = true; await arsCheck(); if (window.ARS_OK) toast('Arsenal miyasi ulandi'); else toast('Topilmadi — Ollama ishlayaptimi?', true); renderMain(); });
     box.querySelector('[data-review]')?.addEventListener('click', () => { listFilter = 'ai'; view = 'list'; renderMain(); box.hidden = true; window.scrollTo({ top: 0 }); });
