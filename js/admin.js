@@ -1102,11 +1102,16 @@ const A4_ICONS = {
   layout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 10h18M9 10v10"/></svg>',
   gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>'
 };
+A4_ICONS.spark = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="9.5" ry="4"/><ellipse cx="12" cy="12" rx="4" ry="9.5"/></svg>';
+A4_ICONS.chat = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/></svg>';
+/* Menyu guruhlari — yangi dizayn (2026-11-28, admin-maket-v2): Asosiy · Kontent · Import · Auditoriya · Sayt · Xizmat */
 const A4_NAV = [
-  ['Asosiy', [['home', 'home', 'Panel'], ['comments', 'chat', 'Sharhlar', () => (typeof cm !== 'undefined' && cm.counts ? cm.counts.new : 0), 'n'], ['list', 'list', 'Kinolar', () => allMovies().length], ['form', 'plus', 'Kino qo‘shish'], ['groups', 'group', 'Guruhlar']]],
-  ['Kontent', [['channels', 'yt', 'Kanallar'], ['tg', 'tg', 'Telegram'], ['rutube', 'rutube', 'RuTube'], ['langvid', 'lang', 'Til videolari']]],
-  ['Sayt', [['site', 'gear', 'Sozlamalar'], ['notify', 'bell', 'Bildirishnomalar'], ['logo', 'film', 'Video belgisi']]],
-  ['Xizmat', [['dups', 'copy', 'Dublikatlar'], ['clean', 'broom', 'Tozalash', () => rawTitleItems().length, 'n'], ['broken', 'bolt', 'Ishlamaydiganlar', () => brokenBadCount(), 'w'], ['posters', 'film', 'Posterlar', () => posterBadCount(), 'w'], ['backup', 'shield', 'Zaxira']]]
+  ['Asosiy', [['home', 'home', 'Panel'], ['ai', 'spark', 'Arsenal AI', () => draftIds().size, 'n']]],
+  ['Kontent', [['list', 'list', 'Kinolar', () => allMovies().length], ['form', 'plus', 'Kino qo‘shish'], ['groups', 'group', 'Guruhlar'], ['posters', 'film', 'Posterlar', () => posterBadCount(), 'w']]],
+  ['Import', [['tg', 'tg', 'Telegram'], ['rutube', 'rutube', 'RuTube'], ['channels', 'yt', 'Kanallar'], ['langvid', 'lang', 'Til videolari']]],
+  ['Auditoriya', [['comments', 'chat', 'Sharhlar', () => (typeof cm !== 'undefined' && cm.counts ? cm.counts.new : 0), 'n'], ['notify', 'bell', 'Bildirishnomalar']]],
+  ['Sayt', [['site', 'gear', 'Sozlamalar'], ['logo', 'film', 'Video belgisi']]],
+  ['Xizmat', [['dups', 'copy', 'Dublikatlar'], ['clean', 'broom', 'Tozalash', () => rawTitleItems().length, 'n'], ['broken', 'bolt', 'Ishlamaydiganlar', () => brokenBadCount(), 'w'], ['backup', 'shield', 'Zaxira']]]
 ];
 const a4Icon = k => A4_ICONS[k] || NAV_ICONS[k] || '';
 let a4Counts = null;   // badge sonlari — har renderMain'da qayta hisoblanmaydi (13 000+ kino), kino saqlanganda yangilanadi
@@ -1117,6 +1122,9 @@ function brokenBadCount() {
 
 function renderMain() {
   initAiChat();
+  // Arsenal sahifasidan chiqilsa — suhbat oynasi yana suzuvchi bo'ladi (sahifa qayta chizilganda yo'qolmasin)
+  if (arsenal.box?.classList.contains('is-page')) { arsenal.box.classList.remove('is-page'); arsenal.box.hidden = true; document.body.append(arsenal.box); }
+  if (arsenal.btn) arsenal.btn.hidden = view === 'ai';
   if (!a4Counts || a4Counts.for !== customList) {
     a4Counts = { for: customList };
     A4_NAV.forEach(([, items]) => items.forEach(([v, , , fn]) => { if (fn) try { a4Counts[v] = fn(); } catch { a4Counts[v] = 0; } }));
@@ -1129,9 +1137,9 @@ function renderMain() {
         <a class="a4-logo" href="admin.html"><span class="a4-mark">D</span><span class="a4-brand">DezoMax<small>Admin</small></span></a>
         ${A4_NAV.map(([grp, items]) => `<div class="a4-grp">${grp}</div>` + items.map(([v, ic, label, , cls]) => {
           const n = a4Counts[v];
-          return `<button type="button" class="a4-it${isOn(v) ? ' is-on' : ''}" data-view="${v}">${a4Icon(ic)}<span>${label}</span>${n ? `<em class="${cls || ''}">${fmt(n)}</em>` : ''}</button>`;
+          return `<button type="button" class="a4-it${isOn(v) ? ' is-on' : ''}${v === 'ai' ? ' is-ai' : ''}" data-view="${v}">${a4Icon(ic)}<span>${label}</span>${n ? `<em class="${cls || ''}">${fmt(n)}</em>` : ''}</button>`;
         }).join('')).join('')}
-        <div class="a4-me"><span class="a4-ava">A</span><span class="a4-who"><b>Administrator</b><a href="${SITE_URL}" target="_blank" rel="noopener">Saytni ochish ↗</a></span>
+        <div class="a4-me"><span class="a4-ava">A</span><span class="a4-who"><b>Administrator</b><small class="a4-conn${dcKey() ? '' : ' is-off'}">GitHub ✓ · DezoCloud ${dcKey() ? '✓' : '—'}</small><a href="${SITE_URL}" target="_blank" rel="noopener">Saytni ochish ↗</a></span>
           <button type="button" class="a4-out" id="admLogout" title="Chiqish" aria-label="Chiqish">${A4_ICONS.out}</button></div>
       </aside>
       <div class="a4-scrim" id="a4Scrim" hidden></div>
@@ -1193,6 +1201,7 @@ function renderMain() {
   else if (view === 'langvid') renderLangVidView();
   else if (view === 'rutube') renderRutubeView();
   else if (view === 'clean') renderCleanView();
+  else if (view === 'ai') renderArsenalView();
   else renderFormView();
 }
 
@@ -1390,6 +1399,22 @@ function renderHome() {
   const srcRows = Object.entries(src).filter(([k]) => k !== '—').sort((a, b) => b[1] - a[1]).slice(0, 7);
   const srcTotal = Math.max(1, srcRows.reduce((s, [, n]) => s + n, 0));
   const pct = (n, t) => Math.round(n / t * 100);
+  // «Diqqat talab qiladi» (yangi dizayn): har biri — o'z bo'limiga yoki Arsenal'ga topshirish
+  // isOfficialMovie har chaqiruvda 40 000+ lik Set yasaydi — shu yerda bir marta (aks holda sahifa qotib qoladi)
+  const siteIds = new Set([...(window.SITE_BASE_IDS || []), ...customList.map(x => x.id)]);
+  const noDesc = active.filter(m => String(m.desc?.uz || '').replace(/\s+/g, ' ').length < 40 && siteIds.has(m.id)
+    && !/dezocloud.uz/i.test(m.poster || '')
+    && (v => v.length && v.every(u => POSTER_OK_VIDEO.test(u)))([m.video].concat(Array.isArray(m.parts) ? m.parts.map(p => p && p.video) : []).filter(Boolean).map(String))).length;
+  const kids = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG?.hero?.kidsIds || []).length;
+  const pBad = posterBadCount();
+  const att = [
+    pBad && ['r', 'Posteri yo‘q yoki buzilgan kinolar', 'saytda bo‘sh kartochka ko‘rinadi', pBad, `<button class="a4-btn" type="button" data-go="posters">Ko‘rish</button>`],
+    noDesc && ['o', 'Tavsifi bo‘sh rasmiy kinolar', 'Google va SEO uchun muhim', noDesc, `<button class="a4-btn is-ars" type="button" data-ask="Tavsifi yo‘q rasmiy kinolardan 20 tasini top va tavsif yoz">✦ Arsenal yozsin</button>`],
+    !kids && ['o', 'Bolalar slayderi bo‘sh', 'bosh sahifada multfilmlar slayderi ko‘rinmayapti', 0, `<button class="a4-btn" type="button" data-go="site">Tanlash</button>`],
+    raw && ['o', 'Nomi xom kinolar', 'Telegram’dan: emoji, «720p», «PREMYERA»…', raw, `<button class="a4-btn" type="button" data-go="clean">Ko‘rib chiqish</button>`],
+    splitGroups.length && ['b', `«${esc(splitGroups[0].title)}» bo‘linib qolgan`, `${splitGroups[0].items.length} ta alohida kino — bitta serialga birlashtirish kerak${splitGroups.length > 1 ? ` (yana ${splitGroups.length - 1} ta)` : ''}`, splitGroups.length, `<button class="a4-btn" type="button" data-go="groups">Guruhlar</button>`],
+    bad && ['r', 'Ochilmayotgan kinolar', 'havolasi eskirgan yoki o‘chirilgan', bad, `<button class="a4-btn" type="button" data-go="broken">Ko‘rish</button>`]
+  ].filter(Boolean);
   const dayLabel = i => R <= 7 ? (i === R - 1 ? 'Bugun' : WD[days[i].d.getDay()]) : (i % (R > 14 ? 5 : 2) ? '' : days[i].d.getDate() + '-' + UZ_MON[days[i].d.getMonth()].slice(0, 3));
 
   $('#admView').innerHTML = `
@@ -1406,6 +1431,13 @@ function renderHome() {
       <button class="pz-kpi" type="button" data-stat="added"><p class="pz-kl">Qo‘shilgan</p><p class="pz-kv"><span>${fmt(addedList().length + yt.total)}</span><b class="up">+${fmt(weekAdded + ytWeek)}</b></p><p class="pz-kf">shu hafta qo‘shilgani</p></button>
       <button class="pz-kpi" type="button" data-go="comments" id="pzCmKpi"><p class="pz-kl">Yangi sharhlar</p><p class="pz-kv">…</p><p class="pz-kf">yuklanmoqda</p></button>
       <button class="pz-kpi" type="button" data-go="${raw ? 'clean' : 'broken'}"><p class="pz-kl">E’tibor talab</p><p class="pz-kv"><span>${fmt(raw + bad)}</span>${bad ? `<b class="warn">${bad} ishlamaydi</b>` : ''}</p><p class="pz-kf">${raw ? `${fmt(raw)} xom nom · ko‘rib chiqish →` : 'Ko‘rib chiqish →'}</p></button>
+    </div>
+    <div class="pz-grid g21">
+      <article class="pz-card"><header class="pz-ch"><h2>Diqqat talab qiladi</h2><span class="pz-mut">${att.length ? 'bir bosishda tuzatsa bo‘ladi' : ''}</span></header>
+        <div class="ars-att">${att.map(([c, t, sub, n, b]) => `<div class="ars-att-it"><i class="is-${c}"></i><span><b>${t}</b><small>${sub}</small></span><em class="is-${c}">${fmt(n)}</em>${b}</div>`).join('') || '<p class="a4-sub">Hammasi joyida — tuzatish kerak bo‘lgan narsa topilmadi.</p>'}</div></article>
+      <article class="pz-card ars-card">${arsSphere(150)}<h2 class="ars-title">Arsenal</h2><p class="pz-mut">Salom! Nima qilamiz?</p>
+        ${ARS_CHIPS.slice(0, 3).map(c => `<button type="button" class="ars-chip" data-ask="${esc(c)}">${esc(c)}</button>`).join('')}
+        <button type="button" class="a4-btn is-ars ars-open" data-go="ai">Arsenal’ni ochish</button></article>
     </div>
     <div class="pz-grid g21">
       <article class="pz-card"><header class="pz-ch"><h2>Qo‘shilganlar</h2><span class="pz-mut">kino ${fmt(sumF)} · YouTube ${fmt(sumV)} · kunlar bo‘yicha</span></header>
@@ -1434,12 +1466,6 @@ function renderHome() {
           <button type="button" data-go="channels">${NAV_ICONS.yt}<b>YouTube</b><small>kanallarni yangilash</small></button>
           <button type="button" data-go="site">${A4_ICONS.layout}<b>Bosh sahifa</b><small>karusel va qatorlar</small></button></div></article>
         <article class="pz-card"><header class="pz-ch"><h2>Sayt sog‘lig‘i</h2><span class="a4-pill is-n" id="a4HealthAll">tekshirilmoqda…</span></header><div class="a4-health" id="a4Health"><div class="mt-loading"><i></i><i></i><i></i></div></div></article>
-        <article class="pz-card"><header class="pz-ch"><h2>Tavsiyalar</h2></header><div class="a4-tips">
-          ${raw ? `<div class="a4-tip"><b>${fmt(raw)} ta kinoning nomi xom</b> (Telegram’dan): emoji, «720p», «PREMYERA»… Toza nomlarni tayyorlab qo‘ydim.<div><button class="a4-btn is-p" type="button" data-go="clean">Ko‘rib chiqish</button></div></div>` : ''}
-          ${splitGroups.length ? `<div class="a4-tip"><b>«${esc(splitGroups[0].title)}»</b> — ${splitGroups[0].items.length} ta alohida kino bo‘lib turibdi${splitGroups.length > 1 ? ` (yana ${splitGroups.length - 1} ta serial shunday)` : ''}. Bitta serialga birlashtirish kerak.<div><button class="a4-btn is-p" type="button" data-go="groups">Guruhlarga o‘tish</button></div></div>` : ''}
-          ${bad ? `<div class="a4-tip"><b>${bad} ta kino ochilmayapti</b> — havolasi eskirgan yoki o‘chirilgan.<div><button class="a4-btn" type="button" data-go="broken">Ko‘rish</button></div></div>` : ''}
-          ${!raw && !splitGroups.length && !bad ? '<div class="a4-tip">Hammasi joyida — tuzatish kerak bo‘lgan narsa topilmadi.</div>' : ''}
-        </div></article>
       </div>
     </div>
     <article class="pz-card pz-mb"><header class="pz-ch"><h2>Oxirgi sharhlar</h2><button class="pz-link" type="button" data-go="comments">Barchasi</button></header>
@@ -1454,6 +1480,7 @@ function renderHome() {
   $('#pzSearch').addEventListener('click', () => { listQuery = ''; listFilter = 'all'; go('list'); setTimeout(() => $('#a4Search')?.focus(), 50); });
 
   document.querySelectorAll('#admView [data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
+  document.querySelectorAll('#admView [data-ask]').forEach(b => b.addEventListener('click', () => arsenalAsk(b.dataset.ask)));
   $('#a4ChAdd')?.addEventListener('click', () => { chFocusAdd = true; go('channels'); });
   a4LoadShorts();
   document.querySelectorAll('#admView [data-stat]').forEach(b => b.addEventListener('click', () => { listFilter = b.dataset.stat; listQuery = ''; go('list'); }));
@@ -2438,10 +2465,55 @@ Ko‘p kino bo‘lsa — avval search_movies bilan top, keyin har biriga asbob c
 Oxirida nima qilganingni qisqa sanab ber va «Kinolar → O‘zgarishlar bo‘limida tekshirib, Saqlash ni bosing» deb eslat.
 Reklama matni, SEO, bildirishnoma, post matnlari bo‘yicha ham yordam ber.`;
 
+/* ---------- Arsenal (2026-11-28) — AI yordamchining yangi ko'rinishi: to'q sariq gologramma shar ----------
+   Suzuvchi tugma + oyna (har sahifada) va menyudagi «Arsenal AI» sahifasi — bitta suhbat, bitta oyna (sahifaga ko'chiriladi). */
+const arsenal = {};
+const ARS_CHIPS = ['Tavsifi yo‘q rasmiy kinolardan 20 tasini top va tavsif yoz', 'Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y', 'Yangi qo‘shilgan kinolar uchun Telegram post yoz', 'Instagram uchun DezoMax reklama matni yoz'];
+const arsSphere = s => `<canvas class="ars-sph" width="${s * 2}" height="${s * 2}" style="width:${s}px;height:${s}px"></canvas>`;
+function arsenalAsk(q) {
+  if (view !== 'ai') go('ai');
+  const ta = arsenal.box?.querySelector('#aiChatForm textarea');
+  if (ta) { ta.value = q; ta.focus(); }
+}
+function arsLoop(t) {
+  const R = [[.86, .3, .7], [.3, .86, .55], [.66, .5, .8], [.5, .66, .6], [.78, .78, .4]];
+  document.querySelectorAll('canvas.ars-sph').forEach(c => {
+    if (!c.offsetParent) return;
+    const x = c.getContext('2d'), s = c.width, m = s / 2;
+    x.clearRect(0, 0, s, s);
+    const g = x.createRadialGradient(m, m, 0, m, m, m);
+    g.addColorStop(0, 'rgba(255,190,120,.95)'); g.addColorStop(.18, 'rgba(255,138,31,.7)'); g.addColorStop(.5, 'rgba(255,110,0,.15)'); g.addColorStop(1, 'rgba(255,110,0,0)');
+    x.fillStyle = g; x.beginPath(); x.arc(m, m, m, 0, 7); x.fill();
+    x.lineWidth = Math.max(1, s / 120);
+    R.forEach(([a, b, o], i) => { x.save(); x.translate(m, m); x.rotate(t / (2400 + i * 700) * (i % 2 ? -1 : 1)); x.strokeStyle = `rgba(255,${150 + i * 12},60,${o})`; if (i === 4) x.setLineDash([s / 90, s / 30]); x.beginPath(); x.ellipse(0, 0, a * m * .95, b * m * .95, 0, 0, 7); x.stroke(); x.restore(); });
+    if (s > 80) for (let k = 0; k < 40; k++) { const an = k / 40 * 6.283 + t / 5000, r = m * (.88 + .04 * Math.sin(t / 400 + k)); x.fillStyle = 'rgba(255,170,90,.6)'; x.fillRect(m + Math.cos(an) * r, m + Math.sin(an) * r, s / 110 + .5, s / 110 + .5); }
+    x.fillStyle = '#fff6ea'; x.beginPath(); x.arc(m, m, s * (.05 + .01 * Math.sin(t / 300)), 0, 7); x.fill();
+  });
+  requestAnimationFrame(arsLoop);
+}
+
+function renderArsenalView() {
+  const box = $('#admView');
+  box.innerHTML = `
+    <div class="ars-page">
+      <div class="ars-hero">${arsSphere(190)}<h1 class="ars-title">Arsenal</h1>
+        <p class="a4-sub">Kinolarni qidiradi, janr, tavsif va teg taklif qiladi, post va reklama matnlarini yozadi. O‘zgarishlar faqat siz ko‘rib «Saqlash»ni bosganingizda saqlanadi.</p>
+        <div class="ars-chips">${ARS_CHIPS.map(c => `<button type="button" class="ars-chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>
+      <div class="ars-slot" id="arsSlot"></div>
+    </div>`;
+  const chat = arsenal.box;
+  chat.classList.add('is-page'); chat.hidden = false;
+  $('#arsSlot').append(chat);
+  arsenal.draw();
+  box.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', () => arsenalAsk(b.dataset.q)));
+}
+
 function initAiChat() {
   if (document.getElementById('aiChatBtn')) return;
   const btn = document.createElement('button');
-  btn.id = 'aiChatBtn'; btn.type = 'button'; btn.className = 'adm-aichat-btn'; btn.textContent = '✨ AI';
+  btn.id = 'aiChatBtn'; btn.type = 'button'; btn.className = 'adm-aichat-btn'; btn.title = 'Arsenal';
+  btn.innerHTML = `${arsSphere(30)}<span>Arsenal</span>`;
+  requestAnimationFrame(arsLoop);
   const box = document.createElement('div');
   box.id = 'aiChat'; box.className = 'adm-aichat'; box.hidden = true;
   document.body.append(btn, box);
@@ -2449,7 +2521,7 @@ function initAiChat() {
   const draw = () => {
     const n = draftIds().size;
     box.innerHTML = `
-      <div class="adm-aichat-head"><b>AI yordamchi</b><small>Gemini</small><button type="button" data-x aria-label="Yopish">✕</button></div>
+      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>Gemini</small><button type="button" data-x aria-label="Yopish">✕</button></div>
       ${aiKey() ? `
         <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}</div>`).join('')
           : '<p class="adm-hint">Masalan: «Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y», «Tavsifi yo‘q rasmiy kinolarni top va tavsif yoz», «Instagram uchun reklama matni yoz»</p>'}</div>
@@ -2463,7 +2535,7 @@ function initAiChat() {
     const err = box.querySelector('#aiChatErr');
     const list = box.querySelector('#aiChatList');
     if (list) list.scrollTop = list.scrollHeight;
-    box.querySelector('[data-x]').onclick = () => { box.hidden = true; };
+    box.querySelector('[data-x]').onclick = () => { if (box.classList.contains('is-page')) go('home'); else box.hidden = true; };
     box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; aiConv = []; draw(); });
     box.querySelector('[data-reset]')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); draw(); });
     box.querySelector('[data-review]')?.addEventListener('click', () => { listFilter = 'ai'; view = 'list'; renderMain(); box.hidden = true; window.scrollTo({ top: 0 }); });
@@ -2518,6 +2590,7 @@ function initAiChat() {
     });
   };
   btn.addEventListener('click', () => { box.hidden = !box.hidden; if (!box.hidden) { draw(); box.querySelector('textarea, input')?.focus(); } });
+  Object.assign(arsenal, { box, btn, draw });
 }
 
 function bindTmdb(form, { setHeroImg, setCover }) {
