@@ -1,7 +1,7 @@
 ﻿/* ============================================================
    DezoMax — asosiy uslublar / основные стили
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap');
+/* Tilt Warp shrifti HTML'dagi <link> orqali ulanadi (@import CSS'dan keyin navbat kutardi), 2026-11-28 */
 
 :root {
   --bg: #0a0a0b;

@@ -150,23 +150,50 @@
   root.className = 'wc';
   root.setAttribute('role', 'dialog');
   root.setAttribute('aria-modal', 'true');
-  document.documentElement.classList.add('welcome-lock');
+  document.documentElement.classList.add('welcome-lock');
+
+  /* Welcome ochiq turganda ostidagi bosh sahifa rasmlari yuklanmaydi: ular ko'rinmaydi, lekin welcome rasmlari bilan
+     internetni talashardi (telefonda birinchi ochilish sekinlashardi). Yopilganda hammasi tiklanadi (2026-11-28). */
+  const held = [];
+  const hold = img => {
+    if (root.contains(img) || img.dataset.wcHold !== undefined) return;
+    const src = img.getAttribute('src'), set = img.getAttribute('srcset');
+    if (!src && !set) return;
+    img.dataset.wcHold = src || ''; img.removeAttribute('src');
+    if (set) { img.dataset.wcHoldSet = set; img.removeAttribute('srcset'); }
+    held.push(img);
+  };
+  const holdMo = new MutationObserver(ms => ms.forEach(m => {
+    if (m.type === 'attributes') { if (m.target.tagName === 'IMG') hold(m.target); return; }
+    m.addedNodes.forEach(n => { if (n.nodeType !== 1) return; if (n.tagName === 'IMG') hold(n); else n.querySelectorAll('img').forEach(hold); });
+  }));
+  holdMo.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['src', 'srcset'] });
+  const releaseImgs = () => {
+    holdMo.disconnect();
+    held.forEach(i => {
+      if (i.dataset.wcHoldSet) i.setAttribute('srcset', i.dataset.wcHoldSet);
+      if (i.dataset.wcHold) i.setAttribute('src', i.dataset.wcHold);
+      delete i.dataset.wcHold; delete i.dataset.wcHoldSet;
+    });
+    held.length = 0;
+  };
 
   /* Kolleaj, yorqin kartalar va tepa qator bir marta yasaladi (slaydlar almashganda animatsiya uzilmasin);
      faqat matn / tugmalar / kirish bloki qayta chiziladi */
   function build() {
+    const narrow = !matchMedia('(min-width: 720px)').matches;
     root.innerHTML = `
       <div class="wc-collage" aria-hidden="true">
-        ${Array.from({ length: matchMedia("(min-width: 720px)").matches ? 6 : 3 }, (_, k) => k).map(k => `<div class="wc-col wc-col-${k}">${colOf(k).map(p => `<div class="wc-p"><img src="${p}" alt="" decoding="async" onerror="this.parentNode.style.display='none'"></div>`).join('')}</div>`).join('')}
+        ${Array.from({ length: narrow ? 3 : 6 }, (_, k) => k).map(k => `<div class="wc-col wc-col-${k}">${colOf(k).map((p, i) => `<div class="wc-p"><img src="${narrow ? p.replace('/t/p/w342/', '/t/p/w185/') : p}" alt="" decoding="async"${i < 5 ? (k === 1 && i < 2 ? ' fetchpriority="high"' : '') : ' loading="lazy"'} onerror="this.parentNode.style.display='none'"></div>`).join('')}</div>`).join('')}
       </div>
       <div class="wc-hl wc-hl-2${newest.length === 3 ? ' is-fan' : ''}" aria-hidden="true">
         ${newest.length === 3
-          ? newest.map((p, i) => `<img class="wc-fan wc-fan-${i}" src="${p}" alt="" decoding="async">`).join('')
-          : (heroPoster ? `<img src="${heroPoster}" alt="">` : '')}
+          ? newest.map((p, i) => `<img class="wc-fan wc-fan-${i}" data-src="${p}" alt="" decoding="async">`).join('')
+          : (heroPoster ? `<img data-src="${heroPoster}" alt="">` : '')}
         <span class="wc-badge">${ICON.play}</span>
       </div>
       <div class="wc-hl wc-hl-3" aria-hidden="true">
-        <img class="wc-tv-bg" src="images/welcome/football-4.webp" alt="" decoding="async">
+        <img class="wc-tv-bg" data-src="images/welcome/football-4.webp" alt="" decoding="async">
         <span class="wc-live"><i></i><em data-live></em></span>
         <div class="wc-tv" data-tv></div>
         <span class="wc-ball">${ICON.ball}</span>
@@ -193,6 +220,8 @@
     root.querySelectorAll('.wc-lang [data-lang]').forEach(b => b.classList.toggle('is-active', b.dataset.lang === LANG));
     root.querySelector('[data-live]').textContent = t('wc.live');
     const tv = root.querySelector('[data-tv]');
+    // 2- va 3-slayd rasmlari faqat 1-slayddan o'tilganda yuklanadi — birinchi ochilish tezroq (2026-11-28)
+    if (step >= 1) root.querySelectorAll('img[data-src]').forEach(i => { i.src = i.dataset.src; i.removeAttribute('data-src'); });
     if (tv && !tv.childElementCount && step >= 1) { tv.innerHTML = tvTiles(); root.querySelector('.wc-hl-3').classList.toggle('has-tv', tv.childElementCount >= 4); }
 
     root.querySelector('#wcDyn').innerHTML = auth ? `
@@ -235,6 +264,7 @@
     try { localStorage.setItem(DONE_KEY, '1'); } catch {}
     root.classList.add('is-out');
     document.documentElement.classList.remove('welcome-lock');
+    releaseImgs();
     document.removeEventListener('keydown', onKey);
     document.removeEventListener('langchange', render);
     setTimeout(() => root.remove(), 450);
@@ -369,4 +399,6 @@
   build();
   render();
   document.body.appendChild(root);
+  // keyingi slaydlar rasmlari — sahifa ochilib bo'lgach, bo'sh paytda (o'tganda kutib qolmasin)
+  addEventListener('load', () => setTimeout(() => root.querySelectorAll('img[data-src]').forEach(i => { i.src = i.dataset.src; i.removeAttribute('data-src'); }), 3000), { once: true });
 })();

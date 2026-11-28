@@ -26,7 +26,12 @@
   const ytOf = m => (String(m.video || m.trailer || '').match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/) || [])[1];
   function wideOf(m, size) {
     if (okBig(m.hposter)) return tmSize(m.hposter, size);
-    if (okBig(m.cover)) return /image\.tmdb\.org/.test(m.cover) ? tmSize(m.cover, size) : imgBig(m.cover);
+    if (okBig(m.cover)) {
+      if (/image\.tmdb\.org/.test(m.cover)) return tmSize(m.cover, size);
+      // kichik karta (w500 va kichik) — YouTube'ning 1280 px muqovasi o'rniga 480 px hqdefault (~6 barobar yengil), 2026-11-28
+      const yt = /^w(\d+)$/.test(size) && +size.slice(1) <= 500 && (String(m.cover).match(/i\.ytimg\.com\/vi(?:_webp)?\/([\w-]{11})\/(?:maxresdefault|hq720|sddefault)\./) || [])[1];
+      return yt ? ytWebp(`https://i.ytimg.com/vi/${yt}/hqdefault.jpg`) : imgBig(m.cover);
+    }
     const yt = ytOf(m);
     return yt ? `https://i.ytimg.com/vi/${yt}/hqdefault.jpg` : null;
   }
@@ -84,7 +89,7 @@
   };
   const landRow = list => list.filter(m => !tallOf(m)).length * 2 >= list.length;
   function posterHTML(m, extra = '', land = false) {
-    const img = land ? (wideOf(m, 'w780') || cardImg(m)) : cardImg(m);
+    const img = land ? (wideOf(m, matchMedia('(max-width: 860px)').matches ? 'w500' : 'w780') || cardImg(m)) : cardImg(m);   // telefonda keng karta ~300 px — w500 yetadi
     const [c1, c2] = colorsOf(m);
     const st = watchStatus(m);
     return `<a class="h5-poster${land ? ' is-land' : ''}" href="${movieHref(m)}" style="--c1:${esc(c1)};--c2:${esc(c2)}" aria-label="${esc(title(m))}">
@@ -231,8 +236,12 @@
      kichrayib chiqib turadi (yana chetrog'ida — ikkitasi xira). show() har safar joylashtiradi — surilganda orqadagisi o'rtaga chiqadi.
      O'rtadagisi bosilsa — film sahifasi, yondagisi — o'sha kino o'rtaga. Kompyuterda (.h5-deck) ko'rinmaydi (css/style.css). */
   function deckHTML() {
+    const n = picks.length;
+    // faqat ko'rinadigan 5 tasi (o'rtadagi ± 2) darhol yuklanadi, qolganlari — yaqinlashganda (layDeck), 2026-11-28
+    const wc = document.documentElement.classList.contains('welcome-lock');   // welcome ochiq — rasmlar u yopilganda (js/welcome.js)
+    const near = i => { if (wc) return false; const d = Math.abs(i - cur); return Math.min(d, n - d) <= 2; };
     return picks.map((m, i) => { const img = tallOf(m, 'w342') || cardImg(m); const [c1, c2] = colorsOf(m);
-      return `<button type="button" class="h5-dk" data-dk="${i}" aria-label="${esc(title(m))}" style="background:linear-gradient(160deg,${esc(c1)},${esc(c2)})">${img ? `<img src="${esc(img)}" alt="" decoding="async" onerror="this.remove()">` : ''}</button>`; }).join('');
+      return `<button type="button" class="h5-dk" data-dk="${i}" aria-label="${esc(title(m))}" style="background:linear-gradient(160deg,${esc(c1)},${esc(c2)})">${img ? `<img ${near(i) ? 'src' : 'data-src'}="${esc(img)}" alt="" decoding="async"${i === cur ? ' fetchpriority="high"' : ''} onerror="this.remove()">` : ''}</button>`; }).join('');
   }
   function layDeck() {
     const deck = $('h5Deck'), n = picks.length;
@@ -249,6 +258,8 @@
       b.style.pointerEvents = a > 2 ? 'none' : '';
       b.tabIndex = a === 0 ? 0 : -1;
       b.classList.toggle('is-on', a === 0);
+      const im = a <= 2 && b.querySelector('img[data-src]');
+      if (im) { im.src = im.dataset.src; im.removeAttribute('data-src'); }
     });
   }
   function initHero() {
