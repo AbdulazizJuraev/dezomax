@@ -1132,12 +1132,12 @@ function renderMain() {
   const isOn = v => view === v && (v !== 'form' || !editingId);
   const fmt = n => Number(n).toLocaleString('ru-RU').replace(/,/g, ' ');
   $('#admin').innerHTML = `
-    <div class="a4${view === 'home' ? ' is-home' : ''}">
+    <div class="a4${view === 'home' ? ' is-home' : ''}${localStorage.getItem('a4_mini') === '1' ? ' is-mini' : ''}">
       <aside class="a4-side" id="a4Side">
-        <a class="a4-logo" href="admin.html"><span class="a4-mark">D</span><span class="a4-brand">DezoMax<small>Admin</small></span></a>
+        <div class="a4-lrow"><a class="a4-logo" href="admin.html"><span class="a4-mark">D</span><span class="a4-brand">DezoMax<small>Admin</small></span></a><button type="button" class="a4-fold" id="a4Fold" title="Menyuni yig‘ish / yoyish" aria-label="Menyuni yig‘ish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16M15 10l-2 2 2 2"/></svg></button></div>
         ${A4_NAV.map(([grp, items]) => `<div class="a4-grp">${grp}</div>` + items.map(([v, ic, label, , cls]) => {
           const n = a4Counts[v];
-          return `<button type="button" class="a4-it${isOn(v) ? ' is-on' : ''}${v === 'ai' ? ' is-ai' : ''}" data-view="${v}">${a4Icon(ic)}<span>${label}</span>${n ? `<em class="${cls || ''}">${fmt(n)}</em>` : ''}</button>`;
+          return `<button type="button" class="a4-it${isOn(v) ? ' is-on' : ''}${v === 'ai' ? ' is-ai' : ''}" data-view="${v}" title="${label}">${a4Icon(ic)}<span>${label}</span>${n ? `<em class="${cls || ''}">${fmt(n)}</em>` : ''}</button>`;
         }).join('')).join('')}
         <div class="a4-me"><span class="a4-ava">A</span><span class="a4-who"><b>Administrator</b><small class="a4-conn${dcKey() ? '' : ' is-off'}">GitHub ✓ · DezoCloud ${dcKey() ? '✓' : '—'}</small><a href="${SITE_URL}" target="_blank" rel="noopener">Saytni ochish ↗</a></span>
           <button type="button" class="a4-out" id="admLogout" title="Chiqish" aria-label="Chiqish">${A4_ICONS.out}</button></div>
@@ -1170,6 +1170,7 @@ function renderMain() {
   const openSide = on => { side.classList.toggle('is-open', on); scrim.hidden = !on; };
   document.querySelectorAll('.a4 [data-view]').forEach(b => b.addEventListener('click', () => { openSide(false); go(b.dataset.view); }));
   $('#a4Burger').addEventListener('click', () => openSide(true));
+  $('#a4Fold').addEventListener('click', () => { const on = $('#admin .a4').classList.toggle('is-mini'); localStorage.setItem('a4_mini', on ? '1' : '0'); });
   $('#a4MenuTab').addEventListener('click', () => openSide(true));
   scrim.addEventListener('click', () => openSide(false));
   const srch = $('#a4Search');
@@ -2657,6 +2658,76 @@ async function arsModelPicker(box, redraw) {
   });
 }
 
+/* Suhbatlar tarixi: har suhbat serverda alohida (barcha qurilmalarda bir xil); joriy suhbat id — shu qurilmada */
+let arsChatId = localStorage.getItem('arsenal_chat_cur') || '';
+const arsSetCur = id => { arsChatId = id; id ? localStorage.setItem('arsenal_chat_cur', id) : localStorage.removeItem('arsenal_chat_cur'); };
+function arsTrimConv(conv) {
+  const cut = v => { const t = typeof v === 'string' ? v : JSON.stringify(v ?? ''); return t.length > 2500 ? t.slice(0, 2500) + '… (qisqartirildi)' : v; };
+  let c = conv.map(m => ({ role: m.role, parts: (m.parts || []).map(p => p.functionResponse ? { functionResponse: { name: p.functionResponse.name, response: { result: cut(p.functionResponse.response?.result) } } } : p) }));
+  // server 1 MB dan katta qabul qilmaydi — eng eski qismlar tashlanadi (suhbat foydalanuvchi savolidan boshlanadi)
+  while (c.length > 2 && JSON.stringify(c).length > 600000) {
+    c = c.slice(1);
+    while (c.length && !(c[0].role === 'user' && c[0].parts.some(p => p.text))) c = c.slice(1);
+  }
+  return c;
+}
+async function arsSave() {
+  if (!aiChat.length) return;
+  if (!arsChatId) arsSetCur(Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
+  const title = (aiChat.find(m => m.role === 'user')?.text || 'Suhbat').replace(/\s+/g, ' ').slice(0, 80);
+  try { await dc('/api/tg/ars/chats/' + arsChatId, { method: 'PUT', body: JSON.stringify({ title, chat: aiChat.slice(-200), conv: arsTrimConv(aiConv) }) }); }
+  catch (ex) { console.warn('Arsenal: suhbat saqlanmadi', ex); }
+}
+async function arsOpenChat(id) {
+  const j = await dc('/api/tg/ars/chats/' + id);
+  aiChat.length = 0; aiChat.push(...(j.chat || [])); aiConv = j.conv || [];
+  arsSetCur(id);
+}
+function arsNewChat() { aiChat.length = 0; aiConv = []; arsSetCur(''); }
+const arsAgo = t => { const d = (Date.now() - t) / 1000; return d < 60 ? 'hozir' : d < 3600 ? Math.floor(d / 60) + ' daq. oldin' : d < 86400 ? Math.floor(d / 3600) + ' soat oldin' : d < 172800 ? 'kecha' : new Date(t).toLocaleDateString('ru-RU'); };
+async function arsHistory(box, redraw) {
+  box.querySelector('.ars-mp')?.remove();
+  const mp = document.createElement('div');
+  mp.className = 'ars-mp ars-hist';
+  mp.innerHTML = '<div class="mt-loading"><i></i><i></i><i></i></div>';
+  box.append(mp);
+  const close = () => { mp.remove(); document.removeEventListener('keydown', k); };
+  const k = e => { if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', k);
+  let chats;
+  try { chats = (await dc('/api/tg/ars/chats')).chats || []; }
+  catch (ex) { mp.innerHTML = `<p class="acc-error">${esc(ex.message)}</p>`; return; }
+  const paint = q => {
+    q = norm(q || '');
+    const hit = chats.filter(c => !q || norm(c.title).includes(q));
+    mp.querySelector('.ars-mlist').innerHTML = hit.map(c => `<div class="ars-mrow${c.id === arsChatId ? ' is-on' : ''}" data-id="${esc(c.id)}" role="button" tabindex="0"><span class="ars-mic2">✦</span><span class="ars-mt"><b>${esc(c.title)}</b><small>${arsAgo(c.at)} · ${c.n} ta xabar</small></span><button type="button" class="ars-hdel" data-del="${esc(c.id)}" title="O‘chirish" aria-label="O‘chirish">✕</button></div>`).join('') ||
+      `<p class="adm-hint">${chats.length ? 'Topilmadi' : 'Hali saqlangan suhbat yo‘q — Arsenalga savol bering, suhbat o‘zi saqlanadi.'}</p>`;
+  };
+  mp.innerHTML = `<div class="ars-mhead"><b>Suhbatlar</b><small>${chats.length} ta · barcha qurilmalarda</small><button type="button" data-x2 aria-label="Yopish">✕</button></div>
+    <button type="button" class="ars-hnew" data-new>＋ Yangi suhbat</button>
+    ${chats.length > 5 ? '<input class="acc-input ars-msearch" type="search" placeholder="Suhbatlardan qidirish…" autocomplete="off">' : ''}<div class="ars-mlist"></div>`;
+  paint('');
+  const inp = mp.querySelector('.ars-msearch');
+  inp?.addEventListener('input', () => paint(inp.value));
+  mp.querySelector('[data-x2]').addEventListener('click', close);
+  mp.querySelector('[data-new]').addEventListener('click', () => { arsNewChat(); close(); redraw(); });
+  mp.addEventListener('click', async e => {
+    const del = e.target.closest('[data-del]');
+    if (del) {
+      e.stopPropagation();
+      if (!confirm('Bu suhbat o‘chirilsinmi?')) return;
+      await dc('/api/tg/ars/chats/' + del.dataset.del, { method: 'DELETE' }).catch(() => {});
+      chats = chats.filter(c => c.id !== del.dataset.del);
+      if (del.dataset.del === arsChatId) { arsNewChat(); redraw(); return arsHistory(box, redraw); }
+      return paint(inp?.value);
+    }
+    const row = e.target.closest('.ars-mrow');
+    if (!row) return;
+    try { await arsOpenChat(row.dataset.id); close(); redraw(); }
+    catch (ex) { toast(ex.message, true); }
+  });
+}
+
 function initAiChat() {
   if (document.getElementById('aiChatBtn')) return;
   const btn = document.createElement('button');
@@ -2670,13 +2741,13 @@ function initAiChat() {
   const draw = () => {
     const n = draftIds().size;
     box.innerHTML = `
-      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${GEMINI_OFF ? (arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'Server · bepul modellar' : 'miya ulanmagan') : 'Gemini'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
+      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${GEMINI_OFF ? (arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'Server · bepul modellar' : 'miya ulanmagan') : 'Gemini'}</small>${aiKey() ? '<button type="button" class="ars-hbtn" data-hist title="Suhbatlar tarixi">☰ Suhbatlar</button><button type="button" class="ars-hbtn" data-newc title="Yangi suhbat">＋</button>' : ''}<button type="button" data-x aria-label="Yopish">✕</button></div>
       ${aiKey() ? `
         <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}${m.by ? `<span class="ars-by">${esc(m.by)}</span>` : ''}</div>`).join('')
           : '<p class="adm-hint">Masalan: «Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y», «Tavsifi yo‘q rasmiy kinolarni top va tavsif yoz», «Instagram uchun reklama matni yoz»</p>'}</div>
         ${n ? `<button class="btn btn-primary btn-sm adm-aichat-review" type="button" data-review>${n} ta kinoda o‘zgarish — ko‘rib chiqish va saqlash</button>` : ''}
         <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savol yoki topshiriq yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
-        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button>${GEMINI_OFF ? `<span class="ars-brain">Miya: <select data-brain><option value="auto">avtomatik</option><option value="local">Gemma4 (kompyuter)</option><option value="free">Server (FreeLLMAPI)</option></select>${arsUse() === 'free' ? `<button type="button" class="ars-mbtn" data-models><i></i>${esc(arsModelName(arsCloudModel()))}<b>▾</b></button>` : ''}${window.ARS_CLOUD_KEY ? '' : ' <button class="acc-link" type="button" data-flkey>Server kaliti</button>'}</span>` : '<button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button>'}</div>` : `
+        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>＋ Yangi suhbat</button><button class="acc-link" type="button" data-hist>☰ Suhbatlar</button>${GEMINI_OFF ? `<span class="ars-brain">Miya: <select data-brain><option value="auto">avtomatik</option><option value="local">Gemma4 (kompyuter)</option><option value="free">Server (FreeLLMAPI)</option></select>${arsUse() === 'free' ? `<button type="button" class="ars-mbtn" data-models><i></i>${esc(arsModelName(arsCloudModel()))}<b>▾</b></button>` : ''}${window.ARS_CLOUD_KEY ? '' : ' <button class="acc-link" type="button" data-flkey>Server kaliti</button>'}</span>` : '<button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button>'}</div>` : `
         <div class="ars-off"><b>Arsenal miyasi topilmadi</b><p class="adm-hint">Arsenal DezoCloud serveridagi FreeLLMAPI yoki kompyuterdagi Ollama (${esc(arsModel())}) orqali ishlaydi. ${window.ARS_CLOUD_KEY === false ? 'Server kaliti hali kiritilmagan — «Server kaliti»ni bosing (bir marta).' : 'Internet yoki kompyuterdagi Ollama’ni tekshirib, «Qayta tekshirish»ni bosing.'}</p>
           <div><button type="button" class="a4-btn is-ars" data-recheck>Qayta tekshirish</button> <button type="button" class="a4-btn" data-flkey>Server kaliti</button></div><p class="adm-hint">Tezkor o‘tishlar:</p>
           <div class="ars-quick">${[['posters', 'Posterlar'], ['clean', 'Xom nomlar'], ['groups', 'Guruhlar'], ['broken', 'Ishlamaydiganlar'], ['comments', 'Sharhlar'], ['site', 'Sayt sozlamalari']].map(([v, l]) => `<button type="button" class="a4-btn" data-go="${v}">${l}</button>`).join('')}</div></div>`}
@@ -2685,7 +2756,9 @@ function initAiChat() {
     const list = box.querySelector('#aiChatList');
     if (list) list.scrollTop = list.scrollHeight;
     box.querySelector('[data-x]').onclick = () => { if (box.classList.contains('is-page')) go('home'); else box.hidden = true; };
-    box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; aiConv = []; draw(); });
+    box.querySelector('[data-clear]')?.addEventListener('click', () => { arsNewChat(); draw(); });
+    box.querySelector('[data-newc]')?.addEventListener('click', () => { arsNewChat(); draw(); });
+    box.querySelectorAll('[data-hist]').forEach(h => h.addEventListener('click', () => arsHistory(box, draw)));
     box.querySelector('[data-reset]')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); draw(); });
     box.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => { if (!box.classList.contains('is-page')) box.hidden = true; go(b.dataset.go); }));
     box.querySelector('[data-models]')?.addEventListener('click', () => arsModelPicker(box, draw));
@@ -2770,12 +2843,14 @@ function initAiChat() {
       }
       window.ArsenalAI?.talk(0);
       draw();
+      arsSave();
       paintGenreBar();
       box.querySelector('#aiChatForm textarea')?.focus();
     });
   };
   btn.addEventListener('click', () => { box.hidden = !box.hidden; if (!box.hidden) { draw(); box.querySelector('textarea, input')?.focus(); } });
   Object.assign(arsenal, { box, btn, draw });
+  if (arsChatId && !aiChat.length) arsOpenChat(arsChatId).then(() => { if (!box.hidden || box.classList.contains('is-page')) draw(); }).catch(() => arsSetCur(''));
 }
 
 function bindTmdb(form, { setHeroImg, setCover }) {

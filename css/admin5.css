@@ -389,3 +389,34 @@ ol.pz-list li[data-movie] .pz-pst { width: 30px; height: 44px; }
 .ars-mt { flex: 1; min-width: 0; display: flex; flex-direction: column; } .ars-mt b { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ars-mt small { font-size: 11px; color: var(--a-dim, #999); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ars-mrow em { font-style: normal; color: #ff8a1f; font-weight: 700; }
 .ars-by { display: block; margin-top: 6px; font-size: 10.5px; letter-spacing: .03em; color: rgba(255, 170, 100, .6); } .ars-by::before { content: '◆ '; }
+
+/* Arsenal — suhbatlar tarixi */
+.ars-hbtn { margin-left: auto; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255, 138, 31, .3); background: rgba(255, 138, 31, .08); color: #ffd2a6; font: 600 12px/1.2 inherit; cursor: pointer; white-space: nowrap; }
+.ars-hbtn + .ars-hbtn { margin-left: 6px; padding: 4px 9px; }
+.ars-hbtn:hover { border-color: #ff8a1f; background: rgba(255, 138, 31, .18); }
+.adm-aichat-head .ars-hbtn ~ [data-x] { margin-left: 8px; }
+.ars-hnew { padding: 10px; border-radius: 12px; border: 1px dashed rgba(255, 138, 31, .5); background: rgba(255, 138, 31, .06); color: #ffb36b; font: 700 13px inherit; cursor: pointer; }
+.ars-hnew:hover { background: rgba(255, 138, 31, .15); }
+.ars-hist .ars-mlist { gap: 6px; }
+.ars-hdel { flex: none; width: 26px; height: 26px; border-radius: 8px; border: 0; background: none; color: var(--a-dim, #888); cursor: pointer; opacity: 0; transition: .12s; }
+.ars-mrow:hover .ars-hdel, .ars-mrow.is-on .ars-hdel { opacity: 1; } .ars-hdel:hover { background: rgba(255, 80, 80, .15); color: #ff6b6b; }
+@media (hover: none) { .ars-hdel { opacity: 1; } }
+
+/* Chap menyu — yig'ish (faqat katta ekran) */
+.a4-lrow { display: flex; align-items: flex-start; gap: 6px; } .a4-lrow .a4-logo { flex: 1; min-width: 0; }
+.a4-fold { display: none; }
+@media (min-width: 901px) {
+  .a4-fold { margin-top: 5px; }
+  .a4-fold { display: grid; place-items: center; margin-left: auto; width: 30px; height: 30px; flex: none; border-radius: 9px; border: 1px solid var(--a-ln); background: none; color: var(--a-dim); cursor: pointer; transition: .15s; }
+  .a4-fold:hover { color: var(--a-tx); border-color: var(--a-ln2, #3a3a3a); }
+  .a4-fold svg { width: 17px; height: 17px; transition: transform .2s; }
+  .a4-side { transition: width .2s ease, padding .2s ease; }
+  .a4.is-mini .a4-side { width: 72px; padding-left: 12px; padding-right: 12px; }
+  .a4.is-mini .a4-lrow { flex-direction: column; align-items: center; gap: 10px; padding-bottom: 8px; } .a4.is-mini .a4-logo { padding: 4px 0 0; justify-content: center; }
+  .a4.is-mini .a4-logo .a4-brand, .a4.is-mini .a4-it span, .a4.is-mini .a4-who { display: none; }
+  .a4.is-mini .a4-fold { margin: 0 auto; } .a4.is-mini .a4-fold svg { transform: scaleX(-1); }
+  .a4.is-mini .a4-grp { font-size: 0; padding: 0; margin: 10px 8px; height: 1px; background: var(--a-ln); }
+  .a4.is-mini .a4-it { justify-content: center; padding: 0; position: relative; }
+  .a4.is-mini .a4-it em { position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; padding: 0; font-size: 0; background: var(--a-lime); }
+  .a4.is-mini .a4-me { flex-direction: column; padding-left: 0; padding-right: 0; }
+}
