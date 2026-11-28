@@ -152,7 +152,10 @@ async function send(m) {
   return true;
 }
 
-(async () => {
+// tools/tg-refresh.js eski postlarni shu matn bilan yangilaydi (2026-11-28)
+module.exports = { caption, webpToJpeg, MOVIES: ctx.MOVIES || [], PAGES, abs, CHANNEL, TOKEN };
+
+if (require.main === module) (async () => {
   if (!TOKEN) console.log('TG_BOT_TOKEN yo‘q — sinov rejimi (hech narsa yuborilmaydi)');
   let ok = 0;
   for (const m of pick) {

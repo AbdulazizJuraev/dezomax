@@ -17,6 +17,10 @@ on:
         description: "Nechta post (sinov uchun 1)"
         type: string
         default: "5"
+      refresh:
+        description: "Kanaldagi eski postlarni yangi ko‘rinishga o‘tkazish (bir martalik)"
+        type: boolean
+        default: false
   schedule:
     # 17:17, 19:17, 21:17 (Toshkent) — odamlar kechqurun ko'p kiradi (2026-11-28). Soat boshi (:00) emas:
     # GitHub o'sha paytda band bo'lib, ishlarni soatlab kechiktirardi (postlar tungi 4-5 da chiqardi)
@@ -53,15 +57,23 @@ jobs:
 
       # saytdagi WebP posterlar JPEG'ga o'giriladi (tg-post.js webpToJpeg) — Pillow
       - name: Pillow
-        if: ${{ !inputs.setup && !inputs.promo }}
+        if: ${{ !inputs.setup && !inputs.promo && !inputs.refresh }}
         run: python3 -c "import PIL" 2>/dev/null || (sudo apt-get update -qq > /dev/null; sudo apt-get install -y -qq python3-pil > /dev/null) || true
 
       - name: Kanalga post
-        if: ${{ !inputs.setup && !inputs.promo }}
+        if: ${{ !inputs.setup && !inputs.promo && !inputs.refresh }}
         env:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
           COUNT: ${{ inputs.count || '5' }}
         run: node tools/tg-post.js --count="$COUNT"
+
+      - name: Eski postlarni yangilash
+        if: inputs.refresh
+        env:
+          TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
+        run: |
+          python3 -c "import PIL" 2>/dev/null || (sudo apt-get update -qq > /dev/null; sudo apt-get install -y -qq python3-pil > /dev/null) || true
+          node tools/tg-refresh.js --media=456,457
 
       - name: Holatni saqlash
         run: |
