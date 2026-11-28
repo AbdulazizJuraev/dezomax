@@ -2186,13 +2186,16 @@ window.ARS_OK = false; window.ARS_FREE = false;
 async function arsCheck() {
   const [a, b] = await Promise.all([
     fetch(ARS_URL + '/api/tags', { signal: AbortSignal.timeout(2500) }).then(r => r.json()).then(j => (j.models || []).some(m => m.name === arsModel() || m.model === arsModel())).catch(() => false),
-    flKey() ? fetch(FL_URL() + '/v1/models', { headers: { Authorization: 'Bearer ' + flKey() }, signal: AbortSignal.timeout(2500) }).then(r => r.ok).catch(() => false) : false
+    (async () => {   // server: FreeLLMAPI DezoCloud'da, kalit serverda — admin GitHub token orqali avtomatik ulanadi
+      try { if (!(await dcAuto())) return false; const j = await dc('/api/tg/ars/status'); window.ARS_CLOUD_KEY = !!j.hasKey; return !!j.ok; } catch { return false; }
+    })()
   ]);
   window.ARS_OK = a; window.ARS_FREE = b;
   return a || b;
 }
-const arsUse = () => { const b = arsBrain(); return b === 'free' ? (window.ARS_FREE ? 'free' : '') : b === 'local' ? (window.ARS_OK ? 'local' : '') : window.ARS_OK ? 'local' : window.ARS_FREE ? 'free' : ''; };
-if (GEMINI_OFF) { try { localStorage.removeItem(AI_KEY); } catch {} arsCheck().then(ok => { if (ok && arsenal.draw && ['ai', 'home'].includes(view)) renderMain(); }); }
+// avtomatik: avval server (kuchli, har qurilmadan), bo'lmasa kompyuterdagi Gemma4
+const arsUse = () => { const b = arsBrain(); return b === 'free' ? (window.ARS_FREE ? 'free' : '') : b === 'local' ? (window.ARS_OK ? 'local' : '') : window.ARS_FREE ? 'free' : window.ARS_OK ? 'local' : ''; };
+if (GEMINI_OFF) { try { localStorage.removeItem(AI_KEY); localStorage.removeItem('arsenal_fl_key'); } catch {} setTimeout(() => arsCheck().then(ok => { if (ok && arsenal.draw && ['ai', 'home'].includes(view)) renderMain(); }), 0); }
 const aiKey = () => { if (GEMINI_OFF) return arsUse() ? 'arsenal' : ''; try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
 
 /* Gemini ko'rinishidagi so'rovni Arsenal (Ollama) ga o'tkazish: javob ham Gemini ko'rinishida qaytadi — qolgan kod o'zgarmaydi */
@@ -2205,11 +2208,11 @@ async function arsenalFree(messages, tools, opts) {
   });
   let r;
   try {
-    r = await fetch(FL_URL() + '/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + flKey() },
+    r = await fetch(DC_URL + '/api/tg/ars/chat', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + dcKey() },
       body: JSON.stringify({ model: 'auto:smart', messages: msgs, ...(tools ? { tools } : {}), temperature: opts.text || opts.raw ? 0.5 : 0.4, ...(opts.text || opts.raw ? {} : { response_format: { type: 'json_object' } }) }) });
-  } catch { window.ARS_FREE = false; throw new Error('FreeLLMAPI’ga ulanib bo‘lmadi — dastur ochiqmi?'); }
+  } catch { window.ARS_FREE = false; throw new Error('Arsenal serveriga ulanib bo‘lmadi — internetni tekshiring'); }
   const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error('FreeLLMAPI: ' + (j.error?.message || r.status));
+  if (!r.ok) throw new Error('Arsenal: ' + (j.error?.message || j.error || r.status));
   const m = j.choices?.[0]?.message || {}, text = m.content || '';
   if (opts.raw) return { role: 'model', parts: [...(text ? [{ text }] : []), ...(m.tool_calls || []).map(tc => ({ functionCall: { name: tc.function.name, args: (() => { try { return JSON.parse(tc.function.arguments || '{}'); } catch { return {}; } })() } }))] };
   if (opts.text) return text.trim();
@@ -2491,10 +2494,17 @@ const AI_TOOLS = [{ functionDeclarations: [
   { name: 'set_description', description: 'Rasmiy kinoga tavsif TAKLIF qilish (o‘zbekcha va/yoki ruscha, 2–3 jumla, spoylersiz)',
     parameters: { type: 'object', properties: { id: { type: 'integer' }, desc_uz: { type: 'string' }, desc_ru: { type: 'string' } }, required: ['id'] } },
   { name: 'add_tags', description: 'Rasmiy kinoga qidiruv uchun boshqa nomlar/teglar TAKLIF qilish',
-    parameters: { type: 'object', properties: { id: { type: 'integer' }, tags: { type: 'array', items: { type: 'string' } } }, required: ['id', 'tags'] } }
+    parameters: { type: 'object', properties: { id: { type: 'integer' }, tags: { type: 'array', items: { type: 'string' } } }, required: ['id', 'tags'] } },
+  { name: 'web_search', description: 'Internetdan qidirish: yangiliklar, kino haqida ma’lumot (rejissyor, aktyorlar, chiqish sanasi), narxlar, texnik savollar — o‘zing bilmagan yoki yangi ma’lumot kerak bo‘lganda',
+    parameters: { type: 'object', properties: { query: { type: 'string', description: 'Qidiruv so‘rovi' } }, required: ['query'] } }
 ] }];
 
 function aiRunTool(name, a = {}) {
+  if (name === 'web_search') {
+    return fetch(DC_URL + '/api/tg/ars/search', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + dcKey() }, body: JSON.stringify({ query: String(a.query || ''), max_results: 6 }) })
+      .then(r => r.json()).then(j => ({ natijalar: (j.results || []).slice(0, 6).map(x => ({ sarlavha: x.title, manzil: x.url, matn: String(x.content || '').slice(0, 600) })) }))
+      .catch(() => ({ xato: 'Internetdan qidirib bo‘lmadi' }));
+  }
   const short = s => String(s || '').replace(/\s+/g, ' ').slice(0, 120);
   const row = m => ({ id: m.id, nomi: m.title?.uz, yil: m.year || null, tur: m.type, janrlar: genresOf(m), manba: isOfficialMovie(m) ? 'rasmiy' : 'telegram', tavsif: short(m.desc?.uz) });
   const byId = id => allMovies().find(x => x.id === +id);
@@ -2546,8 +2556,10 @@ function aiRunTool(name, a = {}) {
   return { xato: 'Noma’lum asbob' };
 }
 
-const AI_SYSTEM = () => `Sening isming — Arsenal. Sen DezoMax (dezomax.uz — o‘zbek tilidagi kino, serial, sport va TV sayti) adminining shaxsiy sun’iy intellekt yordamchisisan (Temir odamdagi Jarvis kabi). O‘zingni «Arsenal» deb tanishtir. O‘zbek tilida (lotin), qisqa va aniq javob ber.
-Asboblaring bor: search_movies, get_movie (ko‘rish) va set_genres, set_description, add_tags (faqat RASMIY kinolarga TAKLIF — admin ko‘rib «Saqlash»ni bosadi; sen o‘zing saqlay olmaysan).
+const AI_SYSTEM = () => `Sening isming — Arsenal. Sen DezoMax (dezomax.uz — o‘zbek tilidagi kino, serial, sport va TV sayti) adminining shaxsiy sun’iy intellekt yordamchisisan (Temir odamdagi Jarvis kabi). O‘zingni «Arsenal» deb tanishtir. O‘zbek tilida (lotin) javob ber (foydalanuvchi boshqa tilda yozsa — o‘sha tilda).
+Sen to‘liq imkoniyatli yordamchisan: har qanday savolga javob berasan — umumiy bilim, dasturlash va kod yozish, sayt/ilova yaratish bo‘yicha yo‘l-yo‘riq, matn, tarjima, biznes, marketing, hisob-kitob, maslahat. «Qila olmayman» deb rad etma — qo‘lingdan kelgancha to‘liq yordam ber.
+Yangi yoki aniq bo‘lmagan ma’lumot kerak bo‘lsa (yangiliklar, kino ma’lumotlari, narxlar) — web_search asbobi bilan internetdan qidir va manbani ko‘rsat.
+DezoMax uchun asboblaring bor: search_movies, get_movie (ko‘rish) va set_genres, set_description, add_tags (faqat RASMIY kinolarga TAKLIF — admin ko‘rib «Saqlash»ni bosadi; sen o‘zing saqlay olmaysan).
 Janr kodlari: ${GENRES.map(g => `${g.id} (${g.uz})`).join(', ')}.
 Telegram (manba: telegram) kinolarini o‘zgartira olmaysan — so‘ralsa, admin kino formasidagi tugmalar bilan o‘zi qilishini ayt.
 Ko‘p kino bo‘lsa — avval search_movies bilan top, keyin har biriga asbob chaqir. Kinoni tanimasang, nomi va tavsifiga qarab ehtiyotkor tanla, fakt o‘ylab topma.
@@ -2575,7 +2587,7 @@ function arsWatch() {
 
 function renderArsenalView() {
   const box = $('#admView');
-  const st = arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'FreeLLMAPI · bepul modellar' : 'miya ulanmagan';
+  const st = arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'Server · bepul modellar' : 'miya ulanmagan';
   box.innerHTML = `
     <div class="ars-page ars-jarvis">
       <div class="ars-core">${arsSphere(280)}</div>
@@ -2604,15 +2616,15 @@ function initAiChat() {
   const draw = () => {
     const n = draftIds().size;
     box.innerHTML = `
-      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${GEMINI_OFF ? (arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'FreeLLMAPI · bepul modellar' : 'miya ulanmagan') : 'Gemini'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
+      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${GEMINI_OFF ? (arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'Server · bepul modellar' : 'miya ulanmagan') : 'Gemini'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
       ${aiKey() ? `
         <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}</div>`).join('')
           : '<p class="adm-hint">Masalan: «Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y», «Tavsifi yo‘q rasmiy kinolarni top va tavsif yoz», «Instagram uchun reklama matni yoz»</p>'}</div>
         ${n ? `<button class="btn btn-primary btn-sm adm-aichat-review" type="button" data-review>${n} ta kinoda o‘zgarish — ko‘rib chiqish va saqlash</button>` : ''}
         <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savol yoki topshiriq yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
-        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button>${GEMINI_OFF ? `<span class="ars-brain">Miya: <select data-brain><option value="auto">avtomatik</option><option value="local">Gemma4 (kompyuter)</option><option value="free">FreeLLMAPI</option></select> <button class="acc-link" type="button" data-flkey>FreeLLMAPI kaliti</button></span>` : '<button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button>'}</div>` : `
-        <div class="ars-off"><b>Arsenal miyasi topilmadi</b><p class="adm-hint">Arsenal kompyuteringizdagi Ollama (${esc(arsModel())}) yoki FreeLLMAPI dasturi orqali ishlaydi. Ulardan biri yoqilganini tekshirib, «Qayta tekshirish»ni bosing.</p>
-          <div><button type="button" class="a4-btn is-ars" data-recheck>Qayta tekshirish</button> <button type="button" class="a4-btn" data-flkey>FreeLLMAPI kaliti</button></div><p class="adm-hint">Tezkor o‘tishlar:</p>
+        <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button>${GEMINI_OFF ? `<span class="ars-brain">Miya: <select data-brain><option value="auto">avtomatik</option><option value="local">Gemma4 (kompyuter)</option><option value="free">Server (FreeLLMAPI)</option></select>${window.ARS_CLOUD_KEY ? '' : ' <button class="acc-link" type="button" data-flkey>Server kaliti</button>'}</span>` : '<button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button>'}</div>` : `
+        <div class="ars-off"><b>Arsenal miyasi topilmadi</b><p class="adm-hint">Arsenal DezoCloud serveridagi FreeLLMAPI yoki kompyuterdagi Ollama (${esc(arsModel())}) orqali ishlaydi. ${window.ARS_CLOUD_KEY === false ? 'Server kaliti hali kiritilmagan — «Server kaliti»ni bosing (bir marta).' : 'Internet yoki kompyuterdagi Ollama’ni tekshirib, «Qayta tekshirish»ni bosing.'}</p>
+          <div><button type="button" class="a4-btn is-ars" data-recheck>Qayta tekshirish</button> <button type="button" class="a4-btn" data-flkey>Server kaliti</button></div><p class="adm-hint">Tezkor o‘tishlar:</p>
           <div class="ars-quick">${[['posters', 'Posterlar'], ['clean', 'Xom nomlar'], ['groups', 'Guruhlar'], ['broken', 'Ishlamaydiganlar'], ['comments', 'Sharhlar'], ['site', 'Sayt sozlamalari']].map(([v, l]) => `<button type="button" class="a4-btn" data-go="${v}">${l}</button>`).join('')}</div></div>`}
       <p class="acc-error" id="aiChatErr" hidden></p>`;
     const err = box.querySelector('#aiChatErr');
@@ -2627,14 +2639,16 @@ function initAiChat() {
     // kalit — oynaning o'zidagi maydonga (prompt() ba'zi oynalarda, masalan ilova ichida, ko'rinmaydi)
     box.querySelectorAll('[data-flkey]').forEach(b => b.addEventListener('click', () => {
       if (box.querySelector('#arsFlForm')) return box.querySelector('#arsFlForm input').focus();
-      (b.closest('.adm-aichat-foot') || b.parentElement).insertAdjacentHTML('afterend', `<form id="arsFlForm" class="adm-aichat-form" style="margin-top:8px"><input class="acc-input" type="password" placeholder="freellmapi-… (FreeLLMAPI → Ключи → Единый ключ API)" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">Ulash</button></form>`);
+      (b.closest('.adm-aichat-foot') || b.parentElement).insertAdjacentHTML('afterend', `<form id="arsFlForm" class="adm-aichat-form" style="margin-top:8px"><input class="acc-input" type="password" placeholder="freellmapi-… (serverdagi FreeLLMAPI → Ключи → Единый ключ API)" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">Ulash</button></form>`);
       const f = box.querySelector('#arsFlForm');
       f.querySelector('input').focus();
       f.addEventListener('submit', async e => {
         e.preventDefault();
         const v = f.querySelector('input').value.trim();
-        if (v) localStorage.setItem('arsenal_fl_key', v); else localStorage.removeItem('arsenal_fl_key');
-        await arsCheck(); toast(window.ARS_FREE ? 'FreeLLMAPI ulandi' : 'FreeLLMAPI topilmadi yoki kalit noto‘g‘ri', !window.ARS_FREE); renderMain();
+        if (!v) return;
+        try { await dcAuto(); await dc('/api/tg/ars/key', { method: 'POST', body: JSON.stringify({ key: v }) }); }
+        catch (ex) { return toast(ex.message, true); }
+        await arsCheck(); toast(window.ARS_FREE ? 'Arsenal serverga ulandi — endi hamma qurilmada ishlaydi' : 'Server javob bermadi', !window.ARS_FREE); renderMain();
       });
     }));
     box.querySelector('[data-recheck]')?.addEventListener('click', async e => { e.currentTarget.disabled = true; await arsCheck(); if (window.ARS_OK) toast('Arsenal miyasi ulandi'); else toast('Topilmadi — Ollama ishlayaptimi?', true); renderMain(); });
@@ -2689,7 +2703,7 @@ function initAiChat() {
             aiChat.push({ role: 'model', text: parts.map(p => p.text || '').join('').trim() || '(javob bo‘sh)' });
             break;
           }
-          const responses = fcs.map(p => ({ functionResponse: { name: p.functionCall.name, response: { result: aiRunTool(p.functionCall.name, p.functionCall.args || {}) } } }));
+          const responses = await Promise.all(fcs.map(async p => ({ functionResponse: { name: p.functionCall.name, response: { result: await aiRunTool(p.functionCall.name, p.functionCall.args || {}) } } })));
           aiConv.push({ role: 'user', parts: responses });
           calls += fcs.length;
           wait(`🔧 Ishlayapti… (${calls} ta amal)`);
