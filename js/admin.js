@@ -2598,7 +2598,7 @@ function renderArsenalView() {
   const st = arsUse() === 'local' ? 'Gemma4 · kompyuter' : arsUse() === 'free' ? 'Server · bepul modellar' : 'miya ulanmagan';
   box.innerHTML = `
     <div class="ars-page ars-jarvis">
-      <div class="ars-core">${arsSphere(560)}</div>
+      <div class="ars-core">${arsSphere(594)}</div>
       <h1 class="ars-title">ARSENAL</h1>
       <p class="ars-state"><i class="${arsUse() ? 'is-on' : ''}"></i>${esc(st)}</p>
       <div class="ars-slot" id="arsSlot"></div>
