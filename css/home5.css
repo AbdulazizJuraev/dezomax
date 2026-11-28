@@ -485,6 +485,8 @@ body.d5 .v4-chip:hover b { color: var(--green-t); }
 
 /* ekrandan tashqaridagi bo'limlar chizilmaydi (brauzer o'zi, ekranga yaqinlashganda) — bosh sahifa yengilroq, ayniqsa telefonda */
 .h5-rows > .h5-sec { content-visibility: auto; contain-intrinsic-size: auto 460px; }
+/* qatorlar JS bilan to'lguncha joy band — pastdagi «Fikr bildirish» avval tepada ko'rinib, keyin sakramasin (CLS), 2026-11-28 */
+.h5-rows:empty { min-height: 100vh; }
 
 /* ===== 2026-11-19: bosh sahifa telefon tuzatishlari (foydalanuvchi so'rovi, 7 band) ===== */
 /* 2) Treylerlar — rasm doim ko'rinadi (oq bo'sh karta emas), matn pastda oq */
