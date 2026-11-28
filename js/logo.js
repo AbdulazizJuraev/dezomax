@@ -45,7 +45,7 @@ try { var dzxD = document.documentElement, dzxT = localStorage.getItem('dzx_them
   /* Yangi logotip (2026-10-20, foydalanuvchi tayyorlagan «DezoSite Name.svg» → images/logo/dezomax-name.webp).
      Asl CorelDRAW fayli juda og'ir (~2 MB, 300+ tashqi rasm) — saytda tayyor yengil rasm ishlatiladi. */
   function dezoLogoSVG() {
-    return '<img class="logo-svg-el" src="images/logo/dezomax-name.webp" alt="DezoMax" width="980" height="160" decoding="async">';
+    return '<img class="logo-svg-el" src="images/logo/dezomax-name-560.webp" alt="DezoMax" width="980" height="160" decoding="async">';
   }
 
   /* .logo-img rasmlarini ichki SVG bilan almashtirish */

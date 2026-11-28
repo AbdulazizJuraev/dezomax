@@ -908,7 +908,7 @@ function mountNav5() {
   const hd = document.createElement('header');
   hd.className = 'h5 h5-nav';
   hd.innerHTML = `<div class="h5-nav-in">
-    <a class="h5-logo" href="index.html" aria-label="DezoMax"><img class="logo-img" src="images/logo/dezomax-name.webp" alt="DezoMax" width="184" height="30"></a>
+    <a class="h5-logo" href="index.html" aria-label="DezoMax"><img class="logo-img" src="images/logo/dezomax-name-560.webp" alt="DezoMax" width="184" height="30"></a>
     <nav class="h5-links" aria-label="${L('Bo‘limlar', 'Разделы')}">${links.map(([h, k, label]) => `<a href="${h}"${k === cur ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${NAV5_IC[k]}</svg><span>${k === 'live' ? '<i class="h5-ldot"></i>' : ''}${esc(label)}</span></a>`).join('')}</nav>
     <div class="h5-tools">
       <a class="h5-ib" href="search.html" aria-label="${L('Qidiruv', 'Поиск')}" title="${L('Qidiruv', 'Поиск')}"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>

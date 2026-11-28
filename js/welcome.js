@@ -6,6 +6,8 @@
    ============================================================ */
 
 (function () {
+  // index.html <head> scroll blokini oldindan qo'yadi; welcome chiqmasa — olib tashlanadi (chiqsa, pastda qayta qo'yiladi)
+  document.documentElement.classList.remove('welcome-lock');
   const DONE_KEY = 'dezomax_welcome_done';
   const page = location.pathname.split('/').pop() || 'index.html';
   const force = /[?&]welcome=1\b/.test(location.search);

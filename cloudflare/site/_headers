@@ -9,8 +9,18 @@
   Cache-Control: public, max-age=604800
 /css/*
   Cache-Control: public, max-age=604800
+# Rasmlar: 30 kun (2026-11-28). Admin almashtira oladigan posterlar (custom) — 7 kun, eskisi shu orada fonda yangilanadi
 /images/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=2592000
+/images/custom/*
+  ! Cache-Control
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/images/w/custom__*
+  ! Cache-Control
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/images/w/l/images__custom__*
+  ! Cache-Control
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 /_seo/*
   Cache-Control: public, max-age=300
 /sw.js
