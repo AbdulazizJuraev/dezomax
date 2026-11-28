@@ -393,6 +393,7 @@ function renderTokenScreen(err = '') {
       return renderTokenScreen('Bu GitHub token emas. Token «github_pat_» (yoki «ghp_») bilan boshlanadi va juda uzun bo‘ladi — to‘liq nusxalang.');
     }
     localStorage.setItem(TOKEN_KEY, v);
+    dcAuto();
     $('#tokSave').disabled = true;
     try {
       const repo = await gh('');
@@ -888,7 +889,7 @@ function bindParts(form, old) {
       const f = file.files[0];
       file.value = '';
       if (!f) return;
-      if (!dcKey()) {
+      if (!(await dcAuto())) {
         const kb = $('#admVupKey');
         kb.hidden = false; kb.scrollIntoView({ block: 'center' }); $('#admVupPass').focus();
         return say('Avval yuqorida DezoCloud’ga ulaning, so‘ng faylni qayta tanlang', true);
@@ -4266,9 +4267,22 @@ const dcKey = () => localStorage.getItem(DC_KEY) || '';
 /* Kalit faqat DezoCloud o'zi «kalit noto'g'ri» desa o'chiriladi (2026-11-28). Oldin har qanday 401 o'chirardi —
    masalan, serverdagi GitHub tokeni eskirsa (dezomax-patch → GitHub 401) parol qayta-qayta so'ralardi. */
 const dcBadKey = (status, j) => status === 401 && /DezoCloud kaliti/i.test(j?.error || '');
+/* Parolsiz ulanish (2026-11-28): adminga kirilgan GitHub token bilan — DezoCloud uni GitHub'da tekshiradi
+   (dezomax repozitoriyasiga yozish huquqi bo'lsa kalit beradi). Brauzer, kompyuter ilovasi, Arsenal — hech birida parol so'ralmaydi. */
+let dcAutoP = null;
+function dcAuto() {
+  if (dcKey()) return Promise.resolve(true);
+  if (!token()) return Promise.resolve(false);
+  return dcAutoP || (dcAutoP = fetch(DC_URL + '/api/tg/key-gh', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token() })
+  }).then(r => r.json().then(j => { if (r.ok && j.key) localStorage.setItem(DC_KEY, j.key); return !!dcKey(); }))
+    .catch(() => false).finally(() => { dcAutoP = null; }));
+}
+if (token()) dcAuto();   // sahifa ochilganda fonda — tezkor saqlash (dezomax-patch) ham darrov ishlasin
 let tgState = { channel: null, channels: null, items: [], next: null, sel: new Map() };   // sel: msgId -> title
 
 async function dc(path, opts = {}) {
+  if (!dcKey() && !path.startsWith('/api/tg/key')) await dcAuto();
   const r = await fetch(DC_URL + path, {
     ...opts,
     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + dcKey(), ...(opts.headers || {}) }
@@ -4413,7 +4427,7 @@ function bindVideoUpload(form) {
   const guard = e => { e.preventDefault(); e.returnValue = ''; };
 
   const start = async file => {
-    if (!dcKey()) {
+    if (!(await dcAuto())) {
       pending = file; keyBox.hidden = false; pass.focus();
       return setNote('Avval DezoCloud’ga ulaning — parol bir marta so‘raladi', true);
     }
@@ -4459,7 +4473,7 @@ function bindVideoUpload(form) {
   form.video.addEventListener('input', showFix);
   showFix();
   fixBtn.addEventListener('click', async () => {
-    if (!dcKey()) { keyBox.hidden = false; pass.focus(); return setNote('Avval DezoCloud’ga ulaning — parol bir marta so‘raladi', true); }
+    if (!(await dcAuto())) { keyBox.hidden = false; pass.focus(); return setNote('Avval DezoCloud’ga ulaning — parol bir marta so‘raladi', true); }
     // fonda: server tugagach saytdagi havolani o'zi almashtiradi — formani yopib, boshqa ishga o'tsa bo'ladi
     fixBtn.disabled = true;
     try {
@@ -4535,7 +4549,7 @@ const chNorm = s => String(s || '').toLowerCase().replace(/[‘’'`ʻ]/g, '').r
 
 async function renderChannelsView() {
   const box = $('#admView');
-  if (!dcKey()) {
+  if (!(await dcAuto())) {
     box.innerHTML = `
       <section class="adm-sec">
         <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.yt}</span><h3>Kanallar</h3></div>
@@ -4930,7 +4944,7 @@ async function syncChannel(ch) {
 
 async function renderTgView() {
   const box = $('#admView');
-  if (!dcKey()) {
+  if (!(await dcAuto())) {
     box.innerHTML = `
       <section class="adm-sec">
         <div class="adm-sec-head"><span class="adm-sec-icon">${NAV_ICONS.tg}</span><h3>DezoCloud’ga ulash</h3><small>bir marta</small></div>
