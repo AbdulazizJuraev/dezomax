@@ -4263,6 +4263,9 @@ function ungroupMovie(m) {
 const DC_URL = 'https://dezocloud.uz';
 const DC_KEY = 'dezomax_dc_key';
 const dcKey = () => localStorage.getItem(DC_KEY) || '';
+/* Kalit faqat DezoCloud o'zi «kalit noto'g'ri» desa o'chiriladi (2026-11-28). Oldin har qanday 401 o'chirardi —
+   masalan, serverdagi GitHub tokeni eskirsa (dezomax-patch → GitHub 401) parol qayta-qayta so'ralardi. */
+const dcBadKey = (status, j) => status === 401 && /DezoCloud kaliti/i.test(j?.error || '');
 let tgState = { channel: null, channels: null, items: [], next: null, sel: new Map() };   // sel: msgId -> title
 
 async function dc(path, opts = {}) {
@@ -4271,7 +4274,7 @@ async function dc(path, opts = {}) {
     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + dcKey(), ...(opts.headers || {}) }
   }).catch(() => { throw new Error('DezoCloud serveriga ulanib bo‘lmadi'); });
   const j = await r.json().catch(() => ({}));
-  if (r.status === 401 && !path.startsWith('/api/tg/key')) localStorage.removeItem(DC_KEY);
+  if (dcBadKey(r.status, j) && !path.startsWith('/api/tg/key')) localStorage.removeItem(DC_KEY);
   if (!r.ok) throw Object.assign(new Error(j.error || `DezoCloud xatosi (${r.status})`), { status: r.status });
   return j;
 }
@@ -4346,7 +4349,7 @@ async function dcUploadVideoRun(file, onProg, ctl) {
     else if (r && r.status === 409 && Number.isFinite(j.receivedBytes)) off = j.receivedBytes;
     else if (r && r.status === 404) throw new Error('DezoCloud serverida qurilmadan yuklash hali yoqilmagan (server yangilanishi kerak)');
     else if (r && [400, 401, 413].includes(r.status)) {
-      if (r.status === 401) localStorage.removeItem(DC_KEY);
+      if (dcBadKey(r.status, j)) localStorage.removeItem(DC_KEY);
       throw Object.assign(new Error(j.error || `DezoCloud xatosi (${r.status})`), { status: r.status });
     } else {
       if (++fails > 8) throw new Error('Internet uzildi. Shu faylni qayta tanlasangiz, qolgan joyidan davom etadi.');
@@ -4440,7 +4443,7 @@ function bindVideoUpload(form) {
         (res.fixJob ? ` ${FIX_BG}` : '') + (res.fixErr ? ` ⚠ ${res.fixErr} — «Ovozni tuzatish» tugmasini keyinroq bosing.` : ''), !!res.fixErr);
       if (res.fixJob) { const say = Object.assign((t, err) => setNote(t, err), { el: note }); fixWatch(res.fixJob, say); }
     } catch (e) {
-      if (e.status === 401) { pending = file; keyBox.hidden = false; }
+      if (e.status === 401 && !dcKey()) { pending = file; keyBox.hidden = false; }
       setNote(e.message || 'Yuklab bo‘lmadi', true);
       bar.style.width = '0';
     } finally {
@@ -4957,7 +4960,7 @@ async function renderTgView() {
   try {
     if (!tgState.channels) tgState.channels = (await dc('/api/tg/channels')).items;
   } catch (e) {
-    if (e.status === 401) return renderTgView();
+    if (e.status === 401 && !dcKey()) return renderTgView();   // kalit o'chirilgan bo'lsa — ulash oynasi (aks holda cheksiz takror)
     box.innerHTML = `<p class="acc-error">${esc(e.message)}</p>`; return;
   }
   if (view !== 'tg') return;
