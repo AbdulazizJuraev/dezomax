@@ -44,26 +44,96 @@ const order = list => {
 const uz = order(pool.filter(isUz));
 const other = order(pool.filter(m => !isUz(m) && m.type !== 'multfilm' && !/\d+\s*(?:серия|seriya|-qism)/i.test(m.title?.uz || '')));
 const nUz = Math.ceil(COUNT * 2 / 3);
-const pick = [...uz.slice(0, nUz), ...other.slice(0, COUNT - Math.min(nUz, uz.length))].slice(0, COUNT);
+const ONLY = (process.argv.find(a => a.startsWith('--only=')) || '').split('=')[1];   // sinov: aniq bir kino (ID)
+const pick = ONLY ? (ctx.MOVIES || []).filter(m => String(m.id) === ONLY && PAGES[m.id])
+  : [...uz.slice(0, nUz), ...other.slice(0, COUNT - Math.min(nUz, uz.length))].slice(0, COUNT);
+
+/* ---------- Post ko'rinishi (2026-11-28): bezakli matn + maxsus rasm (tools/tg-card.py) ----------
+   Premium (custom) emoji yo'q: bot uchun Fragment username kerak. Oddiy emoji va HTML (qalin, kursiv, iqtibos). */
+const FRESH = m => m.addedAt && Date.now() - m.addedAt < 7 * 86400000;
+const HOOKS = {
+  comedy: 'Kulgi va yaxshi kayfiyat kafolatlangan!', romance: 'Sevgi va sadoqat haqida ta’sirli hikoya!',
+  action: 'Boshidan oxirigacha hayajon va jang sahnalari!', thriller: 'Sirli voqealar va kutilmagan burilishlar!',
+  crime: 'Jinoyat olamidagi keskin voqealar!', detective: 'Sirni oxirigacha topa olasizmi?',
+  horror: 'Yuraksizlar uchun emas!', scifi: 'Fantastik olamga sayohat!', fantasy: 'Sehrli olamga sayohat!',
+  family: 'Butun oila bilan tomosha qilish uchun!', animation: 'Butun oila bilan tomosha qilish uchun!',
+  adventure: 'Unutilmas sarguzashtlar sizni kutmoqda!', war: 'Jasorat va qahramonlik haqida!',
+  history: 'Tarixning muhim sahifalari ekranda!', biography: 'Haqiqiy hayot hikoyasi!', drama: 'Hayotiy voqealar va kuchli his-tuyg‘ular!'
+};
+// kanal nomi qo'shimchasi olib tashlanadi: «Baxt hikoyasi & Sevimli TV!» → «Baxt hikoyasi»
+const cleanTitle = m => String(m.title?.uz || m.title?.ru || '').replace(/#\S+/g, '')
+  .replace(/\s*(?:&|\||-|—)\s*[^&|—-]*\bTV\b!?\s*$/i, '').replace(/\s{2,}/g, ' ').trim();
+const langOf = m => isUz(m) ? 'uz' : m.lang === 'ru' || m.audio === 'ru' ? 'ru' : '';
+const kindOf = m => m.type === 'serial' ? 'serial' : m.type === 'multfilm' ? 'multfilm' : 'film';
+const partsOf = m => (Array.isArray(m.parts) && m.parts.length > 1 ? m.parts.length : 0)
+  || +((String(m.desc?.uz || '').match(/(\d+)\s*qism/) || [])[1] || 0);
+const genericDesc = d => /to.liq versiyasi|rasmiy .*kanal|kanalidagi o.zbek/i.test(d);
+const durText = min => !min ? '' : min >= 60 ? `${Math.floor(min / 60)} soat${min % 60 ? ` ${min % 60} daqiqa` : ''}` : `${min} daqiqa`;
+const genreList = m => (m.genres || []).slice(0, 2).map(g => GENRES[g] || g);
+
+function cardInfo(m) {
+  const k = kindOf(m), lang = langOf(m);
+  const badge = FRESH(m) ? `YANGI ${k.toUpperCase()}` : 'TAVSIYA';
+  const kindLabel = lang === 'uz' ? `O‘zbek ${k}i` : typeName[m.type] || 'Film';
+  const sub = [kindLabel, ...genreList(m), m.year, lang === 'uz' ? 'O‘zbek tilida' : lang === 'ru' ? 'Rus tilida' : '']
+    .filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).slice(0, 4).join('  ·  ');
+  return { badge, title: cleanTitle(m), sub };
+}
 
 function caption(m) {
-  const title = String(m.title?.uz || m.title?.ru || '').replace(/#\S+/g, '').replace(/\s{2,}/g, ' ').trim();
-  const meta = [typeName[m.type] || 'Film', m.year, (m.genres || []).slice(0, 2).map(g => GENRES[g] || g).join(', '),
-    m.lang === 'ru' ? 'rus tilida' : (m.audio === 'uz' || m.lang === 'uz') ? 'o‘zbek tilida' : ''].filter(Boolean).join(' · ');
-  const d = String(m.desc?.uz || m.desc?.ru || '').replace(/\s+/g, ' ').trim();
-  const desc = d.length > 280 ? d.slice(0, 277).replace(/\s+\S*$/, '') + '…' : d;
-  return `🎬 <b>${esc(title)}</b>\n${esc(meta)}${desc ? `\n\n${esc(desc)}` : ''}\n\n▶️ DezoMax’da bepul ko‘ring`;
+  const k = kindOf(m), lang = langOf(m), title = cleanTitle(m), n = partsOf(m);
+  const hook = (m.genres || []).map(g => HOOKS[g]).find(Boolean)
+    || (k === 'serial' ? 'Qiziqarli voqealar sizni kutmoqda!' : k === 'multfilm' ? 'Butun oila bilan tomosha qilish uchun!' : 'Kechki tomosha uchun ajoyib tanlov!');
+  const head = FRESH(m) ? `🔥 <b>YANGI ${k.toUpperCase()}!</b>` : '⭐ <b>TAVSIYA QILAMIZ!</b>';
+  const done = k === 'serial' ? (n ? `✅ <b>${n} ta qismi DezoMax’ga joylandi!</b>` : '✅ <b>Barcha qismlari DezoMax’da!</b>')
+    : k === 'multfilm' ? '✅ <b>Multfilm DezoMax’ga joylandi!</b>' : '✅ <b>Filmning to‘liq versiyasi DezoMax’ga joylandi!</b>';
+  let d = String(m.desc?.uz || (lang === 'ru' ? m.desc?.ru : '') || '').replace(/\s+/g, ' ').trim();
+  if (genericDesc(d)) d = '';
+  if (d.length > 300) d = d.slice(0, 297).replace(/\s+\S*$/, '') + '…';
+  const info = [
+    d ? `🎞 ${esc(d)}` : '',
+    m.director ? `🎬 Rejissyor: ${esc(Array.isArray(m.director) ? m.director.join(', ') : m.director)}` : '',
+    (m.cast || []).length ? `👥 Rollarda: ${esc(m.cast.slice(0, 3).join(', '))}` : '',
+    [m.year ? `📅 ${m.year}` : '', genreList(m).length ? `🎭 ${esc(genreList(m).join(', '))}` : ''].filter(Boolean).join(' · '),
+    [durText(m.duration) ? `⏱ ${durText(m.duration)}` : '', lang === 'uz' ? '🇺🇿 O‘zbek tilida' : lang === 'ru' ? '🇷🇺 Rus tilida' : ''].filter(Boolean).join(' · ')
+  ].filter(Boolean);
+  return `${head}\n\n🎬 <b>«${esc(title)}»</b>\n<i>${esc(hook)}</i>\n\n${done}\n\n` +
+    (info.length ? `<blockquote>${info.join('\n')}</blockquote>\n\n` : '') +
+    `▶️ <b>Hoziroq DezoMax’da bepul tomosha qiling!</b>\n\n` +
+    `📲 Ilovamiz: <a href="${SITE}downloads.html">Android</a> | 🌐 <a href="${SITE}">dezomax.uz</a>\n📣 Kanalimiz: ${esc(CHANNEL)}`;
+}
+
+/* Maxsus rasm: python tools/tg-card.py — bo'lmasa (xato, Python yo'q) oddiy poster havolasi */
+function makeCard(m) {
+  const { execFileSync } = require('child_process');
+  const out = path.join(require('os').tmpdir(), `dzx-tg-${m.id}.jpg`);
+  const { badge, title, sub } = cardInfo(m);
+  const src = m.vposter || m.hposter || m.poster;
+  for (const py of process.platform === 'win32' ? ['python', 'py'] : ['python3', 'python']) {
+    try { execFileSync(py, [path.join(__dirname, 'tg-card.py'), src, out, badge, title, sub], { stdio: ['ignore', 'ignore', 'pipe'], timeout: 60000 }); return out; }
+    catch (e) { if (e.code !== 'ENOENT') { console.log(`  rasm yasalmadi: ${String(e.stderr || e.message).trim().slice(0, 200)}`); return null; } }
+  }
+  return null;
 }
 
 async function send(m) {
   const url = `${SITE}kino/${PAGES[m.id]}.html`;
   const body = {
     chat_id: CHANNEL, photo: abs(m.hposter || m.poster), caption: caption(m), parse_mode: 'HTML',
-    reply_markup: { inline_keyboard: [[{ text: '▶️ Ko‘rish', url }]] }
+    reply_markup: { inline_keyboard: [[{ text: '▶️ Ko‘rish', url }, { text: '📲 Ilovani yuklash', url: `${SITE}downloads.html` }]] }
   };
-  if (DRY) { console.log('— (sinov) —\n' + body.caption + '\n' + url + '\n'); return true; }
+  const card = makeCard(m);
+  if (DRY) { console.log('— (sinov) —\n' + body.caption + '\n' + url + (card ? `\nrasm: ${card}` : '\nrasm: oddiy poster') + '\n'); return true; }
   const call = (method, b) => fetch(`https://api.telegram.org/bot${TOKEN}/${method}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) });
-  let r = await call('sendPhoto', body);
+  let r;
+  if (card) {   // maxsus rasm fayl sifatida yuklanadi
+    const fd = new FormData();
+    fd.append('chat_id', CHANNEL); fd.append('caption', body.caption); fd.append('parse_mode', 'HTML');
+    fd.append('reply_markup', JSON.stringify(body.reply_markup));
+    fd.append('photo', new Blob([fs.readFileSync(card)], { type: 'image/jpeg' }), 'dezomax.jpg');
+    r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+    if (!(await r.clone().json().catch(() => ({}))).ok) r = await call('sendPhoto', body);   // bo'lmasa — oddiy poster
+  } else r = await call('sendPhoto', body);
   let j = await r.json().catch(() => ({}));
   // Telegram posterni yuklay olmasa (masalan RuTube rasm serveri) — rasmsiz: matn + sahifa havolasi (oldindan ko'rinishi bilan)
   if (!j.ok && /HTTP URL content|wrong file|IMAGE_PROCESS|photo/i.test(j.description || '')) {

@@ -13,8 +13,14 @@ on:
         description: "Reklama afishasini kanalga yuborish"
         type: boolean
         default: false
+      count:
+        description: "Nechta post (sinov uchun 1)"
+        type: string
+        default: "5"
   schedule:
-    - cron: '0 4,9,15 * * *'   # 09:00, 14:00, 20:00 (Toshkent)
+    # 17:17, 19:17, 21:17 (Toshkent) — odamlar kechqurun ko'p kiradi (2026-11-28). Soat boshi (:00) emas:
+    # GitHub o'sha paytda band bo'lib, ishlarni soatlab kechiktirardi (postlar tungi 4-5 da chiqardi)
+    - cron: '17 12,14,16 * * *'
 
 permissions:
   contents: write
@@ -45,11 +51,20 @@ jobs:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
         run: node tools/tg-promo.js
 
+      # post rasmi (tools/tg-card.py): Pillow va Roboto Condensed shrifti
+      - name: Rasm uchun vositalar
+        if: ${{ !inputs.setup && !inputs.promo }}
+        run: |
+          sudo apt-get update -qq > /dev/null || true
+          sudo apt-get install -y -qq fonts-roboto python3-pil > /dev/null || true
+          python3 -c "import PIL; print('Pillow', PIL.__version__)" || true
+
       - name: Kanalga post
         if: ${{ !inputs.setup && !inputs.promo }}
         env:
           TG_BOT_TOKEN: ${{ secrets.DEZOUSERS || secrets.TG_BOT_TOKEN }}
-        run: node tools/tg-post.js --count=5
+          COUNT: ${{ inputs.count || '5' }}
+        run: node tools/tg-post.js --count="$COUNT"
 
       - name: Holatni saqlash
         run: |
