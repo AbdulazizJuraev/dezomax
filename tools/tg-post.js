@@ -62,6 +62,7 @@ const HOOKS = {
 };
 // kanal nomi qo'shimchasi olib tashlanadi: «Baxt hikoyasi & Sevimli TV!» → «Baxt hikoyasi»
 const cleanTitle = m => String(m.title?.uz || m.title?.ru || '').replace(/#\S+/g, '')
+  .replace(/[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️]/gu, '')   // emoji — rasmda ☐ bo'lib chiqardi
   .replace(/\s*(?:&|\||-|—)\s*[^&|—-]*\bTV\b!?\s*$/i, '').replace(/\s{2,}/g, ' ').trim();
 const langOf = m => isUz(m) ? 'uz' : m.lang === 'ru' || m.audio === 'ru' ? 'ru' : '';
 const kindOf = m => m.type === 'serial' ? 'serial' : m.type === 'multfilm' ? 'multfilm' : 'film';
@@ -80,7 +81,11 @@ function cardInfo(m) {
   return { badge, title: cleanTitle(m), sub };
 }
 
+// Android ilova — Google Play'dagi sahifasi (2026-11-28: «Ilovamiz» bosilganda Play Market ochilsin)
+const PLAY_URL = 'https://play.google.com/store/apps/details?id=uz.dezomax.app';
+
 function caption(m) {
+  const url = `${SITE}kino/${PAGES[m.id]}.html`;
   const k = kindOf(m), lang = langOf(m), title = cleanTitle(m), n = partsOf(m);
   const hook = (m.genres || []).map(g => HOOKS[g]).find(Boolean)
     || (k === 'serial' ? 'Qiziqarli voqealar sizni kutmoqda!' : k === 'multfilm' ? 'Butun oila bilan tomosha qilish uchun!' : 'Kechki tomosha uchun ajoyib tanlov!');
@@ -99,8 +104,9 @@ function caption(m) {
   ].filter(Boolean);
   return `${head}\n\n🎬 <b>«${esc(title)}»</b>\n<i>${esc(hook)}</i>\n\n${done}\n\n` +
     (info.length ? `<blockquote>${info.join('\n')}</blockquote>\n\n` : '') +
-    `▶️ <b>Hoziroq DezoMax’da bepul tomosha qiling!</b>\n\n` +
-    `📲 Ilovamiz: <a href="${SITE}downloads.html">Android</a> | 🌐 <a href="${SITE}">dezomax.uz</a>\n📣 Kanalimiz: ${esc(CHANNEL)}`;
+    // tugmalar yo'q (2026-11-28) — kino sahifasiga shu qator olib boradi
+    `▶️ <b><a href="${url}">Hoziroq DezoMax’da bepul tomosha qiling!</a></b>\n\n` +
+    `📲 Ilovamiz: <a href="${PLAY_URL}">Google Play</a> | 🌐 <a href="${SITE}">dezomax.uz</a>\n📣 Kanalimiz: ${esc(CHANNEL)}`;
 }
 
 /* Maxsus rasm: python tools/tg-card.py — bo'lmasa (xato, Python yo'q) oddiy poster havolasi */
@@ -119,8 +125,7 @@ function makeCard(m) {
 async function send(m) {
   const url = `${SITE}kino/${PAGES[m.id]}.html`;
   const body = {
-    chat_id: CHANNEL, photo: abs(m.hposter || m.poster), caption: caption(m), parse_mode: 'HTML',
-    reply_markup: { inline_keyboard: [[{ text: '▶️ Ko‘rish', url }, { text: '📲 Ilovani yuklash', url: `${SITE}downloads.html` }]] }
+    chat_id: CHANNEL, photo: abs(m.hposter || m.poster), caption: caption(m), parse_mode: 'HTML'
   };
   const card = makeCard(m);
   if (DRY) { console.log('— (sinov) —\n' + body.caption + '\n' + url + (card ? `\nrasm: ${card}` : '\nrasm: oddiy poster') + '\n'); return true; }
@@ -129,7 +134,6 @@ async function send(m) {
   if (card) {   // maxsus rasm fayl sifatida yuklanadi
     const fd = new FormData();
     fd.append('chat_id', CHANNEL); fd.append('caption', body.caption); fd.append('parse_mode', 'HTML');
-    fd.append('reply_markup', JSON.stringify(body.reply_markup));
     fd.append('photo', new Blob([fs.readFileSync(card)], { type: 'image/jpeg' }), 'dezomax.jpg');
     r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, { method: 'POST', body: fd });
     if (!(await r.clone().json().catch(() => ({}))).ok) r = await call('sendPhoto', body);   // bo'lmasa — oddiy poster
@@ -137,7 +141,7 @@ async function send(m) {
   let j = await r.json().catch(() => ({}));
   // Telegram posterni yuklay olmasa (masalan RuTube rasm serveri) — rasmsiz: matn + sahifa havolasi (oldindan ko'rinishi bilan)
   if (!j.ok && /HTTP URL content|wrong file|IMAGE_PROCESS|photo/i.test(j.description || '')) {
-    r = await call('sendMessage', { chat_id: CHANNEL, text: `${body.caption}\n\n${url}`, parse_mode: 'HTML', reply_markup: body.reply_markup });
+    r = await call('sendMessage', { chat_id: CHANNEL, text: `${body.caption}\n\n${url}`, parse_mode: 'HTML' });
     j = await r.json().catch(() => ({}));
   }
   if (!j.ok) {
