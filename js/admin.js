@@ -1409,7 +1409,7 @@ function renderHome() {
   const pBad = posterBadCount();
   const att = [
     pBad && ['r', 'Posteri yo‘q yoki buzilgan kinolar', 'saytda bo‘sh kartochka ko‘rinadi', pBad, `<button class="a4-btn" type="button" data-go="posters">Ko‘rish</button>`],
-    noDesc && ['o', 'Tavsifi bo‘sh rasmiy kinolar', 'Google va SEO uchun muhim', noDesc, `<button class="a4-btn is-ars" type="button" data-ask="Tavsifi yo‘q rasmiy kinolardan 20 tasini top va tavsif yoz">✦ Arsenal yozsin</button>`],
+    noDesc && ['o', 'Tavsifi bo‘sh rasmiy kinolar', 'Google va SEO uchun muhim', noDesc, `<button class="a4-btn is-ars" type="button" data-ask="Tavsifi yo‘q rasmiy kinolardan 20 tasini top va tavsif yoz"${aiKey() ? '' : ' hidden'}>✦ Arsenal yozsin</button>`],
     !kids && ['o', 'Bolalar slayderi bo‘sh', 'bosh sahifada multfilmlar slayderi ko‘rinmayapti', 0, `<button class="a4-btn" type="button" data-go="site">Tanlash</button>`],
     raw && ['o', 'Nomi xom kinolar', 'Telegram’dan: emoji, «720p», «PREMYERA»…', raw, `<button class="a4-btn" type="button" data-go="clean">Ko‘rib chiqish</button>`],
     splitGroups.length && ['b', `«${esc(splitGroups[0].title)}» bo‘linib qolgan`, `${splitGroups[0].items.length} ta alohida kino — bitta serialga birlashtirish kerak${splitGroups.length > 1 ? ` (yana ${splitGroups.length - 1} ta)` : ''}`, splitGroups.length, `<button class="a4-btn" type="button" data-go="groups">Guruhlar</button>`],
@@ -1435,8 +1435,8 @@ function renderHome() {
     <div class="pz-grid g21">
       <article class="pz-card"><header class="pz-ch"><h2>Diqqat talab qiladi</h2><span class="pz-mut">${att.length ? 'bir bosishda tuzatsa bo‘ladi' : ''}</span></header>
         <div class="ars-att">${att.map(([c, t, sub, n, b]) => `<div class="ars-att-it"><i class="is-${c}"></i><span><b>${t}</b><small>${sub}</small></span><em class="is-${c}">${fmt(n)}</em>${b}</div>`).join('') || '<p class="a4-sub">Hammasi joyida — tuzatish kerak bo‘lgan narsa topilmadi.</p>'}</div></article>
-      <article class="pz-card ars-card">${arsSphere(150)}<h2 class="ars-title">Arsenal</h2><p class="pz-mut">Salom! Nima qilamiz?</p>
-        ${ARS_CHIPS.slice(0, 3).map(c => `<button type="button" class="ars-chip" data-ask="${esc(c)}">${esc(c)}</button>`).join('')}
+      <article class="pz-card ars-card">${arsSphere(150)}<h2 class="ars-title">Arsenal</h2><p class="pz-mut">${aiKey() ? 'Salom! Nima qilamiz?' : 'O‘z miyasi tayyorlanmoqda — tez orada'}</p>
+        ${(aiKey() ? ARS_CHIPS.slice(0, 3) : []).map(c => `<button type="button" class="ars-chip" data-ask="${esc(c)}">${esc(c)}</button>`).join('')}
         <button type="button" class="a4-btn is-ars ars-open" data-go="ai">Arsenal’ni ochish</button></article>
     </div>
     <div class="pz-grid g21">
@@ -2171,7 +2171,11 @@ function tmdbSectionHTML(m) {
    Kino formasida: tavsif yozish, ruschadan tarjima, janr va teglar, tavsifni tozalash. Natija formaga yoziladi —
    admin ko'rib chiqib o'zi saqlaydi. Kalit faqat shu brauzerda (localStorage), repoga yozilmaydi. */
 const AI_KEY = 'dezomax_gemini_key';
-const aiKey = () => { try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
+/* 2026-11-28: Gemini o'chirildi — Arsenal'ning o'z miyasi (kompyuterdagi model, Ollama) tayyorlanmoqda.
+   Qayta yoqish: GEMINI_OFF = false. Oldin saqlangan kalit brauzerdan o'chiriladi. */
+const GEMINI_OFF = true;
+if (GEMINI_OFF) try { localStorage.removeItem(AI_KEY); } catch {}
+const aiKey = () => { if (GEMINI_OFF) return ''; try { return localStorage.getItem(AI_KEY) || ''; } catch { return ''; } };
 const AI_MODELS = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];     // zaxira — ro'yxatni olib bo'lmasa
 const AI_ROUTE = 'dezomax_gemini_route';      // ishlagan manzil va model (keyingi safar darrov shu)
 /* Kalit turlari: AI Studio (AIza…) — generativelanguage.googleapis.com; yangi «AQ.…» kalitlar — Vertex AI express
@@ -2203,7 +2207,7 @@ async function aiListModels(key) {
 /* prompt — matn yoki suhbat ([{role:'user'|'model', text}]); opts.text — oddiy matn javob (JSON emas), opts.system — ko'rsatma */
 async function gemini(prompt, opts = {}) {
   const key = aiKey();
-  if (!key) throw new Error('AI kaliti kiritilmagan — admin burchagidagi «AI» oynasida yoki kino formasida kiriting');
+  if (!key) throw new Error(GEMINI_OFF ? 'AI hozircha o‘chiq — Arsenal’ning o‘z miyasi tayyorlanmoqda' : 'AI kaliti kiritilmagan — admin burchagidagi «AI» oynasida yoki kino formasida kiriting');
   // opts.contents — tayyor suhbat (asboblar bilan); opts.tools — Gemini function calling; opts.raw — javob kontenti o'zi
   const contents = opts.contents || (Array.isArray(prompt) ? prompt.map(m => ({ role: m.role, parts: [{ text: m.text }] })) : [{ role: 'user', parts: [{ text: prompt }] }]);
   const body = JSON.stringify({
@@ -2258,6 +2262,7 @@ async function gemini(prompt, opts = {}) {
 }
 
 function aiSectionHTML() {
+  if (GEMINI_OFF) return '';
   const key = aiKey();
   return `
     <section class="adm-sec adm-ai" id="aiBox">
@@ -2489,7 +2494,7 @@ function renderArsenalView() {
     <div class="ars-page">
       <div class="ars-hero">${arsSphere(190)}<h1 class="ars-title">Arsenal</h1>
         <p class="a4-sub">Kinolarni qidiradi, janr, tavsif va teg taklif qiladi, post va reklama matnlarini yozadi. O‘zgarishlar faqat siz ko‘rib «Saqlash»ni bosganingizda saqlanadi.</p>
-        <div class="ars-chips">${ARS_CHIPS.map(c => `<button type="button" class="ars-chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>
+        <div class="ars-chips">${(aiKey() ? ARS_CHIPS : []).map(c => `<button type="button" class="ars-chip" data-q="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>
       <div class="ars-slot" id="arsSlot"></div>
     </div>`;
   const chat = arsenal.box;
@@ -2512,16 +2517,15 @@ function initAiChat() {
   const draw = () => {
     const n = draftIds().size;
     box.innerHTML = `
-      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>Gemini</small><button type="button" data-x aria-label="Yopish">✕</button></div>
+      <div class="adm-aichat-head">${arsSphere(26)}<b>Arsenal</b><small>${aiKey() ? 'Gemini' : 'tayyorlanmoqda'}</small><button type="button" data-x aria-label="Yopish">✕</button></div>
       ${aiKey() ? `
         <div class="adm-aichat-list" id="aiChatList">${aiChat.length ? aiChat.map(m => `<div class="adm-aichat-msg is-${m.role}">${esc2(m.text)}</div>`).join('')
           : '<p class="adm-hint">Masalan: «Janri faqat Drama bo‘lgan rasmiy o‘zbek filmlariga to‘g‘ri janr qo‘y», «Tavsifi yo‘q rasmiy kinolarni top va tavsif yoz», «Instagram uchun reklama matni yoz»</p>'}</div>
         ${n ? `<button class="btn btn-primary btn-sm adm-aichat-review" type="button" data-review>${n} ta kinoda o‘zgarish — ko‘rib chiqish va saqlash</button>` : ''}
         <form class="adm-aichat-form" id="aiChatForm"><textarea class="acc-input" rows="2" placeholder="Savol yoki topshiriq yozing…" required></textarea><button class="btn btn-primary btn-sm" type="submit">Yuborish</button></form>
         <div class="adm-aichat-foot"><button class="acc-link" type="button" data-clear>Suhbatni tozalash</button><button class="acc-link" type="button" data-reset>Kalitni o‘zgartirish</button></div>` : `
-        <p class="adm-hint">Tekin Gemini kaliti kerak: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> → «Create API key» → «Copy key».</p>
-        <form class="adm-aichat-form" id="aiChatKey"><input class="acc-input" type="password" placeholder="Gemini API kaliti" autocomplete="off" required><button class="btn btn-primary btn-sm" type="submit">Saqlash</button></form>
-        <p class="adm-hint">Kalit faqat shu qurilmada saqlanadi.</p>`}
+        <div class="ars-off"><b>Arsenal’ning o‘z miyasi tayyorlanmoqda</b><p class="adm-hint">Suhbat kompyuterdagi Arsenal modeli ulanganda yoqiladi. Hozircha tezkor o‘tishlar:</p>
+          <div class="ars-quick">${[['posters', 'Posterlar'], ['clean', 'Xom nomlar'], ['groups', 'Guruhlar'], ['broken', 'Ishlamaydiganlar'], ['comments', 'Sharhlar'], ['site', 'Sayt sozlamalari']].map(([v, l]) => `<button type="button" class="a4-btn" data-go="${v}">${l}</button>`).join('')}</div></div>`}
       <p class="acc-error" id="aiChatErr" hidden></p>`;
     const err = box.querySelector('#aiChatErr');
     const list = box.querySelector('#aiChatList');
@@ -2529,6 +2533,7 @@ function initAiChat() {
     box.querySelector('[data-x]').onclick = () => { if (box.classList.contains('is-page')) go('home'); else box.hidden = true; };
     box.querySelector('[data-clear]')?.addEventListener('click', () => { aiChat.length = 0; aiConv = []; draw(); });
     box.querySelector('[data-reset]')?.addEventListener('click', () => { localStorage.removeItem(AI_KEY); draw(); });
+    box.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => { if (!box.classList.contains('is-page')) box.hidden = true; go(b.dataset.go); }));
     box.querySelector('[data-review]')?.addEventListener('click', () => { listFilter = 'ai'; view = 'list'; renderMain(); box.hidden = true; window.scrollTo({ top: 0 }); });
     box.querySelector('#aiChatKey')?.addEventListener('submit', async e => {
       e.preventDefault();

@@ -342,3 +342,5 @@ ol.pz-list li[data-movie] .pz-pst { width: 30px; height: 44px; }
 .adm-aichat.is-page { position: static; width: 100%; max-height: none; height: calc(100dvh - 140px); min-height: 460px; box-shadow: none; background: var(--a-s1, #141416); }
 .adm-aichat.is-page .adm-aichat-msg { max-width: 78%; font-size: 15px; }
 @media (max-width: 900px) { .ars-page { grid-template-columns: 1fr; } .ars-hero { position: static; } .adm-aichat.is-page { height: 70dvh; } }
+.ars-off { display: flex; flex-direction: column; gap: 8px; padding: 6px 2px; }
+.ars-quick { display: flex; flex-wrap: wrap; gap: 8px; }
